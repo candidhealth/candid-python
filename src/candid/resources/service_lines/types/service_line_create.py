@@ -15,7 +15,7 @@ class ServiceLineCreate(ServiceLineBase):
     procedure_code: str
     quantity: str
     units: ServiceLineUnits
-    charge_amount_cents: int = pydantic.Field(
+    charge_amount_cents: typing.Optional[int] = pydantic.Field(
         description=(
             "The total amount charged for this service line taking quantity into account. For example, if a single unit\n"
             "costs 100 cents and 2 units were rendered, the charge_amount_cents should be 200. Should be greater than or\n"

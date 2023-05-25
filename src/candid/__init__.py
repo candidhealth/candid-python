@@ -2,6 +2,7 @@
 
 from .environment import CandidApiEnvironment
 from .resources import (
+    Auth0Id,
     AuthorizedSignatory,
     BillingNote,
     BillingNoteBase,
@@ -99,6 +100,9 @@ from .resources import (
     TagCreate,
     TagId,
     TaskId,
+    User,
+    WorkQueueId,
+    auth,
     billing_notes,
     claims,
     commons,
@@ -119,9 +123,12 @@ from .resources import (
     service_lines,
     tags,
     tasks,
+    users,
+    work_queues,
 )
 
 __all__ = [
+    "Auth0Id",
     "AuthorizedSignatory",
     "BillingNote",
     "BillingNoteBase",
@@ -220,6 +227,9 @@ __all__ = [
     "TagCreate",
     "TagId",
     "TaskId",
+    "User",
+    "WorkQueueId",
+    "auth",
     "billing_notes",
     "claims",
     "commons",
@@ -240,4 +250,6 @@ __all__ = [
     "service_lines",
     "tags",
     "tasks",
+    "users",
+    "work_queues",
 ]

@@ -21,6 +21,7 @@ from ....commons.types.encounter_id import EncounterId
 from ....commons.types.facility_type_code import FacilityTypeCode
 from ....commons.types.page_token import PageToken
 from ....commons.types.street_address_long_zip import StreetAddressLongZip
+from ....commons.types.work_queue_id import WorkQueueId
 from ....diagnoses.types.diagnosis_create import DiagnosisCreate
 from ....diagnoses.types.diagnosis_id import DiagnosisId
 from ....encounter_providers.resources.v_2.types.billing_provider import BillingProvider
@@ -50,8 +51,10 @@ from .types.vitals import Vitals
 OMIT = typing.cast(typing.Any, ...)
 
 
-class V3Client:
-    def __init__(self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: str):
+class V4Client:
+    def __init__(
+        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
+    ):
         self._environment = environment
         self._token = token
 
@@ -70,10 +73,11 @@ class V3Client:
         diagnoses_updated_since: typing.Optional[dt.datetime] = None,
         tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]],
         do_not_bill: typing.Optional[bool] = None,
+        work_queue_id: typing.Optional[WorkQueueId] = None,
     ) -> EncounterPage:
         _response = httpx.request(
             "GET",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v3"),
+            urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v4"),
             params={
                 "limit": limit,
                 "claim_status": claim_status,
@@ -89,6 +93,7 @@ class V3Client:
                 else None,
                 "tag_ids": tag_ids,
                 "do_not_bill": do_not_bill,
+                "work_queue_id": work_queue_id,
             },
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -106,7 +111,7 @@ class V3Client:
     def get(self, encounter_id: EncounterId) -> Encounter:
         _response = httpx.request(
             "GET",
-            urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}"),
+            urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
             ),
@@ -200,7 +205,7 @@ class V3Client:
             _request["synchronicity"] = synchronicity
         _response = httpx.request(
             "POST",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v3"),
+            urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v4"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -244,7 +249,7 @@ class V3Client:
             _request["pay_to_address"] = pay_to_address
         _response = httpx.request(
             "PATCH",
-            urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}"),
+            urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -262,7 +267,7 @@ class V3Client:
     def get_attachments(self, encounter_id: EncounterId) -> typing.List[EncounterAttachment]:
         _response = httpx.request(
             "GET",
-            urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}/attachments"),
+            urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/attachments"),
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
             ),
@@ -280,7 +285,7 @@ class V3Client:
         _response = httpx.request(
             "POST",
             urllib.parse.urljoin(
-                f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}/clinical-notes-pdf/generate"
+                f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/clinical-notes-pdf/generate"
             ),
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -299,7 +304,7 @@ class V3Client:
         _response = httpx.request(
             "PUT",
             urllib.parse.urljoin(
-                f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}/network-status-results"
+                f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/network-status-results"
             ),
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -318,7 +323,7 @@ class V3Client:
         _response = httpx.request(
             "PUT",
             urllib.parse.urljoin(
-                f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}/mark-as-not-billable"
+                f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/mark-as-not-billable"
             ),
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -334,8 +339,10 @@ class V3Client:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
-class AsyncV3Client:
-    def __init__(self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: str):
+class AsyncV4Client:
+    def __init__(
+        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
+    ):
         self._environment = environment
         self._token = token
 
@@ -354,11 +361,12 @@ class AsyncV3Client:
         diagnoses_updated_since: typing.Optional[dt.datetime] = None,
         tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]],
         do_not_bill: typing.Optional[bool] = None,
+        work_queue_id: typing.Optional[WorkQueueId] = None,
     ) -> EncounterPage:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v3"),
+                urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v4"),
                 params={
                     "limit": limit,
                     "claim_status": claim_status,
@@ -374,6 +382,7 @@ class AsyncV3Client:
                     else None,
                     "tag_ids": tag_ids,
                     "do_not_bill": do_not_bill,
+                    "work_queue_id": work_queue_id,
                 },
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -392,7 +401,7 @@ class AsyncV3Client:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
-                urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}"),
+                urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
                 ),
@@ -487,7 +496,7 @@ class AsyncV3Client:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v3"),
+                urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v4"),
                 json=jsonable_encoder(_request),
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -532,7 +541,7 @@ class AsyncV3Client:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "PATCH",
-                urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}"),
+                urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
                 json=jsonable_encoder(_request),
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -551,7 +560,7 @@ class AsyncV3Client:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
-                urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}/attachments"),
+                urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/attachments"),
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
                 ),
@@ -570,7 +579,7 @@ class AsyncV3Client:
             _response = await _client.request(
                 "POST",
                 urllib.parse.urljoin(
-                    f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}/clinical-notes-pdf/generate"
+                    f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/clinical-notes-pdf/generate"
                 ),
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -590,7 +599,7 @@ class AsyncV3Client:
             _response = await _client.request(
                 "PUT",
                 urllib.parse.urljoin(
-                    f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}/network-status-results"
+                    f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/network-status-results"
                 ),
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -610,7 +619,7 @@ class AsyncV3Client:
             _response = await _client.request(
                 "PUT",
                 urllib.parse.urljoin(
-                    f"{self._environment.value}/", f"api/encounters/v3/{encounter_id}/mark-as-not-billable"
+                    f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/mark-as-not-billable"
                 ),
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}

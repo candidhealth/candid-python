@@ -7,26 +7,28 @@ from json.decoder import JSONDecodeError
 import httpx
 import pydantic
 
-from ...core.api_error import ApiError
-from ...core.jsonable_encoder import jsonable_encoder
-from ...core.remove_none_from_headers import remove_none_from_headers
-from ...environment import CandidApiEnvironment
-from ..commons.types.encounter_id import EncounterId
-from .types.billing_note import BillingNote
+from .....core.api_error import ApiError
+from .....core.jsonable_encoder import jsonable_encoder
+from .....core.remove_none_from_headers import remove_none_from_headers
+from .....environment import CandidApiEnvironment
+from .errors.too_many_requests_error import TooManyRequestsError
+from .types.auth_get_token_request import AuthGetTokenRequest
+from .types.auth_get_token_response import AuthGetTokenResponse
+from .types.too_many_requests_error_type import TooManyRequestsErrorType
 
 
-class BillingNotesClient:
+class V2Client:
     def __init__(
         self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
     ):
         self._environment = environment
         self._token = token
 
-    def create(self, *, encounter_id: EncounterId, text: str) -> BillingNote:
+    def get_token(self, *, request: AuthGetTokenRequest) -> AuthGetTokenResponse:
         _response = httpx.request(
             "POST",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/billing_notes/v2"),
-            json=jsonable_encoder({"encounter_id": encounter_id, "text": text}),
+            urllib.parse.urljoin(f"{self._environment.value}/", "api/auth/v2/token"),
+            json=jsonable_encoder(request),
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
             ),
@@ -37,23 +39,28 @@ class BillingNotesClient:
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(BillingNote, _response_json)  # type: ignore
+            return pydantic.parse_obj_as(AuthGetTokenResponse, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "TooManyRequestsError":
+                raise TooManyRequestsError(
+                    pydantic.parse_obj_as(TooManyRequestsErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
-class AsyncBillingNotesClient:
+class AsyncV2Client:
     def __init__(
         self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
     ):
         self._environment = environment
         self._token = token
 
-    async def create(self, *, encounter_id: EncounterId, text: str) -> BillingNote:
+    async def get_token(self, *, request: AuthGetTokenRequest) -> AuthGetTokenResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/billing_notes/v2"),
-                json=jsonable_encoder({"encounter_id": encounter_id, "text": text}),
+                urllib.parse.urljoin(f"{self._environment.value}/", "api/auth/v2/token"),
+                json=jsonable_encoder(request),
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
                 ),
@@ -64,5 +71,10 @@ class AsyncBillingNotesClient:
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(BillingNote, _response_json)  # type: ignore
+            return pydantic.parse_obj_as(AuthGetTokenResponse, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "TooManyRequestsError":
+                raise TooManyRequestsError(
+                    pydantic.parse_obj_as(TooManyRequestsErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)

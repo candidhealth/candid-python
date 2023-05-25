@@ -17,7 +17,9 @@ from .types.payer_page import PayerPage
 
 
 class PayersClient:
-    def __init__(self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: str):
+    def __init__(
+        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
+    ):
         self._environment = environment
         self._token = token
 
@@ -64,7 +66,9 @@ class PayersClient:
 
 
 class AsyncPayersClient:
-    def __init__(self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: str):
+    def __init__(
+        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
+    ):
         self._environment = environment
         self._token = token
 

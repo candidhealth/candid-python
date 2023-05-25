@@ -21,7 +21,9 @@ OMIT = typing.cast(typing.Any, ...)
 
 
 class ExpectedNetworkStatusClient:
-    def __init__(self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: str):
+    def __init__(
+        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
+    ):
         self._environment = environment
         self._token = token
 
@@ -73,7 +75,9 @@ class ExpectedNetworkStatusClient:
 
 
 class AsyncExpectedNetworkStatusClient:
-    def __init__(self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: str):
+    def __init__(
+        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
+    ):
         self._environment = environment
         self._token = token
 
