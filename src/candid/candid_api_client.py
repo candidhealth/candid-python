@@ -1,6 +1,6 @@
 import typing
 
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, root_validator
 
 from candid import CandidApiEnvironment
 from candid.client import CandidApi
@@ -18,13 +18,14 @@ class CandidApiClientOptions(BaseModel):
     client_id: typing.Optional[str]
     client_secret: typing.Optional[str]
 
-    @validator("token", always=True)
-    def token_or_client_id_and_secret_present(cls, v, values):
-        if v is not None:
-            return v
+    @root_validator(pre=False)
+    def token_or_client_id_and_secret_present(cls, values):
+        if values.get("token") is not None:
+            return values
         elif values.get("client_id") is not None and values.get("client_secret") is not None:
-            return v
+            return values
         raise ValueError("Either token or client_id and client_secret must be provided")
+
 
 def get_token_for_options(options: CandidApiClientOptions, environment: CandidApiEnvironment) -> str:
     if options.token is not None:
@@ -37,7 +38,7 @@ def get_token_for_options(options: CandidApiClientOptions, environment: CandidAp
 
 class CandidApiClient:
     def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, options: CandidApiClientOptions = CandidApiClientOptions()
+        self, *, options: CandidApiClientOptions, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION
     ):
         self._environment = environment
         self._token = get_token_for_options(options, environment)
@@ -50,7 +51,7 @@ class CandidApiClient:
 
 class AsyncCandidApiClient:
     def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, options: CandidApiClientOptions = CandidApiClientOptions()
+        self, *, options: CandidApiClientOptions, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION
     ):
         self._environment = environment
         self._token = get_token_for_options(options, environment)
