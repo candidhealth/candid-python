@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import typing
 
-import pydantic
 import typing_extensions
 
 from .region_national import RegionNational
@@ -27,6 +26,4 @@ class Regions_National(RegionNational):
         allow_population_by_field_name = True
 
 
-Regions = typing_extensions.Annotated[
-    typing.Union[Regions_States, Regions_National], pydantic.Field(discriminator="type")
-]
+Regions = typing.Union[Regions_States, Regions_National]

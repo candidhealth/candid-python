@@ -34,11 +34,8 @@ class AttributableContractingStatusResult_Unknown(pydantic.BaseModel):
         frozen = True
 
 
-AttributableContractingStatusResult = typing_extensions.Annotated[
-    typing.Union[
-        AttributableContractingStatusResult_OutOfNetwork,
-        AttributableContractingStatusResult_InNetwork,
-        AttributableContractingStatusResult_Unknown,
-    ],
-    pydantic.Field(discriminator="contracting_status"),
+AttributableContractingStatusResult = typing.Union[
+    AttributableContractingStatusResult_OutOfNetwork,
+    AttributableContractingStatusResult_InNetwork,
+    AttributableContractingStatusResult_Unknown,
 ]

@@ -25,7 +25,6 @@ class EncounterCredentialingStatusResult_NotCredentialed(pydantic.BaseModel):
         frozen = True
 
 
-EncounterCredentialingStatusResult = typing_extensions.Annotated[
-    typing.Union[EncounterCredentialingStatusResult_Credentialed, EncounterCredentialingStatusResult_NotCredentialed],
-    pydantic.Field(discriminator="type"),
+EncounterCredentialingStatusResult = typing.Union[
+    EncounterCredentialingStatusResult_Credentialed, EncounterCredentialingStatusResult_NotCredentialed
 ]

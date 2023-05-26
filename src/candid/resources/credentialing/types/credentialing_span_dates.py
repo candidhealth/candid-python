@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import typing
 
-import pydantic
 import typing_extensions
 
 from .non_required_credentialing_dates import NonRequiredCredentialingDates
@@ -27,7 +26,4 @@ class CredentialingSpanDates_NonRequiredDates(NonRequiredCredentialingDates):
         allow_population_by_field_name = True
 
 
-CredentialingSpanDates = typing_extensions.Annotated[
-    typing.Union[CredentialingSpanDates_RequiredDates, CredentialingSpanDates_NonRequiredDates],
-    pydantic.Field(discriminator="type"),
-]
+CredentialingSpanDates = typing.Union[CredentialingSpanDates_RequiredDates, CredentialingSpanDates_NonRequiredDates]
