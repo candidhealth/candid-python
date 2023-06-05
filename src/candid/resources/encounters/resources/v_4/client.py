@@ -27,14 +27,18 @@ from ....diagnoses.types.diagnosis_id import DiagnosisId
 from ....encounter_providers.resources.v_2.types.billing_provider import BillingProvider
 from ....encounter_providers.resources.v_2.types.referring_provider import ReferringProvider
 from ....encounter_providers.resources.v_2.types.rendering_provider import RenderingProvider
+from ....guarantor.resources.v_1.types.guarantor_create import GuarantorCreate
+from ....guarantor.resources.v_1.types.guarantor_id import GuarantorId
 from ....individual.types.patient_create import PatientCreate
 from ....individual.types.subscriber_create import SubscriberCreate
 from ....service_facility.types.encounter_service_facility_base import EncounterServiceFacilityBase
 from ....service_lines.types.service_line_create import ServiceLineCreate
 from ....tags.types.tag_id import TagId
+from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
 from .types.clinical_note_category_create import ClinicalNoteCategoryCreate
 from .types.encounter import Encounter
 from .types.encounter_attachment import EncounterAttachment
+from .types.encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
 from .types.encounter_page import EncounterPage
 from .types.encounter_sort_options import EncounterSortOptions
 from .types.generate_clinical_notes_pdf_response import GenerateClinicalNotesPdfResponse
@@ -129,6 +133,7 @@ class V4Client:
         self,
         *,
         patient: PatientCreate,
+        patient_is_self_guarantor: typing.Optional[bool] = OMIT,
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
@@ -141,6 +146,7 @@ class V4Client:
         place_of_service_code: FacilityTypeCode,
         patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = OMIT,
         service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
+        guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_id: typing.Optional[EncounterExternalId] = OMIT,
         date_of_service: Date,
         end_date_of_service: typing.Optional[Date] = OMIT,
@@ -167,6 +173,8 @@ class V4Client:
             "benefits_assigned_to_provider": benefits_assigned_to_provider,
             "provider_accepts_assignment": provider_accepts_assignment,
         }
+        if patient_is_self_guarantor is not OMIT:
+            _request["patient_is_self_guarantor"] = patient_is_self_guarantor
         if referring_provider is not OMIT:
             _request["referring_provider"] = referring_provider
         if service_facility is not OMIT:
@@ -183,6 +191,8 @@ class V4Client:
             _request["patient_histories"] = patient_histories
         if service_lines is not OMIT:
             _request["service_lines"] = service_lines
+        if guarantor is not OMIT:
+            _request["guarantor"] = guarantor
         if external_id is not OMIT:
             _request["external_id"] = external_id
         if end_date_of_service is not OMIT:
@@ -218,6 +228,11 @@ class V4Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -231,6 +246,8 @@ class V4Client:
         tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
         clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
+        patient_is_self_guarantor: typing.Optional[bool] = OMIT,
+        guarantor_id: typing.Optional[GuarantorId] = OMIT,
     ) -> Encounter:
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -247,6 +264,10 @@ class V4Client:
             _request["clinical_notes"] = clinical_notes
         if pay_to_address is not OMIT:
             _request["pay_to_address"] = pay_to_address
+        if patient_is_self_guarantor is not OMIT:
+            _request["patient_is_self_guarantor"] = patient_is_self_guarantor
+        if guarantor_id is not OMIT:
+            _request["guarantor_id"] = guarantor_id
         _response = httpx.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
@@ -262,6 +283,11 @@ class V4Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_attachments(self, encounter_id: EncounterId) -> typing.List[EncounterAttachment]:
@@ -419,6 +445,7 @@ class AsyncV4Client:
         self,
         *,
         patient: PatientCreate,
+        patient_is_self_guarantor: typing.Optional[bool] = OMIT,
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
@@ -431,6 +458,7 @@ class AsyncV4Client:
         place_of_service_code: FacilityTypeCode,
         patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = OMIT,
         service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
+        guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_id: typing.Optional[EncounterExternalId] = OMIT,
         date_of_service: Date,
         end_date_of_service: typing.Optional[Date] = OMIT,
@@ -457,6 +485,8 @@ class AsyncV4Client:
             "benefits_assigned_to_provider": benefits_assigned_to_provider,
             "provider_accepts_assignment": provider_accepts_assignment,
         }
+        if patient_is_self_guarantor is not OMIT:
+            _request["patient_is_self_guarantor"] = patient_is_self_guarantor
         if referring_provider is not OMIT:
             _request["referring_provider"] = referring_provider
         if service_facility is not OMIT:
@@ -473,6 +503,8 @@ class AsyncV4Client:
             _request["patient_histories"] = patient_histories
         if service_lines is not OMIT:
             _request["service_lines"] = service_lines
+        if guarantor is not OMIT:
+            _request["guarantor"] = guarantor
         if external_id is not OMIT:
             _request["external_id"] = external_id
         if end_date_of_service is not OMIT:
@@ -509,6 +541,11 @@ class AsyncV4Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
@@ -522,6 +559,8 @@ class AsyncV4Client:
         tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
         clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
+        patient_is_self_guarantor: typing.Optional[bool] = OMIT,
+        guarantor_id: typing.Optional[GuarantorId] = OMIT,
     ) -> Encounter:
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -538,6 +577,10 @@ class AsyncV4Client:
             _request["clinical_notes"] = clinical_notes
         if pay_to_address is not OMIT:
             _request["pay_to_address"] = pay_to_address
+        if patient_is_self_guarantor is not OMIT:
+            _request["patient_is_self_guarantor"] = patient_is_self_guarantor
+        if guarantor_id is not OMIT:
+            _request["guarantor_id"] = guarantor_id
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "PATCH",
@@ -554,6 +597,11 @@ class AsyncV4Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_attachments(self, encounter_id: EncounterId) -> typing.List[EncounterAttachment]:

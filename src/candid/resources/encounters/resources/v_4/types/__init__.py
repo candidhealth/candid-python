@@ -17,6 +17,7 @@ from .encounter import Encounter
 from .encounter_attachment import EncounterAttachment
 from .encounter_attachment_type import EncounterAttachmentType
 from .encounter_base import EncounterBase
+from .encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
 from .encounter_page import EncounterPage
 from .encounter_sort_options import EncounterSortOptions
 from .generate_clinical_notes_pdf_response import (
@@ -63,6 +64,7 @@ __all__ = [
     "EncounterAttachment",
     "EncounterAttachmentType",
     "EncounterBase",
+    "EncounterExternalIdUniquenessErrorType",
     "EncounterPage",
     "EncounterSortOptions",
     "GenerateClinicalNotesPdfResponse",

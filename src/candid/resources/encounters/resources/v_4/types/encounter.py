@@ -15,7 +15,7 @@ from .....diagnoses.types.diagnosis import Diagnosis
 from .....encounter_providers.resources.v_2.types.encounter_provider import EncounterProvider
 from .....individual.types.patient import Patient
 from .....individual.types.subscriber import Subscriber
-from .....patient_payments.resources.v_2.types.patient_payment import PatientPayment
+from .....patient_payments.resources.v_3.types.patient_payment import PatientPayment
 from .....service_facility.types.encounter_service_facility import EncounterServiceFacility
 from .....tags.types.tag import Tag
 from .....work_queues.resources.v_1.types.work_queue import WorkQueue

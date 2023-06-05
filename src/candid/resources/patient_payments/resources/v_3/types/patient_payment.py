@@ -6,7 +6,7 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.encounter_id import EncounterId
+from .....commons.types.encounter_external_id import EncounterExternalId
 from .....commons.types.organization_id import OrganizationId
 from .....commons.types.patient_external_id import PatientExternalId
 from .....commons.types.service_line_id import ServiceLineId
@@ -26,7 +26,7 @@ class PatientPayment(pydantic.BaseModel):
     payment_name: typing.Optional[str]
     payment_note: typing.Optional[str]
     patient_external_id: typing.Optional[PatientExternalId]
-    encounter_id: typing.Optional[EncounterId]
+    encounter_external_id: typing.Optional[EncounterExternalId]
     service_line_id: typing.Optional[ServiceLineId]
 
     def json(self, **kwargs: typing.Any) -> str:

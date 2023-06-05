@@ -3,21 +3,13 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
+from .guarantor_base import GuarantorBase
+from .guarantor_id import GuarantorId
 
 
-class EncounterProviderBase(pydantic.BaseModel):
-    first_name: typing.Optional[str] = pydantic.Field(
-        description=("If the provider is an individual, this should be set instead of organization name\n")
-    )
-    last_name: typing.Optional[str] = pydantic.Field(
-        description=("If the provider is an individual, this should be set instead of organization name\n")
-    )
-    organization_name: typing.Optional[str] = pydantic.Field(
-        description=("If the provider is an organization, this should be set instead of first + last name\n")
-    )
+class Guarantor(GuarantorBase):
+    guarantor_id: GuarantorId
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -29,4 +21,5 @@ class EncounterProviderBase(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

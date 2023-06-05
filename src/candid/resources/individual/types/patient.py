@@ -5,10 +5,10 @@ import typing
 
 from ....core.datetime_utils import serialize_datetime
 from .individual_id import IndividualId
-from .patient_create import PatientCreate
+from .patient_base import PatientBase
 
 
-class Patient(PatientCreate):
+class Patient(PatientBase):
     individual_id: IndividualId
 
     def json(self, **kwargs: typing.Any) -> str:

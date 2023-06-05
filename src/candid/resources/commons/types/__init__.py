@@ -2,8 +2,10 @@
 
 from .auth_0_id import Auth0Id
 from .claim_id import ClaimId
+from .contact_info import ContactInfo
 from .content_download_url import ContentDownloadUrl
 from .date import Date
+from .email import Email
 from .encounter_external_id import EncounterExternalId
 from .encounter_id import EncounterId
 from .facility_type_code import FacilityTypeCode
@@ -14,6 +16,8 @@ from .organization_id import OrganizationId
 from .page_token import PageToken
 from .patient_external_id import PatientExternalId
 from .patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
+from .phone_number import PhoneNumber
+from .phone_number_type import PhoneNumberType
 from .procedure_modifier import ProcedureModifier
 from .region_national import RegionNational
 from .region_states import RegionStates
@@ -31,8 +35,10 @@ from .work_queue_id import WorkQueueId
 __all__ = [
     "Auth0Id",
     "ClaimId",
+    "ContactInfo",
     "ContentDownloadUrl",
     "Date",
+    "Email",
     "EncounterExternalId",
     "EncounterId",
     "FacilityTypeCode",
@@ -43,6 +49,8 @@ __all__ = [
     "PageToken",
     "PatientExternalId",
     "PatientRelationshipToInsuredCodeAll",
+    "PhoneNumber",
+    "PhoneNumberType",
     "ProcedureModifier",
     "RegionNational",
     "RegionStates",

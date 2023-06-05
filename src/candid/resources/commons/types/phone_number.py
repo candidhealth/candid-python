@@ -5,19 +5,13 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
+from ....core.datetime_utils import serialize_datetime
+from .phone_number_type import PhoneNumberType
 
 
-class EncounterProviderBase(pydantic.BaseModel):
-    first_name: typing.Optional[str] = pydantic.Field(
-        description=("If the provider is an individual, this should be set instead of organization name\n")
-    )
-    last_name: typing.Optional[str] = pydantic.Field(
-        description=("If the provider is an individual, this should be set instead of organization name\n")
-    )
-    organization_name: typing.Optional[str] = pydantic.Field(
-        description=("If the provider is an organization, this should be set instead of first + last name\n")
-    )
+class PhoneNumber(pydantic.BaseModel):
+    number: str
+    type: PhoneNumberType
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

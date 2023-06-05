@@ -3,28 +3,11 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
-from ...commons.types.date import Date
-from ...commons.types.street_address_short_zip import StreetAddressShortZip
-from .individual_base import IndividualBase
+from .patient_base import PatientBase
 
 
-class PatientCreate(IndividualBase):
-    external_id: str = pydantic.Field(
-        description=(
-            "Another ID you want to associate with this patient.\n"
-            "For example, your internal patient ID or a Dr. Chrono patient ID. Box 1a on the CMS-1500 claim form\n"
-        )
-    )
-    date_of_birth: Date = pydantic.Field(
-        description=(
-            "Box 3 on the CMS-1500 claim form. The date format should be in ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)\n"
-        )
-    )
-    address: StreetAddressShortZip = pydantic.Field(description=("Box 5 on the CMS-1500 claim form.\n"))
-
+class PatientCreate(PatientBase):
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)

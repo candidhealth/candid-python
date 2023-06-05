@@ -4,6 +4,7 @@ from .gender import Gender
 from .individual_base import IndividualBase
 from .individual_id import IndividualId
 from .patient import Patient
+from .patient_base import PatientBase
 from .patient_create import PatientCreate
 from .subscriber import Subscriber
 from .subscriber_base import SubscriberBase
@@ -14,6 +15,7 @@ __all__ = [
     "IndividualBase",
     "IndividualId",
     "Patient",
+    "PatientBase",
     "PatientCreate",
     "Subscriber",
     "SubscriberBase",
