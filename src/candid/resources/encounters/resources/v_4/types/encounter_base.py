@@ -65,7 +65,7 @@ class EncounterBase(pydantic.BaseModel):
         )
     )
     appointment_type: typing.Optional[str] = pydantic.Field(
-        description=('Human-readable description of the appointment time (ex: "Acupuncture - Headaches")\n')
+        description=('Human-readable description of the appointment type (ex: "Acupuncture - Headaches")\n')
     )
     do_not_bill: typing.Optional[bool] = pydantic.Field(
         description=(

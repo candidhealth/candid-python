@@ -2,15 +2,15 @@
 
 import datetime as dt
 import typing
-import uuid
 
 import pydantic
 
 from ....core.datetime_utils import serialize_datetime
+from .payer_uuid import PayerUuid
 
 
 class Payer(pydantic.BaseModel):
-    payer_uuid: typing.Optional[uuid.UUID] = pydantic.Field(description=("Auto-generated ID set on creation\n"))
+    payer_uuid: PayerUuid = pydantic.Field(description=("Auto-generated ID set on creation\n"))
     payer_id: str = pydantic.Field(description=("The primary national payer ID of the payer\n"))
     payer_name: str = pydantic.Field(description=("The primary display name of the payer\n"))
 

@@ -5,14 +5,11 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from ...commons.types.auth_0_id import Auth0Id
+from ......core.datetime_utils import serialize_datetime
 
 
-class User(pydantic.BaseModel):
-    auth_0_id: Auth0Id = pydantic.Field(alias="auth0_id")
-    first_name: str
-    last_name: str
+class GoogleAppsMetadata(pydantic.BaseModel):
+    google_apps_id: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -24,5 +21,4 @@ class User(pydantic.BaseModel):
 
     class Config:
         frozen = True
-        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

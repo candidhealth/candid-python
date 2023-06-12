@@ -6,18 +6,10 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.work_queue_id import WorkQueueId
-from .....users.resources.v_2.types.user_v_2 import UserV2
-from .work_queue_category import WorkQueueCategory
 
 
-class WorkQueue(pydantic.BaseModel):
-    work_queue_id: WorkQueueId
-    display_name: str
-    description: typing.Optional[str]
-    category: WorkQueueCategory
-    created_at: dt.datetime
-    created_by: UserV2
+class OtherIdpMetadata(pydantic.BaseModel):
+    idp_external_id: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

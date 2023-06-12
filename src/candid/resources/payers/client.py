@@ -2,7 +2,6 @@
 
 import typing
 import urllib.parse
-import uuid
 from json.decoder import JSONDecodeError
 
 import httpx
@@ -14,6 +13,7 @@ from ...environment import CandidApiEnvironment
 from ..commons.types.page_token import PageToken
 from .types.payer import Payer
 from .types.payer_page import PayerPage
+from .types.payer_uuid import PayerUuid
 
 
 class PayersClient:
@@ -23,7 +23,7 @@ class PayersClient:
         self._environment = environment
         self._token = token
 
-    def get(self, payer_uuid: uuid.UUID) -> Payer:
+    def get(self, payer_uuid: PayerUuid) -> Payer:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"api/payers/v3/{payer_uuid}"),
@@ -72,7 +72,7 @@ class AsyncPayersClient:
         self._environment = environment
         self._token = token
 
-    async def get(self, payer_uuid: uuid.UUID) -> Payer:
+    async def get(self, payer_uuid: PayerUuid) -> Payer:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",

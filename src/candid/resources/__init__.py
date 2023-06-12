@@ -29,7 +29,6 @@ from . import (
 from .billing_notes import BillingNote, BillingNoteBase, BillingNoteId
 from .claims import Claim, ClaimStatus
 from .commons import (
-    Auth0Id,
     ClaimId,
     ContactInfo,
     ContentDownloadUrl,
@@ -95,7 +94,7 @@ from .individual import (
 )
 from .insurance_card import InsuranceCard, InsuranceCardBase, InsuranceCardCreate, InsuranceCardId
 from .invoices import Invoice, InvoiceId, InvoiceItem, InvoiceStatus
-from .payers import Payer, PayerPage
+from .payers import Payer, PayerPage, PayerUuid
 from .service_facility import EncounterServiceFacility, EncounterServiceFacilityBase, ServiceFacilityId
 from .service_lines import (
     DenialReasonContent,
@@ -112,10 +111,8 @@ from .service_lines import (
 )
 from .tags import Tag, TagColorEnum, TagCreate, TagId
 from .tasks import TaskId
-from .users import User
 
 __all__ = [
-    "Auth0Id",
     "AuthorizedSignatory",
     "BillingNote",
     "BillingNoteBase",
@@ -180,6 +177,7 @@ __all__ = [
     "PatientRelationshipToInsuredCodeAll",
     "Payer",
     "PayerPage",
+    "PayerUuid",
     "PhoneNumber",
     "PhoneNumberType",
     "ProcedureModifier",
@@ -218,7 +216,6 @@ __all__ = [
     "TagCreate",
     "TagId",
     "TaskId",
-    "User",
     "WorkQueueId",
     "auth",
     "billing_notes",

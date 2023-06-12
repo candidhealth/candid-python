@@ -2,5 +2,6 @@
 
 from .payer import Payer
 from .payer_page import PayerPage
+from .payer_uuid import PayerUuid
 
-__all__ = ["Payer", "PayerPage"]
+__all__ = ["Payer", "PayerPage", "PayerUuid"]

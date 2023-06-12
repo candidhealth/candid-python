@@ -2,7 +2,6 @@
 
 from .environment import CandidApiEnvironment
 from .resources import (
-    Auth0Id,
     AuthorizedSignatory,
     BillingNote,
     BillingNoteBase,
@@ -67,6 +66,7 @@ from .resources import (
     PatientRelationshipToInsuredCodeAll,
     Payer,
     PayerPage,
+    PayerUuid,
     PhoneNumber,
     PhoneNumberType,
     ProcedureModifier,
@@ -105,7 +105,6 @@ from .resources import (
     TagCreate,
     TagId,
     TaskId,
-    User,
     WorkQueueId,
     auth,
     billing_notes,
@@ -134,7 +133,6 @@ from .resources import (
 )
 
 __all__ = [
-    "Auth0Id",
     "AuthorizedSignatory",
     "BillingNote",
     "BillingNoteBase",
@@ -200,6 +198,7 @@ __all__ = [
     "PatientRelationshipToInsuredCodeAll",
     "Payer",
     "PayerPage",
+    "PayerUuid",
     "PhoneNumber",
     "PhoneNumberType",
     "ProcedureModifier",
@@ -238,7 +237,6 @@ __all__ = [
     "TagCreate",
     "TagId",
     "TaskId",
-    "User",
     "WorkQueueId",
     "auth",
     "billing_notes",
