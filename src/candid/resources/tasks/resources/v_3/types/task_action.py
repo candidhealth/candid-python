@@ -6,13 +6,12 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .intake_follow_up_id import IntakeFollowUpId
+from .task_action_execution_method import TaskActionExecutionMethod
 
 
-class IntakeFollowUp(pydantic.BaseModel):
-    id: IntakeFollowUpId
-    text: str
-    response: typing.Optional[str]
+class TaskAction(pydantic.BaseModel):
+    display_name: str
+    execution_method: TaskActionExecutionMethod
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

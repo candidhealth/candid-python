@@ -248,6 +248,12 @@ class V4Client:
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         patient_is_self_guarantor: typing.Optional[bool] = OMIT,
         guarantor_id: typing.Optional[GuarantorId] = OMIT,
+        provider_accepts_assignment: typing.Optional[bool] = OMIT,
+        benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
+        synchronicity: typing.Optional[SynchronicityType] = OMIT,
+        place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
+        appointment_type: typing.Optional[str] = OMIT,
+        end_date_of_service: typing.Optional[Date] = OMIT,
     ) -> Encounter:
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -268,6 +274,18 @@ class V4Client:
             _request["patient_is_self_guarantor"] = patient_is_self_guarantor
         if guarantor_id is not OMIT:
             _request["guarantor_id"] = guarantor_id
+        if provider_accepts_assignment is not OMIT:
+            _request["provider_accepts_assignment"] = provider_accepts_assignment
+        if benefits_assigned_to_provider is not OMIT:
+            _request["benefits_assigned_to_provider"] = benefits_assigned_to_provider
+        if synchronicity is not OMIT:
+            _request["synchronicity"] = synchronicity
+        if place_of_service_code is not OMIT:
+            _request["place_of_service_code"] = place_of_service_code
+        if appointment_type is not OMIT:
+            _request["appointment_type"] = appointment_type
+        if end_date_of_service is not OMIT:
+            _request["end_date_of_service"] = end_date_of_service
         _response = httpx.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
@@ -561,6 +579,12 @@ class AsyncV4Client:
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         patient_is_self_guarantor: typing.Optional[bool] = OMIT,
         guarantor_id: typing.Optional[GuarantorId] = OMIT,
+        provider_accepts_assignment: typing.Optional[bool] = OMIT,
+        benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
+        synchronicity: typing.Optional[SynchronicityType] = OMIT,
+        place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
+        appointment_type: typing.Optional[str] = OMIT,
+        end_date_of_service: typing.Optional[Date] = OMIT,
     ) -> Encounter:
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -581,6 +605,18 @@ class AsyncV4Client:
             _request["patient_is_self_guarantor"] = patient_is_self_guarantor
         if guarantor_id is not OMIT:
             _request["guarantor_id"] = guarantor_id
+        if provider_accepts_assignment is not OMIT:
+            _request["provider_accepts_assignment"] = provider_accepts_assignment
+        if benefits_assigned_to_provider is not OMIT:
+            _request["benefits_assigned_to_provider"] = benefits_assigned_to_provider
+        if synchronicity is not OMIT:
+            _request["synchronicity"] = synchronicity
+        if place_of_service_code is not OMIT:
+            _request["place_of_service_code"] = place_of_service_code
+        if appointment_type is not OMIT:
+            _request["appointment_type"] = appointment_type
+        if end_date_of_service is not OMIT:
+            _request["end_date_of_service"] = end_date_of_service
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "PATCH",
