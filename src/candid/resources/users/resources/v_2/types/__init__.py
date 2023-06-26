@@ -11,7 +11,6 @@ from .idp_user_metadata import (
 )
 from .machine_user_metadata import MachineUserMetadata
 from .other_idp_metadata import OtherIdpMetadata
-from .user_id import UserId
 from .user_metadata import UserMetadata, UserMetadata_HumanUserMetadata, UserMetadata_MachineUserMetadata
 from .user_v_2 import UserV2
 
@@ -25,7 +24,6 @@ __all__ = [
     "IdpUserMetadata_OtherIdpMetadata",
     "MachineUserMetadata",
     "OtherIdpMetadata",
-    "UserId",
     "UserMetadata",
     "UserMetadata_HumanUserMetadata",
     "UserMetadata_MachineUserMetadata",

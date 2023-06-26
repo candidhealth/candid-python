@@ -7,8 +7,8 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.organization_id import OrganizationId
+from .....commons.types.user_id import UserId
 from .idp_user_metadata import IdpUserMetadata
-from .user_id import UserId
 from .user_metadata import UserMetadata
 
 

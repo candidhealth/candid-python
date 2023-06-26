@@ -6,7 +6,6 @@ import typing
 import pydantic
 
 from ....core.datetime_utils import serialize_datetime
-from ...commons.types.contact_info import ContactInfo
 from ...commons.types.date import Date
 from ...commons.types.street_address_short_zip import StreetAddressShortZip
 from .individual_base import IndividualBase
@@ -25,7 +24,6 @@ class PatientBase(IndividualBase):
         )
     )
     address: StreetAddressShortZip = pydantic.Field(description=("Box 5 on the CMS-1500 claim form.\n"))
-    contact_info: typing.Optional[ContactInfo]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

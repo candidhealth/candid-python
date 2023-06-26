@@ -9,15 +9,17 @@ from ......core.datetime_utils import serialize_datetime
 from .....commons.types.date import Date
 from .....commons.types.encounter_external_id import EncounterExternalId
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
+from .billable_status_type import BillableStatusType
 from .intervention import Intervention
 from .medication import Medication
 from .prior_authorization_number import PriorAuthorizationNumber
+from .responsible_party_type import ResponsiblePartyType
 from .synchronicity_type import SynchronicityType
 from .vitals import Vitals
 
 
 class EncounterBase(pydantic.BaseModel):
-    external_id: typing.Optional[EncounterExternalId] = pydantic.Field(
+    external_id: EncounterExternalId = pydantic.Field(
         description=(
             "A client-specified unique ID to associate with this encounter;\n"
             "for example, your internal encounter ID or a Dr. Chrono encounter ID.\n"
@@ -67,12 +69,6 @@ class EncounterBase(pydantic.BaseModel):
     appointment_type: typing.Optional[str] = pydantic.Field(
         description=('Human-readable description of the appointment type (ex: "Acupuncture - Headaches")\n')
     )
-    do_not_bill: typing.Optional[bool] = pydantic.Field(
-        description=(
-            "Should be set to true if Candid should not create or submit a claim but you'd\n"
-            "like us to track this encounter anyway (ex: patient is paying cash)\n"
-        )
-    )
     existing_medications: typing.Optional[typing.List[Medication]]
     vitals: typing.Optional[Vitals]
     interventions: typing.Optional[typing.List[Intervention]]
@@ -85,6 +81,16 @@ class EncounterBase(pydantic.BaseModel):
             "Synchronous encounters occur in live, real-time settings where the patient interacts\n"
             "directly with the provider, such as over video or a phone call.\n"
         )
+    )
+    billable_status: BillableStatusType = pydantic.Field(
+        description=(
+            "Defines if the Encounter is to be billed by Candid to the responsible_party.\n"
+            "Examples for when this should be set to NOT_BILLABLE include\n"
+            "if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.\n"
+        )
+    )
+    responsible_party: ResponsiblePartyType = pydantic.Field(
+        description=("Defines the party to be billed with the initial balance owed on the claim.\n")
     )
 
     def json(self, **kwargs: typing.Any) -> str:

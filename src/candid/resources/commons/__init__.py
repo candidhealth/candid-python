@@ -2,10 +2,12 @@
 
 from .types import (
     ClaimId,
-    ContactInfo,
     ContentDownloadUrl,
     Date,
+    DateRangeOptionalEnd,
+    Decimal,
     Email,
+    EmrPayerCrosswalk,
     EncounterExternalId,
     EncounterId,
     FacilityTypeCode,
@@ -32,15 +34,18 @@ from .types import (
     StreetAddressBase,
     StreetAddressLongZip,
     StreetAddressShortZip,
+    UserId,
     WorkQueueId,
 )
 
 __all__ = [
     "ClaimId",
-    "ContactInfo",
     "ContentDownloadUrl",
     "Date",
+    "DateRangeOptionalEnd",
+    "Decimal",
     "Email",
+    "EmrPayerCrosswalk",
     "EncounterExternalId",
     "EncounterId",
     "FacilityTypeCode",
@@ -67,5 +72,6 @@ __all__ = [
     "StreetAddressBase",
     "StreetAddressLongZip",
     "StreetAddressShortZip",
+    "UserId",
     "WorkQueueId",
 ]

@@ -6,8 +6,7 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.contact_info import ContactInfo
-from .....commons.types.street_address_long_zip import StreetAddressLongZip
+from .....commons.types.street_address_short_zip import StreetAddressShortZip
 
 
 class GuarantorBase(pydantic.BaseModel):
@@ -15,8 +14,7 @@ class GuarantorBase(pydantic.BaseModel):
     last_name: str
     external_id: str
     date_of_birth: dt.date
-    address: StreetAddressLongZip
-    contact_info: ContactInfo
+    address: StreetAddressShortZip
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

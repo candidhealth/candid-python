@@ -6,6 +6,7 @@ import typing
 import pydantic
 
 from ....core.datetime_utils import serialize_datetime
+from ...commons.types.decimal import Decimal
 from ...commons.types.service_line_units import ServiceLineUnits
 from .drug_identification import DrugIdentification
 from .service_line_base import ServiceLineBase
@@ -13,7 +14,13 @@ from .service_line_base import ServiceLineBase
 
 class ServiceLineCreate(ServiceLineBase):
     procedure_code: str
-    quantity: str
+    quantity: Decimal = pydantic.Field(
+        description=(
+            "String representation of a Decimal that can be parsed by most libraries.\n"
+            "A ServiceLine quantity cannot contain more than one digit of precision.\n"
+            "Example: 1.1 is valid, 1.11 is not.\n"
+        )
+    )
     units: ServiceLineUnits
     charge_amount_cents: typing.Optional[int] = pydantic.Field(
         description=(

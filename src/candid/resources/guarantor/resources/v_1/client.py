@@ -12,8 +12,12 @@ from .....core.api_error import ApiError
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.remove_none_from_headers import remove_none_from_headers
 from .....environment import CandidApiEnvironment
-from ....commons.types.contact_info import ContactInfo
-from ....commons.types.street_address_long_zip import StreetAddressLongZip
+from ....commons.types.email import Email
+from ....commons.types.encounter_id import EncounterId
+from ....commons.types.phone_number import PhoneNumber
+from ....commons.types.street_address_short_zip import StreetAddressShortZip
+from .errors.encounter_has_existing_guarantor_error import EncounterHasExistingGuarantorError
+from .types.encounter_has_existing_guarantor_error_type import EncounterHasExistingGuarantorErrorType
 from .types.guarantor import Guarantor
 from .types.guarantor_create import GuarantorCreate
 from .types.guarantor_id import GuarantorId
@@ -29,10 +33,10 @@ class V1Client:
         self._environment = environment
         self._token = token
 
-    def create(self, *, request: GuarantorCreate) -> Guarantor:
+    def create(self, encounter_id: EncounterId, *, request: GuarantorCreate) -> Guarantor:
         _response = httpx.request(
             "POST",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/guarantors/v1"),
+            urllib.parse.urljoin(f"{self._environment.value}/", f"api/guarantors/v1/{encounter_id}"),
             json=jsonable_encoder(request),
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -45,6 +49,11 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(Guarantor, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterHasExistingGuarantorError":
+                raise EncounterHasExistingGuarantorError(
+                    pydantic.parse_obj_as(EncounterHasExistingGuarantorErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get(self, guarantor_id: GuarantorId) -> Guarantor:
@@ -71,21 +80,32 @@ class V1Client:
         first_name: typing.Optional[str] = OMIT,
         last_name: typing.Optional[str] = OMIT,
         external_id: typing.Optional[str] = OMIT,
-        date_of_birth: dt.date,
-        address: typing.Optional[StreetAddressLongZip] = OMIT,
-        contact_info: typing.Optional[ContactInfo] = OMIT,
+        date_of_birth: typing.Optional[dt.date] = OMIT,
+        address: typing.Optional[StreetAddressShortZip] = OMIT,
+        phone_numbers: typing.Optional[typing.List[PhoneNumber]] = OMIT,
+        phone_consent: typing.Optional[bool] = OMIT,
+        email: typing.Optional[Email] = OMIT,
+        email_consent: typing.Optional[bool] = OMIT,
     ) -> Guarantor:
-        _request: typing.Dict[str, typing.Any] = {"date_of_birth": date_of_birth}
+        _request: typing.Dict[str, typing.Any] = {}
         if first_name is not OMIT:
             _request["first_name"] = first_name
         if last_name is not OMIT:
             _request["last_name"] = last_name
         if external_id is not OMIT:
             _request["external_id"] = external_id
+        if date_of_birth is not OMIT:
+            _request["date_of_birth"] = date_of_birth
         if address is not OMIT:
             _request["address"] = address
-        if contact_info is not OMIT:
-            _request["contact_info"] = contact_info
+        if phone_numbers is not OMIT:
+            _request["phone_numbers"] = phone_numbers
+        if phone_consent is not OMIT:
+            _request["phone_consent"] = phone_consent
+        if email is not OMIT:
+            _request["email"] = email
+        if email_consent is not OMIT:
+            _request["email_consent"] = email_consent
         _response = httpx.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._environment.value}/", f"api/guarantors/v1/{guarantor_id}"),
@@ -111,11 +131,11 @@ class AsyncV1Client:
         self._environment = environment
         self._token = token
 
-    async def create(self, *, request: GuarantorCreate) -> Guarantor:
+    async def create(self, encounter_id: EncounterId, *, request: GuarantorCreate) -> Guarantor:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/guarantors/v1"),
+                urllib.parse.urljoin(f"{self._environment.value}/", f"api/guarantors/v1/{encounter_id}"),
                 json=jsonable_encoder(request),
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -128,6 +148,11 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(Guarantor, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterHasExistingGuarantorError":
+                raise EncounterHasExistingGuarantorError(
+                    pydantic.parse_obj_as(EncounterHasExistingGuarantorErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get(self, guarantor_id: GuarantorId) -> Guarantor:
@@ -155,21 +180,32 @@ class AsyncV1Client:
         first_name: typing.Optional[str] = OMIT,
         last_name: typing.Optional[str] = OMIT,
         external_id: typing.Optional[str] = OMIT,
-        date_of_birth: dt.date,
-        address: typing.Optional[StreetAddressLongZip] = OMIT,
-        contact_info: typing.Optional[ContactInfo] = OMIT,
+        date_of_birth: typing.Optional[dt.date] = OMIT,
+        address: typing.Optional[StreetAddressShortZip] = OMIT,
+        phone_numbers: typing.Optional[typing.List[PhoneNumber]] = OMIT,
+        phone_consent: typing.Optional[bool] = OMIT,
+        email: typing.Optional[Email] = OMIT,
+        email_consent: typing.Optional[bool] = OMIT,
     ) -> Guarantor:
-        _request: typing.Dict[str, typing.Any] = {"date_of_birth": date_of_birth}
+        _request: typing.Dict[str, typing.Any] = {}
         if first_name is not OMIT:
             _request["first_name"] = first_name
         if last_name is not OMIT:
             _request["last_name"] = last_name
         if external_id is not OMIT:
             _request["external_id"] = external_id
+        if date_of_birth is not OMIT:
+            _request["date_of_birth"] = date_of_birth
         if address is not OMIT:
             _request["address"] = address
-        if contact_info is not OMIT:
-            _request["contact_info"] = contact_info
+        if phone_numbers is not OMIT:
+            _request["phone_numbers"] = phone_numbers
+        if phone_consent is not OMIT:
+            _request["phone_consent"] = phone_consent
+        if email is not OMIT:
+            _request["email"] = email
+        if email_consent is not OMIT:
+            _request["email_consent"] = email_consent
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "PATCH",

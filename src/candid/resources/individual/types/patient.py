@@ -4,12 +4,18 @@ import datetime as dt
 import typing
 
 from ....core.datetime_utils import serialize_datetime
+from ...commons.types.email import Email
+from ...commons.types.phone_number import PhoneNumber
 from .individual_id import IndividualId
 from .patient_base import PatientBase
 
 
 class Patient(PatientBase):
     individual_id: IndividualId
+    phone_numbers: typing.List[PhoneNumber]
+    phone_consent: bool
+    email: typing.Optional[Email]
+    email_consent: bool
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

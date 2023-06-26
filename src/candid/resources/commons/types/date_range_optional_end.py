@@ -6,15 +6,12 @@ import typing
 import pydantic
 
 from ....core.datetime_utils import serialize_datetime
-from .email import Email
-from .phone_number import PhoneNumber
+from .date import Date
 
 
-class ContactInfo(pydantic.BaseModel):
-    phone_numbers: typing.List[PhoneNumber]
-    phone_consent: bool
-    email: Email
-    email_consent: bool
+class DateRangeOptionalEnd(pydantic.BaseModel):
+    start_date: Date
+    end_date: typing.Optional[Date]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

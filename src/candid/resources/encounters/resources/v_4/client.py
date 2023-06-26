@@ -28,17 +28,19 @@ from ....encounter_providers.resources.v_2.types.billing_provider import Billing
 from ....encounter_providers.resources.v_2.types.referring_provider import ReferringProvider
 from ....encounter_providers.resources.v_2.types.rendering_provider import RenderingProvider
 from ....guarantor.resources.v_1.types.guarantor_create import GuarantorCreate
-from ....guarantor.resources.v_1.types.guarantor_id import GuarantorId
 from ....individual.types.patient_create import PatientCreate
 from ....individual.types.subscriber_create import SubscriberCreate
 from ....service_facility.types.encounter_service_facility_base import EncounterServiceFacilityBase
 from ....service_lines.types.service_line_create import ServiceLineCreate
 from ....tags.types.tag_id import TagId
 from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
+from .errors.encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
+from .types.billable_status_type import BillableStatusType
 from .types.clinical_note_category_create import ClinicalNoteCategoryCreate
 from .types.encounter import Encounter
 from .types.encounter_attachment import EncounterAttachment
 from .types.encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
+from .types.encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
 from .types.encounter_page import EncounterPage
 from .types.encounter_sort_options import EncounterSortOptions
 from .types.generate_clinical_notes_pdf_response import GenerateClinicalNotesPdfResponse
@@ -48,6 +50,7 @@ from .types.medication import Medication
 from .types.network_status_computation_results import NetworkStatusComputationResults
 from .types.patient_history_category import PatientHistoryCategory
 from .types.prior_authorization_number import PriorAuthorizationNumber
+from .types.responsible_party_type import ResponsiblePartyType
 from .types.synchronicity_type import SynchronicityType
 from .types.vitals import Vitals
 
@@ -76,8 +79,9 @@ class V4Client:
         external_id: typing.Optional[EncounterExternalId] = None,
         diagnoses_updated_since: typing.Optional[dt.datetime] = None,
         tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]],
-        do_not_bill: typing.Optional[bool] = None,
         work_queue_id: typing.Optional[WorkQueueId] = None,
+        billable_status: typing.Optional[BillableStatusType] = None,
+        responsible_party: typing.Optional[ResponsiblePartyType] = None,
     ) -> EncounterPage:
         _response = httpx.request(
             "GET",
@@ -96,8 +100,9 @@ class V4Client:
                 if diagnoses_updated_since is not None
                 else None,
                 "tag_ids": tag_ids,
-                "do_not_bill": do_not_bill,
                 "work_queue_id": work_queue_id,
+                "billable_status": billable_status,
+                "responsible_party": responsible_party,
             },
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -133,7 +138,6 @@ class V4Client:
         self,
         *,
         patient: PatientCreate,
-        patient_is_self_guarantor: typing.Optional[bool] = OMIT,
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
@@ -147,7 +151,7 @@ class V4Client:
         patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = OMIT,
         service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
-        external_id: typing.Optional[EncounterExternalId] = OMIT,
+        external_id: EncounterExternalId,
         date_of_service: Date,
         end_date_of_service: typing.Optional[Date] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
@@ -155,12 +159,13 @@ class V4Client:
         benefits_assigned_to_provider: bool,
         provider_accepts_assignment: bool,
         appointment_type: typing.Optional[str] = OMIT,
-        do_not_bill: typing.Optional[bool] = OMIT,
         existing_medications: typing.Optional[typing.List[Medication]] = OMIT,
         vitals: typing.Optional[Vitals] = OMIT,
         interventions: typing.Optional[typing.List[Intervention]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
+        billable_status: BillableStatusType,
+        responsible_party: ResponsiblePartyType,
     ) -> Encounter:
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -168,13 +173,14 @@ class V4Client:
             "rendering_provider": rendering_provider,
             "diagnoses": diagnoses,
             "place_of_service_code": place_of_service_code,
+            "external_id": external_id,
             "date_of_service": date_of_service,
             "patient_authorized_release": patient_authorized_release,
             "benefits_assigned_to_provider": benefits_assigned_to_provider,
             "provider_accepts_assignment": provider_accepts_assignment,
+            "billable_status": billable_status,
+            "responsible_party": responsible_party,
         }
-        if patient_is_self_guarantor is not OMIT:
-            _request["patient_is_self_guarantor"] = patient_is_self_guarantor
         if referring_provider is not OMIT:
             _request["referring_provider"] = referring_provider
         if service_facility is not OMIT:
@@ -193,16 +199,12 @@ class V4Client:
             _request["service_lines"] = service_lines
         if guarantor is not OMIT:
             _request["guarantor"] = guarantor
-        if external_id is not OMIT:
-            _request["external_id"] = external_id
         if end_date_of_service is not OMIT:
             _request["end_date_of_service"] = end_date_of_service
         if prior_authorization_number is not OMIT:
             _request["prior_authorization_number"] = prior_authorization_number
         if appointment_type is not OMIT:
             _request["appointment_type"] = appointment_type
-        if do_not_bill is not OMIT:
-            _request["do_not_bill"] = do_not_bill
         if existing_medications is not OMIT:
             _request["existing_medications"] = existing_medications
         if vitals is not OMIT:
@@ -233,6 +235,10 @@ class V4Client:
                 raise EncounterExternalIdUniquenessError(
                     pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
+                raise EncounterGuarantorMissingContactInfoError(
+                    pydantic.parse_obj_as(EncounterGuarantorMissingContactInfoErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -246,8 +252,8 @@ class V4Client:
         tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
         clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
-        patient_is_self_guarantor: typing.Optional[bool] = OMIT,
-        guarantor_id: typing.Optional[GuarantorId] = OMIT,
+        billable_status: typing.Optional[BillableStatusType] = OMIT,
+        responsible_party: typing.Optional[ResponsiblePartyType] = OMIT,
         provider_accepts_assignment: typing.Optional[bool] = OMIT,
         benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
@@ -270,10 +276,10 @@ class V4Client:
             _request["clinical_notes"] = clinical_notes
         if pay_to_address is not OMIT:
             _request["pay_to_address"] = pay_to_address
-        if patient_is_self_guarantor is not OMIT:
-            _request["patient_is_self_guarantor"] = patient_is_self_guarantor
-        if guarantor_id is not OMIT:
-            _request["guarantor_id"] = guarantor_id
+        if billable_status is not OMIT:
+            _request["billable_status"] = billable_status
+        if responsible_party is not OMIT:
+            _request["responsible_party"] = responsible_party
         if provider_accepts_assignment is not OMIT:
             _request["provider_accepts_assignment"] = provider_accepts_assignment
         if benefits_assigned_to_provider is not OMIT:
@@ -404,8 +410,9 @@ class AsyncV4Client:
         external_id: typing.Optional[EncounterExternalId] = None,
         diagnoses_updated_since: typing.Optional[dt.datetime] = None,
         tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]],
-        do_not_bill: typing.Optional[bool] = None,
         work_queue_id: typing.Optional[WorkQueueId] = None,
+        billable_status: typing.Optional[BillableStatusType] = None,
+        responsible_party: typing.Optional[ResponsiblePartyType] = None,
     ) -> EncounterPage:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
@@ -425,8 +432,9 @@ class AsyncV4Client:
                     if diagnoses_updated_since is not None
                     else None,
                     "tag_ids": tag_ids,
-                    "do_not_bill": do_not_bill,
                     "work_queue_id": work_queue_id,
+                    "billable_status": billable_status,
+                    "responsible_party": responsible_party,
                 },
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -463,7 +471,6 @@ class AsyncV4Client:
         self,
         *,
         patient: PatientCreate,
-        patient_is_self_guarantor: typing.Optional[bool] = OMIT,
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
@@ -477,7 +484,7 @@ class AsyncV4Client:
         patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = OMIT,
         service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
-        external_id: typing.Optional[EncounterExternalId] = OMIT,
+        external_id: EncounterExternalId,
         date_of_service: Date,
         end_date_of_service: typing.Optional[Date] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
@@ -485,12 +492,13 @@ class AsyncV4Client:
         benefits_assigned_to_provider: bool,
         provider_accepts_assignment: bool,
         appointment_type: typing.Optional[str] = OMIT,
-        do_not_bill: typing.Optional[bool] = OMIT,
         existing_medications: typing.Optional[typing.List[Medication]] = OMIT,
         vitals: typing.Optional[Vitals] = OMIT,
         interventions: typing.Optional[typing.List[Intervention]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
+        billable_status: BillableStatusType,
+        responsible_party: ResponsiblePartyType,
     ) -> Encounter:
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -498,13 +506,14 @@ class AsyncV4Client:
             "rendering_provider": rendering_provider,
             "diagnoses": diagnoses,
             "place_of_service_code": place_of_service_code,
+            "external_id": external_id,
             "date_of_service": date_of_service,
             "patient_authorized_release": patient_authorized_release,
             "benefits_assigned_to_provider": benefits_assigned_to_provider,
             "provider_accepts_assignment": provider_accepts_assignment,
+            "billable_status": billable_status,
+            "responsible_party": responsible_party,
         }
-        if patient_is_self_guarantor is not OMIT:
-            _request["patient_is_self_guarantor"] = patient_is_self_guarantor
         if referring_provider is not OMIT:
             _request["referring_provider"] = referring_provider
         if service_facility is not OMIT:
@@ -523,16 +532,12 @@ class AsyncV4Client:
             _request["service_lines"] = service_lines
         if guarantor is not OMIT:
             _request["guarantor"] = guarantor
-        if external_id is not OMIT:
-            _request["external_id"] = external_id
         if end_date_of_service is not OMIT:
             _request["end_date_of_service"] = end_date_of_service
         if prior_authorization_number is not OMIT:
             _request["prior_authorization_number"] = prior_authorization_number
         if appointment_type is not OMIT:
             _request["appointment_type"] = appointment_type
-        if do_not_bill is not OMIT:
-            _request["do_not_bill"] = do_not_bill
         if existing_medications is not OMIT:
             _request["existing_medications"] = existing_medications
         if vitals is not OMIT:
@@ -564,6 +569,10 @@ class AsyncV4Client:
                 raise EncounterExternalIdUniquenessError(
                     pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
+                raise EncounterGuarantorMissingContactInfoError(
+                    pydantic.parse_obj_as(EncounterGuarantorMissingContactInfoErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
@@ -577,8 +586,8 @@ class AsyncV4Client:
         tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
         clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
-        patient_is_self_guarantor: typing.Optional[bool] = OMIT,
-        guarantor_id: typing.Optional[GuarantorId] = OMIT,
+        billable_status: typing.Optional[BillableStatusType] = OMIT,
+        responsible_party: typing.Optional[ResponsiblePartyType] = OMIT,
         provider_accepts_assignment: typing.Optional[bool] = OMIT,
         benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
@@ -601,10 +610,10 @@ class AsyncV4Client:
             _request["clinical_notes"] = clinical_notes
         if pay_to_address is not OMIT:
             _request["pay_to_address"] = pay_to_address
-        if patient_is_self_guarantor is not OMIT:
-            _request["patient_is_self_guarantor"] = patient_is_self_guarantor
-        if guarantor_id is not OMIT:
-            _request["guarantor_id"] = guarantor_id
+        if billable_status is not OMIT:
+            _request["billable_status"] = billable_status
+        if responsible_party is not OMIT:
+            _request["responsible_party"] = responsible_party
         if provider_accepts_assignment is not OMIT:
             _request["provider_accepts_assignment"] = provider_accepts_assignment
         if benefits_assigned_to_provider is not OMIT:

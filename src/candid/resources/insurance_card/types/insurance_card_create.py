@@ -4,6 +4,7 @@ import datetime as dt
 import typing
 
 from ....core.datetime_utils import serialize_datetime
+from ...commons.types.emr_payer_crosswalk import EmrPayerCrosswalk
 from .insurance_card_base import InsuranceCardBase
 
 
@@ -15,6 +16,7 @@ class InsuranceCardCreate(InsuranceCardBase):
     rx_pcn: typing.Optional[str]
     image_url_front: typing.Optional[str]
     image_url_back: typing.Optional[str]
+    emr_payer_crosswalk: typing.Optional[EmrPayerCrosswalk]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

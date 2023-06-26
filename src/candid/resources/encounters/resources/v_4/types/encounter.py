@@ -13,6 +13,7 @@ from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.link_url import LinkUrl
 from .....diagnoses.types.diagnosis import Diagnosis
 from .....encounter_providers.resources.v_2.types.encounter_provider import EncounterProvider
+from .....guarantor.resources.v_1.types.guarantor import Guarantor
 from .....individual.types.patient import Patient
 from .....individual.types.subscriber import Subscriber
 from .....patient_payments.resources.v_3.types.patient_payment import PatientPayment
@@ -29,6 +30,7 @@ class Encounter(EncounterBase):
     encounter_id: EncounterId
     claims: typing.List[Claim]
     patient: Patient
+    guarantor: typing.Optional[Guarantor]
     billing_provider: EncounterProvider
     rendering_provider: EncounterProvider
     referring_provider: typing.Optional[EncounterProvider]

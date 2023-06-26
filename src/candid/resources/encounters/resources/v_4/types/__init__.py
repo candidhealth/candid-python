@@ -8,6 +8,7 @@ from .attributable_contracting_status_result import (
     AttributableContractingStatusResult_Unknown,
 )
 from .base_attachment import BaseAttachment
+from .billable_status_type import BillableStatusType
 from .clinical_note import ClinicalNote
 from .clinical_note_category import ClinicalNoteCategory
 from .clinical_note_category_create import ClinicalNoteCategoryCreate
@@ -18,6 +19,7 @@ from .encounter_attachment import EncounterAttachment
 from .encounter_attachment_type import EncounterAttachmentType
 from .encounter_base import EncounterBase
 from .encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
+from .encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
 from .encounter_page import EncounterPage
 from .encounter_sort_options import EncounterSortOptions
 from .generate_clinical_notes_pdf_response import (
@@ -43,6 +45,7 @@ from .out_of_network_contracting_status_result import OutOfNetworkContractingSta
 from .patient_history_category import PatientHistoryCategory
 from .patient_history_category_enum import PatientHistoryCategoryEnum
 from .prior_authorization_number import PriorAuthorizationNumber
+from .responsible_party_type import ResponsiblePartyType
 from .rx_cui import RxCui
 from .successful_generate_clinical_notes_pdf_response import SuccessfulGenerateClinicalNotesPdfResponse
 from .synchronicity_type import SynchronicityType
@@ -55,6 +58,7 @@ __all__ = [
     "AttributableContractingStatusResult_OutOfNetwork",
     "AttributableContractingStatusResult_Unknown",
     "BaseAttachment",
+    "BillableStatusType",
     "ClinicalNote",
     "ClinicalNoteCategory",
     "ClinicalNoteCategoryCreate",
@@ -65,6 +69,7 @@ __all__ = [
     "EncounterAttachmentType",
     "EncounterBase",
     "EncounterExternalIdUniquenessErrorType",
+    "EncounterGuarantorMissingContactInfoErrorType",
     "EncounterPage",
     "EncounterSortOptions",
     "GenerateClinicalNotesPdfResponse",
@@ -88,6 +93,7 @@ __all__ = [
     "PatientHistoryCategory",
     "PatientHistoryCategoryEnum",
     "PriorAuthorizationNumber",
+    "ResponsiblePartyType",
     "RxCui",
     "SuccessfulGenerateClinicalNotesPdfResponse",
     "SynchronicityType",
