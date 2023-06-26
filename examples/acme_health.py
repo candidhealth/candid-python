@@ -11,7 +11,8 @@ from candid import (
     DiagnosisTypeCode,
     FacilityTypeCode,
     ServiceLineCreate,
-    ServiceLineUnits, Decimal,
+    ServiceLineUnits,
+    Decimal,
 )
 from candid.candid_api_client import CandidApiClient, CandidApiClientOptions
 from candid.resources.encounter_providers.resources.v_2 import BillingProvider, RenderingProvider
