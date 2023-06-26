@@ -12,9 +12,11 @@ from candid import (
     FacilityTypeCode,
     ServiceLineCreate,
     ServiceLineUnits,
+    Decimal,
 )
 from candid.candid_api_client import CandidApiClient, CandidApiClientOptions
 from candid.resources.encounter_providers.resources.v_2 import BillingProvider, RenderingProvider
+from candid.resources.encounters.resources.v_4 import BillableStatusType, ResponsiblePartyType
 
 
 def client_options() -> CandidApiClientOptions:
@@ -26,8 +28,10 @@ def main() -> None:
     client = CandidApiClient(environment=CandidApiEnvironment.STAGING, options=client_options())
 
     created_encounter = client.encounters.v_4.create(
-        external_id=EncounterExternalId("emr-claim-id-abc"),
+        external_id=EncounterExternalId("emr-claim-id-abcd"),
         date_of_service=Date("2023-05-23"),
+        billable_status=BillableStatusType.BILLABLE,  # or BillableStatusType.NOT_BILLABLE
+        responsible_party=ResponsiblePartyType.INSURANCE_PAY,  # or ResponsiblePartyType.SELF_PAY
         patient=PatientCreate(
             external_id="emr-patient-id-123",
             first_name="Loki",
@@ -71,7 +75,7 @@ def main() -> None:
             ServiceLineCreate(
                 procedure_code="99212",
                 modifiers=[],
-                quantity="1",
+                quantity=Decimal("1.0"),
                 units=ServiceLineUnits.UN,
                 charge_amount_cents=1500,
                 diagnosis_pointers=[0, 1],
