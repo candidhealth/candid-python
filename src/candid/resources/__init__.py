@@ -23,7 +23,6 @@ from . import (
     service_lines,
     tags,
     tasks,
-    users,
     work_queues,
 )
 from .billing_notes import BillingNote, BillingNoteBase, BillingNoteId
@@ -245,6 +244,5 @@ __all__ = [
     "service_lines",
     "tags",
     "tasks",
-    "users",
     "work_queues",
 ]

@@ -131,7 +131,6 @@ from .resources import (
     service_lines,
     tags,
     tasks,
-    users,
     work_queues,
 )
 
@@ -266,6 +265,5 @@ __all__ = [
     "service_lines",
     "tags",
     "tasks",
-    "users",
     "work_queues",
 ]

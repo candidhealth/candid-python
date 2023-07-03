@@ -28,6 +28,18 @@ class LicenseType(str, enum.Enum):
     OTHER_MASTERS = "OTHER_MASTERS"
     BCBA = "BCBA"
     UNKNOWN = "UNKNOWN"
+    RPH = "RPH"
+    PHT = "PHT"
+    LAC = "LAC"
+    LMT = "LMT"
+    DC = "DC"
+    ND = "ND"
+    MA = "MA"
+    PT = "PT"
+    IBCLC = "IBCLC"
+    RN = "RN"
+    DPT = "DPT"
+    LCMHC = "LCMHC"
 
     def visit(
         self,
@@ -52,6 +64,18 @@ class LicenseType(str, enum.Enum):
         other_masters: typing.Callable[[], T_Result],
         bcba: typing.Callable[[], T_Result],
         unknown: typing.Callable[[], T_Result],
+        rph: typing.Callable[[], T_Result],
+        pht: typing.Callable[[], T_Result],
+        lac: typing.Callable[[], T_Result],
+        lmt: typing.Callable[[], T_Result],
+        dc: typing.Callable[[], T_Result],
+        nd: typing.Callable[[], T_Result],
+        ma: typing.Callable[[], T_Result],
+        pt: typing.Callable[[], T_Result],
+        ibclc: typing.Callable[[], T_Result],
+        rn: typing.Callable[[], T_Result],
+        dpt: typing.Callable[[], T_Result],
+        lcmhc: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is LicenseType.MD:
             return md()
@@ -95,3 +119,27 @@ class LicenseType(str, enum.Enum):
             return bcba()
         if self is LicenseType.UNKNOWN:
             return unknown()
+        if self is LicenseType.RPH:
+            return rph()
+        if self is LicenseType.PHT:
+            return pht()
+        if self is LicenseType.LAC:
+            return lac()
+        if self is LicenseType.LMT:
+            return lmt()
+        if self is LicenseType.DC:
+            return dc()
+        if self is LicenseType.ND:
+            return nd()
+        if self is LicenseType.MA:
+            return ma()
+        if self is LicenseType.PT:
+            return pt()
+        if self is LicenseType.IBCLC:
+            return ibclc()
+        if self is LicenseType.RN:
+            return rn()
+        if self is LicenseType.DPT:
+            return dpt()
+        if self is LicenseType.LCMHC:
+            return lcmhc()
