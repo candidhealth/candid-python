@@ -7,6 +7,7 @@ import pydantic
 
 from ....core.datetime_utils import serialize_datetime
 from ...commons.types.decimal import Decimal
+from ...commons.types.facility_type_code import FacilityTypeCode
 from ...commons.types.service_line_units import ServiceLineUnits
 from .drug_identification import DrugIdentification
 from .service_line_base import ServiceLineBase
@@ -33,6 +34,7 @@ class ServiceLineCreate(ServiceLineBase):
         description=("Indices (zero-indexed) of all the diagnoses this service line references\n")
     )
     drug_identification: typing.Optional[DrugIdentification]
+    place_of_service_code: typing.Optional[FacilityTypeCode]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
