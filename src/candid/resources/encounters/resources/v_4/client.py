@@ -15,12 +15,18 @@ from .....core.remove_none_from_headers import remove_none_from_headers
 from .....environment import CandidApiEnvironment
 from ....billing_notes.types.billing_note_base import BillingNoteBase
 from ....claims.types.claim_status import ClaimStatus
+from ....commons.errors.entity_not_found_error import EntityNotFoundError
+from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
+from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.types.date import Date
 from ....commons.types.encounter_external_id import EncounterExternalId
 from ....commons.types.encounter_id import EncounterId
+from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.facility_type_code import FacilityTypeCode
 from ....commons.types.page_token import PageToken
+from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.street_address_long_zip import StreetAddressLongZip
+from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from ....commons.types.work_queue_id import WorkQueueId
 from ....diagnoses.types.diagnosis_create import DiagnosisCreate
 from ....diagnoses.types.diagnosis_id import DiagnosisId
@@ -235,9 +241,17 @@ class V4Client:
                 raise EncounterExternalIdUniquenessError(
                     pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
             if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
                 raise EncounterGuarantorMissingContactInfoError(
                     pydantic.parse_obj_as(EncounterGuarantorMissingContactInfoErrorType, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -260,6 +274,7 @@ class V4Client:
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[Date] = OMIT,
+        subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
     ) -> Encounter:
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -292,6 +307,8 @@ class V4Client:
             _request["appointment_type"] = appointment_type
         if end_date_of_service is not OMIT:
             _request["end_date_of_service"] = end_date_of_service
+        if subscriber_secondary is not OMIT:
+            _request["subscriber_secondary"] = subscriber_secondary
         _response = httpx.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
@@ -311,6 +328,18 @@ class V4Client:
             if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
                 raise EncounterExternalIdUniquenessError(
                     pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -569,9 +598,17 @@ class AsyncV4Client:
                 raise EncounterExternalIdUniquenessError(
                     pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
             if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
                 raise EncounterGuarantorMissingContactInfoError(
                     pydantic.parse_obj_as(EncounterGuarantorMissingContactInfoErrorType, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -594,6 +631,7 @@ class AsyncV4Client:
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[Date] = OMIT,
+        subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
     ) -> Encounter:
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -626,6 +664,8 @@ class AsyncV4Client:
             _request["appointment_type"] = appointment_type
         if end_date_of_service is not OMIT:
             _request["end_date_of_service"] = end_date_of_service
+        if subscriber_secondary is not OMIT:
+            _request["subscriber_secondary"] = subscriber_secondary
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "PATCH",
@@ -646,6 +686,18 @@ class AsyncV4Client:
             if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
                 raise EncounterExternalIdUniquenessError(
                     pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 

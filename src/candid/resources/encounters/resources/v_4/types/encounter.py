@@ -11,6 +11,7 @@ from .....claims.types.claim import Claim
 from .....commons.types.encounter_id import EncounterId
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.link_url import LinkUrl
+from .....commons.types.work_queue_id import WorkQueueId
 from .....diagnoses.types.diagnosis import Diagnosis
 from .....encounter_providers.resources.v_2.types.encounter_provider import EncounterProvider
 from .....guarantor.resources.v_1.types.guarantor import Guarantor
@@ -19,7 +20,6 @@ from .....individual.types.subscriber import Subscriber
 from .....patient_payments.resources.v_3.types.patient_payment import PatientPayment
 from .....service_facility.types.encounter_service_facility import EncounterServiceFacility
 from .....tags.types.tag import Tag
-from .....work_queues.resources.v_1.types.work_queue import WorkQueue
 from .clinical_note_category import ClinicalNoteCategory
 from .coding_attribution_type import CodingAttributionType
 from .encounter_base import EncounterBase
@@ -51,7 +51,7 @@ class Encounter(EncounterBase):
     patient_payments: typing.List[PatientPayment]
     tags: typing.List[Tag]
     coding_attribution: typing.Optional[CodingAttributionType]
-    work_queue: typing.Optional[WorkQueue]
+    work_queue_id: typing.Optional[WorkQueueId]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

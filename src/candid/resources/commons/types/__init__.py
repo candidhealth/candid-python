@@ -9,6 +9,7 @@ from .email import Email
 from .emr_payer_crosswalk import EmrPayerCrosswalk
 from .encounter_external_id import EncounterExternalId
 from .encounter_id import EncounterId
+from .entity_not_found_error_message import EntityNotFoundErrorMessage
 from .facility_type_code import FacilityTypeCode
 from .insurance_type_code import InsuranceTypeCode
 from .link_url import LinkUrl
@@ -23,6 +24,7 @@ from .procedure_modifier import ProcedureModifier
 from .region_national import RegionNational
 from .region_states import RegionStates
 from .regions import Regions, Regions_National, Regions_States
+from .request_validation_error import RequestValidationError
 from .resource_page import ResourcePage
 from .service_line_id import ServiceLineId
 from .service_line_units import ServiceLineUnits
@@ -31,7 +33,7 @@ from .state import State
 from .street_address_base import StreetAddressBase
 from .street_address_long_zip import StreetAddressLongZip
 from .street_address_short_zip import StreetAddressShortZip
-from .user_id import UserId
+from .unauthorized_error_message import UnauthorizedErrorMessage
 from .work_queue_id import WorkQueueId
 
 __all__ = [
@@ -44,6 +46,7 @@ __all__ = [
     "EmrPayerCrosswalk",
     "EncounterExternalId",
     "EncounterId",
+    "EntityNotFoundErrorMessage",
     "FacilityTypeCode",
     "InsuranceTypeCode",
     "LinkUrl",
@@ -60,6 +63,7 @@ __all__ = [
     "Regions",
     "Regions_National",
     "Regions_States",
+    "RequestValidationError",
     "ResourcePage",
     "ServiceLineId",
     "ServiceLineUnits",
@@ -68,6 +72,6 @@ __all__ = [
     "StreetAddressBase",
     "StreetAddressLongZip",
     "StreetAddressShortZip",
-    "UserId",
+    "UnauthorizedErrorMessage",
     "WorkQueueId",
 ]

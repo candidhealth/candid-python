@@ -5,14 +5,12 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from .work_queue_category_type import WorkQueueCategoryType
+from ....core.datetime_utils import serialize_datetime
 
 
-class WorkQueueCategory(pydantic.BaseModel):
-    type: WorkQueueCategoryType
-    display_name: str
-    description: typing.Optional[str]
+class RequestValidationError(pydantic.BaseModel):
+    field_name: str = pydantic.Field(alias="fieldName")
+    human_readable_message: typing.Optional[str] = pydantic.Field(alias="humanReadableMessage")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -24,4 +22,5 @@ class WorkQueueCategory(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

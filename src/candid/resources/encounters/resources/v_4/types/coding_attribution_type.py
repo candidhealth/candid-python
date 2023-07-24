@@ -10,12 +10,14 @@ class CodingAttributionType(str, enum.Enum):
     CANDID = "CANDID"
     CUSTOMER = "CUSTOMER"
     TCN = "TCN"
+    PJF = "PJF"
 
     def visit(
         self,
         candid: typing.Callable[[], T_Result],
         customer: typing.Callable[[], T_Result],
         tcn: typing.Callable[[], T_Result],
+        pjf: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is CodingAttributionType.CANDID:
             return candid()
@@ -23,3 +25,5 @@ class CodingAttributionType(str, enum.Enum):
             return customer()
         if self is CodingAttributionType.TCN:
             return tcn()
+        if self is CodingAttributionType.PJF:
+            return pjf()

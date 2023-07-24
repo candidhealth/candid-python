@@ -16,6 +16,8 @@ from .service_line_era_data import ServiceLineEraData
 class ServiceLineBaseWithOptionals(ServiceLineBase):
     charge_amount_cents: typing.Optional[int]
     allowed_amount_cents: typing.Optional[int]
+    insurance_balance_cents: typing.Optional[int]
+    patient_balance_cents: typing.Optional[int]
     paid_amount_cents: typing.Optional[int]
     patient_responsibility_cents: typing.Optional[int]
     diagnosis_id_zero: typing.Optional[DiagnosisId]

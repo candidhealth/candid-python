@@ -1922,6 +1922,21 @@ class ProcedureModifier(str, enum.Enum):
     Six patients served
     """
 
+    V_1 = "V1"
+    """
+    One patient visit in a month
+    """
+
+    V_2 = "V2"
+    """
+    Two patient visits in a month
+    """
+
+    V_3 = "V3"
+    """
+    Three patient visits in a month
+    """
+
     def visit(
         self,
         twenty_two: typing.Callable[[], T_Result],
@@ -2307,6 +2322,9 @@ class ProcedureModifier(str, enum.Enum):
         uq: typing.Callable[[], T_Result],
         ur: typing.Callable[[], T_Result],
         us: typing.Callable[[], T_Result],
+        v_1: typing.Callable[[], T_Result],
+        v_2: typing.Callable[[], T_Result],
+        v_3: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is ProcedureModifier.TWENTY_TWO:
             return twenty_two()
@@ -3074,3 +3092,9 @@ class ProcedureModifier(str, enum.Enum):
             return ur()
         if self is ProcedureModifier.US:
             return us()
+        if self is ProcedureModifier.V_1:
+            return v_1()
+        if self is ProcedureModifier.V_2:
+            return v_2()
+        if self is ProcedureModifier.V_3:
+            return v_3()

@@ -5,19 +5,11 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from .....commons.types.user_id import UserId
-from .....commons.types.work_queue_id import WorkQueueId
-from .work_queue_category import WorkQueueCategory
+from ....core.datetime_utils import serialize_datetime
 
 
-class WorkQueue(pydantic.BaseModel):
-    work_queue_id: WorkQueueId
-    display_name: str
-    description: typing.Optional[str]
-    category: WorkQueueCategory
-    created_at: dt.datetime
-    created_by: UserId
+class EntityNotFoundErrorMessage(pydantic.BaseModel):
+    id: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

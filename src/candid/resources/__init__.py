@@ -23,7 +23,6 @@ from . import (
     service_lines,
     tags,
     tasks,
-    work_queues,
 )
 from .billing_notes import BillingNote, BillingNoteBase, BillingNoteId
 from .claims import Claim, ClaimStatus
@@ -37,7 +36,10 @@ from .commons import (
     EmrPayerCrosswalk,
     EncounterExternalId,
     EncounterId,
+    EntityNotFoundError,
+    EntityNotFoundErrorMessage,
     FacilityTypeCode,
+    HttpRequestValidationsError,
     InsuranceTypeCode,
     LinkUrl,
     Npi,
@@ -53,6 +55,7 @@ from .commons import (
     Regions_National,
     Regions_States,
     RegionStates,
+    RequestValidationError,
     ResourcePage,
     ServiceLineId,
     ServiceLineUnits,
@@ -61,7 +64,8 @@ from .commons import (
     StreetAddressBase,
     StreetAddressLongZip,
     StreetAddressShortZip,
-    UserId,
+    UnauthorizedError,
+    UnauthorizedErrorMessage,
     WorkQueueId,
 )
 from .contracts import AuthorizedSignatory, Contract, ContractBase, ContractId, ContractStatus
@@ -150,6 +154,8 @@ __all__ = [
     "EncounterId",
     "EncounterServiceFacility",
     "EncounterServiceFacilityBase",
+    "EntityNotFoundError",
+    "EntityNotFoundErrorMessage",
     "Era",
     "EraBase",
     "EraId",
@@ -157,6 +163,7 @@ __all__ = [
     "ExpectedNetworkStatusResponse",
     "FacilityTypeCode",
     "Gender",
+    "HttpRequestValidationsError",
     "IndividualBase",
     "IndividualId",
     "InsuranceCard",
@@ -193,6 +200,7 @@ __all__ = [
     "Regions",
     "Regions_National",
     "Regions_States",
+    "RequestValidationError",
     "RequiredCredentialingDates",
     "ResourcePage",
     "ServiceFacilityId",
@@ -220,7 +228,8 @@ __all__ = [
     "TagCreate",
     "TagId",
     "TaskId",
-    "UserId",
+    "UnauthorizedError",
+    "UnauthorizedErrorMessage",
     "WorkQueueId",
     "auth",
     "billing_notes",
@@ -244,5 +253,4 @@ __all__ = [
     "service_lines",
     "tags",
     "tasks",
-    "work_queues",
 ]
