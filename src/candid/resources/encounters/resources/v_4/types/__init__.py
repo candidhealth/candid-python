@@ -9,6 +9,7 @@ from .attributable_contracting_status_result import (
 )
 from .base_attachment import BaseAttachment
 from .billable_status_type import BillableStatusType
+from .cash_pay_payer_error_message import CashPayPayerErrorMessage
 from .clinical_note import ClinicalNote
 from .clinical_note_category import ClinicalNoteCategory
 from .clinical_note_category_create import ClinicalNoteCategoryCreate
@@ -59,6 +60,7 @@ __all__ = [
     "AttributableContractingStatusResult_Unknown",
     "BaseAttachment",
     "BillableStatusType",
+    "CashPayPayerErrorMessage",
     "ClinicalNote",
     "ClinicalNoteCategory",
     "ClinicalNoteCategoryCreate",

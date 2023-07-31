@@ -39,9 +39,11 @@ from ....individual.types.subscriber_create import SubscriberCreate
 from ....service_facility.types.encounter_service_facility_base import EncounterServiceFacilityBase
 from ....service_lines.types.service_line_create import ServiceLineCreate
 from ....tags.types.tag_id import TagId
+from .errors.cash_pay_payer_error import CashPayPayerError
 from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
 from .errors.encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
 from .types.billable_status_type import BillableStatusType
+from .types.cash_pay_payer_error_message import CashPayPayerErrorMessage
 from .types.clinical_note_category_create import ClinicalNoteCategoryCreate
 from .types.encounter import Encounter
 from .types.encounter_attachment import EncounterAttachment
@@ -252,6 +254,10 @@ class V4Client:
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
                     pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "CashPayPayerError":
+                raise CashPayPayerError(
+                    pydantic.parse_obj_as(CashPayPayerErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -609,6 +615,10 @@ class AsyncV4Client:
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
                     pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "CashPayPayerError":
+                raise CashPayPayerError(
+                    pydantic.parse_obj_as(CashPayPayerErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
