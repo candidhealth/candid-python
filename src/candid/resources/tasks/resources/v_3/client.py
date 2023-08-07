@@ -10,7 +10,7 @@ import pydantic
 from .....core.api_error import ApiError
 from .....core.remove_none_from_headers import remove_none_from_headers
 from .....environment import CandidApiEnvironment
-from ...types.task_id import TaskId
+from ....commons.types.task_id import TaskId
 from .types.task_actions import TaskActions
 
 

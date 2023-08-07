@@ -37,6 +37,7 @@ from .types import (
     StreetAddressBase,
     StreetAddressLongZip,
     StreetAddressShortZip,
+    TaskId,
     UnauthorizedErrorMessage,
     WorkQueueId,
 )
@@ -79,6 +80,7 @@ __all__ = [
     "StreetAddressBase",
     "StreetAddressLongZip",
     "StreetAddressShortZip",
+    "TaskId",
     "UnauthorizedError",
     "UnauthorizedErrorMessage",
     "WorkQueueId",

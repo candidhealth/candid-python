@@ -64,6 +64,7 @@ from .commons import (
     StreetAddressBase,
     StreetAddressLongZip,
     StreetAddressShortZip,
+    TaskId,
     UnauthorizedError,
     UnauthorizedErrorMessage,
     WorkQueueId,
@@ -116,7 +117,6 @@ from .service_lines import (
     ServiceLineEraData,
 )
 from .tags import Tag, TagColorEnum, TagCreate, TagId
-from .tasks import TaskId
 
 __all__ = [
     "AuthorizedSignatory",

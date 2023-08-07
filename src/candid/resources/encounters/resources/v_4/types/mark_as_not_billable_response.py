@@ -6,7 +6,7 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....tasks.types.task_id import TaskId
+from .....commons.types.task_id import TaskId
 
 
 class MarkAsNotBillableResponse(pydantic.BaseModel):

@@ -33,6 +33,7 @@ from .state import State
 from .street_address_base import StreetAddressBase
 from .street_address_long_zip import StreetAddressLongZip
 from .street_address_short_zip import StreetAddressShortZip
+from .task_id import TaskId
 from .unauthorized_error_message import UnauthorizedErrorMessage
 from .work_queue_id import WorkQueueId
 
@@ -72,6 +73,7 @@ __all__ = [
     "StreetAddressBase",
     "StreetAddressLongZip",
     "StreetAddressShortZip",
+    "TaskId",
     "UnauthorizedErrorMessage",
     "WorkQueueId",
 ]
