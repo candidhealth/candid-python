@@ -5,12 +5,18 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from ...commons.types.procedure_modifier import ProcedureModifier
+from ......core.datetime_utils import serialize_datetime
+from .measurement_unit_code import MeasurementUnitCode
+from .service_id_qualifier import ServiceIdQualifier
 
 
-class ServiceLineBase(pydantic.BaseModel):
-    modifiers: typing.Optional[typing.List[ProcedureModifier]]
+class DrugIdentification(pydantic.BaseModel):
+    service_id_qualifier: ServiceIdQualifier
+    national_drug_code: str
+    national_drug_unit_count: str
+    measurement_unit_code: MeasurementUnitCode
+    link_sequence_number: typing.Optional[str]
+    pharmacy_prescription_number: typing.Optional[str]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

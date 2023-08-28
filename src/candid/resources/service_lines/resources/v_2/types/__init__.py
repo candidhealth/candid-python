@@ -6,8 +6,6 @@ from .measurement_unit_code import MeasurementUnitCode
 from .service_id_qualifier import ServiceIdQualifier
 from .service_line import ServiceLine
 from .service_line_adjustment import ServiceLineAdjustment
-from .service_line_base import ServiceLineBase
-from .service_line_base_with_optionals import ServiceLineBaseWithOptionals
 from .service_line_create import ServiceLineCreate
 from .service_line_denial_reason import ServiceLineDenialReason
 from .service_line_era_data import ServiceLineEraData
@@ -19,8 +17,6 @@ __all__ = [
     "ServiceIdQualifier",
     "ServiceLine",
     "ServiceLineAdjustment",
-    "ServiceLineBase",
-    "ServiceLineBaseWithOptionals",
     "ServiceLineCreate",
     "ServiceLineDenialReason",
     "ServiceLineEraData",

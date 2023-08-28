@@ -21,6 +21,7 @@ from .encounter_attachment_type import EncounterAttachmentType
 from .encounter_base import EncounterBase
 from .encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
 from .encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
+from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .encounter_page import EncounterPage
 from .encounter_sort_options import EncounterSortOptions
 from .generate_clinical_notes_pdf_response import (
@@ -72,6 +73,7 @@ __all__ = [
     "EncounterBase",
     "EncounterExternalIdUniquenessErrorType",
     "EncounterGuarantorMissingContactInfoErrorType",
+    "EncounterOwnerOfNextActionType",
     "EncounterPage",
     "EncounterSortOptions",
     "GenerateClinicalNotesPdfResponse",

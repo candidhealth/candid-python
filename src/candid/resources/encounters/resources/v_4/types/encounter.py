@@ -23,6 +23,7 @@ from .....tags.types.tag import Tag
 from .clinical_note_category import ClinicalNoteCategory
 from .coding_attribution_type import CodingAttributionType
 from .encounter_base import EncounterBase
+from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .patient_history_category import PatientHistoryCategory
 
 
@@ -52,6 +53,12 @@ class Encounter(EncounterBase):
     tags: typing.List[Tag]
     coding_attribution: typing.Optional[CodingAttributionType]
     work_queue_id: typing.Optional[WorkQueueId]
+    work_queue_membership_activated_at: typing.Optional[dt.datetime]
+    owner_of_next_action: EncounterOwnerOfNextActionType = pydantic.Field(
+        description=(
+            "The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.\n"
+        )
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -37,7 +37,7 @@ from ....guarantor.resources.v_1.types.guarantor_create import GuarantorCreate
 from ....individual.types.patient_create import PatientCreate
 from ....individual.types.subscriber_create import SubscriberCreate
 from ....service_facility.types.encounter_service_facility_base import EncounterServiceFacilityBase
-from ....service_lines.types.service_line_create import ServiceLineCreate
+from ....service_lines.resources.v_2.types.service_line_create import ServiceLineCreate
 from ....tags.types.tag_id import TagId
 from .errors.cash_pay_payer_error import CashPayPayerError
 from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
@@ -49,6 +49,7 @@ from .types.encounter import Encounter
 from .types.encounter_attachment import EncounterAttachment
 from .types.encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
 from .types.encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
+from .types.encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .types.encounter_page import EncounterPage
 from .types.encounter_sort_options import EncounterSortOptions
 from .types.generate_clinical_notes_pdf_response import GenerateClinicalNotesPdfResponse
@@ -90,6 +91,7 @@ class V4Client:
         work_queue_id: typing.Optional[WorkQueueId] = None,
         billable_status: typing.Optional[BillableStatusType] = None,
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
+        owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
     ) -> EncounterPage:
         _response = httpx.request(
             "GET",
@@ -111,6 +113,7 @@ class V4Client:
                 "work_queue_id": work_queue_id,
                 "billable_status": billable_status,
                 "responsible_party": responsible_party,
+                "owner_of_next_action": owner_of_next_action,
             },
             headers=remove_none_from_headers(
                 {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
@@ -448,6 +451,7 @@ class AsyncV4Client:
         work_queue_id: typing.Optional[WorkQueueId] = None,
         billable_status: typing.Optional[BillableStatusType] = None,
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
+        owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
     ) -> EncounterPage:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
@@ -470,6 +474,7 @@ class AsyncV4Client:
                     "work_queue_id": work_queue_id,
                     "billable_status": billable_status,
                     "responsible_party": responsible_party,
+                    "owner_of_next_action": owner_of_next_action,
                 },
                 headers=remove_none_from_headers(
                     {"Authorization": f"Bearer {self._token}" if self._token is not None else None}

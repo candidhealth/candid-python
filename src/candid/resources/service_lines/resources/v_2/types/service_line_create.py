@@ -5,15 +5,16 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from ...commons.types.decimal import Decimal
-from ...commons.types.facility_type_code import FacilityTypeCode
-from ...commons.types.service_line_units import ServiceLineUnits
+from ......core.datetime_utils import serialize_datetime
+from .....commons.types.decimal import Decimal
+from .....commons.types.facility_type_code import FacilityTypeCode
+from .....commons.types.procedure_modifier import ProcedureModifier
+from .....commons.types.service_line_units import ServiceLineUnits
 from .drug_identification import DrugIdentification
-from .service_line_base import ServiceLineBase
 
 
-class ServiceLineCreate(ServiceLineBase):
+class ServiceLineCreate(pydantic.BaseModel):
+    modifiers: typing.Optional[typing.List[ProcedureModifier]]
     procedure_code: str
     quantity: Decimal = pydantic.Field(
         description=(
@@ -46,5 +47,4 @@ class ServiceLineCreate(ServiceLineBase):
 
     class Config:
         frozen = True
-        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

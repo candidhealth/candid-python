@@ -3,17 +3,25 @@
 import datetime as dt
 import typing
 
-from ....core.datetime_utils import serialize_datetime
-from ...commons.types.facility_type_code import FacilityTypeCode
-from ...diagnoses.types.diagnosis_id import DiagnosisId
-from ...invoices.types.invoice import Invoice
+import pydantic
+
+from ......core.datetime_utils import serialize_datetime
+from .....commons.types.claim_id import ClaimId
+from .....commons.types.date_range_optional_end import DateRangeOptionalEnd
+from .....commons.types.decimal import Decimal
+from .....commons.types.facility_type_code import FacilityTypeCode
+from .....commons.types.procedure_modifier import ProcedureModifier
+from .....commons.types.service_line_id import ServiceLineId
+from .....commons.types.service_line_units import ServiceLineUnits
+from .....diagnoses.types.diagnosis_id import DiagnosisId
+from .....invoices.types.invoice import Invoice
 from .service_line_adjustment import ServiceLineAdjustment
-from .service_line_base import ServiceLineBase
 from .service_line_denial_reason import ServiceLineDenialReason
 from .service_line_era_data import ServiceLineEraData
 
 
-class ServiceLineBaseWithOptionals(ServiceLineBase):
+class ServiceLine(pydantic.BaseModel):
+    modifiers: typing.Optional[typing.List[ProcedureModifier]]
     charge_amount_cents: typing.Optional[int]
     allowed_amount_cents: typing.Optional[int]
     insurance_balance_cents: typing.Optional[int]
@@ -29,6 +37,23 @@ class ServiceLineBaseWithOptionals(ServiceLineBase):
     related_invoices: typing.Optional[typing.List[Invoice]]
     denial_reason: typing.Optional[ServiceLineDenialReason]
     place_of_service_code: typing.Optional[FacilityTypeCode]
+    service_line_id: ServiceLineId
+    procedure_code: str
+    quantity: Decimal = pydantic.Field(
+        description=(
+            "String representation of a Decimal that can be parsed by most libraries.\n"
+            "A ServiceLine quantity cannot contain more than one digit of precision.\n"
+            "Example: 1.1 is valid, 1.11 is not.\n"
+        )
+    )
+    units: ServiceLineUnits
+    claim_id: ClaimId
+    date_of_service_range: DateRangeOptionalEnd = pydantic.Field(
+        description=(
+            "A range of dates of service for this service line. If the service line is for a single date, the end date\n"
+            "will be empty.\n"
+        )
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -40,5 +65,4 @@ class ServiceLineBaseWithOptionals(ServiceLineBase):
 
     class Config:
         frozen = True
-        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

@@ -5,15 +5,13 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
+from ......core.datetime_utils import serialize_datetime
+from .service_line_adjustment import ServiceLineAdjustment
 
 
-class ServiceLineAdjustment(pydantic.BaseModel):
-    created_at: dt.datetime
-    adjustment_group_code: typing.Optional[str]
-    adjustment_reason_code: typing.Optional[str]
-    adjustment_amount_cents: typing.Optional[int]
-    adjustment_note: typing.Optional[str]
+class ServiceLineEraData(pydantic.BaseModel):
+    service_line_adjustments: typing.List[ServiceLineAdjustment]
+    remittance_advice_remark_codes: typing.List[str]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

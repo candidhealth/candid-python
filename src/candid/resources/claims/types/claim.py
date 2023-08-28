@@ -8,7 +8,7 @@ import pydantic
 from ....core.datetime_utils import serialize_datetime
 from ...commons.types.claim_id import ClaimId
 from ...era.types.era import Era
-from ...service_lines.types.service_line import ServiceLine
+from ...service_lines.resources.v_2.types.service_line import ServiceLine
 from .claim_status import ClaimStatus
 
 

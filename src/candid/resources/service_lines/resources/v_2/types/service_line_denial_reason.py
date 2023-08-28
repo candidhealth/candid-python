@@ -5,7 +5,7 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
+from ......core.datetime_utils import serialize_datetime
 from .denial_reason_content import DenialReasonContent
 
 
