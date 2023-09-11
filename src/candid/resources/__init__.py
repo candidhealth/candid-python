@@ -87,7 +87,6 @@ from .credentialing import (
 )
 from .diagnoses import Diagnosis, DiagnosisCreate, DiagnosisId, DiagnosisTypeCode, StandaloneDiagnosisCreate
 from .era import Era, EraBase, EraId
-from .expected_network_status import ExpectedNetworkStatus, ExpectedNetworkStatusResponse
 from .individual import (
     Gender,
     IndividualBase,
@@ -144,8 +143,6 @@ __all__ = [
     "Era",
     "EraBase",
     "EraId",
-    "ExpectedNetworkStatus",
-    "ExpectedNetworkStatusResponse",
     "FacilityTypeCode",
     "Gender",
     "HttpRequestValidationsError",

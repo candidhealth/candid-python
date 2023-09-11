@@ -5,8 +5,8 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from ...contracts.types.contract_id import ContractId
+from ......core.datetime_utils import serialize_datetime
+from .....contracts.types.contract_id import ContractId
 from .expected_network_status import ExpectedNetworkStatus
 
 
