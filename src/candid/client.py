@@ -7,7 +7,9 @@ from .resources.auth.client import AsyncAuthClient, AuthClient
 from .resources.billing_notes.client import AsyncBillingNotesClient, BillingNotesClient
 from .resources.encounters.client import AsyncEncountersClient, EncountersClient
 from .resources.expected_network_status.client import AsyncExpectedNetworkStatusClient, ExpectedNetworkStatusClient
+from .resources.exports.client import AsyncExportsClient, ExportsClient
 from .resources.guarantor.client import AsyncGuarantorClient, GuarantorClient
+from .resources.organization_providers.client import AsyncOrganizationProvidersClient, OrganizationProvidersClient
 from .resources.payers.client import AsyncPayersClient, PayersClient
 from .resources.tasks.client import AsyncTasksClient, TasksClient
 
@@ -21,7 +23,9 @@ class CandidApi:
         self.auth = AuthClient(environment=self._environment, token=self._token)
         self.encounters = EncountersClient(environment=self._environment, token=self._token)
         self.expected_network_status = ExpectedNetworkStatusClient(environment=self._environment, token=self._token)
+        self.exports = ExportsClient(environment=self._environment, token=self._token)
         self.guarantor = GuarantorClient(environment=self._environment, token=self._token)
+        self.organization_providers = OrganizationProvidersClient(environment=self._environment, token=self._token)
         self.tasks = TasksClient(environment=self._environment, token=self._token)
         self.billing_notes = BillingNotesClient(environment=self._environment, token=self._token)
         self.payers = PayersClient(environment=self._environment, token=self._token)
@@ -38,7 +42,9 @@ class AsyncCandidApi:
         self.expected_network_status = AsyncExpectedNetworkStatusClient(
             environment=self._environment, token=self._token
         )
+        self.exports = AsyncExportsClient(environment=self._environment, token=self._token)
         self.guarantor = AsyncGuarantorClient(environment=self._environment, token=self._token)
+        self.organization_providers = AsyncOrganizationProvidersClient(environment=self._environment, token=self._token)
         self.tasks = AsyncTasksClient(environment=self._environment, token=self._token)
         self.billing_notes = AsyncBillingNotesClient(environment=self._environment, token=self._token)
         self.payers = AsyncPayersClient(environment=self._environment, token=self._token)

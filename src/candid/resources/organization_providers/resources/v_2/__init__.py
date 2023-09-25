@@ -2,22 +2,18 @@
 
 from .types import (
     AddressType,
-    EmploymentStatus,
     LicenseType,
-    OrganizationProvider,
     OrganizationProviderAddress,
-    OrganizationProviderBase,
     OrganizationProviderId,
+    OrganizationProviderSortOptions,
     ProviderType,
 )
 
 __all__ = [
     "AddressType",
-    "EmploymentStatus",
     "LicenseType",
-    "OrganizationProvider",
     "OrganizationProviderAddress",
-    "OrganizationProviderBase",
     "OrganizationProviderId",
+    "OrganizationProviderSortOptions",
     "ProviderType",
 ]

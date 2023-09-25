@@ -46,17 +46,13 @@ from .types.billable_status_type import BillableStatusType
 from .types.cash_pay_payer_error_message import CashPayPayerErrorMessage
 from .types.clinical_note_category_create import ClinicalNoteCategoryCreate
 from .types.encounter import Encounter
-from .types.encounter_attachment import EncounterAttachment
 from .types.encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
 from .types.encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
 from .types.encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .types.encounter_page import EncounterPage
 from .types.encounter_sort_options import EncounterSortOptions
-from .types.generate_clinical_notes_pdf_response import GenerateClinicalNotesPdfResponse
 from .types.intervention import Intervention
-from .types.mark_as_not_billable_response import MarkAsNotBillableResponse
 from .types.medication import Medication
-from .types.network_status_computation_results import NetworkStatusComputationResults
 from .types.patient_history_category import PatientHistoryCategory
 from .types.prior_authorization_number import PriorAuthorizationNumber
 from .types.responsible_party_type import ResponsiblePartyType
@@ -352,80 +348,6 @@ class V4Client:
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get_attachments(self, encounter_id: EncounterId) -> typing.List[EncounterAttachment]:
-        _response = httpx.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/attachments"),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
-            timeout=60,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.List[EncounterAttachment], _response_json)  # type: ignore
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    def generate_clinical_notes_pdf(self, encounter_id: EncounterId) -> GenerateClinicalNotesPdfResponse:
-        _response = httpx.request(
-            "POST",
-            urllib.parse.urljoin(
-                f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/clinical-notes-pdf/generate"
-            ),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
-            timeout=60,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(GenerateClinicalNotesPdfResponse, _response_json)  # type: ignore
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    def recompute_network_status_results(self, encounter_id: EncounterId) -> NetworkStatusComputationResults:
-        _response = httpx.request(
-            "PUT",
-            urllib.parse.urljoin(
-                f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/network-status-results"
-            ),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
-            timeout=60,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(NetworkStatusComputationResults, _response_json)  # type: ignore
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    def mark_as_not_billable(self, encounter_id: EncounterId) -> MarkAsNotBillableResponse:
-        _response = httpx.request(
-            "PUT",
-            urllib.parse.urljoin(
-                f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/mark-as-not-billable"
-            ),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
-            timeout=60,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(MarkAsNotBillableResponse, _response_json)  # type: ignore
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
 
 class AsyncV4Client:
     def __init__(
@@ -714,82 +636,4 @@ class AsyncV4Client:
                 raise HttpRequestValidationsError(
                     pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    async def get_attachments(self, encounter_id: EncounterId) -> typing.List[EncounterAttachment]:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "GET",
-                urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/attachments"),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.List[EncounterAttachment], _response_json)  # type: ignore
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    async def generate_clinical_notes_pdf(self, encounter_id: EncounterId) -> GenerateClinicalNotesPdfResponse:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "POST",
-                urllib.parse.urljoin(
-                    f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/clinical-notes-pdf/generate"
-                ),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(GenerateClinicalNotesPdfResponse, _response_json)  # type: ignore
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    async def recompute_network_status_results(self, encounter_id: EncounterId) -> NetworkStatusComputationResults:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "PUT",
-                urllib.parse.urljoin(
-                    f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/network-status-results"
-                ),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(NetworkStatusComputationResults, _response_json)  # type: ignore
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    async def mark_as_not_billable(self, encounter_id: EncounterId) -> MarkAsNotBillableResponse:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "PUT",
-                urllib.parse.urljoin(
-                    f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}/mark-as-not-billable"
-                ),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(MarkAsNotBillableResponse, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
