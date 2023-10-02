@@ -5,6 +5,7 @@ import typing
 from .environment import CandidApiEnvironment
 from .resources.auth.client import AsyncAuthClient, AuthClient
 from .resources.billing_notes.client import AsyncBillingNotesClient, BillingNotesClient
+from .resources.eligibility.client import AsyncEligibilityClient, EligibilityClient
 from .resources.encounters.client import AsyncEncountersClient, EncountersClient
 from .resources.expected_network_status.client import AsyncExpectedNetworkStatusClient, ExpectedNetworkStatusClient
 from .resources.exports.client import AsyncExportsClient, ExportsClient
@@ -21,6 +22,7 @@ class CandidApi:
         self._environment = environment
         self._token = token
         self.auth = AuthClient(environment=self._environment, token=self._token)
+        self.eligibility = EligibilityClient(environment=self._environment, token=self._token)
         self.encounters = EncountersClient(environment=self._environment, token=self._token)
         self.expected_network_status = ExpectedNetworkStatusClient(environment=self._environment, token=self._token)
         self.exports = ExportsClient(environment=self._environment, token=self._token)
@@ -38,6 +40,7 @@ class AsyncCandidApi:
         self._environment = environment
         self._token = token
         self.auth = AsyncAuthClient(environment=self._environment, token=self._token)
+        self.eligibility = AsyncEligibilityClient(environment=self._environment, token=self._token)
         self.encounters = AsyncEncountersClient(environment=self._environment, token=self._token)
         self.expected_network_status = AsyncExpectedNetworkStatusClient(
             environment=self._environment, token=self._token

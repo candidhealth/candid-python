@@ -11,6 +11,7 @@ from .encounter_id import EncounterId
 from .entity_not_found_error_message import EntityNotFoundErrorMessage
 from .error_message import ErrorMessage
 from .facility_type_code import FacilityTypeCode
+from .http_service_unavailable_error_message import HttpServiceUnavailableErrorMessage
 from .insurance_type_code import InsuranceTypeCode
 from .link_url import LinkUrl
 from .npi import Npi
@@ -51,6 +52,7 @@ __all__ = [
     "EntityNotFoundErrorMessage",
     "ErrorMessage",
     "FacilityTypeCode",
+    "HttpServiceUnavailableErrorMessage",
     "InsuranceTypeCode",
     "LinkUrl",
     "Npi",
