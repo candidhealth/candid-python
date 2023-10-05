@@ -3,7 +3,7 @@ import typing
 from pydantic import BaseModel, root_validator
 
 from candid import CandidApiEnvironment
-from candid.client import CandidApi
+from candid.client import CandidApi, AsyncCandidApi
 from candid.resources.auth.client import AuthClient, AsyncAuthClient
 from candid.resources.auth.resources.v_2 import AuthGetTokenRequest
 from candid.resources.billing_notes.client import BillingNotesClient, AsyncBillingNotesClient
@@ -40,25 +40,21 @@ class CandidApiClient:
     def __init__(
         self, *, options: CandidApiClientOptions, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION
     ):
-        self._environment = environment
-        self._token = get_token_for_options(options, environment)
-        self.auth = AuthClient(environment=self._environment, token=self._token)
-        self.encounters = EncountersClient(environment=self._environment, token=self._token)
-        self.billing_notes = BillingNotesClient(environment=self._environment, token=self._token)
-        self.expected_network_status = ExpectedNetworkStatusClient(environment=self._environment, token=self._token)
-        self.payers = PayersClient(environment=self._environment, token=self._token)
+        candid = CandidApi(token=get_token_for_options(options, environment), environment=environment)
+        self.auth = candid.auth
+        self.encounters = candid.encounters
+        self.billing_notes = candid.billing_notes
+        self.expected_network_status = candid.expected_network_status
+        self.payers = candid.payers
 
 
 class AsyncCandidApiClient:
     def __init__(
         self, *, options: CandidApiClientOptions, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION
     ):
-        self._environment = environment
-        self._token = get_token_for_options(options, environment)
-        self.auth = AsyncAuthClient(environment=self._environment, token=self._token)
-        self.encounters = AsyncEncountersClient(environment=self._environment, token=self._token)
-        self.billing_notes = AsyncBillingNotesClient(environment=self._environment, token=self._token)
-        self.expected_network_status = AsyncExpectedNetworkStatusClient(
-            environment=self._environment, token=self._token
-        )
-        self.payers = AsyncPayersClient(environment=self._environment, token=self._token)
+        candid = AsyncCandidApi(token=get_token_for_options(options, environment), environment=environment)
+        self.auth = candid.auth
+        self.encounters = candid.encounters
+        self.billing_notes = candid.billing_notes
+        self.expected_network_status = candid.expected_network_status
+        self.payers = candid.payers

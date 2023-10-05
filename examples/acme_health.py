@@ -10,13 +10,13 @@ from candid import (
     DiagnosisCreate,
     DiagnosisTypeCode,
     FacilityTypeCode,
-    ServiceLineCreate,
     ServiceLineUnits,
     Decimal,
 )
 from candid.candid_api_client import CandidApiClient, CandidApiClientOptions
 from candid.resources.encounter_providers.resources.v_2 import BillingProvider, RenderingProvider
 from candid.resources.encounters.resources.v_4 import BillableStatusType, ResponsiblePartyType
+from candid.resources.service_lines.resources.v_2 import ServiceLineCreate
 
 
 def client_options() -> CandidApiClientOptions:
