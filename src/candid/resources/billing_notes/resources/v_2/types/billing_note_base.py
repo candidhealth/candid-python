@@ -6,12 +6,10 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .task_action_execution_method import TaskActionExecutionMethod
 
 
-class TaskAction(pydantic.BaseModel):
-    display_name: str
-    execution_method: TaskActionExecutionMethod
+class BillingNoteBase(pydantic.BaseModel):
+    text: str = pydantic.Field(description="Empty string not allowed.")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -23,4 +21,5 @@ class TaskAction(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

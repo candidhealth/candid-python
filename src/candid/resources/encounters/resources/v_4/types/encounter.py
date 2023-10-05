@@ -6,7 +6,7 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....billing_notes.types.billing_note import BillingNote
+from .....billing_notes.resources.v_2.types.billing_note import BillingNote
 from .....claims.types.claim import Claim
 from .....commons.types.encounter_id import EncounterId
 from .....commons.types.facility_type_code import FacilityTypeCode
@@ -38,7 +38,7 @@ class Encounter(EncounterBase):
     service_facility: EncounterServiceFacility
     subscriber_primary: typing.Optional[Subscriber]
     subscriber_secondary: typing.Optional[Subscriber]
-    url: LinkUrl = pydantic.Field(description=("URL that links directly to the claim created in Candid\n"))
+    url: LinkUrl = pydantic.Field(description="URL that links directly to the claim created in Candid")
     diagnoses: typing.List[Diagnosis]
     clinical_notes: typing.List[ClinicalNoteCategory]
     billing_notes: typing.Optional[typing.List[BillingNote]] = pydantic.Field(
@@ -55,9 +55,7 @@ class Encounter(EncounterBase):
     work_queue_id: typing.Optional[WorkQueueId]
     work_queue_membership_activated_at: typing.Optional[dt.datetime]
     owner_of_next_action: EncounterOwnerOfNextActionType = pydantic.Field(
-        description=(
-            "The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.\n"
-        )
+        description="The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks."
     )
 
     def json(self, **kwargs: typing.Any) -> str:
@@ -70,5 +68,6 @@ class Encounter(EncounterBase):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

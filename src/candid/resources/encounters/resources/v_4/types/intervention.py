@@ -17,8 +17,8 @@ class Intervention(pydantic.BaseModel):
     description: typing.Optional[str] = pydantic.Field(
         description=("\"Examples: 'Birth Control LAC', 'Tracking', 'Stress Management', 'Supplement', 'Labs'\"\n")
     )
-    medication: typing.Optional[Medication] = pydantic.Field(description=("Required when `type` is `allopathic`\n"))
-    labs: typing.Optional[typing.List[Lab]] = pydantic.Field(description=("Required when `type` is `tests`\n"))
+    medication: typing.Optional[Medication] = pydantic.Field(description="Required when `type` is `allopathic`")
+    labs: typing.Optional[typing.List[Lab]] = pydantic.Field(description="Required when `type` is `tests`")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -30,4 +30,5 @@ class Intervention(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

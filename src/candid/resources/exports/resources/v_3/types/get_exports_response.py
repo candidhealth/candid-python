@@ -10,14 +10,14 @@ from ......core.datetime_utils import serialize_datetime
 
 class GetExportsResponse(pydantic.BaseModel):
     name: str = pydantic.Field(
-        description=("Report name; contains date strings representing the start and end date of the export.\n")
+        description="Report name; contains date strings representing the start and end date of the export."
     )
     created_at: dt.datetime
     authenticated_download_url: str = pydantic.Field(
-        description=("Authenticated URL where a customer's report can be retrieved.\n")
+        description="Authenticated URL where a customer's report can be retrieved."
     )
     authenticated_download_url_expiration: dt.datetime = pydantic.Field(
-        description=("Expiration datetime of the authenticated URL. URLs expire after 2 minutes.\n")
+        description="Expiration datetime of the authenticated URL. URLs expire after 2 minutes."
     )
 
     def json(self, **kwargs: typing.Any) -> str:
@@ -30,4 +30,5 @@ class GetExportsResponse(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

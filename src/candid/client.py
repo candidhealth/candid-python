@@ -2,6 +2,9 @@
 
 import typing
 
+import httpx
+
+from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .environment import CandidApiEnvironment
 from .resources.auth.client import AsyncAuthClient, AuthClient
 from .resources.billing_notes.client import AsyncBillingNotesClient, BillingNotesClient
@@ -12,42 +15,62 @@ from .resources.exports.client import AsyncExportsClient, ExportsClient
 from .resources.guarantor.client import AsyncGuarantorClient, GuarantorClient
 from .resources.organization_providers.client import AsyncOrganizationProvidersClient, OrganizationProvidersClient
 from .resources.payers.client import AsyncPayersClient, PayersClient
-from .resources.tasks.client import AsyncTasksClient, TasksClient
 
 
 class CandidApi:
     def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
+        self,
+        *,
+        base_url: typing.Optional[str] = None,
+        environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION,
+        token: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = None,
+        timeout: typing.Optional[float] = 60
     ):
-        self._environment = environment
-        self._token = token
-        self.auth = AuthClient(environment=self._environment, token=self._token)
-        self.eligibility = EligibilityClient(environment=self._environment, token=self._token)
-        self.encounters = EncountersClient(environment=self._environment, token=self._token)
-        self.expected_network_status = ExpectedNetworkStatusClient(environment=self._environment, token=self._token)
-        self.exports = ExportsClient(environment=self._environment, token=self._token)
-        self.guarantor = GuarantorClient(environment=self._environment, token=self._token)
-        self.organization_providers = OrganizationProvidersClient(environment=self._environment, token=self._token)
-        self.tasks = TasksClient(environment=self._environment, token=self._token)
-        self.billing_notes = BillingNotesClient(environment=self._environment, token=self._token)
-        self.payers = PayersClient(environment=self._environment, token=self._token)
+        self._client_wrapper = SyncClientWrapper(
+            base_url=_get_base_url(base_url=base_url, environment=environment),
+            token=token,
+            httpx_client=httpx.Client(timeout=timeout),
+        )
+        self.auth = AuthClient(client_wrapper=self._client_wrapper)
+        self.billing_notes = BillingNotesClient(client_wrapper=self._client_wrapper)
+        self.eligibility = EligibilityClient(client_wrapper=self._client_wrapper)
+        self.encounters = EncountersClient(client_wrapper=self._client_wrapper)
+        self.expected_network_status = ExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
+        self.exports = ExportsClient(client_wrapper=self._client_wrapper)
+        self.guarantor = GuarantorClient(client_wrapper=self._client_wrapper)
+        self.organization_providers = OrganizationProvidersClient(client_wrapper=self._client_wrapper)
+        self.payers = PayersClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncCandidApi:
     def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
+        self,
+        *,
+        base_url: typing.Optional[str] = None,
+        environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION,
+        token: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = None,
+        timeout: typing.Optional[float] = 60
     ):
-        self._environment = environment
-        self._token = token
-        self.auth = AsyncAuthClient(environment=self._environment, token=self._token)
-        self.eligibility = AsyncEligibilityClient(environment=self._environment, token=self._token)
-        self.encounters = AsyncEncountersClient(environment=self._environment, token=self._token)
-        self.expected_network_status = AsyncExpectedNetworkStatusClient(
-            environment=self._environment, token=self._token
+        self._client_wrapper = AsyncClientWrapper(
+            base_url=_get_base_url(base_url=base_url, environment=environment),
+            token=token,
+            httpx_client=httpx.AsyncClient(timeout=timeout),
         )
-        self.exports = AsyncExportsClient(environment=self._environment, token=self._token)
-        self.guarantor = AsyncGuarantorClient(environment=self._environment, token=self._token)
-        self.organization_providers = AsyncOrganizationProvidersClient(environment=self._environment, token=self._token)
-        self.tasks = AsyncTasksClient(environment=self._environment, token=self._token)
-        self.billing_notes = AsyncBillingNotesClient(environment=self._environment, token=self._token)
-        self.payers = AsyncPayersClient(environment=self._environment, token=self._token)
+        self.auth = AsyncAuthClient(client_wrapper=self._client_wrapper)
+        self.billing_notes = AsyncBillingNotesClient(client_wrapper=self._client_wrapper)
+        self.eligibility = AsyncEligibilityClient(client_wrapper=self._client_wrapper)
+        self.encounters = AsyncEncountersClient(client_wrapper=self._client_wrapper)
+        self.expected_network_status = AsyncExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
+        self.exports = AsyncExportsClient(client_wrapper=self._client_wrapper)
+        self.guarantor = AsyncGuarantorClient(client_wrapper=self._client_wrapper)
+        self.organization_providers = AsyncOrganizationProvidersClient(client_wrapper=self._client_wrapper)
+        self.payers = AsyncPayersClient(client_wrapper=self._client_wrapper)
+
+
+def _get_base_url(*, base_url: typing.Optional[str] = None, environment: CandidApiEnvironment) -> str:
+    if base_url is not None:
+        return base_url
+    elif environment is not None:
+        return environment.value
+    else:
+        raise Exception("Please pass in either base_url or environment to construct the client")

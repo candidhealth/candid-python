@@ -43,7 +43,7 @@ class EncounterBase(pydantic.BaseModel):
         )
     )
     prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = pydantic.Field(
-        description=("Box 23 on the CMS-1500 claim form.\n")
+        description="Box 23 on the CMS-1500 claim form."
     )
     patient_authorized_release: bool = pydantic.Field(
         description=(
@@ -103,4 +103,5 @@ class EncounterBase(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

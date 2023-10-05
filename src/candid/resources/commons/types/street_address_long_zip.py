@@ -11,7 +11,7 @@ from .street_address_base import StreetAddressBase
 
 class StreetAddressLongZip(StreetAddressBase):
     zip_plus_four_code: str = pydantic.Field(
-        description=("4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4\n")
+        description="4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4"
     )
 
     def json(self, **kwargs: typing.Any) -> str:
@@ -24,5 +24,6 @@ class StreetAddressLongZip(StreetAddressBase):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

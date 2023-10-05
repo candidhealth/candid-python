@@ -15,22 +15,20 @@ from ...v_2.types.provider_type import ProviderType
 
 class OrganizationProviderUpdateV2(pydantic.BaseModel):
     npi: typing.Optional[str] = pydantic.Field(
-        description=("The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.\n")
+        description="The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long."
     )
     is_rendering: typing.Optional[bool] = pydantic.Field(
-        description=("Whether the provider can be used to render services.\n")
+        description="Whether the provider can be used to render services."
     )
-    is_billing: typing.Optional[bool] = pydantic.Field(
-        description=("Whether the provider can be used to bill services.\n")
-    )
+    is_billing: typing.Optional[bool] = pydantic.Field(description="Whether the provider can be used to bill services.")
     first_name: typing.Optional[str] = pydantic.Field(
-        description=("The first name of the provider, if the provider is an individual.\n")
+        description="The first name of the provider, if the provider is an individual."
     )
     last_name: typing.Optional[str] = pydantic.Field(
-        description=("The last name of the provider, if the provider is an individual.\n")
+        description="The last name of the provider, if the provider is an individual."
     )
     organization_name: typing.Optional[str] = pydantic.Field(
-        description=("The name of the provider, if the provider is an organization.\n")
+        description="The name of the provider, if the provider is an organization."
     )
     provider_type: typing.Optional[ProviderType] = pydantic.Field(
         description=("Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.\n")
@@ -41,22 +39,22 @@ class OrganizationProviderUpdateV2(pydantic.BaseModel):
         )
     )
     taxonomy_code: typing.Optional[str] = pydantic.Field(
-        description=("A code designating classification and specialization.\n")
+        description="A code designating classification and specialization."
     )
     license_type: typing.Optional[LicenseType] = pydantic.Field(
-        description=("The type of license that the provider holds.\n")
+        description="The type of license that the provider holds."
     )
     addresses: typing.Optional[typing.List[OrganizationProviderAddress]] = pydantic.Field(
-        description=("The addresses associated with this provider.\n")
+        description="The addresses associated with this provider."
     )
     employment_start_date: typing.Optional[Date] = pydantic.Field(
-        description=("The employment start date for the provider.\n")
+        description="The employment start date for the provider."
     )
     employment_termination_date: typing.Optional[Date] = pydantic.Field(
-        description=("The employment termination date for the provider.\n")
+        description="The employment termination date for the provider."
     )
     qualifications: typing.Optional[typing.List[UpdatableIdentifier]] = pydantic.Field(
-        description=("Provider's qualifications (medicare provider number, medicaid provider number, etc.)\n")
+        description="Provider's qualifications (medicare provider number, medicaid provider number, etc.)"
     )
 
     def json(self, **kwargs: typing.Any) -> str:
@@ -69,4 +67,5 @@ class OrganizationProviderUpdateV2(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

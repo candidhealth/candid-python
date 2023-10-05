@@ -11,8 +11,8 @@ from .address_type import AddressType
 
 
 class OrganizationProviderAddress(pydantic.BaseModel):
-    address: StreetAddressLongZip = pydantic.Field(description=("The address of the provider\n"))
-    address_type: AddressType = pydantic.Field(description=("The address type of the provider\n"))
+    address: StreetAddressLongZip = pydantic.Field(description="The address of the provider")
+    address_type: AddressType = pydantic.Field(description="The address type of the provider")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -24,4 +24,5 @@ class OrganizationProviderAddress(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

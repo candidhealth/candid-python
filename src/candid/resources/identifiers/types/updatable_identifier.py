@@ -17,6 +17,7 @@ class UpdatableIdentifier_Add(IdentifierCreate):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 
@@ -25,6 +26,7 @@ class UpdatableIdentifier_Update(IdentifierUpdate):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 
@@ -34,6 +36,7 @@ class UpdatableIdentifier_Remove(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
 
 
 UpdatableIdentifier = typing.Union[UpdatableIdentifier_Add, UpdatableIdentifier_Update, UpdatableIdentifier_Remove]

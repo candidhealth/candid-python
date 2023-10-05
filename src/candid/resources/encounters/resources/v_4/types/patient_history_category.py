@@ -12,7 +12,7 @@ from .patient_history_category_enum import PatientHistoryCategoryEnum
 
 class PatientHistoryCategory(pydantic.BaseModel):
     category: PatientHistoryCategoryEnum
-    questions: typing.List[IntakeQuestion] = pydantic.Field(description=("Must contain at least one item.\n"))
+    questions: typing.List[IntakeQuestion] = pydantic.Field(description="Must contain at least one item.")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -24,4 +24,5 @@ class PatientHistoryCategory(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

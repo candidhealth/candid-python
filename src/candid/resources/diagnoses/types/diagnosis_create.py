@@ -10,7 +10,7 @@ from .diagnosis_type_code import DiagnosisTypeCode
 
 
 class DiagnosisCreate(pydantic.BaseModel):
-    name: typing.Optional[str] = pydantic.Field(description=("Empty string not allowed.\n"))
+    name: typing.Optional[str] = pydantic.Field(description="Empty string not allowed.")
     code_type: DiagnosisTypeCode = pydantic.Field(
         description=(
             "Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.\n"
@@ -39,4 +39,5 @@ class DiagnosisCreate(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

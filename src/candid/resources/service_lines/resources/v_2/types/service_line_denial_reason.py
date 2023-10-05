@@ -15,7 +15,7 @@ class ServiceLineDenialReason(pydantic.BaseModel):
     A service line may be denied for different reasons over time, but only one reason at a time.
     """
 
-    reason: typing.Optional[DenialReasonContent] = pydantic.Field(description=("Text of the denial reason\n"))
+    reason: typing.Optional[DenialReasonContent] = pydantic.Field(description="Text of the denial reason")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -27,4 +27,5 @@ class ServiceLineDenialReason(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

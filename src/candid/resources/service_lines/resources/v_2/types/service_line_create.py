@@ -32,7 +32,7 @@ class ServiceLineCreate(pydantic.BaseModel):
         )
     )
     diagnosis_pointers: typing.List[int] = pydantic.Field(
-        description=("Indices (zero-indexed) of all the diagnoses this service line references\n")
+        description="Indices (zero-indexed) of all the diagnoses this service line references"
     )
     drug_identification: typing.Optional[DrugIdentification]
     place_of_service_code: typing.Optional[FacilityTypeCode]
@@ -47,4 +47,5 @@ class ServiceLineCreate(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}

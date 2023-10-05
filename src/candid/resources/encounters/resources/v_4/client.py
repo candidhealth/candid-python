@@ -5,15 +5,14 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import httpx
 import pydantic
 
 from .....core.api_error import ApiError
+from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.datetime_utils import serialize_datetime
 from .....core.jsonable_encoder import jsonable_encoder
-from .....core.remove_none_from_headers import remove_none_from_headers
-from .....environment import CandidApiEnvironment
-from ....billing_notes.types.billing_note_base import BillingNoteBase
+from .....core.remove_none_from_dict import remove_none_from_dict
+from ....billing_notes.resources.v_2.types.billing_note_base import BillingNoteBase
 from ....claims.types.claim_status import ClaimStatus
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
@@ -64,11 +63,8 @@ OMIT = typing.cast(typing.Any, ...)
 
 
 class V4Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: SyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     def get_all(
         self,
@@ -89,31 +85,65 @@ class V4Client:
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
     ) -> EncounterPage:
-        _response = httpx.request(
+        """
+        Parameters:
+            - limit: typing.Optional[int]. Defaults to 100
+
+            - claim_status: typing.Optional[ClaimStatus].
+
+            - sort: typing.Optional[EncounterSortOptions]. Defaults to created_at:desc
+
+            - page_token: typing.Optional[PageToken].
+
+            - date_of_service_min: typing.Optional[Date].
+
+            - date_of_service_max: typing.Optional[Date].
+
+            - primary_payer_names: typing.Optional[str]. Comma delimited string
+
+            - search_term: typing.Optional[str]. Filter by any of the following fields: encounter_id, claim_id, patient external_id,
+                                                 patient date of birth, patient first name, patient last name,
+                                                 or encounter external id.
+
+            - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists
+
+            - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z
+
+            - tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]].
+
+            - work_queue_id: typing.Optional[WorkQueueId].
+
+            - billable_status: typing.Optional[BillableStatusType].
+
+            - responsible_party: typing.Optional[ResponsiblePartyType].
+
+            - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType].
+        """
+        _response = self._client_wrapper.httpx_client.request(
             "GET",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v4"),
-            params={
-                "limit": limit,
-                "claim_status": claim_status,
-                "sort": sort,
-                "page_token": page_token,
-                "date_of_service_min": date_of_service_min,
-                "date_of_service_max": date_of_service_max,
-                "primary_payer_names": primary_payer_names,
-                "search_term": search_term,
-                "external_id": external_id,
-                "diagnoses_updated_since": serialize_datetime(diagnoses_updated_since)
-                if diagnoses_updated_since is not None
-                else None,
-                "tag_ids": tag_ids,
-                "work_queue_id": work_queue_id,
-                "billable_status": billable_status,
-                "responsible_party": responsible_party,
-                "owner_of_next_action": owner_of_next_action,
-            },
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
+            params=remove_none_from_dict(
+                {
+                    "limit": limit,
+                    "claim_status": claim_status,
+                    "sort": sort,
+                    "page_token": page_token,
+                    "date_of_service_min": date_of_service_min,
+                    "date_of_service_max": date_of_service_max,
+                    "primary_payer_names": primary_payer_names,
+                    "search_term": search_term,
+                    "external_id": external_id,
+                    "diagnoses_updated_since": serialize_datetime(diagnoses_updated_since)
+                    if diagnoses_updated_since is not None
+                    else None,
+                    "tag_ids": tag_ids,
+                    "work_queue_id": work_queue_id,
+                    "billable_status": billable_status,
+                    "responsible_party": responsible_party,
+                    "owner_of_next_action": owner_of_next_action,
+                }
             ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -125,12 +155,14 @@ class V4Client:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get(self, encounter_id: EncounterId) -> Encounter:
-        _response = httpx.request(
+        """
+        Parameters:
+            - encounter_id: EncounterId.
+        """
+        _response = self._client_wrapper.httpx_client.request(
             "GET",
-            urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -174,6 +206,99 @@ class V4Client:
         billable_status: BillableStatusType,
         responsible_party: ResponsiblePartyType,
     ) -> Encounter:
+        """
+        Parameters:
+            - patient: PatientCreate.
+
+            - billing_provider: BillingProvider.
+
+            - rendering_provider: RenderingProvider.
+
+            - referring_provider: typing.Optional[ReferringProvider]. The provider who referred the services that were rendered.
+                                                                      All physicians who order services or refer Medicare beneficiaries must
+                                                                      report this data.
+                                                                      If a claim involves multiple referring physicians, create a separate
+                                                                      encounter for each physician.
+
+            - service_facility: typing.Optional[EncounterServiceFacilityBase].
+
+            - subscriber_primary: typing.Optional[SubscriberCreate]. Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).
+                                                                     These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
+                                                                     However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
+                                                                     Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims
+
+            - subscriber_secondary: typing.Optional[SubscriberCreate]. Please always include this when you have it, even for self-pay claims
+
+            - diagnoses: typing.List[DiagnosisCreate]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+                                                       may be submitted at this time, and coders will later prioritize the 12 that will be
+                                                       submitted to the payor.
+
+            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]].
+
+            - billing_notes: typing.Optional[typing.List[BillingNoteBase]]. Spot to store misc, human-readable, notes about this encounter to be used
+                                                                            in the billing process.
+
+            - place_of_service_code: FacilityTypeCode.
+
+            - patient_histories: typing.Optional[typing.List[PatientHistoryCategory]].
+
+            - service_lines: typing.Optional[typing.List[ServiceLineCreate]]. Each service line must be linked to a diagnosis. Concretely,
+                                                                              `service_line.diagnosis_pointers`must contain at least one entry which should be
+                                                                              in bounds of the diagnoses list field
+
+            - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
+
+            - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
+                                                for example, your internal encounter ID or a Dr. Chrono encounter ID.
+                                                This field should not contain PHI.
+
+            - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+                                     This date must be the local date in the timezone where the service occurred.
+                                     Box 24a on the CMS-1500 claim form.
+                                     If service occurred over a range of dates, this should be the start date.
+
+            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+                                                          This date must be the local date in the timezone where the service occurred.
+                                                          If omitted, the Encounter is assumed to be for a single day.
+                                                          Must not be temporally before the date_of_service field.
+
+            - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
+
+            - patient_authorized_release: bool. Whether this patient has authorized the release of medical information
+                                                for billing purpose.
+                                                Box 12 on the CMS-1500 claim form.
+
+            - benefits_assigned_to_provider: bool. Whether this patient has authorized insurance payments to be made to you,
+                                                   not them. If false, patient may receive reimbursement.
+                                                   Box 13 on the CMS-1500 claim form.
+
+            - provider_accepts_assignment: bool. Whether you have accepted the patient's authorization for insurance payments
+                                                 to be made to you, not them.
+                                                 Box 27 on the CMS-1500 claim form.
+
+            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches")
+
+            - existing_medications: typing.Optional[typing.List[Medication]].
+
+            - vitals: typing.Optional[Vitals].
+
+            - interventions: typing.Optional[typing.List[Intervention]].
+
+            - pay_to_address: typing.Optional[StreetAddressLongZip].
+
+            - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter.
+                                                                 Asynchronous encounters occur when providers and patients communicate online using
+                                                                 forms, instant messaging, or other pre-recorded digital mediums.
+                                                                 Synchronous encounters occur in live, real-time settings where the patient interacts
+                                                                 directly with the provider, such as over video or a phone call.
+
+            - billable_status: BillableStatusType. Defines if the Encounter is to be billed by Candid to the responsible_party.
+                                                   Examples for when this should be set to NOT_BILLABLE include
+                                                   if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+
+            - responsible_party: ResponsiblePartyType. Defines the party to be billed with the initial balance owed on the claim.
+
+        """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
             "billing_provider": billing_provider,
@@ -222,13 +347,11 @@ class V4Client:
             _request["pay_to_address"] = pay_to_address
         if synchronicity is not OMIT:
             _request["synchronicity"] = synchronicity
-        _response = httpx.request(
+        _response = self._client_wrapper.httpx_client.request(
             "POST",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v4"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -281,6 +404,49 @@ class V4Client:
         end_date_of_service: typing.Optional[Date] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
     ) -> Encounter:
+        """
+        Parameters:
+            - encounter_id: EncounterId.
+
+            - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
+
+            - external_id: typing.Optional[EncounterExternalId]. A client-specified unique ID to associate with this encounter;
+                                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
+                                                                 This field should not contain PHI.
+
+            - date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+                                                      This date must be the local date in the timezone where the service occurred.
+                                                      Box 24a on the CMS-1500 claim form.
+                                                      If service occurred over a range of dates, this should be the start date.
+
+            - diagnosis_ids: typing.Optional[typing.List[DiagnosisId]]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+                                                                        may be submitted at this time, and coders will later prioritize the 12 that will be
+                                                                        submitted to the payor.
+
+            - tag_ids: typing.Optional[typing.List[TagId]].
+
+            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]].
+
+            - pay_to_address: typing.Optional[StreetAddressLongZip].
+
+            - billable_status: typing.Optional[BillableStatusType].
+
+            - responsible_party: typing.Optional[ResponsiblePartyType].
+
+            - provider_accepts_assignment: typing.Optional[bool].
+
+            - benefits_assigned_to_provider: typing.Optional[bool].
+
+            - synchronicity: typing.Optional[SynchronicityType].
+
+            - place_of_service_code: typing.Optional[FacilityTypeCode].
+
+            - appointment_type: typing.Optional[str].
+
+            - end_date_of_service: typing.Optional[Date].
+
+            - subscriber_secondary: typing.Optional[SubscriberCreate].
+        """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
             _request["prior_authorization_number"] = prior_authorization_number
@@ -314,13 +480,11 @@ class V4Client:
             _request["end_date_of_service"] = end_date_of_service
         if subscriber_secondary is not OMIT:
             _request["subscriber_secondary"] = subscriber_secondary
-        _response = httpx.request(
+        _response = self._client_wrapper.httpx_client.request(
             "PATCH",
-            urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -350,11 +514,8 @@ class V4Client:
 
 
 class AsyncV4Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: AsyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     async def get_all(
         self,
@@ -375,11 +536,45 @@ class AsyncV4Client:
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
     ) -> EncounterPage:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "GET",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v4"),
-                params={
+        """
+        Parameters:
+            - limit: typing.Optional[int]. Defaults to 100
+
+            - claim_status: typing.Optional[ClaimStatus].
+
+            - sort: typing.Optional[EncounterSortOptions]. Defaults to created_at:desc
+
+            - page_token: typing.Optional[PageToken].
+
+            - date_of_service_min: typing.Optional[Date].
+
+            - date_of_service_max: typing.Optional[Date].
+
+            - primary_payer_names: typing.Optional[str]. Comma delimited string
+
+            - search_term: typing.Optional[str]. Filter by any of the following fields: encounter_id, claim_id, patient external_id,
+                                                 patient date of birth, patient first name, patient last name,
+                                                 or encounter external id.
+
+            - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists
+
+            - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z
+
+            - tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]].
+
+            - work_queue_id: typing.Optional[WorkQueueId].
+
+            - billable_status: typing.Optional[BillableStatusType].
+
+            - responsible_party: typing.Optional[ResponsiblePartyType].
+
+            - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType].
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
+            params=remove_none_from_dict(
+                {
                     "limit": limit,
                     "claim_status": claim_status,
                     "sort": sort,
@@ -397,12 +592,11 @@ class AsyncV4Client:
                     "billable_status": billable_status,
                     "responsible_party": responsible_party,
                     "owner_of_next_action": owner_of_next_action,
-                },
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+                }
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -412,15 +606,16 @@ class AsyncV4Client:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get(self, encounter_id: EncounterId) -> Encounter:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "GET",
-                urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        """
+        Parameters:
+            - encounter_id: EncounterId.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -462,6 +657,99 @@ class AsyncV4Client:
         billable_status: BillableStatusType,
         responsible_party: ResponsiblePartyType,
     ) -> Encounter:
+        """
+        Parameters:
+            - patient: PatientCreate.
+
+            - billing_provider: BillingProvider.
+
+            - rendering_provider: RenderingProvider.
+
+            - referring_provider: typing.Optional[ReferringProvider]. The provider who referred the services that were rendered.
+                                                                      All physicians who order services or refer Medicare beneficiaries must
+                                                                      report this data.
+                                                                      If a claim involves multiple referring physicians, create a separate
+                                                                      encounter for each physician.
+
+            - service_facility: typing.Optional[EncounterServiceFacilityBase].
+
+            - subscriber_primary: typing.Optional[SubscriberCreate]. Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).
+                                                                     These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
+                                                                     However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
+                                                                     Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims
+
+            - subscriber_secondary: typing.Optional[SubscriberCreate]. Please always include this when you have it, even for self-pay claims
+
+            - diagnoses: typing.List[DiagnosisCreate]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+                                                       may be submitted at this time, and coders will later prioritize the 12 that will be
+                                                       submitted to the payor.
+
+            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]].
+
+            - billing_notes: typing.Optional[typing.List[BillingNoteBase]]. Spot to store misc, human-readable, notes about this encounter to be used
+                                                                            in the billing process.
+
+            - place_of_service_code: FacilityTypeCode.
+
+            - patient_histories: typing.Optional[typing.List[PatientHistoryCategory]].
+
+            - service_lines: typing.Optional[typing.List[ServiceLineCreate]]. Each service line must be linked to a diagnosis. Concretely,
+                                                                              `service_line.diagnosis_pointers`must contain at least one entry which should be
+                                                                              in bounds of the diagnoses list field
+
+            - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
+
+            - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
+                                                for example, your internal encounter ID or a Dr. Chrono encounter ID.
+                                                This field should not contain PHI.
+
+            - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+                                     This date must be the local date in the timezone where the service occurred.
+                                     Box 24a on the CMS-1500 claim form.
+                                     If service occurred over a range of dates, this should be the start date.
+
+            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+                                                          This date must be the local date in the timezone where the service occurred.
+                                                          If omitted, the Encounter is assumed to be for a single day.
+                                                          Must not be temporally before the date_of_service field.
+
+            - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
+
+            - patient_authorized_release: bool. Whether this patient has authorized the release of medical information
+                                                for billing purpose.
+                                                Box 12 on the CMS-1500 claim form.
+
+            - benefits_assigned_to_provider: bool. Whether this patient has authorized insurance payments to be made to you,
+                                                   not them. If false, patient may receive reimbursement.
+                                                   Box 13 on the CMS-1500 claim form.
+
+            - provider_accepts_assignment: bool. Whether you have accepted the patient's authorization for insurance payments
+                                                 to be made to you, not them.
+                                                 Box 27 on the CMS-1500 claim form.
+
+            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches")
+
+            - existing_medications: typing.Optional[typing.List[Medication]].
+
+            - vitals: typing.Optional[Vitals].
+
+            - interventions: typing.Optional[typing.List[Intervention]].
+
+            - pay_to_address: typing.Optional[StreetAddressLongZip].
+
+            - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter.
+                                                                 Asynchronous encounters occur when providers and patients communicate online using
+                                                                 forms, instant messaging, or other pre-recorded digital mediums.
+                                                                 Synchronous encounters occur in live, real-time settings where the patient interacts
+                                                                 directly with the provider, such as over video or a phone call.
+
+            - billable_status: BillableStatusType. Defines if the Encounter is to be billed by Candid to the responsible_party.
+                                                   Examples for when this should be set to NOT_BILLABLE include
+                                                   if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+
+            - responsible_party: ResponsiblePartyType. Defines the party to be billed with the initial balance owed on the claim.
+
+        """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
             "billing_provider": billing_provider,
@@ -510,16 +798,13 @@ class AsyncV4Client:
             _request["pay_to_address"] = pay_to_address
         if synchronicity is not OMIT:
             _request["synchronicity"] = synchronicity
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "POST",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/encounters/v4"),
-                json=jsonable_encoder(_request),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        _response = await self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
+            json=jsonable_encoder(_request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -570,6 +855,49 @@ class AsyncV4Client:
         end_date_of_service: typing.Optional[Date] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
     ) -> Encounter:
+        """
+        Parameters:
+            - encounter_id: EncounterId.
+
+            - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
+
+            - external_id: typing.Optional[EncounterExternalId]. A client-specified unique ID to associate with this encounter;
+                                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
+                                                                 This field should not contain PHI.
+
+            - date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+                                                      This date must be the local date in the timezone where the service occurred.
+                                                      Box 24a on the CMS-1500 claim form.
+                                                      If service occurred over a range of dates, this should be the start date.
+
+            - diagnosis_ids: typing.Optional[typing.List[DiagnosisId]]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+                                                                        may be submitted at this time, and coders will later prioritize the 12 that will be
+                                                                        submitted to the payor.
+
+            - tag_ids: typing.Optional[typing.List[TagId]].
+
+            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]].
+
+            - pay_to_address: typing.Optional[StreetAddressLongZip].
+
+            - billable_status: typing.Optional[BillableStatusType].
+
+            - responsible_party: typing.Optional[ResponsiblePartyType].
+
+            - provider_accepts_assignment: typing.Optional[bool].
+
+            - benefits_assigned_to_provider: typing.Optional[bool].
+
+            - synchronicity: typing.Optional[SynchronicityType].
+
+            - place_of_service_code: typing.Optional[FacilityTypeCode].
+
+            - appointment_type: typing.Optional[str].
+
+            - end_date_of_service: typing.Optional[Date].
+
+            - subscriber_secondary: typing.Optional[SubscriberCreate].
+        """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
             _request["prior_authorization_number"] = prior_authorization_number
@@ -603,16 +931,13 @@ class AsyncV4Client:
             _request["end_date_of_service"] = end_date_of_service
         if subscriber_secondary is not OMIT:
             _request["subscriber_secondary"] = subscriber_secondary
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "PATCH",
-                urllib.parse.urljoin(f"{self._environment.value}/", f"api/encounters/v4/{encounter_id}"),
-                json=jsonable_encoder(_request),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        _response = await self._client_wrapper.httpx_client.request(
+            "PATCH",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
+            json=jsonable_encoder(_request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:

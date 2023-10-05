@@ -15,6 +15,7 @@ class IdentifierValue_MedicareProviderIdentifier(MedicareProviderIdentifier):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 
@@ -23,6 +24,7 @@ class IdentifierValue_MedicaidProviderIdentifier(MedicaidProviderIdentifier):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 

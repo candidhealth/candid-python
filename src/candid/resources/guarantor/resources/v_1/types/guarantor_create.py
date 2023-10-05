@@ -13,9 +13,9 @@ from .guarantor_base import GuarantorBase
 
 class GuarantorCreate(GuarantorBase):
     phone_numbers: typing.Optional[typing.List[PhoneNumber]]
-    phone_consent: typing.Optional[bool] = pydantic.Field(description=("Defaults to false\n"))
+    phone_consent: typing.Optional[bool] = pydantic.Field(description="Defaults to false")
     email: typing.Optional[Email]
-    email_consent: typing.Optional[bool] = pydantic.Field(description=("Defaults to false\n"))
+    email_consent: typing.Optional[bool] = pydantic.Field(description="Defaults to false")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -27,5 +27,6 @@ class GuarantorCreate(GuarantorBase):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

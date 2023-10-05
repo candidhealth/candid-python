@@ -5,8 +5,8 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from ...commons.types.encounter_id import EncounterId
+from ......core.datetime_utils import serialize_datetime
+from .....commons.types.encounter_id import EncounterId
 from .billing_note_base import BillingNoteBase
 from .billing_note_id import BillingNoteId
 
@@ -28,5 +28,6 @@ class BillingNote(BillingNoteBase):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

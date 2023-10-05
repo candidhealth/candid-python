@@ -15,6 +15,7 @@ class RemovableDateRangeOptionalEnd_DateRange(DateRangeOptionalEnd):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
 
 
@@ -23,6 +24,7 @@ class RemovableDateRangeOptionalEnd_Remove(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
 
 
 RemovableDateRangeOptionalEnd = typing.Union[

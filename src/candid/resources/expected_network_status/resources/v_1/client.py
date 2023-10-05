@@ -4,13 +4,11 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import httpx
 import pydantic
 
 from .....core.api_error import ApiError
+from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
-from .....core.remove_none_from_headers import remove_none_from_headers
-from .....environment import CandidApiEnvironment
 from ....commons.types.date import Date
 from ....commons.types.insurance_type_code import InsuranceTypeCode
 from ....commons.types.state import State
@@ -21,11 +19,8 @@ OMIT = typing.cast(typing.Any, ...)
 
 
 class V1Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: SyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     def compute(
         self,
@@ -41,6 +36,28 @@ class V1Client:
         contracted_state: State,
         date_of_service: Date,
     ) -> ExpectedNetworkStatusResponse:
+        """
+        Parameters:
+            - external_patient_id: typing.Optional[str].
+
+            - subscriber_payer_id: str.
+
+            - subscriber_payer_name: str.
+
+            - subscriber_insurance_type: typing.Optional[InsuranceTypeCode].
+
+            - subscriber_plan_name: typing.Optional[str].
+
+            - billing_provider_npi: str.
+
+            - billing_provider_tin: str.
+
+            - rendering_provider_npi: str.
+
+            - contracted_state: State.
+
+            - date_of_service: Date.
+        """
         _request: typing.Dict[str, typing.Any] = {
             "subscriber_payer_id": subscriber_payer_id,
             "subscriber_payer_name": subscriber_payer_name,
@@ -56,13 +73,11 @@ class V1Client:
             _request["subscriber_insurance_type"] = subscriber_insurance_type
         if subscriber_plan_name is not OMIT:
             _request["subscriber_plan_name"] = subscriber_plan_name
-        _response = httpx.request(
+        _response = self._client_wrapper.httpx_client.request(
             "POST",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/expected-network-status/v1"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/expected-network-status/v1"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -75,11 +90,8 @@ class V1Client:
 
 
 class AsyncV1Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: AsyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     async def compute(
         self,
@@ -95,6 +107,28 @@ class AsyncV1Client:
         contracted_state: State,
         date_of_service: Date,
     ) -> ExpectedNetworkStatusResponse:
+        """
+        Parameters:
+            - external_patient_id: typing.Optional[str].
+
+            - subscriber_payer_id: str.
+
+            - subscriber_payer_name: str.
+
+            - subscriber_insurance_type: typing.Optional[InsuranceTypeCode].
+
+            - subscriber_plan_name: typing.Optional[str].
+
+            - billing_provider_npi: str.
+
+            - billing_provider_tin: str.
+
+            - rendering_provider_npi: str.
+
+            - contracted_state: State.
+
+            - date_of_service: Date.
+        """
         _request: typing.Dict[str, typing.Any] = {
             "subscriber_payer_id": subscriber_payer_id,
             "subscriber_payer_name": subscriber_payer_name,
@@ -110,16 +144,13 @@ class AsyncV1Client:
             _request["subscriber_insurance_type"] = subscriber_insurance_type
         if subscriber_plan_name is not OMIT:
             _request["subscriber_plan_name"] = subscriber_plan_name
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "POST",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/expected-network-status/v1"),
-                json=jsonable_encoder(_request),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        _response = await self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/expected-network-status/v1"),
+            json=jsonable_encoder(_request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:

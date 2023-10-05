@@ -4,34 +4,46 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import httpx
 import pydantic
 
 from .....core.api_error import ApiError
+from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
-from .....core.remove_none_from_headers import remove_none_from_headers
-from .....environment import CandidApiEnvironment
 from .errors.too_many_requests_error import TooManyRequestsError
 from .types.auth_get_token_request import AuthGetTokenRequest
 from .types.auth_get_token_response import AuthGetTokenResponse
 from .types.too_many_requests_error_type import TooManyRequestsErrorType
 
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
+
 
 class V2Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: SyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     def get_token(self, *, request: AuthGetTokenRequest) -> AuthGetTokenResponse:
-        _response = httpx.request(
+        """
+        Authenticating with the Candid Health API.
+
+        Candid Health utilizes the [OAuth 2.0 bearer token authentication scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) in our auth flow. You obtain the bearer token for all
+        subsequent API requests via the `/auth/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`. Your `client_id` and `client_secret` are provided to you during the Candid onboarding process.
+
+        The bearer token should be provided in the `Authorization` header for all subsequent API calls.
+
+        **Warning:**
+
+        The bearer token expires 5 hours after it has been created. After it has expired, the client will receive an "HTTP 401
+        Unauthorized" error, at which point the client should generate a new token. It is important that tokens be reused between requests; if the client attempts to generate a token too often, it will be rate-limited and will receive an "HTTP 429 Too Many Requests" error.
+
+        Parameters:
+            - request: AuthGetTokenRequest.
+        """
+        _response = self._client_wrapper.httpx_client.request(
             "POST",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/auth/v2/token"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/auth/v2/token"),
             json=jsonable_encoder(request),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -49,23 +61,33 @@ class V2Client:
 
 
 class AsyncV2Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: AsyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     async def get_token(self, *, request: AuthGetTokenRequest) -> AuthGetTokenResponse:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "POST",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/auth/v2/token"),
-                json=jsonable_encoder(request),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        """
+        Authenticating with the Candid Health API.
+
+        Candid Health utilizes the [OAuth 2.0 bearer token authentication scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) in our auth flow. You obtain the bearer token for all
+        subsequent API requests via the `/auth/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`. Your `client_id` and `client_secret` are provided to you during the Candid onboarding process.
+
+        The bearer token should be provided in the `Authorization` header for all subsequent API calls.
+
+        **Warning:**
+
+        The bearer token expires 5 hours after it has been created. After it has expired, the client will receive an "HTTP 401
+        Unauthorized" error, at which point the client should generate a new token. It is important that tokens be reused between requests; if the client attempts to generate a token too often, it will be rate-limited and will receive an "HTTP 429 Too Many Requests" error.
+
+        Parameters:
+            - request: AuthGetTokenRequest.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/auth/v2/token"),
+            json=jsonable_encoder(request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:

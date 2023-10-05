@@ -5,13 +5,11 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import httpx
 import pydantic
 
 from .....core.api_error import ApiError
+from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
-from .....core.remove_none_from_headers import remove_none_from_headers
-from .....environment import CandidApiEnvironment
 from ....commons.types.email import Email
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.phone_number import PhoneNumber
@@ -27,20 +25,21 @@ OMIT = typing.cast(typing.Any, ...)
 
 
 class V1Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: SyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     def create(self, encounter_id: EncounterId, *, request: GuarantorCreate) -> Guarantor:
-        _response = httpx.request(
+        """
+        Parameters:
+            - encounter_id: EncounterId.
+
+            - request: GuarantorCreate.
+        """
+        _response = self._client_wrapper.httpx_client.request(
             "POST",
-            urllib.parse.urljoin(f"{self._environment.value}/", f"api/guarantors/v1/{encounter_id}"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{encounter_id}"),
             json=jsonable_encoder(request),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -57,12 +56,14 @@ class V1Client:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get(self, guarantor_id: GuarantorId) -> Guarantor:
-        _response = httpx.request(
+        """
+        Parameters:
+            - guarantor_id: GuarantorId.
+        """
+        _response = self._client_wrapper.httpx_client.request(
             "GET",
-            urllib.parse.urljoin(f"{self._environment.value}/", f"api/guarantors/v1/{guarantor_id}"),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{guarantor_id}"),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -87,6 +88,28 @@ class V1Client:
         email: typing.Optional[Email] = OMIT,
         email_consent: typing.Optional[bool] = OMIT,
     ) -> Guarantor:
+        """
+        Parameters:
+            - guarantor_id: GuarantorId.
+
+            - first_name: typing.Optional[str].
+
+            - last_name: typing.Optional[str].
+
+            - external_id: typing.Optional[str].
+
+            - date_of_birth: typing.Optional[dt.date].
+
+            - address: typing.Optional[StreetAddressShortZip].
+
+            - phone_numbers: typing.Optional[typing.List[PhoneNumber]].
+
+            - phone_consent: typing.Optional[bool].
+
+            - email: typing.Optional[Email].
+
+            - email_consent: typing.Optional[bool].
+        """
         _request: typing.Dict[str, typing.Any] = {}
         if first_name is not OMIT:
             _request["first_name"] = first_name
@@ -106,13 +129,11 @@ class V1Client:
             _request["email"] = email
         if email_consent is not OMIT:
             _request["email_consent"] = email_consent
-        _response = httpx.request(
+        _response = self._client_wrapper.httpx_client.request(
             "PATCH",
-            urllib.parse.urljoin(f"{self._environment.value}/", f"api/guarantors/v1/{guarantor_id}"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{guarantor_id}"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -125,23 +146,23 @@ class V1Client:
 
 
 class AsyncV1Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: AsyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     async def create(self, encounter_id: EncounterId, *, request: GuarantorCreate) -> Guarantor:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "POST",
-                urllib.parse.urljoin(f"{self._environment.value}/", f"api/guarantors/v1/{encounter_id}"),
-                json=jsonable_encoder(request),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        """
+        Parameters:
+            - encounter_id: EncounterId.
+
+            - request: GuarantorCreate.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{encounter_id}"),
+            json=jsonable_encoder(request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -156,15 +177,16 @@ class AsyncV1Client:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get(self, guarantor_id: GuarantorId) -> Guarantor:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "GET",
-                urllib.parse.urljoin(f"{self._environment.value}/", f"api/guarantors/v1/{guarantor_id}"),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        """
+        Parameters:
+            - guarantor_id: GuarantorId.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{guarantor_id}"),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -187,6 +209,28 @@ class AsyncV1Client:
         email: typing.Optional[Email] = OMIT,
         email_consent: typing.Optional[bool] = OMIT,
     ) -> Guarantor:
+        """
+        Parameters:
+            - guarantor_id: GuarantorId.
+
+            - first_name: typing.Optional[str].
+
+            - last_name: typing.Optional[str].
+
+            - external_id: typing.Optional[str].
+
+            - date_of_birth: typing.Optional[dt.date].
+
+            - address: typing.Optional[StreetAddressShortZip].
+
+            - phone_numbers: typing.Optional[typing.List[PhoneNumber]].
+
+            - phone_consent: typing.Optional[bool].
+
+            - email: typing.Optional[Email].
+
+            - email_consent: typing.Optional[bool].
+        """
         _request: typing.Dict[str, typing.Any] = {}
         if first_name is not OMIT:
             _request["first_name"] = first_name
@@ -206,16 +250,13 @@ class AsyncV1Client:
             _request["email"] = email
         if email_consent is not OMIT:
             _request["email_consent"] = email_consent
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "PATCH",
-                urllib.parse.urljoin(f"{self._environment.value}/", f"api/guarantors/v1/{guarantor_id}"),
-                json=jsonable_encoder(_request),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        _response = await self._client_wrapper.httpx_client.request(
+            "PATCH",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{guarantor_id}"),
+            json=jsonable_encoder(_request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:

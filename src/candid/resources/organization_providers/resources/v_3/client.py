@@ -4,13 +4,12 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import httpx
 import pydantic
 
 from .....core.api_error import ApiError
+from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
-from .....core.remove_none_from_headers import remove_none_from_headers
-from .....environment import CandidApiEnvironment
+from .....core.remove_none_from_dict import remove_none_from_dict
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
@@ -23,23 +22,25 @@ from .types.organization_provider_page_v_2 import OrganizationProviderPageV2
 from .types.organization_provider_update_v_2 import OrganizationProviderUpdateV2
 from .types.organization_provider_v_2 import OrganizationProviderV2
 
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
+
 
 class V3Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: SyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     def get(self, organization_provider_id: OrganizationProviderId) -> OrganizationProviderV2:
-        _response = httpx.request(
+        """
+        Parameters:
+            - organization_provider_id: OrganizationProviderId.
+        """
+        _response = self._client_wrapper.httpx_client.request(
             "GET",
             urllib.parse.urljoin(
-                f"{self._environment.value}/", f"api/organization-providers/v3/{organization_provider_id}"
+                f"{self._client_wrapper.get_base_url()}/", f"api/organization-providers/v3/{organization_provider_id}"
             ),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -66,21 +67,37 @@ class V3Client:
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
     ) -> OrganizationProviderPageV2:
-        _response = httpx.request(
+        """
+        Parameters:
+            - limit: typing.Optional[int]. Limit the number of results returned. Defaults to 100.
+
+            - search_term: typing.Optional[str]. Filter to a name or a part of a name
+
+            - npi: typing.Optional[str]. Filter to a specific NPI
+
+            - is_rendering: typing.Optional[bool]. Filter to only rendering providers
+
+            - is_billing: typing.Optional[bool]. Filter to only billing providers
+
+            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request
+
+            - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC
+        """
+        _response = self._client_wrapper.httpx_client.request(
             "GET",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/organization-providers/v3"),
-            params={
-                "limit": limit,
-                "search_term": search_term,
-                "npi": npi,
-                "is_rendering": is_rendering,
-                "is_billing": is_billing,
-                "page_token": page_token,
-                "sort": sort,
-            },
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
+            params=remove_none_from_dict(
+                {
+                    "limit": limit,
+                    "search_term": search_term,
+                    "npi": npi,
+                    "is_rendering": is_rendering,
+                    "is_billing": is_billing,
+                    "page_token": page_token,
+                    "sort": sort,
+                }
             ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -92,13 +109,15 @@ class V3Client:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def create(self, *, request: OrganizationProviderCreateV2) -> OrganizationProviderV2:
-        _response = httpx.request(
+        """
+        Parameters:
+            - request: OrganizationProviderCreateV2.
+        """
+        _response = self._client_wrapper.httpx_client.request(
             "POST",
-            urllib.parse.urljoin(f"{self._environment.value}/", "api/organization-providers/v3"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
             json=jsonable_encoder(request),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -117,15 +136,19 @@ class V3Client:
     def update(
         self, organization_provider_id: OrganizationProviderId, *, request: OrganizationProviderUpdateV2
     ) -> OrganizationProviderV2:
-        _response = httpx.request(
+        """
+        Parameters:
+            - organization_provider_id: OrganizationProviderId.
+
+            - request: OrganizationProviderUpdateV2.
+        """
+        _response = self._client_wrapper.httpx_client.request(
             "PATCH",
             urllib.parse.urljoin(
-                f"{self._environment.value}/", f"api/organization-providers/v3/{organization_provider_id}"
+                f"{self._client_wrapper.get_base_url()}/", f"api/organization-providers/v3/{organization_provider_id}"
             ),
             json=jsonable_encoder(request),
-            headers=remove_none_from_headers(
-                {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-            ),
+            headers=self._client_wrapper.get_headers(),
             timeout=60,
         )
         try:
@@ -147,24 +170,22 @@ class V3Client:
 
 
 class AsyncV3Client:
-    def __init__(
-        self, *, environment: CandidApiEnvironment = CandidApiEnvironment.PRODUCTION, token: typing.Optional[str] = None
-    ):
-        self._environment = environment
-        self._token = token
+    def __init__(self, *, client_wrapper: AsyncClientWrapper):
+        self._client_wrapper = client_wrapper
 
     async def get(self, organization_provider_id: OrganizationProviderId) -> OrganizationProviderV2:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "GET",
-                urllib.parse.urljoin(
-                    f"{self._environment.value}/", f"api/organization-providers/v3/{organization_provider_id}"
-                ),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        """
+        Parameters:
+            - organization_provider_id: OrganizationProviderId.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/organization-providers/v3/{organization_provider_id}"
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -189,11 +210,27 @@ class AsyncV3Client:
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
     ) -> OrganizationProviderPageV2:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "GET",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/organization-providers/v3"),
-                params={
+        """
+        Parameters:
+            - limit: typing.Optional[int]. Limit the number of results returned. Defaults to 100.
+
+            - search_term: typing.Optional[str]. Filter to a name or a part of a name
+
+            - npi: typing.Optional[str]. Filter to a specific NPI
+
+            - is_rendering: typing.Optional[bool]. Filter to only rendering providers
+
+            - is_billing: typing.Optional[bool]. Filter to only billing providers
+
+            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request
+
+            - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
+            params=remove_none_from_dict(
+                {
                     "limit": limit,
                     "search_term": search_term,
                     "npi": npi,
@@ -201,12 +238,11 @@ class AsyncV3Client:
                     "is_billing": is_billing,
                     "page_token": page_token,
                     "sort": sort,
-                },
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+                }
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -216,16 +252,17 @@ class AsyncV3Client:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def create(self, *, request: OrganizationProviderCreateV2) -> OrganizationProviderV2:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "POST",
-                urllib.parse.urljoin(f"{self._environment.value}/", "api/organization-providers/v3"),
-                json=jsonable_encoder(request),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        """
+        Parameters:
+            - request: OrganizationProviderCreateV2.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
+            json=jsonable_encoder(request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -242,18 +279,21 @@ class AsyncV3Client:
     async def update(
         self, organization_provider_id: OrganizationProviderId, *, request: OrganizationProviderUpdateV2
     ) -> OrganizationProviderV2:
-        async with httpx.AsyncClient() as _client:
-            _response = await _client.request(
-                "PATCH",
-                urllib.parse.urljoin(
-                    f"{self._environment.value}/", f"api/organization-providers/v3/{organization_provider_id}"
-                ),
-                json=jsonable_encoder(request),
-                headers=remove_none_from_headers(
-                    {"Authorization": f"Bearer {self._token}" if self._token is not None else None}
-                ),
-                timeout=60,
-            )
+        """
+        Parameters:
+            - organization_provider_id: OrganizationProviderId.
+
+            - request: OrganizationProviderUpdateV2.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "PATCH",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/organization-providers/v3/{organization_provider_id}"
+            ),
+            json=jsonable_encoder(request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
         try:
             _response_json = _response.json()
         except JSONDecodeError:

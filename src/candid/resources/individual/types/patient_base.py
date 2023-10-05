@@ -19,11 +19,9 @@ class PatientBase(IndividualBase):
         )
     )
     date_of_birth: Date = pydantic.Field(
-        description=(
-            "Box 3 on the CMS-1500 claim form. The date format should be in ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)\n"
-        )
+        description="Box 3 on the CMS-1500 claim form. The date format should be in ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)"
     )
-    address: StreetAddressShortZip = pydantic.Field(description=("Box 5 on the CMS-1500 claim form.\n"))
+    address: StreetAddressShortZip = pydantic.Field(description="Box 5 on the CMS-1500 claim form.")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -35,5 +33,6 @@ class PatientBase(IndividualBase):
 
     class Config:
         frozen = True
+        smart_union = True
         allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

@@ -11,8 +11,8 @@ from ...commons.types.source_of_payment_code import SourceOfPaymentCode
 
 
 class InsuranceCardBase(pydantic.BaseModel):
-    group_number: typing.Optional[str] = pydantic.Field(description=("Box 11 on the CMS-1500 claim form.\n"))
-    plan_name: typing.Optional[str] = pydantic.Field(description=("Box 11c on the CMS-1500 claim form.\n"))
+    group_number: typing.Optional[str] = pydantic.Field(description="Box 11 on the CMS-1500 claim form.")
+    plan_name: typing.Optional[str] = pydantic.Field(description="Box 11c on the CMS-1500 claim form.")
     plan_type: typing.Optional[SourceOfPaymentCode]
     insurance_type: typing.Optional[InsuranceTypeCode]
 
@@ -26,4 +26,5 @@ class InsuranceCardBase(pydantic.BaseModel):
 
     class Config:
         frozen = True
+        smart_union = True
         json_encoders = {dt.datetime: serialize_datetime}
