@@ -4,5 +4,4 @@ src/candid/candid_api_client.py
 # Top-level files and folders
 README.md
 examples
-poetry.lock
 .idea
