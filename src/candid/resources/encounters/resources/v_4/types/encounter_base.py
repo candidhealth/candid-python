@@ -67,12 +67,14 @@ class EncounterBase(pydantic.BaseModel):
         )
     )
     appointment_type: typing.Optional[str] = pydantic.Field(
-        description=('Human-readable description of the appointment type (ex: "Acupuncture - Headaches")\n')
+        description=('Human-readable description of the appointment type (ex: "Acupuncture - Headaches").\n')
     )
     existing_medications: typing.Optional[typing.List[Medication]]
     vitals: typing.Optional[Vitals]
     interventions: typing.Optional[typing.List[Intervention]]
-    pay_to_address: typing.Optional[StreetAddressLongZip]
+    pay_to_address: typing.Optional[StreetAddressLongZip] = pydantic.Field(
+        description="Specifies the address to which payments for the claim should be sent."
+    )
     synchronicity: typing.Optional[SynchronicityType] = pydantic.Field(
         description=(
             "Whether or not this was a synchronous or asynchronous encounter.\n"

@@ -12,6 +12,7 @@ class State(str, enum.Enum):
     AP = "AP"
     AL = "AL"
     AK = "AK"
+    AS = "AS"
     AZ = "AZ"
     AR = "AR"
     CA = "CA"
@@ -20,7 +21,9 @@ class State(str, enum.Enum):
     DC = "DC"
     DE = "DE"
     FL = "FL"
+    FM = "FM"
     GA = "GA"
+    GU = "GU"
     HI = "HI"
     ID = "ID"
     IL = "IL"
@@ -32,8 +35,10 @@ class State(str, enum.Enum):
     ME = "ME"
     MD = "MD"
     MA = "MA"
+    MH = "MH"
     MI = "MI"
     MN = "MN"
+    MP = "MP"
     MS = "MS"
     MO = "MO"
     MT = "MT"
@@ -50,12 +55,14 @@ class State(str, enum.Enum):
     OR = "OR"
     PA = "PA"
     PR = "PR"
+    PW = "PW"
     RI = "RI"
     SC = "SC"
     SD = "SD"
     TN = "TN"
     TX = "TX"
     UT = "UT"
+    VI = "VI"
     VT = "VT"
     VA = "VA"
     WA = "WA"
@@ -70,6 +77,7 @@ class State(str, enum.Enum):
         ap: typing.Callable[[], T_Result],
         al: typing.Callable[[], T_Result],
         ak: typing.Callable[[], T_Result],
+        as_: typing.Callable[[], T_Result],
         az: typing.Callable[[], T_Result],
         ar: typing.Callable[[], T_Result],
         ca: typing.Callable[[], T_Result],
@@ -78,7 +86,9 @@ class State(str, enum.Enum):
         dc: typing.Callable[[], T_Result],
         de: typing.Callable[[], T_Result],
         fl: typing.Callable[[], T_Result],
+        fm: typing.Callable[[], T_Result],
         ga: typing.Callable[[], T_Result],
+        gu: typing.Callable[[], T_Result],
         hi: typing.Callable[[], T_Result],
         id: typing.Callable[[], T_Result],
         il: typing.Callable[[], T_Result],
@@ -90,8 +100,10 @@ class State(str, enum.Enum):
         me: typing.Callable[[], T_Result],
         md: typing.Callable[[], T_Result],
         ma: typing.Callable[[], T_Result],
+        mh: typing.Callable[[], T_Result],
         mi: typing.Callable[[], T_Result],
         mn: typing.Callable[[], T_Result],
+        mp: typing.Callable[[], T_Result],
         ms: typing.Callable[[], T_Result],
         mo: typing.Callable[[], T_Result],
         mt: typing.Callable[[], T_Result],
@@ -108,12 +120,14 @@ class State(str, enum.Enum):
         or_: typing.Callable[[], T_Result],
         pa: typing.Callable[[], T_Result],
         pr: typing.Callable[[], T_Result],
+        pw: typing.Callable[[], T_Result],
         ri: typing.Callable[[], T_Result],
         sc: typing.Callable[[], T_Result],
         sd: typing.Callable[[], T_Result],
         tn: typing.Callable[[], T_Result],
         tx: typing.Callable[[], T_Result],
         ut: typing.Callable[[], T_Result],
+        vi: typing.Callable[[], T_Result],
         vt: typing.Callable[[], T_Result],
         va: typing.Callable[[], T_Result],
         wa: typing.Callable[[], T_Result],
@@ -131,6 +145,8 @@ class State(str, enum.Enum):
             return al()
         if self is State.AK:
             return ak()
+        if self is State.AS:
+            return as_()
         if self is State.AZ:
             return az()
         if self is State.AR:
@@ -147,8 +163,12 @@ class State(str, enum.Enum):
             return de()
         if self is State.FL:
             return fl()
+        if self is State.FM:
+            return fm()
         if self is State.GA:
             return ga()
+        if self is State.GU:
+            return gu()
         if self is State.HI:
             return hi()
         if self is State.ID:
@@ -171,10 +191,14 @@ class State(str, enum.Enum):
             return md()
         if self is State.MA:
             return ma()
+        if self is State.MH:
+            return mh()
         if self is State.MI:
             return mi()
         if self is State.MN:
             return mn()
+        if self is State.MP:
+            return mp()
         if self is State.MS:
             return ms()
         if self is State.MO:
@@ -207,6 +231,8 @@ class State(str, enum.Enum):
             return pa()
         if self is State.PR:
             return pr()
+        if self is State.PW:
+            return pw()
         if self is State.RI:
             return ri()
         if self is State.SC:
@@ -219,6 +245,8 @@ class State(str, enum.Enum):
             return tx()
         if self is State.UT:
             return ut()
+        if self is State.VI:
+            return vi()
         if self is State.VT:
             return vt()
         if self is State.VA:

@@ -9,8 +9,8 @@ from ......core.datetime_utils import serialize_datetime
 
 
 class AuthGetTokenRequest(pydantic.BaseModel):
-    client_id: str
-    client_secret: str
+    client_id: str = pydantic.Field(description="Your application's Client ID.")
+    client_secret: str = pydantic.Field(description="Your application's Client Secret.")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

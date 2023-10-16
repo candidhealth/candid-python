@@ -49,9 +49,9 @@ class OrganizationProviderV2(pydantic.BaseModel):
     employment_termination_date: typing.Optional[dt.date] = pydantic.Field(
         description="The employment termination date for the provider."
     )
-    organization_provider_id: OrganizationProviderId = pydantic.Field(description="Auto-generated ID set on creation")
+    organization_provider_id: OrganizationProviderId = pydantic.Field(description="Auto-generated ID set on creation.")
     qualifications: typing.List[Identifier] = pydantic.Field(
-        description="Qualification given to a provider (PTAN, Medicaid Provider Id etc.)"
+        description="Qualification given to a provider (PTAN, Medicaid Provider Id etc.)."
     )
 
     def json(self, **kwargs: typing.Any) -> str:

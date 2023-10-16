@@ -14,7 +14,12 @@ from .billing_note_id import BillingNoteId
 class BillingNote(BillingNoteBase):
     billing_note_id: BillingNoteId
     encounter_id: EncounterId
-    created_at: dt.datetime
+    created_at: dt.datetime = pydantic.Field(
+        description=(
+            "An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).\n"
+            "For example, 2017-07-21T17:32:28Z.\n"
+        )
+    )
     author_auth_0_id: typing.Optional[str] = pydantic.Field(alias="author_auth0_id")
     author_name: typing.Optional[str]
 

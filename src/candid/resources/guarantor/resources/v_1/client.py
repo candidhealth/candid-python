@@ -96,9 +96,9 @@ class V1Client:
 
             - last_name: typing.Optional[str].
 
-            - external_id: typing.Optional[str].
+            - external_id: typing.Optional[str]. A unique identifier for the guarantor assigned by an external system.
 
-            - date_of_birth: typing.Optional[dt.date].
+            - date_of_birth: typing.Optional[dt.date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
             - address: typing.Optional[StreetAddressShortZip].
 
@@ -217,9 +217,9 @@ class AsyncV1Client:
 
             - last_name: typing.Optional[str].
 
-            - external_id: typing.Optional[str].
+            - external_id: typing.Optional[str]. A unique identifier for the guarantor assigned by an external system.
 
-            - date_of_birth: typing.Optional[dt.date].
+            - date_of_birth: typing.Optional[dt.date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
             - address: typing.Optional[StreetAddressShortZip].
 

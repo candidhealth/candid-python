@@ -14,55 +14,254 @@ class FacilityTypeCode(str, enum.Enum):
     """
 
     PHARMACY = "01"
+    """
+    Pharmacy
+    """
+
     TELEHEALTH = "02"
+    """
+    Telehealth
+    """
+
     SCHOOL = "03"
+    """
+    School
+    """
+
     HOMELESS_SHELTER = "04"
+    """
+    Homeless Shelter
+    """
+
     INDIAN_HEALTH_SERVICE_FREE_STANDING = "05"
+    """
+    Indian Health Service (Free Standing)
+    """
+
     INDIAN_HEALTH_SERVICE_PROVIDER_BASED = "06"
+    """
+    Indian Health Service (Provider Based)
+    """
+
     TRIBAL_FREE_STANDING = "07"
+    """
+    Tribal Free Standing
+    """
+
     TRIBAL_PROVIDER_BASED = "08"
+    """
+    Tribal Provider Based
+    """
+
     PRISON_OR_CORRECTIONAL_FACILITY = "09"
+    """
+    Prison or Correctional Facility
+    """
+
     TELEHEALTH_PATIENT_HOME = "10"
+    """
+    Telehealth Patient Home
+    """
+
     OFFICE = "11"
+    """
+    Office
+    """
+
     HOME = "12"
+    """
+    Home
+    """
+
     ASSISTED_LIVING_FACILITY = "13"
+    """
+    Assisted Living Facility
+    """
+
     GROUP_HOME = "14"
+    """
+    Group Home
+    """
+
     MOBILE_UNIT = "15"
+    """
+    Mobile Unit
+    """
+
     TEMPORARY_LODGING = "16"
+    """
+    Temporary Lodging
+    """
+
     WALK_IN_RETAIL_HEALTH_CLINIC = "17"
+    """
+    Walk-in Retail Health Clinic
+    """
+
     PLACE_OF_EMPLOYMENT_WORKSITE = "18"
+    """
+    Place of Employment Worksite
+    """
+
     OFF_CAMPUS_OUTPATIENT_HOSPITAL = "19"
+    """
+    Off Campus Outpatient Hospital
+    """
+
     URGENT_CARE_FACILITY = "20"
+    """
+    Urgent Care Facility
+    """
+
     INPATIENT_HOSPITAL = "21"
+    """
+    Inpatient Hospital
+    """
+
     OUTPATIENT_HOSPITAL = "22"
+    """
+    Outpatient Hospital
+    """
+
     EMERGENCY_ROOM_HOSPITAL = "23"
+    """
+    Emergency Room Hospital
+    """
+
     AMBULATORY_SURGICAL_CENTER = "24"
+    """
+    Ambulatory Surgical Center
+    """
+
     BIRTHING_CENTER = "25"
+    """
+    Birthing Center
+    """
+
     MILITARY_TREATMENT_FACILITY = "26"
+    """
+    Military Treatment Facility
+    """
+
     SKILLED_NURSING_FACILITY = "31"
+    """
+    Skilled Nursing Facility
+    """
+
     NURSING_FACILITY = "32"
+    """
+    Nursing Facility
+    """
+
     CUSTODIAL_CARE_FACILITY = "33"
+    """
+    Custodial Care Facility
+    """
+
     HOSPICE = "34"
+    """
+    Hospice
+    """
+
     AMBULANCE_LAND = "41"
+    """
+    Ambulance (Land)
+    """
+
     AMBULANCE_AIR_OR_WATER = "42"
+    """
+    Ambulance (Air or Water)
+    """
+
     INDEPENDENT_CLINIC = "49"
+    """
+    Independent Clinic
+    """
+
     FEDERALLY_QUALIFIED_HEALTH_CENTER = "50"
+    """
+    Federally Qualified Health Center
+    """
+
     INPATIENT_PSYCHIATRIC_FACILITY = "51"
+    """
+    Inpatient Psychiatric Facility
+    """
+
     PSYCHIATRIC_FACILITY_PARTIAL_HOSPITALIZATION = "52"
+    """
+    Psychiatric Facility (Partial Hospitalization)
+    """
+
     COMMUNITY_MENTAL_HEALTH_CENTER = "53"
+    """
+    Community Mental Health Center
+    """
+
     INTERMEDIATE_CARE_FACILITY_MENTALLY_RETARDED = "54"
+    """
+    Intermediate Care Facility/Individuals with Intellectual Disabilities
+    """
+
     RESIDENTIAL_SUBSTANCE_ABUSE_TREATMENT_FACILITY = "55"
+    """
+    Residential Substance Abuse Treatment Facility
+    """
+
     PSYCHIATRIC_RESIDENTIAL_TREATMENT_CENTER = "56"
+    """
+    Psychiatric Residential Treatment Center
+    """
+
     NON_RESIDENTIAL_SUBSTANCE_ABUSE_TREATMENT_FACILITY = "57"
+    """
+    Non-residential Substance Abuse Treatment Facility
+    """
+
     NON_RESIDENTIAL_OPIOID_TREATMENT_FACILITY = "58"
+    """
+    Non-residential Opioid Treatment Facility
+    """
+
     MASS_IMMUNIZATION_CENTER = "60"
+    """
+    Mass Immunization Center
+    """
+
     COMPREHENSIVE_INPATIENT_REHABILITATION_FACILITY = "61"
+    """
+    Comprehensive Inpatient Rehabilitation Facility
+    """
+
     COMPREHENSIVE_OUTPATIENT_REHABILITATION_FACILITY = "62"
+    """
+    Comprehensive Outpatient Rehabilitation Facility
+    """
+
     END_STAGE_RENAL_DISEASE_TREATMENT_FACILITY = "65"
+    """
+    End Stage Renal Disease Treatment Facility
+    """
+
     STATE_OR_LOCAL_PUBLIC_HEALTH_CLINIC = "71"
+    """
+    State or Local Public Health Clinic
+    """
+
     RURAL_HEALTH_CLINIC = "72"
+    """
+    Rural Health Clinic
+    """
+
     INDEPENDENT_LABORATORY = "81"
+    """
+    Independent Laboratory
+    """
+
     OTHER_UNLISTED_FACILITY = "99"
+    """
+    Other Unlisted Facility
+    """
 
     def visit(
         self,

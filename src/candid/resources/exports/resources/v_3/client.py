@@ -37,7 +37,7 @@ class V3Client:
         **SLA guarantees:** Files for a given date are guaranteed to be available after 3 business days. For example, Friday's file will be
         available by Wednesday at the latest. If file generation is still in progress upon request before 3 business days have passed, the
         caller will receive a 422 response. If the file has already been generated, it will be served. Please email
-        support@joincandidhealth.com with any data requests outside of these stated guarantees.
+        our [Support team](mailto:support@joincandidhealth.com) with any data requests outside of these stated guarantees.
 
         Parameters:
             - start_date: dt.date. Beginning date of claim versions returned in the export, ISO 8601 date e.g. 2019-08-24.
@@ -101,7 +101,7 @@ class AsyncV3Client:
         **SLA guarantees:** Files for a given date are guaranteed to be available after 3 business days. For example, Friday's file will be
         available by Wednesday at the latest. If file generation is still in progress upon request before 3 business days have passed, the
         caller will receive a 422 response. If the file has already been generated, it will be served. Please email
-        support@joincandidhealth.com with any data requests outside of these stated guarantees.
+        our [Support team](mailto:support@joincandidhealth.com) with any data requests outside of these stated guarantees.
 
         Parameters:
             - start_date: dt.date. Beginning date of claim versions returned in the export, ISO 8601 date e.g. 2019-08-24.

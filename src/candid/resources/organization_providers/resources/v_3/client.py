@@ -71,17 +71,17 @@ class V3Client:
         Parameters:
             - limit: typing.Optional[int]. Limit the number of results returned. Defaults to 100.
 
-            - search_term: typing.Optional[str]. Filter to a name or a part of a name
+            - search_term: typing.Optional[str]. Filter to a name or a part of a name.
 
-            - npi: typing.Optional[str]. Filter to a specific NPI
+            - npi: typing.Optional[str]. Filter to a specific NPI.
 
-            - is_rendering: typing.Optional[bool]. Filter to only rendering providers
+            - is_rendering: typing.Optional[bool]. Filter to only rendering providers.
 
-            - is_billing: typing.Optional[bool]. Filter to only billing providers
+            - is_billing: typing.Optional[bool]. Filter to only billing providers.
 
-            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request
+            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
 
-            - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC
+            - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC.
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -214,17 +214,17 @@ class AsyncV3Client:
         Parameters:
             - limit: typing.Optional[int]. Limit the number of results returned. Defaults to 100.
 
-            - search_term: typing.Optional[str]. Filter to a name or a part of a name
+            - search_term: typing.Optional[str]. Filter to a name or a part of a name.
 
-            - npi: typing.Optional[str]. Filter to a specific NPI
+            - npi: typing.Optional[str]. Filter to a specific NPI.
 
-            - is_rendering: typing.Optional[bool]. Filter to only rendering providers
+            - is_rendering: typing.Optional[bool]. Filter to only rendering providers.
 
-            - is_billing: typing.Optional[bool]. Filter to only billing providers
+            - is_billing: typing.Optional[bool]. Filter to only billing providers.
 
-            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request
+            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
 
-            - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC
+            - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC.
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",

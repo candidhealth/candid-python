@@ -10,7 +10,7 @@ from ......core.datetime_utils import serialize_datetime
 
 class AuthGetTokenResponse(pydantic.BaseModel):
     access_token: str
-    expires_in: int
+    expires_in: int = pydantic.Field(description="Time in seconds.")
     token_type: str
 
     def json(self, **kwargs: typing.Any) -> str:

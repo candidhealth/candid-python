@@ -8,29 +8,124 @@ T_Result = typing.TypeVar("T_Result")
 
 class PatientRelationshipToInsuredCodeAll(str, enum.Enum):
     SPOUSE = "01"
+    """
+    Spouse
+    """
+
     GRANDPARENT = "04"
+    """
+    Grandparent
+    """
+
     GRANDCHILD = "05"
+    """
+    Grandchild
+    """
+
     NIECE_NEPHEW = "07"
+    """
+    Niece/Nephew
+    """
+
     FOSTER_CHILD = "10"
+    """
+    Foster Child
+    """
+
     WARD_OF_THE_COURT = "15"
+    """
+    Ward of the Court
+    """
+
     STEPCHILD = "17"
+    """
+    Stepchild
+    """
+
     SELF = "18"
+    """
+    Self
+    """
+
     CHILD = "19"
+    """
+    Child
+    """
+
     EMPLOYEE = "20"
+    """
+    Employee
+    """
+
     UNKNOWN = "21"
+    """
+    Unknown
+    """
+
     HANDICAPPED_DEPENDENT = "22"
+    """
+    Handicapped Dependent
+    """
+
     SPONSORED_DEPENDENT = "23"
+    """
+    Sponsored Dependent
+    """
+
     DEPENDENT_OF_MINOR_DEPENDENT = "24"
+    """
+    Dependent of Minor Dependent
+    """
+
     SIGNIFICANT_OTHER = "29"
+    """
+    Significant Other
+    """
+
     MOTHER = "32"
+    """
+    Mother
+    """
+
     FATHER = "33"
+    """
+    Father
+    """
+
     EMANCIPATED_MINOR = "36"
+    """
+    Emancipated Minor
+    """
+
     ORGAN_DONOR = "39"
+    """
+    Organ Donor
+    """
+
     CADAVER_DONOR = "40"
+    """
+    Cadaver Donor
+    """
+
     INJURED_PLAINTIFF = "41"
+    """
+    Injured Plaintiff
+    """
+
     CHILD_NO_FINANCIAL_RESPONSIBILITY = "43"
+    """
+    Child (No Financial Responsibility)
+    """
+
     LIFE_PARTNER = "53"
+    """
+    Life Partner
+    """
+
     OTHER_RELATIONSHIP = "G8"
+    """
+    Other Relationship
+    """
 
     def visit(
         self,

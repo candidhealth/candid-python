@@ -10,9 +10,9 @@ from .payer_uuid import PayerUuid
 
 
 class Payer(pydantic.BaseModel):
-    payer_uuid: PayerUuid = pydantic.Field(description="Auto-generated ID set on creation")
-    payer_id: str = pydantic.Field(description="The primary national payer ID of the payer")
-    payer_name: str = pydantic.Field(description="The primary display name of the payer")
+    payer_uuid: PayerUuid = pydantic.Field(description="Auto-generated ID set on creation.")
+    payer_id: str = pydantic.Field(description="The primary national payer ID of the payer.")
+    payer_name: str = pydantic.Field(description="The primary display name of the payer.")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

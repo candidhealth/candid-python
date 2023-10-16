@@ -87,37 +87,37 @@ class V4Client:
     ) -> EncounterPage:
         """
         Parameters:
-            - limit: typing.Optional[int]. Defaults to 100
+            - limit: typing.Optional[int]. Maximum number of entities per page, defaults to 100.
 
-            - claim_status: typing.Optional[ClaimStatus].
+            - claim_status: typing.Optional[ClaimStatus]. Indicates the current status of an insurance claim within the billing process.
 
-            - sort: typing.Optional[EncounterSortOptions]. Defaults to created_at:desc
+            - sort: typing.Optional[EncounterSortOptions]. Defaults to created_at:desc.
 
             - page_token: typing.Optional[PageToken].
 
-            - date_of_service_min: typing.Optional[Date].
+            - date_of_service_min: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - date_of_service_max: typing.Optional[Date].
+            - date_of_service_max: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - primary_payer_names: typing.Optional[str]. Comma delimited string
+            - primary_payer_names: typing.Optional[str]. Comma delimited string.
 
             - search_term: typing.Optional[str]. Filter by any of the following fields: encounter_id, claim_id, patient external_id,
                                                  patient date of birth, patient first name, patient last name,
                                                  or encounter external id.
 
-            - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists
+            - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists.
 
-            - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z
+            - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
 
-            - tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]].
+            - tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]]. Filter by name of tags on encounters.
 
             - work_queue_id: typing.Optional[WorkQueueId].
 
-            - billable_status: typing.Optional[BillableStatusType].
+            - billable_status: typing.Optional[BillableStatusType]. Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - responsible_party: typing.Optional[ResponsiblePartyType].
+            - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
-            - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType].
+            - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType]. The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -208,11 +208,12 @@ class V4Client:
     ) -> Encounter:
         """
         Parameters:
-            - patient: PatientCreate.
+            - patient: PatientCreate. Contains the identification information of the individual receiving medical services.
 
-            - billing_provider: BillingProvider.
+            - billing_provider: BillingProvider. The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
 
-            - rendering_provider: RenderingProvider.
+            - rendering_provider: RenderingProvider. The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
+                                                     For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
 
             - referring_provider: typing.Optional[ReferringProvider]. The provider who referred the services that were rendered.
                                                                       All physicians who order services or refer Medicare beneficiaries must
@@ -220,31 +221,31 @@ class V4Client:
                                                                       If a claim involves multiple referring physicians, create a separate
                                                                       encounter for each physician.
 
-            - service_facility: typing.Optional[EncounterServiceFacilityBase].
+            - service_facility: typing.Optional[EncounterServiceFacilityBase]. Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
 
             - subscriber_primary: typing.Optional[SubscriberCreate]. Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).
                                                                      These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
                                                                      However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
-                                                                     Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims
+                                                                     Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims.
 
-            - subscriber_secondary: typing.Optional[SubscriberCreate]. Please always include this when you have it, even for self-pay claims
+            - subscriber_secondary: typing.Optional[SubscriberCreate]. Please always include this when you have it, even for self-pay claims.
 
             - diagnoses: typing.List[DiagnosisCreate]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
                                                        may be submitted at this time, and coders will later prioritize the 12 that will be
                                                        submitted to the payor.
 
-            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]].
+            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
             - billing_notes: typing.Optional[typing.List[BillingNoteBase]]. Spot to store misc, human-readable, notes about this encounter to be used
                                                                             in the billing process.
 
-            - place_of_service_code: FacilityTypeCode.
+            - place_of_service_code: FacilityTypeCode. Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
             - patient_histories: typing.Optional[typing.List[PatientHistoryCategory]].
 
             - service_lines: typing.Optional[typing.List[ServiceLineCreate]]. Each service line must be linked to a diagnosis. Concretely,
                                                                               `service_line.diagnosis_pointers`must contain at least one entry which should be
-                                                                              in bounds of the diagnoses list field
+                                                                              in bounds of the diagnoses list field.
 
             - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
 
@@ -276,7 +277,7 @@ class V4Client:
                                                  to be made to you, not them.
                                                  Box 27 on the CMS-1500 claim form.
 
-            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches")
+            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
             - existing_medications: typing.Optional[typing.List[Medication]].
 
@@ -284,7 +285,7 @@ class V4Client:
 
             - interventions: typing.Optional[typing.List[Intervention]].
 
-            - pay_to_address: typing.Optional[StreetAddressLongZip].
+            - pay_to_address: typing.Optional[StreetAddressLongZip]. Specifies the address to which payments for the claim should be sent.
 
             - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter.
                                                                  Asynchronous encounters occur when providers and patients communicate online using
@@ -423,29 +424,32 @@ class V4Client:
                                                                         may be submitted at this time, and coders will later prioritize the 12 that will be
                                                                         submitted to the payor.
 
-            - tag_ids: typing.Optional[typing.List[TagId]].
+            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.
 
-            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]].
+            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
-            - pay_to_address: typing.Optional[StreetAddressLongZip].
+            - pay_to_address: typing.Optional[StreetAddressLongZip]. Specifies the address to which payments for the claim should be sent.
 
-            - billable_status: typing.Optional[BillableStatusType].
+            - billable_status: typing.Optional[BillableStatusType]. Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - responsible_party: typing.Optional[ResponsiblePartyType].
+            - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
-            - provider_accepts_assignment: typing.Optional[bool].
+            - provider_accepts_assignment: typing.Optional[bool]. Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form.
 
-            - benefits_assigned_to_provider: typing.Optional[bool].
+            - benefits_assigned_to_provider: typing.Optional[bool]. Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
 
-            - synchronicity: typing.Optional[SynchronicityType].
+            - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter. Asynchronous encounters occur when providers and patients communicate online using forms, instant messaging, or other pre-recorded digital mediums. Synchronous encounters occur in live, real-time settings where the patient interacts directly with the provider, such as over video or a phone call.
 
-            - place_of_service_code: typing.Optional[FacilityTypeCode].
+            - place_of_service_code: typing.Optional[FacilityTypeCode]. Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
-            - appointment_type: typing.Optional[str].
+            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
-            - end_date_of_service: typing.Optional[Date].
+            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+                                                          This date must be the local date in the timezone where the service occurred.
+                                                          If omitted, the Encounter is assumed to be for a single day.
+                                                          Must not be temporally before the date_of_service field.
 
-            - subscriber_secondary: typing.Optional[SubscriberCreate].
+            - subscriber_secondary: typing.Optional[SubscriberCreate]. Contains details of the secondary insurance subscriber.
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -538,37 +542,37 @@ class AsyncV4Client:
     ) -> EncounterPage:
         """
         Parameters:
-            - limit: typing.Optional[int]. Defaults to 100
+            - limit: typing.Optional[int]. Maximum number of entities per page, defaults to 100.
 
-            - claim_status: typing.Optional[ClaimStatus].
+            - claim_status: typing.Optional[ClaimStatus]. Indicates the current status of an insurance claim within the billing process.
 
-            - sort: typing.Optional[EncounterSortOptions]. Defaults to created_at:desc
+            - sort: typing.Optional[EncounterSortOptions]. Defaults to created_at:desc.
 
             - page_token: typing.Optional[PageToken].
 
-            - date_of_service_min: typing.Optional[Date].
+            - date_of_service_min: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - date_of_service_max: typing.Optional[Date].
+            - date_of_service_max: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - primary_payer_names: typing.Optional[str]. Comma delimited string
+            - primary_payer_names: typing.Optional[str]. Comma delimited string.
 
             - search_term: typing.Optional[str]. Filter by any of the following fields: encounter_id, claim_id, patient external_id,
                                                  patient date of birth, patient first name, patient last name,
                                                  or encounter external id.
 
-            - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists
+            - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists.
 
-            - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z
+            - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
 
-            - tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]].
+            - tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]]. Filter by name of tags on encounters.
 
             - work_queue_id: typing.Optional[WorkQueueId].
 
-            - billable_status: typing.Optional[BillableStatusType].
+            - billable_status: typing.Optional[BillableStatusType]. Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - responsible_party: typing.Optional[ResponsiblePartyType].
+            - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
-            - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType].
+            - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType]. The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
@@ -659,11 +663,12 @@ class AsyncV4Client:
     ) -> Encounter:
         """
         Parameters:
-            - patient: PatientCreate.
+            - patient: PatientCreate. Contains the identification information of the individual receiving medical services.
 
-            - billing_provider: BillingProvider.
+            - billing_provider: BillingProvider. The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
 
-            - rendering_provider: RenderingProvider.
+            - rendering_provider: RenderingProvider. The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
+                                                     For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
 
             - referring_provider: typing.Optional[ReferringProvider]. The provider who referred the services that were rendered.
                                                                       All physicians who order services or refer Medicare beneficiaries must
@@ -671,31 +676,31 @@ class AsyncV4Client:
                                                                       If a claim involves multiple referring physicians, create a separate
                                                                       encounter for each physician.
 
-            - service_facility: typing.Optional[EncounterServiceFacilityBase].
+            - service_facility: typing.Optional[EncounterServiceFacilityBase]. Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
 
             - subscriber_primary: typing.Optional[SubscriberCreate]. Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).
                                                                      These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
                                                                      However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
-                                                                     Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims
+                                                                     Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims.
 
-            - subscriber_secondary: typing.Optional[SubscriberCreate]. Please always include this when you have it, even for self-pay claims
+            - subscriber_secondary: typing.Optional[SubscriberCreate]. Please always include this when you have it, even for self-pay claims.
 
             - diagnoses: typing.List[DiagnosisCreate]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
                                                        may be submitted at this time, and coders will later prioritize the 12 that will be
                                                        submitted to the payor.
 
-            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]].
+            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
             - billing_notes: typing.Optional[typing.List[BillingNoteBase]]. Spot to store misc, human-readable, notes about this encounter to be used
                                                                             in the billing process.
 
-            - place_of_service_code: FacilityTypeCode.
+            - place_of_service_code: FacilityTypeCode. Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
             - patient_histories: typing.Optional[typing.List[PatientHistoryCategory]].
 
             - service_lines: typing.Optional[typing.List[ServiceLineCreate]]. Each service line must be linked to a diagnosis. Concretely,
                                                                               `service_line.diagnosis_pointers`must contain at least one entry which should be
-                                                                              in bounds of the diagnoses list field
+                                                                              in bounds of the diagnoses list field.
 
             - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
 
@@ -727,7 +732,7 @@ class AsyncV4Client:
                                                  to be made to you, not them.
                                                  Box 27 on the CMS-1500 claim form.
 
-            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches")
+            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
             - existing_medications: typing.Optional[typing.List[Medication]].
 
@@ -735,7 +740,7 @@ class AsyncV4Client:
 
             - interventions: typing.Optional[typing.List[Intervention]].
 
-            - pay_to_address: typing.Optional[StreetAddressLongZip].
+            - pay_to_address: typing.Optional[StreetAddressLongZip]. Specifies the address to which payments for the claim should be sent.
 
             - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter.
                                                                  Asynchronous encounters occur when providers and patients communicate online using
@@ -874,29 +879,32 @@ class AsyncV4Client:
                                                                         may be submitted at this time, and coders will later prioritize the 12 that will be
                                                                         submitted to the payor.
 
-            - tag_ids: typing.Optional[typing.List[TagId]].
+            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.
 
-            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]].
+            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
-            - pay_to_address: typing.Optional[StreetAddressLongZip].
+            - pay_to_address: typing.Optional[StreetAddressLongZip]. Specifies the address to which payments for the claim should be sent.
 
-            - billable_status: typing.Optional[BillableStatusType].
+            - billable_status: typing.Optional[BillableStatusType]. Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - responsible_party: typing.Optional[ResponsiblePartyType].
+            - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
-            - provider_accepts_assignment: typing.Optional[bool].
+            - provider_accepts_assignment: typing.Optional[bool]. Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form.
 
-            - benefits_assigned_to_provider: typing.Optional[bool].
+            - benefits_assigned_to_provider: typing.Optional[bool]. Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
 
-            - synchronicity: typing.Optional[SynchronicityType].
+            - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter. Asynchronous encounters occur when providers and patients communicate online using forms, instant messaging, or other pre-recorded digital mediums. Synchronous encounters occur in live, real-time settings where the patient interacts directly with the provider, such as over video or a phone call.
 
-            - place_of_service_code: typing.Optional[FacilityTypeCode].
+            - place_of_service_code: typing.Optional[FacilityTypeCode]. Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
-            - appointment_type: typing.Optional[str].
+            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
-            - end_date_of_service: typing.Optional[Date].
+            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+                                                          This date must be the local date in the timezone where the service occurred.
+                                                          If omitted, the Encounter is assumed to be for a single day.
+                                                          Must not be temporally before the date_of_service field.
 
-            - subscriber_secondary: typing.Optional[SubscriberCreate].
+            - subscriber_secondary: typing.Optional[SubscriberCreate]. Contains details of the secondary insurance subscriber.
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:

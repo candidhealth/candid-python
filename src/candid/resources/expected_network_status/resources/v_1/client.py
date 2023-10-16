@@ -46,17 +46,18 @@ class V1Client:
 
             - subscriber_insurance_type: typing.Optional[InsuranceTypeCode].
 
-            - subscriber_plan_name: typing.Optional[str].
+            - subscriber_plan_name: typing.Optional[str]. The descriptive name of the insurance plan selected by the subscriber, often indicating coverage specifics or tier.
 
-            - billing_provider_npi: str.
+            - billing_provider_npi: str. The National Provider Identifier (NPI) of the healthcare provider responsible for billing. A unique 10-digit identification number.
 
-            - billing_provider_tin: str.
+            - billing_provider_tin: str. Follow the 9-digit format of the Taxpayer Identification Number (TIN).
 
-            - rendering_provider_npi: str.
+            - rendering_provider_npi: str. The National Provider Identifier (NPI) of the healthcare provider who delivered the services. A unique 10-digit identification number.
 
-            - contracted_state: State.
+            - contracted_state: State. The state in which the healthcare provider has a contractual agreement with the insurance payer.
 
-            - date_of_service: Date.
+            - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+
         """
         _request: typing.Dict[str, typing.Any] = {
             "subscriber_payer_id": subscriber_payer_id,
@@ -117,17 +118,18 @@ class AsyncV1Client:
 
             - subscriber_insurance_type: typing.Optional[InsuranceTypeCode].
 
-            - subscriber_plan_name: typing.Optional[str].
+            - subscriber_plan_name: typing.Optional[str]. The descriptive name of the insurance plan selected by the subscriber, often indicating coverage specifics or tier.
 
-            - billing_provider_npi: str.
+            - billing_provider_npi: str. The National Provider Identifier (NPI) of the healthcare provider responsible for billing. A unique 10-digit identification number.
 
-            - billing_provider_tin: str.
+            - billing_provider_tin: str. Follow the 9-digit format of the Taxpayer Identification Number (TIN).
 
-            - rendering_provider_npi: str.
+            - rendering_provider_npi: str. The National Provider Identifier (NPI) of the healthcare provider who delivered the services. A unique 10-digit identification number.
 
-            - contracted_state: State.
+            - contracted_state: State. The state in which the healthcare provider has a contractual agreement with the insurance payer.
 
-            - date_of_service: Date.
+            - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+
         """
         _request: typing.Dict[str, typing.Any] = {
             "subscriber_payer_id": subscriber_payer_id,

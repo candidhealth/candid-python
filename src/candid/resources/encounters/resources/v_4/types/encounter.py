@@ -30,28 +30,70 @@ from .patient_history_category import PatientHistoryCategory
 class Encounter(EncounterBase):
     encounter_id: EncounterId
     claims: typing.List[Claim]
-    patient: Patient
-    guarantor: typing.Optional[Guarantor]
-    billing_provider: EncounterProvider
-    rendering_provider: EncounterProvider
+    patient: Patient = pydantic.Field(
+        description=("Contains the identification information of the individual receiving medical services.\n")
+    )
+    guarantor: typing.Optional[Guarantor] = pydantic.Field(
+        description="Personal and contact info for the guarantor of the patient responsibility."
+    )
+    billing_provider: EncounterProvider = pydantic.Field(
+        description=(
+            "The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.\n"
+        )
+    )
+    rendering_provider: EncounterProvider = pydantic.Field(
+        description=(
+            "The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.\n"
+            "For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.\n"
+        )
+    )
     referring_provider: typing.Optional[EncounterProvider]
-    service_facility: EncounterServiceFacility
-    subscriber_primary: typing.Optional[Subscriber]
-    subscriber_secondary: typing.Optional[Subscriber]
-    url: LinkUrl = pydantic.Field(description="URL that links directly to the claim created in Candid")
-    diagnoses: typing.List[Diagnosis]
-    clinical_notes: typing.List[ClinicalNoteCategory]
+    service_facility: EncounterServiceFacility = pydantic.Field(
+        description=(
+            "Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.\n"
+        )
+    )
+    subscriber_primary: typing.Optional[Subscriber] = pydantic.Field(
+        description=(
+            "Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).\n"
+            "These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).\n"
+            "However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.\n"
+            "Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims.\n"
+        )
+    )
+    subscriber_secondary: typing.Optional[Subscriber] = pydantic.Field(
+        description="Contains details of the secondary insurance subscriber."
+    )
+    url: LinkUrl = pydantic.Field(description="URL that links directly to the claim created in Candid.")
+    diagnoses: typing.List[Diagnosis] = pydantic.Field(
+        description=(
+            "Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses may be submitted at this time, and coders will later prioritize the 12 that will be submitted to the payor.\n"
+        )
+    )
+    clinical_notes: typing.List[ClinicalNoteCategory] = pydantic.Field(
+        description="Holds a collection of clinical observations made by healthcare providers during patient encounters."
+    )
     billing_notes: typing.Optional[typing.List[BillingNote]] = pydantic.Field(
         description=(
             "Spot to store misc, human-readable, notes about this encounter to be\n" "used in the billing process.\n"
         )
     )
-    place_of_service_code: typing.Optional[FacilityTypeCode]
-    place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode]
+    place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(
+        description=(
+            "Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).\n"
+        )
+    )
+    place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = pydantic.Field(
+        description=(
+            "Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).\n"
+        )
+    )
     patient_histories: typing.List[PatientHistoryCategory]
     patient_payments: typing.List[PatientPayment]
     tags: typing.List[Tag]
-    coding_attribution: typing.Optional[CodingAttributionType]
+    coding_attribution: typing.Optional[CodingAttributionType] = pydantic.Field(
+        description="The entity that performed the coding of medical services for the claim."
+    )
     work_queue_id: typing.Optional[WorkQueueId]
     work_queue_membership_activated_at: typing.Optional[dt.datetime]
     owner_of_next_action: EncounterOwnerOfNextActionType = pydantic.Field(

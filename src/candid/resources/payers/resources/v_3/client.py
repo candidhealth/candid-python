@@ -47,7 +47,7 @@ class V3Client:
     ) -> PayerPage:
         """
         Parameters:
-            - limit: typing.Optional[int]. Defaults to 100
+            - limit: typing.Optional[int]. Maximum number of entities per page, defaults to 100.
 
             - search_term: typing.Optional[str].
 
@@ -101,7 +101,7 @@ class AsyncV3Client:
     ) -> PayerPage:
         """
         Parameters:
-            - limit: typing.Optional[int]. Defaults to 100
+            - limit: typing.Optional[int]. Maximum number of entities per page, defaults to 100.
 
             - search_term: typing.Optional[str].
 

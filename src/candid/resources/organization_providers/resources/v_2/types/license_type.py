@@ -40,6 +40,40 @@ class LicenseType(str, enum.Enum):
     RN = "RN"
     DPT = "DPT"
     LCMHC = "LCMHC"
+    CNM = "CNM"
+    RNFA = "RNFA"
+    ACSW = "ACSW"
+    APC = "APC"
+    BCABA = "BCABA"
+    BHA = "BHA"
+    OD = "OD"
+    DPM = "DPM"
+    DA = "DA"
+    DDS = "DDS"
+    DEH = "DEH"
+    DMD = "DMD"
+    PTA = "PTA"
+    LCADC = "LCADC"
+    LCAT = "LCAT"
+    LCMHCS = "LCMHCS"
+    LCMHCA = "LCMHCA"
+    LCSWA = "LCSWA"
+    LICSW = "LICSW"
+    LISW = "LISW"
+    LMFTS = "LMFTS"
+    LMFTA = "LMFTA"
+    LPCI = "LPCI"
+    LSCSW = "LSCSW"
+    MHCA = "MHCA"
+    MHT = "MHT"
+    RBT = "RBT"
+    RCSWI = "RCSWI"
+    RHMCI = "RHMCI"
+    LPN = "LPN"
+    OTD = "OTD"
+    OMS = "OMS"
+    MFTA = "MFTA"
+    APCC = "APCC"
 
     def visit(
         self,
@@ -76,6 +110,40 @@ class LicenseType(str, enum.Enum):
         rn: typing.Callable[[], T_Result],
         dpt: typing.Callable[[], T_Result],
         lcmhc: typing.Callable[[], T_Result],
+        cnm: typing.Callable[[], T_Result],
+        rnfa: typing.Callable[[], T_Result],
+        acsw: typing.Callable[[], T_Result],
+        apc: typing.Callable[[], T_Result],
+        bcaba: typing.Callable[[], T_Result],
+        bha: typing.Callable[[], T_Result],
+        od: typing.Callable[[], T_Result],
+        dpm: typing.Callable[[], T_Result],
+        da: typing.Callable[[], T_Result],
+        dds: typing.Callable[[], T_Result],
+        deh: typing.Callable[[], T_Result],
+        dmd: typing.Callable[[], T_Result],
+        pta: typing.Callable[[], T_Result],
+        lcadc: typing.Callable[[], T_Result],
+        lcat: typing.Callable[[], T_Result],
+        lcmhcs: typing.Callable[[], T_Result],
+        lcmhca: typing.Callable[[], T_Result],
+        lcswa: typing.Callable[[], T_Result],
+        licsw: typing.Callable[[], T_Result],
+        lisw: typing.Callable[[], T_Result],
+        lmfts: typing.Callable[[], T_Result],
+        lmfta: typing.Callable[[], T_Result],
+        lpci: typing.Callable[[], T_Result],
+        lscsw: typing.Callable[[], T_Result],
+        mhca: typing.Callable[[], T_Result],
+        mht: typing.Callable[[], T_Result],
+        rbt: typing.Callable[[], T_Result],
+        rcswi: typing.Callable[[], T_Result],
+        rhmci: typing.Callable[[], T_Result],
+        lpn: typing.Callable[[], T_Result],
+        otd: typing.Callable[[], T_Result],
+        oms: typing.Callable[[], T_Result],
+        mfta: typing.Callable[[], T_Result],
+        apcc: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is LicenseType.MD:
             return md()
@@ -143,3 +211,71 @@ class LicenseType(str, enum.Enum):
             return dpt()
         if self is LicenseType.LCMHC:
             return lcmhc()
+        if self is LicenseType.CNM:
+            return cnm()
+        if self is LicenseType.RNFA:
+            return rnfa()
+        if self is LicenseType.ACSW:
+            return acsw()
+        if self is LicenseType.APC:
+            return apc()
+        if self is LicenseType.BCABA:
+            return bcaba()
+        if self is LicenseType.BHA:
+            return bha()
+        if self is LicenseType.OD:
+            return od()
+        if self is LicenseType.DPM:
+            return dpm()
+        if self is LicenseType.DA:
+            return da()
+        if self is LicenseType.DDS:
+            return dds()
+        if self is LicenseType.DEH:
+            return deh()
+        if self is LicenseType.DMD:
+            return dmd()
+        if self is LicenseType.PTA:
+            return pta()
+        if self is LicenseType.LCADC:
+            return lcadc()
+        if self is LicenseType.LCAT:
+            return lcat()
+        if self is LicenseType.LCMHCS:
+            return lcmhcs()
+        if self is LicenseType.LCMHCA:
+            return lcmhca()
+        if self is LicenseType.LCSWA:
+            return lcswa()
+        if self is LicenseType.LICSW:
+            return licsw()
+        if self is LicenseType.LISW:
+            return lisw()
+        if self is LicenseType.LMFTS:
+            return lmfts()
+        if self is LicenseType.LMFTA:
+            return lmfta()
+        if self is LicenseType.LPCI:
+            return lpci()
+        if self is LicenseType.LSCSW:
+            return lscsw()
+        if self is LicenseType.MHCA:
+            return mhca()
+        if self is LicenseType.MHT:
+            return mht()
+        if self is LicenseType.RBT:
+            return rbt()
+        if self is LicenseType.RCSWI:
+            return rcswi()
+        if self is LicenseType.RHMCI:
+            return rhmci()
+        if self is LicenseType.LPN:
+            return lpn()
+        if self is LicenseType.OTD:
+            return otd()
+        if self is LicenseType.OMS:
+            return oms()
+        if self is LicenseType.MFTA:
+            return mfta()
+        if self is LicenseType.APCC:
+            return apcc()

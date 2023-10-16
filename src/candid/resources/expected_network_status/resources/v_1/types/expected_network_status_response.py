@@ -11,7 +11,9 @@ from .expected_network_status import ExpectedNetworkStatus
 
 
 class ExpectedNetworkStatusResponse(pydantic.BaseModel):
-    expected_network_status: ExpectedNetworkStatus
+    expected_network_status: ExpectedNetworkStatus = pydantic.Field(
+        description="The anticipated classification of a healthcare provider within the insurance plan's network."
+    )
     explanation: str
     contract_id: typing.Optional[ContractId]
 
