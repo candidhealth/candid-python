@@ -13,8 +13,13 @@ from .resources.encounters.client import AsyncEncountersClient, EncountersClient
 from .resources.expected_network_status.client import AsyncExpectedNetworkStatusClient, ExpectedNetworkStatusClient
 from .resources.exports.client import AsyncExportsClient, ExportsClient
 from .resources.guarantor.client import AsyncGuarantorClient, GuarantorClient
+from .resources.insurance_adjudication.client import AsyncInsuranceAdjudicationClient, InsuranceAdjudicationClient
+from .resources.insurance_refunds.client import AsyncInsuranceRefundsClient, InsuranceRefundsClient
 from .resources.organization_providers.client import AsyncOrganizationProvidersClient, OrganizationProvidersClient
+from .resources.patient_payments.client import AsyncPatientPaymentsClient, PatientPaymentsClient
+from .resources.patient_refunds.client import AsyncPatientRefundsClient, PatientRefundsClient
 from .resources.payers.client import AsyncPayersClient, PayersClient
+from .resources.write_offs.client import AsyncWriteOffsClient, WriteOffsClient
 
 
 class CandidApi:
@@ -38,8 +43,13 @@ class CandidApi:
         self.expected_network_status = ExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = ExportsClient(client_wrapper=self._client_wrapper)
         self.guarantor = GuarantorClient(client_wrapper=self._client_wrapper)
+        self.insurance_adjudication = InsuranceAdjudicationClient(client_wrapper=self._client_wrapper)
+        self.insurance_refunds = InsuranceRefundsClient(client_wrapper=self._client_wrapper)
         self.organization_providers = OrganizationProvidersClient(client_wrapper=self._client_wrapper)
+        self.patient_payments = PatientPaymentsClient(client_wrapper=self._client_wrapper)
+        self.patient_refunds = PatientRefundsClient(client_wrapper=self._client_wrapper)
         self.payers = PayersClient(client_wrapper=self._client_wrapper)
+        self.write_offs = WriteOffsClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncCandidApi:
@@ -63,8 +73,13 @@ class AsyncCandidApi:
         self.expected_network_status = AsyncExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = AsyncExportsClient(client_wrapper=self._client_wrapper)
         self.guarantor = AsyncGuarantorClient(client_wrapper=self._client_wrapper)
+        self.insurance_adjudication = AsyncInsuranceAdjudicationClient(client_wrapper=self._client_wrapper)
+        self.insurance_refunds = AsyncInsuranceRefundsClient(client_wrapper=self._client_wrapper)
         self.organization_providers = AsyncOrganizationProvidersClient(client_wrapper=self._client_wrapper)
+        self.patient_payments = AsyncPatientPaymentsClient(client_wrapper=self._client_wrapper)
+        self.patient_refunds = AsyncPatientRefundsClient(client_wrapper=self._client_wrapper)
         self.payers = AsyncPayersClient(client_wrapper=self._client_wrapper)
+        self.write_offs = AsyncWriteOffsClient(client_wrapper=self._client_wrapper)
 
 
 def _get_base_url(*, base_url: typing.Optional[str] = None, environment: CandidApiEnvironment) -> str:

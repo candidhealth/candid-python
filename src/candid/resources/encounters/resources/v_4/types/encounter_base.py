@@ -94,6 +94,11 @@ class EncounterBase(pydantic.BaseModel):
     responsible_party: ResponsiblePartyType = pydantic.Field(
         description=("Defines the party to be billed with the initial balance owed on the claim.\n")
     )
+    additional_information: typing.Optional[str] = pydantic.Field(
+        description=(
+            "Defines additional information on the claim needed by the payer.\n" "Box 19 on the CMS-1500 claim form.\n"
+        )
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

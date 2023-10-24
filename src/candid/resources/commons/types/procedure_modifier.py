@@ -1937,6 +1937,11 @@ class ProcedureModifier(str, enum.Enum):
     Three patient visits in a month
     """
 
+    XE = "XE"
+    """
+    Two or more separate patient visits on the same date of service
+    """
+
     def visit(
         self,
         twenty_two: typing.Callable[[], T_Result],
@@ -2325,6 +2330,7 @@ class ProcedureModifier(str, enum.Enum):
         v_1: typing.Callable[[], T_Result],
         v_2: typing.Callable[[], T_Result],
         v_3: typing.Callable[[], T_Result],
+        xe: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is ProcedureModifier.TWENTY_TWO:
             return twenty_two()
@@ -3098,3 +3104,5 @@ class ProcedureModifier(str, enum.Enum):
             return v_2()
         if self is ProcedureModifier.V_3:
             return v_3()
+        if self is ProcedureModifier.XE:
+            return xe()

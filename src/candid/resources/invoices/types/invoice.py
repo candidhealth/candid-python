@@ -7,9 +7,9 @@ import pydantic
 
 from ....core.datetime_utils import serialize_datetime
 from ...commons.types.date import Date
+from ...commons.types.invoice_id import InvoiceId
 from ...commons.types.organization_id import OrganizationId
 from ...commons.types.patient_external_id import PatientExternalId
-from .invoice_id import InvoiceId
 from .invoice_item import InvoiceItem
 from .invoice_status import InvoiceStatus
 

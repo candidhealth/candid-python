@@ -13,6 +13,7 @@ from .....core.datetime_utils import serialize_datetime
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.remove_none_from_dict import remove_none_from_dict
 from ....billing_notes.resources.v_2.types.billing_note_base import BillingNoteBase
+from ....claim_submission.resources.v_1.types.external_claim_submission_create import ExternalClaimSubmissionCreate
 from ....claims.types.claim_status import ClaimStatus
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
@@ -190,6 +191,7 @@ class V4Client:
         patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = OMIT,
         service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
+        external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
         external_id: EncounterExternalId,
         date_of_service: Date,
         end_date_of_service: typing.Optional[Date] = OMIT,
@@ -205,6 +207,7 @@ class V4Client:
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
         billable_status: BillableStatusType,
         responsible_party: ResponsiblePartyType,
+        additional_information: typing.Optional[str] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -248,6 +251,10 @@ class V4Client:
                                                                               in bounds of the diagnoses list field.
 
             - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
+
+            - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is incubating.***
+                                                                                         To be included for claims that have been submitted outside of Candid.
+                                                                                         Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
 
             - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
@@ -299,6 +306,9 @@ class V4Client:
 
             - responsible_party: ResponsiblePartyType. Defines the party to be billed with the initial balance owed on the claim.
 
+            - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
+                                                            Box 19 on the CMS-1500 claim form.
+
         """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -332,6 +342,8 @@ class V4Client:
             _request["service_lines"] = service_lines
         if guarantor is not OMIT:
             _request["guarantor"] = guarantor
+        if external_claim_submission is not OMIT:
+            _request["external_claim_submission"] = external_claim_submission
         if end_date_of_service is not OMIT:
             _request["end_date_of_service"] = end_date_of_service
         if prior_authorization_number is not OMIT:
@@ -348,6 +360,8 @@ class V4Client:
             _request["pay_to_address"] = pay_to_address
         if synchronicity is not OMIT:
             _request["synchronicity"] = synchronicity
+        if additional_information is not OMIT:
+            _request["additional_information"] = additional_information
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
@@ -404,6 +418,7 @@ class V4Client:
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[Date] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
+        additional_information: typing.Optional[str] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -450,6 +465,10 @@ class V4Client:
                                                           Must not be temporally before the date_of_service field.
 
             - subscriber_secondary: typing.Optional[SubscriberCreate]. Contains details of the secondary insurance subscriber.
+
+            - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
+                                                            Box 19 on the CMS-1500 claim form.
+
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -484,6 +503,8 @@ class V4Client:
             _request["end_date_of_service"] = end_date_of_service
         if subscriber_secondary is not OMIT:
             _request["subscriber_secondary"] = subscriber_secondary
+        if additional_information is not OMIT:
+            _request["additional_information"] = additional_information
         _response = self._client_wrapper.httpx_client.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
@@ -645,6 +666,7 @@ class AsyncV4Client:
         patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = OMIT,
         service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
+        external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
         external_id: EncounterExternalId,
         date_of_service: Date,
         end_date_of_service: typing.Optional[Date] = OMIT,
@@ -660,6 +682,7 @@ class AsyncV4Client:
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
         billable_status: BillableStatusType,
         responsible_party: ResponsiblePartyType,
+        additional_information: typing.Optional[str] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -703,6 +726,10 @@ class AsyncV4Client:
                                                                               in bounds of the diagnoses list field.
 
             - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
+
+            - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is incubating.***
+                                                                                         To be included for claims that have been submitted outside of Candid.
+                                                                                         Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
 
             - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
@@ -754,6 +781,9 @@ class AsyncV4Client:
 
             - responsible_party: ResponsiblePartyType. Defines the party to be billed with the initial balance owed on the claim.
 
+            - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
+                                                            Box 19 on the CMS-1500 claim form.
+
         """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -787,6 +817,8 @@ class AsyncV4Client:
             _request["service_lines"] = service_lines
         if guarantor is not OMIT:
             _request["guarantor"] = guarantor
+        if external_claim_submission is not OMIT:
+            _request["external_claim_submission"] = external_claim_submission
         if end_date_of_service is not OMIT:
             _request["end_date_of_service"] = end_date_of_service
         if prior_authorization_number is not OMIT:
@@ -803,6 +835,8 @@ class AsyncV4Client:
             _request["pay_to_address"] = pay_to_address
         if synchronicity is not OMIT:
             _request["synchronicity"] = synchronicity
+        if additional_information is not OMIT:
+            _request["additional_information"] = additional_information
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
@@ -859,6 +893,7 @@ class AsyncV4Client:
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[Date] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
+        additional_information: typing.Optional[str] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -905,6 +940,10 @@ class AsyncV4Client:
                                                           Must not be temporally before the date_of_service field.
 
             - subscriber_secondary: typing.Optional[SubscriberCreate]. Contains details of the secondary insurance subscriber.
+
+            - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
+                                                            Box 19 on the CMS-1500 claim form.
+
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -939,6 +978,8 @@ class AsyncV4Client:
             _request["end_date_of_service"] = end_date_of_service
         if subscriber_secondary is not OMIT:
             _request["subscriber_secondary"] = subscriber_secondary
+        if additional_information is not OMIT:
+            _request["additional_information"] = additional_information
         _response = await self._client_wrapper.httpx_client.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
