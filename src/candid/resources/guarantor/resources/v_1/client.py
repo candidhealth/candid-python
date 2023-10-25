@@ -30,6 +30,9 @@ class V1Client:
 
     def create(self, encounter_id: EncounterId, *, request: GuarantorCreate) -> Guarantor:
         """
+        **This endpoint is incubating.**
+        Creates a new guarantor and returns the newly created Guarantor object.
+
         Parameters:
             - encounter_id: EncounterId.
 
@@ -57,6 +60,9 @@ class V1Client:
 
     def get(self, guarantor_id: GuarantorId) -> Guarantor:
         """
+        **This endpoint is incubating.**
+        Retrieves a guarantor by its `guarantor_id`.
+
         Parameters:
             - guarantor_id: GuarantorId.
         """
@@ -89,6 +95,9 @@ class V1Client:
         email_consent: typing.Optional[bool] = OMIT,
     ) -> Guarantor:
         """
+        **This endpoint is incubating.**
+        Updates a guarantor by its `guarantor_id`.
+
         Parameters:
             - guarantor_id: GuarantorId.
 
@@ -151,6 +160,9 @@ class AsyncV1Client:
 
     async def create(self, encounter_id: EncounterId, *, request: GuarantorCreate) -> Guarantor:
         """
+        **This endpoint is incubating.**
+        Creates a new guarantor and returns the newly created Guarantor object.
+
         Parameters:
             - encounter_id: EncounterId.
 
@@ -178,6 +190,9 @@ class AsyncV1Client:
 
     async def get(self, guarantor_id: GuarantorId) -> Guarantor:
         """
+        **This endpoint is incubating.**
+        Retrieves a guarantor by its `guarantor_id`.
+
         Parameters:
             - guarantor_id: GuarantorId.
         """
@@ -210,6 +225,9 @@ class AsyncV1Client:
         email_consent: typing.Optional[bool] = OMIT,
     ) -> Guarantor:
         """
+        **This endpoint is incubating.**
+        Updates a guarantor by its `guarantor_id`.
+
         Parameters:
             - guarantor_id: GuarantorId.
 

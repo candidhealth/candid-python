@@ -12,9 +12,15 @@ from .....core.jsonable_encoder import jsonable_encoder
 from .....core.remove_none_from_dict import remove_none_from_dict
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
+from ....commons.errors.updates_disabled_due_to_external_system_integration_error import (
+    UpdatesDisabledDueToExternalSystemIntegrationError,
+)
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.page_token import PageToken
 from ....commons.types.request_validation_error import RequestValidationError
+from ....commons.types.updates_disabled_due_to_external_system_integration_error_message import (
+    UpdatesDisabledDueToExternalSystemIntegrationErrorMessage,
+)
 from ..v_2.types.organization_provider_id import OrganizationProviderId
 from ..v_2.types.organization_provider_sort_options import OrganizationProviderSortOptions
 from .types.organization_provider_create_v_2 import OrganizationProviderCreateV2
@@ -131,6 +137,10 @@ class V3Client:
                 raise HttpRequestValidationError(
                     pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "UpdatesDisabledDueToExternalSystemIntegrationError":
+                raise UpdatesDisabledDueToExternalSystemIntegrationError(
+                    pydantic.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -165,6 +175,10 @@ class V3Client:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
                     pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UpdatesDisabledDueToExternalSystemIntegrationError":
+                raise UpdatesDisabledDueToExternalSystemIntegrationError(
+                    pydantic.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -274,6 +288,10 @@ class AsyncV3Client:
                 raise HttpRequestValidationError(
                     pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "UpdatesDisabledDueToExternalSystemIntegrationError":
+                raise UpdatesDisabledDueToExternalSystemIntegrationError(
+                    pydantic.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
@@ -308,5 +326,9 @@ class AsyncV3Client:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
                     pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UpdatesDisabledDueToExternalSystemIntegrationError":
+                raise UpdatesDisabledDueToExternalSystemIntegrationError(
+                    pydantic.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

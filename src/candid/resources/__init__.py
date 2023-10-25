@@ -78,6 +78,8 @@ from .commons import (
     StreetAddressShortZip,
     UnauthorizedError,
     UnauthorizedErrorMessage,
+    UpdatesDisabledDueToExternalSystemIntegrationError,
+    UpdatesDisabledDueToExternalSystemIntegrationErrorMessage,
     WorkQueueId,
 )
 from .contracts import ContractId
@@ -238,6 +240,8 @@ __all__ = [
     "UpdatableIdentifier_Add",
     "UpdatableIdentifier_Remove",
     "UpdatableIdentifier_Update",
+    "UpdatesDisabledDueToExternalSystemIntegrationError",
+    "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage",
     "WorkQueueId",
     "auth",
     "billing_notes",

@@ -23,6 +23,7 @@ class V1Client:
 
     def get(self, write_off_id: WriteOffId) -> WriteOff:
         """
+        **This endpoint is incubating.**
         Retrieves a previously created write off by its `write_off_id`.
 
         Parameters:
@@ -44,6 +45,7 @@ class V1Client:
 
     def create(self, *, write_offs: typing.List[WriteOffCreate]) -> typing.List[WriteOff]:
         """
+        **This endpoint is incubating.**
         Creates one or many write-offs given a specific set of allocations.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -68,6 +70,7 @@ class V1Client:
 
     def revert(self, write_off_id: WriteOffId) -> WriteOff:
         """
+        **This endpoint is incubating.**
         Reverts a write off given a `write_off_id`.
 
         Parameters:
@@ -94,6 +97,7 @@ class AsyncV1Client:
 
     async def get(self, write_off_id: WriteOffId) -> WriteOff:
         """
+        **This endpoint is incubating.**
         Retrieves a previously created write off by its `write_off_id`.
 
         Parameters:
@@ -115,6 +119,7 @@ class AsyncV1Client:
 
     async def create(self, *, write_offs: typing.List[WriteOffCreate]) -> typing.List[WriteOff]:
         """
+        **This endpoint is incubating.**
         Creates one or many write-offs given a specific set of allocations.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -139,6 +144,7 @@ class AsyncV1Client:
 
     async def revert(self, write_off_id: WriteOffId) -> WriteOff:
         """
+        **This endpoint is incubating.**
         Reverts a write off given a `write_off_id`.
 
         Parameters:

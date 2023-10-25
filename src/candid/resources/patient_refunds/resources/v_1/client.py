@@ -26,6 +26,7 @@ class V1Client:
 
     def get(self, patient_refund_id: PatientRefundId) -> PatientRefund:
         """
+        **This endpoint is incubating.**
         Retrieves a previously created patient refund by its `patient_refund_id`.
 
         Parameters:
@@ -58,6 +59,7 @@ class V1Client:
         invoice: typing.Optional[InvoiceId] = OMIT,
     ) -> PatientRefund:
         """
+        **This endpoint is incubating.**
         Creates a new patient refund record and returns the newly created PatientRefund object.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -101,6 +103,7 @@ class V1Client:
 
     def delete(self, patient_refund_id: PatientRefundId) -> None:
         """
+        **This endpoint is incubating.**
         Deletes the patient refund record matching the provided patient_refund_id.
 
         Parameters:
@@ -129,6 +132,7 @@ class AsyncV1Client:
 
     async def get(self, patient_refund_id: PatientRefundId) -> PatientRefund:
         """
+        **This endpoint is incubating.**
         Retrieves a previously created patient refund by its `patient_refund_id`.
 
         Parameters:
@@ -161,6 +165,7 @@ class AsyncV1Client:
         invoice: typing.Optional[InvoiceId] = OMIT,
     ) -> PatientRefund:
         """
+        **This endpoint is incubating.**
         Creates a new patient refund record and returns the newly created PatientRefund object.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -204,6 +209,7 @@ class AsyncV1Client:
 
     async def delete(self, patient_refund_id: PatientRefundId) -> None:
         """
+        **This endpoint is incubating.**
         Deletes the patient refund record matching the provided patient_refund_id.
 
         Parameters:

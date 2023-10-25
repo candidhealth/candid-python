@@ -37,6 +37,9 @@ class V1Client:
         date_of_service: Date,
     ) -> ExpectedNetworkStatusResponse:
         """
+        **This endpoint is incubating.**
+        Computes the expected network status given the provided information.
+
         Parameters:
             - external_patient_id: typing.Optional[str].
 
@@ -109,6 +112,9 @@ class AsyncV1Client:
         date_of_service: Date,
     ) -> ExpectedNetworkStatusResponse:
         """
+        **This endpoint is incubating.**
+        Computes the expected network status given the provided information.
+
         Parameters:
             - external_patient_id: typing.Optional[str].
 
