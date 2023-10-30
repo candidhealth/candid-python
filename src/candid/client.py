@@ -16,6 +16,10 @@ from .resources.guarantor.client import AsyncGuarantorClient, GuarantorClient
 from .resources.insurance_adjudication.client import AsyncInsuranceAdjudicationClient, InsuranceAdjudicationClient
 from .resources.insurance_refunds.client import AsyncInsuranceRefundsClient, InsuranceRefundsClient
 from .resources.organization_providers.client import AsyncOrganizationProvidersClient, OrganizationProvidersClient
+from .resources.organization_service_facilities.client import (
+    AsyncOrganizationServiceFacilitiesClient,
+    OrganizationServiceFacilitiesClient,
+)
 from .resources.patient_payments.client import AsyncPatientPaymentsClient, PatientPaymentsClient
 from .resources.patient_refunds.client import AsyncPatientRefundsClient, PatientRefundsClient
 from .resources.payers.client import AsyncPayersClient, PayersClient
@@ -45,6 +49,7 @@ class CandidApi:
         self.guarantor = GuarantorClient(client_wrapper=self._client_wrapper)
         self.insurance_adjudication = InsuranceAdjudicationClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = InsuranceRefundsClient(client_wrapper=self._client_wrapper)
+        self.organization_service_facilities = OrganizationServiceFacilitiesClient(client_wrapper=self._client_wrapper)
         self.organization_providers = OrganizationProvidersClient(client_wrapper=self._client_wrapper)
         self.patient_payments = PatientPaymentsClient(client_wrapper=self._client_wrapper)
         self.patient_refunds = PatientRefundsClient(client_wrapper=self._client_wrapper)
@@ -75,6 +80,9 @@ class AsyncCandidApi:
         self.guarantor = AsyncGuarantorClient(client_wrapper=self._client_wrapper)
         self.insurance_adjudication = AsyncInsuranceAdjudicationClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = AsyncInsuranceRefundsClient(client_wrapper=self._client_wrapper)
+        self.organization_service_facilities = AsyncOrganizationServiceFacilitiesClient(
+            client_wrapper=self._client_wrapper
+        )
         self.organization_providers = AsyncOrganizationProvidersClient(client_wrapper=self._client_wrapper)
         self.patient_payments = AsyncPatientPaymentsClient(client_wrapper=self._client_wrapper)
         self.patient_refunds = AsyncPatientRefundsClient(client_wrapper=self._client_wrapper)
