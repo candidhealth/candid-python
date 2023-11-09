@@ -2,34 +2,30 @@
 
 from .allocation import Allocation
 from .allocation_create import AllocationCreate
-from .allocation_recipient import (
-    AllocationRecipient,
-    AllocationRecipient_BillingProviderId,
-    AllocationRecipient_Claim,
-    AllocationRecipient_ServiceLine,
+from .allocation_target import (
+    AllocationTarget,
+    AllocationTarget_BillingProviderId,
+    AllocationTarget_Claim,
+    AllocationTarget_ServiceLine,
 )
-from .allocation_recipient_create import (
-    AllocationRecipientCreate,
-    AllocationRecipientCreate_BillingProviderById,
-    AllocationRecipientCreate_ClaimById,
-    AllocationRecipientCreate_ServiceLineById,
+from .allocation_target_create import (
+    AllocationTargetCreate,
+    AllocationTargetCreate_BillingProviderById,
+    AllocationTargetCreate_ClaimById,
+    AllocationTargetCreate_ServiceLineById,
 )
-from .refund_allocation import RefundAllocation
-from .refund_allocation_create import RefundAllocationCreate
 from .refund_reason import RefundReason
 
 __all__ = [
     "Allocation",
     "AllocationCreate",
-    "AllocationRecipient",
-    "AllocationRecipientCreate",
-    "AllocationRecipientCreate_BillingProviderById",
-    "AllocationRecipientCreate_ClaimById",
-    "AllocationRecipientCreate_ServiceLineById",
-    "AllocationRecipient_BillingProviderId",
-    "AllocationRecipient_Claim",
-    "AllocationRecipient_ServiceLine",
-    "RefundAllocation",
-    "RefundAllocationCreate",
+    "AllocationTarget",
+    "AllocationTargetCreate",
+    "AllocationTargetCreate_BillingProviderById",
+    "AllocationTargetCreate_ClaimById",
+    "AllocationTargetCreate_ServiceLineById",
+    "AllocationTarget_BillingProviderId",
+    "AllocationTarget_Claim",
+    "AllocationTarget_ServiceLine",
     "RefundReason",
 ]

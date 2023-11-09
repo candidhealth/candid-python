@@ -19,6 +19,7 @@ from .invoice_id import InvoiceId
 from .link_url import LinkUrl
 from .npi import Npi
 from .organization_id import OrganizationId
+from .organization_not_authorized_error_message import OrganizationNotAuthorizedErrorMessage
 from .page_token import PageToken
 from .patient_external_id import PatientExternalId
 from .patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
@@ -66,6 +67,7 @@ __all__ = [
     "LinkUrl",
     "Npi",
     "OrganizationId",
+    "OrganizationNotAuthorizedErrorMessage",
     "PageToken",
     "PatientExternalId",
     "PatientRelationshipToInsuredCodeAll",

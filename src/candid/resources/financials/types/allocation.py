@@ -6,12 +6,12 @@ import typing
 import pydantic
 
 from ....core.datetime_utils import serialize_datetime
-from .allocation_recipient import AllocationRecipient
+from .allocation_target import AllocationTarget
 
 
 class Allocation(pydantic.BaseModel):
     amount_cents: int
-    recipient: AllocationRecipient
+    target: AllocationTarget
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

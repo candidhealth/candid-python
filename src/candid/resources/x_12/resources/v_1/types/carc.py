@@ -187,6 +187,8 @@ class Carc(str, enum.Enum):
     CARC_239 = "239"
     CARC_240 = "240"
     CARC_241 = "241"
+    CARC_242 = "242"
+    CARC_243 = "243"
     CARC_245 = "245"
     CARC_246 = "246"
     CARC_247 = "247"
@@ -245,6 +247,8 @@ class Carc(str, enum.Enum):
     CARC_301 = "301"
     CARC_302 = "302"
     CARC_303 = "303"
+    CARC_304 = "304"
+    CARC_305 = "305"
     CARC_A_0 = "A0"
     CARC_A_1 = "A1"
     CARC_A_5 = "A5"
@@ -265,6 +269,29 @@ class Carc(str, enum.Enum):
     CARC_B_20 = "B20"
     CARC_B_22 = "B22"
     CARC_B_23 = "B23"
+    CARC_P_1 = "P1"
+    CARC_P_2 = "P2"
+    CARC_P_3 = "P3"
+    CARC_P_4 = "P4"
+    CARC_P_5 = "P5"
+    CARC_P_6 = "P6"
+    CARC_P_7 = "P7"
+    CARC_P_8 = "P8"
+    CARC_P_9 = "P9"
+    CARC_P_10 = "P10"
+    CARC_P_11 = "P11"
+    CARC_P_12 = "P12"
+    CARC_P_13 = "P13"
+    CARC_P_14 = "P14"
+    CARC_P_15 = "P15"
+    CARC_P_16 = "P16"
+    CARC_P_17 = "P17"
+    CARC_P_18 = "P18"
+    CARC_P_19 = "P19"
+    CARC_P_20 = "P20"
+    CARC_P_21 = "P21"
+    CARC_P_22 = "P22"
+    CARC_P_23 = "P23"
     CARC_P_24 = "P24"
     CARC_P_25 = "P25"
     CARC_P_26 = "P26"
@@ -273,6 +300,7 @@ class Carc(str, enum.Enum):
     CARC_P_29 = "P29"
     CARC_P_30 = "P30"
     CARC_P_31 = "P31"
+    CARC_P_32 = "P32"
 
     def visit(
         self,
@@ -456,6 +484,8 @@ class Carc(str, enum.Enum):
         carc_239: typing.Callable[[], T_Result],
         carc_240: typing.Callable[[], T_Result],
         carc_241: typing.Callable[[], T_Result],
+        carc_242: typing.Callable[[], T_Result],
+        carc_243: typing.Callable[[], T_Result],
         carc_245: typing.Callable[[], T_Result],
         carc_246: typing.Callable[[], T_Result],
         carc_247: typing.Callable[[], T_Result],
@@ -514,6 +544,8 @@ class Carc(str, enum.Enum):
         carc_301: typing.Callable[[], T_Result],
         carc_302: typing.Callable[[], T_Result],
         carc_303: typing.Callable[[], T_Result],
+        carc_304: typing.Callable[[], T_Result],
+        carc_305: typing.Callable[[], T_Result],
         carc_a_0: typing.Callable[[], T_Result],
         carc_a_1: typing.Callable[[], T_Result],
         carc_a_5: typing.Callable[[], T_Result],
@@ -534,6 +566,29 @@ class Carc(str, enum.Enum):
         carc_b_20: typing.Callable[[], T_Result],
         carc_b_22: typing.Callable[[], T_Result],
         carc_b_23: typing.Callable[[], T_Result],
+        carc_p_1: typing.Callable[[], T_Result],
+        carc_p_2: typing.Callable[[], T_Result],
+        carc_p_3: typing.Callable[[], T_Result],
+        carc_p_4: typing.Callable[[], T_Result],
+        carc_p_5: typing.Callable[[], T_Result],
+        carc_p_6: typing.Callable[[], T_Result],
+        carc_p_7: typing.Callable[[], T_Result],
+        carc_p_8: typing.Callable[[], T_Result],
+        carc_p_9: typing.Callable[[], T_Result],
+        carc_p_10: typing.Callable[[], T_Result],
+        carc_p_11: typing.Callable[[], T_Result],
+        carc_p_12: typing.Callable[[], T_Result],
+        carc_p_13: typing.Callable[[], T_Result],
+        carc_p_14: typing.Callable[[], T_Result],
+        carc_p_15: typing.Callable[[], T_Result],
+        carc_p_16: typing.Callable[[], T_Result],
+        carc_p_17: typing.Callable[[], T_Result],
+        carc_p_18: typing.Callable[[], T_Result],
+        carc_p_19: typing.Callable[[], T_Result],
+        carc_p_20: typing.Callable[[], T_Result],
+        carc_p_21: typing.Callable[[], T_Result],
+        carc_p_22: typing.Callable[[], T_Result],
+        carc_p_23: typing.Callable[[], T_Result],
         carc_p_24: typing.Callable[[], T_Result],
         carc_p_25: typing.Callable[[], T_Result],
         carc_p_26: typing.Callable[[], T_Result],
@@ -542,6 +597,7 @@ class Carc(str, enum.Enum):
         carc_p_29: typing.Callable[[], T_Result],
         carc_p_30: typing.Callable[[], T_Result],
         carc_p_31: typing.Callable[[], T_Result],
+        carc_p_32: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is Carc.CARC_1:
             return carc_1()
@@ -903,6 +959,10 @@ class Carc(str, enum.Enum):
             return carc_240()
         if self is Carc.CARC_241:
             return carc_241()
+        if self is Carc.CARC_242:
+            return carc_242()
+        if self is Carc.CARC_243:
+            return carc_243()
         if self is Carc.CARC_245:
             return carc_245()
         if self is Carc.CARC_246:
@@ -1019,6 +1079,10 @@ class Carc(str, enum.Enum):
             return carc_302()
         if self is Carc.CARC_303:
             return carc_303()
+        if self is Carc.CARC_304:
+            return carc_304()
+        if self is Carc.CARC_305:
+            return carc_305()
         if self is Carc.CARC_A_0:
             return carc_a_0()
         if self is Carc.CARC_A_1:
@@ -1059,6 +1123,52 @@ class Carc(str, enum.Enum):
             return carc_b_22()
         if self is Carc.CARC_B_23:
             return carc_b_23()
+        if self is Carc.CARC_P_1:
+            return carc_p_1()
+        if self is Carc.CARC_P_2:
+            return carc_p_2()
+        if self is Carc.CARC_P_3:
+            return carc_p_3()
+        if self is Carc.CARC_P_4:
+            return carc_p_4()
+        if self is Carc.CARC_P_5:
+            return carc_p_5()
+        if self is Carc.CARC_P_6:
+            return carc_p_6()
+        if self is Carc.CARC_P_7:
+            return carc_p_7()
+        if self is Carc.CARC_P_8:
+            return carc_p_8()
+        if self is Carc.CARC_P_9:
+            return carc_p_9()
+        if self is Carc.CARC_P_10:
+            return carc_p_10()
+        if self is Carc.CARC_P_11:
+            return carc_p_11()
+        if self is Carc.CARC_P_12:
+            return carc_p_12()
+        if self is Carc.CARC_P_13:
+            return carc_p_13()
+        if self is Carc.CARC_P_14:
+            return carc_p_14()
+        if self is Carc.CARC_P_15:
+            return carc_p_15()
+        if self is Carc.CARC_P_16:
+            return carc_p_16()
+        if self is Carc.CARC_P_17:
+            return carc_p_17()
+        if self is Carc.CARC_P_18:
+            return carc_p_18()
+        if self is Carc.CARC_P_19:
+            return carc_p_19()
+        if self is Carc.CARC_P_20:
+            return carc_p_20()
+        if self is Carc.CARC_P_21:
+            return carc_p_21()
+        if self is Carc.CARC_P_22:
+            return carc_p_22()
+        if self is Carc.CARC_P_23:
+            return carc_p_23()
         if self is Carc.CARC_P_24:
             return carc_p_24()
         if self is Carc.CARC_P_25:
@@ -1075,3 +1185,5 @@ class Carc(str, enum.Enum):
             return carc_p_30()
         if self is Carc.CARC_P_31:
             return carc_p_31()
+        if self is Carc.CARC_P_32:
+            return carc_p_32()

@@ -5,19 +5,11 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from .....commons.types.claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
-from .claim_frequency_type_code import ClaimFrequencyTypeCode
+from ....core.datetime_utils import serialize_datetime
 
 
-class ClaimSubmissionRecordCreate(pydantic.BaseModel):
-    """
-    Data about each external submission.
-    """
-
-    submitted_at: dt.datetime = pydantic.Field(description="When the claim was submitted to the payer.")
-    claim_frequency_code: typing.Optional[ClaimFrequencyTypeCode]
-    payer_responsibility: typing.Optional[ClaimSubmissionPayerResponsibilityType]
+class OrganizationNotAuthorizedErrorMessage(pydantic.BaseModel):
+    message: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

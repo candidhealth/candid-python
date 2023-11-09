@@ -12,7 +12,7 @@ from ...commons.types.provider_id import ProviderId
 from ...commons.types.service_line_id import ServiceLineId
 
 
-class AllocationRecipientCreate_ServiceLineById(pydantic.BaseModel):
+class AllocationTargetCreate_ServiceLineById(pydantic.BaseModel):
     type: typing_extensions.Literal["service_line_by_id"]
     value: ServiceLineId
 
@@ -21,7 +21,7 @@ class AllocationRecipientCreate_ServiceLineById(pydantic.BaseModel):
         smart_union = True
 
 
-class AllocationRecipientCreate_ClaimById(pydantic.BaseModel):
+class AllocationTargetCreate_ClaimById(pydantic.BaseModel):
     type: typing_extensions.Literal["claim_by_id"]
     value: ClaimId
 
@@ -30,7 +30,7 @@ class AllocationRecipientCreate_ClaimById(pydantic.BaseModel):
         smart_union = True
 
 
-class AllocationRecipientCreate_BillingProviderById(pydantic.BaseModel):
+class AllocationTargetCreate_BillingProviderById(pydantic.BaseModel):
     type: typing_extensions.Literal["billing_provider_by_id"]
     value: ProviderId
 
@@ -39,8 +39,6 @@ class AllocationRecipientCreate_BillingProviderById(pydantic.BaseModel):
         smart_union = True
 
 
-AllocationRecipientCreate = typing.Union[
-    AllocationRecipientCreate_ServiceLineById,
-    AllocationRecipientCreate_ClaimById,
-    AllocationRecipientCreate_BillingProviderById,
+AllocationTargetCreate = typing.Union[
+    AllocationTargetCreate_ServiceLineById, AllocationTargetCreate_ClaimById, AllocationTargetCreate_BillingProviderById
 ]

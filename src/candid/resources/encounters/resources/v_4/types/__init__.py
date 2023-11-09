@@ -13,6 +13,7 @@ from .encounter_guarantor_missing_contact_info_error_type import EncounterGuaran
 from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .encounter_page import EncounterPage
 from .encounter_sort_options import EncounterSortOptions
+from .encounter_submission_origin_type import EncounterSubmissionOriginType
 from .intake_follow_up import IntakeFollowUp
 from .intake_follow_up_id import IntakeFollowUpId
 from .intake_question import IntakeQuestion
@@ -46,6 +47,7 @@ __all__ = [
     "EncounterOwnerOfNextActionType",
     "EncounterPage",
     "EncounterSortOptions",
+    "EncounterSubmissionOriginType",
     "IntakeFollowUp",
     "IntakeFollowUpId",
     "IntakeQuestion",

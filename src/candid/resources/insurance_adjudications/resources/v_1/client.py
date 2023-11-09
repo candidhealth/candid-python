@@ -32,7 +32,7 @@ class V1Client:
         _response = self._client_wrapper.httpx_client.request(
             "GET",
             urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-adjudications/v4/{insurance_adjudication_id}"
+                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-adjudications/v1/{insurance_adjudication_id}"
             ),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
@@ -55,7 +55,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-adjudications/v4"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-adjudications/v1"),
             json=jsonable_encoder(request),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
@@ -79,7 +79,7 @@ class V1Client:
         _response = self._client_wrapper.httpx_client.request(
             "DELETE",
             urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-adjudications/v4/{insurance_adjudication_id}"
+                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-adjudications/v1/{insurance_adjudication_id}"
             ),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
@@ -108,7 +108,7 @@ class AsyncV1Client:
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
             urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-adjudications/v4/{insurance_adjudication_id}"
+                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-adjudications/v1/{insurance_adjudication_id}"
             ),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
@@ -131,7 +131,7 @@ class AsyncV1Client:
         """
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-adjudications/v4"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-adjudications/v1"),
             json=jsonable_encoder(request),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
@@ -155,7 +155,7 @@ class AsyncV1Client:
         _response = await self._client_wrapper.httpx_client.request(
             "DELETE",
             urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-adjudications/v4/{insurance_adjudication_id}"
+                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-adjudications/v1/{insurance_adjudication_id}"
             ),
             headers=self._client_wrapper.get_headers(),
             timeout=60,

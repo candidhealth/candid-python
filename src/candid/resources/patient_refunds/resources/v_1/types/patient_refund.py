@@ -8,7 +8,9 @@ import pydantic
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.invoice_id import InvoiceId
 from .....commons.types.organization_id import OrganizationId
+from .....commons.types.patient_external_id import PatientExternalId
 from .....financials.types.allocation import Allocation
+from .....financials.types.refund_reason import RefundReason
 from .patient_refund_id import PatientRefundId
 
 
@@ -17,10 +19,12 @@ class PatientRefund(pydantic.BaseModel):
     organization_id: OrganizationId
     source_internal_id: str
     amount_cents: int
+    patient_external_id: PatientExternalId
     refund_timestamp: typing.Optional[dt.datetime]
     refund_note: typing.Optional[str]
     allocations: typing.List[Allocation]
     invoice: typing.Optional[InvoiceId]
+    refund_reason: typing.Optional[RefundReason]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

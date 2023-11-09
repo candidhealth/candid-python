@@ -5,14 +5,11 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from .allocation import Allocation
-from .refund_reason import RefundReason
+from ......core.datetime_utils import serialize_datetime
 
 
-class RefundAllocation(pydantic.BaseModel):
-    allocation: Allocation
-    refund_reason: typing.Optional[RefundReason]
+class ExpectedNetworkStatusCheckErrorMessage(pydantic.BaseModel):
+    message: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -4,6 +4,7 @@ from .entity_not_found_error import EntityNotFoundError
 from .http_request_validation_error import HttpRequestValidationError
 from .http_request_validations_error import HttpRequestValidationsError
 from .http_service_unavailable_error import HttpServiceUnavailableError
+from .organization_not_authorized_error import OrganizationNotAuthorizedError
 from .unauthorized_error import UnauthorizedError
 from .updates_disabled_due_to_external_system_integration_error import (
     UpdatesDisabledDueToExternalSystemIntegrationError,
@@ -14,6 +15,7 @@ __all__ = [
     "HttpRequestValidationError",
     "HttpRequestValidationsError",
     "HttpServiceUnavailableError",
+    "OrganizationNotAuthorizedError",
     "UnauthorizedError",
     "UpdatesDisabledDueToExternalSystemIntegrationError",
 ]

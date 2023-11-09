@@ -12,7 +12,8 @@ from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
 from ....commons.types.invoice_id import InvoiceId
 from ....commons.types.patient_external_id import PatientExternalId
-from ....financials.types.refund_allocation import RefundAllocation
+from ....financials.types.allocation_create import AllocationCreate
+from ....financials.types.refund_reason import RefundReason
 from .types.patient_refund import PatientRefund
 from .types.patient_refund_id import PatientRefundId
 
@@ -54,9 +55,10 @@ class V1Client:
         amount_cents: int,
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[str] = OMIT,
-        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
-        allocations: typing.List[RefundAllocation],
+        patient_external_id: PatientExternalId,
+        allocations: typing.List[AllocationCreate],
         invoice: typing.Optional[InvoiceId] = OMIT,
+        refund_reason: typing.Optional[RefundReason] = OMIT,
     ) -> PatientRefund:
         """
         **This endpoint is incubating.**
@@ -71,21 +73,27 @@ class V1Client:
 
             - refund_note: typing.Optional[str].
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+            - patient_external_id: PatientExternalId.
 
-            - allocations: typing.List[RefundAllocation].
+            - allocations: typing.List[AllocationCreate].
 
             - invoice: typing.Optional[InvoiceId].
+
+            - refund_reason: typing.Optional[RefundReason].
         """
-        _request: typing.Dict[str, typing.Any] = {"amount_cents": amount_cents, "allocations": allocations}
+        _request: typing.Dict[str, typing.Any] = {
+            "amount_cents": amount_cents,
+            "patient_external_id": patient_external_id,
+            "allocations": allocations,
+        }
         if refund_timestamp is not OMIT:
             _request["refund_timestamp"] = refund_timestamp
         if refund_note is not OMIT:
             _request["refund_note"] = refund_note
-        if patient_external_id is not OMIT:
-            _request["patient_external_id"] = patient_external_id
         if invoice is not OMIT:
             _request["invoice"] = invoice
+        if refund_reason is not OMIT:
+            _request["refund_reason"] = refund_reason
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-refunds/v1"),
@@ -160,9 +168,10 @@ class AsyncV1Client:
         amount_cents: int,
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[str] = OMIT,
-        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
-        allocations: typing.List[RefundAllocation],
+        patient_external_id: PatientExternalId,
+        allocations: typing.List[AllocationCreate],
         invoice: typing.Optional[InvoiceId] = OMIT,
+        refund_reason: typing.Optional[RefundReason] = OMIT,
     ) -> PatientRefund:
         """
         **This endpoint is incubating.**
@@ -177,21 +186,27 @@ class AsyncV1Client:
 
             - refund_note: typing.Optional[str].
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+            - patient_external_id: PatientExternalId.
 
-            - allocations: typing.List[RefundAllocation].
+            - allocations: typing.List[AllocationCreate].
 
             - invoice: typing.Optional[InvoiceId].
+
+            - refund_reason: typing.Optional[RefundReason].
         """
-        _request: typing.Dict[str, typing.Any] = {"amount_cents": amount_cents, "allocations": allocations}
+        _request: typing.Dict[str, typing.Any] = {
+            "amount_cents": amount_cents,
+            "patient_external_id": patient_external_id,
+            "allocations": allocations,
+        }
         if refund_timestamp is not OMIT:
             _request["refund_timestamp"] = refund_timestamp
         if refund_note is not OMIT:
             _request["refund_note"] = refund_note
-        if patient_external_id is not OMIT:
-            _request["patient_external_id"] = patient_external_id
         if invoice is not OMIT:
             _request["invoice"] = invoice
+        if refund_reason is not OMIT:
+            _request["refund_reason"] = refund_reason
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-refunds/v1"),

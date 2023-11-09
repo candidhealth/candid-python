@@ -12,7 +12,7 @@ from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
 from ....commons.types.invoice_id import InvoiceId
 from ....commons.types.patient_external_id import PatientExternalId
-from ....financials.types.allocation import Allocation
+from ....financials.types.allocation_create import AllocationCreate
 from .types.patient_payment import PatientPayment
 from .types.patient_payment_id import PatientPaymentId
 
@@ -54,8 +54,8 @@ class V4Client:
         amount_cents: int,
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
-        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
-        allocations: typing.List[Allocation],
+        patient_external_id: PatientExternalId,
+        allocations: typing.List[AllocationCreate],
         invoice: typing.Optional[InvoiceId] = OMIT,
     ) -> PatientPayment:
         """
@@ -71,19 +71,21 @@ class V4Client:
 
             - payment_note: typing.Optional[str].
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+            - patient_external_id: PatientExternalId.
 
-            - allocations: typing.List[Allocation].
+            - allocations: typing.List[AllocationCreate].
 
             - invoice: typing.Optional[InvoiceId].
         """
-        _request: typing.Dict[str, typing.Any] = {"amount_cents": amount_cents, "allocations": allocations}
+        _request: typing.Dict[str, typing.Any] = {
+            "amount_cents": amount_cents,
+            "patient_external_id": patient_external_id,
+            "allocations": allocations,
+        }
         if payment_timestamp is not OMIT:
             _request["payment_timestamp"] = payment_timestamp
         if payment_note is not OMIT:
             _request["payment_note"] = payment_note
-        if patient_external_id is not OMIT:
-            _request["patient_external_id"] = patient_external_id
         if invoice is not OMIT:
             _request["invoice"] = invoice
         _response = self._client_wrapper.httpx_client.request(
@@ -160,8 +162,8 @@ class AsyncV4Client:
         amount_cents: int,
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
-        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
-        allocations: typing.List[Allocation],
+        patient_external_id: PatientExternalId,
+        allocations: typing.List[AllocationCreate],
         invoice: typing.Optional[InvoiceId] = OMIT,
     ) -> PatientPayment:
         """
@@ -177,19 +179,21 @@ class AsyncV4Client:
 
             - payment_note: typing.Optional[str].
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+            - patient_external_id: PatientExternalId.
 
-            - allocations: typing.List[Allocation].
+            - allocations: typing.List[AllocationCreate].
 
             - invoice: typing.Optional[InvoiceId].
         """
-        _request: typing.Dict[str, typing.Any] = {"amount_cents": amount_cents, "allocations": allocations}
+        _request: typing.Dict[str, typing.Any] = {
+            "amount_cents": amount_cents,
+            "patient_external_id": patient_external_id,
+            "allocations": allocations,
+        }
         if payment_timestamp is not OMIT:
             _request["payment_timestamp"] = payment_timestamp
         if payment_note is not OMIT:
             _request["payment_note"] = payment_note
-        if patient_external_id is not OMIT:
-            _request["patient_external_id"] = patient_external_id
         if invoice is not OMIT:
             _request["invoice"] = invoice
         _response = await self._client_wrapper.httpx_client.request(

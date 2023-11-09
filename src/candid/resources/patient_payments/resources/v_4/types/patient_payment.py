@@ -8,6 +8,7 @@ import pydantic
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.invoice_id import InvoiceId
 from .....commons.types.organization_id import OrganizationId
+from .....commons.types.patient_external_id import PatientExternalId
 from .....financials.types.allocation import Allocation
 from .patient_payment_id import PatientPaymentId
 
@@ -17,6 +18,7 @@ class PatientPayment(pydantic.BaseModel):
     organization_id: OrganizationId
     source_internal_id: str
     amount_cents: int
+    patient_external_id: PatientExternalId
     payment_timestamp: typing.Optional[dt.datetime]
     payment_note: typing.Optional[str]
     allocations: typing.List[Allocation]

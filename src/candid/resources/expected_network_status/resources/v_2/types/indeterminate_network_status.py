@@ -6,18 +6,14 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
-from .claim_frequency_type_code import ClaimFrequencyTypeCode
+from .....organization_providers.resources.v_2.types.organization_provider_id import OrganizationProviderId
+from .....payers.resources.v_3.types.payer_uuid import PayerUuid
 
 
-class ClaimSubmissionRecordCreate(pydantic.BaseModel):
-    """
-    Data about each external submission.
-    """
-
-    submitted_at: dt.datetime = pydantic.Field(description="When the claim was submitted to the payer.")
-    claim_frequency_code: typing.Optional[ClaimFrequencyTypeCode]
-    payer_responsibility: typing.Optional[ClaimSubmissionPayerResponsibilityType]
+class IndeterminateNetworkStatus(pydantic.BaseModel):
+    explanation: str
+    routed_payer_uuid: typing.Optional[PayerUuid]
+    routed_billing_provider_id: typing.Optional[OrganizationProviderId]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

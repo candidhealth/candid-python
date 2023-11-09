@@ -6,7 +6,7 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....financials.types.allocation import Allocation
+from .....financials.types.allocation_create import AllocationCreate
 from .write_off_reason import WriteOffReason
 
 
@@ -14,7 +14,7 @@ class WriteOffCreate(pydantic.BaseModel):
     write_off_timestamp: dt.datetime
     write_off_note: typing.Optional[str]
     write_off_reason: WriteOffReason
-    allocation: Allocation
+    allocation: AllocationCreate
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

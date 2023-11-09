@@ -13,7 +13,7 @@ from .resources.encounters.client import AsyncEncountersClient, EncountersClient
 from .resources.expected_network_status.client import AsyncExpectedNetworkStatusClient, ExpectedNetworkStatusClient
 from .resources.exports.client import AsyncExportsClient, ExportsClient
 from .resources.guarantor.client import AsyncGuarantorClient, GuarantorClient
-from .resources.insurance_adjudication.client import AsyncInsuranceAdjudicationClient, InsuranceAdjudicationClient
+from .resources.insurance_adjudications.client import AsyncInsuranceAdjudicationsClient, InsuranceAdjudicationsClient
 from .resources.insurance_refunds.client import AsyncInsuranceRefundsClient, InsuranceRefundsClient
 from .resources.organization_providers.client import AsyncOrganizationProvidersClient, OrganizationProvidersClient
 from .resources.organization_service_facilities.client import (
@@ -47,7 +47,7 @@ class CandidApi:
         self.expected_network_status = ExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = ExportsClient(client_wrapper=self._client_wrapper)
         self.guarantor = GuarantorClient(client_wrapper=self._client_wrapper)
-        self.insurance_adjudication = InsuranceAdjudicationClient(client_wrapper=self._client_wrapper)
+        self.insurance_adjudications = InsuranceAdjudicationsClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = InsuranceRefundsClient(client_wrapper=self._client_wrapper)
         self.organization_service_facilities = OrganizationServiceFacilitiesClient(client_wrapper=self._client_wrapper)
         self.organization_providers = OrganizationProvidersClient(client_wrapper=self._client_wrapper)
@@ -78,7 +78,7 @@ class AsyncCandidApi:
         self.expected_network_status = AsyncExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = AsyncExportsClient(client_wrapper=self._client_wrapper)
         self.guarantor = AsyncGuarantorClient(client_wrapper=self._client_wrapper)
-        self.insurance_adjudication = AsyncInsuranceAdjudicationClient(client_wrapper=self._client_wrapper)
+        self.insurance_adjudications = AsyncInsuranceAdjudicationsClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = AsyncInsuranceRefundsClient(client_wrapper=self._client_wrapper)
         self.organization_service_facilities = AsyncOrganizationServiceFacilitiesClient(
             client_wrapper=self._client_wrapper

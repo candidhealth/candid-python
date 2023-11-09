@@ -24,6 +24,7 @@ from .clinical_note_category import ClinicalNoteCategory
 from .coding_attribution_type import CodingAttributionType
 from .encounter_base import EncounterBase
 from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
+from .encounter_submission_origin_type import EncounterSubmissionOriginType
 from .patient_history_category import PatientHistoryCategory
 
 
@@ -98,6 +99,13 @@ class Encounter(EncounterBase):
     work_queue_membership_activated_at: typing.Optional[dt.datetime]
     owner_of_next_action: EncounterOwnerOfNextActionType = pydantic.Field(
         description="The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks."
+    )
+    submission_origin: EncounterSubmissionOriginType = pydantic.Field(
+        description=(
+            "The party who originally submitted the Claim.\n"
+            "For Claims originating in Candid, this will be EncounterSubmissionOriginType.CANDID.\n"
+            "For Encounters created with an external_claim_submission object, this will be EncounterSubmissionOriginType.EXTERNAL.\n"
+        )
     )
 
     def json(self, **kwargs: typing.Any) -> str:

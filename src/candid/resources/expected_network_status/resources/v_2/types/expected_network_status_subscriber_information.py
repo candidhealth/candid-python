@@ -5,14 +5,19 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from .allocation_create import AllocationCreate
-from .refund_reason import RefundReason
+from ......core.datetime_utils import serialize_datetime
+from .....payers.resources.v_3.types.payer_uuid import PayerUuid
+from .insurance_type import InsuranceType
 
 
-class RefundAllocationCreate(pydantic.BaseModel):
-    allocation: AllocationCreate
-    refund_reason: typing.Optional[RefundReason]
+class ExpectedNetworkStatusSubscriberInformation(pydantic.BaseModel):
+    payer_uuid: PayerUuid = pydantic.Field(
+        description="The UUID that corresponds with the payer on the patient’s insurance card"
+    )
+    member_id: str = pydantic.Field(description="The member_id on the patient’s insurance card")
+    insurance_type: InsuranceType = pydantic.Field(
+        description="The insurance information on the patient's insurance card"
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

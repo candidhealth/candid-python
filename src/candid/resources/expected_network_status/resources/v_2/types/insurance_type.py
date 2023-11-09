@@ -6,18 +6,17 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
-from .claim_frequency_type_code import ClaimFrequencyTypeCode
+from .....commons.types.insurance_type_code import InsuranceTypeCode
+from .line_of_business import LineOfBusiness
 
 
-class ClaimSubmissionRecordCreate(pydantic.BaseModel):
-    """
-    Data about each external submission.
-    """
-
-    submitted_at: dt.datetime = pydantic.Field(description="When the claim was submitted to the payer.")
-    claim_frequency_code: typing.Optional[ClaimFrequencyTypeCode]
-    payer_responsibility: typing.Optional[ClaimSubmissionPayerResponsibilityType]
+class InsuranceType(pydantic.BaseModel):
+    line_of_business: LineOfBusiness = pydantic.Field(
+        description="The line of business associated with the patient’s insurance"
+    )
+    insurance_type_codes: typing.List[InsuranceTypeCode] = pydantic.Field(
+        description="The Insurance Type Code associated with the patient’s insurance plan."
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
