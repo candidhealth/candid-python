@@ -8,11 +8,13 @@ import pydantic
 from ......core.datetime_utils import serialize_datetime
 from .....financials.types.allocation import Allocation
 from .....financials.types.refund_reason import RefundReason
+from .....payers.resources.v_3.types.payer_id import PayerId
 from .insurance_refund_id import InsuranceRefundId
 
 
 class InsuranceRefund(pydantic.BaseModel):
     insurance_refund_id: InsuranceRefundId
+    payer_id: PayerId
     amount_cents: int
     refund_timestamp: typing.Optional[dt.datetime]
     refund_note: typing.Optional[str]

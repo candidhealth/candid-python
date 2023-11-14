@@ -40,8 +40,13 @@ from .types import (
     StreetAddressBase,
     StreetAddressLongZip,
     StreetAddressShortZip,
+    TaskAssignmentId,
+    TaskId,
+    TaskNoteId,
     UnauthorizedErrorMessage,
+    UnprocessableEntityErrorMessage,
     UpdatesDisabledDueToExternalSystemIntegrationErrorMessage,
+    UserId,
     WorkQueueId,
 )
 from .errors import (
@@ -51,6 +56,7 @@ from .errors import (
     HttpServiceUnavailableError,
     OrganizationNotAuthorizedError,
     UnauthorizedError,
+    UnprocessableEntityError,
     UpdatesDisabledDueToExternalSystemIntegrationError,
 )
 
@@ -99,9 +105,15 @@ __all__ = [
     "StreetAddressBase",
     "StreetAddressLongZip",
     "StreetAddressShortZip",
+    "TaskAssignmentId",
+    "TaskId",
+    "TaskNoteId",
     "UnauthorizedError",
     "UnauthorizedErrorMessage",
+    "UnprocessableEntityError",
+    "UnprocessableEntityErrorMessage",
     "UpdatesDisabledDueToExternalSystemIntegrationError",
     "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage",
+    "UserId",
     "WorkQueueId",
 ]

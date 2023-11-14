@@ -6,6 +6,7 @@ from .http_request_validations_error import HttpRequestValidationsError
 from .http_service_unavailable_error import HttpServiceUnavailableError
 from .organization_not_authorized_error import OrganizationNotAuthorizedError
 from .unauthorized_error import UnauthorizedError
+from .unprocessable_entity_error import UnprocessableEntityError
 from .updates_disabled_due_to_external_system_integration_error import (
     UpdatesDisabledDueToExternalSystemIntegrationError,
 )
@@ -17,5 +18,6 @@ __all__ = [
     "HttpServiceUnavailableError",
     "OrganizationNotAuthorizedError",
     "UnauthorizedError",
+    "UnprocessableEntityError",
     "UpdatesDisabledDueToExternalSystemIntegrationError",
 ]

@@ -6,18 +6,21 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....financials.types.allocation_create import AllocationCreate
-from .....financials.types.refund_reason import RefundReason
-from .....payers.resources.v_3.types.payer_id import PayerId
+from .....commons.types.encounter_id import EncounterId
+from .....commons.types.user_id import UserId
+from .....commons.types.work_queue_id import WorkQueueId
+from ...commons.types.task_category import TaskCategory
+from ...commons.types.task_type import TaskType
 
 
-class InsuranceRefundCreate(pydantic.BaseModel):
-    payer_id: PayerId
-    amount_cents: int
-    refund_timestamp: typing.Optional[dt.datetime]
-    refund_note: typing.Optional[str]
-    allocations: typing.List[AllocationCreate]
-    refund_reason: typing.Optional[RefundReason]
+class TaskCreateV3(pydantic.BaseModel):
+    encounter_id: EncounterId
+    task_type: TaskType
+    description: str
+    blocks_claim_submission: typing.Optional[bool]
+    assignee_user_id: typing.Optional[UserId]
+    category: typing.Optional[TaskCategory]
+    work_queue_id: WorkQueueId
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

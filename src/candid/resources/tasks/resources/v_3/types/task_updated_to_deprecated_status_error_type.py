@@ -6,18 +6,11 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....financials.types.allocation_create import AllocationCreate
-from .....financials.types.refund_reason import RefundReason
-from .....payers.resources.v_3.types.payer_id import PayerId
+from ...commons.types.task_status import TaskStatus
 
 
-class InsuranceRefundCreate(pydantic.BaseModel):
-    payer_id: PayerId
-    amount_cents: int
-    refund_timestamp: typing.Optional[dt.datetime]
-    refund_note: typing.Optional[str]
-    allocations: typing.List[AllocationCreate]
-    refund_reason: typing.Optional[RefundReason]
+class TaskUpdatedToDeprecatedStatusErrorType(pydantic.BaseModel):
+    deprecated_status: typing.Optional[TaskStatus]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

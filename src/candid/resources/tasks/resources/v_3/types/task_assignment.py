@@ -6,18 +6,13 @@ import typing
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
-from .....financials.types.allocation_create import AllocationCreate
-from .....financials.types.refund_reason import RefundReason
-from .....payers.resources.v_3.types.payer_id import PayerId
+from .....commons.types.task_assignment_id import TaskAssignmentId
+from .....commons.types.user_id import UserId
 
 
-class InsuranceRefundCreate(pydantic.BaseModel):
-    payer_id: PayerId
-    amount_cents: int
-    refund_timestamp: typing.Optional[dt.datetime]
-    refund_note: typing.Optional[str]
-    allocations: typing.List[AllocationCreate]
-    refund_reason: typing.Optional[RefundReason]
+class TaskAssignment(pydantic.BaseModel):
+    task_assignment_id: TaskAssignmentId
+    assignee_user_id: typing.Optional[UserId]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
