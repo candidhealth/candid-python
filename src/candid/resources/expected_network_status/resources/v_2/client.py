@@ -34,7 +34,6 @@ class V2Client:
         Computes the expected network status for a given rendering provider.
         This endpoint is not available to all customers. Reach out to the Candid sales team
         to discuss enabling this endpoint if it is not available for your organization.
-        **This endpoint is incubating.**
 
         Parameters:
             - rendering_provider_id: OrganizationProviderId.
@@ -75,7 +74,6 @@ class V2Client:
         Computes all the in network providers for a given set of inputs.
         This endpoint is not available to all customers. Reach out to the Candid sales team
         to discuss enabling this endpoint if it is not available for your organization.
-        **This endpoint is incubating.**
 
         Parameters:
             - request: ComputeAllInNetworkProvidersRequest.
@@ -116,7 +114,6 @@ class AsyncV2Client:
         Computes the expected network status for a given rendering provider.
         This endpoint is not available to all customers. Reach out to the Candid sales team
         to discuss enabling this endpoint if it is not available for your organization.
-        **This endpoint is incubating.**
 
         Parameters:
             - rendering_provider_id: OrganizationProviderId.
@@ -157,7 +154,6 @@ class AsyncV2Client:
         Computes all the in network providers for a given set of inputs.
         This endpoint is not available to all customers. Reach out to the Candid sales team
         to discuss enabling this endpoint if it is not available for your organization.
-        **This endpoint is incubating.**
 
         Parameters:
             - request: ComputeAllInNetworkProvidersRequest.

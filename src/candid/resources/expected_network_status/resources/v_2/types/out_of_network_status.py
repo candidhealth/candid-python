@@ -8,10 +8,11 @@ import pydantic
 from ......core.datetime_utils import serialize_datetime
 from .....organization_providers.resources.v_2.types.organization_provider_id import OrganizationProviderId
 from .....payers.resources.v_3.types.payer_uuid import PayerUuid
+from .explanation import Explanation
 
 
 class OutOfNetworkStatus(pydantic.BaseModel):
-    explanation: str
+    explanation: Explanation
     routed_payer_uuid: PayerUuid
     routed_billing_provider_id: OrganizationProviderId
 

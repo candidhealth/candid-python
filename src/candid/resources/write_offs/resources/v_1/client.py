@@ -9,6 +9,7 @@ import pydantic
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .types.create_write_offs_response import CreateWriteOffsResponse
 from .types.write_off import WriteOff
 from .types.write_off_create import WriteOffCreate
 from .types.write_off_id import WriteOffId
@@ -23,7 +24,6 @@ class V1Client:
 
     def get(self, write_off_id: WriteOffId) -> WriteOff:
         """
-        **This endpoint is incubating.**
         Retrieves a previously created write off by its `write_off_id`.
 
         Parameters:
@@ -43,9 +43,8 @@ class V1Client:
             return pydantic.parse_obj_as(WriteOff, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(self, *, write_offs: typing.List[WriteOffCreate]) -> typing.List[WriteOff]:
+    def create(self, *, write_offs: typing.List[WriteOffCreate]) -> CreateWriteOffsResponse:
         """
-        **This endpoint is incubating.**
         Creates one or many write-offs given a specific set of allocations.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -65,12 +64,11 @@ class V1Client:
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.List[WriteOff], _response_json)  # type: ignore
+            return pydantic.parse_obj_as(CreateWriteOffsResponse, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def revert(self, write_off_id: WriteOffId) -> WriteOff:
         """
-        **This endpoint is incubating.**
         Reverts a write off given a `write_off_id`.
 
         Parameters:
@@ -97,7 +95,6 @@ class AsyncV1Client:
 
     async def get(self, write_off_id: WriteOffId) -> WriteOff:
         """
-        **This endpoint is incubating.**
         Retrieves a previously created write off by its `write_off_id`.
 
         Parameters:
@@ -117,9 +114,8 @@ class AsyncV1Client:
             return pydantic.parse_obj_as(WriteOff, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create(self, *, write_offs: typing.List[WriteOffCreate]) -> typing.List[WriteOff]:
+    async def create(self, *, write_offs: typing.List[WriteOffCreate]) -> CreateWriteOffsResponse:
         """
-        **This endpoint is incubating.**
         Creates one or many write-offs given a specific set of allocations.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -139,12 +135,11 @@ class AsyncV1Client:
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.List[WriteOff], _response_json)  # type: ignore
+            return pydantic.parse_obj_as(CreateWriteOffsResponse, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def revert(self, write_off_id: WriteOffId) -> WriteOff:
         """
-        **This endpoint is incubating.**
         Reverts a write off given a `write_off_id`.
 
         Parameters:

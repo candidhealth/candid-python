@@ -17,7 +17,7 @@ class ExternalClaimSubmissionCreate(pydantic.BaseModel):
     submission_records: typing.List[ClaimSubmissionRecordCreate] = pydantic.Field(
         description=(
             "A successful claim submission record will be created for each value provided.\n"
-            "Must contain at least one item.\n"
+            "An empty list may be provided for cases where the claim originated in an external system but was never submitted to a payer.\n"
         )
     )
 

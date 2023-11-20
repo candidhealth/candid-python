@@ -21,6 +21,7 @@ class ClaimStatus(str, enum.Enum):
     FINALIZED_PAID = "finalized_paid"
     FINALIZED_DENIED = "finalized_denied"
     HELD_BY_CUSTOMER = "held_by_customer"
+    ERA_REQUIRES_REVIEW = "era_requires_review"
 
     def visit(
         self,
@@ -38,6 +39,7 @@ class ClaimStatus(str, enum.Enum):
         finalized_paid: typing.Callable[[], T_Result],
         finalized_denied: typing.Callable[[], T_Result],
         held_by_customer: typing.Callable[[], T_Result],
+        era_requires_review: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is ClaimStatus.BILLER_RECEIVED:
             return biller_received()
@@ -67,3 +69,5 @@ class ClaimStatus(str, enum.Enum):
             return finalized_denied()
         if self is ClaimStatus.HELD_BY_CUSTOMER:
             return held_by_customer()
+        if self is ClaimStatus.ERA_REQUIRES_REVIEW:
+            return era_requires_review()

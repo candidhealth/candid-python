@@ -39,6 +39,17 @@ class AllocationTarget_BillingProviderId(pydantic.BaseModel):
         smart_union = True
 
 
+class AllocationTarget_Unattributed(pydantic.BaseModel):
+    type: typing_extensions.Literal["unattributed"]
+
+    class Config:
+        frozen = True
+        smart_union = True
+
+
 AllocationTarget = typing.Union[
-    AllocationTarget_ServiceLine, AllocationTarget_Claim, AllocationTarget_BillingProviderId
+    AllocationTarget_ServiceLine,
+    AllocationTarget_Claim,
+    AllocationTarget_BillingProviderId,
+    AllocationTarget_Unattributed,
 ]

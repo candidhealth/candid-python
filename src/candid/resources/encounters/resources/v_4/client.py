@@ -252,7 +252,7 @@ class V4Client:
 
             - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
 
-            - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is incubating.***
+            - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is in beta.***
                                                                                          To be included for claims that have been submitted outside of Candid.
                                                                                          Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
 
@@ -727,7 +727,7 @@ class AsyncV4Client:
 
             - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
 
-            - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is incubating.***
+            - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is in beta.***
                                                                                          To be included for claims that have been submitted outside of Candid.
                                                                                          Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
 

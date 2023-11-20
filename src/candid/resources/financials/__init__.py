@@ -8,9 +8,12 @@ from .types import (
     AllocationTargetCreate_BillingProviderById,
     AllocationTargetCreate_ClaimById,
     AllocationTargetCreate_ServiceLineById,
+    AllocationTargetCreate_Unattributed,
     AllocationTarget_BillingProviderId,
     AllocationTarget_Claim,
     AllocationTarget_ServiceLine,
+    AllocationTarget_Unattributed,
+    PatientTransactionSource,
     RefundReason,
 )
 
@@ -22,8 +25,11 @@ __all__ = [
     "AllocationTargetCreate_BillingProviderById",
     "AllocationTargetCreate_ClaimById",
     "AllocationTargetCreate_ServiceLineById",
+    "AllocationTargetCreate_Unattributed",
     "AllocationTarget_BillingProviderId",
     "AllocationTarget_Claim",
     "AllocationTarget_ServiceLine",
+    "AllocationTarget_Unattributed",
+    "PatientTransactionSource",
     "RefundReason",
 ]

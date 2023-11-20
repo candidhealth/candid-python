@@ -7,13 +7,16 @@ from .allocation_target import (
     AllocationTarget_BillingProviderId,
     AllocationTarget_Claim,
     AllocationTarget_ServiceLine,
+    AllocationTarget_Unattributed,
 )
 from .allocation_target_create import (
     AllocationTargetCreate,
     AllocationTargetCreate_BillingProviderById,
     AllocationTargetCreate_ClaimById,
     AllocationTargetCreate_ServiceLineById,
+    AllocationTargetCreate_Unattributed,
 )
+from .patient_transaction_source import PatientTransactionSource
 from .refund_reason import RefundReason
 
 __all__ = [
@@ -24,8 +27,11 @@ __all__ = [
     "AllocationTargetCreate_BillingProviderById",
     "AllocationTargetCreate_ClaimById",
     "AllocationTargetCreate_ServiceLineById",
+    "AllocationTargetCreate_Unattributed",
     "AllocationTarget_BillingProviderId",
     "AllocationTarget_Claim",
     "AllocationTarget_ServiceLine",
+    "AllocationTarget_Unattributed",
+    "PatientTransactionSource",
     "RefundReason",
 ]

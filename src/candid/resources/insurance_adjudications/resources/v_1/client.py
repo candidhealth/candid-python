@@ -23,7 +23,6 @@ class V1Client:
 
     def get(self, insurance_adjudication_id: InsuranceAdjudicationId) -> InsuranceAdjudication:
         """
-        **This endpoint is incubating.**
         Retrieves a previously created insurance adjudication by its `insurance_adjudication_id`.
 
         Parameters:
@@ -47,7 +46,6 @@ class V1Client:
 
     def create(self, *, request: InsuranceAdjudicationCreate) -> InsuranceAdjudication:
         """
-        **This endpoint is incubating.**
         Creates a new insurance adjudication record and returns the newly created InsuranceAdjudication object.
 
         Parameters:
@@ -70,7 +68,6 @@ class V1Client:
 
     def delete(self, insurance_adjudication_id: InsuranceAdjudicationId) -> None:
         """
-        **This endpoint is incubating.**
         Deletes the insurance adjudication record matching the provided insurance_adjudication_id.
 
         Parameters:
@@ -99,7 +96,6 @@ class AsyncV1Client:
 
     async def get(self, insurance_adjudication_id: InsuranceAdjudicationId) -> InsuranceAdjudication:
         """
-        **This endpoint is incubating.**
         Retrieves a previously created insurance adjudication by its `insurance_adjudication_id`.
 
         Parameters:
@@ -123,7 +119,6 @@ class AsyncV1Client:
 
     async def create(self, *, request: InsuranceAdjudicationCreate) -> InsuranceAdjudication:
         """
-        **This endpoint is incubating.**
         Creates a new insurance adjudication record and returns the newly created InsuranceAdjudication object.
 
         Parameters:
@@ -146,7 +141,6 @@ class AsyncV1Client:
 
     async def delete(self, insurance_adjudication_id: InsuranceAdjudicationId) -> None:
         """
-        **This endpoint is incubating.**
         Deletes the insurance adjudication record matching the provided insurance_adjudication_id.
 
         Parameters:

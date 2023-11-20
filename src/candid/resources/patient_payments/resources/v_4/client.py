@@ -26,7 +26,6 @@ class V4Client:
 
     def get(self, patient_payment_id: PatientPaymentId) -> PatientPayment:
         """
-        **This endpoint is incubating.**
         Retrieves a previously created patient payment by its `patient_payment_id`.
 
         Parameters:
@@ -59,7 +58,6 @@ class V4Client:
         invoice: typing.Optional[InvoiceId] = OMIT,
     ) -> PatientPayment:
         """
-        **This endpoint is incubating.**
         Creates a new patient payment record and returns the newly created PatientPayment object.
         The allocations can describe whether the payment is being applied toward a specific service line,
         claim, or billing provider.
@@ -105,7 +103,6 @@ class V4Client:
 
     def delete(self, patient_payment_id: PatientPaymentId) -> None:
         """
-        **This endpoint is incubating.**
         Deletes the patient payment record matching the provided patient_payment_id.
 
         Parameters:
@@ -134,7 +131,6 @@ class AsyncV4Client:
 
     async def get(self, patient_payment_id: PatientPaymentId) -> PatientPayment:
         """
-        **This endpoint is incubating.**
         Retrieves a previously created patient payment by its `patient_payment_id`.
 
         Parameters:
@@ -167,7 +163,6 @@ class AsyncV4Client:
         invoice: typing.Optional[InvoiceId] = OMIT,
     ) -> PatientPayment:
         """
-        **This endpoint is incubating.**
         Creates a new patient payment record and returns the newly created PatientPayment object.
         The allocations can describe whether the payment is being applied toward a specific service line,
         claim, or billing provider.
@@ -213,7 +208,6 @@ class AsyncV4Client:
 
     async def delete(self, patient_payment_id: PatientPaymentId) -> None:
         """
-        **This endpoint is incubating.**
         Deletes the patient payment record matching the provided patient_payment_id.
 
         Parameters:

@@ -23,7 +23,6 @@ class V1Client:
 
     def get(self, insurance_refund_id: InsuranceRefundId) -> InsuranceRefund:
         """
-        **This endpoint is incubating.**
         Retrieves a previously created insurance refund by its `insurance_refund_id`.
         If the refund does not exist, a `403` will be thrown.
 
@@ -48,7 +47,6 @@ class V1Client:
 
     def create(self, *, request: InsuranceRefundCreate) -> InsuranceRefund:
         """
-        **This endpoint is incubating.**
         Creates a new insurance refund record and returns the newly created `InsuranceRefund` object.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -73,7 +71,6 @@ class V1Client:
 
     def delete(self, insurance_refund_id: InsuranceRefundId) -> None:
         """
-        **This endpoint is incubating.**
         Deletes the insurance refund record matching the provided `insurance_refund_id`.
         If the matching record's organization_id does not match the authenticated user's
         current organization_id, then a response code of `403` will be returned.
@@ -104,7 +101,6 @@ class AsyncV1Client:
 
     async def get(self, insurance_refund_id: InsuranceRefundId) -> InsuranceRefund:
         """
-        **This endpoint is incubating.**
         Retrieves a previously created insurance refund by its `insurance_refund_id`.
         If the refund does not exist, a `403` will be thrown.
 
@@ -129,7 +125,6 @@ class AsyncV1Client:
 
     async def create(self, *, request: InsuranceRefundCreate) -> InsuranceRefund:
         """
-        **This endpoint is incubating.**
         Creates a new insurance refund record and returns the newly created `InsuranceRefund` object.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -154,7 +149,6 @@ class AsyncV1Client:
 
     async def delete(self, insurance_refund_id: InsuranceRefundId) -> None:
         """
-        **This endpoint is incubating.**
         Deletes the insurance refund record matching the provided `insurance_refund_id`.
         If the matching record's organization_id does not match the authenticated user's
         current organization_id, then a response code of `403` will be returned.

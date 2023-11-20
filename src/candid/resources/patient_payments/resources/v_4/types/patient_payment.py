@@ -10,13 +10,15 @@ from .....commons.types.invoice_id import InvoiceId
 from .....commons.types.organization_id import OrganizationId
 from .....commons.types.patient_external_id import PatientExternalId
 from .....financials.types.allocation import Allocation
+from .....financials.types.patient_transaction_source import PatientTransactionSource
 from .patient_payment_id import PatientPaymentId
 
 
 class PatientPayment(pydantic.BaseModel):
     patient_payment_id: PatientPaymentId
     organization_id: OrganizationId
-    source_internal_id: str
+    source_internal_id: typing.Optional[str]
+    payment_source: PatientTransactionSource
     amount_cents: int
     patient_external_id: PatientExternalId
     payment_timestamp: typing.Optional[dt.datetime]

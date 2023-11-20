@@ -43,8 +43,6 @@ class V3Client:
 
     def get_actions(self, task_id: TaskId) -> TaskActions:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - task_id: TaskId.
         """
@@ -80,8 +78,6 @@ class V3Client:
         sort: typing.Optional[TaskSortOptions] = None,
     ) -> TaskPage:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - limit: typing.Optional[int]. Defaults to 100
 
@@ -147,8 +143,6 @@ class V3Client:
 
     def get(self, task_id: TaskId) -> Task:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - task_id: TaskId.
         """
@@ -177,8 +171,6 @@ class V3Client:
 
     def create(self, *, request: TaskCreateV3) -> Task:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - request: TaskCreateV3.
         """
@@ -199,8 +191,6 @@ class V3Client:
 
     def update(self, task_id: TaskId, *, request: TaskUpdateV3) -> Task:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - task_id: TaskId.
 
@@ -241,8 +231,6 @@ class AsyncV3Client:
 
     async def get_actions(self, task_id: TaskId) -> TaskActions:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - task_id: TaskId.
         """
@@ -278,8 +266,6 @@ class AsyncV3Client:
         sort: typing.Optional[TaskSortOptions] = None,
     ) -> TaskPage:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - limit: typing.Optional[int]. Defaults to 100
 
@@ -345,8 +331,6 @@ class AsyncV3Client:
 
     async def get(self, task_id: TaskId) -> Task:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - task_id: TaskId.
         """
@@ -375,8 +359,6 @@ class AsyncV3Client:
 
     async def create(self, *, request: TaskCreateV3) -> Task:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - request: TaskCreateV3.
         """
@@ -397,8 +379,6 @@ class AsyncV3Client:
 
     async def update(self, task_id: TaskId, *, request: TaskUpdateV3) -> Task:
         """
-        **This endpoint is incubating.**
-
         Parameters:
             - task_id: TaskId.
 
