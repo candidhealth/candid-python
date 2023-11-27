@@ -36,6 +36,7 @@ from .request_validation_error import RequestValidationError
 from .resource_page import ResourcePage
 from .service_line_id import ServiceLineId
 from .service_line_units import ServiceLineUnits
+from .sort_direction import SortDirection
 from .source_of_payment_code import SourceOfPaymentCode
 from .state import State
 from .street_address_base import StreetAddressBase
@@ -44,6 +45,7 @@ from .street_address_short_zip import StreetAddressShortZip
 from .task_assignment_id import TaskAssignmentId
 from .task_id import TaskId
 from .task_note_id import TaskNoteId
+from .tax_id import TaxId
 from .unauthorized_error_message import UnauthorizedErrorMessage
 from .unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from .updates_disabled_due_to_external_system_integration_error_message import (
@@ -87,6 +89,7 @@ __all__ = [
     "ResourcePage",
     "ServiceLineId",
     "ServiceLineUnits",
+    "SortDirection",
     "SourceOfPaymentCode",
     "State",
     "StreetAddressBase",
@@ -95,6 +98,7 @@ __all__ = [
     "TaskAssignmentId",
     "TaskId",
     "TaskNoteId",
+    "TaxId",
     "UnauthorizedErrorMessage",
     "UnprocessableEntityErrorMessage",
     "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage",

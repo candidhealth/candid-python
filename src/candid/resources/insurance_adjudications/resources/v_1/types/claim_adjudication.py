@@ -15,6 +15,7 @@ class ClaimAdjudication(pydantic.BaseModel):
     insurance_allowed_amount_cents: typing.Optional[int]
     insurance_paid_amount_cents: typing.Optional[int]
     service_lines: typing.Dict[ServiceLineId, ServiceLineAdjudication]
+    payer_claim_number: typing.Optional[str]
     carcs: typing.List[ClaimAdjustmentReasonCode]
 
     def json(self, **kwargs: typing.Any) -> str:

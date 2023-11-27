@@ -16,7 +16,6 @@ class InsuranceAdjudication(pydantic.BaseModel):
     insurance_adjudication_id: InsuranceAdjudicationId
     payer_uuid: PayerUuid
     post_date: typing.Optional[dt.date]
-    payer_claim_number: str
     check_number: typing.Optional[str]
     check_date: dt.date
     note: typing.Optional[str]

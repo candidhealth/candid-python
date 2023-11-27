@@ -3,24 +3,13 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
-from .....claim_actions_commons.types.claim_action import ClaimAction
-from .....claim_actions_commons.types.claim_action_metadata import ClaimActionMetadata
-from .....commons.types.claim_id import ClaimId
-from .....commons.types.work_queue_id import WorkQueueId
+from .....commons.types.resource_page import ResourcePage
+from .patient_refund import PatientRefund
 
 
-class ClaimJobMetadata(pydantic.BaseModel):
-    """
-    Metadata for a claim in a job
-    """
-
-    action: ClaimAction
-    work_queue_id: WorkQueueId
-    claim_id: ClaimId
-    claim_metadata: ClaimActionMetadata
+class PatientRefundsPage(ResourcePage):
+    items: typing.List[PatientRefund]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -33,4 +22,5 @@ class ClaimJobMetadata(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

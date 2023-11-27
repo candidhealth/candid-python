@@ -30,6 +30,7 @@ from .patient_history_category_enum import PatientHistoryCategoryEnum
 from .prior_authorization_number import PriorAuthorizationNumber
 from .responsible_party_type import ResponsiblePartyType
 from .rx_cui import RxCui
+from .service_authorization_exception_code import ServiceAuthorizationExceptionCode
 from .synchronicity_type import SynchronicityType
 from .vitals import Vitals
 
@@ -64,6 +65,7 @@ __all__ = [
     "PriorAuthorizationNumber",
     "ResponsiblePartyType",
     "RxCui",
+    "ServiceAuthorizationExceptionCode",
     "SynchronicityType",
     "Vitals",
 ]

@@ -10,11 +10,20 @@ import pydantic
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.remove_none_from_dict import remove_none_from_dict
+from ....commons.types.claim_id import ClaimId
 from ....commons.types.invoice_id import InvoiceId
+from ....commons.types.page_token import PageToken
 from ....commons.types.patient_external_id import PatientExternalId
+from ....commons.types.provider_id import ProviderId
+from ....commons.types.service_line_id import ServiceLineId
+from ....commons.types.sort_direction import SortDirection
 from ....financials.types.allocation_create import AllocationCreate
+from ....financials.types.patient_transaction_source import PatientTransactionSource
 from .types.patient_payment import PatientPayment
 from .types.patient_payment_id import PatientPaymentId
+from .types.patient_payment_sort_field import PatientPaymentSortField
+from .types.patient_payments_page import PatientPaymentsPage
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -23,6 +32,69 @@ OMIT = typing.cast(typing.Any, ...)
 class V4Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    def get_multi(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        patient_external_id: typing.Optional[PatientExternalId] = None,
+        claim_id: typing.Optional[ClaimId] = None,
+        service_line_id: typing.Optional[ServiceLineId] = None,
+        billing_provider_id: typing.Optional[ProviderId] = None,
+        sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]],
+        sort: typing.Optional[PatientPaymentSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        page_token: typing.Optional[PageToken] = None,
+    ) -> PatientPaymentsPage:
+        """
+        Returns all patient payments satisfying the search criteria AND whose organization_id matches
+        the current organization_id of the authenticated user.
+
+        Parameters:
+            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+
+            - patient_external_id: typing.Optional[PatientExternalId].
+
+            - claim_id: typing.Optional[ClaimId].
+
+            - service_line_id: typing.Optional[ServiceLineId].
+
+            - billing_provider_id: typing.Optional[ProviderId].
+
+            - sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]].
+
+            - sort: typing.Optional[PatientPaymentSortField]. Defaults to payment_timestamp
+
+            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+
+            - page_token: typing.Optional[PageToken].
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
+            params=remove_none_from_dict(
+                {
+                    "limit": limit,
+                    "patient_external_id": patient_external_id,
+                    "claim_id": jsonable_encoder(claim_id),
+                    "service_line_id": jsonable_encoder(service_line_id),
+                    "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "sources": sources,
+                    "sort": sort,
+                    "sort_direction": sort_direction,
+                    "page_token": page_token,
+                }
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(PatientPaymentsPage, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get(self, patient_payment_id: PatientPaymentId) -> PatientPayment:
         """
@@ -128,6 +200,69 @@ class V4Client:
 class AsyncV4Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    async def get_multi(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        patient_external_id: typing.Optional[PatientExternalId] = None,
+        claim_id: typing.Optional[ClaimId] = None,
+        service_line_id: typing.Optional[ServiceLineId] = None,
+        billing_provider_id: typing.Optional[ProviderId] = None,
+        sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]],
+        sort: typing.Optional[PatientPaymentSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        page_token: typing.Optional[PageToken] = None,
+    ) -> PatientPaymentsPage:
+        """
+        Returns all patient payments satisfying the search criteria AND whose organization_id matches
+        the current organization_id of the authenticated user.
+
+        Parameters:
+            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+
+            - patient_external_id: typing.Optional[PatientExternalId].
+
+            - claim_id: typing.Optional[ClaimId].
+
+            - service_line_id: typing.Optional[ServiceLineId].
+
+            - billing_provider_id: typing.Optional[ProviderId].
+
+            - sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]].
+
+            - sort: typing.Optional[PatientPaymentSortField]. Defaults to payment_timestamp
+
+            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+
+            - page_token: typing.Optional[PageToken].
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
+            params=remove_none_from_dict(
+                {
+                    "limit": limit,
+                    "patient_external_id": patient_external_id,
+                    "claim_id": jsonable_encoder(claim_id),
+                    "service_line_id": jsonable_encoder(service_line_id),
+                    "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "sources": sources,
+                    "sort": sort,
+                    "sort_direction": sort_direction,
+                    "page_token": page_token,
+                }
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(PatientPaymentsPage, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get(self, patient_payment_id: PatientPaymentId) -> PatientPayment:
         """

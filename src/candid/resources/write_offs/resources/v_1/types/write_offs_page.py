@@ -3,28 +3,13 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
-from .....users.resources.v_2.types.user_v_2 import UserV2
-from .job_group_id import JobGroupId
-from .job_id import JobId
-from .job_metadata import JobMetadata
-from .job_status import JobStatus
+from .....commons.types.resource_page import ResourcePage
+from .write_off import WriteOff
 
 
-class Job(pydantic.BaseModel):
-    """
-    A record that tracks the progress of an asynchronous action
-    """
-
-    job_id: JobId
-    status: JobStatus
-    summary: str
-    creator_user: UserV2
-    job_group_id: typing.Optional[JobGroupId]
-    job_metadata: JobMetadata
-    created_at: dt.datetime
+class WriteOffsPage(ResourcePage):
+    items: typing.List[WriteOff]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -37,4 +22,5 @@ class Job(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

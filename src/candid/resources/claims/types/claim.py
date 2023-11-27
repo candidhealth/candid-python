@@ -8,7 +8,6 @@ import pydantic
 from ....core.datetime_utils import serialize_datetime
 from ...commons.types.claim_id import ClaimId
 from ...era.types.era import Era
-from ...jobs.resources.v_1.types.job import Job
 from ...service_lines.resources.v_2.types.service_line import ServiceLine
 from .claim_status import ClaimStatus
 
@@ -21,7 +20,6 @@ class Claim(pydantic.BaseModel):
     payer_claim_id: typing.Optional[str]
     service_lines: typing.List[ServiceLine]
     eras: typing.List[Era]
-    active_job: typing.Optional[Job]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -56,6 +56,7 @@ from .types.medication import Medication
 from .types.patient_history_category import PatientHistoryCategory
 from .types.prior_authorization_number import PriorAuthorizationNumber
 from .types.responsible_party_type import ResponsiblePartyType
+from .types.service_authorization_exception_code import ServiceAuthorizationExceptionCode
 from .types.synchronicity_type import SynchronicityType
 from .types.vitals import Vitals
 
@@ -208,6 +209,11 @@ class V4Client:
         billable_status: BillableStatusType,
         responsible_party: ResponsiblePartyType,
         additional_information: typing.Optional[str] = OMIT,
+        service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
+        admission_date: typing.Optional[Date] = OMIT,
+        discharge_date: typing.Optional[Date] = OMIT,
+        onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
+        last_menstrual_period_date: typing.Optional[Date] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -309,6 +315,27 @@ class V4Client:
             - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
                                                             Box 19 on the CMS-1500 claim form.
 
+            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF*4N
+                                                                                                        Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+                                                                                                        reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+                                                                                                        obtaining the authorization.
+
+            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP*435, CMS-1500 Box 18
+                                                     Required on all ambulance claims when the patient was known to be admitted to the hospital.
+                                                     OR
+                                                     Required on all claims involving inpatient medical visits.
+
+            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP*096, CMS-1500 Box 18
+                                                     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+
+            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP*431, CMS-1500 Box 14
+                                                                               Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
+                                                                               OR
+                                                                               This date is the onset of acute symptoms for the current illness or condition.
+
+            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
+                                                                 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+
         """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -362,6 +389,16 @@ class V4Client:
             _request["synchronicity"] = synchronicity
         if additional_information is not OMIT:
             _request["additional_information"] = additional_information
+        if service_authorization_exception_code is not OMIT:
+            _request["service_authorization_exception_code"] = service_authorization_exception_code
+        if admission_date is not OMIT:
+            _request["admission_date"] = admission_date
+        if discharge_date is not OMIT:
+            _request["discharge_date"] = discharge_date
+        if onset_of_current_illness_or_symptom_date is not OMIT:
+            _request["onset_of_current_illness_or_symptom_date"] = onset_of_current_illness_or_symptom_date
+        if last_menstrual_period_date is not OMIT:
+            _request["last_menstrual_period_date"] = last_menstrual_period_date
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
@@ -419,6 +456,11 @@ class V4Client:
         end_date_of_service: typing.Optional[Date] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
+        service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
+        admission_date: typing.Optional[Date] = OMIT,
+        discharge_date: typing.Optional[Date] = OMIT,
+        onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
+        last_menstrual_period_date: typing.Optional[Date] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -469,6 +511,27 @@ class V4Client:
             - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
                                                             Box 19 on the CMS-1500 claim form.
 
+            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF*4N
+                                                                                                        Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+                                                                                                        reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+                                                                                                        obtaining the authorization.
+
+            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP*435, CMS-1500 Box 18
+                                                     Required on all ambulance claims when the patient was known to be admitted to the hospital.
+                                                     OR
+                                                     Required on all claims involving inpatient medical visits.
+
+            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP*096, CMS-1500 Box 18
+                                                     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+
+            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP*431, CMS-1500 Box 14
+                                                                               Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
+                                                                               OR
+                                                                               This date is the onset of acute symptoms for the current illness or condition.
+
+            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
+                                                                 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -505,6 +568,16 @@ class V4Client:
             _request["subscriber_secondary"] = subscriber_secondary
         if additional_information is not OMIT:
             _request["additional_information"] = additional_information
+        if service_authorization_exception_code is not OMIT:
+            _request["service_authorization_exception_code"] = service_authorization_exception_code
+        if admission_date is not OMIT:
+            _request["admission_date"] = admission_date
+        if discharge_date is not OMIT:
+            _request["discharge_date"] = discharge_date
+        if onset_of_current_illness_or_symptom_date is not OMIT:
+            _request["onset_of_current_illness_or_symptom_date"] = onset_of_current_illness_or_symptom_date
+        if last_menstrual_period_date is not OMIT:
+            _request["last_menstrual_period_date"] = last_menstrual_period_date
         _response = self._client_wrapper.httpx_client.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
@@ -683,6 +756,11 @@ class AsyncV4Client:
         billable_status: BillableStatusType,
         responsible_party: ResponsiblePartyType,
         additional_information: typing.Optional[str] = OMIT,
+        service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
+        admission_date: typing.Optional[Date] = OMIT,
+        discharge_date: typing.Optional[Date] = OMIT,
+        onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
+        last_menstrual_period_date: typing.Optional[Date] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -784,6 +862,27 @@ class AsyncV4Client:
             - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
                                                             Box 19 on the CMS-1500 claim form.
 
+            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF*4N
+                                                                                                        Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+                                                                                                        reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+                                                                                                        obtaining the authorization.
+
+            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP*435, CMS-1500 Box 18
+                                                     Required on all ambulance claims when the patient was known to be admitted to the hospital.
+                                                     OR
+                                                     Required on all claims involving inpatient medical visits.
+
+            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP*096, CMS-1500 Box 18
+                                                     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+
+            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP*431, CMS-1500 Box 14
+                                                                               Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
+                                                                               OR
+                                                                               This date is the onset of acute symptoms for the current illness or condition.
+
+            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
+                                                                 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+
         """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -837,6 +936,16 @@ class AsyncV4Client:
             _request["synchronicity"] = synchronicity
         if additional_information is not OMIT:
             _request["additional_information"] = additional_information
+        if service_authorization_exception_code is not OMIT:
+            _request["service_authorization_exception_code"] = service_authorization_exception_code
+        if admission_date is not OMIT:
+            _request["admission_date"] = admission_date
+        if discharge_date is not OMIT:
+            _request["discharge_date"] = discharge_date
+        if onset_of_current_illness_or_symptom_date is not OMIT:
+            _request["onset_of_current_illness_or_symptom_date"] = onset_of_current_illness_or_symptom_date
+        if last_menstrual_period_date is not OMIT:
+            _request["last_menstrual_period_date"] = last_menstrual_period_date
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
@@ -894,6 +1003,11 @@ class AsyncV4Client:
         end_date_of_service: typing.Optional[Date] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
+        service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
+        admission_date: typing.Optional[Date] = OMIT,
+        discharge_date: typing.Optional[Date] = OMIT,
+        onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
+        last_menstrual_period_date: typing.Optional[Date] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -944,6 +1058,27 @@ class AsyncV4Client:
             - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
                                                             Box 19 on the CMS-1500 claim form.
 
+            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF*4N
+                                                                                                        Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+                                                                                                        reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+                                                                                                        obtaining the authorization.
+
+            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP*435, CMS-1500 Box 18
+                                                     Required on all ambulance claims when the patient was known to be admitted to the hospital.
+                                                     OR
+                                                     Required on all claims involving inpatient medical visits.
+
+            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP*096, CMS-1500 Box 18
+                                                     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+
+            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP*431, CMS-1500 Box 14
+                                                                               Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
+                                                                               OR
+                                                                               This date is the onset of acute symptoms for the current illness or condition.
+
+            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
+                                                                 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -980,6 +1115,16 @@ class AsyncV4Client:
             _request["subscriber_secondary"] = subscriber_secondary
         if additional_information is not OMIT:
             _request["additional_information"] = additional_information
+        if service_authorization_exception_code is not OMIT:
+            _request["service_authorization_exception_code"] = service_authorization_exception_code
+        if admission_date is not OMIT:
+            _request["admission_date"] = admission_date
+        if discharge_date is not OMIT:
+            _request["discharge_date"] = discharge_date
+        if onset_of_current_illness_or_symptom_date is not OMIT:
+            _request["onset_of_current_illness_or_symptom_date"] = onset_of_current_illness_or_symptom_date
+        if last_menstrual_period_date is not OMIT:
+            _request["last_menstrual_period_date"] = last_menstrual_period_date
         _response = await self._client_wrapper.httpx_client.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),

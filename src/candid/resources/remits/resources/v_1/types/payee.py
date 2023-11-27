@@ -5,18 +5,13 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from ...commons.types.work_queue_id import WorkQueueId
-from .create_task_config import CreateTaskConfig
+from ......core.datetime_utils import serialize_datetime
+from .payee_identifier import PayeeIdentifier
 
 
-class MoveToWorkQueueClaimAction(pydantic.BaseModel):
-    """
-    Move claim(s) to a work queue
-    """
-
-    work_queue_id: WorkQueueId
-    create_task_config: typing.Optional[CreateTaskConfig]
+class Payee(pydantic.BaseModel):
+    payee_name: str
+    payee_identifier: PayeeIdentifier
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

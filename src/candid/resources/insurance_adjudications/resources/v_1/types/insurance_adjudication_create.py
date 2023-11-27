@@ -7,14 +7,15 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.service_line_id import ServiceLineId
-from .....payers.resources.v_3.types.payer_uuid import PayerUuid
+from .....payers.resources.v_3.types.payer_identifier import PayerIdentifier
+from .....remits.resources.v_1.types.payee import Payee
 from .claim_adjudication_create import ClaimAdjudicationCreate
 
 
 class InsuranceAdjudicationCreate(pydantic.BaseModel):
-    payer_uuid: PayerUuid
+    payer_identifier: PayerIdentifier
+    payee: Payee
     post_date: typing.Optional[dt.date]
-    payer_claim_number: str
     check_number: typing.Optional[str]
     check_date: dt.date
     note: typing.Optional[str]

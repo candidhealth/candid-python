@@ -3,21 +3,13 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.organization_id import OrganizationId
-from .....commons.types.user_id import UserId
-from .idp_user_metadata import IdpUserMetadata
-from .user_metadata import UserMetadata
+from .....commons.types.resource_page import ResourcePage
+from .patient_payment import PatientPayment
 
 
-class UserV2(pydantic.BaseModel):
-    user_id: UserId
-    idp_metadata: typing.List[IdpUserMetadata]
-    primary_organization_id: OrganizationId
-    user_metadata: UserMetadata
-    accessible_organization_ids: typing.List[OrganizationId]
+class PatientPaymentsPage(ResourcePage):
+    items: typing.List[PatientPayment]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -30,4 +22,5 @@ class UserV2(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

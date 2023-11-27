@@ -31,6 +31,7 @@ from .types import (
     PriorAuthorizationNumber,
     ResponsiblePartyType,
     RxCui,
+    ServiceAuthorizationExceptionCode,
     SynchronicityType,
     Vitals,
 )
@@ -70,6 +71,7 @@ __all__ = [
     "PriorAuthorizationNumber",
     "ResponsiblePartyType",
     "RxCui",
+    "ServiceAuthorizationExceptionCode",
     "SynchronicityType",
     "Vitals",
 ]

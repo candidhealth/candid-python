@@ -9,10 +9,17 @@ import pydantic
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.remove_none_from_dict import remove_none_from_dict
+from ....commons.types.page_token import PageToken
+from ....commons.types.patient_external_id import PatientExternalId
+from ....commons.types.service_line_id import ServiceLineId
+from ....commons.types.sort_direction import SortDirection
 from .types.create_write_offs_response import CreateWriteOffsResponse
 from .types.write_off import WriteOff
 from .types.write_off_create import WriteOffCreate
 from .types.write_off_id import WriteOffId
+from .types.write_off_sort_field import WriteOffSortField
+from .types.write_offs_page import WriteOffsPage
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -21,6 +28,57 @@ OMIT = typing.cast(typing.Any, ...)
 class V1Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    def get_multi(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        patient_external_id: typing.Optional[PatientExternalId] = None,
+        service_line_id: typing.Optional[ServiceLineId] = None,
+        sort: typing.Optional[WriteOffSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        page_token: typing.Optional[PageToken] = None,
+    ) -> WriteOffsPage:
+        """
+        Returns all write-offs satisfying the search criteria AND whose organization_id matches
+        the current organization_id of the authenticated user.
+
+        Parameters:
+            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+
+            - patient_external_id: typing.Optional[PatientExternalId].
+
+            - service_line_id: typing.Optional[ServiceLineId].
+
+            - sort: typing.Optional[WriteOffSortField]. Defaults to write_off_timestamp
+
+            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+
+            - page_token: typing.Optional[PageToken].
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
+            params=remove_none_from_dict(
+                {
+                    "limit": limit,
+                    "patient_external_id": patient_external_id,
+                    "service_line_id": jsonable_encoder(service_line_id),
+                    "sort": sort,
+                    "sort_direction": sort_direction,
+                    "page_token": page_token,
+                }
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(WriteOffsPage, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get(self, write_off_id: WriteOffId) -> WriteOff:
         """
@@ -92,6 +150,57 @@ class V1Client:
 class AsyncV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    async def get_multi(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        patient_external_id: typing.Optional[PatientExternalId] = None,
+        service_line_id: typing.Optional[ServiceLineId] = None,
+        sort: typing.Optional[WriteOffSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        page_token: typing.Optional[PageToken] = None,
+    ) -> WriteOffsPage:
+        """
+        Returns all write-offs satisfying the search criteria AND whose organization_id matches
+        the current organization_id of the authenticated user.
+
+        Parameters:
+            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+
+            - patient_external_id: typing.Optional[PatientExternalId].
+
+            - service_line_id: typing.Optional[ServiceLineId].
+
+            - sort: typing.Optional[WriteOffSortField]. Defaults to write_off_timestamp
+
+            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+
+            - page_token: typing.Optional[PageToken].
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
+            params=remove_none_from_dict(
+                {
+                    "limit": limit,
+                    "patient_external_id": patient_external_id,
+                    "service_line_id": jsonable_encoder(service_line_id),
+                    "sort": sort,
+                    "sort_direction": sort_direction,
+                    "page_token": page_token,
+                }
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(WriteOffsPage, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get(self, write_off_id: WriteOffId) -> WriteOff:
         """
