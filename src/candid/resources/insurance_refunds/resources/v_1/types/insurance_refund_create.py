@@ -3,21 +3,24 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....financials.types.allocation_create import AllocationCreate
 from .....financials.types.refund_reason import RefundReason
 from .....payers.resources.v_3.types.payer_identifier import PayerIdentifier
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class InsuranceRefundCreate(pydantic.BaseModel):
     payer_identifier: PayerIdentifier
     amount_cents: int
-    refund_timestamp: typing.Optional[dt.datetime]
-    refund_note: typing.Optional[str]
+    refund_timestamp: typing.Optional[dt.datetime] = None
+    refund_note: typing.Optional[str] = None
     allocations: typing.List[AllocationCreate]
-    refund_reason: typing.Optional[RefundReason]
+    refund_reason: typing.Optional[RefundReason] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

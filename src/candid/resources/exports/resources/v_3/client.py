@@ -5,8 +5,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.remove_none_from_dict import remove_none_from_dict
@@ -18,6 +16,11 @@ from .errors.export_files_unavailable_error import ExportFilesUnavailableError
 from .errors.export_not_yet_available_error import ExportNotYetAvailableError
 from .errors.missing_daily_incremental_export_file_error import MissingDailyIncrementalExportFileError
 from .types.get_exports_response import GetExportsResponse
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class V3Client:
@@ -45,7 +48,22 @@ class V3Client:
 
             - end_date: dt.date. Ending date of claim versions returned in the export, ISO 8601 date; e.g. 2019-08-24.
                                  Must be within 30 days of start_date.
+                                 ---
+        import datetime
 
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.exports.v_3.get_exports(
+            start_date=datetime.date.fromisoformat(
+                "2023-10-01",
+            ),
+            end_date=datetime.date.fromisoformat(
+                "2023-10-02",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -109,7 +127,22 @@ class AsyncV3Client:
 
             - end_date: dt.date. Ending date of claim versions returned in the export, ISO 8601 date; e.g. 2019-08-24.
                                  Must be within 30 days of start_date.
+                                 ---
+        import datetime
 
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.exports.v_3.get_exports(
+            start_date=datetime.date.fromisoformat(
+                "2023-10-01",
+            ),
+            end_date=datetime.date.fromisoformat(
+                "2023-10-02",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",

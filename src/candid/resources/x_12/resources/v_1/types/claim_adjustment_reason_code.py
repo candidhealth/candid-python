@@ -4,8 +4,8 @@ import datetime as dt
 import typing
 
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.task_assignment_id import TaskAssignmentId
-from .....commons.types.user_id import UserId
+from .....commons.types.claim_adjustment_group_codes import ClaimAdjustmentGroupCodes
+from .carc import Carc
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -13,9 +13,10 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class TaskAssignment(pydantic.BaseModel):
-    task_assignment_id: TaskAssignmentId
-    assignee_user_id: typing.Optional[UserId] = None
+class ClaimAdjustmentReasonCode(pydantic.BaseModel):
+    group_code: ClaimAdjustmentGroupCodes
+    reason_code: Carc
+    amount_cents: int
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

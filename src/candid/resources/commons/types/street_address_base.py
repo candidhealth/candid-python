@@ -3,15 +3,18 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from .state import State
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class StreetAddressBase(pydantic.BaseModel):
     address_1: str = pydantic.Field(alias="address1")
-    address_2: typing.Optional[str] = pydantic.Field(alias="address2")
+    address_2: typing.Optional[str] = pydantic.Field(alias="address2", default=None)
     city: str
     state: State
     zip_code: str = pydantic.Field(description="5-digit zip code")

@@ -3,17 +3,45 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .clinical_note import ClinicalNote
 from .note_category import NoteCategory
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class ClinicalNoteCategory(pydantic.BaseModel):
+    """
+    import datetime
+
+    from candid.resources.encounters.v_4 import (
+        ClinicalNote,
+        ClinicalNoteCategory,
+        NoteCategory,
+    )
+
+    ClinicalNoteCategory(
+        category=NoteCategory.CLINICAL,
+        notes=["Patient complained of mild chest pain."],
+        notes_structured=[
+            ClinicalNote(
+                text="Mild chest pain since morning.",
+                author_name="John Doe",
+                author_npi="1234567890",
+                timestamp=datetime.datetime.fromisoformat(
+                    "2023-01-01 00:00:00+00:00",
+                ),
+            )
+        ],
+    )
+    """
+
     category: NoteCategory
     notes: typing.List[str]
-    notes_structured: typing.Optional[typing.List[ClinicalNote]]
+    notes_structured: typing.Optional[typing.List[ClinicalNote]] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

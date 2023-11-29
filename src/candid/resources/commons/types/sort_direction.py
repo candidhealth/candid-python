@@ -7,6 +7,12 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class SortDirection(str, enum.Enum):
+    """
+    from candid import SortDirection
+
+    SortDirection.ASC
+    """
+
     ASC = "asc"
     DESC = "desc"
 

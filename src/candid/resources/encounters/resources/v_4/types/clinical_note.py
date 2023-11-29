@@ -3,16 +3,19 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.npi import Npi
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ClinicalNote(pydantic.BaseModel):
     text: str
     author_name: str
-    author_npi: typing.Optional[Npi]
+    author_npi: typing.Optional[Npi] = None
     timestamp: dt.datetime
 
     def json(self, **kwargs: typing.Any) -> str:

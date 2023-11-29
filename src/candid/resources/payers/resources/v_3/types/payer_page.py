@@ -9,6 +9,24 @@ from .payer import Payer
 
 
 class PayerPage(ResourcePage):
+    """
+    import uuid
+
+    from candid.resources.payers.v_3 import Payer, PayerPage
+
+    PayerPage(
+        items=[
+            Payer(
+                payer_uuid=uuid.UUID(
+                    "a6431fd2-0712-4714-b1b1-dd094daf9f42",
+                ),
+                payer_id="12345",
+                payer_name="Payer Name",
+            )
+        ],
+    )
+    """
+
     items: typing.List[Payer]
 
     def json(self, **kwargs: typing.Any) -> str:

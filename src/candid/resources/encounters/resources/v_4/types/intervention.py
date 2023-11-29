@@ -3,22 +3,61 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .intervention_category import InterventionCategory
 from .lab import Lab
 from .medication import Medication
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class Intervention(pydantic.BaseModel):
+    """
+    from candid.resources.encounters.v_4 import (
+        Intervention,
+        InterventionCategory,
+        Lab,
+        LabCodeType,
+        Medication,
+    )
+
+    Intervention(
+        name="Physical Therapy Session",
+        category=InterventionCategory.LIFESTYLE,
+        description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
+        medication=Medication(
+            name="Lisinopril",
+            rx_cui="860975",
+            dosage="10mg",
+            dosage_form="Tablet",
+            frequency="Once Daily",
+            as_needed=True,
+        ),
+        labs=[
+            Lab(
+                name="Genetic Health Labs",
+                code="GH12345",
+                code_type=LabCodeType.QUEST,
+            )
+        ],
+    )
+    """
+
     name: str
     category: InterventionCategory
     description: typing.Optional[str] = pydantic.Field(
-        description=("\"Examples: 'Birth Control LAC', 'Tracking', 'Stress Management', 'Supplement', 'Labs'\"\n")
+        default=None,
+        description=("\"Examples: 'Birth Control LAC', 'Tracking', 'Stress Management', 'Supplement', 'Labs'\"\n"),
     )
-    medication: typing.Optional[Medication] = pydantic.Field(description="Required when `type` is `allopathic`.")
-    labs: typing.Optional[typing.List[Lab]] = pydantic.Field(description="Required when `type` is `tests`.")
+    medication: typing.Optional[Medication] = pydantic.Field(
+        default=None, description="Required when `type` is `allopathic`."
+    )
+    labs: typing.Optional[typing.List[Lab]] = pydantic.Field(
+        default=None, description="Required when `type` is `tests`."
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

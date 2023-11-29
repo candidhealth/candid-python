@@ -3,12 +3,25 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class AuthGetTokenResponse(pydantic.BaseModel):
+    """
+    from candid.resources.auth.v_2 import AuthGetTokenResponse
+
+    AuthGetTokenResponse(
+        access_token="eyJz93a...k4laUWw",
+        expires_in=86400,
+        token_type="Bearer",
+    )
+    """
+
     access_token: str
     expires_in: int = pydantic.Field(description="Time in seconds.")
     token_type: str

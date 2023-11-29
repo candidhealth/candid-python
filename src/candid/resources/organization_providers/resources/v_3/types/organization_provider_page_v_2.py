@@ -9,6 +9,65 @@ from .organization_provider_v_2 import OrganizationProviderV2
 
 
 class OrganizationProviderPageV2(ResourcePage):
+    """
+    import datetime
+    import uuid
+
+    from candid import (
+        Identifier,
+        IdentifierCode,
+        IdentifierValue_MedicareProviderIdentifier,
+        State,
+    )
+    from candid.resources.organization_providers.v_2 import (
+        LicenseType,
+        ProviderType,
+    )
+    from candid.resources.organization_providers.v_3 import (
+        OrganizationProviderPageV2,
+        OrganizationProviderV2,
+    )
+
+    OrganizationProviderPageV2(
+        items=[
+            OrganizationProviderV2(
+                npi="1234567890",
+                is_rendering=True,
+                is_billing=True,
+                first_name="John",
+                last_name="Doe",
+                organization_name="Acme Medical",
+                provider_type=ProviderType.INDIVIDUAL,
+                tax_id="123456789",
+                taxonomy_code="1234567890",
+                license_type=LicenseType.MD,
+                employment_start_date=datetime.date.fromisoformat(
+                    "2020-10-07",
+                ),
+                employment_termination_date=datetime.date.fromisoformat(
+                    "2021-10-07",
+                ),
+                organization_provider_id=uuid.UUID(
+                    "965a563a-0285-4910-9569-e3739c0f6eab",
+                ),
+                qualifications=[
+                    Identifier(
+                        identifier_id=uuid.UUID(
+                            "123e4567-e89b-12d3-a456-426614174000",
+                        ),
+                        identifier_code=IdentifierCode.MCR,
+                        identifier_value=IdentifierValue_MedicareProviderIdentifier(
+                            type="medicare_provider_identifier",
+                            state=State.CA,
+                            provider_number="1234567890",
+                        ),
+                    )
+                ],
+            )
+        ],
+    )
+    """
+
     items: typing.List[OrganizationProviderV2]
 
     def json(self, **kwargs: typing.Any) -> str:

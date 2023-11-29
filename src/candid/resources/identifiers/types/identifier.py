@@ -9,6 +9,29 @@ from .identifier_id import IdentifierId
 
 
 class Identifier(IdentifierBase):
+    """
+    import uuid
+
+    from candid import (
+        Identifier,
+        IdentifierCode,
+        IdentifierValue_MedicareProviderIdentifier,
+        State,
+    )
+
+    Identifier(
+        identifier_id=uuid.UUID(
+            "123e4567-e89b-12d3-a456-426614174000",
+        ),
+        identifier_code=IdentifierCode.MCR,
+        identifier_value=IdentifierValue_MedicareProviderIdentifier(
+            type="medicare_provider_identifier",
+            state=State.CA,
+            provider_number="1234567890",
+        ),
+    )
+    """
+
     identifier_id: IdentifierId
 
     def json(self, **kwargs: typing.Any) -> str:

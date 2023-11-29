@@ -3,23 +3,26 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....service_lines.resources.v_2.types.denial_reason_content import DenialReasonContent
-from .claim_adjustment_reason_code import ClaimAdjustmentReasonCode
-from .remittance_advice_remark_code import RemittanceAdviceRemarkCode
+from .....x_12.resources.v_1.types.claim_adjustment_reason_code import ClaimAdjustmentReasonCode
+from .....x_12.resources.v_1.types.remittance_advice_remark_code import RemittanceAdviceRemarkCode
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ServiceLineAdjudicationCreate(pydantic.BaseModel):
     denial_reason: typing.Optional[DenialReasonContent] = pydantic.Field(
-        description="Will be treated as a denial if present"
+        default=None, description="Will be treated as a denial if present"
     )
-    insurance_allowed_amount_cents: typing.Optional[int]
-    insurance_paid_amount_cents: typing.Optional[int]
-    deductible_amount_cents: typing.Optional[int]
-    coinsurance_amount_cents: typing.Optional[int]
-    copay_amount_cents: typing.Optional[int]
+    insurance_allowed_amount_cents: typing.Optional[int] = None
+    insurance_paid_amount_cents: typing.Optional[int] = None
+    deductible_amount_cents: typing.Optional[int] = None
+    coinsurance_amount_cents: typing.Optional[int] = None
+    copay_amount_cents: typing.Optional[int] = None
     carcs: typing.List[ClaimAdjustmentReasonCode]
     rarcs: typing.List[RemittanceAdviceRemarkCode]
 

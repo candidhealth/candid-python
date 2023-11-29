@@ -11,10 +11,51 @@ from .patient_base import PatientBase
 
 
 class Patient(PatientBase):
+    """
+    import uuid
+
+    from candid import (
+        Gender,
+        Patient,
+        PhoneNumber,
+        PhoneNumberType,
+        State,
+        StreetAddressShortZip,
+    )
+
+    Patient(
+        individual_id=uuid.UUID(
+            "93ddbebf-4956-4482-9a6c-21499b7e4e5d",
+        ),
+        phone_numbers=[
+            PhoneNumber(
+                number="1234567890",
+                type=PhoneNumberType.HOME,
+            )
+        ],
+        phone_consent=True,
+        email="johndoe@joincandidhealth.com",
+        email_consent=True,
+        external_id="49460F77-6456-41F1-AC6D-0AED08614D39",
+        date_of_birth="2000-01-01",
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="John",
+        last_name="Doe",
+        gender=Gender.MALE,
+    )
+    """
+
     individual_id: IndividualId
     phone_numbers: typing.List[PhoneNumber]
     phone_consent: bool
-    email: typing.Optional[Email]
+    email: typing.Optional[Email] = None
     email_consent: bool
 
     def json(self, **kwargs: typing.Any) -> str:

@@ -3,8 +3,6 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from ...commons.types.date import Date
 from ...commons.types.invoice_id import InvoiceId
@@ -12,6 +10,11 @@ from ...commons.types.organization_id import OrganizationId
 from ...commons.types.patient_external_id import PatientExternalId
 from .invoice_item import InvoiceItem
 from .invoice_status import InvoiceStatus
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class Invoice(pydantic.BaseModel):
@@ -22,11 +25,11 @@ class Invoice(pydantic.BaseModel):
     source_id: str
     source_customer_id: str
     patient_external_id: PatientExternalId
-    note: typing.Optional[str]
+    note: typing.Optional[str] = None
     due_date: Date
     status: InvoiceStatus
-    url: typing.Optional[str]
-    customer_invoice_url: typing.Optional[str]
+    url: typing.Optional[str] = None
+    customer_invoice_url: typing.Optional[str] = None
     items: typing.List[InvoiceItem]
 
     def json(self, **kwargs: typing.Any) -> str:

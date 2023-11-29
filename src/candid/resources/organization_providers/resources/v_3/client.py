@@ -4,8 +4,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
@@ -28,6 +26,11 @@ from .types.organization_provider_page_v_2 import OrganizationProviderPageV2
 from .types.organization_provider_update_v_2 import OrganizationProviderUpdateV2
 from .types.organization_provider_v_2 import OrganizationProviderV2
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -40,6 +43,19 @@ class V3Client:
         """
         Parameters:
             - organization_provider_id: OrganizationProviderId.
+        ---
+        import uuid
+
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.organization_providers.v_3.get(
+            organization_provider_id=uuid.UUID(
+                "965a563a-0285-4910-9569-e3739c0f6eab",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -88,6 +104,24 @@ class V3Client:
             - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
 
             - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC.
+        ---
+        from candid.client import CandidApi
+        from candid.resources.organization_providers.v_2 import (
+            OrganizationProviderSortOptions,
+        )
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.organization_providers.v_3.get_multi(
+            limit=100,
+            search_term="john",
+            npi="1234567890",
+            is_rendering=True,
+            is_billing=True,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -191,6 +225,19 @@ class AsyncV3Client:
         """
         Parameters:
             - organization_provider_id: OrganizationProviderId.
+        ---
+        import uuid
+
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.organization_providers.v_3.get(
+            organization_provider_id=uuid.UUID(
+                "965a563a-0285-4910-9569-e3739c0f6eab",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
@@ -239,6 +286,24 @@ class AsyncV3Client:
             - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
 
             - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC.
+        ---
+        from candid.client import AsyncCandidApi
+        from candid.resources.organization_providers.v_2 import (
+            OrganizationProviderSortOptions,
+        )
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.organization_providers.v_3.get_multi(
+            limit=100,
+            search_term="john",
+            npi="1234567890",
+            is_rendering=True,
+            is_billing=True,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",

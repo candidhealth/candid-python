@@ -3,14 +3,49 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .intake_question import IntakeQuestion
 from .patient_history_category_enum import PatientHistoryCategoryEnum
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class PatientHistoryCategory(pydantic.BaseModel):
+    """
+    from candid.resources.encounters.v_4 import (
+        IntakeFollowUp,
+        IntakeQuestion,
+        IntakeResponseAndFollowUps,
+        PatientHistoryCategory,
+        PatientHistoryCategoryEnum,
+    )
+
+    PatientHistoryCategory(
+        category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
+        questions=[
+            IntakeQuestion(
+                id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
+                text="Do you have any allergies?",
+                responses=[
+                    IntakeResponseAndFollowUps(
+                        response="No allergies",
+                        follow_ups=[
+                            IntakeFollowUp(
+                                id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
+                                text="Do you have any allergies?",
+                                response="No allergies",
+                            )
+                        ],
+                    )
+                ],
+            )
+        ],
+    )
+    """
+
     category: PatientHistoryCategoryEnum
     questions: typing.List[IntakeQuestion] = pydantic.Field(description="Must contain at least one item.")
 

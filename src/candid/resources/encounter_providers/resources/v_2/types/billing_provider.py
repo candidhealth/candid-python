@@ -3,11 +3,14 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .encounter_provider_base import EncounterProviderBase
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class BillingProvider(EncounterProviderBase):
@@ -29,7 +32,7 @@ class BillingProvider(EncounterProviderBase):
         )
     )
     npi: str
-    taxonomy_code: typing.Optional[str]
+    taxonomy_code: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -13,6 +13,7 @@ from .types import (
     EncounterGuarantorMissingContactInfoErrorType,
     EncounterOwnerOfNextActionType,
     EncounterPage,
+    EncounterPatientControlNumberUniquenessErrorType,
     EncounterSortOptions,
     EncounterSubmissionOriginType,
     IntakeFollowUp,
@@ -35,7 +36,12 @@ from .types import (
     SynchronicityType,
     Vitals,
 )
-from .errors import CashPayPayerError, EncounterExternalIdUniquenessError, EncounterGuarantorMissingContactInfoError
+from .errors import (
+    CashPayPayerError,
+    EncounterExternalIdUniquenessError,
+    EncounterGuarantorMissingContactInfoError,
+    EncounterPatientControlNumberUniquenessError,
+)
 
 __all__ = [
     "BillableStatusType",
@@ -53,6 +59,8 @@ __all__ = [
     "EncounterGuarantorMissingContactInfoErrorType",
     "EncounterOwnerOfNextActionType",
     "EncounterPage",
+    "EncounterPatientControlNumberUniquenessError",
+    "EncounterPatientControlNumberUniquenessErrorType",
     "EncounterSortOptions",
     "EncounterSubmissionOriginType",
     "IntakeFollowUp",

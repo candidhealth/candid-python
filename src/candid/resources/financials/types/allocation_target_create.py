@@ -4,12 +4,16 @@ from __future__ import annotations
 
 import typing
 
-import pydantic
 import typing_extensions
 
 from ...commons.types.claim_id import ClaimId
 from ...commons.types.provider_id import ProviderId
 from ...commons.types.service_line_id import ServiceLineId
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class AllocationTargetCreate_ServiceLineById(pydantic.BaseModel):

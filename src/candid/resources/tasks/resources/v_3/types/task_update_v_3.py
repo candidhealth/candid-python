@@ -3,17 +3,20 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.user_id import UserId
 from ...commons.types.task_status import TaskStatus
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class TaskUpdateV3(pydantic.BaseModel):
-    status: typing.Optional[TaskStatus]
-    assignee_user_id: typing.Optional[UserId]
-    blocks_claim_submission: typing.Optional[bool]
+    status: typing.Optional[TaskStatus] = None
+    assignee_user_id: typing.Optional[UserId] = None
+    blocks_claim_submission: typing.Optional[bool] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

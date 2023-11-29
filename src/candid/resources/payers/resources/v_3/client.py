@@ -4,8 +4,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.remove_none_from_dict import remove_none_from_dict
@@ -13,6 +11,11 @@ from ....commons.types.page_token import PageToken
 from .types.payer import Payer
 from .types.payer_page import PayerPage
 from .types.payer_uuid import PayerUuid
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class V3Client:
@@ -52,6 +55,17 @@ class V3Client:
             - search_term: typing.Optional[str].
 
             - page_token: typing.Optional[PageToken].
+        ---
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.payers.v_3.get_all(
+            limit=100,
+            search_term="john",
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -106,6 +120,17 @@ class AsyncV3Client:
             - search_term: typing.Optional[str].
 
             - page_token: typing.Optional[PageToken].
+        ---
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.payers.v_3.get_all(
+            limit=100,
+            search_term="john",
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",

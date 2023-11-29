@@ -3,11 +3,14 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....payers.resources.v_3.types.payer_uuid import PayerUuid
 from .insurance_type import InsuranceType
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ExpectedNetworkStatusSubscriberInformation(pydantic.BaseModel):

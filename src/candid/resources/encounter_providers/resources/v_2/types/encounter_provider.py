@@ -10,11 +10,38 @@ from .provider_id import ProviderId
 
 
 class EncounterProvider(EncounterProviderBase):
+    """
+    import uuid
+
+    from candid import State, StreetAddressLongZip
+    from candid.resources.encounter_providers.v_2 import EncounterProvider
+
+    EncounterProvider(
+        provider_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        tax_id="123456789",
+        npi="1234567890",
+        taxonomy_code="207Q00000X",
+        first_name="John",
+        last_name="Doe",
+        organization_name="Organization Name",
+    )
+    """
+
     provider_id: ProviderId
     address: StreetAddressLongZip
-    tax_id: typing.Optional[str]
+    tax_id: typing.Optional[str] = None
     npi: str
-    taxonomy_code: typing.Optional[str]
+    taxonomy_code: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

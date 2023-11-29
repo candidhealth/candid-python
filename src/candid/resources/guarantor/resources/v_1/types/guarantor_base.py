@@ -3,18 +3,21 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.street_address_short_zip import StreetAddressShortZip
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class GuarantorBase(pydantic.BaseModel):
     first_name: str
     last_name: str
     external_id: str
-    date_of_birth: typing.Optional[dt.date]
-    address: typing.Optional[StreetAddressShortZip]
+    date_of_birth: typing.Optional[dt.date] = None
+    address: typing.Optional[StreetAddressShortZip] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -3,20 +3,23 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from ...commons.types.removable_date_range_optional_end import RemovableDateRangeOptionalEnd
 from .identifier_code import IdentifierCode
 from .identifier_id import IdentifierId
 from .identifier_value import IdentifierValue
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class IdentifierUpdate(pydantic.BaseModel):
     identifier_id: IdentifierId
-    identifier_code: typing.Optional[IdentifierCode]
-    identifier_value: typing.Optional[IdentifierValue]
-    period: typing.Optional[RemovableDateRangeOptionalEnd]
+    identifier_code: typing.Optional[IdentifierCode] = None
+    identifier_value: typing.Optional[IdentifierValue] = None
+    period: typing.Optional[RemovableDateRangeOptionalEnd] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

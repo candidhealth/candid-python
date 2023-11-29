@@ -5,8 +5,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
@@ -26,6 +24,11 @@ from .types.patient_refund_id import PatientRefundId
 from .types.patient_refund_sort_field import PatientRefundSortField
 from .types.patient_refunds_page import PatientRefundsPage
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -42,7 +45,8 @@ class V1Client:
         claim_id: typing.Optional[ClaimId] = None,
         service_line_id: typing.Optional[ServiceLineId] = None,
         billing_provider_id: typing.Optional[ProviderId] = None,
-        sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]],
+        invoice_id: typing.Optional[InvoiceId] = None,
+        sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
         sort: typing.Optional[PatientRefundSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
@@ -62,7 +66,9 @@ class V1Client:
 
             - billing_provider_id: typing.Optional[ProviderId].
 
-            - sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]].
+            - invoice_id: typing.Optional[InvoiceId].
+
+            - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
 
             - sort: typing.Optional[PatientRefundSortField]. Defaults to refund_timestamp
 
@@ -80,6 +86,7 @@ class V1Client:
                     "claim_id": jsonable_encoder(claim_id),
                     "service_line_id": jsonable_encoder(service_line_id),
                     "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "invoice_id": jsonable_encoder(invoice_id),
                     "sources": sources,
                     "sort": sort,
                     "sort_direction": sort_direction,
@@ -215,7 +222,8 @@ class AsyncV1Client:
         claim_id: typing.Optional[ClaimId] = None,
         service_line_id: typing.Optional[ServiceLineId] = None,
         billing_provider_id: typing.Optional[ProviderId] = None,
-        sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]],
+        invoice_id: typing.Optional[InvoiceId] = None,
+        sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
         sort: typing.Optional[PatientRefundSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
@@ -235,7 +243,9 @@ class AsyncV1Client:
 
             - billing_provider_id: typing.Optional[ProviderId].
 
-            - sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]].
+            - invoice_id: typing.Optional[InvoiceId].
+
+            - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
 
             - sort: typing.Optional[PatientRefundSortField]. Defaults to refund_timestamp
 
@@ -253,6 +263,7 @@ class AsyncV1Client:
                     "claim_id": jsonable_encoder(claim_id),
                     "service_line_id": jsonable_encoder(service_line_id),
                     "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "invoice_id": jsonable_encoder(invoice_id),
                     "sources": sources,
                     "sort": sort,
                     "sort_direction": sort_direction,

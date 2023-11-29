@@ -3,11 +3,14 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....organization_providers.resources.v_2.types.organization_provider_id import OrganizationProviderId
 from .....payers.resources.v_3.types.payer_uuid import PayerUuid
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class InNetworkRenderingProvidersDetail(pydantic.BaseModel):

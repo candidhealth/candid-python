@@ -7,6 +7,14 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class ServiceFacilityPhysicalType(str, enum.Enum):
+    """
+    from candid.resources.organization_service_facilities.v_2 import (
+        ServiceFacilityPhysicalType,
+    )
+
+    ServiceFacilityPhysicalType.SI
+    """
+
     SITE = "si"
     """
     A collection of buildings or other locations such as a site or a campus.

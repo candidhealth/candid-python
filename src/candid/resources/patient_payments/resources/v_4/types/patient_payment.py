@@ -3,8 +3,6 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.invoice_id import InvoiceId
 from .....commons.types.organization_id import OrganizationId
@@ -13,18 +11,23 @@ from .....financials.types.allocation import Allocation
 from .....financials.types.patient_transaction_source import PatientTransactionSource
 from .patient_payment_id import PatientPaymentId
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class PatientPayment(pydantic.BaseModel):
     patient_payment_id: PatientPaymentId
     organization_id: OrganizationId
-    source_internal_id: typing.Optional[str]
+    source_internal_id: typing.Optional[str] = None
     payment_source: PatientTransactionSource
     amount_cents: int
     patient_external_id: PatientExternalId
-    payment_timestamp: typing.Optional[dt.datetime]
-    payment_note: typing.Optional[str]
+    payment_timestamp: typing.Optional[dt.datetime] = None
+    payment_note: typing.Optional[str] = None
     allocations: typing.List[Allocation]
-    invoice: typing.Optional[InvoiceId]
+    invoice: typing.Optional[InvoiceId] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -9,14 +9,22 @@ from .insurance_card_id import InsuranceCardId
 
 
 class InsuranceCard(InsuranceCardBase):
+    """
+    import uuid
+
+    from candid import InsuranceCard, InsuranceTypeCode, SourceOfPaymentCode
+
+    InsuranceCard(insurance_card_id=uuid.UUID("ca5b7711-4419-4161-9b7c-3494ac40c8d4", ), member_id="E85313B4-0FFC-4119-8042-8161A4ECFF0A", payer_name="John Doe", payer_id="836DDAA6-863F-4020-ACCA-205A689F0002", rx_bin="610014", rx_pcn="MEDDPRIME", image_url_front="https://s3.amazonaws.com/front.jpg", image_url_back="https://s3.amazonaws.com/back.jpg", group_number="ABC12345", plan_name="Silver PPO Plan", plan_type=SourceOfPaymentCode.09, insurance_type=InsuranceTypeCode.12, )
+    """
+
     insurance_card_id: InsuranceCardId
     member_id: str
     payer_name: str
     payer_id: str
-    rx_bin: typing.Optional[str]
-    rx_pcn: typing.Optional[str]
-    image_url_front: typing.Optional[str]
-    image_url_back: typing.Optional[str]
+    rx_bin: typing.Optional[str] = None
+    rx_pcn: typing.Optional[str] = None
+    image_url_front: typing.Optional[str] = None
+    image_url_back: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

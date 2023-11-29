@@ -4,8 +4,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
@@ -13,6 +11,11 @@ from .errors.too_many_requests_error import TooManyRequestsError
 from .types.auth_get_token_request import AuthGetTokenRequest
 from .types.auth_get_token_response import AuthGetTokenResponse
 from .types.too_many_requests_error_type import TooManyRequestsErrorType
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -38,6 +41,19 @@ class V2Client:
 
         Parameters:
             - request: AuthGetTokenRequest.
+        ---
+        from candid.client import CandidApi
+        from candid.resources.auth.v_2 import AuthGetTokenRequest
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.auth.v_2.get_token(
+            request=AuthGetTokenRequest(
+                client_id="YOUR_CLIENT_ID",
+                client_secret="YOUR_CLIENT_SECRET",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "POST",
@@ -80,6 +96,19 @@ class AsyncV2Client:
 
         Parameters:
             - request: AuthGetTokenRequest.
+        ---
+        from candid.client import AsyncCandidApi
+        from candid.resources.auth.v_2 import AuthGetTokenRequest
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.auth.v_2.get_token(
+            request=AuthGetTokenRequest(
+                client_id="YOUR_CLIENT_ID",
+                client_secret="YOUR_CLIENT_SECRET",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "POST",

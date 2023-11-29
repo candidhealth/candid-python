@@ -4,8 +4,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
@@ -20,6 +18,11 @@ from .types.organization_service_facility_create import OrganizationServiceFacil
 from .types.organization_service_facility_id import OrganizationServiceFacilityId
 from .types.organization_service_facility_page import OrganizationServiceFacilityPage
 from .types.organization_service_facility_update import OrganizationServiceFacilityUpdate
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -70,6 +73,17 @@ class V2Client:
             - name: typing.Optional[str]. Filter to a name or a part of a name.
 
             - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
+        ---
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.organization_service_facilities.v_2.get_multi(
+            limit=100,
+            name="Test Service Facility",
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -90,6 +104,42 @@ class V2Client:
         """
         Parameters:
             - request: OrganizationServiceFacilityCreate.
+        ---
+        from candid import State, StreetAddressLongZip
+        from candid.client import CandidApi
+        from candid.resources.organization_service_facilities.v_2 import (
+            OrganizationServiceFacilityCreate,
+            ServiceFacilityMode,
+            ServiceFacilityOperationalStatus,
+            ServiceFacilityPhysicalType,
+            ServiceFacilityStatus,
+            ServiceFacilityType,
+        )
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.organization_service_facilities.v_2.create(
+            request=OrganizationServiceFacilityCreate(
+                name="Test Service Facility",
+                aliases=["Test Service Facility Alias"],
+                description="Test Service Facility Description",
+                status=ServiceFacilityStatus.ACTIVE,
+                operational_status=ServiceFacilityOperationalStatus.C,
+                mode=ServiceFacilityMode.INSTANCE,
+                type=ServiceFacilityType.DX,
+                physical_type=ServiceFacilityPhysicalType.SI,
+                telecoms=["555-555-5555"],
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "POST",
@@ -122,6 +172,47 @@ class V2Client:
             - organization_service_facility_id: OrganizationServiceFacilityId.
 
             - request: OrganizationServiceFacilityUpdate.
+        ---
+        import uuid
+
+        from candid import State, StreetAddressLongZip
+        from candid.client import CandidApi
+        from candid.resources.organization_service_facilities.v_2 import (
+            OrganizationServiceFacilityUpdate,
+            ServiceFacilityMode,
+            ServiceFacilityOperationalStatus,
+            ServiceFacilityPhysicalType,
+            ServiceFacilityStatus,
+            ServiceFacilityType,
+        )
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.organization_service_facilities.v_2.update(
+            organization_service_facility_id=uuid.UUID(
+                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+            ),
+            request=OrganizationServiceFacilityUpdate(
+                name="Test Service Facility",
+                aliases=["Test Service Facility Alias"],
+                description="Test Service Facility Description",
+                status=ServiceFacilityStatus.ACTIVE,
+                operational_status=ServiceFacilityOperationalStatus.C,
+                mode=ServiceFacilityMode.INSTANCE,
+                type=ServiceFacilityType.DX,
+                physical_type=ServiceFacilityPhysicalType.SI,
+                telecoms=["555-555-5555"],
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "PATCH",
@@ -154,6 +245,19 @@ class V2Client:
         """
         Parameters:
             - organization_service_facility_id: OrganizationServiceFacilityId.
+        ---
+        import uuid
+
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.organization_service_facilities.v_2.delete(
+            organization_service_facility_id=uuid.UUID(
+                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "DELETE",
@@ -223,6 +327,17 @@ class AsyncV2Client:
             - name: typing.Optional[str]. Filter to a name or a part of a name.
 
             - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
+        ---
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.organization_service_facilities.v_2.get_multi(
+            limit=100,
+            name="Test Service Facility",
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
@@ -243,6 +358,42 @@ class AsyncV2Client:
         """
         Parameters:
             - request: OrganizationServiceFacilityCreate.
+        ---
+        from candid import State, StreetAddressLongZip
+        from candid.client import AsyncCandidApi
+        from candid.resources.organization_service_facilities.v_2 import (
+            OrganizationServiceFacilityCreate,
+            ServiceFacilityMode,
+            ServiceFacilityOperationalStatus,
+            ServiceFacilityPhysicalType,
+            ServiceFacilityStatus,
+            ServiceFacilityType,
+        )
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.organization_service_facilities.v_2.create(
+            request=OrganizationServiceFacilityCreate(
+                name="Test Service Facility",
+                aliases=["Test Service Facility Alias"],
+                description="Test Service Facility Description",
+                status=ServiceFacilityStatus.ACTIVE,
+                operational_status=ServiceFacilityOperationalStatus.C,
+                mode=ServiceFacilityMode.INSTANCE,
+                type=ServiceFacilityType.DX,
+                physical_type=ServiceFacilityPhysicalType.SI,
+                telecoms=["555-555-5555"],
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
@@ -275,6 +426,47 @@ class AsyncV2Client:
             - organization_service_facility_id: OrganizationServiceFacilityId.
 
             - request: OrganizationServiceFacilityUpdate.
+        ---
+        import uuid
+
+        from candid import State, StreetAddressLongZip
+        from candid.client import AsyncCandidApi
+        from candid.resources.organization_service_facilities.v_2 import (
+            OrganizationServiceFacilityUpdate,
+            ServiceFacilityMode,
+            ServiceFacilityOperationalStatus,
+            ServiceFacilityPhysicalType,
+            ServiceFacilityStatus,
+            ServiceFacilityType,
+        )
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.organization_service_facilities.v_2.update(
+            organization_service_facility_id=uuid.UUID(
+                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+            ),
+            request=OrganizationServiceFacilityUpdate(
+                name="Test Service Facility",
+                aliases=["Test Service Facility Alias"],
+                description="Test Service Facility Description",
+                status=ServiceFacilityStatus.ACTIVE,
+                operational_status=ServiceFacilityOperationalStatus.C,
+                mode=ServiceFacilityMode.INSTANCE,
+                type=ServiceFacilityType.DX,
+                physical_type=ServiceFacilityPhysicalType.SI,
+                telecoms=["555-555-5555"],
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "PATCH",
@@ -307,6 +499,19 @@ class AsyncV2Client:
         """
         Parameters:
             - organization_service_facility_id: OrganizationServiceFacilityId.
+        ---
+        import uuid
+
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.organization_service_facilities.v_2.delete(
+            organization_service_facility_id=uuid.UUID(
+                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "DELETE",

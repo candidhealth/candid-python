@@ -3,12 +3,24 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class AuthGetTokenRequest(pydantic.BaseModel):
+    """
+    from candid.resources.auth.v_2 import AuthGetTokenRequest
+
+    AuthGetTokenRequest(
+        client_id="YOUR_CLIENT_ID",
+        client_secret="YOUR_CLIENT_SECRET",
+    )
+    """
+
     client_id: str = pydantic.Field(description="Your application's Client ID.")
     client_secret: str = pydantic.Field(description="Your application's Client Secret.")
 

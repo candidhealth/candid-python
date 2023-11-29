@@ -4,10 +4,14 @@ from __future__ import annotations
 
 import typing
 
-import pydantic
 import typing_extensions
 
 from .date_range_optional_end import DateRangeOptionalEnd
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class RemovableDateRangeOptionalEnd_DateRange(DateRangeOptionalEnd):

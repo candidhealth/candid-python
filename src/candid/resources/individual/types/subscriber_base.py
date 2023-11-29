@@ -12,8 +12,8 @@ from .individual_base import IndividualBase
 
 class SubscriberBase(IndividualBase):
     patient_relationship_to_subscriber_code: PatientRelationshipToInsuredCodeAll
-    date_of_birth: typing.Optional[Date]
-    address: typing.Optional[StreetAddressShortZip]
+    date_of_birth: typing.Optional[Date] = None
+    address: typing.Optional[StreetAddressShortZip] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

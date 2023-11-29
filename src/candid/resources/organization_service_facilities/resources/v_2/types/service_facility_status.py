@@ -7,6 +7,14 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class ServiceFacilityStatus(str, enum.Enum):
+    """
+    from candid.resources.organization_service_facilities.v_2 import (
+        ServiceFacilityStatus,
+    )
+
+    ServiceFacilityStatus.ACTIVE
+    """
+
     ACTIVE = "active"
     """
     The location is operational.

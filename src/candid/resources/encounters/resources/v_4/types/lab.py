@@ -3,16 +3,29 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .lab_code_type import LabCodeType
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class Lab(pydantic.BaseModel):
+    """
+    from candid.resources.encounters.v_4 import Lab, LabCodeType
+
+    Lab(
+        name="Genetic Health Labs",
+        code="GH12345",
+        code_type=LabCodeType.QUEST,
+    )
+    """
+
     name: str
-    code: typing.Optional[str]
-    code_type: typing.Optional[LabCodeType]
+    code: typing.Optional[str] = None
+    code_type: typing.Optional[LabCodeType] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

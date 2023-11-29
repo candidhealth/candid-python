@@ -9,6 +9,31 @@ from .standalone_diagnosis_create import StandaloneDiagnosisCreate
 
 
 class Diagnosis(StandaloneDiagnosisCreate):
+    """
+    import datetime
+    import uuid
+
+    from candid import Diagnosis, DiagnosisTypeCode
+
+    Diagnosis(
+        diagnosis_id=uuid.UUID(
+            "5c770e00-4bbf-42af-a73f-99c5e91fc0db",
+        ),
+        created_at=datetime.datetime.fromisoformat(
+            "2023-01-01 00:00:00+00:00",
+        ),
+        updated_at=datetime.datetime.fromisoformat(
+            "2023-01-01 00:00:00+00:00",
+        ),
+        encounter_id=uuid.UUID(
+            "3f63985b-51a4-4dd4-9418-7d50b2520792",
+        ),
+        name="John Doe",
+        code_type=DiagnosisTypeCode.ABF,
+        code="I10",
+    )
+    """
+
     diagnosis_id: DiagnosisId
     created_at: dt.datetime
     updated_at: dt.datetime

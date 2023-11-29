@@ -12,6 +12,7 @@ from .encounter_external_id_uniqueness_error_type import EncounterExternalIdUniq
 from .encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
 from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .encounter_page import EncounterPage
+from .encounter_patient_control_number_uniqueness_error_type import EncounterPatientControlNumberUniquenessErrorType
 from .encounter_sort_options import EncounterSortOptions
 from .encounter_submission_origin_type import EncounterSubmissionOriginType
 from .intake_follow_up import IntakeFollowUp
@@ -47,6 +48,7 @@ __all__ = [
     "EncounterGuarantorMissingContactInfoErrorType",
     "EncounterOwnerOfNextActionType",
     "EncounterPage",
+    "EncounterPatientControlNumberUniquenessErrorType",
     "EncounterSortOptions",
     "EncounterSubmissionOriginType",
     "IntakeFollowUp",

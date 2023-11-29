@@ -3,15 +3,18 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from .date import Date
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class DateRangeOptionalEnd(pydantic.BaseModel):
     start_date: Date
-    end_date: typing.Optional[Date]
+    end_date: typing.Optional[Date] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

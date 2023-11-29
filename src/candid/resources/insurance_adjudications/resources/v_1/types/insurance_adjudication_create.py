@@ -3,23 +3,26 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.service_line_id import ServiceLineId
+from .....commons.types.claim_id import ClaimId
 from .....payers.resources.v_3.types.payer_identifier import PayerIdentifier
 from .....remits.resources.v_1.types.payee import Payee
 from .claim_adjudication_create import ClaimAdjudicationCreate
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class InsuranceAdjudicationCreate(pydantic.BaseModel):
     payer_identifier: PayerIdentifier
     payee: Payee
-    post_date: typing.Optional[dt.date]
-    check_number: typing.Optional[str]
+    post_date: typing.Optional[dt.date] = None
+    check_number: typing.Optional[str] = None
     check_date: dt.date
-    note: typing.Optional[str]
-    claims: typing.Dict[ServiceLineId, ClaimAdjudicationCreate]
+    note: typing.Optional[str] = None
+    claims: typing.Dict[ClaimId, ClaimAdjudicationCreate]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

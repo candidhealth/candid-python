@@ -7,6 +7,14 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class ServiceFacilityType(str, enum.Enum):
+    """
+    from candid.resources.organization_service_facilities.v_2 import (
+        ServiceFacilityType,
+    )
+
+    ServiceFacilityType.DX
+    """
+
     DIAGNOSTICS_OR_THERAPEUTICS_UNIT = "DX"
     """
     A practice setting where diagnostic procedures or therapeutic interventions are performed.

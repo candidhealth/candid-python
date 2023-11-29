@@ -3,18 +3,21 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.service_line_id import ServiceLineId
 from .write_off_id import WriteOffId
 from .write_off_reason import WriteOffReason
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class WriteOff(pydantic.BaseModel):
     write_off_id: WriteOffId
     write_off_timestamp: dt.datetime
-    write_off_note: typing.Optional[str]
+    write_off_note: typing.Optional[str] = None
     write_off_reason: WriteOffReason
     service_line_id: ServiceLineId
     amount_cents: int

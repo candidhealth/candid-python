@@ -3,19 +3,22 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from ...commons.types.email import Email
 from ...commons.types.phone_number import PhoneNumber
 from .patient_base import PatientBase
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class PatientCreate(PatientBase):
-    phone_numbers: typing.Optional[typing.List[PhoneNumber]]
-    phone_consent: typing.Optional[bool] = pydantic.Field(description="Defaults to false")
-    email: typing.Optional[Email]
-    email_consent: typing.Optional[bool] = pydantic.Field(description="Defaults to false")
+    phone_numbers: typing.Optional[typing.List[PhoneNumber]] = None
+    phone_consent: typing.Optional[bool] = pydantic.Field(default=None, description="Defaults to false")
+    email: typing.Optional[Email] = None
+    email_consent: typing.Optional[bool] = pydantic.Field(default=None, description="Defaults to false")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

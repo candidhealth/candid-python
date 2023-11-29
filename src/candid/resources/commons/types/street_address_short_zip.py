@@ -3,15 +3,31 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from .street_address_base import StreetAddressBase
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class StreetAddressShortZip(StreetAddressBase):
+    """
+    from candid import State, StreetAddressShortZip
+
+    StreetAddressShortZip(
+        address_1="123 Main St",
+        address_2="Apt 1",
+        city="New York",
+        state=State.NY,
+        zip_code="10001",
+        zip_plus_four_code="1234",
+    )
+    """
+
     zip_plus_four_code: typing.Optional[str] = pydantic.Field(
-        description="4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4"
+        default=None, description="4-digit zip add-on code https://en.wikipedia.org/wiki/ZIP_Code#ZIP+4"
     )
 
     def json(self, **kwargs: typing.Any) -> str:

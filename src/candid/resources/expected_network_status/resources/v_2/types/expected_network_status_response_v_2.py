@@ -3,11 +3,14 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .expected_network_status_v_2 import ExpectedNetworkStatusV2
 from .network_status_check_id import NetworkStatusCheckId
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ExpectedNetworkStatusResponseV2(pydantic.BaseModel):

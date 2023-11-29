@@ -3,11 +3,9 @@
 from .types import (
     ClaimAdjudication,
     ClaimAdjudicationCreate,
-    ClaimAdjustmentReasonCode,
     InsuranceAdjudication,
     InsuranceAdjudicationCreate,
     InsuranceAdjudicationId,
-    RemittanceAdviceRemarkCode,
     ServiceLineAdjudication,
     ServiceLineAdjudicationCreate,
     ServiceLineAdjudicationId,
@@ -16,11 +14,9 @@ from .types import (
 __all__ = [
     "ClaimAdjudication",
     "ClaimAdjudicationCreate",
-    "ClaimAdjustmentReasonCode",
     "InsuranceAdjudication",
     "InsuranceAdjudicationCreate",
     "InsuranceAdjudicationId",
-    "RemittanceAdviceRemarkCode",
     "ServiceLineAdjudication",
     "ServiceLineAdjudicationCreate",
     "ServiceLineAdjudicationId",

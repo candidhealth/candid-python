@@ -3,19 +3,23 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.service_line_id import ServiceLineId
-from .claim_adjustment_reason_code import ClaimAdjustmentReasonCode
+from .....x_12.resources.v_1.types.claim_adjustment_reason_code import ClaimAdjustmentReasonCode
 from .service_line_adjudication_create import ServiceLineAdjudicationCreate
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ClaimAdjudicationCreate(pydantic.BaseModel):
-    insurance_allowed_amount_cents: typing.Optional[int]
-    insurance_paid_amount_cents: typing.Optional[int]
+    insurance_allowed_amount_cents: typing.Optional[int] = None
+    insurance_paid_amount_cents: typing.Optional[int] = None
+    charge_amount_cents: typing.Optional[int] = None
     service_lines: typing.Dict[ServiceLineId, ServiceLineAdjudicationCreate]
-    payer_claim_number: typing.Optional[str]
+    payer_claim_number: typing.Optional[str] = None
     carcs: typing.List[ClaimAdjustmentReasonCode]
 
     def json(self, **kwargs: typing.Any) -> str:

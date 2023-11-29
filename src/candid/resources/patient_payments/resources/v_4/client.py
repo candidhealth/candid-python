@@ -5,8 +5,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
@@ -25,6 +23,11 @@ from .types.patient_payment_id import PatientPaymentId
 from .types.patient_payment_sort_field import PatientPaymentSortField
 from .types.patient_payments_page import PatientPaymentsPage
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -41,7 +44,8 @@ class V4Client:
         claim_id: typing.Optional[ClaimId] = None,
         service_line_id: typing.Optional[ServiceLineId] = None,
         billing_provider_id: typing.Optional[ProviderId] = None,
-        sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]],
+        invoice_id: typing.Optional[InvoiceId] = None,
+        sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
         sort: typing.Optional[PatientPaymentSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
@@ -61,7 +65,9 @@ class V4Client:
 
             - billing_provider_id: typing.Optional[ProviderId].
 
-            - sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]].
+            - invoice_id: typing.Optional[InvoiceId].
+
+            - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
 
             - sort: typing.Optional[PatientPaymentSortField]. Defaults to payment_timestamp
 
@@ -79,6 +85,7 @@ class V4Client:
                     "claim_id": jsonable_encoder(claim_id),
                     "service_line_id": jsonable_encoder(service_line_id),
                     "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "invoice_id": jsonable_encoder(invoice_id),
                     "sources": sources,
                     "sort": sort,
                     "sort_direction": sort_direction,
@@ -209,7 +216,8 @@ class AsyncV4Client:
         claim_id: typing.Optional[ClaimId] = None,
         service_line_id: typing.Optional[ServiceLineId] = None,
         billing_provider_id: typing.Optional[ProviderId] = None,
-        sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]],
+        invoice_id: typing.Optional[InvoiceId] = None,
+        sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
         sort: typing.Optional[PatientPaymentSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
@@ -229,7 +237,9 @@ class AsyncV4Client:
 
             - billing_provider_id: typing.Optional[ProviderId].
 
-            - sources: typing.Union[typing.Optional[PatientTransactionSource], typing.List[PatientTransactionSource]].
+            - invoice_id: typing.Optional[InvoiceId].
+
+            - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
 
             - sort: typing.Optional[PatientPaymentSortField]. Defaults to payment_timestamp
 
@@ -247,6 +257,7 @@ class AsyncV4Client:
                     "claim_id": jsonable_encoder(claim_id),
                     "service_line_id": jsonable_encoder(service_line_id),
                     "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "invoice_id": jsonable_encoder(invoice_id),
                     "sources": sources,
                     "sort": sort,
                     "sort_direction": sort_direction,

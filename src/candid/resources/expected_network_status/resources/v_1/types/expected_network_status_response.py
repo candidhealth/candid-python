@@ -3,11 +3,14 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....contracts.types.contract_id import ContractId
 from .expected_network_status import ExpectedNetworkStatus
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ExpectedNetworkStatusResponse(pydantic.BaseModel):
@@ -15,7 +18,7 @@ class ExpectedNetworkStatusResponse(pydantic.BaseModel):
         description="The anticipated classification of a healthcare provider within the insurance plan's network."
     )
     explanation: str
-    contract_id: typing.Optional[ContractId]
+    contract_id: typing.Optional[ContractId] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

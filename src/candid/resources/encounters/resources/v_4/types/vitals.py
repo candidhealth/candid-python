@@ -3,17 +3,32 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class Vitals(pydantic.BaseModel):
+    """
+    from candid.resources.encounters.v_4 import Vitals
+
+    Vitals(
+        height_in=70,
+        weight_lbs=165,
+        blood_pressure_systolic_mmhg=115,
+        blood_pressure_diastolic_mmhg=85,
+        body_temperature_f=98.0,
+    )
+    """
+
     height_in: int
     weight_lbs: int
     blood_pressure_systolic_mmhg: int
     blood_pressure_diastolic_mmhg: int
-    body_temperature_f: typing.Optional[float]
+    body_temperature_f: typing.Optional[float] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

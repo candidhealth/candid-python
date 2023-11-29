@@ -7,6 +7,14 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class ServiceFacilityMode(str, enum.Enum):
+    """
+    from candid.resources.organization_service_facilities.v_2 import (
+        ServiceFacilityMode,
+    )
+
+    ServiceFacilityMode.INSTANCE
+    """
+
     INSTANCE = "instance"
     """
     The Location resource represents a specific instance of a location (e.g. Operating Theatre 1A).

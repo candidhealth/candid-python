@@ -3,21 +3,32 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
 from .claim_frequency_type_code import ClaimFrequencyTypeCode
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ClaimSubmissionRecordCreate(pydantic.BaseModel):
     """
     Data about each external submission.
+    ---
+    import datetime
+
+    from candid import ClaimSubmissionPayerResponsibilityType
+    from candid.resources.claim_submission.v_1 import (ClaimFrequencyTypeCode,
+                                                       ClaimSubmissionRecordCreate)
+
+    ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-01 13:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.1, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, )
     """
 
     submitted_at: dt.datetime = pydantic.Field(description="When the claim was submitted to the payer.")
-    claim_frequency_code: typing.Optional[ClaimFrequencyTypeCode]
-    payer_responsibility: typing.Optional[ClaimSubmissionPayerResponsibilityType]
+    claim_frequency_code: typing.Optional[ClaimFrequencyTypeCode] = None
+    payer_responsibility: typing.Optional[ClaimSubmissionPayerResponsibilityType] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

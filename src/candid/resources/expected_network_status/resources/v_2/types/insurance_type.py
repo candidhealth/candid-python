@@ -3,11 +3,14 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .insurance_type_codes import InsuranceTypeCodes
 from .line_of_business import LineOfBusiness
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class InsuranceType(pydantic.BaseModel):

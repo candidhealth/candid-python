@@ -3,12 +3,32 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class GetExportsResponse(pydantic.BaseModel):
+    """
+    import datetime
+
+    from candid.resources.exports.v_3 import GetExportsResponse
+
+    GetExportsResponse(
+        name="John Doe",
+        created_at=datetime.datetime.fromisoformat(
+            "2021-10-07 00:00:00+00:00",
+        ),
+        authenticated_download_url="https://example.com",
+        authenticated_download_url_expiration=datetime.datetime.fromisoformat(
+            "2021-10-07 00:02:00+00:00",
+        ),
+    )
+    """
+
     name: str = pydantic.Field(
         description="Report name; contains date strings representing the start and end date of the export."
     )

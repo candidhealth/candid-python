@@ -5,8 +5,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.datetime_utils import serialize_datetime
@@ -32,6 +30,11 @@ from .types.task_page import TaskPage
 from .types.task_sort_options import TaskSortOptions
 from .types.task_update_v_3 import TaskUpdateV3
 from .types.task_updated_to_deprecated_status_error_type import TaskUpdatedToDeprecatedStatusErrorType
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)

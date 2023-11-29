@@ -3,17 +3,17 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.claim_adjustment_group_codes import ClaimAdjustmentGroupCodes
-from .....x_12.resources.v_1.types.carc import Carc
+from .rarc import Rarc
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
-class ClaimAdjustmentReasonCode(pydantic.BaseModel):
-    group_code: ClaimAdjustmentGroupCodes
-    reason_code: Carc
-    amount_cents: int
+class RemittanceAdviceRemarkCode(pydantic.BaseModel):
+    reason_code: Rarc
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

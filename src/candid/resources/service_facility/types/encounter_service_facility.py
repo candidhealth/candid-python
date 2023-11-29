@@ -3,14 +3,38 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from ...commons.types.street_address_long_zip import StreetAddressLongZip
 from .service_facility_id import ServiceFacilityId
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class EncounterServiceFacility(pydantic.BaseModel):
+    """
+    import uuid
+
+    from candid import EncounterServiceFacility, State, StreetAddressLongZip
+
+    EncounterServiceFacility(
+        service_facility_id=uuid.UUID(
+            "2861487b-232c-4ded-a874-616a5db0688f",
+        ),
+        organization_name="Test Organization",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+    )
+    """
+
     service_facility_id: ServiceFacilityId
     organization_name: str
     address: StreetAddressLongZip

@@ -9,6 +9,20 @@ from .era_id import EraId
 
 
 class Era(EraBase):
+    """
+    import uuid
+
+    from candid import Era
+
+    Era(
+        era_id=uuid.UUID(
+            "4d844ef1-2253-43cd-a4f1-6db7e65cb54b",
+        ),
+        check_number="CHK12345",
+        check_date="2023-10-12",
+    )
+    """
+
     era_id: EraId
 
     def json(self, **kwargs: typing.Any) -> str:

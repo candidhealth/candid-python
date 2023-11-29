@@ -3,11 +3,14 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .compute_all_in_network_rendering_providers_result import ComputeAllInNetworkRenderingProvidersResult
 from .network_status_check_id import NetworkStatusCheckId
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ComputeAllInNetworkProvidersResponse(pydantic.BaseModel):

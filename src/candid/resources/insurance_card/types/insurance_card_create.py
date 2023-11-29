@@ -12,11 +12,11 @@ class InsuranceCardCreate(InsuranceCardBase):
     member_id: str
     payer_name: str
     payer_id: str
-    rx_bin: typing.Optional[str]
-    rx_pcn: typing.Optional[str]
-    image_url_front: typing.Optional[str]
-    image_url_back: typing.Optional[str]
-    emr_payer_crosswalk: typing.Optional[EmrPayerCrosswalk]
+    rx_bin: typing.Optional[str] = None
+    rx_pcn: typing.Optional[str] = None
+    image_url_front: typing.Optional[str] = None
+    image_url_back: typing.Optional[str] = None
+    emr_payer_crosswalk: typing.Optional[EmrPayerCrosswalk] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

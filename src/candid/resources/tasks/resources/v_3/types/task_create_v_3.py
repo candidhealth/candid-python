@@ -3,8 +3,6 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.encounter_id import EncounterId
 from .....commons.types.user_id import UserId
@@ -12,14 +10,19 @@ from .....commons.types.work_queue_id import WorkQueueId
 from ...commons.types.task_category import TaskCategory
 from ...commons.types.task_type import TaskType
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class TaskCreateV3(pydantic.BaseModel):
     encounter_id: EncounterId
     task_type: TaskType
     description: str
-    blocks_claim_submission: typing.Optional[bool]
-    assignee_user_id: typing.Optional[UserId]
-    category: typing.Optional[TaskCategory]
+    blocks_claim_submission: typing.Optional[bool] = None
+    assignee_user_id: typing.Optional[UserId] = None
+    category: typing.Optional[TaskCategory] = None
     work_queue_id: WorkQueueId
 
     def json(self, **kwargs: typing.Any) -> str:

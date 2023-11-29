@@ -3,8 +3,6 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.date import Date
 from .....commons.types.encounter_external_id import EncounterExternalId
@@ -17,6 +15,11 @@ from .responsible_party_type import ResponsiblePartyType
 from .service_authorization_exception_code import ServiceAuthorizationExceptionCode
 from .synchronicity_type import SynchronicityType
 from .vitals import Vitals
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class EncounterBase(pydantic.BaseModel):
@@ -36,15 +39,16 @@ class EncounterBase(pydantic.BaseModel):
         )
     )
     end_date_of_service: typing.Optional[Date] = pydantic.Field(
+        default=None,
         description=(
             "Date formatted as YYYY-MM-DD; eg: 2019-08-25.\n"
             "This date must be the local date in the timezone where the service occurred.\n"
             "If omitted, the Encounter is assumed to be for a single day.\n"
             "Must not be temporally before the date_of_service field.\n"
-        )
+        ),
     )
     prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = pydantic.Field(
-        description="Box 23 on the CMS-1500 claim form."
+        default=None, description="Box 23 on the CMS-1500 claim form."
     )
     patient_authorized_release: bool = pydantic.Field(
         description=(
@@ -68,22 +72,24 @@ class EncounterBase(pydantic.BaseModel):
         )
     )
     appointment_type: typing.Optional[str] = pydantic.Field(
-        description=('Human-readable description of the appointment type (ex: "Acupuncture - Headaches").\n')
+        default=None,
+        description=('Human-readable description of the appointment type (ex: "Acupuncture - Headaches").\n'),
     )
-    existing_medications: typing.Optional[typing.List[Medication]]
-    vitals: typing.Optional[Vitals]
-    interventions: typing.Optional[typing.List[Intervention]]
+    existing_medications: typing.Optional[typing.List[Medication]] = None
+    vitals: typing.Optional[Vitals] = None
+    interventions: typing.Optional[typing.List[Intervention]] = None
     pay_to_address: typing.Optional[StreetAddressLongZip] = pydantic.Field(
-        description="Specifies the address to which payments for the claim should be sent."
+        default=None, description="Specifies the address to which payments for the claim should be sent."
     )
     synchronicity: typing.Optional[SynchronicityType] = pydantic.Field(
+        default=None,
         description=(
             "Whether or not this was a synchronous or asynchronous encounter.\n"
             "Asynchronous encounters occur when providers and patients communicate online using\n"
             "forms, instant messaging, or other pre-recorded digital mediums.\n"
             "Synchronous encounters occur in live, real-time settings where the patient interacts\n"
             "directly with the provider, such as over video or a phone call.\n"
-        )
+        ),
     )
     billable_status: BillableStatusType = pydantic.Field(
         description=(
@@ -96,45 +102,51 @@ class EncounterBase(pydantic.BaseModel):
         description=("Defines the party to be billed with the initial balance owed on the claim.\n")
     )
     additional_information: typing.Optional[str] = pydantic.Field(
+        default=None,
         description=(
             "Defines additional information on the claim needed by the payer.\n" "Box 19 on the CMS-1500 claim form.\n"
-        )
+        ),
     )
     service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = pydantic.Field(
+        default=None,
         description=(
             "837p Loop2300 REF*4N\n"
             "Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the\n"
             "reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without\n"
             "obtaining the authorization.\n"
-        )
+        ),
     )
     admission_date: typing.Optional[Date] = pydantic.Field(
+        default=None,
         description=(
             "837p Loop2300 DTP*435, CMS-1500 Box 18\n"
             "Required on all ambulance claims when the patient was known to be admitted to the hospital.\n"
             "OR\n"
             "Required on all claims involving inpatient medical visits.\n"
-        )
+        ),
     )
     discharge_date: typing.Optional[Date] = pydantic.Field(
+        default=None,
         description=(
             "837p Loop2300 DTP*096, CMS-1500 Box 18\n"
             "Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.\n"
-        )
+        ),
     )
     onset_of_current_illness_or_symptom_date: typing.Optional[Date] = pydantic.Field(
+        default=None,
         description=(
             "837p Loop2300 DTP*431, CMS-1500 Box 14\n"
             "Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.\n"
             "OR\n"
             "This date is the onset of acute symptoms for the current illness or condition.\n"
-        )
+        ),
     )
     last_menstrual_period_date: typing.Optional[Date] = pydantic.Field(
+        default=None,
         description=(
             "837p Loop2300 DTP*484, CMS-1500 Box 14\n"
             "Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.\n"
-        )
+        ),
     )
 
     def json(self, **kwargs: typing.Any) -> str:

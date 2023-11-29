@@ -3,10 +3,13 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .denial_reason_content import DenialReasonContent
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ServiceLineDenialReason(pydantic.BaseModel):
@@ -15,7 +18,7 @@ class ServiceLineDenialReason(pydantic.BaseModel):
     A service line may be denied for different reasons over time, but only one reason at a time.
     """
 
-    reason: typing.Optional[DenialReasonContent] = pydantic.Field(description="Text of the denial reason")
+    reason: typing.Optional[DenialReasonContent] = pydantic.Field(default=None, description="Text of the denial reason")
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

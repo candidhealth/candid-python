@@ -3,15 +3,27 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from .page_token import PageToken
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class ResourcePage(pydantic.BaseModel):
-    prev_page_token: typing.Optional[PageToken]
-    next_page_token: typing.Optional[PageToken]
+    """
+    from candid import ResourcePage
+
+    ResourcePage(
+        prev_page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        next_page_token="eyAiZm9vIjogImJhciJ9o8dj3FU83fFJe8dalz4A",
+    )
+    """
+
+    prev_page_token: typing.Optional[PageToken] = None
+    next_page_token: typing.Optional[PageToken] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

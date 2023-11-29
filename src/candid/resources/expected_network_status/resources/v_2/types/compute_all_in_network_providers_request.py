@@ -3,8 +3,6 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.street_address_short_zip import StreetAddressShortZip
@@ -14,6 +12,11 @@ from .....organization_service_facilities.resources.v_2.types.organization_servi
 )
 from .expected_network_status_subscriber_information import ExpectedNetworkStatusSubscriberInformation
 from .service_type import ServiceType
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class ComputeAllInNetworkProvidersRequest(pydantic.BaseModel):

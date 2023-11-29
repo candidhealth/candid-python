@@ -4,8 +4,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
@@ -18,6 +16,11 @@ from .types.compute_all_in_network_providers_response import ComputeAllInNetwork
 from .types.expected_network_status_check_error_message import ExpectedNetworkStatusCheckErrorMessage
 from .types.expected_network_status_request_v_2 import ExpectedNetworkStatusRequestV2
 from .types.expected_network_status_response_v_2 import ExpectedNetworkStatusResponseV2
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)

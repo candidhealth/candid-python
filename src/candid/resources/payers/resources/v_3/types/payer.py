@@ -3,13 +3,30 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .payer_uuid import PayerUuid
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class Payer(pydantic.BaseModel):
+    """
+    import uuid
+
+    from candid.resources.payers.v_3 import Payer
+
+    Payer(
+        payer_uuid=uuid.UUID(
+            "a6431fd2-0712-4714-b1b1-dd094daf9f42",
+        ),
+        payer_id="12345",
+        payer_name="Payer Name",
+    )
+    """
+
     payer_uuid: PayerUuid = pydantic.Field(description="Auto-generated ID set on creation.")
     payer_id: str = pydantic.Field(description="The primary national payer ID of the payer.")
     payer_name: str = pydantic.Field(description="The primary display name of the payer.")

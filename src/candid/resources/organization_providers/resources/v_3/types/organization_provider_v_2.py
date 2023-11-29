@@ -3,8 +3,6 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....identifiers.types.identifier import Identifier
 from ...v_2.types.license_type import LicenseType
@@ -12,42 +10,100 @@ from ...v_2.types.organization_provider_address import OrganizationProviderAddre
 from ...v_2.types.organization_provider_id import OrganizationProviderId
 from ...v_2.types.provider_type import ProviderType
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class OrganizationProviderV2(pydantic.BaseModel):
+    """
+    import datetime
+    import uuid
+
+    from candid import (
+        Identifier,
+        IdentifierCode,
+        IdentifierValue_MedicareProviderIdentifier,
+        State,
+    )
+    from candid.resources.organization_providers.v_2 import (
+        LicenseType,
+        ProviderType,
+    )
+    from candid.resources.organization_providers.v_3 import OrganizationProviderV2
+
+    OrganizationProviderV2(
+        npi="1234567890",
+        is_rendering=True,
+        is_billing=True,
+        first_name="John",
+        last_name="Doe",
+        organization_name="Acme Medical",
+        provider_type=ProviderType.INDIVIDUAL,
+        tax_id="123456789",
+        taxonomy_code="1234567890",
+        license_type=LicenseType.MD,
+        employment_start_date=datetime.date.fromisoformat(
+            "2020-10-07",
+        ),
+        employment_termination_date=datetime.date.fromisoformat(
+            "2021-10-07",
+        ),
+        organization_provider_id=uuid.UUID(
+            "965a563a-0285-4910-9569-e3739c0f6eab",
+        ),
+        qualifications=[
+            Identifier(
+                identifier_id=uuid.UUID(
+                    "123e4567-e89b-12d3-a456-426614174000",
+                ),
+                identifier_code=IdentifierCode.MCR,
+                identifier_value=IdentifierValue_MedicareProviderIdentifier(
+                    type="medicare_provider_identifier",
+                    state=State.CA,
+                    provider_number="1234567890",
+                ),
+            )
+        ],
+    )
+    """
+
     npi: str = pydantic.Field(
         description="The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long."
     )
     is_rendering: bool = pydantic.Field(description="Whether the provider can be used to render services.")
     is_billing: bool = pydantic.Field(description="Whether the provider can be used to bill services.")
     first_name: typing.Optional[str] = pydantic.Field(
-        description="The first name of the provider, if the provider is an individual."
+        default=None, description="The first name of the provider, if the provider is an individual."
     )
     last_name: typing.Optional[str] = pydantic.Field(
-        description="The last name of the provider, if the provider is an individual."
+        default=None, description="The last name of the provider, if the provider is an individual."
     )
     organization_name: typing.Optional[str] = pydantic.Field(
-        description="The name of the provider, if the provider is an organization."
+        default=None, description="The name of the provider, if the provider is an organization."
     )
     provider_type: ProviderType = pydantic.Field(
         description=("Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.\n")
     )
     tax_id: typing.Optional[str] = pydantic.Field(
+        default=None,
         description=(
             "If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.\n"
-        )
+        ),
     )
     taxonomy_code: typing.Optional[str] = pydantic.Field(
-        description="A code designating classification and specialization."
+        default=None, description="A code designating classification and specialization."
     )
     license_type: LicenseType = pydantic.Field(description="The type of license that the provider holds.")
     addresses: typing.Optional[typing.List[OrganizationProviderAddress]] = pydantic.Field(
-        description="The addresses associated with this provider."
+        default=None, description="The addresses associated with this provider."
     )
     employment_start_date: typing.Optional[dt.date] = pydantic.Field(
-        description="The employment start date for the provider."
+        default=None, description="The employment start date for the provider."
     )
     employment_termination_date: typing.Optional[dt.date] = pydantic.Field(
-        description="The employment termination date for the provider."
+        default=None, description="The employment termination date for the provider."
     )
     organization_provider_id: OrganizationProviderId = pydantic.Field(description="Auto-generated ID set on creation.")
     qualifications: typing.List[Identifier] = pydantic.Field(

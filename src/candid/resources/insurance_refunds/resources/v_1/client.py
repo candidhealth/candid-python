@@ -4,14 +4,26 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.remove_none_from_dict import remove_none_from_dict
+from ....commons.types.claim_id import ClaimId
+from ....commons.types.page_token import PageToken
+from ....commons.types.provider_id import ProviderId
+from ....commons.types.service_line_id import ServiceLineId
+from ....commons.types.sort_direction import SortDirection
+from ....payers.resources.v_3.types.payer_uuid import PayerUuid
 from .types.insurance_refund import InsuranceRefund
 from .types.insurance_refund_create import InsuranceRefundCreate
 from .types.insurance_refund_id import InsuranceRefundId
+from .types.insurance_refund_sort_field import InsuranceRefundSortField
+from .types.insurance_refunds_page import InsuranceRefundsPage
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -20,6 +32,65 @@ OMIT = typing.cast(typing.Any, ...)
 class V1Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    def get_multi(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        payer_uuid: typing.Optional[PayerUuid] = None,
+        claim_id: typing.Optional[ClaimId] = None,
+        service_line_id: typing.Optional[ServiceLineId] = None,
+        billing_provider_id: typing.Optional[ProviderId] = None,
+        sort: typing.Optional[InsuranceRefundSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        page_token: typing.Optional[PageToken] = None,
+    ) -> InsuranceRefundsPage:
+        """
+        Returns all insurance refunds satisfying the search criteria AND whose organization_id matches
+        the current organization_id of the authenticated user.
+
+        Parameters:
+            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+
+            - payer_uuid: typing.Optional[PayerUuid].
+
+            - claim_id: typing.Optional[ClaimId].
+
+            - service_line_id: typing.Optional[ServiceLineId].
+
+            - billing_provider_id: typing.Optional[ProviderId].
+
+            - sort: typing.Optional[InsuranceRefundSortField]. Defaults to refund_timestamp
+
+            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+
+            - page_token: typing.Optional[PageToken].
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-refunds/v1"),
+            params=remove_none_from_dict(
+                {
+                    "limit": limit,
+                    "payer_uuid": jsonable_encoder(payer_uuid),
+                    "claim_id": jsonable_encoder(claim_id),
+                    "service_line_id": jsonable_encoder(service_line_id),
+                    "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "sort": sort,
+                    "sort_direction": sort_direction,
+                    "page_token": page_token,
+                }
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(InsuranceRefundsPage, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get(self, insurance_refund_id: InsuranceRefundId) -> InsuranceRefund:
         """
@@ -98,6 +169,65 @@ class V1Client:
 class AsyncV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    async def get_multi(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        payer_uuid: typing.Optional[PayerUuid] = None,
+        claim_id: typing.Optional[ClaimId] = None,
+        service_line_id: typing.Optional[ServiceLineId] = None,
+        billing_provider_id: typing.Optional[ProviderId] = None,
+        sort: typing.Optional[InsuranceRefundSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        page_token: typing.Optional[PageToken] = None,
+    ) -> InsuranceRefundsPage:
+        """
+        Returns all insurance refunds satisfying the search criteria AND whose organization_id matches
+        the current organization_id of the authenticated user.
+
+        Parameters:
+            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+
+            - payer_uuid: typing.Optional[PayerUuid].
+
+            - claim_id: typing.Optional[ClaimId].
+
+            - service_line_id: typing.Optional[ServiceLineId].
+
+            - billing_provider_id: typing.Optional[ProviderId].
+
+            - sort: typing.Optional[InsuranceRefundSortField]. Defaults to refund_timestamp
+
+            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+
+            - page_token: typing.Optional[PageToken].
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-refunds/v1"),
+            params=remove_none_from_dict(
+                {
+                    "limit": limit,
+                    "payer_uuid": jsonable_encoder(payer_uuid),
+                    "claim_id": jsonable_encoder(claim_id),
+                    "service_line_id": jsonable_encoder(service_line_id),
+                    "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "sort": sort,
+                    "sort_direction": sort_direction,
+                    "page_token": page_token,
+                }
+            ),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(InsuranceRefundsPage, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get(self, insurance_refund_id: InsuranceRefundId) -> InsuranceRefund:
         """

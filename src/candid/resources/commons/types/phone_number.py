@@ -3,13 +3,25 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from .phone_number_type import PhoneNumberType
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class PhoneNumber(pydantic.BaseModel):
+    """
+    from candid import PhoneNumber, PhoneNumberType
+
+    PhoneNumber(
+        number="1234567890",
+        type=PhoneNumberType.HOME,
+    )
+    """
+
     number: str
     type: PhoneNumberType
 

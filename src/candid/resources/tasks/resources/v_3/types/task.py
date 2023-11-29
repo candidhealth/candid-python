@@ -3,8 +3,6 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.encounter_id import EncounterId
 from .....commons.types.task_id import TaskId
@@ -13,6 +11,11 @@ from ...commons.types.task_status import TaskStatus
 from ...commons.types.task_type import TaskType
 from .task_assignment import TaskAssignment
 from .task_note import TaskNote
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
 class Task(pydantic.BaseModel):
@@ -24,8 +27,8 @@ class Task(pydantic.BaseModel):
     external_id: str
     patient_name: str
     patient_external_id: str
-    payer_name: typing.Optional[str]
-    payer_id: typing.Optional[str]
+    payer_name: typing.Optional[str] = None
+    payer_id: typing.Optional[str] = None
     status: TaskStatus
     notes: typing.List[TaskNote]
     created_at: dt.datetime
@@ -35,7 +38,7 @@ class Task(pydantic.BaseModel):
     )
     date_of_service: dt.date
     assignments: typing.List[TaskAssignment]
-    category: typing.Optional[TaskCategory]
+    category: typing.Optional[TaskCategory] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

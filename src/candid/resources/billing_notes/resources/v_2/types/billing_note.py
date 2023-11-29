@@ -3,15 +3,40 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.encounter_id import EncounterId
 from .billing_note_base import BillingNoteBase
 from .billing_note_id import BillingNoteId
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class BillingNote(BillingNoteBase):
+    """
+    import datetime
+    import uuid
+
+    from candid.resources.billing_notes.v_2 import BillingNote
+
+    BillingNote(
+        billing_note_id=uuid.UUID(
+            "99882eea-936f-4e71-bc4f-520e4d14e3e2",
+        ),
+        encounter_id=uuid.UUID(
+            "8bcfb6a8-2876-4111-9e3f-602b541fcf62",
+        ),
+        created_at=datetime.datetime.fromisoformat(
+            "2023-01-01 00:00:00+00:00",
+        ),
+        author_auth_0_id="F0DE3BF9-F9A1-4FA7-BF6B-28C0B46BADD8",
+        author_name="John Doe",
+        text="Patient was billed for an MRI.",
+    )
+    """
+
     billing_note_id: BillingNoteId
     encounter_id: EncounterId
     created_at: dt.datetime = pydantic.Field(
@@ -20,8 +45,8 @@ class BillingNote(BillingNoteBase):
             "For example, 2017-07-21T17:32:28Z.\n"
         )
     )
-    author_auth_0_id: typing.Optional[str] = pydantic.Field(alias="author_auth0_id")
-    author_name: typing.Optional[str]
+    author_auth_0_id: typing.Optional[str] = pydantic.Field(alias="author_auth0_id", default=None)
+    author_name: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

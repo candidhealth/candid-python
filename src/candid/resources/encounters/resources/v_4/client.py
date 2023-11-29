@@ -5,8 +5,6 @@ import typing
 import urllib.parse
 from json.decoder import JSONDecodeError
 
-import pydantic
-
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.datetime_utils import serialize_datetime
@@ -42,6 +40,7 @@ from ....tags.types.tag_id import TagId
 from .errors.cash_pay_payer_error import CashPayPayerError
 from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
 from .errors.encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
+from .errors.encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
 from .types.billable_status_type import BillableStatusType
 from .types.cash_pay_payer_error_message import CashPayPayerErrorMessage
 from .types.clinical_note_category_create import ClinicalNoteCategoryCreate
@@ -50,6 +49,9 @@ from .types.encounter_external_id_uniqueness_error_type import EncounterExternal
 from .types.encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
 from .types.encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .types.encounter_page import EncounterPage
+from .types.encounter_patient_control_number_uniqueness_error_type import (
+    EncounterPatientControlNumberUniquenessErrorType,
+)
 from .types.encounter_sort_options import EncounterSortOptions
 from .types.intervention import Intervention
 from .types.medication import Medication
@@ -59,6 +61,11 @@ from .types.responsible_party_type import ResponsiblePartyType
 from .types.service_authorization_exception_code import ServiceAuthorizationExceptionCode
 from .types.synchronicity_type import SynchronicityType
 from .types.vitals import Vitals
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -81,7 +88,7 @@ class V4Client:
         search_term: typing.Optional[str] = None,
         external_id: typing.Optional[EncounterExternalId] = None,
         diagnoses_updated_since: typing.Optional[dt.datetime] = None,
-        tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]],
+        tag_ids: typing.Optional[typing.Union[TagId, typing.List[TagId]]] = None,
         work_queue_id: typing.Optional[WorkQueueId] = None,
         billable_status: typing.Optional[BillableStatusType] = None,
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
@@ -111,7 +118,7 @@ class V4Client:
 
             - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
 
-            - tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]]. Filter by name of tags on encounters.
+            - tag_ids: typing.Optional[typing.Union[TagId, typing.List[TagId]]]. Filter by name of tags on encounters.
 
             - work_queue_id: typing.Optional[WorkQueueId].
 
@@ -120,6 +127,30 @@ class V4Client:
             - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
             - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType]. The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
+        ---
+        import datetime
+
+        from candid import ClaimStatus
+        from candid.client import CandidApi
+        from candid.resources.encounters.v_4 import EncounterSortOptions
+
+        client = CandidApi(
+            token="YOUR_TOKEN",
+        )
+        client.encounters.v_4.get_all(
+            limit=100,
+            claim_status=ClaimStatus.BILLER_RECEIVED,
+            sort=EncounterSortOptions.CREATED_AT_ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            date_of_service_min="2019-08-24",
+            date_of_service_max="2019-08-25",
+            primary_payer_names="Medicare,Medicaid",
+            search_term="doe",
+            external_id="123456",
+            diagnoses_updated_since=datetime.datetime.fromisoformat(
+                "2019-08-24 14:15:22+00:00",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -417,6 +448,10 @@ class V4Client:
                 raise EncounterExternalIdUniquenessError(
                     pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "EncounterPatientControlNumberUniquenessError":
+                raise EncounterPatientControlNumberUniquenessError(
+                    pydantic.parse_obj_as(EncounterPatientControlNumberUniquenessErrorType, _response_json["content"])  # type: ignore
+                )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
                     pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
@@ -628,7 +663,7 @@ class AsyncV4Client:
         search_term: typing.Optional[str] = None,
         external_id: typing.Optional[EncounterExternalId] = None,
         diagnoses_updated_since: typing.Optional[dt.datetime] = None,
-        tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]],
+        tag_ids: typing.Optional[typing.Union[TagId, typing.List[TagId]]] = None,
         work_queue_id: typing.Optional[WorkQueueId] = None,
         billable_status: typing.Optional[BillableStatusType] = None,
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
@@ -658,7 +693,7 @@ class AsyncV4Client:
 
             - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
 
-            - tag_ids: typing.Union[typing.Optional[TagId], typing.List[TagId]]. Filter by name of tags on encounters.
+            - tag_ids: typing.Optional[typing.Union[TagId, typing.List[TagId]]]. Filter by name of tags on encounters.
 
             - work_queue_id: typing.Optional[WorkQueueId].
 
@@ -667,6 +702,30 @@ class AsyncV4Client:
             - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
             - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType]. The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
+        ---
+        import datetime
+
+        from candid import ClaimStatus
+        from candid.client import AsyncCandidApi
+        from candid.resources.encounters.v_4 import EncounterSortOptions
+
+        client = AsyncCandidApi(
+            token="YOUR_TOKEN",
+        )
+        await client.encounters.v_4.get_all(
+            limit=100,
+            claim_status=ClaimStatus.BILLER_RECEIVED,
+            sort=EncounterSortOptions.CREATED_AT_ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            date_of_service_min="2019-08-24",
+            date_of_service_max="2019-08-25",
+            primary_payer_names="Medicare,Medicaid",
+            search_term="doe",
+            external_id="123456",
+            diagnoses_updated_since=datetime.datetime.fromisoformat(
+                "2019-08-24 14:15:22+00:00",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
@@ -963,6 +1022,10 @@ class AsyncV4Client:
             if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
                 raise EncounterExternalIdUniquenessError(
                     pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "EncounterPatientControlNumberUniquenessError":
+                raise EncounterPatientControlNumberUniquenessError(
+                    pydantic.parse_obj_as(EncounterPatientControlNumberUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(

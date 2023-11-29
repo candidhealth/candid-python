@@ -3,16 +3,19 @@
 import datetime as dt
 import typing
 
-import pydantic
-
 from ....core.datetime_utils import serialize_datetime
 from ...commons.types.date_range_optional_end import DateRangeOptionalEnd
 from .identifier_code import IdentifierCode
 from .identifier_value import IdentifierValue
 
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
+
 
 class IdentifierBase(pydantic.BaseModel):
-    period: typing.Optional[DateRangeOptionalEnd]
+    period: typing.Optional[DateRangeOptionalEnd] = None
     identifier_code: IdentifierCode
     identifier_value: IdentifierValue
 
