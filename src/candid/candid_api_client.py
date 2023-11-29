@@ -1,16 +1,10 @@
 import typing
 
-from pydantic import BaseModel, root_validator
+from pydantic.v1 import BaseModel, root_validator
 
 from candid import CandidApiEnvironment
 from candid.client import CandidApi, AsyncCandidApi
-from candid.resources.auth.client import AuthClient, AsyncAuthClient
 from candid.resources.auth.resources.v_2 import AuthGetTokenRequest
-from candid.resources.billing_notes.client import BillingNotesClient, AsyncBillingNotesClient
-from candid.resources.encounters.client import EncountersClient, AsyncEncountersClient
-from candid.resources.expected_network_status.client import ExpectedNetworkStatusClient, \
-    AsyncExpectedNetworkStatusClient
-from candid.resources.payers.client import PayersClient, AsyncPayersClient
 
 
 class CandidApiClientOptions(BaseModel):
