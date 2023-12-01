@@ -2,12 +2,10 @@
 
 import datetime as dt
 import typing
+import uuid
 
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.claim_id import ClaimId
-from .....commons.types.service_line_id import ServiceLineId
-from .....x_12.resources.v_1.types.claim_adjustment_reason_code import ClaimAdjustmentReasonCode
-from .service_line_adjudication import ServiceLineAdjudication
+from .contract import Contract
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -15,14 +13,10 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class ClaimAdjudication(pydantic.BaseModel):
-    claim_id: ClaimId
-    insurance_allowed_amount_cents: typing.Optional[int] = None
-    insurance_paid_amount_cents: typing.Optional[int] = None
-    charge_amount_cents: typing.Optional[int] = None
-    service_lines: typing.Dict[ServiceLineId, typing.List[ServiceLineAdjudication]]
-    payer_claim_number: typing.Optional[str] = None
-    carcs: typing.List[ClaimAdjustmentReasonCode]
+class ContractWithProviders(Contract):
+    rendering_provider_ids: typing.List[uuid.UUID] = pydantic.Field(
+        description="The providers who can render medical services under the contract"
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -35,4 +29,5 @@ class ClaimAdjudication(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

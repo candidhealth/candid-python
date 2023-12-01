@@ -26,7 +26,10 @@ class ExternalClaimSubmissionCreate(pydantic.BaseModel):
 
     claim_created_at: dt.datetime = pydantic.Field(description="When the claim was created in the external system.")
     patient_control_number: str = pydantic.Field(
-        description="The Patient Control Number sent on the claim to the payer."
+        description=(
+            "The Patient Control Number sent on the claim to the payer. To guarantee compatibility with all payers, this field must consist\n"
+            "only of uppercase letters and numbers and be no more than 14 characters long.\n"
+        )
     )
     submission_records: typing.List[ClaimSubmissionRecordCreate] = pydantic.Field(
         description=(

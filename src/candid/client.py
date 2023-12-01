@@ -8,6 +8,7 @@ from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .environment import CandidApiEnvironment
 from .resources.auth.client import AsyncAuthClient, AuthClient
 from .resources.billing_notes.client import AsyncBillingNotesClient, BillingNotesClient
+from .resources.contracts.client import AsyncContractsClient, ContractsClient
 from .resources.eligibility.client import AsyncEligibilityClient, EligibilityClient
 from .resources.encounters.client import AsyncEncountersClient, EncountersClient
 from .resources.expected_network_status.client import AsyncExpectedNetworkStatusClient, ExpectedNetworkStatusClient
@@ -44,6 +45,7 @@ class CandidApi:
         )
         self.auth = AuthClient(client_wrapper=self._client_wrapper)
         self.billing_notes = BillingNotesClient(client_wrapper=self._client_wrapper)
+        self.contracts = ContractsClient(client_wrapper=self._client_wrapper)
         self.eligibility = EligibilityClient(client_wrapper=self._client_wrapper)
         self.encounters = EncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = ExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
@@ -77,6 +79,7 @@ class AsyncCandidApi:
         )
         self.auth = AsyncAuthClient(client_wrapper=self._client_wrapper)
         self.billing_notes = AsyncBillingNotesClient(client_wrapper=self._client_wrapper)
+        self.contracts = AsyncContractsClient(client_wrapper=self._client_wrapper)
         self.eligibility = AsyncEligibilityClient(client_wrapper=self._client_wrapper)
         self.encounters = AsyncEncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = AsyncExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)

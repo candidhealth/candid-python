@@ -22,7 +22,7 @@ class InsuranceAdjudication(pydantic.BaseModel):
     check_number: typing.Optional[str] = None
     check_date: dt.date
     note: typing.Optional[str] = None
-    claims: typing.Dict[ClaimId, ClaimAdjudication]
+    claims: typing.Dict[ClaimId, typing.List[ClaimAdjudication]]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -4,21 +4,12 @@ import datetime as dt
 import typing
 
 from ......core.datetime_utils import serialize_datetime
-from .....contracts.resources.v_2.types.contract_id import ContractId
-from .expected_network_status import ExpectedNetworkStatus
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from .....commons.types.resource_page import ResourcePage
+from .contract import Contract
 
 
-class ExpectedNetworkStatusResponse(pydantic.BaseModel):
-    expected_network_status: ExpectedNetworkStatus = pydantic.Field(
-        description="The anticipated classification of a healthcare provider within the insurance plan's network."
-    )
-    explanation: str
-    contract_id: typing.Optional[ContractId] = None
+class ContractsPage(ResourcePage):
+    items: typing.List[Contract]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -31,4 +22,5 @@ class ExpectedNetworkStatusResponse(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

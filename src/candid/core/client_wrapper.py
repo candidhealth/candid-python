@@ -14,7 +14,7 @@ class BaseClientWrapper:
         headers: typing.Dict[str, str] = {
             "X-Fern-Language": "Python",
             "X-Fern-SDK-Name": "candidhealth",
-            "X-Fern-SDK-Version": "0.12.1",
+            "X-Fern-SDK-Version": "0.13.0",
         }
         token = self._get_token()
         if token is not None:

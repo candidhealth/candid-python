@@ -4,10 +4,6 @@ import datetime as dt
 import typing
 
 from ......core.datetime_utils import serialize_datetime
-from .....commons.types.claim_id import ClaimId
-from .....commons.types.service_line_id import ServiceLineId
-from .....x_12.resources.v_1.types.claim_adjustment_reason_code import ClaimAdjustmentReasonCode
-from .service_line_adjudication import ServiceLineAdjudication
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -15,14 +11,13 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class ClaimAdjudication(pydantic.BaseModel):
-    claim_id: ClaimId
-    insurance_allowed_amount_cents: typing.Optional[int] = None
-    insurance_paid_amount_cents: typing.Optional[int] = None
-    charge_amount_cents: typing.Optional[int] = None
-    service_lines: typing.Dict[ServiceLineId, typing.List[ServiceLineAdjudication]]
-    payer_claim_number: typing.Optional[str] = None
-    carcs: typing.List[ClaimAdjustmentReasonCode]
+class AuthorizedSignatory(pydantic.BaseModel):
+    first_name: typing.Optional[str] = None
+    last_name: typing.Optional[str] = None
+    title: typing.Optional[str] = None
+    email: typing.Optional[str] = None
+    phone: typing.Optional[str] = None
+    fax: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

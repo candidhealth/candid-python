@@ -15,10 +15,9 @@ except ImportError:
 
 
 class ClaimAdjudicationCreate(pydantic.BaseModel):
-    insurance_allowed_amount_cents: typing.Optional[int] = None
     insurance_paid_amount_cents: typing.Optional[int] = None
     charge_amount_cents: typing.Optional[int] = None
-    service_lines: typing.Dict[ServiceLineId, ServiceLineAdjudicationCreate]
+    service_lines: typing.Dict[ServiceLineId, typing.List[ServiceLineAdjudicationCreate]]
     payer_claim_number: typing.Optional[str] = None
     carcs: typing.List[ClaimAdjustmentReasonCode]
 

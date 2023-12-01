@@ -27,6 +27,9 @@ from .phone_number import PhoneNumber
 from .phone_number_type import PhoneNumberType
 from .procedure_modifier import ProcedureModifier
 from .provider_id import ProviderId
+from .region_national import RegionNational
+from .region_states import RegionStates
+from .regions import Regions, Regions_National, Regions_States
 from .removable_date_range_optional_end import (
     RemovableDateRangeOptionalEnd,
     RemovableDateRangeOptionalEnd_DateRange,
@@ -82,6 +85,11 @@ __all__ = [
     "PhoneNumberType",
     "ProcedureModifier",
     "ProviderId",
+    "RegionNational",
+    "RegionStates",
+    "Regions",
+    "Regions_National",
+    "Regions_States",
     "RemovableDateRangeOptionalEnd",
     "RemovableDateRangeOptionalEnd_DateRange",
     "RemovableDateRangeOptionalEnd_Remove",
