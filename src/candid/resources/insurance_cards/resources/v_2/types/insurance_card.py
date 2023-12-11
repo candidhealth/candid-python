@@ -3,7 +3,7 @@
 import datetime as dt
 import typing
 
-from ....core.datetime_utils import serialize_datetime
+from ......core.datetime_utils import serialize_datetime
 from .insurance_card_base import InsuranceCardBase
 from .insurance_card_id import InsuranceCardId
 
@@ -12,7 +12,8 @@ class InsuranceCard(InsuranceCardBase):
     """
     import uuid
 
-    from candid import InsuranceCard, InsuranceTypeCode, SourceOfPaymentCode
+    from candid import InsuranceTypeCode, SourceOfPaymentCode
+    from candid.resources.insurance_cards.v_2 import InsuranceCard
 
     InsuranceCard(insurance_card_id=uuid.UUID("ca5b7711-4419-4161-9b7c-3494ac40c8d4", ), member_id="E85313B4-0FFC-4119-8042-8161A4ECFF0A", payer_name="John Doe", payer_id="836DDAA6-863F-4020-ACCA-205A689F0002", rx_bin="610014", rx_pcn="MEDDPRIME", image_url_front="https://s3.amazonaws.com/front.jpg", image_url_back="https://s3.amazonaws.com/back.jpg", group_number="ABC12345", plan_name="Silver PPO Plan", plan_type=SourceOfPaymentCode.09, insurance_type=InsuranceTypeCode.12, )
     """

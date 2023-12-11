@@ -16,9 +16,13 @@ from ....commons.types.patient_external_id import PatientExternalId
 from ....commons.types.provider_id import ProviderId
 from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.sort_direction import SortDirection
+from ....financials.types.allocation_amount_update import AllocationAmountUpdate
 from ....financials.types.allocation_create import AllocationCreate
+from ....financials.types.invoice_update import InvoiceUpdate
+from ....financials.types.note_update import NoteUpdate
 from ....financials.types.patient_transaction_source import PatientTransactionSource
 from ....financials.types.refund_reason import RefundReason
+from ....financials.types.refund_reason_update import RefundReasonUpdate
 from .types.patient_refund import PatientRefund
 from .types.patient_refund_id import PatientRefundId
 from .types.patient_refund_sort_field import PatientRefundSortField
@@ -174,6 +178,65 @@ class V1Client:
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-refunds/v1"),
+            json=jsonable_encoder(_request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(PatientRefund, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def update(
+        self,
+        patient_refund_id: PatientRefundId,
+        *,
+        refund_timestamp: typing.Optional[dt.datetime] = OMIT,
+        refund_note: typing.Optional[NoteUpdate] = OMIT,
+        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
+        allocations: typing.Optional[AllocationAmountUpdate] = OMIT,
+        invoice: typing.Optional[InvoiceUpdate] = OMIT,
+        refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
+    ) -> PatientRefund:
+        """
+        Updates the patient refund record matching the provided patient_refund_id.
+
+        Parameters:
+            - patient_refund_id: PatientRefundId.
+
+            - refund_timestamp: typing.Optional[dt.datetime].
+
+            - refund_note: typing.Optional[NoteUpdate].
+
+            - patient_external_id: typing.Optional[PatientExternalId].
+
+            - allocations: typing.Optional[AllocationAmountUpdate].
+
+            - invoice: typing.Optional[InvoiceUpdate].
+
+            - refund_reason: typing.Optional[RefundReasonUpdate].
+        """
+        _request: typing.Dict[str, typing.Any] = {}
+        if refund_timestamp is not OMIT:
+            _request["refund_timestamp"] = refund_timestamp
+        if refund_note is not OMIT:
+            _request["refund_note"] = refund_note
+        if patient_external_id is not OMIT:
+            _request["patient_external_id"] = patient_external_id
+        if allocations is not OMIT:
+            _request["allocations"] = allocations
+        if invoice is not OMIT:
+            _request["invoice"] = invoice
+        if refund_reason is not OMIT:
+            _request["refund_reason"] = refund_reason
+        _response = self._client_wrapper.httpx_client.request(
+            "PATCH",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/patient-refunds/v1/{patient_refund_id}"
+            ),
             json=jsonable_encoder(_request),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
@@ -351,6 +414,65 @@ class AsyncV1Client:
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-refunds/v1"),
+            json=jsonable_encoder(_request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(PatientRefund, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def update(
+        self,
+        patient_refund_id: PatientRefundId,
+        *,
+        refund_timestamp: typing.Optional[dt.datetime] = OMIT,
+        refund_note: typing.Optional[NoteUpdate] = OMIT,
+        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
+        allocations: typing.Optional[AllocationAmountUpdate] = OMIT,
+        invoice: typing.Optional[InvoiceUpdate] = OMIT,
+        refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
+    ) -> PatientRefund:
+        """
+        Updates the patient refund record matching the provided patient_refund_id.
+
+        Parameters:
+            - patient_refund_id: PatientRefundId.
+
+            - refund_timestamp: typing.Optional[dt.datetime].
+
+            - refund_note: typing.Optional[NoteUpdate].
+
+            - patient_external_id: typing.Optional[PatientExternalId].
+
+            - allocations: typing.Optional[AllocationAmountUpdate].
+
+            - invoice: typing.Optional[InvoiceUpdate].
+
+            - refund_reason: typing.Optional[RefundReasonUpdate].
+        """
+        _request: typing.Dict[str, typing.Any] = {}
+        if refund_timestamp is not OMIT:
+            _request["refund_timestamp"] = refund_timestamp
+        if refund_note is not OMIT:
+            _request["refund_note"] = refund_note
+        if patient_external_id is not OMIT:
+            _request["patient_external_id"] = patient_external_id
+        if allocations is not OMIT:
+            _request["allocations"] = allocations
+        if invoice is not OMIT:
+            _request["invoice"] = invoice
+        if refund_reason is not OMIT:
+            _request["refund_reason"] = refund_reason
+        _response = await self._client_wrapper.httpx_client.request(
+            "PATCH",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/patient-refunds/v1/{patient_refund_id}"
+            ),
             json=jsonable_encoder(_request),
             headers=self._client_wrapper.get_headers(),
             timeout=60,

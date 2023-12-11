@@ -38,8 +38,8 @@ class Encounter(EncounterBase):
 
     from candid import (Claim, ClaimStatus, DateRangeOptionalEnd, Diagnosis,
                         DiagnosisTypeCode, EncounterServiceFacility, Era,
-                        FacilityTypeCode, Gender, InsuranceCard, InsuranceTypeCode,
-                        Invoice, InvoiceItem, InvoiceStatus, Patient,
+                        FacilityTypeCode, Gender, InsuranceTypeCode, Invoice,
+                        InvoiceItem, InvoiceStatus, Patient,
                         PatientRelationshipToInsuredCodeAll, PhoneNumber,
                         PhoneNumberType, ProcedureModifier, ServiceLineUnits,
                         SourceOfPaymentCode, State, StreetAddressLongZip,
@@ -63,6 +63,7 @@ class Encounter(EncounterBase):
                                                  ServiceAuthorizationExceptionCode,
                                                  SynchronicityType, Vitals)
     from candid.resources.guarantor.v_1 import Guarantor
+    from candid.resources.insurance_cards.v_2 import InsuranceCard
     from candid.resources.patient_payments.v_3 import (PatientPayment,
                                                        PatientPaymentSource,
                                                        PatientPaymentStatus)

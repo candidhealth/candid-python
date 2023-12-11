@@ -74,6 +74,7 @@ class LicenseType(str, enum.Enum):
     OMS = "OMS"
     MFTA = "MFTA"
     APCC = "APCC"
+    DNP = "DNP"
 
     def visit(
         self,
@@ -144,6 +145,7 @@ class LicenseType(str, enum.Enum):
         oms: typing.Callable[[], T_Result],
         mfta: typing.Callable[[], T_Result],
         apcc: typing.Callable[[], T_Result],
+        dnp: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is LicenseType.MD:
             return md()
@@ -279,3 +281,5 @@ class LicenseType(str, enum.Enum):
             return mfta()
         if self is LicenseType.APCC:
             return apcc()
+        if self is LicenseType.DNP:
+            return dnp()

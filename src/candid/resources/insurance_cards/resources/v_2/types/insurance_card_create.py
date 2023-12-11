@@ -3,8 +3,8 @@
 import datetime as dt
 import typing
 
-from ....core.datetime_utils import serialize_datetime
-from ...commons.types.emr_payer_crosswalk import EmrPayerCrosswalk
+from ......core.datetime_utils import serialize_datetime
+from .....commons.types.emr_payer_crosswalk import EmrPayerCrosswalk
 from .insurance_card_base import InsuranceCardBase
 
 

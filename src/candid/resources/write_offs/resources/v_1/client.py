@@ -8,10 +8,14 @@ from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.remove_none_from_dict import remove_none_from_dict
+from ....commons.types.claim_id import ClaimId
 from ....commons.types.page_token import PageToken
 from ....commons.types.patient_external_id import PatientExternalId
+from ....commons.types.provider_id import ProviderId
 from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.sort_direction import SortDirection
+from ....financials.types.account_type import AccountType
+from ....payers.resources.v_3.types.payer_uuid import PayerUuid
 from .types.create_write_offs_response import CreateWriteOffsResponse
 from .types.write_off import WriteOff
 from .types.write_off_create import WriteOffCreate
@@ -37,27 +41,38 @@ class V1Client:
         *,
         limit: typing.Optional[int] = None,
         patient_external_id: typing.Optional[PatientExternalId] = None,
+        payer_uuid: typing.Optional[PayerUuid] = None,
         service_line_id: typing.Optional[ServiceLineId] = None,
+        claim_id: typing.Optional[ClaimId] = None,
+        billing_provider_id: typing.Optional[ProviderId] = None,
         sort: typing.Optional[WriteOffSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        account_types: typing.Optional[typing.Union[AccountType, typing.List[AccountType]]] = None,
     ) -> WriteOffsPage:
         """
-        Returns all write-offs satisfying the search criteria AND whose organization_id matches
-        the current organization_id of the authenticated user.
+        Returns all write-offs satisfying the search criteria.
 
         Parameters:
             - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
 
             - patient_external_id: typing.Optional[PatientExternalId].
 
+            - payer_uuid: typing.Optional[PayerUuid].
+
             - service_line_id: typing.Optional[ServiceLineId].
+
+            - claim_id: typing.Optional[ClaimId].
+
+            - billing_provider_id: typing.Optional[ProviderId].
 
             - sort: typing.Optional[WriteOffSortField]. Defaults to write_off_timestamp
 
             - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
 
             - page_token: typing.Optional[PageToken].
+
+            - account_types: typing.Optional[typing.Union[AccountType, typing.List[AccountType]]]. Filters the returned values to include only the provided account types.
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -66,10 +81,14 @@ class V1Client:
                 {
                     "limit": limit,
                     "patient_external_id": patient_external_id,
+                    "payer_uuid": jsonable_encoder(payer_uuid),
                     "service_line_id": jsonable_encoder(service_line_id),
+                    "claim_id": jsonable_encoder(claim_id),
+                    "billing_provider_id": jsonable_encoder(billing_provider_id),
                     "sort": sort,
                     "sort_direction": sort_direction,
                     "page_token": page_token,
+                    "account_types": account_types,
                 }
             ),
             headers=self._client_wrapper.get_headers(),
@@ -159,27 +178,38 @@ class AsyncV1Client:
         *,
         limit: typing.Optional[int] = None,
         patient_external_id: typing.Optional[PatientExternalId] = None,
+        payer_uuid: typing.Optional[PayerUuid] = None,
         service_line_id: typing.Optional[ServiceLineId] = None,
+        claim_id: typing.Optional[ClaimId] = None,
+        billing_provider_id: typing.Optional[ProviderId] = None,
         sort: typing.Optional[WriteOffSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        account_types: typing.Optional[typing.Union[AccountType, typing.List[AccountType]]] = None,
     ) -> WriteOffsPage:
         """
-        Returns all write-offs satisfying the search criteria AND whose organization_id matches
-        the current organization_id of the authenticated user.
+        Returns all write-offs satisfying the search criteria.
 
         Parameters:
             - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
 
             - patient_external_id: typing.Optional[PatientExternalId].
 
+            - payer_uuid: typing.Optional[PayerUuid].
+
             - service_line_id: typing.Optional[ServiceLineId].
+
+            - claim_id: typing.Optional[ClaimId].
+
+            - billing_provider_id: typing.Optional[ProviderId].
 
             - sort: typing.Optional[WriteOffSortField]. Defaults to write_off_timestamp
 
             - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
 
             - page_token: typing.Optional[PageToken].
+
+            - account_types: typing.Optional[typing.Union[AccountType, typing.List[AccountType]]]. Filters the returned values to include only the provided account types.
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
@@ -188,10 +218,14 @@ class AsyncV1Client:
                 {
                     "limit": limit,
                     "patient_external_id": patient_external_id,
+                    "payer_uuid": jsonable_encoder(payer_uuid),
                     "service_line_id": jsonable_encoder(service_line_id),
+                    "claim_id": jsonable_encoder(claim_id),
+                    "billing_provider_id": jsonable_encoder(billing_provider_id),
                     "sort": sort,
                     "sort_direction": sort_direction,
                     "page_token": page_token,
+                    "account_types": account_types,
                 }
             ),
             headers=self._client_wrapper.get_headers(),

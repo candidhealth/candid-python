@@ -16,7 +16,10 @@ from ....commons.types.patient_external_id import PatientExternalId
 from ....commons.types.provider_id import ProviderId
 from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.sort_direction import SortDirection
+from ....financials.types.allocation_amount_update import AllocationAmountUpdate
 from ....financials.types.allocation_create import AllocationCreate
+from ....financials.types.invoice_update import InvoiceUpdate
+from ....financials.types.note_update import NoteUpdate
 from ....financials.types.patient_transaction_source import PatientTransactionSource
 from .types.patient_payment import PatientPayment
 from .types.patient_payment_id import PatientPaymentId
@@ -168,6 +171,60 @@ class V4Client:
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
+            json=jsonable_encoder(_request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(PatientPayment, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def update(
+        self,
+        patient_payment_id: PatientPaymentId,
+        *,
+        payment_timestamp: typing.Optional[dt.datetime] = OMIT,
+        payment_note: typing.Optional[NoteUpdate] = OMIT,
+        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
+        allocations: typing.Optional[AllocationAmountUpdate] = OMIT,
+        invoice: typing.Optional[InvoiceUpdate] = OMIT,
+    ) -> PatientPayment:
+        """
+        Updates the patient payment record matching the provided patient_payment_id.
+
+        Parameters:
+            - patient_payment_id: PatientPaymentId.
+
+            - payment_timestamp: typing.Optional[dt.datetime].
+
+            - payment_note: typing.Optional[NoteUpdate].
+
+            - patient_external_id: typing.Optional[PatientExternalId].
+
+            - allocations: typing.Optional[AllocationAmountUpdate].
+
+            - invoice: typing.Optional[InvoiceUpdate].
+        """
+        _request: typing.Dict[str, typing.Any] = {}
+        if payment_timestamp is not OMIT:
+            _request["payment_timestamp"] = payment_timestamp
+        if payment_note is not OMIT:
+            _request["payment_note"] = payment_note
+        if patient_external_id is not OMIT:
+            _request["patient_external_id"] = patient_external_id
+        if allocations is not OMIT:
+            _request["allocations"] = allocations
+        if invoice is not OMIT:
+            _request["invoice"] = invoice
+        _response = self._client_wrapper.httpx_client.request(
+            "PATCH",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/patient-payments/v4/{patient_payment_id}"
+            ),
             json=jsonable_encoder(_request),
             headers=self._client_wrapper.get_headers(),
             timeout=60,
@@ -340,6 +397,60 @@ class AsyncV4Client:
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
+            json=jsonable_encoder(_request),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(PatientPayment, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def update(
+        self,
+        patient_payment_id: PatientPaymentId,
+        *,
+        payment_timestamp: typing.Optional[dt.datetime] = OMIT,
+        payment_note: typing.Optional[NoteUpdate] = OMIT,
+        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
+        allocations: typing.Optional[AllocationAmountUpdate] = OMIT,
+        invoice: typing.Optional[InvoiceUpdate] = OMIT,
+    ) -> PatientPayment:
+        """
+        Updates the patient payment record matching the provided patient_payment_id.
+
+        Parameters:
+            - patient_payment_id: PatientPaymentId.
+
+            - payment_timestamp: typing.Optional[dt.datetime].
+
+            - payment_note: typing.Optional[NoteUpdate].
+
+            - patient_external_id: typing.Optional[PatientExternalId].
+
+            - allocations: typing.Optional[AllocationAmountUpdate].
+
+            - invoice: typing.Optional[InvoiceUpdate].
+        """
+        _request: typing.Dict[str, typing.Any] = {}
+        if payment_timestamp is not OMIT:
+            _request["payment_timestamp"] = payment_timestamp
+        if payment_note is not OMIT:
+            _request["payment_note"] = payment_note
+        if patient_external_id is not OMIT:
+            _request["patient_external_id"] = patient_external_id
+        if allocations is not OMIT:
+            _request["allocations"] = allocations
+        if invoice is not OMIT:
+            _request["invoice"] = invoice
+        _response = await self._client_wrapper.httpx_client.request(
+            "PATCH",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/patient-payments/v4/{patient_payment_id}"
+            ),
             json=jsonable_encoder(_request),
             headers=self._client_wrapper.get_headers(),
             timeout=60,

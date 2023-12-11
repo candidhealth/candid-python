@@ -19,7 +19,7 @@ from . import (
     identifiers,
     individual,
     insurance_adjudications,
-    insurance_card,
+    insurance_cards,
     insurance_refunds,
     invoices,
     organization_providers,
@@ -103,7 +103,9 @@ from .commons import (
 from .diagnoses import Diagnosis, DiagnosisCreate, DiagnosisId, DiagnosisTypeCode, StandaloneDiagnosisCreate
 from .era import Era, EraBase, EraId
 from .financials import (
+    AccountType,
     Allocation,
+    AllocationAmountUpdate,
     AllocationCreate,
     AllocationTarget,
     AllocationTargetCreate,
@@ -115,8 +117,17 @@ from .financials import (
     AllocationTarget_Claim,
     AllocationTarget_ServiceLine,
     AllocationTarget_Unattributed,
+    InvoiceUpdate,
+    InvoiceUpdate_Remove,
+    InvoiceUpdate_Set,
+    NoteUpdate,
+    NoteUpdate_Remove,
+    NoteUpdate_Set,
     PatientTransactionSource,
     RefundReason,
+    RefundReasonUpdate,
+    RefundReasonUpdate_Remove,
+    RefundReasonUpdate_Set,
 )
 from .identifiers import (
     Identifier,
@@ -146,13 +157,14 @@ from .individual import (
     SubscriberBase,
     SubscriberCreate,
 )
-from .insurance_card import InsuranceCard, InsuranceCardBase, InsuranceCardCreate, InsuranceCardId
 from .invoices import Invoice, InvoiceItem, InvoiceStatus
 from .service_facility import EncounterServiceFacility, EncounterServiceFacilityBase, ServiceFacilityId
 from .tags import Tag, TagColorEnum, TagCreate, TagId
 
 __all__ = [
+    "AccountType",
     "Allocation",
+    "AllocationAmountUpdate",
     "AllocationCreate",
     "AllocationTarget",
     "AllocationTargetCreate",
@@ -205,18 +217,20 @@ __all__ = [
     "IdentifierValue_MedicareProviderIdentifier",
     "IndividualBase",
     "IndividualId",
-    "InsuranceCard",
-    "InsuranceCardBase",
-    "InsuranceCardCreate",
-    "InsuranceCardId",
     "InsuranceTypeCode",
     "Invoice",
     "InvoiceId",
     "InvoiceItem",
     "InvoiceStatus",
+    "InvoiceUpdate",
+    "InvoiceUpdate_Remove",
+    "InvoiceUpdate_Set",
     "LinkUrl",
     "MedicaidProviderIdentifier",
     "MedicareProviderIdentifier",
+    "NoteUpdate",
+    "NoteUpdate_Remove",
+    "NoteUpdate_Set",
     "Npi",
     "OrganizationId",
     "OrganizationNotAuthorizedError",
@@ -233,6 +247,9 @@ __all__ = [
     "ProcedureModifier",
     "ProviderId",
     "RefundReason",
+    "RefundReasonUpdate",
+    "RefundReasonUpdate_Remove",
+    "RefundReasonUpdate_Set",
     "RegionNational",
     "RegionStates",
     "Regions",
@@ -294,7 +311,7 @@ __all__ = [
     "identifiers",
     "individual",
     "insurance_adjudications",
-    "insurance_card",
+    "insurance_cards",
     "insurance_refunds",
     "invoices",
     "organization_providers",

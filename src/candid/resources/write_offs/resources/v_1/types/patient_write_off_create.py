@@ -3,13 +3,22 @@
 import datetime as dt
 import typing
 
-from ....core.datetime_utils import serialize_datetime
-from ...insurance_cards.resources.v_2.types.insurance_card_create import InsuranceCardCreate
-from .subscriber_base import SubscriberBase
+from ......core.datetime_utils import serialize_datetime
+from .....commons.types.service_line_id import ServiceLineId
+from .write_off_reason import WriteOffReason
+
+try:
+    import pydantic.v1 as pydantic  # type: ignore
+except ImportError:
+    import pydantic  # type: ignore
 
 
-class SubscriberCreate(SubscriberBase):
-    insurance_card: InsuranceCardCreate
+class PatientWriteOffCreate(pydantic.BaseModel):
+    write_off_timestamp: dt.datetime
+    write_off_note: typing.Optional[str] = None
+    write_off_reason: WriteOffReason
+    service_line_id: ServiceLineId
+    amount_cents: int
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -22,5 +31,4 @@ class SubscriberCreate(SubscriberBase):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}
