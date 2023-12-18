@@ -3,6 +3,7 @@
 from .create_write_offs_response import CreateWriteOffsResponse
 from .insurance_write_off import InsuranceWriteOff
 from .insurance_write_off_create import InsuranceWriteOffCreate
+from .insurance_write_off_reason import InsuranceWriteOffReason
 from .insurance_write_off_target import (
     InsuranceWriteOffTarget,
     InsuranceWriteOffTarget_BillingProviderId,
@@ -11,10 +12,10 @@ from .insurance_write_off_target import (
 )
 from .patient_write_off import PatientWriteOff
 from .patient_write_off_create import PatientWriteOffCreate
+from .patient_write_off_reason import PatientWriteOffReason
 from .write_off import WriteOff, WriteOff_Insurance, WriteOff_Patient
 from .write_off_create import WriteOffCreate, WriteOffCreate_Insurance, WriteOffCreate_Patient
 from .write_off_id import WriteOffId
-from .write_off_reason import WriteOffReason
 from .write_off_sort_field import WriteOffSortField
 from .write_offs_page import WriteOffsPage
 
@@ -22,18 +23,19 @@ __all__ = [
     "CreateWriteOffsResponse",
     "InsuranceWriteOff",
     "InsuranceWriteOffCreate",
+    "InsuranceWriteOffReason",
     "InsuranceWriteOffTarget",
     "InsuranceWriteOffTarget_BillingProviderId",
     "InsuranceWriteOffTarget_ClaimId",
     "InsuranceWriteOffTarget_ServiceLineId",
     "PatientWriteOff",
     "PatientWriteOffCreate",
+    "PatientWriteOffReason",
     "WriteOff",
     "WriteOffCreate",
     "WriteOffCreate_Insurance",
     "WriteOffCreate_Patient",
     "WriteOffId",
-    "WriteOffReason",
     "WriteOffSortField",
     "WriteOff_Insurance",
     "WriteOff_Patient",

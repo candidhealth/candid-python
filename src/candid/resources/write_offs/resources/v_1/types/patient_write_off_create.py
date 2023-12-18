@@ -5,7 +5,7 @@ import typing
 
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.service_line_id import ServiceLineId
-from .write_off_reason import WriteOffReason
+from .patient_write_off_reason import PatientWriteOffReason
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -16,7 +16,7 @@ except ImportError:
 class PatientWriteOffCreate(pydantic.BaseModel):
     write_off_timestamp: dt.datetime
     write_off_note: typing.Optional[str] = None
-    write_off_reason: WriteOffReason
+    write_off_reason: PatientWriteOffReason
     service_line_id: ServiceLineId
     amount_cents: int
 

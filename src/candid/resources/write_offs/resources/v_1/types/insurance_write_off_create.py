@@ -5,8 +5,8 @@ import typing
 
 from ......core.datetime_utils import serialize_datetime
 from .....payers.resources.v_3.types.payer_identifier import PayerIdentifier
+from .insurance_write_off_reason import InsuranceWriteOffReason
 from .insurance_write_off_target import InsuranceWriteOffTarget
-from .write_off_reason import WriteOffReason
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -19,7 +19,7 @@ class InsuranceWriteOffCreate(pydantic.BaseModel):
     write_off_target: InsuranceWriteOffTarget
     write_off_timestamp: dt.datetime
     write_off_note: typing.Optional[str] = None
-    write_off_reason: WriteOffReason
+    write_off_reason: InsuranceWriteOffReason
     amount_cents: int
 
     def json(self, **kwargs: typing.Any) -> str:

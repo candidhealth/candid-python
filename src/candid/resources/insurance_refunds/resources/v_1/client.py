@@ -15,7 +15,6 @@ from ....commons.types.provider_id import ProviderId
 from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.sort_direction import SortDirection
 from ....financials.types.allocation_amount_update import AllocationAmountUpdate
-from ....financials.types.invoice_update import InvoiceUpdate
 from ....financials.types.note_update import NoteUpdate
 from ....financials.types.refund_reason_update import RefundReasonUpdate
 from ....payers.resources.v_3.types.payer_identifier import PayerIdentifier
@@ -152,9 +151,8 @@ class V1Client:
         *,
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[NoteUpdate] = OMIT,
-        payer_identifier: PayerIdentifier,
+        payer_identifier: typing.Optional[PayerIdentifier] = OMIT,
         allocations: typing.Optional[AllocationAmountUpdate] = OMIT,
-        invoice: typing.Optional[InvoiceUpdate] = OMIT,
         refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
     ) -> InsuranceRefund:
         """
@@ -168,23 +166,21 @@ class V1Client:
 
             - refund_note: typing.Optional[NoteUpdate].
 
-            - payer_identifier: PayerIdentifier.
+            - payer_identifier: typing.Optional[PayerIdentifier].
 
             - allocations: typing.Optional[AllocationAmountUpdate].
 
-            - invoice: typing.Optional[InvoiceUpdate].
-
             - refund_reason: typing.Optional[RefundReasonUpdate].
         """
-        _request: typing.Dict[str, typing.Any] = {"payer_identifier": payer_identifier}
+        _request: typing.Dict[str, typing.Any] = {}
         if refund_timestamp is not OMIT:
             _request["refund_timestamp"] = refund_timestamp
         if refund_note is not OMIT:
             _request["refund_note"] = refund_note
+        if payer_identifier is not OMIT:
+            _request["payer_identifier"] = payer_identifier
         if allocations is not OMIT:
             _request["allocations"] = allocations
-        if invoice is not OMIT:
-            _request["invoice"] = invoice
         if refund_reason is not OMIT:
             _request["refund_reason"] = refund_reason
         _response = self._client_wrapper.httpx_client.request(
@@ -347,9 +343,8 @@ class AsyncV1Client:
         *,
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[NoteUpdate] = OMIT,
-        payer_identifier: PayerIdentifier,
+        payer_identifier: typing.Optional[PayerIdentifier] = OMIT,
         allocations: typing.Optional[AllocationAmountUpdate] = OMIT,
-        invoice: typing.Optional[InvoiceUpdate] = OMIT,
         refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
     ) -> InsuranceRefund:
         """
@@ -363,23 +358,21 @@ class AsyncV1Client:
 
             - refund_note: typing.Optional[NoteUpdate].
 
-            - payer_identifier: PayerIdentifier.
+            - payer_identifier: typing.Optional[PayerIdentifier].
 
             - allocations: typing.Optional[AllocationAmountUpdate].
 
-            - invoice: typing.Optional[InvoiceUpdate].
-
             - refund_reason: typing.Optional[RefundReasonUpdate].
         """
-        _request: typing.Dict[str, typing.Any] = {"payer_identifier": payer_identifier}
+        _request: typing.Dict[str, typing.Any] = {}
         if refund_timestamp is not OMIT:
             _request["refund_timestamp"] = refund_timestamp
         if refund_note is not OMIT:
             _request["refund_note"] = refund_note
+        if payer_identifier is not OMIT:
+            _request["payer_identifier"] = payer_identifier
         if allocations is not OMIT:
             _request["allocations"] = allocations
-        if invoice is not OMIT:
-            _request["invoice"] = invoice
         if refund_reason is not OMIT:
             _request["refund_reason"] = refund_reason
         _response = await self._client_wrapper.httpx_client.request(
