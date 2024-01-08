@@ -489,6 +489,7 @@ class V4Client:
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[Date] = OMIT,
+        subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
@@ -540,6 +541,8 @@ class V4Client:
                                                           This date must be the local date in the timezone where the service occurred.
                                                           If omitted, the Encounter is assumed to be for a single day.
                                                           Must not be temporally before the date_of_service field.
+
+            - subscriber_primary: typing.Optional[SubscriberCreate]. Contains details of the primary insurance subscriber.
 
             - subscriber_secondary: typing.Optional[SubscriberCreate]. Contains details of the secondary insurance subscriber.
 
@@ -599,6 +602,8 @@ class V4Client:
             _request["appointment_type"] = appointment_type
         if end_date_of_service is not OMIT:
             _request["end_date_of_service"] = end_date_of_service
+        if subscriber_primary is not OMIT:
+            _request["subscriber_primary"] = subscriber_primary
         if subscriber_secondary is not OMIT:
             _request["subscriber_secondary"] = subscriber_secondary
         if additional_information is not OMIT:
@@ -1064,6 +1069,7 @@ class AsyncV4Client:
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[Date] = OMIT,
+        subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
@@ -1115,6 +1121,8 @@ class AsyncV4Client:
                                                           This date must be the local date in the timezone where the service occurred.
                                                           If omitted, the Encounter is assumed to be for a single day.
                                                           Must not be temporally before the date_of_service field.
+
+            - subscriber_primary: typing.Optional[SubscriberCreate]. Contains details of the primary insurance subscriber.
 
             - subscriber_secondary: typing.Optional[SubscriberCreate]. Contains details of the secondary insurance subscriber.
 
@@ -1174,6 +1182,8 @@ class AsyncV4Client:
             _request["appointment_type"] = appointment_type
         if end_date_of_service is not OMIT:
             _request["end_date_of_service"] = end_date_of_service
+        if subscriber_primary is not OMIT:
+            _request["subscriber_primary"] = subscriber_primary
         if subscriber_secondary is not OMIT:
             _request["subscriber_secondary"] = subscriber_secondary
         if additional_information is not OMIT:

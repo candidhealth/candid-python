@@ -3,7 +3,6 @@
 from .types import (
     AccountType,
     Allocation,
-    AllocationAmountUpdate,
     AllocationCreate,
     AllocationTarget,
     AllocationTargetCreate,
@@ -31,7 +30,6 @@ from .types import (
 __all__ = [
     "AccountType",
     "Allocation",
-    "AllocationAmountUpdate",
     "AllocationCreate",
     "AllocationTarget",
     "AllocationTargetCreate",

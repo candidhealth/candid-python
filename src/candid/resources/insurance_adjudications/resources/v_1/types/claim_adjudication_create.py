@@ -5,6 +5,7 @@ import typing
 
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.service_line_id import ServiceLineId
+from .....era_commons.types.claim_status_code_create import ClaimStatusCodeCreate
 from .....x_12.resources.v_1.types.claim_adjustment_reason_code import ClaimAdjustmentReasonCode
 from .service_line_adjudication_create import ServiceLineAdjudicationCreate
 
@@ -15,6 +16,7 @@ except ImportError:
 
 
 class ClaimAdjudicationCreate(pydantic.BaseModel):
+    claim_status_code: ClaimStatusCodeCreate
     insurance_paid_amount_cents: typing.Optional[int] = None
     charge_amount_cents: typing.Optional[int] = None
     service_lines: typing.Dict[ServiceLineId, typing.List[ServiceLineAdjudicationCreate]]

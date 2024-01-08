@@ -2,7 +2,6 @@
 
 from .account_type import AccountType
 from .allocation import Allocation
-from .allocation_amount_update import AllocationAmountUpdate
 from .allocation_create import AllocationCreate
 from .allocation_target import (
     AllocationTarget,
@@ -27,7 +26,6 @@ from .refund_reason_update import RefundReasonUpdate, RefundReasonUpdate_Remove,
 __all__ = [
     "AccountType",
     "Allocation",
-    "AllocationAmountUpdate",
     "AllocationCreate",
     "AllocationTarget",
     "AllocationTargetCreate",

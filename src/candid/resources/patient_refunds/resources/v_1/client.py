@@ -16,7 +16,6 @@ from ....commons.types.patient_external_id import PatientExternalId
 from ....commons.types.provider_id import ProviderId
 from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.sort_direction import SortDirection
-from ....financials.types.allocation_amount_update import AllocationAmountUpdate
 from ....financials.types.allocation_create import AllocationCreate
 from ....financials.types.invoice_update import InvoiceUpdate
 from ....financials.types.note_update import NoteUpdate
@@ -197,7 +196,6 @@ class V1Client:
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[NoteUpdate] = OMIT,
         patient_external_id: typing.Optional[PatientExternalId] = OMIT,
-        allocations: typing.Optional[AllocationAmountUpdate] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
         refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
     ) -> PatientRefund:
@@ -213,8 +211,6 @@ class V1Client:
 
             - patient_external_id: typing.Optional[PatientExternalId].
 
-            - allocations: typing.Optional[AllocationAmountUpdate].
-
             - invoice: typing.Optional[InvoiceUpdate].
 
             - refund_reason: typing.Optional[RefundReasonUpdate].
@@ -226,8 +222,6 @@ class V1Client:
             _request["refund_note"] = refund_note
         if patient_external_id is not OMIT:
             _request["patient_external_id"] = patient_external_id
-        if allocations is not OMIT:
-            _request["allocations"] = allocations
         if invoice is not OMIT:
             _request["invoice"] = invoice
         if refund_reason is not OMIT:
@@ -433,7 +427,6 @@ class AsyncV1Client:
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[NoteUpdate] = OMIT,
         patient_external_id: typing.Optional[PatientExternalId] = OMIT,
-        allocations: typing.Optional[AllocationAmountUpdate] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
         refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
     ) -> PatientRefund:
@@ -449,8 +442,6 @@ class AsyncV1Client:
 
             - patient_external_id: typing.Optional[PatientExternalId].
 
-            - allocations: typing.Optional[AllocationAmountUpdate].
-
             - invoice: typing.Optional[InvoiceUpdate].
 
             - refund_reason: typing.Optional[RefundReasonUpdate].
@@ -462,8 +453,6 @@ class AsyncV1Client:
             _request["refund_note"] = refund_note
         if patient_external_id is not OMIT:
             _request["patient_external_id"] = patient_external_id
-        if allocations is not OMIT:
-            _request["allocations"] = allocations
         if invoice is not OMIT:
             _request["invoice"] = invoice
         if refund_reason is not OMIT:

@@ -10,14 +10,12 @@ class WriteOffSortField(str, enum.Enum):
     AMOUNT_CENTS = "amount_cents"
     WRITE_OFF_TIMESTAMP = "write_off_timestamp"
     WRITE_OFF_NOTE = "write_off_note"
-    WRITE_OFF_REASON = "write_off_reason"
 
     def visit(
         self,
         amount_cents: typing.Callable[[], T_Result],
         write_off_timestamp: typing.Callable[[], T_Result],
         write_off_note: typing.Callable[[], T_Result],
-        write_off_reason: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is WriteOffSortField.AMOUNT_CENTS:
             return amount_cents()
@@ -25,5 +23,3 @@ class WriteOffSortField(str, enum.Enum):
             return write_off_timestamp()
         if self is WriteOffSortField.WRITE_OFF_NOTE:
             return write_off_note()
-        if self is WriteOffSortField.WRITE_OFF_REASON:
-            return write_off_reason()
