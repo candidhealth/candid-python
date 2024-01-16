@@ -62,6 +62,13 @@ class OrganizationServiceFacility(pydantic.BaseModel):
     description: typing.Optional[str] = pydantic.Field(
         default=None, description="A description of the service facility."
     )
+    npi: typing.Optional[str] = pydantic.Field(
+        default=None,
+        description=(
+            "An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.\n"
+            "Box 32 section (a) of the CMS-1500 claim form.\n"
+        ),
+    )
     status: typing.Optional[ServiceFacilityStatus] = pydantic.Field(
         default=None, description="The status of the service facility."
     )

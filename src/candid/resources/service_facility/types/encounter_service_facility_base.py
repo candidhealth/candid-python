@@ -24,6 +24,13 @@ class EncounterServiceFacilityBase(pydantic.BaseModel):
     """
 
     organization_name: str
+    npi: typing.Optional[str] = pydantic.Field(
+        default=None,
+        description=(
+            "An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.\n"
+            "Box 32 section (a) of the CMS-1500 claim form.\n"
+        ),
+    )
     address: StreetAddressLongZip
 
     def json(self, **kwargs: typing.Any) -> str:

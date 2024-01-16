@@ -188,7 +188,6 @@ class V4Client:
         *,
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[NoteUpdate] = OMIT,
-        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
     ) -> PatientPayment:
         """
@@ -201,8 +200,6 @@ class V4Client:
 
             - payment_note: typing.Optional[NoteUpdate].
 
-            - patient_external_id: typing.Optional[PatientExternalId].
-
             - invoice: typing.Optional[InvoiceUpdate].
         """
         _request: typing.Dict[str, typing.Any] = {}
@@ -210,8 +207,6 @@ class V4Client:
             _request["payment_timestamp"] = payment_timestamp
         if payment_note is not OMIT:
             _request["payment_note"] = payment_note
-        if patient_external_id is not OMIT:
-            _request["patient_external_id"] = patient_external_id
         if invoice is not OMIT:
             _request["invoice"] = invoice
         _response = self._client_wrapper.httpx_client.request(
@@ -409,7 +404,6 @@ class AsyncV4Client:
         *,
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[NoteUpdate] = OMIT,
-        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
     ) -> PatientPayment:
         """
@@ -422,8 +416,6 @@ class AsyncV4Client:
 
             - payment_note: typing.Optional[NoteUpdate].
 
-            - patient_external_id: typing.Optional[PatientExternalId].
-
             - invoice: typing.Optional[InvoiceUpdate].
         """
         _request: typing.Dict[str, typing.Any] = {}
@@ -431,8 +423,6 @@ class AsyncV4Client:
             _request["payment_timestamp"] = payment_timestamp
         if payment_note is not OMIT:
             _request["payment_note"] = payment_note
-        if patient_external_id is not OMIT:
-            _request["patient_external_id"] = patient_external_id
         if invoice is not OMIT:
             _request["invoice"] = invoice
         _response = await self._client_wrapper.httpx_client.request(

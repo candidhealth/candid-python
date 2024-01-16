@@ -195,7 +195,6 @@ class V1Client:
         *,
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[NoteUpdate] = OMIT,
-        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
         refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
     ) -> PatientRefund:
@@ -209,8 +208,6 @@ class V1Client:
 
             - refund_note: typing.Optional[NoteUpdate].
 
-            - patient_external_id: typing.Optional[PatientExternalId].
-
             - invoice: typing.Optional[InvoiceUpdate].
 
             - refund_reason: typing.Optional[RefundReasonUpdate].
@@ -220,8 +217,6 @@ class V1Client:
             _request["refund_timestamp"] = refund_timestamp
         if refund_note is not OMIT:
             _request["refund_note"] = refund_note
-        if patient_external_id is not OMIT:
-            _request["patient_external_id"] = patient_external_id
         if invoice is not OMIT:
             _request["invoice"] = invoice
         if refund_reason is not OMIT:
@@ -426,7 +421,6 @@ class AsyncV1Client:
         *,
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[NoteUpdate] = OMIT,
-        patient_external_id: typing.Optional[PatientExternalId] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
         refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
     ) -> PatientRefund:
@@ -440,8 +434,6 @@ class AsyncV1Client:
 
             - refund_note: typing.Optional[NoteUpdate].
 
-            - patient_external_id: typing.Optional[PatientExternalId].
-
             - invoice: typing.Optional[InvoiceUpdate].
 
             - refund_reason: typing.Optional[RefundReasonUpdate].
@@ -451,8 +443,6 @@ class AsyncV1Client:
             _request["refund_timestamp"] = refund_timestamp
         if refund_note is not OMIT:
             _request["refund_note"] = refund_note
-        if patient_external_id is not OMIT:
-            _request["patient_external_id"] = patient_external_id
         if invoice is not OMIT:
             _request["invoice"] = invoice
         if refund_reason is not OMIT:
