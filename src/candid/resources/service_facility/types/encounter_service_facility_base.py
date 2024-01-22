@@ -31,7 +31,11 @@ class EncounterServiceFacilityBase(pydantic.BaseModel):
             "Box 32 section (a) of the CMS-1500 claim form.\n"
         ),
     )
-    address: StreetAddressLongZip
+    address: StreetAddressLongZip = pydantic.Field(
+        description=(
+            'zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.\n'
+        )
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

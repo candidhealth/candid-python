@@ -17,9 +17,11 @@ from ....commons.types.page_token import PageToken
 from ....commons.types.regions import Regions
 from ....commons.types.state import State
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
+from .errors.contract_is_linked_to_fee_schedule_http_error import ContractIsLinkedToFeeScheduleHttpError
 from .types.authorized_signatory import AuthorizedSignatory
 from .types.authorized_signatory_update import AuthorizedSignatoryUpdate
 from .types.contract_id import ContractId
+from .types.contract_is_linked_to_fee_schedule_error import ContractIsLinkedToFeeScheduleError
 from .types.contract_status import ContractStatus
 from .types.contract_with_providers import ContractWithProviders
 from .types.contracting_provider_id import ContractingProviderId
@@ -213,6 +215,11 @@ class V2Client:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "ContractIsLinkedToFeeScheduleHttpError":
+                raise ContractIsLinkedToFeeScheduleHttpError(
+                    pydantic.parse_obj_as(ContractIsLinkedToFeeScheduleError, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -469,6 +476,11 @@ class AsyncV2Client:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "ContractIsLinkedToFeeScheduleHttpError":
+                raise ContractIsLinkedToFeeScheduleHttpError(
+                    pydantic.parse_obj_as(ContractIsLinkedToFeeScheduleError, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(

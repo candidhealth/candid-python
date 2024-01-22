@@ -8,6 +8,7 @@ from .types import (
     Contract,
     ContractBase,
     ContractId,
+    ContractIsLinkedToFeeScheduleError,
     ContractStatus,
     ContractWithProviders,
     ContractingProviderId,
@@ -24,6 +25,7 @@ from .types import (
     RegionsUpdate_Set,
     RenderingProviderid,
 )
+from .errors import ContractIsLinkedToFeeScheduleHttpError
 
 __all__ = [
     "AuthorizedSignatory",
@@ -33,6 +35,8 @@ __all__ = [
     "Contract",
     "ContractBase",
     "ContractId",
+    "ContractIsLinkedToFeeScheduleError",
+    "ContractIsLinkedToFeeScheduleHttpError",
     "ContractStatus",
     "ContractWithProviders",
     "ContractingProviderId",
