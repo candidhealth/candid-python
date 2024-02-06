@@ -4,7 +4,8 @@ import datetime as dt
 import typing
 
 from ....core.datetime_utils import serialize_datetime
-from .allocation_target_create import AllocationTargetCreate
+from ...commons.types.claim_id import ClaimId
+from ...commons.types.encounter_id import EncounterId
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -12,14 +13,9 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class AllocationCreate(pydantic.BaseModel):
-    """
-    Allocations are portions of payments that are applied to specific resources, known as targets. Each allocation has
-    and amount, defined in cents, and a target.
-    """
-
-    amount_cents: int
-    target: AllocationTargetCreate
+class ClaimAllocationTarget(pydantic.BaseModel):
+    claim_id: ClaimId
+    encounter_id: EncounterId
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -14,6 +14,8 @@ from .types import (
     AllocationTarget_Claim,
     AllocationTarget_ServiceLine,
     AllocationTarget_Unattributed,
+    BillingProviderAllocationTarget,
+    ClaimAllocationTarget,
     InvoiceUpdate,
     InvoiceUpdate_Remove,
     InvoiceUpdate_Set,
@@ -25,6 +27,7 @@ from .types import (
     RefundReasonUpdate,
     RefundReasonUpdate_Remove,
     RefundReasonUpdate_Set,
+    ServiceLineAllocationTarget,
 )
 
 __all__ = [
@@ -41,6 +44,8 @@ __all__ = [
     "AllocationTarget_Claim",
     "AllocationTarget_ServiceLine",
     "AllocationTarget_Unattributed",
+    "BillingProviderAllocationTarget",
+    "ClaimAllocationTarget",
     "InvoiceUpdate",
     "InvoiceUpdate_Remove",
     "InvoiceUpdate_Set",
@@ -52,4 +57,5 @@ __all__ = [
     "RefundReasonUpdate",
     "RefundReasonUpdate_Remove",
     "RefundReasonUpdate_Set",
+    "ServiceLineAllocationTarget",
 ]

@@ -6,9 +6,9 @@ import typing
 
 import typing_extensions
 
-from ...commons.types.claim_id import ClaimId
-from ...commons.types.provider_id import ProviderId
-from ...commons.types.service_line_id import ServiceLineId
+from .billing_provider_allocation_target import BillingProviderAllocationTarget
+from .claim_allocation_target import ClaimAllocationTarget
+from .service_line_allocation_target import ServiceLineAllocationTarget
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -16,31 +16,31 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class AllocationTarget_ServiceLine(pydantic.BaseModel):
+class AllocationTarget_ServiceLine(ServiceLineAllocationTarget):
     type: typing_extensions.Literal["service_line"]
-    value: ServiceLineId
 
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
 
 
-class AllocationTarget_Claim(pydantic.BaseModel):
+class AllocationTarget_Claim(ClaimAllocationTarget):
     type: typing_extensions.Literal["claim"]
-    value: ClaimId
 
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
 
 
-class AllocationTarget_BillingProviderId(pydantic.BaseModel):
+class AllocationTarget_BillingProviderId(BillingProviderAllocationTarget):
     type: typing_extensions.Literal["billing_provider_id"]
-    value: ProviderId
 
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
 
 
 class AllocationTarget_Unattributed(pydantic.BaseModel):

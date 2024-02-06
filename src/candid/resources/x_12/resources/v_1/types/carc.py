@@ -88,6 +88,7 @@ class Carc(str, enum.Enum):
     CARC_119 = "119"
     CARC_121 = "121"
     CARC_122 = "122"
+    CARC_125 = "125"
     CARC_128 = "128"
     CARC_129 = "129"
     CARC_130 = "130"
@@ -385,6 +386,7 @@ class Carc(str, enum.Enum):
         carc_119: typing.Callable[[], T_Result],
         carc_121: typing.Callable[[], T_Result],
         carc_122: typing.Callable[[], T_Result],
+        carc_125: typing.Callable[[], T_Result],
         carc_128: typing.Callable[[], T_Result],
         carc_129: typing.Callable[[], T_Result],
         carc_130: typing.Callable[[], T_Result],
@@ -761,6 +763,8 @@ class Carc(str, enum.Enum):
             return carc_121()
         if self is Carc.CARC_122:
             return carc_122()
+        if self is Carc.CARC_125:
+            return carc_125()
         if self is Carc.CARC_128:
             return carc_128()
         if self is Carc.CARC_129:

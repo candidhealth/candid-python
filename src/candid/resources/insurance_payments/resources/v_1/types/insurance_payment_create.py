@@ -3,8 +3,9 @@
 import datetime as dt
 import typing
 
-from ....core.datetime_utils import serialize_datetime
-from .allocation_target_create import AllocationTargetCreate
+from ......core.datetime_utils import serialize_datetime
+from .....financials.types.allocation_create import AllocationCreate
+from .....payers.resources.v_3.types.payer_identifier import PayerIdentifier
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -12,14 +13,12 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class AllocationCreate(pydantic.BaseModel):
-    """
-    Allocations are portions of payments that are applied to specific resources, known as targets. Each allocation has
-    and amount, defined in cents, and a target.
-    """
-
+class InsurancePaymentCreate(pydantic.BaseModel):
+    payer_identifier: PayerIdentifier
     amount_cents: int
-    target: AllocationTargetCreate
+    payment_timestamp: typing.Optional[dt.datetime] = None
+    payment_note: typing.Optional[str] = None
+    allocations: typing.List[AllocationCreate]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

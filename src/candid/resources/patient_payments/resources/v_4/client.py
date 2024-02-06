@@ -46,6 +46,7 @@ class V4Client:
         claim_id: typing.Optional[ClaimId] = None,
         service_line_id: typing.Optional[ServiceLineId] = None,
         billing_provider_id: typing.Optional[ProviderId] = None,
+        unattributed: typing.Optional[bool] = None,
         invoice_id: typing.Optional[InvoiceId] = None,
         sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
         sort: typing.Optional[PatientPaymentSortField] = None,
@@ -67,6 +68,8 @@ class V4Client:
 
             - billing_provider_id: typing.Optional[ProviderId].
 
+            - unattributed: typing.Optional[bool]. returns payments with unattributed allocations if set to true
+
             - invoice_id: typing.Optional[InvoiceId].
 
             - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
@@ -87,6 +90,7 @@ class V4Client:
                     "claim_id": jsonable_encoder(claim_id),
                     "service_line_id": jsonable_encoder(service_line_id),
                     "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "unattributed": unattributed,
                     "invoice_id": jsonable_encoder(invoice_id),
                     "sources": sources,
                     "sort": sort,
@@ -262,6 +266,7 @@ class AsyncV4Client:
         claim_id: typing.Optional[ClaimId] = None,
         service_line_id: typing.Optional[ServiceLineId] = None,
         billing_provider_id: typing.Optional[ProviderId] = None,
+        unattributed: typing.Optional[bool] = None,
         invoice_id: typing.Optional[InvoiceId] = None,
         sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
         sort: typing.Optional[PatientPaymentSortField] = None,
@@ -283,6 +288,8 @@ class AsyncV4Client:
 
             - billing_provider_id: typing.Optional[ProviderId].
 
+            - unattributed: typing.Optional[bool]. returns payments with unattributed allocations if set to true
+
             - invoice_id: typing.Optional[InvoiceId].
 
             - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
@@ -303,6 +310,7 @@ class AsyncV4Client:
                     "claim_id": jsonable_encoder(claim_id),
                     "service_line_id": jsonable_encoder(service_line_id),
                     "billing_provider_id": jsonable_encoder(billing_provider_id),
+                    "unattributed": unattributed,
                     "invoice_id": jsonable_encoder(invoice_id),
                     "sources": sources,
                     "sort": sort,
