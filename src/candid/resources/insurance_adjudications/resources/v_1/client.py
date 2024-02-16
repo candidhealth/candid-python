@@ -7,6 +7,8 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from ....era.errors.era_not_fully_processed_error import EraNotFullyProcessedError
+from ....era.types.era_not_fully_processed_error_message import EraNotFullyProcessedErrorMessage
 from .types.insurance_adjudication import InsuranceAdjudication
 from .types.insurance_adjudication_create import InsuranceAdjudicationCreate
 from .types.insurance_adjudication_id import InsuranceAdjudicationId
@@ -67,6 +69,11 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceAdjudication, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EraNotFullyProcessedError":
+                raise EraNotFullyProcessedError(
+                    pydantic.parse_obj_as(EraNotFullyProcessedErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def delete(self, insurance_adjudication_id: InsuranceAdjudicationId) -> None:
@@ -140,6 +147,11 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceAdjudication, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EraNotFullyProcessedError":
+                raise EraNotFullyProcessedError(
+                    pydantic.parse_obj_as(EraNotFullyProcessedErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def delete(self, insurance_adjudication_id: InsuranceAdjudicationId) -> None:

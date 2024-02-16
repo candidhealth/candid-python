@@ -302,6 +302,113 @@ class Carc(str, enum.Enum):
     CARC_P_30 = "P30"
     CARC_P_31 = "P31"
     CARC_P_32 = "P32"
+    CARC_17 = "17"
+    CARC_25 = "25"
+    CARC_28 = "28"
+    CARC_30 = "30"
+    CARC_36 = "36"
+    CARC_37 = "37"
+    CARC_38 = "38"
+    CARC_41 = "41"
+    CARC_42 = "42"
+    CARC_43 = "43"
+    CARC_46 = "46"
+    CARC_47 = "47"
+    CARC_48 = "48"
+    CARC_52 = "52"
+    CARC_57 = "57"
+    CARC_62 = "62"
+    CARC_63 = "63"
+    CARC_64 = "64"
+    CARC_65 = "65"
+    CARC_67 = "67"
+    CARC_68 = "68"
+    CARC_71 = "71"
+    CARC_72 = "72"
+    CARC_73 = "73"
+    CARC_77 = "77"
+    CARC_79 = "79"
+    CARC_80 = "80"
+    CARC_81 = "81"
+    CARC_82 = "82"
+    CARC_83 = "83"
+    CARC_84 = "84"
+    CARC_86 = "86"
+    CARC_87 = "87"
+    CARC_88 = "88"
+    CARC_92 = "92"
+    CARC_93 = "93"
+    CARC_98 = "98"
+    CARC_99 = "99"
+    CARC_113 = "113"
+    CARC_120 = "120"
+    CARC_123 = "123"
+    CARC_124 = "124"
+    CARC_126 = "126"
+    CARC_127 = "127"
+    CARC_138 = "138"
+    CARC_141 = "141"
+    CARC_145 = "145"
+    CARC_156 = "156"
+    CARC_162 = "162"
+    CARC_165 = "165"
+    CARC_168 = "168"
+    CARC_191 = "191"
+    CARC_196 = "196"
+    CARC_214 = "214"
+    CARC_217 = "217"
+    CARC_218 = "218"
+    CARC_220 = "220"
+    CARC_221 = "221"
+    CARC_230 = "230"
+    CARC_244 = "244"
+    CARC_255 = "255"
+    CARC_A_2 = "A2"
+    CARC_A_3 = "A3"
+    CARC_A_4 = "A4"
+    CARC_A_7 = "A7"
+    CARC_B_2 = "B2"
+    CARC_B_3 = "B3"
+    CARC_B_5 = "B5"
+    CARC_B_6 = "B6"
+    CARC_B_17 = "B17"
+    CARC_B_18 = "B18"
+    CARC_B_19 = "B19"
+    CARC_B_21 = "B21"
+    CARC_D_1 = "D1"
+    CARC_D_2 = "D2"
+    CARC_D_3 = "D3"
+    CARC_D_4 = "D4"
+    CARC_D_5 = "D5"
+    CARC_D_6 = "D6"
+    CARC_D_7 = "D7"
+    CARC_D_8 = "D8"
+    CARC_D_9 = "D9"
+    CARC_D_10 = "D10"
+    CARC_D_11 = "D11"
+    CARC_D_12 = "D12"
+    CARC_D_14 = "D14"
+    CARC_D_15 = "D15"
+    CARC_D_16 = "D16"
+    CARC_D_17 = "D17"
+    CARC_D_18 = "D18"
+    CARC_D_19 = "D19"
+    CARC_D_20 = "D20"
+    CARC_D_21 = "D21"
+    CARC_D_22 = "D22"
+    CARC_D_23 = "D23"
+    CARC_W_1 = "W1"
+    CARC_W_2 = "W2"
+    CARC_W_3 = "W3"
+    CARC_W_4 = "W4"
+    CARC_W_5 = "W5"
+    CARC_W_6 = "W6"
+    CARC_W_7 = "W7"
+    CARC_W_8 = "W8"
+    CARC_W_9 = "W9"
+    CARC_Y_1 = "Y1"
+    CARC_Y_2 = "Y2"
+    CARC_Y_3 = "Y3"
 
     def visit(
         self,
@@ -600,6 +707,113 @@ class Carc(str, enum.Enum):
         carc_p_30: typing.Callable[[], T_Result],
         carc_p_31: typing.Callable[[], T_Result],
         carc_p_32: typing.Callable[[], T_Result],
+        carc_17: typing.Callable[[], T_Result],
+        carc_25: typing.Callable[[], T_Result],
+        carc_28: typing.Callable[[], T_Result],
+        carc_30: typing.Callable[[], T_Result],
+        carc_36: typing.Callable[[], T_Result],
+        carc_37: typing.Callable[[], T_Result],
+        carc_38: typing.Callable[[], T_Result],
+        carc_41: typing.Callable[[], T_Result],
+        carc_42: typing.Callable[[], T_Result],
+        carc_43: typing.Callable[[], T_Result],
+        carc_46: typing.Callable[[], T_Result],
+        carc_47: typing.Callable[[], T_Result],
+        carc_48: typing.Callable[[], T_Result],
+        carc_52: typing.Callable[[], T_Result],
+        carc_57: typing.Callable[[], T_Result],
+        carc_62: typing.Callable[[], T_Result],
+        carc_63: typing.Callable[[], T_Result],
+        carc_64: typing.Callable[[], T_Result],
+        carc_65: typing.Callable[[], T_Result],
+        carc_67: typing.Callable[[], T_Result],
+        carc_68: typing.Callable[[], T_Result],
+        carc_71: typing.Callable[[], T_Result],
+        carc_72: typing.Callable[[], T_Result],
+        carc_73: typing.Callable[[], T_Result],
+        carc_77: typing.Callable[[], T_Result],
+        carc_79: typing.Callable[[], T_Result],
+        carc_80: typing.Callable[[], T_Result],
+        carc_81: typing.Callable[[], T_Result],
+        carc_82: typing.Callable[[], T_Result],
+        carc_83: typing.Callable[[], T_Result],
+        carc_84: typing.Callable[[], T_Result],
+        carc_86: typing.Callable[[], T_Result],
+        carc_87: typing.Callable[[], T_Result],
+        carc_88: typing.Callable[[], T_Result],
+        carc_92: typing.Callable[[], T_Result],
+        carc_93: typing.Callable[[], T_Result],
+        carc_98: typing.Callable[[], T_Result],
+        carc_99: typing.Callable[[], T_Result],
+        carc_113: typing.Callable[[], T_Result],
+        carc_120: typing.Callable[[], T_Result],
+        carc_123: typing.Callable[[], T_Result],
+        carc_124: typing.Callable[[], T_Result],
+        carc_126: typing.Callable[[], T_Result],
+        carc_127: typing.Callable[[], T_Result],
+        carc_138: typing.Callable[[], T_Result],
+        carc_141: typing.Callable[[], T_Result],
+        carc_145: typing.Callable[[], T_Result],
+        carc_156: typing.Callable[[], T_Result],
+        carc_162: typing.Callable[[], T_Result],
+        carc_165: typing.Callable[[], T_Result],
+        carc_168: typing.Callable[[], T_Result],
+        carc_191: typing.Callable[[], T_Result],
+        carc_196: typing.Callable[[], T_Result],
+        carc_214: typing.Callable[[], T_Result],
+        carc_217: typing.Callable[[], T_Result],
+        carc_218: typing.Callable[[], T_Result],
+        carc_220: typing.Callable[[], T_Result],
+        carc_221: typing.Callable[[], T_Result],
+        carc_230: typing.Callable[[], T_Result],
+        carc_244: typing.Callable[[], T_Result],
+        carc_255: typing.Callable[[], T_Result],
+        carc_a_2: typing.Callable[[], T_Result],
+        carc_a_3: typing.Callable[[], T_Result],
+        carc_a_4: typing.Callable[[], T_Result],
+        carc_a_7: typing.Callable[[], T_Result],
+        carc_b_2: typing.Callable[[], T_Result],
+        carc_b_3: typing.Callable[[], T_Result],
+        carc_b_5: typing.Callable[[], T_Result],
+        carc_b_6: typing.Callable[[], T_Result],
+        carc_b_17: typing.Callable[[], T_Result],
+        carc_b_18: typing.Callable[[], T_Result],
+        carc_b_19: typing.Callable[[], T_Result],
+        carc_b_21: typing.Callable[[], T_Result],
+        carc_d_1: typing.Callable[[], T_Result],
+        carc_d_2: typing.Callable[[], T_Result],
+        carc_d_3: typing.Callable[[], T_Result],
+        carc_d_4: typing.Callable[[], T_Result],
+        carc_d_5: typing.Callable[[], T_Result],
+        carc_d_6: typing.Callable[[], T_Result],
+        carc_d_7: typing.Callable[[], T_Result],
+        carc_d_8: typing.Callable[[], T_Result],
+        carc_d_9: typing.Callable[[], T_Result],
+        carc_d_10: typing.Callable[[], T_Result],
+        carc_d_11: typing.Callable[[], T_Result],
+        carc_d_12: typing.Callable[[], T_Result],
+        carc_d_14: typing.Callable[[], T_Result],
+        carc_d_15: typing.Callable[[], T_Result],
+        carc_d_16: typing.Callable[[], T_Result],
+        carc_d_17: typing.Callable[[], T_Result],
+        carc_d_18: typing.Callable[[], T_Result],
+        carc_d_19: typing.Callable[[], T_Result],
+        carc_d_20: typing.Callable[[], T_Result],
+        carc_d_21: typing.Callable[[], T_Result],
+        carc_d_22: typing.Callable[[], T_Result],
+        carc_d_23: typing.Callable[[], T_Result],
+        carc_w_1: typing.Callable[[], T_Result],
+        carc_w_2: typing.Callable[[], T_Result],
+        carc_w_3: typing.Callable[[], T_Result],
+        carc_w_4: typing.Callable[[], T_Result],
+        carc_w_5: typing.Callable[[], T_Result],
+        carc_w_6: typing.Callable[[], T_Result],
+        carc_w_7: typing.Callable[[], T_Result],
+        carc_w_8: typing.Callable[[], T_Result],
+        carc_w_9: typing.Callable[[], T_Result],
+        carc_y_1: typing.Callable[[], T_Result],
+        carc_y_2: typing.Callable[[], T_Result],
+        carc_y_3: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is Carc.CARC_1:
             return carc_1()
@@ -1191,3 +1405,217 @@ class Carc(str, enum.Enum):
             return carc_p_31()
         if self is Carc.CARC_P_32:
             return carc_p_32()
+        if self is Carc.CARC_17:
+            return carc_17()
+        if self is Carc.CARC_25:
+            return carc_25()
+        if self is Carc.CARC_28:
+            return carc_28()
+        if self is Carc.CARC_30:
+            return carc_30()
+        if self is Carc.CARC_36:
+            return carc_36()
+        if self is Carc.CARC_37:
+            return carc_37()
+        if self is Carc.CARC_38:
+            return carc_38()
+        if self is Carc.CARC_41:
+            return carc_41()
+        if self is Carc.CARC_42:
+            return carc_42()
+        if self is Carc.CARC_43:
+            return carc_43()
+        if self is Carc.CARC_46:
+            return carc_46()
+        if self is Carc.CARC_47:
+            return carc_47()
+        if self is Carc.CARC_48:
+            return carc_48()
+        if self is Carc.CARC_52:
+            return carc_52()
+        if self is Carc.CARC_57:
+            return carc_57()
+        if self is Carc.CARC_62:
+            return carc_62()
+        if self is Carc.CARC_63:
+            return carc_63()
+        if self is Carc.CARC_64:
+            return carc_64()
+        if self is Carc.CARC_65:
+            return carc_65()
+        if self is Carc.CARC_67:
+            return carc_67()
+        if self is Carc.CARC_68:
+            return carc_68()
+        if self is Carc.CARC_71:
+            return carc_71()
+        if self is Carc.CARC_72:
+            return carc_72()
+        if self is Carc.CARC_73:
+            return carc_73()
+        if self is Carc.CARC_77:
+            return carc_77()
+        if self is Carc.CARC_79:
+            return carc_79()
+        if self is Carc.CARC_80:
+            return carc_80()
+        if self is Carc.CARC_81:
+            return carc_81()
+        if self is Carc.CARC_82:
+            return carc_82()
+        if self is Carc.CARC_83:
+            return carc_83()
+        if self is Carc.CARC_84:
+            return carc_84()
+        if self is Carc.CARC_86:
+            return carc_86()
+        if self is Carc.CARC_87:
+            return carc_87()
+        if self is Carc.CARC_88:
+            return carc_88()
+        if self is Carc.CARC_92:
+            return carc_92()
+        if self is Carc.CARC_93:
+            return carc_93()
+        if self is Carc.CARC_98:
+            return carc_98()
+        if self is Carc.CARC_99:
+            return carc_99()
+        if self is Carc.CARC_113:
+            return carc_113()
+        if self is Carc.CARC_120:
+            return carc_120()
+        if self is Carc.CARC_123:
+            return carc_123()
+        if self is Carc.CARC_124:
+            return carc_124()
+        if self is Carc.CARC_126:
+            return carc_126()
+        if self is Carc.CARC_127:
+            return carc_127()
+        if self is Carc.CARC_138:
+            return carc_138()
+        if self is Carc.CARC_141:
+            return carc_141()
+        if self is Carc.CARC_145:
+            return carc_145()
+        if self is Carc.CARC_156:
+            return carc_156()
+        if self is Carc.CARC_162:
+            return carc_162()
+        if self is Carc.CARC_165:
+            return carc_165()
+        if self is Carc.CARC_168:
+            return carc_168()
+        if self is Carc.CARC_191:
+            return carc_191()
+        if self is Carc.CARC_196:
+            return carc_196()
+        if self is Carc.CARC_214:
+            return carc_214()
+        if self is Carc.CARC_217:
+            return carc_217()
+        if self is Carc.CARC_218:
+            return carc_218()
+        if self is Carc.CARC_220:
+            return carc_220()
+        if self is Carc.CARC_221:
+            return carc_221()
+        if self is Carc.CARC_230:
+            return carc_230()
+        if self is Carc.CARC_244:
+            return carc_244()
+        if self is Carc.CARC_255:
+            return carc_255()
+        if self is Carc.CARC_A_2:
+            return carc_a_2()
+        if self is Carc.CARC_A_3:
+            return carc_a_3()
+        if self is Carc.CARC_A_4:
+            return carc_a_4()
+        if self is Carc.CARC_A_7:
+            return carc_a_7()
+        if self is Carc.CARC_B_2:
+            return carc_b_2()
+        if self is Carc.CARC_B_3:
+            return carc_b_3()
+        if self is Carc.CARC_B_5:
+            return carc_b_5()
+        if self is Carc.CARC_B_6:
+            return carc_b_6()
+        if self is Carc.CARC_B_17:
+            return carc_b_17()
+        if self is Carc.CARC_B_18:
+            return carc_b_18()
+        if self is Carc.CARC_B_19:
+            return carc_b_19()
+        if self is Carc.CARC_B_21:
+            return carc_b_21()
+        if self is Carc.CARC_D_1:
+            return carc_d_1()
+        if self is Carc.CARC_D_2:
+            return carc_d_2()
+        if self is Carc.CARC_D_3:
+            return carc_d_3()
+        if self is Carc.CARC_D_4:
+            return carc_d_4()
+        if self is Carc.CARC_D_5:
+            return carc_d_5()
+        if self is Carc.CARC_D_6:
+            return carc_d_6()
+        if self is Carc.CARC_D_7:
+            return carc_d_7()
+        if self is Carc.CARC_D_8:
+            return carc_d_8()
+        if self is Carc.CARC_D_9:
+            return carc_d_9()
+        if self is Carc.CARC_D_10:
+            return carc_d_10()
+        if self is Carc.CARC_D_11:
+            return carc_d_11()
+        if self is Carc.CARC_D_12:
+            return carc_d_12()
+        if self is Carc.CARC_D_14:
+            return carc_d_14()
+        if self is Carc.CARC_D_15:
+            return carc_d_15()
+        if self is Carc.CARC_D_16:
+            return carc_d_16()
+        if self is Carc.CARC_D_17:
+            return carc_d_17()
+        if self is Carc.CARC_D_18:
+            return carc_d_18()
+        if self is Carc.CARC_D_19:
+            return carc_d_19()
+        if self is Carc.CARC_D_20:
+            return carc_d_20()
+        if self is Carc.CARC_D_21:
+            return carc_d_21()
+        if self is Carc.CARC_D_22:
+            return carc_d_22()
+        if self is Carc.CARC_D_23:
+            return carc_d_23()
+        if self is Carc.CARC_W_1:
+            return carc_w_1()
+        if self is Carc.CARC_W_2:
+            return carc_w_2()
+        if self is Carc.CARC_W_3:
+            return carc_w_3()
+        if self is Carc.CARC_W_4:
+            return carc_w_4()
+        if self is Carc.CARC_W_5:
+            return carc_w_5()
+        if self is Carc.CARC_W_6:
+            return carc_w_6()
+        if self is Carc.CARC_W_7:
+            return carc_w_7()
+        if self is Carc.CARC_W_8:
+            return carc_w_8()
+        if self is Carc.CARC_W_9:
+            return carc_w_9()
+        if self is Carc.CARC_Y_1:
+            return carc_y_1()
+        if self is Carc.CARC_Y_2:
+            return carc_y_2()
+        if self is Carc.CARC_Y_3:
+            return carc_y_3()

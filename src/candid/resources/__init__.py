@@ -103,7 +103,7 @@ from .commons import (
     WorkQueueId,
 )
 from .diagnoses import Diagnosis, DiagnosisCreate, DiagnosisId, DiagnosisTypeCode, StandaloneDiagnosisCreate
-from .era import Era, EraBase, EraId
+from .era import Era, EraBase, EraId, EraNotFullyProcessedError, EraNotFullyProcessedErrorMessage
 from .era_commons import ClaimStatusCodeCreate
 from .financials import (
     AccountType,
@@ -206,6 +206,8 @@ __all__ = [
     "Era",
     "EraBase",
     "EraId",
+    "EraNotFullyProcessedError",
+    "EraNotFullyProcessedErrorMessage",
     "ErrorMessage",
     "FacilityTypeCode",
     "Gender",
