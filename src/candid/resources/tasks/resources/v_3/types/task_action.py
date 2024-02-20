@@ -5,6 +5,7 @@ import typing
 
 from ......core.datetime_utils import serialize_datetime
 from .task_action_execution_method import TaskActionExecutionMethod
+from .task_action_type import TaskActionType
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -15,6 +16,7 @@ except ImportError:
 class TaskAction(pydantic.BaseModel):
     display_name: str
     execution_method: TaskActionExecutionMethod
+    type: TaskActionType
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
