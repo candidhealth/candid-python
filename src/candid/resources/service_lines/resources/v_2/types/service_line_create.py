@@ -40,6 +40,10 @@ class ServiceLineCreate(pydantic.BaseModel):
     )
     drug_identification: typing.Optional[DrugIdentification] = None
     place_of_service_code: typing.Optional[FacilityTypeCode] = None
+    description: typing.Optional[str] = pydantic.Field(
+        default=None,
+        description="A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on the 837-P.",
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

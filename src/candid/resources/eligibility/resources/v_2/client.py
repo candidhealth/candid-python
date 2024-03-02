@@ -63,6 +63,30 @@ class V2Client:
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def submit_eligibility_check_availity(self) -> typing.Any:
+        """
+        This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:
+
+        - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
+        - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
+
+        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages/get)
+        * Note Availity requires a free developer account to access this documentation.
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
 
 class AsyncV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -106,4 +130,28 @@ class AsyncV2Client:
                 raise HttpServiceUnavailableError(
                     pydantic.parse_obj_as(HttpServiceUnavailableErrorMessage, _response_json["content"])  # type: ignore
                 )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def submit_eligibility_check_availity(self) -> typing.Any:
+        """
+        This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:
+
+        - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
+        - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
+
+        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages/get)
+        * Note Availity requires a free developer account to access this documentation.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
+            headers=self._client_wrapper.get_headers(),
+            timeout=60,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)

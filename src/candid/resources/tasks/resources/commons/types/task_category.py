@@ -46,6 +46,7 @@ class TaskCategory(str, enum.Enum):
     MISSING_REMITTANCE_ENROLLMENT = "missing_remittance_enrollment"
     MISSING_CLAIMS_ENROLLMENT = "missing_claims_enrollment"
     HELD_BY_CUSTOMER = "held_by_customer"
+    PENDING_MANUAL_REMIT_POSTING = "pending_manual_remit_posting"
 
     def visit(
         self,
@@ -88,6 +89,7 @@ class TaskCategory(str, enum.Enum):
         missing_remittance_enrollment: typing.Callable[[], T_Result],
         missing_claims_enrollment: typing.Callable[[], T_Result],
         held_by_customer: typing.Callable[[], T_Result],
+        pending_manual_remit_posting: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is TaskCategory.OTHER:
             return other()
@@ -167,3 +169,5 @@ class TaskCategory(str, enum.Enum):
             return missing_claims_enrollment()
         if self is TaskCategory.HELD_BY_CUSTOMER:
             return held_by_customer()
+        if self is TaskCategory.PENDING_MANUAL_REMIT_POSTING:
+            return pending_manual_remit_posting()
