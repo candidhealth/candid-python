@@ -32,9 +32,7 @@ class EncounterServiceFacilityBase(pydantic.BaseModel):
         ),
     )
     address: StreetAddressLongZip = pydantic.Field(
-        description=(
-            'zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.\n'
-        )
+        description='zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.'
     )
 
     def json(self, **kwargs: typing.Any) -> str:

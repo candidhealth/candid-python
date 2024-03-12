@@ -82,7 +82,7 @@ class ServiceFacilityPhysicalType(str, enum.Enum):
 
     JURISDICTION = "jdn"
     """
-    A wide scope that covers a conceptual domain, such as a Nation (Country wide community or Federal Government - e.g.  Ministry of Health), Province or State (community or Government), Business (throughout the enterprise), Nation with a business  scope of an agency (e.g. CDC, FDA etc.) or a Business segment (UK Pharmacy), not just an physical boundary.
+    A wide scope that covers a conceptual domain, such as a Nation (Country wide community or Federal Government - e.g. Ministry of Health), Province or State (community or Government), Business (throughout the enterprise), Nation with a business scope of an agency (e.g. CDC, FDA etc.) or a Business segment (UK Pharmacy), not just an physical boundary.
     """
 
     def visit(

@@ -79,15 +79,13 @@ class Encounter(EncounterBase):
     encounter_id: EncounterId
     claims: typing.List[Claim]
     patient: Patient = pydantic.Field(
-        description=("Contains the identification information of the individual receiving medical services.\n")
+        description="Contains the identification information of the individual receiving medical services."
     )
     guarantor: typing.Optional[Guarantor] = pydantic.Field(
         default=None, description="Personal and contact info for the guarantor of the patient responsibility."
     )
     billing_provider: EncounterProvider = pydantic.Field(
-        description=(
-            "The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.\n"
-        )
+        description="The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form."
     )
     rendering_provider: EncounterProvider = pydantic.Field(
         description=(
@@ -97,9 +95,7 @@ class Encounter(EncounterBase):
     )
     referring_provider: typing.Optional[EncounterProvider] = None
     service_facility: EncounterServiceFacility = pydantic.Field(
-        description=(
-            "Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.\n"
-        )
+        description="Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process."
     )
     subscriber_primary: typing.Optional[Subscriber] = pydantic.Field(
         default=None,
@@ -115,9 +111,7 @@ class Encounter(EncounterBase):
     )
     url: LinkUrl = pydantic.Field(description="URL that links directly to the claim created in Candid.")
     diagnoses: typing.List[Diagnosis] = pydantic.Field(
-        description=(
-            "Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses may be submitted at this time, and coders will later prioritize the 12 that will be submitted to the payor.\n"
-        )
+        description="Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses may be submitted at this time, and coders will later prioritize the 12 that will be submitted to the payor."
     )
     clinical_notes: typing.List[ClinicalNoteCategory] = pydantic.Field(
         description="Holds a collection of clinical observations made by healthcare providers during patient encounters."
@@ -130,15 +124,11 @@ class Encounter(EncounterBase):
     )
     place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(
         default=None,
-        description=(
-            "Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).\n"
-        ),
+        description="Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).",
     )
     place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = pydantic.Field(
         default=None,
-        description=(
-            "Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).\n"
-        ),
+        description="Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).",
     )
     patient_histories: typing.List[PatientHistoryCategory]
     patient_payments: typing.List[PatientPayment]

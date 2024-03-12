@@ -34,7 +34,7 @@ class ComputeAllInNetworkProvidersRequest(pydantic.BaseModel):
     )
     place_of_service_code: FacilityTypeCode = pydantic.Field(description="Expected place of service")
     subscriber_information: ExpectedNetworkStatusSubscriberInformation = pydantic.Field(
-        description=("Information present on the patient's insurance card\n")
+        description="Information present on the patient's insurance card"
     )
     patient_address: StreetAddressShortZip
     billing_provider_id: OrganizationProviderId

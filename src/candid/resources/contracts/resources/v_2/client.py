@@ -155,7 +155,6 @@ class V2Client:
 
             - regions: Regions. The state(s) to which the contract's coverage extends.
                                 It may also be set to "national" for the entirety of the US.
-
             - contract_status: typing.Optional[ContractStatus].
 
             - authorized_signatory: typing.Optional[AuthorizedSignatory].
@@ -165,7 +164,6 @@ class V2Client:
             - medicare_insurance_types: InsuranceTypes. The Medicare plan insurance types this contract applies.
 
             - medicaid_insurance_types: InsuranceTypes. The Medicaid plan insurance types this contract applies.
-
         """
         _request: typing.Dict[str, typing.Any] = {
             "contracting_provider_id": contracting_provider_id,
@@ -416,7 +414,6 @@ class AsyncV2Client:
 
             - regions: Regions. The state(s) to which the contract's coverage extends.
                                 It may also be set to "national" for the entirety of the US.
-
             - contract_status: typing.Optional[ContractStatus].
 
             - authorized_signatory: typing.Optional[AuthorizedSignatory].
@@ -426,7 +423,6 @@ class AsyncV2Client:
             - medicare_insurance_types: InsuranceTypes. The Medicare plan insurance types this contract applies.
 
             - medicaid_insurance_types: InsuranceTypes. The Medicaid plan insurance types this contract applies.
-
         """
         _request: typing.Dict[str, typing.Any] = {
             "contracting_provider_id": contracting_provider_id,

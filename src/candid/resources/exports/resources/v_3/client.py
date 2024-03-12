@@ -45,10 +45,8 @@ class V3Client:
         Parameters:
             - start_date: dt.date. Beginning date of claim versions returned in the export, ISO 8601 date e.g. 2019-08-24.
                                    Must be at least 1 calendar day in the past. Cannot be earlier than 2022-10-07.
-
             - end_date: dt.date. Ending date of claim versions returned in the export, ISO 8601 date; e.g. 2019-08-24.
-                                 Must be within 30 days of start_date.
-                                 ---
+                                 Must be within 30 days of start_date.---
         import datetime
 
         from candid.client import CandidApi
@@ -124,10 +122,8 @@ class AsyncV3Client:
         Parameters:
             - start_date: dt.date. Beginning date of claim versions returned in the export, ISO 8601 date e.g. 2019-08-24.
                                    Must be at least 1 calendar day in the past. Cannot be earlier than 2022-10-07.
-
             - end_date: dt.date. Ending date of claim versions returned in the export, ISO 8601 date; e.g. 2019-08-24.
-                                 Must be within 30 days of start_date.
-                                 ---
+                                 Must be within 30 days of start_date.---
         import datetime
 
         from candid.client import AsyncCandidApi

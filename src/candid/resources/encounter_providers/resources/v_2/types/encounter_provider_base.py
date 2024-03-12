@@ -13,16 +13,13 @@ except ImportError:
 
 class EncounterProviderBase(pydantic.BaseModel):
     first_name: typing.Optional[str] = pydantic.Field(
-        default=None,
-        description=("If the provider is an individual, this should be set instead of organization name\n"),
+        default=None, description="If the provider is an individual, this should be set instead of organization name"
     )
     last_name: typing.Optional[str] = pydantic.Field(
-        default=None,
-        description=("If the provider is an individual, this should be set instead of organization name\n"),
+        default=None, description="If the provider is an individual, this should be set instead of organization name"
     )
     organization_name: typing.Optional[str] = pydantic.Field(
-        default=None,
-        description=("If the provider is an organization, this should be set instead of first + last name\n"),
+        default=None, description="If the provider is an organization, this should be set instead of first + last name"
     )
 
     def json(self, **kwargs: typing.Any) -> str:

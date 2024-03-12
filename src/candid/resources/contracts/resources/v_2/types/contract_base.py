@@ -30,13 +30,13 @@ class ContractBase(pydantic.BaseModel):
     contract_status: typing.Optional[ContractStatus] = None
     authorized_signatory: typing.Optional[AuthorizedSignatory] = None
     commercial_insurance_types: InsuranceTypes = pydantic.Field(
-        description=("The commercial plan insurance types this contract applies.\n")
+        description="The commercial plan insurance types this contract applies."
     )
     medicare_insurance_types: InsuranceTypes = pydantic.Field(
-        description=("The Medicare plan insurance types this contract applies.\n")
+        description="The Medicare plan insurance types this contract applies."
     )
     medicaid_insurance_types: InsuranceTypes = pydantic.Field(
-        description=("The Medicaid plan insurance types this contract applies.\n")
+        description="The Medicaid plan insurance types this contract applies."
     )
 
     def json(self, **kwargs: typing.Any) -> str:

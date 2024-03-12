@@ -65,13 +65,16 @@ class V2Client:
 
     def submit_eligibility_check_availity(self) -> typing.Any:
         """
+        If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
+
         This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:
 
         - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
         - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
 
         A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages/get)
-        * Note Availity requires a free developer account to access this documentation.
+
+        - Note Availity requires a free developer account to access this documentation.
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -134,13 +137,16 @@ class AsyncV2Client:
 
     async def submit_eligibility_check_availity(self) -> typing.Any:
         """
+        If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
+
         This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:
 
         - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
         - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
 
         A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages/get)
-        * Note Availity requires a free developer account to access this documentation.
+
+        - Note Availity requires a free developer account to access this documentation.
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",

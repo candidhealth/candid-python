@@ -50,7 +50,7 @@ class Intervention(pydantic.BaseModel):
     category: InterventionCategory
     description: typing.Optional[str] = pydantic.Field(
         default=None,
-        description=("\"Examples: 'Birth Control LAC', 'Tracking', 'Stress Management', 'Supplement', 'Labs'\"\n"),
+        description="\"Examples: 'Birth Control LAC', 'Tracking', 'Stress Management', 'Supplement', 'Labs'\"",
     )
     medication: typing.Optional[Medication] = pydantic.Field(
         default=None, description="Required when `type` is `allopathic`."

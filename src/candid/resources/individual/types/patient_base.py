@@ -16,10 +16,7 @@ except ImportError:
 
 class PatientBase(IndividualBase):
     external_id: str = pydantic.Field(
-        description=(
-            "Another ID you want to associate with this patient.\n"
-            "For example, your internal patient ID or a Dr. Chrono patient ID. Box 1a on the CMS-1500 claim form\n"
-        )
+        description="The ID used to identify this individual in your system. For example, your internal patient ID or an EHR patient ID."
     )
     date_of_birth: Date = pydantic.Field(
         description="Box 3 on the CMS-1500 claim form. The date format should be in ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)"

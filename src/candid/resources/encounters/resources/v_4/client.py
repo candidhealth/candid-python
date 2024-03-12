@@ -17,6 +17,7 @@ from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.types.date import Date
+from ....commons.types.delay_reason_code import DelayReasonCode
 from ....commons.types.encounter_external_id import EncounterExternalId
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
@@ -113,7 +114,6 @@ class V4Client:
             - search_term: typing.Optional[str]. Filter by any of the following fields: encounter_id, claim_id, patient external_id,
                                                  patient date of birth, patient first name, patient last name,
                                                  or encounter external id.
-
             - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists.
 
             - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
@@ -245,6 +245,7 @@ class V4Client:
         discharge_date: typing.Optional[Date] = OMIT,
         onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
+        delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -296,31 +297,25 @@ class V4Client:
             - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
                                                 This field should not contain PHI.
-
             - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
                                      This date must be the local date in the timezone where the service occurred.
                                      Box 24a on the CMS-1500 claim form.
                                      If service occurred over a range of dates, this should be the start date.
-
             - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
                                                           This date must be the local date in the timezone where the service occurred.
                                                           If omitted, the Encounter is assumed to be for a single day.
                                                           Must not be temporally before the date_of_service field.
-
             - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
 
             - patient_authorized_release: bool. Whether this patient has authorized the release of medical information
                                                 for billing purpose.
                                                 Box 12 on the CMS-1500 claim form.
-
             - benefits_assigned_to_provider: bool. Whether this patient has authorized insurance payments to be made to you,
                                                    not them. If false, patient may receive reimbursement.
                                                    Box 13 on the CMS-1500 claim form.
-
             - provider_accepts_assignment: bool. Whether you have accepted the patient's authorization for insurance payments
                                                  to be made to you, not them.
                                                  Box 27 on the CMS-1500 claim form.
-
             - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
             - existing_medications: typing.Optional[typing.List[Medication]].
@@ -336,37 +331,31 @@ class V4Client:
                                                                  forms, instant messaging, or other pre-recorded digital mediums.
                                                                  Synchronous encounters occur in live, real-time settings where the patient interacts
                                                                  directly with the provider, such as over video or a phone call.
-
             - billable_status: BillableStatusType. Defines if the Encounter is to be billed by Candid to the responsible_party.
                                                    Examples for when this should be set to NOT_BILLABLE include
                                                    if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
-
             - responsible_party: ResponsiblePartyType. Defines the party to be billed with the initial balance owed on the claim.
 
             - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
                                                             Box 19 on the CMS-1500 claim form.
-
-            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF*4N
+            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF\*4N
                                                                                                         Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
                                                                                                         reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
                                                                                                         obtaining the authorization.
-
-            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP*435, CMS-1500 Box 18
+            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP\*435, CMS-1500 Box 18
                                                      Required on all ambulance claims when the patient was known to be admitted to the hospital.
                                                      OR
                                                      Required on all claims involving inpatient medical visits.
-
-            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP*096, CMS-1500 Box 18
+            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP\*096, CMS-1500 Box 18
                                                      Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
-
-            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP*431, CMS-1500 Box 14
+            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP\*431, CMS-1500 Box 14
                                                                                Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
                                                                                OR
                                                                                This date is the onset of acute symptoms for the current illness or condition.
-
-            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
+            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP\*484, CMS-1500 Box 14
                                                                  Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
-
+            - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
+                                                                   Code indicating the reason why a request was delayed
         """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -430,6 +419,8 @@ class V4Client:
             _request["onset_of_current_illness_or_symptom_date"] = onset_of_current_illness_or_symptom_date
         if last_menstrual_period_date is not OMIT:
             _request["last_menstrual_period_date"] = last_menstrual_period_date
+        if delay_reason_code is not OMIT:
+            _request["delay_reason_code"] = delay_reason_code
         _response = self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
@@ -497,6 +488,7 @@ class V4Client:
         discharge_date: typing.Optional[Date] = OMIT,
         onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
+        delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -570,6 +562,9 @@ class V4Client:
             - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
                                                                  Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
 
+            - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
+                                                                   Code indicating the reason why a request was delayed
+
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -618,6 +613,8 @@ class V4Client:
             _request["onset_of_current_illness_or_symptom_date"] = onset_of_current_illness_or_symptom_date
         if last_menstrual_period_date is not OMIT:
             _request["last_menstrual_period_date"] = last_menstrual_period_date
+        if delay_reason_code is not OMIT:
+            _request["delay_reason_code"] = delay_reason_code
         _response = self._client_wrapper.httpx_client.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
@@ -693,7 +690,6 @@ class AsyncV4Client:
             - search_term: typing.Optional[str]. Filter by any of the following fields: encounter_id, claim_id, patient external_id,
                                                  patient date of birth, patient first name, patient last name,
                                                  or encounter external id.
-
             - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists.
 
             - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
@@ -825,6 +821,7 @@ class AsyncV4Client:
         discharge_date: typing.Optional[Date] = OMIT,
         onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
+        delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -876,31 +873,25 @@ class AsyncV4Client:
             - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
                                                 This field should not contain PHI.
-
             - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
                                      This date must be the local date in the timezone where the service occurred.
                                      Box 24a on the CMS-1500 claim form.
                                      If service occurred over a range of dates, this should be the start date.
-
             - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
                                                           This date must be the local date in the timezone where the service occurred.
                                                           If omitted, the Encounter is assumed to be for a single day.
                                                           Must not be temporally before the date_of_service field.
-
             - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
 
             - patient_authorized_release: bool. Whether this patient has authorized the release of medical information
                                                 for billing purpose.
                                                 Box 12 on the CMS-1500 claim form.
-
             - benefits_assigned_to_provider: bool. Whether this patient has authorized insurance payments to be made to you,
                                                    not them. If false, patient may receive reimbursement.
                                                    Box 13 on the CMS-1500 claim form.
-
             - provider_accepts_assignment: bool. Whether you have accepted the patient's authorization for insurance payments
                                                  to be made to you, not them.
                                                  Box 27 on the CMS-1500 claim form.
-
             - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
             - existing_medications: typing.Optional[typing.List[Medication]].
@@ -916,37 +907,31 @@ class AsyncV4Client:
                                                                  forms, instant messaging, or other pre-recorded digital mediums.
                                                                  Synchronous encounters occur in live, real-time settings where the patient interacts
                                                                  directly with the provider, such as over video or a phone call.
-
             - billable_status: BillableStatusType. Defines if the Encounter is to be billed by Candid to the responsible_party.
                                                    Examples for when this should be set to NOT_BILLABLE include
                                                    if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
-
             - responsible_party: ResponsiblePartyType. Defines the party to be billed with the initial balance owed on the claim.
 
             - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
                                                             Box 19 on the CMS-1500 claim form.
-
-            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF*4N
+            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF\*4N
                                                                                                         Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
                                                                                                         reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
                                                                                                         obtaining the authorization.
-
-            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP*435, CMS-1500 Box 18
+            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP\*435, CMS-1500 Box 18
                                                      Required on all ambulance claims when the patient was known to be admitted to the hospital.
                                                      OR
                                                      Required on all claims involving inpatient medical visits.
-
-            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP*096, CMS-1500 Box 18
+            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP\*096, CMS-1500 Box 18
                                                      Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
-
-            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP*431, CMS-1500 Box 14
+            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP\*431, CMS-1500 Box 14
                                                                                Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
                                                                                OR
                                                                                This date is the onset of acute symptoms for the current illness or condition.
-
-            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
+            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP\*484, CMS-1500 Box 14
                                                                  Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
-
+            - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
+                                                                   Code indicating the reason why a request was delayed
         """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -1010,6 +995,8 @@ class AsyncV4Client:
             _request["onset_of_current_illness_or_symptom_date"] = onset_of_current_illness_or_symptom_date
         if last_menstrual_period_date is not OMIT:
             _request["last_menstrual_period_date"] = last_menstrual_period_date
+        if delay_reason_code is not OMIT:
+            _request["delay_reason_code"] = delay_reason_code
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
@@ -1077,6 +1064,7 @@ class AsyncV4Client:
         discharge_date: typing.Optional[Date] = OMIT,
         onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
+        delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -1150,6 +1138,9 @@ class AsyncV4Client:
             - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
                                                                  Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
 
+            - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
+                                                                   Code indicating the reason why a request was delayed
+
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -1198,6 +1189,8 @@ class AsyncV4Client:
             _request["onset_of_current_illness_or_symptom_date"] = onset_of_current_illness_or_symptom_date
         if last_menstrual_period_date is not OMIT:
             _request["last_menstrual_period_date"] = last_menstrual_period_date
+        if delay_reason_code is not OMIT:
+            _request["delay_reason_code"] = delay_reason_code
         _response = await self._client_wrapper.httpx_client.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),

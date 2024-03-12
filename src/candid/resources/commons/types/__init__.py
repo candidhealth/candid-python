@@ -6,6 +6,7 @@ from .claim_submission_payer_responsibility_type import ClaimSubmissionPayerResp
 from .date import Date
 from .date_range_optional_end import DateRangeOptionalEnd
 from .decimal import Decimal
+from .delay_reason_code import DelayReasonCode
 from .email import Email
 from .emr_payer_crosswalk import EmrPayerCrosswalk
 from .encounter_external_id import EncounterExternalId
@@ -64,6 +65,7 @@ __all__ = [
     "Date",
     "DateRangeOptionalEnd",
     "Decimal",
+    "DelayReasonCode",
     "Email",
     "EmrPayerCrosswalk",
     "EncounterExternalId",

@@ -27,9 +27,7 @@ class BillingProvider(EncounterProviderBase):
 
     address: StreetAddressLongZip
     tax_id: str = pydantic.Field(
-        description=(
-            "If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.\n"
-        )
+        description="If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting."
     )
     npi: str
     taxonomy_code: typing.Optional[str] = None

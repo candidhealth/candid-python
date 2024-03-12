@@ -38,13 +38,11 @@ class OrganizationProviderUpdateV2(pydantic.BaseModel):
     )
     provider_type: typing.Optional[ProviderType] = pydantic.Field(
         default=None,
-        description=("Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.\n"),
+        description="Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.",
     )
     tax_id: typing.Optional[str] = pydantic.Field(
         default=None,
-        description=(
-            "If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.\n"
-        ),
+        description="If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.",
     )
     taxonomy_code: typing.Optional[str] = pydantic.Field(
         default=None, description="A code designating classification and specialization."
