@@ -164,9 +164,17 @@ class V1Client:
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
                     pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -217,6 +225,10 @@ class V1Client:
                 raise UnauthorizedError(
                     pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def delete(self, insurance_payment_id: InsurancePaymentId) -> None:
@@ -250,6 +262,10 @@ class V1Client:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
                     pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -381,9 +397,17 @@ class AsyncV1Client:
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
                     pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -434,6 +458,10 @@ class AsyncV1Client:
                 raise UnauthorizedError(
                     pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def delete(self, insurance_payment_id: InsurancePaymentId) -> None:
@@ -467,5 +495,9 @@ class AsyncV1Client:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
                     pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

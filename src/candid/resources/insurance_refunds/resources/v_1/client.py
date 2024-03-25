@@ -9,11 +9,17 @@ from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.remove_none_from_dict import remove_none_from_dict
+from ....commons.errors.entity_not_found_error import EntityNotFoundError
+from ....commons.errors.unauthorized_error import UnauthorizedError
+from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.claim_id import ClaimId
+from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.page_token import PageToken
 from ....commons.types.provider_id import ProviderId
 from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.sort_direction import SortDirection
+from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
+from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from ....financials.types.note_update import NoteUpdate
 from ....financials.types.refund_reason_update import RefundReasonUpdate
 from ....payers.resources.v_3.types.payer_uuid import PayerUuid
@@ -93,6 +99,15 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceRefundsPage, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get(self, insurance_refund_id: InsuranceRefundId) -> InsuranceRefund:
@@ -117,6 +132,15 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceRefund, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def create(self, *, request: InsuranceRefundCreate) -> InsuranceRefund:
@@ -141,6 +165,19 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceRefund, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -186,6 +223,19 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceRefund, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def delete(self, insurance_refund_id: InsuranceRefundId) -> None:
@@ -211,6 +261,19 @@ class V1Client:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -275,6 +338,15 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceRefundsPage, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get(self, insurance_refund_id: InsuranceRefundId) -> InsuranceRefund:
@@ -299,6 +371,15 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceRefund, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def create(self, *, request: InsuranceRefundCreate) -> InsuranceRefund:
@@ -323,6 +404,19 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceRefund, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
@@ -368,6 +462,19 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(InsuranceRefund, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def delete(self, insurance_refund_id: InsuranceRefundId) -> None:
@@ -393,4 +500,17 @@ class AsyncV1Client:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
