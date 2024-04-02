@@ -31,23 +31,6 @@ class EncounterBase(pydantic.BaseModel):
             "This field should not contain PHI.\n"
         )
     )
-    date_of_service: Date = pydantic.Field(
-        description=(
-            "Date formatted as YYYY-MM-DD; eg: 2019-08-24.\n"
-            "This date must be the local date in the timezone where the service occurred.\n"
-            "Box 24a on the CMS-1500 claim form.\n"
-            "If service occurred over a range of dates, this should be the start date.\n"
-        )
-    )
-    end_date_of_service: typing.Optional[Date] = pydantic.Field(
-        default=None,
-        description=(
-            "Date formatted as YYYY-MM-DD; eg: 2019-08-25.\n"
-            "This date must be the local date in the timezone where the service occurred.\n"
-            "If omitted, the Encounter is assumed to be for a single day.\n"
-            "Must not be temporally before the date_of_service field.\n"
-        ),
-    )
     prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = pydantic.Field(
         default=None, description="Box 23 on the CMS-1500 claim form."
     )

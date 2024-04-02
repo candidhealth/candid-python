@@ -94,6 +94,7 @@ class V4Client:
         billable_status: typing.Optional[BillableStatusType] = None,
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
+        patient_external_id: typing.Optional[str] = None,
     ) -> EncounterPage:
         """
         Parameters:
@@ -127,6 +128,8 @@ class V4Client:
             - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
             - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType]. The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
+
+            - patient_external_id: typing.Optional[str]. The patient ID from the external EMR platform for the patient
         ---
         import datetime
 
@@ -174,6 +177,7 @@ class V4Client:
                     "billable_status": billable_status,
                     "responsible_party": responsible_party,
                     "owner_of_next_action": owner_of_next_action,
+                    "patient_external_id": patient_external_id,
                 }
             ),
             headers=self._client_wrapper.get_headers(),
@@ -209,6 +213,8 @@ class V4Client:
     def create(
         self,
         *,
+        date_of_service: typing.Optional[Date] = OMIT,
+        end_date_of_service: typing.Optional[Date] = OMIT,
         patient: PatientCreate,
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
@@ -225,8 +231,6 @@ class V4Client:
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
         external_id: EncounterExternalId,
-        date_of_service: Date,
-        end_date_of_service: typing.Optional[Date] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         patient_authorized_release: bool,
         benefits_assigned_to_provider: bool,
@@ -249,6 +253,19 @@ class V4Client:
     ) -> Encounter:
         """
         Parameters:
+            - date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+                                                      This date must be the local date in the timezone where the service occurred.
+                                                      Box 24a on the CMS-1500 claim form.
+                                                      If service occurred over a range of dates, this should be the start date.
+                                                      date_of_service must be defined on either the encounter or the service lines but not both.
+                                                      If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+
+            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+                                                          This date must be the local date in the timezone where the service occurred.
+                                                          If omitted, the Encounter is assumed to be for a single day.
+                                                          Must not be temporally before the date_of_service field.
+                                                          If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+
             - patient: PatientCreate. Contains the identification information of the individual receiving medical services.
 
             - billing_provider: BillingProvider. The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
@@ -297,14 +314,6 @@ class V4Client:
             - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
                                                 This field should not contain PHI.
-            - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-                                     This date must be the local date in the timezone where the service occurred.
-                                     Box 24a on the CMS-1500 claim form.
-                                     If service occurred over a range of dates, this should be the start date.
-            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
-                                                          This date must be the local date in the timezone where the service occurred.
-                                                          If omitted, the Encounter is assumed to be for a single day.
-                                                          Must not be temporally before the date_of_service field.
             - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
 
             - patient_authorized_release: bool. Whether this patient has authorized the release of medical information
@@ -364,13 +373,16 @@ class V4Client:
             "diagnoses": diagnoses,
             "place_of_service_code": place_of_service_code,
             "external_id": external_id,
-            "date_of_service": date_of_service,
             "patient_authorized_release": patient_authorized_release,
             "benefits_assigned_to_provider": benefits_assigned_to_provider,
             "provider_accepts_assignment": provider_accepts_assignment,
             "billable_status": billable_status,
             "responsible_party": responsible_party,
         }
+        if date_of_service is not OMIT:
+            _request["date_of_service"] = date_of_service
+        if end_date_of_service is not OMIT:
+            _request["end_date_of_service"] = end_date_of_service
         if referring_provider is not OMIT:
             _request["referring_provider"] = referring_provider
         if service_facility is not OMIT:
@@ -391,8 +403,6 @@ class V4Client:
             _request["guarantor"] = guarantor
         if external_claim_submission is not OMIT:
             _request["external_claim_submission"] = external_claim_submission
-        if end_date_of_service is not OMIT:
-            _request["end_date_of_service"] = end_date_of_service
         if prior_authorization_number is not OMIT:
             _request["prior_authorization_number"] = prior_authorization_number
         if appointment_type is not OMIT:
@@ -504,6 +514,7 @@ class V4Client:
                                                       This date must be the local date in the timezone where the service occurred.
                                                       Box 24a on the CMS-1500 claim form.
                                                       If service occurred over a range of dates, this should be the start date.
+                                                      If service lines have distinct date_of_service values, updating the encounter's date_of_service will fail. If all service line date_of_service values are the same, updating the encounter's date_of_service will update all service line date_of_service values.
 
             - diagnosis_ids: typing.Optional[typing.List[DiagnosisId]]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
                                                                         may be submitted at this time, and coders will later prioritize the 12 that will be
@@ -533,6 +544,7 @@ class V4Client:
                                                           This date must be the local date in the timezone where the service occurred.
                                                           If omitted, the Encounter is assumed to be for a single day.
                                                           Must not be temporally before the date_of_service field.
+                                                          If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
 
             - subscriber_primary: typing.Optional[SubscriberCreate]. Contains details of the primary insurance subscriber.
 
@@ -670,6 +682,7 @@ class AsyncV4Client:
         billable_status: typing.Optional[BillableStatusType] = None,
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
+        patient_external_id: typing.Optional[str] = None,
     ) -> EncounterPage:
         """
         Parameters:
@@ -703,6 +716,8 @@ class AsyncV4Client:
             - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
             - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType]. The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
+
+            - patient_external_id: typing.Optional[str]. The patient ID from the external EMR platform for the patient
         ---
         import datetime
 
@@ -750,6 +765,7 @@ class AsyncV4Client:
                     "billable_status": billable_status,
                     "responsible_party": responsible_party,
                     "owner_of_next_action": owner_of_next_action,
+                    "patient_external_id": patient_external_id,
                 }
             ),
             headers=self._client_wrapper.get_headers(),
@@ -785,6 +801,8 @@ class AsyncV4Client:
     async def create(
         self,
         *,
+        date_of_service: typing.Optional[Date] = OMIT,
+        end_date_of_service: typing.Optional[Date] = OMIT,
         patient: PatientCreate,
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
@@ -801,8 +819,6 @@ class AsyncV4Client:
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
         external_id: EncounterExternalId,
-        date_of_service: Date,
-        end_date_of_service: typing.Optional[Date] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         patient_authorized_release: bool,
         benefits_assigned_to_provider: bool,
@@ -825,6 +841,19 @@ class AsyncV4Client:
     ) -> Encounter:
         """
         Parameters:
+            - date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+                                                      This date must be the local date in the timezone where the service occurred.
+                                                      Box 24a on the CMS-1500 claim form.
+                                                      If service occurred over a range of dates, this should be the start date.
+                                                      date_of_service must be defined on either the encounter or the service lines but not both.
+                                                      If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+
+            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+                                                          This date must be the local date in the timezone where the service occurred.
+                                                          If omitted, the Encounter is assumed to be for a single day.
+                                                          Must not be temporally before the date_of_service field.
+                                                          If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+
             - patient: PatientCreate. Contains the identification information of the individual receiving medical services.
 
             - billing_provider: BillingProvider. The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
@@ -873,14 +902,6 @@ class AsyncV4Client:
             - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
                                                 This field should not contain PHI.
-            - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-                                     This date must be the local date in the timezone where the service occurred.
-                                     Box 24a on the CMS-1500 claim form.
-                                     If service occurred over a range of dates, this should be the start date.
-            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
-                                                          This date must be the local date in the timezone where the service occurred.
-                                                          If omitted, the Encounter is assumed to be for a single day.
-                                                          Must not be temporally before the date_of_service field.
             - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
 
             - patient_authorized_release: bool. Whether this patient has authorized the release of medical information
@@ -940,13 +961,16 @@ class AsyncV4Client:
             "diagnoses": diagnoses,
             "place_of_service_code": place_of_service_code,
             "external_id": external_id,
-            "date_of_service": date_of_service,
             "patient_authorized_release": patient_authorized_release,
             "benefits_assigned_to_provider": benefits_assigned_to_provider,
             "provider_accepts_assignment": provider_accepts_assignment,
             "billable_status": billable_status,
             "responsible_party": responsible_party,
         }
+        if date_of_service is not OMIT:
+            _request["date_of_service"] = date_of_service
+        if end_date_of_service is not OMIT:
+            _request["end_date_of_service"] = end_date_of_service
         if referring_provider is not OMIT:
             _request["referring_provider"] = referring_provider
         if service_facility is not OMIT:
@@ -967,8 +991,6 @@ class AsyncV4Client:
             _request["guarantor"] = guarantor
         if external_claim_submission is not OMIT:
             _request["external_claim_submission"] = external_claim_submission
-        if end_date_of_service is not OMIT:
-            _request["end_date_of_service"] = end_date_of_service
         if prior_authorization_number is not OMIT:
             _request["prior_authorization_number"] = prior_authorization_number
         if appointment_type is not OMIT:
@@ -1080,6 +1102,7 @@ class AsyncV4Client:
                                                       This date must be the local date in the timezone where the service occurred.
                                                       Box 24a on the CMS-1500 claim form.
                                                       If service occurred over a range of dates, this should be the start date.
+                                                      If service lines have distinct date_of_service values, updating the encounter's date_of_service will fail. If all service line date_of_service values are the same, updating the encounter's date_of_service will update all service line date_of_service values.
 
             - diagnosis_ids: typing.Optional[typing.List[DiagnosisId]]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
                                                                         may be submitted at this time, and coders will later prioritize the 12 that will be
@@ -1109,6 +1132,7 @@ class AsyncV4Client:
                                                           This date must be the local date in the timezone where the service occurred.
                                                           If omitted, the Encounter is assumed to be for a single day.
                                                           Must not be temporally before the date_of_service field.
+                                                          If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
 
             - subscriber_primary: typing.Optional[SubscriberCreate]. Contains details of the primary insurance subscriber.
 

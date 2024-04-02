@@ -21,7 +21,7 @@ class ExternalClaimSubmissionCreate(pydantic.BaseModel):
         ClaimFrequencyTypeCode, ClaimSubmissionRecordCreate,
         ExternalClaimSubmissionCreate)
 
-    ExternalClaimSubmissionCreate(claim_created_at=datetime.datetime.fromisoformat("2023-01-01 12:00:00+00:00", ), patient_control_number="PATIENT_CONTROL_NUMBER", submission_records=[ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-01 13:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.1, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, ), ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-04 12:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.6, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, )], )
+    ExternalClaimSubmissionCreate(claim_created_at=datetime.datetime.fromisoformat("2023-01-01 12:00:00+00:00", ), patient_control_number="PATIENT_CONTROL_NUMBER", submission_records=[ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-01 13:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.1, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, ), ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-04 12:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.7, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, )], )
     """
 
     claim_created_at: dt.datetime = pydantic.Field(description="When the claim was created in the external system.")
