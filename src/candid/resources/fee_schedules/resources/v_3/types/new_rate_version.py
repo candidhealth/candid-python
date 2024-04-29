@@ -4,10 +4,8 @@ import datetime as dt
 import typing
 
 from ......core.datetime_utils import serialize_datetime
-from .....organization_providers.resources.v_2.types.organization_provider import OrganizationProvider
-from .....payers.resources.v_3.types.payer import Payer
-from .contract_base import ContractBase
-from .contract_id import ContractId
+from .....commons.types.rate_id import RateId
+from .rate_entry import RateEntry
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -15,13 +13,12 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class Contract(ContractBase):
-    contract_id: ContractId
-    contracting_provider: OrganizationProvider = pydantic.Field(description="The provider under contract")
-    provider_count: int = pydantic.Field(
-        description="The number of linked providers who can render medical services under this contract"
+class NewRateVersion(pydantic.BaseModel):
+    rate_id: RateId
+    previous_version: int = pydantic.Field(
+        description="New versions of rates must indicate the exact version they modify. When the system attempts to save this new version, if the latest version in the system does not equal this previos_version, the request will be rejected with a EntityConflictError."
     )
-    payer: Payer = pydantic.Field(description="The insurance company under contract")
+    entries: typing.List[RateEntry]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -34,5 +31,4 @@ class Contract(ContractBase):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

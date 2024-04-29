@@ -4,24 +4,13 @@ import datetime as dt
 import typing
 
 from ......core.datetime_utils import serialize_datetime
-from .....organization_providers.resources.v_2.types.organization_provider import OrganizationProvider
-from .....payers.resources.v_3.types.payer import Payer
-from .contract_base import ContractBase
-from .contract_id import ContractId
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from .....commons.types.resource_page import ResourcePage
+from .....payers.resources.v_3.types.payer_uuid import PayerUuid
+from .payer_threshold import PayerThreshold
 
 
-class Contract(ContractBase):
-    contract_id: ContractId
-    contracting_provider: OrganizationProvider = pydantic.Field(description="The provider under contract")
-    provider_count: int = pydantic.Field(
-        description="The number of linked providers who can render medical services under this contract"
-    )
-    payer: Payer = pydantic.Field(description="The insurance company under contract")
+class PayerThresholdsPage(ResourcePage):
+    payer_thresholds: typing.Dict[PayerUuid, PayerThreshold]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

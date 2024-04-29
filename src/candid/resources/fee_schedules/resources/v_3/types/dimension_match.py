@@ -4,10 +4,15 @@ import datetime as dt
 import typing
 
 from ......core.datetime_utils import serialize_datetime
-from .....organization_providers.resources.v_2.types.organization_provider import OrganizationProvider
-from .....payers.resources.v_3.types.payer import Payer
-from .contract_base import ContractBase
-from .contract_id import ContractId
+from .match_cpt_code import MatchCptCode
+from .match_date import MatchDate
+from .match_facility_type_code import MatchFacilityTypeCode
+from .match_geo import MatchGeo
+from .match_license_type import MatchLicenseType
+from .match_modifiers import MatchModifiers
+from .match_network_types import MatchNetworkTypes
+from .match_payer import MatchPayer
+from .match_provider import MatchProvider
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -15,13 +20,20 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class Contract(ContractBase):
-    contract_id: ContractId
-    contracting_provider: OrganizationProvider = pydantic.Field(description="The provider under contract")
-    provider_count: int = pydantic.Field(
-        description="The number of linked providers who can render medical services under this contract"
-    )
-    payer: Payer = pydantic.Field(description="The insurance company under contract")
+class DimensionMatch(pydantic.BaseModel):
+    """
+    Dimension matching for a service line
+    """
+
+    payer: MatchPayer
+    geography: MatchGeo
+    organization_billing_provider: MatchProvider
+    date_of_service: MatchDate
+    cpt_code: MatchCptCode
+    modifiers: MatchModifiers
+    license_type: MatchLicenseType
+    facility_type_code: MatchFacilityTypeCode
+    network_types: MatchNetworkTypes
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -34,5 +46,4 @@ class Contract(ContractBase):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

@@ -5,6 +5,7 @@ import typing
 
 from ......core.datetime_utils import serialize_datetime
 from .....commons.types.claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
+from .....commons.types.intended_submission_medium import IntendedSubmissionMedium
 from .claim_frequency_type_code import ClaimFrequencyTypeCode
 
 try:
@@ -19,16 +20,24 @@ class ClaimSubmissionRecordCreate(pydantic.BaseModel):
     ---
     import datetime
 
-    from candid import ClaimSubmissionPayerResponsibilityType
+    from candid import (ClaimSubmissionPayerResponsibilityType,
+                        IntendedSubmissionMedium)
     from candid.resources.claim_submission.v_1 import (ClaimFrequencyTypeCode,
                                                        ClaimSubmissionRecordCreate)
 
-    ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-01 13:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.1, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, )
+    ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-01 13:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.1, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC, )
     """
 
     submitted_at: dt.datetime = pydantic.Field(description="When the claim was submitted to the payer.")
     claim_frequency_code: typing.Optional[ClaimFrequencyTypeCode] = None
     payer_responsibility: typing.Optional[ClaimSubmissionPayerResponsibilityType] = None
+    intended_submission_medium: typing.Optional[IntendedSubmissionMedium] = pydantic.Field(
+        default=None,
+        description=(
+            "The medium by which the claim was submitted to the payer: paper or electronic.\n"
+            "If omitted, defaults to electronic.\n"
+        ),
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

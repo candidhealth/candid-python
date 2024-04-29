@@ -4,10 +4,10 @@ import datetime as dt
 import typing
 
 from ......core.datetime_utils import serialize_datetime
-from .....organization_providers.resources.v_2.types.organization_provider import OrganizationProvider
-from .....payers.resources.v_3.types.payer import Payer
-from .contract_base import ContractBase
-from .contract_id import ContractId
+from .....commons.types.rate_id import RateId
+from .....commons.types.user_id import UserId
+from .dimensions import Dimensions
+from .rate_entry import RateEntry
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -15,13 +15,17 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class Contract(ContractBase):
-    contract_id: ContractId
-    contracting_provider: OrganizationProvider = pydantic.Field(description="The provider under contract")
-    provider_count: int = pydantic.Field(
-        description="The number of linked providers who can render medical services under this contract"
-    )
-    payer: Payer = pydantic.Field(description="The insurance company under contract")
+class Rate(pydantic.BaseModel):
+    """
+    A comprehensive rate including the current rate value and all values for historic time ranges. The time ranges specified by each RateEntry are disjoint. A rate must always have at least one entry.
+    """
+
+    rate_id: RateId
+    dimensions: Dimensions = pydantic.Field(description="The dimension values that distinguish this rate from others.")
+    version: int = pydantic.Field(description="The version of this rate in the system.")
+    updated_at: dt.date
+    updated_by: UserId
+    entries: typing.List[RateEntry]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -34,5 +38,4 @@ class Contract(ContractBase):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}

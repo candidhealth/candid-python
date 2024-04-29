@@ -6,17 +6,7 @@ import typing
 T_Result = typing.TypeVar("T_Result")
 
 
-class SourceOfPaymentCode(str, enum.Enum):
-    SELF_PAY = "09"
-    """
-    Self-pay
-    """
-
-    OTHER_NON_FEDERAL_PROGRAMS = "11"
-    """
-    Other Non-Federal Programs
-    """
-
+class NetworkType(str, enum.Enum):
     PPO = "12"
     """
     Preferred Provider Organization (PPO)
@@ -52,29 +42,14 @@ class SourceOfPaymentCode(str, enum.Enum):
     Automobile Medical
     """
 
-    BLUE_CROSS_BLUE_SHIELD = "BL"
-    """
-    Blue Cross/Blue Shield
-    """
-
     CHAMPUS = "CH"
     """
     CHAMPUS
     """
 
-    COMMERCIAL_INSURANCE_CO = "CI"
-    """
-    Commercial Insurance Co.
-    """
-
     DISABILITY = "DS"
     """
     Disability
-    """
-
-    FEDERAL_EMPLOYEES = "FI"
-    """
-    Federal Employees Program
     """
 
     HMO = "HM"
@@ -129,8 +104,6 @@ class SourceOfPaymentCode(str, enum.Enum):
 
     def visit(
         self,
-        self_pay: typing.Callable[[], T_Result],
-        other_non_federal_programs: typing.Callable[[], T_Result],
         ppo: typing.Callable[[], T_Result],
         pos: typing.Callable[[], T_Result],
         epo: typing.Callable[[], T_Result],
@@ -138,11 +111,8 @@ class SourceOfPaymentCode(str, enum.Enum):
         hmo_medicare_risk: typing.Callable[[], T_Result],
         dmo: typing.Callable[[], T_Result],
         auto: typing.Callable[[], T_Result],
-        blue_cross_blue_shield: typing.Callable[[], T_Result],
         champus: typing.Callable[[], T_Result],
-        commercial_insurance_co: typing.Callable[[], T_Result],
         disability: typing.Callable[[], T_Result],
-        federal_employees: typing.Callable[[], T_Result],
         hmo: typing.Callable[[], T_Result],
         liability: typing.Callable[[], T_Result],
         medicare_part_a: typing.Callable[[], T_Result],
@@ -154,51 +124,41 @@ class SourceOfPaymentCode(str, enum.Enum):
         workers_comp_health_claim: typing.Callable[[], T_Result],
         mutually_defined: typing.Callable[[], T_Result],
     ) -> T_Result:
-        if self is SourceOfPaymentCode.SELF_PAY:
-            return self_pay()
-        if self is SourceOfPaymentCode.OTHER_NON_FEDERAL_PROGRAMS:
-            return other_non_federal_programs()
-        if self is SourceOfPaymentCode.PPO:
+        if self is NetworkType.PPO:
             return ppo()
-        if self is SourceOfPaymentCode.POS:
+        if self is NetworkType.POS:
             return pos()
-        if self is SourceOfPaymentCode.EPO:
+        if self is NetworkType.EPO:
             return epo()
-        if self is SourceOfPaymentCode.INDEMNITY_INSURANCE:
+        if self is NetworkType.INDEMNITY_INSURANCE:
             return indemnity_insurance()
-        if self is SourceOfPaymentCode.HMO_MEDICARE_RISK:
+        if self is NetworkType.HMO_MEDICARE_RISK:
             return hmo_medicare_risk()
-        if self is SourceOfPaymentCode.DMO:
+        if self is NetworkType.DMO:
             return dmo()
-        if self is SourceOfPaymentCode.AUTO:
+        if self is NetworkType.AUTO:
             return auto()
-        if self is SourceOfPaymentCode.BLUE_CROSS_BLUE_SHIELD:
-            return blue_cross_blue_shield()
-        if self is SourceOfPaymentCode.CHAMPUS:
+        if self is NetworkType.CHAMPUS:
             return champus()
-        if self is SourceOfPaymentCode.COMMERCIAL_INSURANCE_CO:
-            return commercial_insurance_co()
-        if self is SourceOfPaymentCode.DISABILITY:
+        if self is NetworkType.DISABILITY:
             return disability()
-        if self is SourceOfPaymentCode.FEDERAL_EMPLOYEES:
-            return federal_employees()
-        if self is SourceOfPaymentCode.HMO:
+        if self is NetworkType.HMO:
             return hmo()
-        if self is SourceOfPaymentCode.LIABILITY:
+        if self is NetworkType.LIABILITY:
             return liability()
-        if self is SourceOfPaymentCode.MEDICARE_PART_A:
+        if self is NetworkType.MEDICARE_PART_A:
             return medicare_part_a()
-        if self is SourceOfPaymentCode.MEDICARE_PART_B:
+        if self is NetworkType.MEDICARE_PART_B:
             return medicare_part_b()
-        if self is SourceOfPaymentCode.MEDICAID:
+        if self is NetworkType.MEDICAID:
             return medicaid()
-        if self is SourceOfPaymentCode.OTHER_FEDERAL_PROGRAM:
+        if self is NetworkType.OTHER_FEDERAL_PROGRAM:
             return other_federal_program()
-        if self is SourceOfPaymentCode.TITLE_V:
+        if self is NetworkType.TITLE_V:
             return title_v()
-        if self is SourceOfPaymentCode.VETERANS_AFFAIRS_PLAN:
+        if self is NetworkType.VETERANS_AFFAIRS_PLAN:
             return veterans_affairs_plan()
-        if self is SourceOfPaymentCode.WORKERS_COMP_HEALTH_CLAIM:
+        if self is NetworkType.WORKERS_COMP_HEALTH_CLAIM:
             return workers_comp_health_claim()
-        if self is SourceOfPaymentCode.MUTUALLY_DEFINED:
+        if self is NetworkType.MUTUALLY_DEFINED:
             return mutually_defined()

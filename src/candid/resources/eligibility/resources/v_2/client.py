@@ -7,8 +7,10 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.errors.http_service_unavailable_error import HttpServiceUnavailableError
 from ....commons.types.http_service_unavailable_error_message import HttpServiceUnavailableErrorMessage
+from ....commons.types.request_validation_error import RequestValidationError
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -72,7 +74,7 @@ class V2Client:
         - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
         - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
 
-        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages/get)
+        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
 
         - Note Availity requires a free developer account to access this documentation.
         """
@@ -88,6 +90,11 @@ class V2Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -144,7 +151,7 @@ class AsyncV2Client:
         - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
         - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
 
-        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages/get)
+        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
 
         - Note Availity requires a free developer account to access this documentation.
         """
@@ -160,4 +167,9 @@ class AsyncV2Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)

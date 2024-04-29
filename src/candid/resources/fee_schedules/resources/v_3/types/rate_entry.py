@@ -4,10 +4,6 @@ import datetime as dt
 import typing
 
 from ......core.datetime_utils import serialize_datetime
-from .....organization_providers.resources.v_2.types.organization_provider import OrganizationProvider
-from .....payers.resources.v_3.types.payer import Payer
-from .contract_base import ContractBase
-from .contract_id import ContractId
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -15,13 +11,27 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class Contract(ContractBase):
-    contract_id: ContractId
-    contracting_provider: OrganizationProvider = pydantic.Field(description="The provider under contract")
-    provider_count: int = pydantic.Field(
-        description="The number of linked providers who can render medical services under this contract"
+class RateEntry(pydantic.BaseModel):
+    """
+    A rate value in cents for a specific time range. Rate entries can be deactivated, which is set by using the deelte_rate endpoint. Deactivated rate entries are not considered when matching against service lines.
+    ---
+    import datetime
+
+    from candid.resources.fee_schedules.v_3 import RateEntry
+
+    RateEntry(
+        start_date=datetime.date.fromisoformat(
+            "2024-04-11",
+        ),
+        rate_cents=33000,
+        is_deactivated=False,
     )
-    payer: Payer = pydantic.Field(description="The insurance company under contract")
+    """
+
+    start_date: dt.date
+    end_date: typing.Optional[dt.date] = None
+    rate_cents: int
+    is_deactivated: bool
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -34,5 +44,4 @@ class Contract(ContractBase):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
         json_encoders = {dt.datetime: serialize_datetime}
