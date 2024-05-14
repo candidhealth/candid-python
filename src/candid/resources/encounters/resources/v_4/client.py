@@ -230,6 +230,7 @@ class V4Client:
         service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
+        tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
         external_id: EncounterExternalId,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         patient_authorized_release: bool,
@@ -310,6 +311,8 @@ class V4Client:
             - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is in beta.***
                                                                                          To be included for claims that have been submitted outside of Candid.
                                                                                          Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
+
+            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.
 
             - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
@@ -403,6 +406,8 @@ class V4Client:
             _request["guarantor"] = guarantor
         if external_claim_submission is not OMIT:
             _request["external_claim_submission"] = external_claim_submission
+        if tag_ids is not OMIT:
+            _request["tag_ids"] = tag_ids
         if prior_authorization_number is not OMIT:
             _request["prior_authorization_number"] = prior_authorization_number
         if appointment_type is not OMIT:
@@ -499,6 +504,7 @@ class V4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        patient_authorized_release: typing.Optional[bool] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -520,7 +526,7 @@ class V4Client:
                                                                         may be submitted at this time, and coders will later prioritize the 12 that will be
                                                                         submitted to the payor.
 
-            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.
+            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.  Note all tags on encounter will be overriden with this list.
 
             - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
@@ -577,6 +583,10 @@ class V4Client:
             - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
                                                                    Code indicating the reason why a request was delayed
 
+            - patient_authorized_release: typing.Optional[bool]. Whether this patient has authorized the release of medical information
+                                                                 for billing purpose.
+                                                                 Box 12 on the CMS-1500 claim form.
+
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -627,6 +637,8 @@ class V4Client:
             _request["last_menstrual_period_date"] = last_menstrual_period_date
         if delay_reason_code is not OMIT:
             _request["delay_reason_code"] = delay_reason_code
+        if patient_authorized_release is not OMIT:
+            _request["patient_authorized_release"] = patient_authorized_release
         _response = self._client_wrapper.httpx_client.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
@@ -818,6 +830,7 @@ class AsyncV4Client:
         service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
+        tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
         external_id: EncounterExternalId,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         patient_authorized_release: bool,
@@ -898,6 +911,8 @@ class AsyncV4Client:
             - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is in beta.***
                                                                                          To be included for claims that have been submitted outside of Candid.
                                                                                          Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
+
+            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.
 
             - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
@@ -991,6 +1006,8 @@ class AsyncV4Client:
             _request["guarantor"] = guarantor
         if external_claim_submission is not OMIT:
             _request["external_claim_submission"] = external_claim_submission
+        if tag_ids is not OMIT:
+            _request["tag_ids"] = tag_ids
         if prior_authorization_number is not OMIT:
             _request["prior_authorization_number"] = prior_authorization_number
         if appointment_type is not OMIT:
@@ -1087,6 +1104,7 @@ class AsyncV4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        patient_authorized_release: typing.Optional[bool] = OMIT,
     ) -> Encounter:
         """
         Parameters:
@@ -1108,7 +1126,7 @@ class AsyncV4Client:
                                                                         may be submitted at this time, and coders will later prioritize the 12 that will be
                                                                         submitted to the payor.
 
-            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.
+            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.  Note all tags on encounter will be overriden with this list.
 
             - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
@@ -1165,6 +1183,10 @@ class AsyncV4Client:
             - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
                                                                    Code indicating the reason why a request was delayed
 
+            - patient_authorized_release: typing.Optional[bool]. Whether this patient has authorized the release of medical information
+                                                                 for billing purpose.
+                                                                 Box 12 on the CMS-1500 claim form.
+
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -1215,6 +1237,8 @@ class AsyncV4Client:
             _request["last_menstrual_period_date"] = last_menstrual_period_date
         if delay_reason_code is not OMIT:
             _request["delay_reason_code"] = delay_reason_code
+        if patient_authorized_release is not OMIT:
+            _request["patient_authorized_release"] = patient_authorized_release
         _response = await self._client_wrapper.httpx_client.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),

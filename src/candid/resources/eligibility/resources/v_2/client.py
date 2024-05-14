@@ -77,6 +77,10 @@ class V2Client:
         A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
 
         - Note Availity requires a free developer account to access this documentation.
+
+        Check connection status of Availity API and partners here:
+
+        - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
         """
         _response = self._client_wrapper.httpx_client.request(
             "GET",
@@ -154,6 +158,10 @@ class AsyncV2Client:
         A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
 
         - Note Availity requires a free developer account to access this documentation.
+
+        Check connection status of Availity API and partners here:
+
+        - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
         """
         _response = await self._client_wrapper.httpx_client.request(
             "GET",
