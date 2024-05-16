@@ -409,6 +409,7 @@ class Carc(str, enum.Enum):
     CARC_Y_1 = "Y1"
     CARC_Y_2 = "Y2"
     CARC_Y_3 = "Y3"
+    UNKNOWN = "UNKNOWN"
 
     def visit(
         self,
@@ -814,6 +815,7 @@ class Carc(str, enum.Enum):
         carc_y_1: typing.Callable[[], T_Result],
         carc_y_2: typing.Callable[[], T_Result],
         carc_y_3: typing.Callable[[], T_Result],
+        unknown: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is Carc.CARC_1:
             return carc_1()
@@ -1619,3 +1621,5 @@ class Carc(str, enum.Enum):
             return carc_y_2()
         if self is Carc.CARC_Y_3:
             return carc_y_3()
+        if self is Carc.UNKNOWN:
+            return unknown()

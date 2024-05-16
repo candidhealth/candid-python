@@ -24,10 +24,10 @@ class Vitals(pydantic.BaseModel):
     )
     """
 
-    height_in: int
-    weight_lbs: int
-    blood_pressure_systolic_mmhg: int
-    blood_pressure_diastolic_mmhg: int
+    height_in: typing.Optional[int] = None
+    weight_lbs: typing.Optional[int] = None
+    blood_pressure_systolic_mmhg: typing.Optional[int] = None
+    blood_pressure_diastolic_mmhg: typing.Optional[int] = None
     body_temperature_f: typing.Optional[float] = None
 
     def json(self, **kwargs: typing.Any) -> str:

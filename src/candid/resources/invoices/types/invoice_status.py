@@ -12,6 +12,7 @@ class InvoiceStatus(str, enum.Enum):
     PAID = "paid"
     VOID = "void"
     UNCOLLECTIBLE = "uncollectible"
+    HELD = "held"
 
     def visit(
         self,
@@ -20,6 +21,7 @@ class InvoiceStatus(str, enum.Enum):
         paid: typing.Callable[[], T_Result],
         void: typing.Callable[[], T_Result],
         uncollectible: typing.Callable[[], T_Result],
+        held: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is InvoiceStatus.DRAFT:
             return draft()
@@ -31,3 +33,5 @@ class InvoiceStatus(str, enum.Enum):
             return void()
         if self is InvoiceStatus.UNCOLLECTIBLE:
             return uncollectible()
+        if self is InvoiceStatus.HELD:
+            return held()

@@ -16,6 +16,7 @@ class ClaimAdjustmentGroupCodes(str, enum.Enum):
     PR = "PR"
     RR = "RR"
     NC = "NC"
+    UNKNOWN = "UNKNOWN"
 
     def visit(
         self,
@@ -28,6 +29,7 @@ class ClaimAdjustmentGroupCodes(str, enum.Enum):
         pr: typing.Callable[[], T_Result],
         rr: typing.Callable[[], T_Result],
         nc: typing.Callable[[], T_Result],
+        unknown: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is ClaimAdjustmentGroupCodes.CO:
             return co()
@@ -47,3 +49,5 @@ class ClaimAdjustmentGroupCodes(str, enum.Enum):
             return rr()
         if self is ClaimAdjustmentGroupCodes.NC:
             return nc()
+        if self is ClaimAdjustmentGroupCodes.UNKNOWN:
+            return unknown()
