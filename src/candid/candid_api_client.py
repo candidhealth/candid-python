@@ -1,6 +1,9 @@
 import typing
 
-from pydantic.v1 import BaseModel, root_validator
+try:
+    from pydantic.v1 import BaseModel, root_validator  # type: ignore
+except ImportError:
+    from pydantic import BaseModel, root_validator  # type: ignore
 
 from candid import CandidApiEnvironment
 from candid.client import CandidApi, AsyncCandidApi
