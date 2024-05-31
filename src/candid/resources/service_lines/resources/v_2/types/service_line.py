@@ -12,6 +12,7 @@ from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_id import ServiceLineId
 from .....commons.types.service_line_units import ServiceLineUnits
 from .....diagnoses.types.diagnosis_id import DiagnosisId
+from .....invoices.resources.v_2.types.invoice_info import InvoiceInfo
 from .....invoices.types.invoice import Invoice
 from .service_line_adjustment import ServiceLineAdjustment
 from .service_line_denial_reason import ServiceLineDenialReason
@@ -54,6 +55,7 @@ class ServiceLine(pydantic.BaseModel):
     service_line_era_data: typing.Optional[ServiceLineEraData] = None
     service_line_manual_adjustments: typing.Optional[typing.List[ServiceLineAdjustment]] = None
     related_invoices: typing.Optional[typing.List[Invoice]] = None
+    related_invoice_info: typing.Optional[typing.List[InvoiceInfo]] = None
     denial_reason: typing.Optional[ServiceLineDenialReason] = None
     place_of_service_code: typing.Optional[FacilityTypeCode] = None
     service_line_id: ServiceLineId

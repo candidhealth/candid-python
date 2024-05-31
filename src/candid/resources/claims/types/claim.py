@@ -37,6 +37,7 @@ class Claim(pydantic.BaseModel):
     clearinghouse: typing.Optional[str] = None
     clearinghouse_claim_id: typing.Optional[str] = None
     payer_claim_id: typing.Optional[str] = None
+    clia_number: typing.Optional[str] = None
     service_lines: typing.List[ServiceLine]
     eras: typing.List[Era]
 

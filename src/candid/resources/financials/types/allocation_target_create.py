@@ -7,6 +7,7 @@ import typing
 import typing_extensions
 
 from ...commons.types.claim_id import ClaimId
+from ...commons.types.encounter_external_id import EncounterExternalId
 from ...commons.types.provider_id import ProviderId
 from ...commons.types.service_line_id import ServiceLineId
 
@@ -34,6 +35,15 @@ class AllocationTargetCreate_ClaimById(pydantic.BaseModel):
         smart_union = True
 
 
+class AllocationTargetCreate_ClaimByEncounterExternalId(pydantic.BaseModel):
+    type: typing_extensions.Literal["claim_by_encounter_external_id"]
+    value: EncounterExternalId
+
+    class Config:
+        frozen = True
+        smart_union = True
+
+
 class AllocationTargetCreate_BillingProviderById(pydantic.BaseModel):
     type: typing_extensions.Literal["billing_provider_by_id"]
     value: ProviderId
@@ -54,6 +64,7 @@ class AllocationTargetCreate_Unattributed(pydantic.BaseModel):
 AllocationTargetCreate = typing.Union[
     AllocationTargetCreate_ServiceLineById,
     AllocationTargetCreate_ClaimById,
+    AllocationTargetCreate_ClaimByEncounterExternalId,
     AllocationTargetCreate_BillingProviderById,
     AllocationTargetCreate_Unattributed,
 ]

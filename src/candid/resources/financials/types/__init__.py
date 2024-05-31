@@ -13,6 +13,7 @@ from .allocation_target import (
 from .allocation_target_create import (
     AllocationTargetCreate,
     AllocationTargetCreate_BillingProviderById,
+    AllocationTargetCreate_ClaimByEncounterExternalId,
     AllocationTargetCreate_ClaimById,
     AllocationTargetCreate_ServiceLineById,
     AllocationTargetCreate_Unattributed,
@@ -33,6 +34,7 @@ __all__ = [
     "AllocationTarget",
     "AllocationTargetCreate",
     "AllocationTargetCreate_BillingProviderById",
+    "AllocationTargetCreate_ClaimByEncounterExternalId",
     "AllocationTargetCreate_ClaimById",
     "AllocationTargetCreate_ServiceLineById",
     "AllocationTargetCreate_Unattributed",
