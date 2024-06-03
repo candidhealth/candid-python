@@ -93,7 +93,7 @@ class V1Client:
         from candid.client import CandidApi
         from candid.resources.write_offs.v_1 import WriteOffSortField
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -187,7 +187,7 @@ class V1Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -259,7 +259,7 @@ class V1Client:
             WriteOffCreate_Patient,
         )
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -336,7 +336,7 @@ class V1Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -445,7 +445,7 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApi
         from candid.resources.write_offs.v_1 import WriteOffSortField
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -541,7 +541,7 @@ class AsyncV1Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -613,7 +613,7 @@ class AsyncV1Client:
             WriteOffCreate_Patient,
         )
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -692,7 +692,7 @@ class AsyncV1Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )

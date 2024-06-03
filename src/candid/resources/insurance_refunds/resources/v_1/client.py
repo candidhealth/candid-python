@@ -93,7 +93,7 @@ class V1Client:
         from candid.client import CandidApi
         from candid.resources.insurance_refunds.v_1 import InsuranceRefundSortField
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -195,7 +195,7 @@ class V1Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -275,7 +275,7 @@ class V1Client:
         from candid.resources.insurance_refunds.v_1 import InsuranceRefundCreate
         from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -379,7 +379,7 @@ class V1Client:
         from candid import NoteUpdate_Set, RefundReason, RefundReasonUpdate_Set
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -478,7 +478,7 @@ class V1Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -595,7 +595,7 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApi
         from candid.resources.insurance_refunds.v_1 import InsuranceRefundSortField
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -697,7 +697,7 @@ class AsyncV1Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -777,7 +777,7 @@ class AsyncV1Client:
         from candid.resources.insurance_refunds.v_1 import InsuranceRefundCreate
         from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -881,7 +881,7 @@ class AsyncV1Client:
         from candid import NoteUpdate_Set, RefundReason, RefundReasonUpdate_Set
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -980,7 +980,7 @@ class AsyncV1Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )

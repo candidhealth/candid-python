@@ -46,7 +46,7 @@ class V2Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -122,7 +122,7 @@ class AsyncV2Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )

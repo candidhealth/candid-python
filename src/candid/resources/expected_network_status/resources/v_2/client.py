@@ -67,7 +67,7 @@ class V2Client:
             ServiceType,
         )
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -179,7 +179,7 @@ class V2Client:
             ServiceType,
         )
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -298,7 +298,7 @@ class AsyncV2Client:
             ServiceType,
         )
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -410,7 +410,7 @@ class AsyncV2Client:
             ServiceType,
         )
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )

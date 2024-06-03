@@ -63,7 +63,7 @@ class V2Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -159,7 +159,7 @@ class V2Client:
         from candid.client import CandidApi
         from candid.resources.contracts.v_2 import ContractStatus
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -297,7 +297,7 @@ class V2Client:
             InsuranceTypes,
         )
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -394,7 +394,7 @@ class V2Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -512,7 +512,7 @@ class V2Client:
             RegionsUpdate_Set,
         )
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -634,7 +634,7 @@ class AsyncV2Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -730,7 +730,7 @@ class AsyncV2Client:
         from candid.client import AsyncCandidApi
         from candid.resources.contracts.v_2 import ContractStatus
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -868,7 +868,7 @@ class AsyncV2Client:
             InsuranceTypes,
         )
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -965,7 +965,7 @@ class AsyncV2Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -1083,7 +1083,7 @@ class AsyncV2Client:
             RegionsUpdate_Set,
         )
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )

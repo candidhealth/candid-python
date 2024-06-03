@@ -61,7 +61,7 @@ class V3Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -159,7 +159,7 @@ class V3Client:
             OrganizationProviderSortOptions,
         )
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -249,7 +249,7 @@ class V3Client:
             OrganizationProviderCreateV2,
         )
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -370,7 +370,7 @@ class V3Client:
             OrganizationProviderUpdateV2,
         )
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -489,7 +489,7 @@ class AsyncV3Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -587,7 +587,7 @@ class AsyncV3Client:
             OrganizationProviderSortOptions,
         )
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -677,7 +677,7 @@ class AsyncV3Client:
             OrganizationProviderCreateV2,
         )
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -798,7 +798,7 @@ class AsyncV3Client:
             OrganizationProviderUpdateV2,
         )
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )

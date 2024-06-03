@@ -107,7 +107,7 @@ class V4Client:
         from candid.client import CandidApi
         from candid.resources.patient_payments.v_4 import PatientPaymentSortField
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -214,7 +214,7 @@ class V4Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -311,7 +311,7 @@ class V4Client:
         from candid import AllocationCreate, AllocationTargetCreate_ServiceLineById
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -434,7 +434,7 @@ class V4Client:
         from candid import InvoiceUpdate_Set, NoteUpdate_Set
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -535,7 +535,7 @@ class V4Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -664,7 +664,7 @@ class AsyncV4Client:
         from candid.client import AsyncCandidApi
         from candid.resources.patient_payments.v_4 import PatientPaymentSortField
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -771,7 +771,7 @@ class AsyncV4Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -868,7 +868,7 @@ class AsyncV4Client:
         from candid import AllocationCreate, AllocationTargetCreate_ServiceLineById
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -991,7 +991,7 @@ class AsyncV4Client:
         from candid import InvoiceUpdate_Set, NoteUpdate_Set
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -1092,7 +1092,7 @@ class AsyncV4Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )

@@ -161,7 +161,7 @@ class V4Client:
         from candid.client import CandidApi
         from candid.resources.encounters.v_4 import EncounterSortOptions
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -255,7 +255,7 @@ class V4Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -592,7 +592,7 @@ class V4Client:
             ServiceLineCreate,
         )
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -1236,7 +1236,7 @@ class V4Client:
         )
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -1541,7 +1541,7 @@ class AsyncV4Client:
         from candid.client import AsyncCandidApi
         from candid.resources.encounters.v_4 import EncounterSortOptions
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -1637,7 +1637,7 @@ class AsyncV4Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -1974,7 +1974,7 @@ class AsyncV4Client:
             ServiceLineCreate,
         )
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -2618,7 +2618,7 @@ class AsyncV4Client:
         )
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )

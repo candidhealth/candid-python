@@ -13,7 +13,7 @@ from candid import (
     ServiceLineUnits,
     Decimal,
 )
-from candid.client import CandidApi
+from candid.client import CandidApiClient
 from candid.resources.encounter_providers.resources.v_2 import BillingProvider, RenderingProvider
 from candid.resources.encounters.resources.v_4 import BillableStatusType, ResponsiblePartyType
 from candid.resources.service_lines.resources.v_2 import ServiceLineCreate
@@ -21,7 +21,7 @@ from candid.resources.service_lines.resources.v_2 import ServiceLineCreate
 
 def main() -> None:
     import os
-    client = CandidApi(
+    client = CandidApiClient(
         environment=CandidApiEnvironment.STAGING,
         client_id=os.environ["CLIENT_ID"],
         client_secret=os.environ["CLIENT_SECRET"],

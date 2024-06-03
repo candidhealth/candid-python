@@ -61,7 +61,7 @@ class V3Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -176,7 +176,7 @@ class V3Client:
         from candid.resources.tasks import TaskStatus, TaskType
         from candid.resources.tasks.v_3 import TaskSortOptions
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -285,7 +285,7 @@ class V3Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -357,7 +357,7 @@ class V3Client:
         from candid.resources.tasks import TaskCategory, TaskType
         from candid.resources.tasks.v_3 import TaskCreateV3
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -438,7 +438,7 @@ class V3Client:
         from candid.resources.tasks import TaskStatus
         from candid.resources.tasks.v_3 import TaskUpdateV3
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -532,7 +532,7 @@ class AsyncV3Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -647,7 +647,7 @@ class AsyncV3Client:
         from candid.resources.tasks import TaskStatus, TaskType
         from candid.resources.tasks.v_3 import TaskSortOptions
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -756,7 +756,7 @@ class AsyncV3Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -828,7 +828,7 @@ class AsyncV3Client:
         from candid.resources.tasks import TaskCategory, TaskType
         from candid.resources.tasks.v_3 import TaskCreateV3
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -909,7 +909,7 @@ class AsyncV3Client:
         from candid.resources.tasks import TaskStatus
         from candid.resources.tasks.v_3 import TaskUpdateV3
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )

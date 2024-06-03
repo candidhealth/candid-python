@@ -32,7 +32,7 @@ from .resources.tasks.client import AsyncTasksClient, TasksClient
 from .resources.write_offs.client import AsyncWriteOffsClient, WriteOffsClient
 
 
-class CandidApi:
+class CandidApiClient:
     """
     Use this class to access the different functions within the SDK. You can instantiate any number of clients with different configuration that will propagate to these functions.
 
@@ -65,7 +65,7 @@ class CandidApi:
     --------
     from candid.client import CandidApi
 
-    client = CandidApi(
+    client = CandidApiClient(
         client_id="YOUR_CLIENT_ID",
         client_secret="YOUR_CLIENT_SECRET",
     )
@@ -126,7 +126,7 @@ class CandidApi:
         self.service_facility = ServiceFacilityClient(client_wrapper=self._client_wrapper)
 
 
-class AsyncCandidApi:
+class AsyncCandidApiClient:
     """
     Use this class to access the different functions within the SDK. You can instantiate any number of clients with different configuration that will propagate to these functions.
 
@@ -159,7 +159,7 @@ class AsyncCandidApi:
     --------
     from candid.client import AsyncCandidApi
 
-    client = AsyncCandidApi(
+    client = AsyncCandidApiClient(
         client_id="YOUR_CLIENT_ID",
         client_secret="YOUR_CLIENT_SECRET",
     )

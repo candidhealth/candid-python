@@ -62,7 +62,7 @@ class V1Client:
         from candid.client import CandidApi
         from candid.resources.guarantor.v_1 import GuarantorCreate
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -161,7 +161,7 @@ class V1Client:
 
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -261,7 +261,7 @@ class V1Client:
         from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
         from candid.client import CandidApi
 
-        client = CandidApi(
+        client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -388,7 +388,7 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApi
         from candid.resources.guarantor.v_1 import GuarantorCreate
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -489,7 +489,7 @@ class AsyncV1Client:
 
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
@@ -589,7 +589,7 @@ class AsyncV1Client:
         from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
         from candid.client import AsyncCandidApi
 
-        client = AsyncCandidApi(
+        client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
