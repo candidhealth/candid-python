@@ -1,5 +1,4 @@
 # Specify files that shouldn't be modified by Fern
-src/candid/candid_api_client.py
 
 # Top-level files and folders
 README.md
