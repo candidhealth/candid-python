@@ -7,7 +7,10 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
 from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
@@ -19,11 +22,6 @@ from .types.organization_service_facility_id import OrganizationServiceFacilityI
 from .types.organization_service_facility_page import OrganizationServiceFacilityPage
 from .types.organization_service_facility_update import OrganizationServiceFacilityUpdate
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -32,30 +30,75 @@ class V2Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get(self, organization_service_facility_id: OrganizationServiceFacilityId) -> OrganizationServiceFacility:
+    def get(
+        self,
+        organization_service_facility_id: OrganizationServiceFacilityId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> OrganizationServiceFacility:
         """
-        Parameters:
-            - organization_service_facility_id: OrganizationServiceFacilityId.
+        Parameters
+        ----------
+        organization_service_facility_id : OrganizationServiceFacilityId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacility
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_service_facilities.v_2.get(
+            organization_service_facility_id=uuid.UUID(
+                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
+            method="GET",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"api/organization-service-facilities/v2/{organization_service_facility_id}",
+                f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -65,19 +108,34 @@ class V2Client:
         limit: typing.Optional[int] = None,
         name: typing.Optional[str] = None,
         page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationServiceFacilityPage:
         """
-        Parameters:
-            - limit: typing.Optional[int]. Limit the number of results returned. Defaults to 100.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Limit the number of results returned. Defaults to 100.
 
-            - name: typing.Optional[str]. Filter to a name or a part of a name.
+        name : typing.Optional[str]
+            Filter to a name or a part of a name.
 
-            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
-        ---
+        page_token : typing.Optional[PageToken]
+            The page token to continue paging through a previous request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacilityPage
+
+        Examples
+        --------
         from candid.client import CandidApi
 
         client = CandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         client.organization_service_facilities.v_2.get_multi(
             limit=100,
@@ -86,25 +144,65 @@ class V2Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-service-facilities/v2"),
-            params=remove_none_from_dict({"limit": limit, "name": name, "page_token": page_token}),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", "api/organization-service-facilities/v2"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "name": name,
+                            "page_token": page_token,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationServiceFacilityPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationServiceFacilityPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(self, *, request: OrganizationServiceFacilityCreate) -> OrganizationServiceFacility:
+    def create(
+        self, *, request: OrganizationServiceFacilityCreate, request_options: typing.Optional[RequestOptions] = None
+    ) -> OrganizationServiceFacility:
         """
-        Parameters:
-            - request: OrganizationServiceFacilityCreate.
-        ---
+        Parameters
+        ----------
+        request : OrganizationServiceFacilityCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacility
+
+        Examples
+        --------
         from candid import State, StreetAddressLongZip
         from candid.client import CandidApi
         from candid.resources.organization_service_facilities.v_2 import (
@@ -117,7 +215,8 @@ class V2Client:
         )
 
         client = CandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         client.organization_service_facilities.v_2.create(
             request=OrganizationServiceFacilityCreate(
@@ -125,10 +224,10 @@ class V2Client:
                 aliases=["Test Service Facility Alias"],
                 description="Test Service Facility Description",
                 status=ServiceFacilityStatus.ACTIVE,
-                operational_status=ServiceFacilityOperationalStatus.C,
+                operational_status=ServiceFacilityOperationalStatus.CLOSED,
                 mode=ServiceFacilityMode.INSTANCE,
-                type=ServiceFacilityType.DX,
-                physical_type=ServiceFacilityPhysicalType.SI,
+                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                physical_type=ServiceFacilityPhysicalType.SITE,
                 telecoms=["555-555-5555"],
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
@@ -142,22 +241,45 @@ class V2Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-service-facilities/v2"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", "api/organization-service-facilities/v2"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -166,13 +288,24 @@ class V2Client:
         organization_service_facility_id: OrganizationServiceFacilityId,
         *,
         request: OrganizationServiceFacilityUpdate,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationServiceFacility:
         """
-        Parameters:
-            - organization_service_facility_id: OrganizationServiceFacilityId.
+        Parameters
+        ----------
+        organization_service_facility_id : OrganizationServiceFacilityId
 
-            - request: OrganizationServiceFacilityUpdate.
-        ---
+        request : OrganizationServiceFacilityUpdate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacility
+
+        Examples
+        --------
         import uuid
 
         from candid import State, StreetAddressLongZip
@@ -187,7 +320,8 @@ class V2Client:
         )
 
         client = CandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         client.organization_service_facilities.v_2.update(
             organization_service_facility_id=uuid.UUID(
@@ -198,10 +332,10 @@ class V2Client:
                 aliases=["Test Service Facility Alias"],
                 description="Test Service Facility Description",
                 status=ServiceFacilityStatus.ACTIVE,
-                operational_status=ServiceFacilityOperationalStatus.C,
+                operational_status=ServiceFacilityOperationalStatus.CLOSED,
                 mode=ServiceFacilityMode.INSTANCE,
-                type=ServiceFacilityType.DX,
-                physical_type=ServiceFacilityPhysicalType.SI,
+                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                physical_type=ServiceFacilityPhysicalType.SITE,
                 telecoms=["555-555-5555"],
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
@@ -215,43 +349,80 @@ class V2Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
+            method="PATCH",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"api/organization-service-facilities/v2/{organization_service_facility_id}",
+                f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
             ),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def delete(self, organization_service_facility_id: OrganizationServiceFacilityId) -> None:
+    def delete(
+        self,
+        organization_service_facility_id: OrganizationServiceFacilityId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
         """
-        Parameters:
-            - organization_service_facility_id: OrganizationServiceFacilityId.
-        ---
+        Parameters
+        ----------
+        organization_service_facility_id : OrganizationServiceFacilityId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
         import uuid
 
         from candid.client import CandidApi
 
         client = CandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         client.organization_service_facilities.v_2.delete(
             organization_service_facility_id=uuid.UUID(
@@ -260,13 +431,32 @@ class V2Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
+            method="DELETE",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"api/organization-service-facilities/v2/{organization_service_facility_id}",
+                f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -277,7 +467,7 @@ class V2Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -286,30 +476,75 @@ class AsyncV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get(self, organization_service_facility_id: OrganizationServiceFacilityId) -> OrganizationServiceFacility:
+    async def get(
+        self,
+        organization_service_facility_id: OrganizationServiceFacilityId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> OrganizationServiceFacility:
         """
-        Parameters:
-            - organization_service_facility_id: OrganizationServiceFacilityId.
+        Parameters
+        ----------
+        organization_service_facility_id : OrganizationServiceFacilityId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacility
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.organization_service_facilities.v_2.get(
+            organization_service_facility_id=uuid.UUID(
+                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
+            method="GET",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"api/organization-service-facilities/v2/{organization_service_facility_id}",
+                f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -319,19 +554,34 @@ class AsyncV2Client:
         limit: typing.Optional[int] = None,
         name: typing.Optional[str] = None,
         page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationServiceFacilityPage:
         """
-        Parameters:
-            - limit: typing.Optional[int]. Limit the number of results returned. Defaults to 100.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Limit the number of results returned. Defaults to 100.
 
-            - name: typing.Optional[str]. Filter to a name or a part of a name.
+        name : typing.Optional[str]
+            Filter to a name or a part of a name.
 
-            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
-        ---
+        page_token : typing.Optional[PageToken]
+            The page token to continue paging through a previous request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacilityPage
+
+        Examples
+        --------
         from candid.client import AsyncCandidApi
 
         client = AsyncCandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         await client.organization_service_facilities.v_2.get_multi(
             limit=100,
@@ -340,25 +590,65 @@ class AsyncV2Client:
         )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-service-facilities/v2"),
-            params=remove_none_from_dict({"limit": limit, "name": name, "page_token": page_token}),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", "api/organization-service-facilities/v2"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "name": name,
+                            "page_token": page_token,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationServiceFacilityPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationServiceFacilityPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create(self, *, request: OrganizationServiceFacilityCreate) -> OrganizationServiceFacility:
+    async def create(
+        self, *, request: OrganizationServiceFacilityCreate, request_options: typing.Optional[RequestOptions] = None
+    ) -> OrganizationServiceFacility:
         """
-        Parameters:
-            - request: OrganizationServiceFacilityCreate.
-        ---
+        Parameters
+        ----------
+        request : OrganizationServiceFacilityCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacility
+
+        Examples
+        --------
         from candid import State, StreetAddressLongZip
         from candid.client import AsyncCandidApi
         from candid.resources.organization_service_facilities.v_2 import (
@@ -371,7 +661,8 @@ class AsyncV2Client:
         )
 
         client = AsyncCandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         await client.organization_service_facilities.v_2.create(
             request=OrganizationServiceFacilityCreate(
@@ -379,10 +670,10 @@ class AsyncV2Client:
                 aliases=["Test Service Facility Alias"],
                 description="Test Service Facility Description",
                 status=ServiceFacilityStatus.ACTIVE,
-                operational_status=ServiceFacilityOperationalStatus.C,
+                operational_status=ServiceFacilityOperationalStatus.CLOSED,
                 mode=ServiceFacilityMode.INSTANCE,
-                type=ServiceFacilityType.DX,
-                physical_type=ServiceFacilityPhysicalType.SI,
+                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                physical_type=ServiceFacilityPhysicalType.SITE,
                 telecoms=["555-555-5555"],
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
@@ -396,22 +687,45 @@ class AsyncV2Client:
         )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-service-facilities/v2"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", "api/organization-service-facilities/v2"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -420,13 +734,24 @@ class AsyncV2Client:
         organization_service_facility_id: OrganizationServiceFacilityId,
         *,
         request: OrganizationServiceFacilityUpdate,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationServiceFacility:
         """
-        Parameters:
-            - organization_service_facility_id: OrganizationServiceFacilityId.
+        Parameters
+        ----------
+        organization_service_facility_id : OrganizationServiceFacilityId
 
-            - request: OrganizationServiceFacilityUpdate.
-        ---
+        request : OrganizationServiceFacilityUpdate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacility
+
+        Examples
+        --------
         import uuid
 
         from candid import State, StreetAddressLongZip
@@ -441,7 +766,8 @@ class AsyncV2Client:
         )
 
         client = AsyncCandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         await client.organization_service_facilities.v_2.update(
             organization_service_facility_id=uuid.UUID(
@@ -452,10 +778,10 @@ class AsyncV2Client:
                 aliases=["Test Service Facility Alias"],
                 description="Test Service Facility Description",
                 status=ServiceFacilityStatus.ACTIVE,
-                operational_status=ServiceFacilityOperationalStatus.C,
+                operational_status=ServiceFacilityOperationalStatus.CLOSED,
                 mode=ServiceFacilityMode.INSTANCE,
-                type=ServiceFacilityType.DX,
-                physical_type=ServiceFacilityPhysicalType.SI,
+                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                physical_type=ServiceFacilityPhysicalType.SITE,
                 telecoms=["555-555-5555"],
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
@@ -469,43 +795,80 @@ class AsyncV2Client:
         )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
+            method="PATCH",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"api/organization-service-facilities/v2/{organization_service_facility_id}",
+                f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
             ),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationServiceFacility, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def delete(self, organization_service_facility_id: OrganizationServiceFacilityId) -> None:
+    async def delete(
+        self,
+        organization_service_facility_id: OrganizationServiceFacilityId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
         """
-        Parameters:
-            - organization_service_facility_id: OrganizationServiceFacilityId.
-        ---
+        Parameters
+        ----------
+        organization_service_facility_id : OrganizationServiceFacilityId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
         import uuid
 
         from candid.client import AsyncCandidApi
 
         client = AsyncCandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         await client.organization_service_facilities.v_2.delete(
             organization_service_facility_id=uuid.UUID(
@@ -514,13 +877,32 @@ class AsyncV2Client:
         )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
+            method="DELETE",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"api/organization-service-facilities/v2/{organization_service_facility_id}",
+                f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -531,6 +913,6 @@ class AsyncV2Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

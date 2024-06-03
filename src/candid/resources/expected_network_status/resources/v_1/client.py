@@ -7,15 +7,14 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
+from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.types.date import Date
 from ....commons.types.insurance_type_code import InsuranceTypeCode
 from ....commons.types.state import State
 from .types.expected_network_status_response import ExpectedNetworkStatusResponse
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -28,41 +27,78 @@ class V1Client:
     def compute(
         self,
         *,
-        external_patient_id: typing.Optional[str] = OMIT,
         subscriber_payer_id: str,
         subscriber_payer_name: str,
-        subscriber_insurance_type: typing.Optional[InsuranceTypeCode] = OMIT,
-        subscriber_plan_name: typing.Optional[str] = OMIT,
         billing_provider_npi: str,
         billing_provider_tin: str,
         rendering_provider_npi: str,
         contracted_state: State,
         date_of_service: Date,
+        external_patient_id: typing.Optional[str] = OMIT,
+        subscriber_insurance_type: typing.Optional[InsuranceTypeCode] = OMIT,
+        subscriber_plan_name: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ExpectedNetworkStatusResponse:
         """
         Computes the expected network status given the provided information.
 
-        Parameters:
-            - external_patient_id: typing.Optional[str].
+        Parameters
+        ----------
+        subscriber_payer_id : str
 
-            - subscriber_payer_id: str.
+        subscriber_payer_name : str
 
-            - subscriber_payer_name: str.
+        billing_provider_npi : str
+            The National Provider Identifier (NPI) of the healthcare provider responsible for billing. A unique 10-digit identification number.
 
-            - subscriber_insurance_type: typing.Optional[InsuranceTypeCode].
+        billing_provider_tin : str
+            Follow the 9-digit format of the Taxpayer Identification Number (TIN).
 
-            - subscriber_plan_name: typing.Optional[str]. The descriptive name of the insurance plan selected by the subscriber, often indicating coverage specifics or tier.
+        rendering_provider_npi : str
+            The National Provider Identifier (NPI) of the healthcare provider who delivered the services. A unique 10-digit identification number.
 
-            - billing_provider_npi: str. The National Provider Identifier (NPI) of the healthcare provider responsible for billing. A unique 10-digit identification number.
+        contracted_state : State
+            The state in which the healthcare provider has a contractual agreement with the insurance payer.
 
-            - billing_provider_tin: str. Follow the 9-digit format of the Taxpayer Identification Number (TIN).
+        date_of_service : Date
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - rendering_provider_npi: str. The National Provider Identifier (NPI) of the healthcare provider who delivered the services. A unique 10-digit identification number.
 
-            - contracted_state: State. The state in which the healthcare provider has a contractual agreement with the insurance payer.
+        external_patient_id : typing.Optional[str]
 
-            - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+        subscriber_insurance_type : typing.Optional[InsuranceTypeCode]
 
+        subscriber_plan_name : typing.Optional[str]
+            The descriptive name of the insurance plan selected by the subscriber, often indicating coverage specifics or tier.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ExpectedNetworkStatusResponse
+
+        Examples
+        --------
+        from candid import InsuranceTypeCode, State
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.expected_network_status.v_1.compute(
+            external_patient_id="string",
+            subscriber_payer_id="string",
+            subscriber_payer_name="string",
+            subscriber_insurance_type=InsuranceTypeCode.C_01,
+            subscriber_plan_name="string",
+            billing_provider_npi="string",
+            billing_provider_tin="string",
+            rendering_provider_npi="string",
+            contracted_state=State.AA,
+            date_of_service="string",
+        )
         """
         _request: typing.Dict[str, typing.Any] = {
             "subscriber_payer_id": subscriber_payer_id,
@@ -80,18 +116,39 @@ class V1Client:
         if subscriber_plan_name is not OMIT:
             _request["subscriber_plan_name"] = subscriber_plan_name
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/expected-network-status/v1"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/expected-network-status/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ExpectedNetworkStatusResponse, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ExpectedNetworkStatusResponse, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -102,41 +159,78 @@ class AsyncV1Client:
     async def compute(
         self,
         *,
-        external_patient_id: typing.Optional[str] = OMIT,
         subscriber_payer_id: str,
         subscriber_payer_name: str,
-        subscriber_insurance_type: typing.Optional[InsuranceTypeCode] = OMIT,
-        subscriber_plan_name: typing.Optional[str] = OMIT,
         billing_provider_npi: str,
         billing_provider_tin: str,
         rendering_provider_npi: str,
         contracted_state: State,
         date_of_service: Date,
+        external_patient_id: typing.Optional[str] = OMIT,
+        subscriber_insurance_type: typing.Optional[InsuranceTypeCode] = OMIT,
+        subscriber_plan_name: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ExpectedNetworkStatusResponse:
         """
         Computes the expected network status given the provided information.
 
-        Parameters:
-            - external_patient_id: typing.Optional[str].
+        Parameters
+        ----------
+        subscriber_payer_id : str
 
-            - subscriber_payer_id: str.
+        subscriber_payer_name : str
 
-            - subscriber_payer_name: str.
+        billing_provider_npi : str
+            The National Provider Identifier (NPI) of the healthcare provider responsible for billing. A unique 10-digit identification number.
 
-            - subscriber_insurance_type: typing.Optional[InsuranceTypeCode].
+        billing_provider_tin : str
+            Follow the 9-digit format of the Taxpayer Identification Number (TIN).
 
-            - subscriber_plan_name: typing.Optional[str]. The descriptive name of the insurance plan selected by the subscriber, often indicating coverage specifics or tier.
+        rendering_provider_npi : str
+            The National Provider Identifier (NPI) of the healthcare provider who delivered the services. A unique 10-digit identification number.
 
-            - billing_provider_npi: str. The National Provider Identifier (NPI) of the healthcare provider responsible for billing. A unique 10-digit identification number.
+        contracted_state : State
+            The state in which the healthcare provider has a contractual agreement with the insurance payer.
 
-            - billing_provider_tin: str. Follow the 9-digit format of the Taxpayer Identification Number (TIN).
+        date_of_service : Date
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - rendering_provider_npi: str. The National Provider Identifier (NPI) of the healthcare provider who delivered the services. A unique 10-digit identification number.
 
-            - contracted_state: State. The state in which the healthcare provider has a contractual agreement with the insurance payer.
+        external_patient_id : typing.Optional[str]
 
-            - date_of_service: Date. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+        subscriber_insurance_type : typing.Optional[InsuranceTypeCode]
 
+        subscriber_plan_name : typing.Optional[str]
+            The descriptive name of the insurance plan selected by the subscriber, often indicating coverage specifics or tier.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ExpectedNetworkStatusResponse
+
+        Examples
+        --------
+        from candid import InsuranceTypeCode, State
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.expected_network_status.v_1.compute(
+            external_patient_id="string",
+            subscriber_payer_id="string",
+            subscriber_payer_name="string",
+            subscriber_insurance_type=InsuranceTypeCode.C_01,
+            subscriber_plan_name="string",
+            billing_provider_npi="string",
+            billing_provider_tin="string",
+            rendering_provider_npi="string",
+            contracted_state=State.AA,
+            date_of_service="string",
+        )
         """
         _request: typing.Dict[str, typing.Any] = {
             "subscriber_payer_id": subscriber_payer_id,
@@ -154,16 +248,37 @@ class AsyncV1Client:
         if subscriber_plan_name is not OMIT:
             _request["subscriber_plan_name"] = subscriber_plan_name
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/expected-network-status/v1"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/expected-network-status/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ExpectedNetworkStatusResponse, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ExpectedNetworkStatusResponse, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)

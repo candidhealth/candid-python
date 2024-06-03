@@ -2,35 +2,88 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
-from .payer_info import PayerInfo
-from .payer_uuid import PayerUuid
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .payer_info import PayerInfo as resources_payers_resources_v_3_types_payer_info_PayerInfo
+from .payer_uuid import PayerUuid as resources_payers_resources_v_3_types_payer_uuid_PayerUuid
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+T_Result = typing.TypeVar("T_Result")
 
 
-class PayerIdentifier_PayerInfo(PayerInfo):
-    type: typing_extensions.Literal["payer_info"]
+class _Factory:
+    def payer_info(self, value: resources_payers_resources_v_3_types_payer_info_PayerInfo) -> PayerIdentifier:
+        return PayerIdentifier(__root__=_PayerIdentifier.PayerInfo(**value.dict(exclude_unset=True), type="payer_info"))
+
+    def payer_uuid(self, value: resources_payers_resources_v_3_types_payer_uuid_PayerUuid) -> PayerIdentifier:
+        return PayerIdentifier(__root__=_PayerIdentifier.PayerUuid(type="payer_uuid", value=value))
+
+
+class PayerIdentifier(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(self) -> typing.Union[_PayerIdentifier.PayerInfo, _PayerIdentifier.PayerUuid]:
+        return self.__root__
+
+    def visit(
+        self,
+        payer_info: typing.Callable[[resources_payers_resources_v_3_types_payer_info_PayerInfo], T_Result],
+        payer_uuid: typing.Callable[[resources_payers_resources_v_3_types_payer_uuid_PayerUuid], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "payer_info":
+            return payer_info(
+                resources_payers_resources_v_3_types_payer_info_PayerInfo(
+                    **self.__root__.dict(exclude_unset=True, exclude={"type"})
+                )
+            )
+        if self.__root__.type == "payer_uuid":
+            return payer_uuid(self.__root__.value)
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[_PayerIdentifier.PayerInfo, _PayerIdentifier.PayerUuid], pydantic.Field(discriminator="type")
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class PayerIdentifier_PayerUuid(pydantic.BaseModel):
-    type: typing_extensions.Literal["payer_uuid"]
-    value: PayerUuid
+class _PayerIdentifier:
+    class PayerInfo(resources_payers_resources_v_3_types_payer_info_PayerInfo):
+        type: typing.Literal["payer_info"] = "payer_info"
 
-    class Config:
-        frozen = True
-        smart_union = True
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class PayerUuid(pydantic.BaseModel):
+        type: typing.Literal["payer_uuid"] = "payer_uuid"
+        value: resources_payers_resources_v_3_types_payer_uuid_PayerUuid
+
+        class Config:
+            frozen = True
+            smart_union = True
 
 
-PayerIdentifier = typing.Union[PayerIdentifier_PayerInfo, PayerIdentifier_PayerUuid]
+PayerIdentifier.update_forward_refs()

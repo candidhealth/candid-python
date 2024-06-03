@@ -2,30 +2,120 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
-from .medicaid_provider_identifier import MedicaidProviderIdentifier
-from .medicare_provider_identifier import MedicareProviderIdentifier
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
+from .medicaid_provider_identifier import (
+    MedicaidProviderIdentifier as resources_identifiers_types_medicaid_provider_identifier_MedicaidProviderIdentifier,
+)
+from .medicare_provider_identifier import (
+    MedicareProviderIdentifier as resources_identifiers_types_medicare_provider_identifier_MedicareProviderIdentifier,
+)
+
+T_Result = typing.TypeVar("T_Result")
 
 
-class IdentifierValue_MedicareProviderIdentifier(MedicareProviderIdentifier):
-    type: typing_extensions.Literal["medicare_provider_identifier"]
+class _Factory:
+    def medicare_provider_identifier(
+        self, value: resources_identifiers_types_medicare_provider_identifier_MedicareProviderIdentifier
+    ) -> IdentifierValue:
+        return IdentifierValue(
+            __root__=_IdentifierValue.MedicareProviderIdentifier(
+                **value.dict(exclude_unset=True), type="medicare_provider_identifier"
+            )
+        )
+
+    def medicaid_provider_identifier(
+        self, value: resources_identifiers_types_medicaid_provider_identifier_MedicaidProviderIdentifier
+    ) -> IdentifierValue:
+        return IdentifierValue(
+            __root__=_IdentifierValue.MedicaidProviderIdentifier(
+                **value.dict(exclude_unset=True), type="medicaid_provider_identifier"
+            )
+        )
+
+
+class IdentifierValue(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(
+        self,
+    ) -> typing.Union[_IdentifierValue.MedicareProviderIdentifier, _IdentifierValue.MedicaidProviderIdentifier]:
+        return self.__root__
+
+    def visit(
+        self,
+        medicare_provider_identifier: typing.Callable[
+            [resources_identifiers_types_medicare_provider_identifier_MedicareProviderIdentifier], T_Result
+        ],
+        medicaid_provider_identifier: typing.Callable[
+            [resources_identifiers_types_medicaid_provider_identifier_MedicaidProviderIdentifier], T_Result
+        ],
+    ) -> T_Result:
+        if self.__root__.type == "medicare_provider_identifier":
+            return medicare_provider_identifier(
+                resources_identifiers_types_medicare_provider_identifier_MedicareProviderIdentifier(
+                    **self.__root__.dict(exclude_unset=True, exclude={"type"})
+                )
+            )
+        if self.__root__.type == "medicaid_provider_identifier":
+            return medicaid_provider_identifier(
+                resources_identifiers_types_medicaid_provider_identifier_MedicaidProviderIdentifier(
+                    **self.__root__.dict(exclude_unset=True, exclude={"type"})
+                )
+            )
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[_IdentifierValue.MedicareProviderIdentifier, _IdentifierValue.MedicaidProviderIdentifier],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class IdentifierValue_MedicaidProviderIdentifier(MedicaidProviderIdentifier):
-    type: typing_extensions.Literal["medicaid_provider_identifier"]
+class _IdentifierValue:
+    class MedicareProviderIdentifier(
+        resources_identifiers_types_medicare_provider_identifier_MedicareProviderIdentifier
+    ):
+        type: typing.Literal["medicare_provider_identifier"] = "medicare_provider_identifier"
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class MedicaidProviderIdentifier(
+        resources_identifiers_types_medicaid_provider_identifier_MedicaidProviderIdentifier
+    ):
+        type: typing.Literal["medicaid_provider_identifier"] = "medicaid_provider_identifier"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
 
 
-IdentifierValue = typing.Union[IdentifierValue_MedicareProviderIdentifier, IdentifierValue_MedicaidProviderIdentifier]
+IdentifierValue.update_forward_refs()

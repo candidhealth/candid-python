@@ -8,7 +8,10 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
 from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.date import Date
@@ -31,11 +34,6 @@ from .types.insurance_types import InsuranceTypes
 from .types.regions_update import RegionsUpdate
 from .types.rendering_providerid import RenderingProviderid
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -44,27 +42,71 @@ class V2Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get(self, contract_id: ContractId) -> ContractWithProviders:
+    def get(
+        self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ContractWithProviders:
         """
-        Parameters:
-            - contract_id: ContractId.
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractWithProviders
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.contracts.v_2.get(
+            contract_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{contract_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{jsonable_encoder(contract_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -75,95 +117,211 @@ class V2Client:
         limit: typing.Optional[int] = None,
         contracting_provider_id: typing.Optional[ContractingProviderId] = None,
         rendering_provider_ids: typing.Optional[
-            typing.Union[RenderingProviderid, typing.List[RenderingProviderid]]
+            typing.Union[RenderingProviderid, typing.Sequence[RenderingProviderid]]
         ] = None,
-        payer_names: typing.Optional[typing.Union[str, typing.List[str]]] = None,
-        states: typing.Optional[typing.Union[State, typing.List[State]]] = None,
+        payer_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        states: typing.Optional[typing.Union[State, typing.Sequence[State]]] = None,
         contract_status: typing.Optional[ContractStatus] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractsPage:
         """
-        Parameters:
-            - page_token: typing.Optional[PageToken].
+        Parameters
+        ----------
+        page_token : typing.Optional[PageToken]
 
-            - limit: typing.Optional[int]. Max number of contracts returned. Defaults to 1000. Max is 1000.
+        limit : typing.Optional[int]
+            Max number of contracts returned. Defaults to 1000. Max is 1000.
 
-            - contracting_provider_id: typing.Optional[ContractingProviderId].
+        contracting_provider_id : typing.Optional[ContractingProviderId]
 
-            - rendering_provider_ids: typing.Optional[typing.Union[RenderingProviderid, typing.List[RenderingProviderid]]].
+        rendering_provider_ids : typing.Optional[typing.Union[RenderingProviderid, typing.Sequence[RenderingProviderid]]]
 
-            - payer_names: typing.Optional[typing.Union[str, typing.List[str]]]. Filter to contracts that include any of the included payer names.
+        payer_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter to contracts that include any of the included payer names.
 
-            - states: typing.Optional[typing.Union[State, typing.List[State]]].
+        states : typing.Optional[typing.Union[State, typing.Sequence[State]]]
 
-            - contract_status: typing.Optional[ContractStatus]. The status of the contract. Defaults to `pending`
+        contract_status : typing.Optional[ContractStatus]
+            The status of the contract. Defaults to `pending`
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import State
+        from candid.client import CandidApi
+        from candid.resources.contracts.v_2 import ContractStatus
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.contracts.v_2.get_multi(
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            limit=1,
+            contracting_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rendering_provider_ids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            payer_names="string",
+            states=State.AA,
+            contract_status=ContractStatus.PENDING,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/contracts/v2"),
-            params=remove_none_from_dict(
-                {
-                    "page_token": page_token,
-                    "limit": limit,
-                    "contracting_provider_id": jsonable_encoder(contracting_provider_id),
-                    "rendering_provider_ids": jsonable_encoder(rendering_provider_ids),
-                    "payer_names": payer_names,
-                    "states": states,
-                    "contract_status": contract_status,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/contracts/v2"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "page_token": page_token,
+                            "limit": limit,
+                            "contracting_provider_id": jsonable_encoder(contracting_provider_id),
+                            "rendering_provider_ids": jsonable_encoder(rendering_provider_ids),
+                            "payer_names": payer_names,
+                            "states": states,
+                            "contract_status": contract_status,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ContractsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ContractsPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def create(
         self,
         *,
         contracting_provider_id: ContractingProviderId,
-        rendering_provider_ids: typing.List[RenderingProviderid],
+        rendering_provider_ids: typing.Set[RenderingProviderid],
         payer_uuid: uuid.UUID,
         effective_date: Date,
-        expiration_date: typing.Optional[Date] = OMIT,
         regions: Regions,
-        contract_status: typing.Optional[ContractStatus] = OMIT,
-        authorized_signatory: typing.Optional[AuthorizedSignatory] = OMIT,
         commercial_insurance_types: InsuranceTypes,
         medicare_insurance_types: InsuranceTypes,
         medicaid_insurance_types: InsuranceTypes,
+        expiration_date: typing.Optional[Date] = OMIT,
+        contract_status: typing.Optional[ContractStatus] = OMIT,
+        authorized_signatory: typing.Optional[AuthorizedSignatory] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractWithProviders:
         """
         Creates a new contract within the user's current organization
 
-        Parameters:
-            - contracting_provider_id: ContractingProviderId. The UUID of the provider under agreement to the contract
+        Parameters
+        ----------
+        contracting_provider_id : ContractingProviderId
+            The UUID of the provider under agreement to the contract
 
-            - rendering_provider_ids: typing.List[RenderingProviderid]. A rendering provider isn't contracted directly with the payer but can render
-                                                                        services under the contract held by the contracting provider.
-                                                                        Max items is 100.
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            A rendering provider isn't contracted directly with the payer but can render
+            services under the contract held by the contracting provider.
+            Max items is 100.
 
-            - payer_uuid: uuid.UUID. The UUID of the insurance company under agreement to the contract
 
-            - effective_date: Date. The starting day upon which the contract is effective
+        payer_uuid : uuid.UUID
+            The UUID of the insurance company under agreement to the contract
 
-            - expiration_date: typing.Optional[Date]. An optional end day upon which the contract expires
+        effective_date : Date
+            The starting day upon which the contract is effective
 
-            - regions: Regions. The state(s) to which the contract's coverage extends.
-                                It may also be set to "national" for the entirety of the US.
-            - contract_status: typing.Optional[ContractStatus].
+        regions : Regions
+            The state(s) to which the contract's coverage extends.
+            It may also be set to "national" for the entirety of the US.
 
-            - authorized_signatory: typing.Optional[AuthorizedSignatory].
+        commercial_insurance_types : InsuranceTypes
+            The commercial plan insurance types this contract applies.
 
-            - commercial_insurance_types: InsuranceTypes. The commercial plan insurance types this contract applies.
+        medicare_insurance_types : InsuranceTypes
+            The Medicare plan insurance types this contract applies.
 
-            - medicare_insurance_types: InsuranceTypes. The Medicare plan insurance types this contract applies.
+        medicaid_insurance_types : InsuranceTypes
+            The Medicaid plan insurance types this contract applies.
 
-            - medicaid_insurance_types: InsuranceTypes. The Medicaid plan insurance types this contract applies.
+        expiration_date : typing.Optional[Date]
+            An optional end day upon which the contract expires
+
+        contract_status : typing.Optional[ContractStatus]
+
+        authorized_signatory : typing.Optional[AuthorizedSignatory]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractWithProviders
+
+        Examples
+        --------
+        import uuid
+
+        from candid import Regions_States
+        from candid.client import CandidApi
+        from candid.resources.contracts.v_2 import (
+            AuthorizedSignatory,
+            ContractStatus,
+            InsuranceTypes,
+        )
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.contracts.v_2.create(
+            contracting_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rendering_provider_ids={
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            },
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            effective_date="string",
+            expiration_date="string",
+            regions=Regions_States(),
+            contract_status=ContractStatus.PENDING,
+            authorized_signatory=AuthorizedSignatory(),
+            commercial_insurance_types=InsuranceTypes(),
+            medicare_insurance_types=InsuranceTypes(),
+            medicaid_insurance_types=InsuranceTypes(),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {
             "contracting_provider_id": contracting_provider_id,
@@ -182,30 +340,96 @@ class V2Client:
         if authorized_signatory is not OMIT:
             _request["authorized_signatory"] = authorized_signatory
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/contracts/v2"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/contracts/v2"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def delete(self, contract_id: ContractId) -> None:
+    def delete(self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
-        Parameters:
-            - contract_id: ContractId.
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.contracts.v_2.delete(
+            contract_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{contract_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="DELETE",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{jsonable_encoder(contract_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -216,7 +440,7 @@ class V2Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "ContractIsLinkedToFeeScheduleHttpError":
                 raise ContractIsLinkedToFeeScheduleHttpError(
-                    pydantic.parse_obj_as(ContractIsLinkedToFeeScheduleError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(ContractIsLinkedToFeeScheduleError, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -224,7 +448,7 @@ class V2Client:
         self,
         contract_id: ContractId,
         *,
-        rendering_provider_ids: typing.Optional[typing.List[RenderingProviderid]] = OMIT,
+        rendering_provider_ids: typing.Optional[typing.Set[RenderingProviderid]] = OMIT,
         effective_date: typing.Optional[Date] = OMIT,
         expiration_date: typing.Optional[DateUpdate] = OMIT,
         regions: typing.Optional[RegionsUpdate] = OMIT,
@@ -233,31 +457,94 @@ class V2Client:
         commercial_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
         medicare_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
         medicaid_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractWithProviders:
         """
-        Parameters:
-            - contract_id: ContractId.
+        Parameters
+        ----------
+        contract_id : ContractId
 
-            - rendering_provider_ids: typing.Optional[typing.List[RenderingProviderid]]. A rendering provider isn't contracted directly with the payer but can render
-                                                                                         services under the contract held by the contracting provider.
-                                                                                         Max items is 100.
+        rendering_provider_ids : typing.Optional[typing.Set[RenderingProviderid]]
+            A rendering provider isn't contracted directly with the payer but can render
+            services under the contract held by the contracting provider.
+            Max items is 100.
 
-            - effective_date: typing.Optional[Date]. The starting day upon which the contract is effective
 
-            - expiration_date: typing.Optional[DateUpdate]. An optional end day upon which the contract expires
+        effective_date : typing.Optional[Date]
+            The starting day upon which the contract is effective
 
-            - regions: typing.Optional[RegionsUpdate]. If present, the contract's rendering providers will be patched to this exact
-                                                       value, overriding what was set before.
+        expiration_date : typing.Optional[DateUpdate]
+            An optional end day upon which the contract expires
 
-            - contract_status: typing.Optional[ContractStatus].
+        regions : typing.Optional[RegionsUpdate]
+            If present, the contract's rendering providers will be patched to this exact
+            value, overriding what was set before.
 
-            - authorized_signatory: typing.Optional[AuthorizedSignatoryUpdate].
 
-            - commercial_insurance_types: typing.Optional[InsuranceTypes].
+        contract_status : typing.Optional[ContractStatus]
 
-            - medicare_insurance_types: typing.Optional[InsuranceTypes].
+        authorized_signatory : typing.Optional[AuthorizedSignatoryUpdate]
 
-            - medicaid_insurance_types: typing.Optional[InsuranceTypes].
+        commercial_insurance_types : typing.Optional[InsuranceTypes]
+
+        medicare_insurance_types : typing.Optional[InsuranceTypes]
+
+        medicaid_insurance_types : typing.Optional[InsuranceTypes]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractWithProviders
+
+        Examples
+        --------
+        import uuid
+
+        from candid import Regions_States, State
+        from candid.client import CandidApi
+        from candid.resources.contracts.v_2 import (
+            AuthorizedSignatoryUpdate_Set,
+            ContractStatus,
+            DateUpdate_Set,
+            InsuranceTypes,
+            RegionsUpdate_Set,
+        )
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.contracts.v_2.update(
+            contract_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rendering_provider_ids={
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            },
+            effective_date="string",
+            expiration_date=DateUpdate_Set(value="string"),
+            regions=RegionsUpdate_Set(
+                value=Regions_States(
+                    states=[State.AA],
+                )
+            ),
+            contract_status=ContractStatus.PENDING,
+            authorized_signatory=AuthorizedSignatoryUpdate_Set(
+                first_name="string",
+                last_name="string",
+                title="string",
+                email="string",
+                phone="string",
+                fax="string",
+            ),
+            commercial_insurance_types=InsuranceTypes(),
+            medicare_insurance_types=InsuranceTypes(),
+            medicaid_insurance_types=InsuranceTypes(),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if rendering_provider_ids is not OMIT:
@@ -279,22 +566,45 @@ class V2Client:
         if medicaid_insurance_types is not OMIT:
             _request["medicaid_insurance_types"] = medicaid_insurance_types
         _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{contract_id}"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{jsonable_encoder(contract_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -303,27 +613,71 @@ class AsyncV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get(self, contract_id: ContractId) -> ContractWithProviders:
+    async def get(
+        self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ContractWithProviders:
         """
-        Parameters:
-            - contract_id: ContractId.
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractWithProviders
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.contracts.v_2.get(
+            contract_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{contract_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{jsonable_encoder(contract_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -334,95 +688,211 @@ class AsyncV2Client:
         limit: typing.Optional[int] = None,
         contracting_provider_id: typing.Optional[ContractingProviderId] = None,
         rendering_provider_ids: typing.Optional[
-            typing.Union[RenderingProviderid, typing.List[RenderingProviderid]]
+            typing.Union[RenderingProviderid, typing.Sequence[RenderingProviderid]]
         ] = None,
-        payer_names: typing.Optional[typing.Union[str, typing.List[str]]] = None,
-        states: typing.Optional[typing.Union[State, typing.List[State]]] = None,
+        payer_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        states: typing.Optional[typing.Union[State, typing.Sequence[State]]] = None,
         contract_status: typing.Optional[ContractStatus] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractsPage:
         """
-        Parameters:
-            - page_token: typing.Optional[PageToken].
+        Parameters
+        ----------
+        page_token : typing.Optional[PageToken]
 
-            - limit: typing.Optional[int]. Max number of contracts returned. Defaults to 1000. Max is 1000.
+        limit : typing.Optional[int]
+            Max number of contracts returned. Defaults to 1000. Max is 1000.
 
-            - contracting_provider_id: typing.Optional[ContractingProviderId].
+        contracting_provider_id : typing.Optional[ContractingProviderId]
 
-            - rendering_provider_ids: typing.Optional[typing.Union[RenderingProviderid, typing.List[RenderingProviderid]]].
+        rendering_provider_ids : typing.Optional[typing.Union[RenderingProviderid, typing.Sequence[RenderingProviderid]]]
 
-            - payer_names: typing.Optional[typing.Union[str, typing.List[str]]]. Filter to contracts that include any of the included payer names.
+        payer_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter to contracts that include any of the included payer names.
 
-            - states: typing.Optional[typing.Union[State, typing.List[State]]].
+        states : typing.Optional[typing.Union[State, typing.Sequence[State]]]
 
-            - contract_status: typing.Optional[ContractStatus]. The status of the contract. Defaults to `pending`
+        contract_status : typing.Optional[ContractStatus]
+            The status of the contract. Defaults to `pending`
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import State
+        from candid.client import AsyncCandidApi
+        from candid.resources.contracts.v_2 import ContractStatus
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.contracts.v_2.get_multi(
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            limit=1,
+            contracting_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rendering_provider_ids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            payer_names="string",
+            states=State.AA,
+            contract_status=ContractStatus.PENDING,
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/contracts/v2"),
-            params=remove_none_from_dict(
-                {
-                    "page_token": page_token,
-                    "limit": limit,
-                    "contracting_provider_id": jsonable_encoder(contracting_provider_id),
-                    "rendering_provider_ids": jsonable_encoder(rendering_provider_ids),
-                    "payer_names": payer_names,
-                    "states": states,
-                    "contract_status": contract_status,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/contracts/v2"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "page_token": page_token,
+                            "limit": limit,
+                            "contracting_provider_id": jsonable_encoder(contracting_provider_id),
+                            "rendering_provider_ids": jsonable_encoder(rendering_provider_ids),
+                            "payer_names": payer_names,
+                            "states": states,
+                            "contract_status": contract_status,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ContractsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ContractsPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def create(
         self,
         *,
         contracting_provider_id: ContractingProviderId,
-        rendering_provider_ids: typing.List[RenderingProviderid],
+        rendering_provider_ids: typing.Set[RenderingProviderid],
         payer_uuid: uuid.UUID,
         effective_date: Date,
-        expiration_date: typing.Optional[Date] = OMIT,
         regions: Regions,
-        contract_status: typing.Optional[ContractStatus] = OMIT,
-        authorized_signatory: typing.Optional[AuthorizedSignatory] = OMIT,
         commercial_insurance_types: InsuranceTypes,
         medicare_insurance_types: InsuranceTypes,
         medicaid_insurance_types: InsuranceTypes,
+        expiration_date: typing.Optional[Date] = OMIT,
+        contract_status: typing.Optional[ContractStatus] = OMIT,
+        authorized_signatory: typing.Optional[AuthorizedSignatory] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractWithProviders:
         """
         Creates a new contract within the user's current organization
 
-        Parameters:
-            - contracting_provider_id: ContractingProviderId. The UUID of the provider under agreement to the contract
+        Parameters
+        ----------
+        contracting_provider_id : ContractingProviderId
+            The UUID of the provider under agreement to the contract
 
-            - rendering_provider_ids: typing.List[RenderingProviderid]. A rendering provider isn't contracted directly with the payer but can render
-                                                                        services under the contract held by the contracting provider.
-                                                                        Max items is 100.
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            A rendering provider isn't contracted directly with the payer but can render
+            services under the contract held by the contracting provider.
+            Max items is 100.
 
-            - payer_uuid: uuid.UUID. The UUID of the insurance company under agreement to the contract
 
-            - effective_date: Date. The starting day upon which the contract is effective
+        payer_uuid : uuid.UUID
+            The UUID of the insurance company under agreement to the contract
 
-            - expiration_date: typing.Optional[Date]. An optional end day upon which the contract expires
+        effective_date : Date
+            The starting day upon which the contract is effective
 
-            - regions: Regions. The state(s) to which the contract's coverage extends.
-                                It may also be set to "national" for the entirety of the US.
-            - contract_status: typing.Optional[ContractStatus].
+        regions : Regions
+            The state(s) to which the contract's coverage extends.
+            It may also be set to "national" for the entirety of the US.
 
-            - authorized_signatory: typing.Optional[AuthorizedSignatory].
+        commercial_insurance_types : InsuranceTypes
+            The commercial plan insurance types this contract applies.
 
-            - commercial_insurance_types: InsuranceTypes. The commercial plan insurance types this contract applies.
+        medicare_insurance_types : InsuranceTypes
+            The Medicare plan insurance types this contract applies.
 
-            - medicare_insurance_types: InsuranceTypes. The Medicare plan insurance types this contract applies.
+        medicaid_insurance_types : InsuranceTypes
+            The Medicaid plan insurance types this contract applies.
 
-            - medicaid_insurance_types: InsuranceTypes. The Medicaid plan insurance types this contract applies.
+        expiration_date : typing.Optional[Date]
+            An optional end day upon which the contract expires
+
+        contract_status : typing.Optional[ContractStatus]
+
+        authorized_signatory : typing.Optional[AuthorizedSignatory]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractWithProviders
+
+        Examples
+        --------
+        import uuid
+
+        from candid import Regions_States
+        from candid.client import AsyncCandidApi
+        from candid.resources.contracts.v_2 import (
+            AuthorizedSignatory,
+            ContractStatus,
+            InsuranceTypes,
+        )
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.contracts.v_2.create(
+            contracting_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rendering_provider_ids={
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            },
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            effective_date="string",
+            expiration_date="string",
+            regions=Regions_States(),
+            contract_status=ContractStatus.PENDING,
+            authorized_signatory=AuthorizedSignatory(),
+            commercial_insurance_types=InsuranceTypes(),
+            medicare_insurance_types=InsuranceTypes(),
+            medicaid_insurance_types=InsuranceTypes(),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {
             "contracting_provider_id": contracting_provider_id,
@@ -441,30 +911,96 @@ class AsyncV2Client:
         if authorized_signatory is not OMIT:
             _request["authorized_signatory"] = authorized_signatory
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/contracts/v2"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/contracts/v2"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def delete(self, contract_id: ContractId) -> None:
+    async def delete(self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
-        Parameters:
-            - contract_id: ContractId.
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.contracts.v_2.delete(
+            contract_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{contract_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="DELETE",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{jsonable_encoder(contract_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -475,7 +1011,7 @@ class AsyncV2Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "ContractIsLinkedToFeeScheduleHttpError":
                 raise ContractIsLinkedToFeeScheduleHttpError(
-                    pydantic.parse_obj_as(ContractIsLinkedToFeeScheduleError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(ContractIsLinkedToFeeScheduleError, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -483,7 +1019,7 @@ class AsyncV2Client:
         self,
         contract_id: ContractId,
         *,
-        rendering_provider_ids: typing.Optional[typing.List[RenderingProviderid]] = OMIT,
+        rendering_provider_ids: typing.Optional[typing.Set[RenderingProviderid]] = OMIT,
         effective_date: typing.Optional[Date] = OMIT,
         expiration_date: typing.Optional[DateUpdate] = OMIT,
         regions: typing.Optional[RegionsUpdate] = OMIT,
@@ -492,31 +1028,94 @@ class AsyncV2Client:
         commercial_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
         medicare_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
         medicaid_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractWithProviders:
         """
-        Parameters:
-            - contract_id: ContractId.
+        Parameters
+        ----------
+        contract_id : ContractId
 
-            - rendering_provider_ids: typing.Optional[typing.List[RenderingProviderid]]. A rendering provider isn't contracted directly with the payer but can render
-                                                                                         services under the contract held by the contracting provider.
-                                                                                         Max items is 100.
+        rendering_provider_ids : typing.Optional[typing.Set[RenderingProviderid]]
+            A rendering provider isn't contracted directly with the payer but can render
+            services under the contract held by the contracting provider.
+            Max items is 100.
 
-            - effective_date: typing.Optional[Date]. The starting day upon which the contract is effective
 
-            - expiration_date: typing.Optional[DateUpdate]. An optional end day upon which the contract expires
+        effective_date : typing.Optional[Date]
+            The starting day upon which the contract is effective
 
-            - regions: typing.Optional[RegionsUpdate]. If present, the contract's rendering providers will be patched to this exact
-                                                       value, overriding what was set before.
+        expiration_date : typing.Optional[DateUpdate]
+            An optional end day upon which the contract expires
 
-            - contract_status: typing.Optional[ContractStatus].
+        regions : typing.Optional[RegionsUpdate]
+            If present, the contract's rendering providers will be patched to this exact
+            value, overriding what was set before.
 
-            - authorized_signatory: typing.Optional[AuthorizedSignatoryUpdate].
 
-            - commercial_insurance_types: typing.Optional[InsuranceTypes].
+        contract_status : typing.Optional[ContractStatus]
 
-            - medicare_insurance_types: typing.Optional[InsuranceTypes].
+        authorized_signatory : typing.Optional[AuthorizedSignatoryUpdate]
 
-            - medicaid_insurance_types: typing.Optional[InsuranceTypes].
+        commercial_insurance_types : typing.Optional[InsuranceTypes]
+
+        medicare_insurance_types : typing.Optional[InsuranceTypes]
+
+        medicaid_insurance_types : typing.Optional[InsuranceTypes]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractWithProviders
+
+        Examples
+        --------
+        import uuid
+
+        from candid import Regions_States, State
+        from candid.client import AsyncCandidApi
+        from candid.resources.contracts.v_2 import (
+            AuthorizedSignatoryUpdate_Set,
+            ContractStatus,
+            DateUpdate_Set,
+            InsuranceTypes,
+            RegionsUpdate_Set,
+        )
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.contracts.v_2.update(
+            contract_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rendering_provider_ids={
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            },
+            effective_date="string",
+            expiration_date=DateUpdate_Set(value="string"),
+            regions=RegionsUpdate_Set(
+                value=Regions_States(
+                    states=[State.AA],
+                )
+            ),
+            contract_status=ContractStatus.PENDING,
+            authorized_signatory=AuthorizedSignatoryUpdate_Set(
+                first_name="string",
+                last_name="string",
+                title="string",
+                email="string",
+                phone="string",
+                fax="string",
+            ),
+            commercial_insurance_types=InsuranceTypes(),
+            medicare_insurance_types=InsuranceTypes(),
+            medicaid_insurance_types=InsuranceTypes(),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if rendering_provider_ids is not OMIT:
@@ -538,21 +1137,44 @@ class AsyncV2Client:
         if medicaid_insurance_types is not OMIT:
             _request["medicaid_insurance_types"] = medicaid_insurance_types
         _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{contract_id}"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/contracts/v2/{jsonable_encoder(contract_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(ContractWithProviders, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

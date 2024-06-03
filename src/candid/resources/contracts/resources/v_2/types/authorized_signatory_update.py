@@ -2,33 +2,83 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .authorized_signatory import AuthorizedSignatory
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+T_Result = typing.TypeVar("T_Result")
 
 
-class AuthorizedSignatoryUpdate_Set(AuthorizedSignatory):
-    type: typing_extensions.Literal["set"]
+class _Factory:
+    def set_(self, value: AuthorizedSignatory) -> AuthorizedSignatoryUpdate:
+        return AuthorizedSignatoryUpdate(
+            __root__=_AuthorizedSignatoryUpdate.Set(**value.dict(exclude_unset=True), type="set")
+        )
+
+    def remove(self) -> AuthorizedSignatoryUpdate:
+        return AuthorizedSignatoryUpdate(__root__=_AuthorizedSignatoryUpdate.Remove(type="remove"))
+
+
+class AuthorizedSignatoryUpdate(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(self) -> typing.Union[_AuthorizedSignatoryUpdate.Set, _AuthorizedSignatoryUpdate.Remove]:
+        return self.__root__
+
+    def visit(
+        self, set_: typing.Callable[[AuthorizedSignatory], T_Result], remove: typing.Callable[[], T_Result]
+    ) -> T_Result:
+        if self.__root__.type == "set":
+            return set_(AuthorizedSignatory(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+        if self.__root__.type == "remove":
+            return remove()
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[_AuthorizedSignatoryUpdate.Set, _AuthorizedSignatoryUpdate.Remove],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class AuthorizedSignatoryUpdate_Remove(pydantic.BaseModel):
-    type: typing_extensions.Literal["remove"]
+class _AuthorizedSignatoryUpdate:
+    class Set(AuthorizedSignatory):
+        type: typing.Literal["set"] = "set"
 
-    class Config:
-        frozen = True
-        smart_union = True
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class Remove(pydantic.BaseModel):
+        type: typing.Literal["remove"] = "remove"
+
+        class Config:
+            frozen = True
+            smart_union = True
 
 
-AuthorizedSignatoryUpdate = typing.Union[AuthorizedSignatoryUpdate_Set, AuthorizedSignatoryUpdate_Remove]
+AuthorizedSignatoryUpdate.update_forward_refs()

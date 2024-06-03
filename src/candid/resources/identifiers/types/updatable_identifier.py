@@ -2,45 +2,105 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
 from .identifier_create import IdentifierCreate
 from .identifier_id import IdentifierId
 from .identifier_update import IdentifierUpdate
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+T_Result = typing.TypeVar("T_Result")
 
 
-class UpdatableIdentifier_Add(IdentifierCreate):
-    type: typing_extensions.Literal["add"]
+class _Factory:
+    def add(self, value: IdentifierCreate) -> UpdatableIdentifier:
+        return UpdatableIdentifier(__root__=_UpdatableIdentifier.Add(**value.dict(exclude_unset=True), type="add"))
+
+    def update(self, value: IdentifierUpdate) -> UpdatableIdentifier:
+        return UpdatableIdentifier(
+            __root__=_UpdatableIdentifier.Update(**value.dict(exclude_unset=True), type="update")
+        )
+
+    def remove(self, value: IdentifierId) -> UpdatableIdentifier:
+        return UpdatableIdentifier(__root__=_UpdatableIdentifier.Remove(type="remove", value=value))
+
+
+class UpdatableIdentifier(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(
+        self,
+    ) -> typing.Union[_UpdatableIdentifier.Add, _UpdatableIdentifier.Update, _UpdatableIdentifier.Remove]:
+        return self.__root__
+
+    def visit(
+        self,
+        add: typing.Callable[[IdentifierCreate], T_Result],
+        update: typing.Callable[[IdentifierUpdate], T_Result],
+        remove: typing.Callable[[IdentifierId], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "add":
+            return add(IdentifierCreate(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+        if self.__root__.type == "update":
+            return update(IdentifierUpdate(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+        if self.__root__.type == "remove":
+            return remove(self.__root__.value)
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[_UpdatableIdentifier.Add, _UpdatableIdentifier.Update, _UpdatableIdentifier.Remove],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class UpdatableIdentifier_Update(IdentifierUpdate):
-    type: typing_extensions.Literal["update"]
+class _UpdatableIdentifier:
+    class Add(IdentifierCreate):
+        type: typing.Literal["add"] = "add"
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class Update(IdentifierUpdate):
+        type: typing.Literal["update"] = "update"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class Remove(pydantic.BaseModel):
+        type: typing.Literal["remove"] = "remove"
+        value: IdentifierId
+
+        class Config:
+            frozen = True
+            smart_union = True
 
 
-class UpdatableIdentifier_Remove(pydantic.BaseModel):
-    type: typing_extensions.Literal["remove"]
-    value: IdentifierId
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-UpdatableIdentifier = typing.Union[UpdatableIdentifier_Add, UpdatableIdentifier_Update, UpdatableIdentifier_Remove]
+UpdatableIdentifier.update_forward_refs()

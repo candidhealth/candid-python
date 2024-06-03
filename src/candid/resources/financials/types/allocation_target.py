@@ -2,58 +2,138 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
 from .billing_provider_allocation_target import BillingProviderAllocationTarget
 from .claim_allocation_target import ClaimAllocationTarget
 from .service_line_allocation_target import ServiceLineAllocationTarget
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+T_Result = typing.TypeVar("T_Result")
 
 
-class AllocationTarget_ServiceLine(ServiceLineAllocationTarget):
-    type: typing_extensions.Literal["service_line"]
+class _Factory:
+    def service_line(self, value: ServiceLineAllocationTarget) -> AllocationTarget:
+        return AllocationTarget(
+            __root__=_AllocationTarget.ServiceLine(**value.dict(exclude_unset=True), type="service_line")
+        )
+
+    def claim(self, value: ClaimAllocationTarget) -> AllocationTarget:
+        return AllocationTarget(__root__=_AllocationTarget.Claim(**value.dict(exclude_unset=True), type="claim"))
+
+    def billing_provider_id(self, value: BillingProviderAllocationTarget) -> AllocationTarget:
+        return AllocationTarget(
+            __root__=_AllocationTarget.BillingProviderId(**value.dict(exclude_unset=True), type="billing_provider_id")
+        )
+
+    def unattributed(self) -> AllocationTarget:
+        return AllocationTarget(__root__=_AllocationTarget.Unattributed(type="unattributed"))
+
+
+class AllocationTarget(pydantic.BaseModel):
+    """
+    Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
+    claim, billing provider, or is unallocated.
+    """
+
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(
+        self,
+    ) -> typing.Union[
+        _AllocationTarget.ServiceLine,
+        _AllocationTarget.Claim,
+        _AllocationTarget.BillingProviderId,
+        _AllocationTarget.Unattributed,
+    ]:
+        return self.__root__
+
+    def visit(
+        self,
+        service_line: typing.Callable[[ServiceLineAllocationTarget], T_Result],
+        claim: typing.Callable[[ClaimAllocationTarget], T_Result],
+        billing_provider_id: typing.Callable[[BillingProviderAllocationTarget], T_Result],
+        unattributed: typing.Callable[[], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "service_line":
+            return service_line(ServiceLineAllocationTarget(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+        if self.__root__.type == "claim":
+            return claim(ClaimAllocationTarget(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+        if self.__root__.type == "billing_provider_id":
+            return billing_provider_id(
+                BillingProviderAllocationTarget(**self.__root__.dict(exclude_unset=True, exclude={"type"}))
+            )
+        if self.__root__.type == "unattributed":
+            return unattributed()
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[
+            _AllocationTarget.ServiceLine,
+            _AllocationTarget.Claim,
+            _AllocationTarget.BillingProviderId,
+            _AllocationTarget.Unattributed,
+        ],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class AllocationTarget_Claim(ClaimAllocationTarget):
-    type: typing_extensions.Literal["claim"]
+class _AllocationTarget:
+    class ServiceLine(ServiceLineAllocationTarget):
+        type: typing.Literal["service_line"] = "service_line"
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class Claim(ClaimAllocationTarget):
+        type: typing.Literal["claim"] = "claim"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class BillingProviderId(BillingProviderAllocationTarget):
+        type: typing.Literal["billing_provider_id"] = "billing_provider_id"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class Unattributed(pydantic.BaseModel):
+        type: typing.Literal["unattributed"] = "unattributed"
+
+        class Config:
+            frozen = True
+            smart_union = True
 
 
-class AllocationTarget_BillingProviderId(BillingProviderAllocationTarget):
-    type: typing_extensions.Literal["billing_provider_id"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
-
-
-class AllocationTarget_Unattributed(pydantic.BaseModel):
-    type: typing_extensions.Literal["unattributed"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-AllocationTarget = typing.Union[
-    AllocationTarget_ServiceLine,
-    AllocationTarget_Claim,
-    AllocationTarget_BillingProviderId,
-    AllocationTarget_Unattributed,
-]
+AllocationTarget.update_forward_refs()

@@ -3,8 +3,6 @@
 from .types import (
     AuthorizedSignatory,
     AuthorizedSignatoryUpdate,
-    AuthorizedSignatoryUpdate_Remove,
-    AuthorizedSignatoryUpdate_Set,
     Contract,
     ContractBase,
     ContractId,
@@ -14,15 +12,8 @@ from .types import (
     ContractingProviderId,
     ContractsPage,
     DateUpdate,
-    DateUpdate_Remove,
-    DateUpdate_Set,
     InsuranceTypes,
-    InsuranceTypes_AllApply,
-    InsuranceTypes_NoneApply,
-    InsuranceTypes_TheseApply,
     RegionsUpdate,
-    RegionsUpdate_Remove,
-    RegionsUpdate_Set,
     RenderingProviderid,
 )
 from .errors import ContractIsLinkedToFeeScheduleHttpError
@@ -30,8 +21,6 @@ from .errors import ContractIsLinkedToFeeScheduleHttpError
 __all__ = [
     "AuthorizedSignatory",
     "AuthorizedSignatoryUpdate",
-    "AuthorizedSignatoryUpdate_Remove",
-    "AuthorizedSignatoryUpdate_Set",
     "Contract",
     "ContractBase",
     "ContractId",
@@ -42,14 +31,7 @@ __all__ = [
     "ContractingProviderId",
     "ContractsPage",
     "DateUpdate",
-    "DateUpdate_Remove",
-    "DateUpdate_Set",
     "InsuranceTypes",
-    "InsuranceTypes_AllApply",
-    "InsuranceTypes_NoneApply",
-    "InsuranceTypes_TheseApply",
     "RegionsUpdate",
-    "RegionsUpdate_Remove",
-    "RegionsUpdate_Set",
     "RenderingProviderid",
 ]

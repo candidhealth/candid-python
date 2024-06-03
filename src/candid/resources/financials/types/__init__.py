@@ -3,28 +3,15 @@
 from .account_type import AccountType
 from .allocation import Allocation
 from .allocation_create import AllocationCreate
-from .allocation_target import (
-    AllocationTarget,
-    AllocationTarget_BillingProviderId,
-    AllocationTarget_Claim,
-    AllocationTarget_ServiceLine,
-    AllocationTarget_Unattributed,
-)
-from .allocation_target_create import (
-    AllocationTargetCreate,
-    AllocationTargetCreate_BillingProviderById,
-    AllocationTargetCreate_ClaimByEncounterExternalId,
-    AllocationTargetCreate_ClaimById,
-    AllocationTargetCreate_ServiceLineById,
-    AllocationTargetCreate_Unattributed,
-)
+from .allocation_target import AllocationTarget
+from .allocation_target_create import AllocationTargetCreate
 from .billing_provider_allocation_target import BillingProviderAllocationTarget
 from .claim_allocation_target import ClaimAllocationTarget
-from .invoice_update import InvoiceUpdate, InvoiceUpdate_Remove, InvoiceUpdate_Set
-from .note_update import NoteUpdate, NoteUpdate_Remove, NoteUpdate_Set
+from .invoice_update import InvoiceUpdate
+from .note_update import NoteUpdate
 from .patient_transaction_source import PatientTransactionSource
 from .refund_reason import RefundReason
-from .refund_reason_update import RefundReasonUpdate, RefundReasonUpdate_Remove, RefundReasonUpdate_Set
+from .refund_reason_update import RefundReasonUpdate
 from .service_line_allocation_target import ServiceLineAllocationTarget
 
 __all__ = [
@@ -33,27 +20,12 @@ __all__ = [
     "AllocationCreate",
     "AllocationTarget",
     "AllocationTargetCreate",
-    "AllocationTargetCreate_BillingProviderById",
-    "AllocationTargetCreate_ClaimByEncounterExternalId",
-    "AllocationTargetCreate_ClaimById",
-    "AllocationTargetCreate_ServiceLineById",
-    "AllocationTargetCreate_Unattributed",
-    "AllocationTarget_BillingProviderId",
-    "AllocationTarget_Claim",
-    "AllocationTarget_ServiceLine",
-    "AllocationTarget_Unattributed",
     "BillingProviderAllocationTarget",
     "ClaimAllocationTarget",
     "InvoiceUpdate",
-    "InvoiceUpdate_Remove",
-    "InvoiceUpdate_Set",
     "NoteUpdate",
-    "NoteUpdate_Remove",
-    "NoteUpdate_Set",
     "PatientTransactionSource",
     "RefundReason",
     "RefundReasonUpdate",
-    "RefundReasonUpdate_Remove",
-    "RefundReasonUpdate_Set",
     "ServiceLineAllocationTarget",
 ]

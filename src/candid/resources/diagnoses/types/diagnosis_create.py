@@ -3,43 +3,51 @@
 import datetime as dt
 import typing
 
-from ....core.datetime_utils import serialize_datetime
-from .diagnosis_type_code import DiagnosisTypeCode
+import pydantic
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
+from .diagnosis_type_code import DiagnosisTypeCode
 
 
 class DiagnosisCreate(pydantic.BaseModel):
-    name: typing.Optional[str] = pydantic.Field(default=None, description="Empty string not allowed.")
-    code_type: DiagnosisTypeCode = pydantic.Field(
-        description="Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively."
-    )
-    code: str = pydantic.Field(
-        description=(
-            "Empty string not allowed.\n"
-            "Should be of the appropriate format for the provided `code_type`.\n"
-            "Must obey the ICD-10 format if an ICD-10 code_type is provided, specifically:\n"
-            "\n"
-            "- Letter\n"
-            "- Digit\n"
-            "- Digit or the letter `A` or `B`\n"
-            "- (Optional) Period `.`\n"
-            "- Up to 4 (or as few as 0) letters and digits\n"
-        )
-    )
+    name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Empty string not allowed.
+    """
+
+    code_type: DiagnosisTypeCode = pydantic.Field()
+    """
+    Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.
+    """
+
+    code: str = pydantic.Field()
+    """
+    Empty string not allowed.
+    Should be of the appropriate format for the provided `code_type`.
+    Must obey the ICD-10 format if an ICD-10 code_type is provided, specifically:
+    
+    - Letter
+    - Digit
+    - Digit or the letter `A` or `B`
+    - (Optional) Period `.`
+    - Up to 4 (or as few as 0) letters and digits
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

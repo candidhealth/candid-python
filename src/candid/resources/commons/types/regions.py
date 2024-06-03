@@ -2,30 +2,83 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
 from .region_national import RegionNational
 from .region_states import RegionStates
 
+T_Result = typing.TypeVar("T_Result")
 
-class Regions_States(RegionStates):
-    type: typing_extensions.Literal["states"]
+
+class _Factory:
+    def states(self, value: RegionStates) -> Regions:
+        return Regions(__root__=_Regions.States(**value.dict(exclude_unset=True), type="states"))
+
+    def national(self, value: RegionNational) -> Regions:
+        return Regions(__root__=_Regions.National(**value.dict(exclude_unset=True), type="national"))
+
+
+class Regions(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(self) -> typing.Union[_Regions.States, _Regions.National]:
+        return self.__root__
+
+    def visit(
+        self, states: typing.Callable[[RegionStates], T_Result], national: typing.Callable[[RegionNational], T_Result]
+    ) -> T_Result:
+        if self.__root__.type == "states":
+            return states(RegionStates(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+        if self.__root__.type == "national":
+            return national(RegionNational(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[_Regions.States, _Regions.National], pydantic.Field(discriminator="type")
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class Regions_National(RegionNational):
-    type: typing_extensions.Literal["national"]
+class _Regions:
+    class States(RegionStates):
+        type: typing.Literal["states"] = "states"
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class National(RegionNational):
+        type: typing.Literal["national"] = "national"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
 
 
-Regions = typing.Union[Regions_States, Regions_National]
+Regions.update_forward_refs()

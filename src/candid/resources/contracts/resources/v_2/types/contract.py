@@ -3,36 +3,49 @@
 import datetime as dt
 import typing
 
+import pydantic
+
 from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....organization_providers.resources.v_2.types.organization_provider import OrganizationProvider
 from .....payers.resources.v_3.types.payer import Payer
 from .contract_base import ContractBase
 from .contract_id import ContractId
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class Contract(ContractBase):
     contract_id: ContractId
-    contracting_provider: OrganizationProvider = pydantic.Field(description="The provider under contract")
-    provider_count: int = pydantic.Field(
-        description="The number of linked providers who can render medical services under this contract"
-    )
-    payer: Payer = pydantic.Field(description="The insurance company under contract")
+    contracting_provider: OrganizationProvider = pydantic.Field()
+    """
+    The provider under contract
+    """
+
+    provider_count: int = pydantic.Field()
+    """
+    The number of linked providers who can render medical services under this contract
+    """
+
+    payer: Payer = pydantic.Field()
+    """
+    The insurance company under contract
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
         allow_population_by_field_name = True
+        populate_by_name = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

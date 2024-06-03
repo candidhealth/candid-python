@@ -2,67 +2,158 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
 from .....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from .overlapping_rate_entries_error import OverlappingRateEntriesError
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+T_Result = typing.TypeVar("T_Result")
 
 
-class ValidationError_OverlappingRateEntries(OverlappingRateEntriesError):
-    type: typing_extensions.Literal["overlapping_rate_entries"]
+class _Factory:
+    def overlapping_rate_entries(self, value: OverlappingRateEntriesError) -> ValidationError:
+        return ValidationError(
+            __root__=_ValidationError.OverlappingRateEntries(
+                **value.dict(exclude_unset=True), type="overlapping_rate_entries"
+            )
+        )
+
+    def version_conflict(self, value: EntityConflictErrorMessage) -> ValidationError:
+        return ValidationError(
+            __root__=_ValidationError.VersionConflict(**value.dict(exclude_unset=True), type="version_conflict")
+        )
+
+    def organization_provider_not_found(self, value: EntityNotFoundErrorMessage) -> ValidationError:
+        return ValidationError(
+            __root__=_ValidationError.OrganizationProviderNotFound(
+                **value.dict(exclude_unset=True), type="organization_provider_not_found"
+            )
+        )
+
+    def duplicate_rate(self) -> ValidationError:
+        return ValidationError(__root__=_ValidationError.DuplicateRate(type="duplicate_rate"))
+
+    def empty_entries(self) -> ValidationError:
+        return ValidationError(__root__=_ValidationError.EmptyEntries(type="empty_entries"))
+
+
+class ValidationError(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(
+        self,
+    ) -> typing.Union[
+        _ValidationError.OverlappingRateEntries,
+        _ValidationError.VersionConflict,
+        _ValidationError.OrganizationProviderNotFound,
+        _ValidationError.DuplicateRate,
+        _ValidationError.EmptyEntries,
+    ]:
+        return self.__root__
+
+    def visit(
+        self,
+        overlapping_rate_entries: typing.Callable[[OverlappingRateEntriesError], T_Result],
+        version_conflict: typing.Callable[[EntityConflictErrorMessage], T_Result],
+        organization_provider_not_found: typing.Callable[[EntityNotFoundErrorMessage], T_Result],
+        duplicate_rate: typing.Callable[[], T_Result],
+        empty_entries: typing.Callable[[], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "overlapping_rate_entries":
+            return overlapping_rate_entries(
+                OverlappingRateEntriesError(**self.__root__.dict(exclude_unset=True, exclude={"type"}))
+            )
+        if self.__root__.type == "version_conflict":
+            return version_conflict(
+                EntityConflictErrorMessage(**self.__root__.dict(exclude_unset=True, exclude={"type"}))
+            )
+        if self.__root__.type == "organization_provider_not_found":
+            return organization_provider_not_found(
+                EntityNotFoundErrorMessage(**self.__root__.dict(exclude_unset=True, exclude={"type"}))
+            )
+        if self.__root__.type == "duplicate_rate":
+            return duplicate_rate()
+        if self.__root__.type == "empty_entries":
+            return empty_entries()
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[
+            _ValidationError.OverlappingRateEntries,
+            _ValidationError.VersionConflict,
+            _ValidationError.OrganizationProviderNotFound,
+            _ValidationError.DuplicateRate,
+            _ValidationError.EmptyEntries,
+        ],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class ValidationError_VersionConflict(EntityConflictErrorMessage):
-    type: typing_extensions.Literal["version_conflict"]
+class _ValidationError:
+    class OverlappingRateEntries(OverlappingRateEntriesError):
+        type: typing.Literal["overlapping_rate_entries"] = "overlapping_rate_entries"
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class VersionConflict(EntityConflictErrorMessage):
+        type: typing.Literal["version_conflict"] = "version_conflict"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class OrganizationProviderNotFound(EntityNotFoundErrorMessage):
+        type: typing.Literal["organization_provider_not_found"] = "organization_provider_not_found"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class DuplicateRate(pydantic.BaseModel):
+        type: typing.Literal["duplicate_rate"] = "duplicate_rate"
+
+        class Config:
+            frozen = True
+            smart_union = True
+
+    class EmptyEntries(pydantic.BaseModel):
+        type: typing.Literal["empty_entries"] = "empty_entries"
+
+        class Config:
+            frozen = True
+            smart_union = True
 
 
-class ValidationError_OrganizationProviderNotFound(EntityNotFoundErrorMessage):
-    type: typing_extensions.Literal["organization_provider_not_found"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
-
-
-class ValidationError_DuplicateRate(pydantic.BaseModel):
-    type: typing_extensions.Literal["duplicate_rate"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-class ValidationError_EmptyEntries(pydantic.BaseModel):
-    type: typing_extensions.Literal["empty_entries"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-ValidationError = typing.Union[
-    ValidationError_OverlappingRateEntries,
-    ValidationError_VersionConflict,
-    ValidationError_OrganizationProviderNotFound,
-    ValidationError_DuplicateRate,
-    ValidationError_EmptyEntries,
-]
+ValidationError.update_forward_refs()

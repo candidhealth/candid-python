@@ -8,14 +8,9 @@ from .types import (
     IdentifierId,
     IdentifierUpdate,
     IdentifierValue,
-    IdentifierValue_MedicaidProviderIdentifier,
-    IdentifierValue_MedicareProviderIdentifier,
     MedicaidProviderIdentifier,
     MedicareProviderIdentifier,
     UpdatableIdentifier,
-    UpdatableIdentifier_Add,
-    UpdatableIdentifier_Remove,
-    UpdatableIdentifier_Update,
 )
 
 __all__ = [
@@ -26,12 +21,7 @@ __all__ = [
     "IdentifierId",
     "IdentifierUpdate",
     "IdentifierValue",
-    "IdentifierValue_MedicaidProviderIdentifier",
-    "IdentifierValue_MedicareProviderIdentifier",
     "MedicaidProviderIdentifier",
     "MedicareProviderIdentifier",
     "UpdatableIdentifier",
-    "UpdatableIdentifier_Add",
-    "UpdatableIdentifier_Remove",
-    "UpdatableIdentifier_Update",
 ]

@@ -8,7 +8,10 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
 from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
@@ -31,11 +34,6 @@ from .types.patient_payment_id import PatientPaymentId
 from .types.patient_payment_sort_field import PatientPaymentSortField
 from .types.patient_payments_page import PatientPaymentsPage
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -54,105 +52,217 @@ class V4Client:
         billing_provider_id: typing.Optional[ProviderId] = None,
         unattributed: typing.Optional[bool] = None,
         invoice_id: typing.Optional[InvoiceId] = None,
-        sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
+        sources: typing.Optional[
+            typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]
+        ] = None,
         sort: typing.Optional[PatientPaymentSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPaymentsPage:
         """
         Returns all patient payments satisfying the search criteria AND whose organization_id matches
         the current organization_id of the authenticated user.
 
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100. The value must be greater than 0 and less than 1000.
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+        patient_external_id : typing.Optional[PatientExternalId]
 
-            - claim_id: typing.Optional[ClaimId].
+        claim_id : typing.Optional[ClaimId]
 
-            - service_line_id: typing.Optional[ServiceLineId].
+        service_line_id : typing.Optional[ServiceLineId]
 
-            - billing_provider_id: typing.Optional[ProviderId].
+        billing_provider_id : typing.Optional[ProviderId]
 
-            - unattributed: typing.Optional[bool]. returns payments with unattributed allocations if set to true
+        unattributed : typing.Optional[bool]
+            returns payments with unattributed allocations if set to true
 
-            - invoice_id: typing.Optional[InvoiceId].
+        invoice_id : typing.Optional[InvoiceId]
 
-            - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
+        sources : typing.Optional[typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]]
 
-            - sort: typing.Optional[PatientPaymentSortField]. Defaults to payment_timestamp
+        sort : typing.Optional[PatientPaymentSortField]
+            Defaults to payment_timestamp
 
-            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPaymentsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import PatientTransactionSource, SortDirection
+        from candid.client import CandidApi
+        from candid.resources.patient_payments.v_4 import PatientPaymentSortField
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.get_multi(
+            limit=1,
+            patient_external_id="string",
+            claim_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            unattributed=True,
+            invoice_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            sources=PatientTransactionSource.MANUAL_ENTRY,
+            sort=PatientPaymentSortField.PAYMENT_SOURCE,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "patient_external_id": patient_external_id,
-                    "claim_id": jsonable_encoder(claim_id),
-                    "service_line_id": jsonable_encoder(service_line_id),
-                    "billing_provider_id": jsonable_encoder(billing_provider_id),
-                    "unattributed": unattributed,
-                    "invoice_id": jsonable_encoder(invoice_id),
-                    "sources": sources,
-                    "sort": sort,
-                    "sort_direction": sort_direction,
-                    "page_token": page_token,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "patient_external_id": patient_external_id,
+                            "claim_id": jsonable_encoder(claim_id),
+                            "service_line_id": jsonable_encoder(service_line_id),
+                            "billing_provider_id": jsonable_encoder(billing_provider_id),
+                            "unattributed": unattributed,
+                            "invoice_id": jsonable_encoder(invoice_id),
+                            "sources": sources,
+                            "sort": sort,
+                            "sort_direction": sort_direction,
+                            "page_token": page_token,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientPaymentsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientPaymentsPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, patient_payment_id: PatientPaymentId) -> PatientPayment:
+    def get(
+        self, patient_payment_id: PatientPaymentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> PatientPayment:
         """
         Retrieves a previously created patient payment by its `patient_payment_id`.
 
-        Parameters:
-            - patient_payment_id: PatientPaymentId.
+        Parameters
+        ----------
+        patient_payment_id : PatientPaymentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPayment
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.get(
+            patient_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-payments/v4/{patient_payment_id}"
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/patient-payments/v4/{jsonable_encoder(patient_payment_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientPayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientPayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -160,29 +270,72 @@ class V4Client:
         self,
         *,
         amount_cents: int,
+        patient_external_id: PatientExternalId,
+        allocations: typing.Sequence[AllocationCreate],
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
-        patient_external_id: PatientExternalId,
-        allocations: typing.List[AllocationCreate],
         invoice: typing.Optional[InvoiceId] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
         """
         Creates a new patient payment record and returns the newly created PatientPayment object.
         The allocations can describe whether the payment is being applied toward a specific service line,
         claim, or billing provider.
 
-        Parameters:
-            - amount_cents: int.
+        Parameters
+        ----------
+        amount_cents : int
 
-            - payment_timestamp: typing.Optional[dt.datetime].
+        patient_external_id : PatientExternalId
 
-            - payment_note: typing.Optional[str].
+        allocations : typing.Sequence[AllocationCreate]
 
-            - patient_external_id: PatientExternalId.
+        payment_timestamp : typing.Optional[dt.datetime]
 
-            - allocations: typing.List[AllocationCreate].
+        payment_note : typing.Optional[str]
 
-            - invoice: typing.Optional[InvoiceId].
+        invoice : typing.Optional[InvoiceId]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPayment
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import AllocationCreate, AllocationTargetCreate_ServiceLineById
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.create(
+            amount_cents=1,
+            payment_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            payment_note="string",
+            patient_external_id="string",
+            allocations=[
+                AllocationCreate(
+                    amount_cents=1,
+                    target=AllocationTargetCreate_ServiceLineById(
+                        value=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ),
+                )
+            ],
+            invoice=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {
             "amount_cents": amount_cents,
@@ -196,30 +349,51 @@ class V4Client:
         if invoice is not OMIT:
             _request["invoice"] = invoice
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientPayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientPayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -230,18 +404,54 @@ class V4Client:
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[NoteUpdate] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
         """
         Updates the patient payment record matching the provided patient_payment_id.
 
-        Parameters:
-            - patient_payment_id: PatientPaymentId.
+        Parameters
+        ----------
+        patient_payment_id : PatientPaymentId
 
-            - payment_timestamp: typing.Optional[dt.datetime].
+        payment_timestamp : typing.Optional[dt.datetime]
 
-            - payment_note: typing.Optional[NoteUpdate].
+        payment_note : typing.Optional[NoteUpdate]
 
-            - invoice: typing.Optional[InvoiceUpdate].
+        invoice : typing.Optional[InvoiceUpdate]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPayment
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import InvoiceUpdate_Set, NoteUpdate_Set
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.update(
+            patient_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            payment_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            payment_note=NoteUpdate_Set(value="string"),
+            invoice=InvoiceUpdate_Set(
+                value=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if payment_timestamp is not OMIT:
@@ -251,49 +461,117 @@ class V4Client:
         if invoice is not OMIT:
             _request["invoice"] = invoice
         _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-payments/v4/{patient_payment_id}"
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/patient-payments/v4/{jsonable_encoder(patient_payment_id)}",
             ),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientPayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientPayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def delete(self, patient_payment_id: PatientPaymentId) -> None:
+    def delete(
+        self, patient_payment_id: PatientPaymentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
         """
         Deletes the patient payment record matching the provided patient_payment_id.
 
-        Parameters:
-            - patient_payment_id: PatientPaymentId.
+        Parameters
+        ----------
+        patient_payment_id : PatientPaymentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApi
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.delete(
+            patient_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-payments/v4/{patient_payment_id}"
+            method="DELETE",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/patient-payments/v4/{jsonable_encoder(patient_payment_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -304,15 +582,15 @@ class V4Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -331,105 +609,217 @@ class AsyncV4Client:
         billing_provider_id: typing.Optional[ProviderId] = None,
         unattributed: typing.Optional[bool] = None,
         invoice_id: typing.Optional[InvoiceId] = None,
-        sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
+        sources: typing.Optional[
+            typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]
+        ] = None,
         sort: typing.Optional[PatientPaymentSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPaymentsPage:
         """
         Returns all patient payments satisfying the search criteria AND whose organization_id matches
         the current organization_id of the authenticated user.
 
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100. The value must be greater than 0 and less than 1000.
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+        patient_external_id : typing.Optional[PatientExternalId]
 
-            - claim_id: typing.Optional[ClaimId].
+        claim_id : typing.Optional[ClaimId]
 
-            - service_line_id: typing.Optional[ServiceLineId].
+        service_line_id : typing.Optional[ServiceLineId]
 
-            - billing_provider_id: typing.Optional[ProviderId].
+        billing_provider_id : typing.Optional[ProviderId]
 
-            - unattributed: typing.Optional[bool]. returns payments with unattributed allocations if set to true
+        unattributed : typing.Optional[bool]
+            returns payments with unattributed allocations if set to true
 
-            - invoice_id: typing.Optional[InvoiceId].
+        invoice_id : typing.Optional[InvoiceId]
 
-            - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
+        sources : typing.Optional[typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]]
 
-            - sort: typing.Optional[PatientPaymentSortField]. Defaults to payment_timestamp
+        sort : typing.Optional[PatientPaymentSortField]
+            Defaults to payment_timestamp
 
-            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPaymentsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import PatientTransactionSource, SortDirection
+        from candid.client import AsyncCandidApi
+        from candid.resources.patient_payments.v_4 import PatientPaymentSortField
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_payments.v_4.get_multi(
+            limit=1,
+            patient_external_id="string",
+            claim_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            unattributed=True,
+            invoice_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            sources=PatientTransactionSource.MANUAL_ENTRY,
+            sort=PatientPaymentSortField.PAYMENT_SOURCE,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "patient_external_id": patient_external_id,
-                    "claim_id": jsonable_encoder(claim_id),
-                    "service_line_id": jsonable_encoder(service_line_id),
-                    "billing_provider_id": jsonable_encoder(billing_provider_id),
-                    "unattributed": unattributed,
-                    "invoice_id": jsonable_encoder(invoice_id),
-                    "sources": sources,
-                    "sort": sort,
-                    "sort_direction": sort_direction,
-                    "page_token": page_token,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "patient_external_id": patient_external_id,
+                            "claim_id": jsonable_encoder(claim_id),
+                            "service_line_id": jsonable_encoder(service_line_id),
+                            "billing_provider_id": jsonable_encoder(billing_provider_id),
+                            "unattributed": unattributed,
+                            "invoice_id": jsonable_encoder(invoice_id),
+                            "sources": sources,
+                            "sort": sort,
+                            "sort_direction": sort_direction,
+                            "page_token": page_token,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientPaymentsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientPaymentsPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get(self, patient_payment_id: PatientPaymentId) -> PatientPayment:
+    async def get(
+        self, patient_payment_id: PatientPaymentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> PatientPayment:
         """
         Retrieves a previously created patient payment by its `patient_payment_id`.
 
-        Parameters:
-            - patient_payment_id: PatientPaymentId.
+        Parameters
+        ----------
+        patient_payment_id : PatientPaymentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPayment
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_payments.v_4.get(
+            patient_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-payments/v4/{patient_payment_id}"
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/patient-payments/v4/{jsonable_encoder(patient_payment_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientPayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientPayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -437,29 +827,72 @@ class AsyncV4Client:
         self,
         *,
         amount_cents: int,
+        patient_external_id: PatientExternalId,
+        allocations: typing.Sequence[AllocationCreate],
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
-        patient_external_id: PatientExternalId,
-        allocations: typing.List[AllocationCreate],
         invoice: typing.Optional[InvoiceId] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
         """
         Creates a new patient payment record and returns the newly created PatientPayment object.
         The allocations can describe whether the payment is being applied toward a specific service line,
         claim, or billing provider.
 
-        Parameters:
-            - amount_cents: int.
+        Parameters
+        ----------
+        amount_cents : int
 
-            - payment_timestamp: typing.Optional[dt.datetime].
+        patient_external_id : PatientExternalId
 
-            - payment_note: typing.Optional[str].
+        allocations : typing.Sequence[AllocationCreate]
 
-            - patient_external_id: PatientExternalId.
+        payment_timestamp : typing.Optional[dt.datetime]
 
-            - allocations: typing.List[AllocationCreate].
+        payment_note : typing.Optional[str]
 
-            - invoice: typing.Optional[InvoiceId].
+        invoice : typing.Optional[InvoiceId]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPayment
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import AllocationCreate, AllocationTargetCreate_ServiceLineById
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_payments.v_4.create(
+            amount_cents=1,
+            payment_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            payment_note="string",
+            patient_external_id="string",
+            allocations=[
+                AllocationCreate(
+                    amount_cents=1,
+                    target=AllocationTargetCreate_ServiceLineById(
+                        value=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ),
+                )
+            ],
+            invoice=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {
             "amount_cents": amount_cents,
@@ -473,30 +906,51 @@ class AsyncV4Client:
         if invoice is not OMIT:
             _request["invoice"] = invoice
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-payments/v4"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientPayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientPayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -507,18 +961,54 @@ class AsyncV4Client:
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[NoteUpdate] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
         """
         Updates the patient payment record matching the provided patient_payment_id.
 
-        Parameters:
-            - patient_payment_id: PatientPaymentId.
+        Parameters
+        ----------
+        patient_payment_id : PatientPaymentId
 
-            - payment_timestamp: typing.Optional[dt.datetime].
+        payment_timestamp : typing.Optional[dt.datetime]
 
-            - payment_note: typing.Optional[NoteUpdate].
+        payment_note : typing.Optional[NoteUpdate]
 
-            - invoice: typing.Optional[InvoiceUpdate].
+        invoice : typing.Optional[InvoiceUpdate]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPayment
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import InvoiceUpdate_Set, NoteUpdate_Set
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_payments.v_4.update(
+            patient_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            payment_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            payment_note=NoteUpdate_Set(value="string"),
+            invoice=InvoiceUpdate_Set(
+                value=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if payment_timestamp is not OMIT:
@@ -528,49 +1018,117 @@ class AsyncV4Client:
         if invoice is not OMIT:
             _request["invoice"] = invoice
         _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-payments/v4/{patient_payment_id}"
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/patient-payments/v4/{jsonable_encoder(patient_payment_id)}",
             ),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientPayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientPayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def delete(self, patient_payment_id: PatientPaymentId) -> None:
+    async def delete(
+        self, patient_payment_id: PatientPaymentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
         """
         Deletes the patient payment record matching the provided patient_payment_id.
 
-        Parameters:
-            - patient_payment_id: PatientPaymentId.
+        Parameters
+        ----------
+        patient_payment_id : PatientPaymentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApi
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_payments.v_4.delete(
+            patient_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-payments/v4/{patient_payment_id}"
+            method="DELETE",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/patient-payments/v4/{jsonable_encoder(patient_payment_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -581,14 +1139,14 @@ class AsyncV4Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

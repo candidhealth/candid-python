@@ -2,47 +2,113 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
-from .....commons.types.claim_id import ClaimId
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....commons.types.claim_id import ClaimId as resources_commons_types_claim_id_ClaimId
 from .....commons.types.provider_id import ProviderId
-from .....commons.types.service_line_id import ServiceLineId
+from .....commons.types.service_line_id import ServiceLineId as resources_commons_types_service_line_id_ServiceLineId
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+T_Result = typing.TypeVar("T_Result")
 
 
-class InsuranceWriteOffTarget_ServiceLineId(pydantic.BaseModel):
-    type: typing_extensions.Literal["service_line_id"]
-    value: ServiceLineId
+class _Factory:
+    def service_line_id(self, value: resources_commons_types_service_line_id_ServiceLineId) -> InsuranceWriteOffTarget:
+        return InsuranceWriteOffTarget(
+            __root__=_InsuranceWriteOffTarget.ServiceLineId(type="service_line_id", value=value)
+        )
+
+    def claim_id(self, value: resources_commons_types_claim_id_ClaimId) -> InsuranceWriteOffTarget:
+        return InsuranceWriteOffTarget(__root__=_InsuranceWriteOffTarget.ClaimId(type="claim_id", value=value))
+
+    def billing_provider_id(self, value: ProviderId) -> InsuranceWriteOffTarget:
+        return InsuranceWriteOffTarget(
+            __root__=_InsuranceWriteOffTarget.BillingProviderId(type="billing_provider_id", value=value)
+        )
+
+
+class InsuranceWriteOffTarget(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(
+        self,
+    ) -> typing.Union[
+        _InsuranceWriteOffTarget.ServiceLineId,
+        _InsuranceWriteOffTarget.ClaimId,
+        _InsuranceWriteOffTarget.BillingProviderId,
+    ]:
+        return self.__root__
+
+    def visit(
+        self,
+        service_line_id: typing.Callable[[resources_commons_types_service_line_id_ServiceLineId], T_Result],
+        claim_id: typing.Callable[[resources_commons_types_claim_id_ClaimId], T_Result],
+        billing_provider_id: typing.Callable[[ProviderId], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "service_line_id":
+            return service_line_id(self.__root__.value)
+        if self.__root__.type == "claim_id":
+            return claim_id(self.__root__.value)
+        if self.__root__.type == "billing_provider_id":
+            return billing_provider_id(self.__root__.value)
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[
+            _InsuranceWriteOffTarget.ServiceLineId,
+            _InsuranceWriteOffTarget.ClaimId,
+            _InsuranceWriteOffTarget.BillingProviderId,
+        ],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class InsuranceWriteOffTarget_ClaimId(pydantic.BaseModel):
-    type: typing_extensions.Literal["claim_id"]
-    value: ClaimId
+class _InsuranceWriteOffTarget:
+    class ServiceLineId(pydantic.BaseModel):
+        type: typing.Literal["service_line_id"] = "service_line_id"
+        value: resources_commons_types_service_line_id_ServiceLineId
 
-    class Config:
-        frozen = True
-        smart_union = True
+        class Config:
+            frozen = True
+            smart_union = True
+
+    class ClaimId(pydantic.BaseModel):
+        type: typing.Literal["claim_id"] = "claim_id"
+        value: resources_commons_types_claim_id_ClaimId
+
+        class Config:
+            frozen = True
+            smart_union = True
+
+    class BillingProviderId(pydantic.BaseModel):
+        type: typing.Literal["billing_provider_id"] = "billing_provider_id"
+        value: ProviderId
+
+        class Config:
+            frozen = True
+            smart_union = True
 
 
-class InsuranceWriteOffTarget_BillingProviderId(pydantic.BaseModel):
-    type: typing_extensions.Literal["billing_provider_id"]
-    value: ProviderId
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-InsuranceWriteOffTarget = typing.Union[
-    InsuranceWriteOffTarget_ServiceLineId, InsuranceWriteOffTarget_ClaimId, InsuranceWriteOffTarget_BillingProviderId
-]
+InsuranceWriteOffTarget.update_forward_refs()

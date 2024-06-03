@@ -2,41 +2,97 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.insurance_type_code import InsuranceTypeCode
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+T_Result = typing.TypeVar("T_Result")
 
 
-class InsuranceTypes_AllApply(pydantic.BaseModel):
-    type: typing_extensions.Literal["allApply"]
+class _Factory:
+    def all_apply(self) -> InsuranceTypes:
+        return InsuranceTypes(__root__=_InsuranceTypes.AllApply(type="allApply"))
+
+    def none_apply(self) -> InsuranceTypes:
+        return InsuranceTypes(__root__=_InsuranceTypes.NoneApply(type="noneApply"))
+
+    def these_apply(self, value: typing.Set[InsuranceTypeCode]) -> InsuranceTypes:
+        return InsuranceTypes(__root__=_InsuranceTypes.TheseApply(type="theseApply", value=value))
+
+
+class InsuranceTypes(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(
+        self,
+    ) -> typing.Union[_InsuranceTypes.AllApply, _InsuranceTypes.NoneApply, _InsuranceTypes.TheseApply]:
+        return self.__root__
+
+    def visit(
+        self,
+        all_apply: typing.Callable[[], T_Result],
+        none_apply: typing.Callable[[], T_Result],
+        these_apply: typing.Callable[[typing.Set[InsuranceTypeCode]], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "allApply":
+            return all_apply()
+        if self.__root__.type == "noneApply":
+            return none_apply()
+        if self.__root__.type == "theseApply":
+            return these_apply(self.__root__.value)
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[_InsuranceTypes.AllApply, _InsuranceTypes.NoneApply, _InsuranceTypes.TheseApply],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class InsuranceTypes_NoneApply(pydantic.BaseModel):
-    type: typing_extensions.Literal["noneApply"]
+class _InsuranceTypes:
+    class AllApply(pydantic.BaseModel):
+        type: typing.Literal["allApply"] = "allApply"
 
-    class Config:
-        frozen = True
-        smart_union = True
+        class Config:
+            frozen = True
+            smart_union = True
+
+    class NoneApply(pydantic.BaseModel):
+        type: typing.Literal["noneApply"] = "noneApply"
+
+        class Config:
+            frozen = True
+            smart_union = True
+
+    class TheseApply(pydantic.BaseModel):
+        type: typing.Literal["theseApply"] = "theseApply"
+        value: typing.Set[InsuranceTypeCode]
+
+        class Config:
+            frozen = True
+            smart_union = True
 
 
-class InsuranceTypes_TheseApply(pydantic.BaseModel):
-    type: typing_extensions.Literal["theseApply"]
-    value: typing.List[InsuranceTypeCode]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-InsuranceTypes = typing.Union[InsuranceTypes_AllApply, InsuranceTypes_NoneApply, InsuranceTypes_TheseApply]
+InsuranceTypes.update_forward_refs()

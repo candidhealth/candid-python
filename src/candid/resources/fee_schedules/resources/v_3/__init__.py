@@ -26,16 +26,9 @@ from .types import (
     RateEntry,
     RateUpload,
     RateUploadWithPossibleErrors,
-    RateUpload_NewRate,
-    RateUpload_NewVersion,
     RatesPage,
     ThresholdMatch,
     ValidationError,
-    ValidationError_DuplicateRate,
-    ValidationError_EmptyEntries,
-    ValidationError_OrganizationProviderNotFound,
-    ValidationError_OverlappingRateEntries,
-    ValidationError_VersionConflict,
 )
 from .errors import FailedToBuildServiceLineDimensions, FeeScheduleValidationHttpError
 
@@ -67,14 +60,7 @@ __all__ = [
     "RateEntry",
     "RateUpload",
     "RateUploadWithPossibleErrors",
-    "RateUpload_NewRate",
-    "RateUpload_NewVersion",
     "RatesPage",
     "ThresholdMatch",
     "ValidationError",
-    "ValidationError_DuplicateRate",
-    "ValidationError_EmptyEntries",
-    "ValidationError_OrganizationProviderNotFound",
-    "ValidationError_OverlappingRateEntries",
-    "ValidationError_VersionConflict",
 ]

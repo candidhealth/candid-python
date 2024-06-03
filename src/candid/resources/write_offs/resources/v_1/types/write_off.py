@@ -2,30 +2,85 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .insurance_write_off import InsuranceWriteOff
 from .patient_write_off import PatientWriteOff
 
+T_Result = typing.TypeVar("T_Result")
 
-class WriteOff_Patient(PatientWriteOff):
-    type: typing_extensions.Literal["patient"]
+
+class _Factory:
+    def patient(self, value: PatientWriteOff) -> WriteOff:
+        return WriteOff(__root__=_WriteOff.Patient(**value.dict(exclude_unset=True), type="patient"))
+
+    def insurance(self, value: InsuranceWriteOff) -> WriteOff:
+        return WriteOff(__root__=_WriteOff.Insurance(**value.dict(exclude_unset=True), type="insurance"))
+
+
+class WriteOff(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(self) -> typing.Union[_WriteOff.Patient, _WriteOff.Insurance]:
+        return self.__root__
+
+    def visit(
+        self,
+        patient: typing.Callable[[PatientWriteOff], T_Result],
+        insurance: typing.Callable[[InsuranceWriteOff], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "patient":
+            return patient(PatientWriteOff(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+        if self.__root__.type == "insurance":
+            return insurance(InsuranceWriteOff(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[_WriteOff.Patient, _WriteOff.Insurance], pydantic.Field(discriminator="type")
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class WriteOff_Insurance(InsuranceWriteOff):
-    type: typing_extensions.Literal["insurance"]
+class _WriteOff:
+    class Patient(PatientWriteOff):
+        type: typing.Literal["patient"] = "patient"
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class Insurance(InsuranceWriteOff):
+        type: typing.Literal["insurance"] = "insurance"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
 
 
-WriteOff = typing.Union[WriteOff_Patient, WriteOff_Insurance]
+WriteOff.update_forward_refs()

@@ -6,19 +6,10 @@ from .identifier_code import IdentifierCode
 from .identifier_create import IdentifierCreate
 from .identifier_id import IdentifierId
 from .identifier_update import IdentifierUpdate
-from .identifier_value import (
-    IdentifierValue,
-    IdentifierValue_MedicaidProviderIdentifier,
-    IdentifierValue_MedicareProviderIdentifier,
-)
+from .identifier_value import IdentifierValue
 from .medicaid_provider_identifier import MedicaidProviderIdentifier
 from .medicare_provider_identifier import MedicareProviderIdentifier
-from .updatable_identifier import (
-    UpdatableIdentifier,
-    UpdatableIdentifier_Add,
-    UpdatableIdentifier_Remove,
-    UpdatableIdentifier_Update,
-)
+from .updatable_identifier import UpdatableIdentifier
 
 __all__ = [
     "Identifier",
@@ -28,12 +19,7 @@ __all__ = [
     "IdentifierId",
     "IdentifierUpdate",
     "IdentifierValue",
-    "IdentifierValue_MedicaidProviderIdentifier",
-    "IdentifierValue_MedicareProviderIdentifier",
     "MedicaidProviderIdentifier",
     "MedicareProviderIdentifier",
     "UpdatableIdentifier",
-    "UpdatableIdentifier_Add",
-    "UpdatableIdentifier_Remove",
-    "UpdatableIdentifier_Update",
 ]

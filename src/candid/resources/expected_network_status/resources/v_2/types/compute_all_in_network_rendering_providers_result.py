@@ -2,44 +2,128 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .in_network_rendering_providers_detail import InNetworkRenderingProvidersDetail
 from .indeterminate_network_status import IndeterminateNetworkStatus
 from .out_of_network_status import OutOfNetworkStatus
 
+T_Result = typing.TypeVar("T_Result")
 
-class ComputeAllInNetworkRenderingProvidersResult_RenderingProviders(InNetworkRenderingProvidersDetail):
-    type: typing_extensions.Literal["rendering_providers"]
+
+class _Factory:
+    def rendering_providers(
+        self, value: InNetworkRenderingProvidersDetail
+    ) -> ComputeAllInNetworkRenderingProvidersResult:
+        return ComputeAllInNetworkRenderingProvidersResult(
+            __root__=_ComputeAllInNetworkRenderingProvidersResult.RenderingProviders(
+                **value.dict(exclude_unset=True), type="rendering_providers"
+            )
+        )
+
+    def indeterminate(self, value: IndeterminateNetworkStatus) -> ComputeAllInNetworkRenderingProvidersResult:
+        return ComputeAllInNetworkRenderingProvidersResult(
+            __root__=_ComputeAllInNetworkRenderingProvidersResult.Indeterminate(
+                **value.dict(exclude_unset=True), type="indeterminate"
+            )
+        )
+
+    def out_of_network(self, value: OutOfNetworkStatus) -> ComputeAllInNetworkRenderingProvidersResult:
+        return ComputeAllInNetworkRenderingProvidersResult(
+            __root__=_ComputeAllInNetworkRenderingProvidersResult.OutOfNetwork(
+                **value.dict(exclude_unset=True), type="out_of_network"
+            )
+        )
+
+
+class ComputeAllInNetworkRenderingProvidersResult(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(
+        self,
+    ) -> typing.Union[
+        _ComputeAllInNetworkRenderingProvidersResult.RenderingProviders,
+        _ComputeAllInNetworkRenderingProvidersResult.Indeterminate,
+        _ComputeAllInNetworkRenderingProvidersResult.OutOfNetwork,
+    ]:
+        return self.__root__
+
+    def visit(
+        self,
+        rendering_providers: typing.Callable[[InNetworkRenderingProvidersDetail], T_Result],
+        indeterminate: typing.Callable[[IndeterminateNetworkStatus], T_Result],
+        out_of_network: typing.Callable[[OutOfNetworkStatus], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "rendering_providers":
+            return rendering_providers(
+                InNetworkRenderingProvidersDetail(**self.__root__.dict(exclude_unset=True, exclude={"type"}))
+            )
+        if self.__root__.type == "indeterminate":
+            return indeterminate(IndeterminateNetworkStatus(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+        if self.__root__.type == "out_of_network":
+            return out_of_network(OutOfNetworkStatus(**self.__root__.dict(exclude_unset=True, exclude={"type"})))
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[
+            _ComputeAllInNetworkRenderingProvidersResult.RenderingProviders,
+            _ComputeAllInNetworkRenderingProvidersResult.Indeterminate,
+            _ComputeAllInNetworkRenderingProvidersResult.OutOfNetwork,
+        ],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class ComputeAllInNetworkRenderingProvidersResult_Indeterminate(IndeterminateNetworkStatus):
-    type: typing_extensions.Literal["indeterminate"]
+class _ComputeAllInNetworkRenderingProvidersResult:
+    class RenderingProviders(InNetworkRenderingProvidersDetail):
+        type: typing.Literal["rendering_providers"] = "rendering_providers"
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class Indeterminate(IndeterminateNetworkStatus):
+        type: typing.Literal["indeterminate"] = "indeterminate"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
+
+    class OutOfNetwork(OutOfNetworkStatus):
+        type: typing.Literal["out_of_network"] = "out_of_network"
+
+        class Config:
+            frozen = True
+            smart_union = True
+            allow_population_by_field_name = True
+            populate_by_name = True
 
 
-class ComputeAllInNetworkRenderingProvidersResult_OutOfNetwork(OutOfNetworkStatus):
-    type: typing_extensions.Literal["out_of_network"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
-
-
-ComputeAllInNetworkRenderingProvidersResult = typing.Union[
-    ComputeAllInNetworkRenderingProvidersResult_RenderingProviders,
-    ComputeAllInNetworkRenderingProvidersResult_Indeterminate,
-    ComputeAllInNetworkRenderingProvidersResult_OutOfNetwork,
-]
+ComputeAllInNetworkRenderingProvidersResult.update_forward_refs()

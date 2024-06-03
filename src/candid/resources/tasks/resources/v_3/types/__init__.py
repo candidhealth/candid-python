@@ -2,7 +2,7 @@
 
 from .task import Task
 from .task_action import TaskAction
-from .task_action_execution_method import TaskActionExecutionMethod, TaskActionExecutionMethod_CloseTask
+from .task_action_execution_method import TaskActionExecutionMethod
 from .task_action_type import TaskActionType
 from .task_actions import TaskActions
 from .task_assignment import TaskAssignment
@@ -17,7 +17,6 @@ __all__ = [
     "Task",
     "TaskAction",
     "TaskActionExecutionMethod",
-    "TaskActionExecutionMethod_CloseTask",
     "TaskActionType",
     "TaskActions",
     "TaskAssignment",

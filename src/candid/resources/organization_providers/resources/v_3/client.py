@@ -7,7 +7,10 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
 from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.errors.updates_disabled_due_to_external_system_integration_error import (
@@ -26,11 +29,6 @@ from .types.organization_provider_page_v_2 import OrganizationProviderPageV2
 from .types.organization_provider_update_v_2 import OrganizationProviderUpdateV2
 from .types.organization_provider_v_2 import OrganizationProviderV2
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -39,17 +37,33 @@ class V3Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get(self, organization_provider_id: OrganizationProviderId) -> OrganizationProviderV2:
+    def get(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> OrganizationProviderV2:
         """
-        Parameters:
-            - organization_provider_id: OrganizationProviderId.
-        ---
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationProviderV2
+
+        Examples
+        --------
         import uuid
 
         from candid.client import CandidApi
 
         client = CandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         client.organization_providers.v_3.get(
             organization_provider_id=uuid.UUID(
@@ -58,23 +72,40 @@ class V3Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/organization-providers/v3/{organization_provider_id}"
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -88,30 +119,49 @@ class V3Client:
         is_billing: typing.Optional[bool] = None,
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationProviderPageV2:
         """
-        Parameters:
-            - limit: typing.Optional[int]. Limit the number of results returned. Defaults to 100.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Limit the number of results returned. Defaults to 100.
 
-            - search_term: typing.Optional[str]. Filter to a name or a part of a name.
+        search_term : typing.Optional[str]
+            Filter to a name or a part of a name.
 
-            - npi: typing.Optional[str]. Filter to a specific NPI.
+        npi : typing.Optional[str]
+            Filter to a specific NPI.
 
-            - is_rendering: typing.Optional[bool]. Filter to only rendering providers.
+        is_rendering : typing.Optional[bool]
+            Filter to only rendering providers.
 
-            - is_billing: typing.Optional[bool]. Filter to only billing providers.
+        is_billing : typing.Optional[bool]
+            Filter to only billing providers.
 
-            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
+        page_token : typing.Optional[PageToken]
+            The page token to continue paging through a previous request.
 
-            - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC.
-        ---
+        sort : typing.Optional[OrganizationProviderSortOptions]
+            Defaults to PROVIDER_NAME_ASC.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationProviderPageV2
+
+        Examples
+        --------
         from candid.client import CandidApi
         from candid.resources.organization_providers.v_2 import (
             OrganizationProviderSortOptions,
         )
 
         client = CandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         client.organization_providers.v_3.get_multi(
             limit=100,
@@ -124,95 +174,289 @@ class V3Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "search_term": search_term,
-                    "npi": npi,
-                    "is_rendering": is_rendering,
-                    "is_billing": is_billing,
-                    "page_token": page_token,
-                    "sort": sort,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "search_term": search_term,
+                            "npi": npi,
+                            "is_rendering": is_rendering,
+                            "is_billing": is_billing,
+                            "page_token": page_token,
+                            "sort": sort,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationProviderPageV2, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationProviderPageV2, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(self, *, request: OrganizationProviderCreateV2) -> OrganizationProviderV2:
+    def create(
+        self, *, request: OrganizationProviderCreateV2, request_options: typing.Optional[RequestOptions] = None
+    ) -> OrganizationProviderV2:
         """
-        Parameters:
-            - request: OrganizationProviderCreateV2.
+        Parameters
+        ----------
+        request : OrganizationProviderCreateV2
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationProviderV2
+
+        Examples
+        --------
+        import datetime
+
+        from candid import IdentifierCreate, State, StreetAddressLongZip
+        from candid.client import CandidApi
+        from candid.resources.organization_providers.v_2 import (
+            AddressType,
+            LicenseType,
+            OrganizationProviderAddress,
+            ProviderType,
+        )
+        from candid.resources.organization_providers.v_3 import (
+            OrganizationProviderCreateV2,
+        )
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_providers.v_3.create(
+            request=OrganizationProviderCreateV2(
+                npi="string",
+                is_rendering=True,
+                is_billing=True,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+                provider_type=ProviderType.INDIVIDUAL,
+                tax_id="string",
+                taxonomy_code="string",
+                license_type=LicenseType.MD,
+                addresses=[
+                    OrganizationProviderAddress(
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        address_type=AddressType.DEFAULT,
+                    )
+                ],
+                employment_start_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                employment_termination_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                qualifications=[IdentifierCreate()],
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UpdatesDisabledDueToExternalSystemIntegrationError":
                 raise UpdatesDisabledDueToExternalSystemIntegrationError(
-                    pydantic.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
-        self, organization_provider_id: OrganizationProviderId, *, request: OrganizationProviderUpdateV2
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        request: OrganizationProviderUpdateV2,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationProviderV2:
         """
-        Parameters:
-            - organization_provider_id: OrganizationProviderId.
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
 
-            - request: OrganizationProviderUpdateV2.
+        request : OrganizationProviderUpdateV2
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationProviderV2
+
+        Examples
+        --------
+        import uuid
+
+        from candid import State, StreetAddressLongZip, UpdatableIdentifier_Add
+        from candid.client import CandidApi
+        from candid.resources.organization_providers.v_2 import (
+            AddressType,
+            LicenseType,
+            OrganizationProviderAddress,
+            ProviderType,
+        )
+        from candid.resources.organization_providers.v_3 import (
+            OrganizationProviderUpdateV2,
+        )
+
+        client = CandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_providers.v_3.update(
+            organization_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=OrganizationProviderUpdateV2(
+                npi="string",
+                is_rendering=True,
+                is_billing=True,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+                provider_type=ProviderType.INDIVIDUAL,
+                tax_id="string",
+                taxonomy_code="string",
+                license_type=LicenseType.MD,
+                addresses=[
+                    OrganizationProviderAddress(
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        address_type=AddressType.DEFAULT,
+                    )
+                ],
+                employment_start_date="string",
+                employment_termination_date="string",
+                qualifications=[UpdatableIdentifier_Add()],
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/organization-providers/v3/{organization_provider_id}"
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
             ),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UpdatesDisabledDueToExternalSystemIntegrationError":
                 raise UpdatesDisabledDueToExternalSystemIntegrationError(
-                    pydantic.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -221,17 +465,33 @@ class AsyncV3Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get(self, organization_provider_id: OrganizationProviderId) -> OrganizationProviderV2:
+    async def get(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> OrganizationProviderV2:
         """
-        Parameters:
-            - organization_provider_id: OrganizationProviderId.
-        ---
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationProviderV2
+
+        Examples
+        --------
         import uuid
 
         from candid.client import AsyncCandidApi
 
         client = AsyncCandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         await client.organization_providers.v_3.get(
             organization_provider_id=uuid.UUID(
@@ -240,23 +500,40 @@ class AsyncV3Client:
         )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/organization-providers/v3/{organization_provider_id}"
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -270,30 +547,49 @@ class AsyncV3Client:
         is_billing: typing.Optional[bool] = None,
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationProviderPageV2:
         """
-        Parameters:
-            - limit: typing.Optional[int]. Limit the number of results returned. Defaults to 100.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Limit the number of results returned. Defaults to 100.
 
-            - search_term: typing.Optional[str]. Filter to a name or a part of a name.
+        search_term : typing.Optional[str]
+            Filter to a name or a part of a name.
 
-            - npi: typing.Optional[str]. Filter to a specific NPI.
+        npi : typing.Optional[str]
+            Filter to a specific NPI.
 
-            - is_rendering: typing.Optional[bool]. Filter to only rendering providers.
+        is_rendering : typing.Optional[bool]
+            Filter to only rendering providers.
 
-            - is_billing: typing.Optional[bool]. Filter to only billing providers.
+        is_billing : typing.Optional[bool]
+            Filter to only billing providers.
 
-            - page_token: typing.Optional[PageToken]. The page token to continue paging through a previous request.
+        page_token : typing.Optional[PageToken]
+            The page token to continue paging through a previous request.
 
-            - sort: typing.Optional[OrganizationProviderSortOptions]. Defaults to PROVIDER_NAME_ASC.
-        ---
+        sort : typing.Optional[OrganizationProviderSortOptions]
+            Defaults to PROVIDER_NAME_ASC.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationProviderPageV2
+
+        Examples
+        --------
         from candid.client import AsyncCandidApi
         from candid.resources.organization_providers.v_2 import (
             OrganizationProviderSortOptions,
         )
 
         client = AsyncCandidApi(
-            token="YOUR_TOKEN",
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         await client.organization_providers.v_3.get_multi(
             limit=100,
@@ -306,94 +602,288 @@ class AsyncV3Client:
         )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "search_term": search_term,
-                    "npi": npi,
-                    "is_rendering": is_rendering,
-                    "is_billing": is_billing,
-                    "page_token": page_token,
-                    "sort": sort,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "search_term": search_term,
+                            "npi": npi,
+                            "is_rendering": is_rendering,
+                            "is_billing": is_billing,
+                            "page_token": page_token,
+                            "sort": sort,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationProviderPageV2, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationProviderPageV2, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create(self, *, request: OrganizationProviderCreateV2) -> OrganizationProviderV2:
+    async def create(
+        self, *, request: OrganizationProviderCreateV2, request_options: typing.Optional[RequestOptions] = None
+    ) -> OrganizationProviderV2:
         """
-        Parameters:
-            - request: OrganizationProviderCreateV2.
+        Parameters
+        ----------
+        request : OrganizationProviderCreateV2
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationProviderV2
+
+        Examples
+        --------
+        import datetime
+
+        from candid import IdentifierCreate, State, StreetAddressLongZip
+        from candid.client import AsyncCandidApi
+        from candid.resources.organization_providers.v_2 import (
+            AddressType,
+            LicenseType,
+            OrganizationProviderAddress,
+            ProviderType,
+        )
+        from candid.resources.organization_providers.v_3 import (
+            OrganizationProviderCreateV2,
+        )
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.organization_providers.v_3.create(
+            request=OrganizationProviderCreateV2(
+                npi="string",
+                is_rendering=True,
+                is_billing=True,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+                provider_type=ProviderType.INDIVIDUAL,
+                tax_id="string",
+                taxonomy_code="string",
+                license_type=LicenseType.MD,
+                addresses=[
+                    OrganizationProviderAddress(
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        address_type=AddressType.DEFAULT,
+                    )
+                ],
+                employment_start_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                employment_termination_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                qualifications=[IdentifierCreate()],
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/organization-providers/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UpdatesDisabledDueToExternalSystemIntegrationError":
                 raise UpdatesDisabledDueToExternalSystemIntegrationError(
-                    pydantic.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
-        self, organization_provider_id: OrganizationProviderId, *, request: OrganizationProviderUpdateV2
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        request: OrganizationProviderUpdateV2,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationProviderV2:
         """
-        Parameters:
-            - organization_provider_id: OrganizationProviderId.
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
 
-            - request: OrganizationProviderUpdateV2.
+        request : OrganizationProviderUpdateV2
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationProviderV2
+
+        Examples
+        --------
+        import uuid
+
+        from candid import State, StreetAddressLongZip, UpdatableIdentifier_Add
+        from candid.client import AsyncCandidApi
+        from candid.resources.organization_providers.v_2 import (
+            AddressType,
+            LicenseType,
+            OrganizationProviderAddress,
+            ProviderType,
+        )
+        from candid.resources.organization_providers.v_3 import (
+            OrganizationProviderUpdateV2,
+        )
+
+        client = AsyncCandidApi(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.organization_providers.v_3.update(
+            organization_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=OrganizationProviderUpdateV2(
+                npi="string",
+                is_rendering=True,
+                is_billing=True,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+                provider_type=ProviderType.INDIVIDUAL,
+                tax_id="string",
+                taxonomy_code="string",
+                license_type=LicenseType.MD,
+                addresses=[
+                    OrganizationProviderAddress(
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        address_type=AddressType.DEFAULT,
+                    )
+                ],
+                employment_start_date="string",
+                employment_termination_date="string",
+                qualifications=[UpdatableIdentifier_Add()],
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/organization-providers/v3/{organization_provider_id}"
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
             ),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(OrganizationProviderV2, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UpdatesDisabledDueToExternalSystemIntegrationError":
                 raise UpdatesDisabledDueToExternalSystemIntegrationError(
-                    pydantic.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UpdatesDisabledDueToExternalSystemIntegrationErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

@@ -2,44 +2,98 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
-from .....commons.types.npi import Npi
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....commons.types.npi import Npi as resources_commons_types_npi_Npi
 from .....commons.types.tax_id import TaxId
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+T_Result = typing.TypeVar("T_Result")
 
 
-class PayeeIdentifier_Npi(pydantic.BaseModel):
-    type: typing_extensions.Literal["npi"]
-    value: Npi
+class _Factory:
+    def npi(self, value: resources_commons_types_npi_Npi) -> PayeeIdentifier:
+        return PayeeIdentifier(__root__=_PayeeIdentifier.Npi(type="npi", value=value))
+
+    def tin(self, value: TaxId) -> PayeeIdentifier:
+        return PayeeIdentifier(__root__=_PayeeIdentifier.Tin(type="tin", value=value))
+
+    def cms_plan_id(self, value: str) -> PayeeIdentifier:
+        return PayeeIdentifier(__root__=_PayeeIdentifier.CmsPlanId(type="cms_plan_id", value=value))
+
+
+class PayeeIdentifier(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(self) -> typing.Union[_PayeeIdentifier.Npi, _PayeeIdentifier.Tin, _PayeeIdentifier.CmsPlanId]:
+        return self.__root__
+
+    def visit(
+        self,
+        npi: typing.Callable[[resources_commons_types_npi_Npi], T_Result],
+        tin: typing.Callable[[TaxId], T_Result],
+        cms_plan_id: typing.Callable[[str], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "npi":
+            return npi(self.__root__.value)
+        if self.__root__.type == "tin":
+            return tin(self.__root__.value)
+        if self.__root__.type == "cms_plan_id":
+            return cms_plan_id(self.__root__.value)
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[_PayeeIdentifier.Npi, _PayeeIdentifier.Tin, _PayeeIdentifier.CmsPlanId],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class PayeeIdentifier_Tin(pydantic.BaseModel):
-    type: typing_extensions.Literal["tin"]
-    value: TaxId
+class _PayeeIdentifier:
+    class Npi(pydantic.BaseModel):
+        type: typing.Literal["npi"] = "npi"
+        value: resources_commons_types_npi_Npi
 
-    class Config:
-        frozen = True
-        smart_union = True
+        class Config:
+            frozen = True
+            smart_union = True
+
+    class Tin(pydantic.BaseModel):
+        type: typing.Literal["tin"] = "tin"
+        value: TaxId
+
+        class Config:
+            frozen = True
+            smart_union = True
+
+    class CmsPlanId(pydantic.BaseModel):
+        type: typing.Literal["cms_plan_id"] = "cms_plan_id"
+        value: str
+
+        class Config:
+            frozen = True
+            smart_union = True
 
 
-class PayeeIdentifier_CmsPlanId(pydantic.BaseModel):
-    type: typing_extensions.Literal["cms_plan_id"]
-    value: str
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-PayeeIdentifier = typing.Union[PayeeIdentifier_Npi, PayeeIdentifier_Tin, PayeeIdentifier_CmsPlanId]
+PayeeIdentifier.update_forward_refs()

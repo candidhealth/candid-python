@@ -2,43 +2,113 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
+import pydantic
 import typing_extensions
 
-from .....commons.types.insurance_type_code import InsuranceTypeCode
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....commons.types.insurance_type_code import (
+    InsuranceTypeCode as resources_commons_types_insurance_type_code_InsuranceTypeCode,
+)
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+T_Result = typing.TypeVar("T_Result")
 
 
-class InsuranceTypeCodes_InsuranceTypeCode(pydantic.BaseModel):
-    type: typing_extensions.Literal["insurance_type_code"]
-    value: InsuranceTypeCode
+class _Factory:
+    def insurance_type_code(
+        self, value: resources_commons_types_insurance_type_code_InsuranceTypeCode
+    ) -> InsuranceTypeCodes:
+        return InsuranceTypeCodes(
+            __root__=_InsuranceTypeCodes.InsuranceTypeCode(type="insurance_type_code", value=value)
+        )
+
+    def unknown_insurance_type_code(self) -> InsuranceTypeCodes:
+        return InsuranceTypeCodes(
+            __root__=_InsuranceTypeCodes.UnknownInsuranceTypeCode(type="unknown_insurance_type_code")
+        )
+
+    def not_applicable(self) -> InsuranceTypeCodes:
+        return InsuranceTypeCodes(__root__=_InsuranceTypeCodes.NotApplicable(type="not_applicable"))
+
+
+class InsuranceTypeCodes(pydantic.BaseModel):
+    factory: typing.ClassVar[_Factory] = _Factory()
+
+    def get_as_union(
+        self,
+    ) -> typing.Union[
+        _InsuranceTypeCodes.InsuranceTypeCode,
+        _InsuranceTypeCodes.UnknownInsuranceTypeCode,
+        _InsuranceTypeCodes.NotApplicable,
+    ]:
+        return self.__root__
+
+    def visit(
+        self,
+        insurance_type_code: typing.Callable[[resources_commons_types_insurance_type_code_InsuranceTypeCode], T_Result],
+        unknown_insurance_type_code: typing.Callable[[], T_Result],
+        not_applicable: typing.Callable[[], T_Result],
+    ) -> T_Result:
+        if self.__root__.type == "insurance_type_code":
+            return insurance_type_code(self.__root__.value)
+        if self.__root__.type == "unknown_insurance_type_code":
+            return unknown_insurance_type_code()
+        if self.__root__.type == "not_applicable":
+            return not_applicable()
+
+    __root__: typing_extensions.Annotated[
+        typing.Union[
+            _InsuranceTypeCodes.InsuranceTypeCode,
+            _InsuranceTypeCodes.UnknownInsuranceTypeCode,
+            _InsuranceTypeCodes.NotApplicable,
+        ],
+        pydantic.Field(discriminator="type"),
+    ]
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class InsuranceTypeCodes_UnknownInsuranceTypeCode(pydantic.BaseModel):
-    type: typing_extensions.Literal["unknown_insurance_type_code"]
+class _InsuranceTypeCodes:
+    class InsuranceTypeCode(pydantic.BaseModel):
+        type: typing.Literal["insurance_type_code"] = "insurance_type_code"
+        value: resources_commons_types_insurance_type_code_InsuranceTypeCode
 
-    class Config:
-        frozen = True
-        smart_union = True
+        class Config:
+            frozen = True
+            smart_union = True
+
+    class UnknownInsuranceTypeCode(pydantic.BaseModel):
+        type: typing.Literal["unknown_insurance_type_code"] = "unknown_insurance_type_code"
+
+        class Config:
+            frozen = True
+            smart_union = True
+
+    class NotApplicable(pydantic.BaseModel):
+        type: typing.Literal["not_applicable"] = "not_applicable"
+
+        class Config:
+            frozen = True
+            smart_union = True
 
 
-class InsuranceTypeCodes_NotApplicable(pydantic.BaseModel):
-    type: typing_extensions.Literal["not_applicable"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-InsuranceTypeCodes = typing.Union[
-    InsuranceTypeCodes_InsuranceTypeCode, InsuranceTypeCodes_UnknownInsuranceTypeCode, InsuranceTypeCodes_NotApplicable
-]
+InsuranceTypeCodes.update_forward_refs()
