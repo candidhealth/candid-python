@@ -4,39 +4,18 @@ from __future__ import annotations
 
 import typing
 
-import typing_extensions
+import pydantic
 
 from .....commons.types.insurance_type_code import InsuranceTypeCode
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
-
-class InsuranceTypes_AllApply(pydantic.BaseModel):
-    type: typing_extensions.Literal["allApply"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-class InsuranceTypes_NoneApply(pydantic.BaseModel):
-    type: typing_extensions.Literal["noneApply"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
 
 class InsuranceTypes_TheseApply(pydantic.BaseModel):
-    type: typing_extensions.Literal["theseApply"]
-    value: typing.List[InsuranceTypeCode]
+    value: typing.Set[InsuranceTypeCode]
+    type: typing.Literal["theseApply"] = "theseApply"
 
     class Config:
         frozen = True
         smart_union = True
 
 
-InsuranceTypes = typing.Union[InsuranceTypes_AllApply, InsuranceTypes_NoneApply, InsuranceTypes_TheseApply]
+InsuranceTypes = typing.Union[InsuranceTypes_TheseApply]

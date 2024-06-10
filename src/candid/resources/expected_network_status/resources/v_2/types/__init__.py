@@ -23,12 +23,7 @@ from .in_network_rendering_providers_detail import InNetworkRenderingProvidersDe
 from .in_network_status import InNetworkStatus
 from .indeterminate_network_status import IndeterminateNetworkStatus
 from .insurance_type import InsuranceType
-from .insurance_type_codes import (
-    InsuranceTypeCodes,
-    InsuranceTypeCodes_InsuranceTypeCode,
-    InsuranceTypeCodes_NotApplicable,
-    InsuranceTypeCodes_UnknownInsuranceTypeCode,
-)
+from .insurance_type_codes import InsuranceTypeCodes, InsuranceTypeCodes_InsuranceTypeCode
 from .line_of_business import LineOfBusiness
 from .network_status_check_id import NetworkStatusCheckId
 from .out_of_network_status import OutOfNetworkStatus
@@ -56,8 +51,6 @@ __all__ = [
     "InsuranceType",
     "InsuranceTypeCodes",
     "InsuranceTypeCodes_InsuranceTypeCode",
-    "InsuranceTypeCodes_NotApplicable",
-    "InsuranceTypeCodes_UnknownInsuranceTypeCode",
     "LineOfBusiness",
     "NetworkStatusCheckId",
     "OutOfNetworkStatus",

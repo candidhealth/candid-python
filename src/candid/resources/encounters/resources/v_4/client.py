@@ -9,7 +9,10 @@ from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.datetime_utils import serialize_datetime
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
 from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....billing_notes.resources.v_2.types.billing_note_base import BillingNoteBase
 from ....claim_submission.resources.v_1.types.external_claim_submission_create import ExternalClaimSubmissionCreate
 from ....claims.types.claim_status import ClaimStatus
@@ -63,11 +66,6 @@ from .types.service_authorization_exception_code import ServiceAuthorizationExce
 from .types.synchronicity_type import SynchronicityType
 from .types.vitals import Vitals
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -89,56 +87,83 @@ class V4Client:
         search_term: typing.Optional[str] = None,
         external_id: typing.Optional[EncounterExternalId] = None,
         diagnoses_updated_since: typing.Optional[dt.datetime] = None,
-        tag_ids: typing.Optional[typing.Union[TagId, typing.List[TagId]]] = None,
+        tag_ids: typing.Optional[typing.Union[TagId, typing.Sequence[TagId]]] = None,
         work_queue_id: typing.Optional[WorkQueueId] = None,
         billable_status: typing.Optional[BillableStatusType] = None,
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
         patient_external_id: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterPage:
         """
-        Parameters:
-            - limit: typing.Optional[int]. Maximum number of entities per page, defaults to 100.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
 
-            - claim_status: typing.Optional[ClaimStatus]. Indicates the current status of an insurance claim within the billing process.
+        claim_status : typing.Optional[ClaimStatus]
+            Indicates the current status of an insurance claim within the billing process.
 
-            - sort: typing.Optional[EncounterSortOptions]. Defaults to created_at:desc.
+        sort : typing.Optional[EncounterSortOptions]
+            Defaults to created_at:desc.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
 
-            - date_of_service_min: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+        date_of_service_min : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - date_of_service_max: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+        date_of_service_max : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - primary_payer_names: typing.Optional[str]. Comma delimited string.
+        primary_payer_names : typing.Optional[str]
+            Comma delimited string.
 
-            - search_term: typing.Optional[str]. Filter by any of the following fields: encounter_id, claim_id, patient external_id,
-                                                 patient date of birth, patient first name, patient last name,
-                                                 or encounter external id.
-            - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists.
+        search_term : typing.Optional[str]
+            Filter by any of the following fields: encounter_id, claim_id, patient external_id,
+            patient date of birth, patient first name, patient last name,
+            or encounter external id.
 
-            - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
+        external_id : typing.Optional[EncounterExternalId]
+            Filter to an exact match on encounter external_id, if one exists.
 
-            - tag_ids: typing.Optional[typing.Union[TagId, typing.List[TagId]]]. Filter by name of tags on encounters.
+        diagnoses_updated_since : typing.Optional[dt.datetime]
+            ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
 
-            - work_queue_id: typing.Optional[WorkQueueId].
+        tag_ids : typing.Optional[typing.Union[TagId, typing.Sequence[TagId]]]
+            Filter by name of tags on encounters.
 
-            - billable_status: typing.Optional[BillableStatusType]. Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+        work_queue_id : typing.Optional[WorkQueueId]
 
-            - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
+        billable_status : typing.Optional[BillableStatusType]
+            Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType]. The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
+        responsible_party : typing.Optional[ResponsiblePartyType]
+            Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
-            - patient_external_id: typing.Optional[str]. The patient ID from the external EMR platform for the patient
-        ---
+        owner_of_next_action : typing.Optional[EncounterOwnerOfNextActionType]
+            The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
+
+        patient_external_id : typing.Optional[str]
+            The patient ID from the external EMR platform for the patient
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterPage
+
+        Examples
+        --------
         import datetime
 
         from candid import ClaimStatus
-        from candid.client import CandidApi
+        from candid.client import CandidApiClient
         from candid.resources.encounters.v_4 import EncounterSortOptions
 
-        client = CandidApi(
-            token="YOUR_TOKEN",
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         client.encounters.v_4.get_all(
             limit=100,
@@ -156,94 +181,156 @@ class V4Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "claim_status": claim_status,
-                    "sort": sort,
-                    "page_token": page_token,
-                    "date_of_service_min": date_of_service_min,
-                    "date_of_service_max": date_of_service_max,
-                    "primary_payer_names": primary_payer_names,
-                    "search_term": search_term,
-                    "external_id": external_id,
-                    "diagnoses_updated_since": serialize_datetime(diagnoses_updated_since)
-                    if diagnoses_updated_since is not None
-                    else None,
-                    "tag_ids": tag_ids,
-                    "work_queue_id": work_queue_id,
-                    "billable_status": billable_status,
-                    "responsible_party": responsible_party,
-                    "owner_of_next_action": owner_of_next_action,
-                    "patient_external_id": patient_external_id,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "claim_status": claim_status,
+                            "sort": sort,
+                            "page_token": page_token,
+                            "date_of_service_min": date_of_service_min,
+                            "date_of_service_max": date_of_service_max,
+                            "primary_payer_names": primary_payer_names,
+                            "search_term": search_term,
+                            "external_id": external_id,
+                            "diagnoses_updated_since": serialize_datetime(diagnoses_updated_since)
+                            if diagnoses_updated_since is not None
+                            else None,
+                            "tag_ids": tag_ids,
+                            "work_queue_id": work_queue_id,
+                            "billable_status": billable_status,
+                            "responsible_party": responsible_party,
+                            "owner_of_next_action": owner_of_next_action,
+                            "patient_external_id": patient_external_id,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EncounterPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(EncounterPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, encounter_id: EncounterId) -> Encounter:
+    def get(self, encounter_id: EncounterId, *, request_options: typing.Optional[RequestOptions] = None) -> Encounter:
         """
-        Parameters:
-            - encounter_id: EncounterId.
+        Parameters
+        ----------
+        encounter_id : EncounterId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.encounters.v_4.get(
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{jsonable_encoder(encounter_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Encounter, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def create(
         self,
         *,
-        date_of_service: typing.Optional[Date] = OMIT,
-        end_date_of_service: typing.Optional[Date] = OMIT,
         patient: PatientCreate,
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
+        diagnoses: typing.Sequence[DiagnosisCreate],
+        place_of_service_code: FacilityTypeCode,
+        external_id: EncounterExternalId,
+        patient_authorized_release: bool,
+        benefits_assigned_to_provider: bool,
+        provider_accepts_assignment: bool,
+        billable_status: BillableStatusType,
+        responsible_party: ResponsiblePartyType,
+        date_of_service: typing.Optional[Date] = OMIT,
+        end_date_of_service: typing.Optional[Date] = OMIT,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
         service_facility: typing.Optional[EncounterServiceFacilityBase] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
-        diagnoses: typing.List[DiagnosisCreate],
-        clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = OMIT,
-        billing_notes: typing.Optional[typing.List[BillingNoteBase]] = OMIT,
-        place_of_service_code: FacilityTypeCode,
-        patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = OMIT,
-        service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
+        clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
+        billing_notes: typing.Optional[typing.Sequence[BillingNoteBase]] = OMIT,
+        patient_histories: typing.Optional[typing.Sequence[PatientHistoryCategory]] = OMIT,
+        service_lines: typing.Optional[typing.Sequence[ServiceLineCreate]] = OMIT,
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
-        tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
-        external_id: EncounterExternalId,
+        tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
-        patient_authorized_release: bool,
-        benefits_assigned_to_provider: bool,
-        provider_accepts_assignment: bool,
         appointment_type: typing.Optional[str] = OMIT,
-        existing_medications: typing.Optional[typing.List[Medication]] = OMIT,
+        existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
         vitals: typing.Optional[Vitals] = OMIT,
-        interventions: typing.Optional[typing.List[Intervention]] = OMIT,
+        interventions: typing.Optional[typing.Sequence[Intervention]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
-        billable_status: BillableStatusType,
-        responsible_party: ResponsiblePartyType,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
         admission_date: typing.Optional[Date] = OMIT,
@@ -251,123 +338,582 @@ class V4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
-        Parameters:
-            - date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-                                                      This date must be the local date in the timezone where the service occurred.
-                                                      Box 24a on the CMS-1500 claim form.
-                                                      If service occurred over a range of dates, this should be the start date.
-                                                      date_of_service must be defined on either the encounter or the service lines but not both.
-                                                      If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+        Parameters
+        ----------
+        patient : PatientCreate
+            Contains the identification information of the individual receiving medical services.
 
-            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
-                                                          This date must be the local date in the timezone where the service occurred.
-                                                          If omitted, the Encounter is assumed to be for a single day.
-                                                          Must not be temporally before the date_of_service field.
-                                                          If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
 
-            - patient: PatientCreate. Contains the identification information of the individual receiving medical services.
+        billing_provider : BillingProvider
+            The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
 
-            - billing_provider: BillingProvider. The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
 
-            - rendering_provider: RenderingProvider. The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
-                                                     For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
+        rendering_provider : RenderingProvider
+            The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
+            For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
 
-            - referring_provider: typing.Optional[ReferringProvider]. The provider who referred the services that were rendered.
-                                                                      All physicians who order services or refer Medicare beneficiaries must
-                                                                      report this data.
-                                                                      If a claim involves multiple referring physicians, create a separate
-                                                                      encounter for each physician.
 
-            - service_facility: typing.Optional[EncounterServiceFacilityBase]. Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
+        diagnoses : typing.Sequence[DiagnosisCreate]
+            Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+            may be submitted at this time, and coders will later prioritize the 12 that will be
+            submitted to the payor.
 
-            - subscriber_primary: typing.Optional[SubscriberCreate]. Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).
-                                                                     These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
-                                                                     However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
-                                                                     Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims.
 
-            - subscriber_secondary: typing.Optional[SubscriberCreate]. Please always include this when you have it, even for self-pay claims.
+        place_of_service_code : FacilityTypeCode
+            Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
-            - diagnoses: typing.List[DiagnosisCreate]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
-                                                       may be submitted at this time, and coders will later prioritize the 12 that will be
-                                                       submitted to the payor.
 
-            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
+        external_id : EncounterExternalId
+            A client-specified unique ID to associate with this encounter;
+            for example, your internal encounter ID or a Dr. Chrono encounter ID.
+            This field should not contain PHI.
 
-            - billing_notes: typing.Optional[typing.List[BillingNoteBase]]. Spot to store misc, human-readable, notes about this encounter to be used
-                                                                            in the billing process.
+        patient_authorized_release : bool
+            Whether this patient has authorized the release of medical information
+            for billing purpose.
+            Box 12 on the CMS-1500 claim form.
 
-            - place_of_service_code: FacilityTypeCode. Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        benefits_assigned_to_provider : bool
+            Whether this patient has authorized insurance payments to be made to you,
+            not them. If false, patient may receive reimbursement.
+            Box 13 on the CMS-1500 claim form.
 
-            - patient_histories: typing.Optional[typing.List[PatientHistoryCategory]].
+        provider_accepts_assignment : bool
+            Whether you have accepted the patient's authorization for insurance payments
+            to be made to you, not them.
+            Box 27 on the CMS-1500 claim form.
 
-            - service_lines: typing.Optional[typing.List[ServiceLineCreate]]. Each service line must be linked to a diagnosis. Concretely,
-                                                                              `service_line.diagnosis_pointers`must contain at least one entry which should be
-                                                                              in bounds of the diagnoses list field.
+        billable_status : BillableStatusType
+            Defines if the Encounter is to be billed by Candid to the responsible_party.
+            Examples for when this should be set to NOT_BILLABLE include
+            if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
+        responsible_party : ResponsiblePartyType
+            Defines the party to be billed with the initial balance owed on the claim.
 
-            - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is in beta.***
-                                                                                         To be included for claims that have been submitted outside of Candid.
-                                                                                         Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
+        date_of_service : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+            Box 24a on the CMS-1500 claim form.
+            If service occurred over a range of dates, this should be the start date.
+            date_of_service must be defined on either the encounter or the service lines but not both.
+            If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
 
-            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.
 
-            - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
-                                                for example, your internal encounter ID or a Dr. Chrono encounter ID.
-                                                This field should not contain PHI.
-            - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
+        end_date_of_service : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+            This date must be the local date in the timezone where the service occurred.
+            If omitted, the Encounter is assumed to be for a single day.
+            Must not be temporally before the date_of_service field.
+            If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
 
-            - patient_authorized_release: bool. Whether this patient has authorized the release of medical information
-                                                for billing purpose.
-                                                Box 12 on the CMS-1500 claim form.
-            - benefits_assigned_to_provider: bool. Whether this patient has authorized insurance payments to be made to you,
-                                                   not them. If false, patient may receive reimbursement.
-                                                   Box 13 on the CMS-1500 claim form.
-            - provider_accepts_assignment: bool. Whether you have accepted the patient's authorization for insurance payments
-                                                 to be made to you, not them.
-                                                 Box 27 on the CMS-1500 claim form.
-            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
-            - existing_medications: typing.Optional[typing.List[Medication]].
+        referring_provider : typing.Optional[ReferringProvider]
+            The provider who referred the services that were rendered.
+            All physicians who order services or refer Medicare beneficiaries must
+            report this data.
+            If a claim involves multiple referring physicians, create a separate
+            encounter for each physician.
 
-            - vitals: typing.Optional[Vitals].
 
-            - interventions: typing.Optional[typing.List[Intervention]].
+        service_facility : typing.Optional[EncounterServiceFacilityBase]
+            Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
 
-            - pay_to_address: typing.Optional[StreetAddressLongZip]. Specifies the address to which payments for the claim should be sent.
 
-            - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter.
-                                                                 Asynchronous encounters occur when providers and patients communicate online using
-                                                                 forms, instant messaging, or other pre-recorded digital mediums.
-                                                                 Synchronous encounters occur in live, real-time settings where the patient interacts
-                                                                 directly with the provider, such as over video or a phone call.
-            - billable_status: BillableStatusType. Defines if the Encounter is to be billed by Candid to the responsible_party.
-                                                   Examples for when this should be set to NOT_BILLABLE include
-                                                   if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
-            - responsible_party: ResponsiblePartyType. Defines the party to be billed with the initial balance owed on the claim.
+        subscriber_primary : typing.Optional[SubscriberCreate]
+            Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).
+            These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
+            However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
+            Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims.
 
-            - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
-                                                            Box 19 on the CMS-1500 claim form.
-            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF\*4N
-                                                                                                        Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
-                                                                                                        reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
-                                                                                                        obtaining the authorization.
-            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP\*435, CMS-1500 Box 18
-                                                     Required on all ambulance claims when the patient was known to be admitted to the hospital.
-                                                     OR
-                                                     Required on all claims involving inpatient medical visits.
-            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP\*096, CMS-1500 Box 18
-                                                     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
-            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP\*431, CMS-1500 Box 14
-                                                                               Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
-                                                                               OR
-                                                                               This date is the onset of acute symptoms for the current illness or condition.
-            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP\*484, CMS-1500 Box 14
-                                                                 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
-            - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
-                                                                   Code indicating the reason why a request was delayed
+
+        subscriber_secondary : typing.Optional[SubscriberCreate]
+            Please always include this when you have it, even for self-pay claims.
+
+
+        clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
+            Holds a collection of clinical observations made by healthcare providers during patient encounters.
+
+        billing_notes : typing.Optional[typing.Sequence[BillingNoteBase]]
+            Spot to store misc, human-readable, notes about this encounter to be used
+            in the billing process.
+
+
+        patient_histories : typing.Optional[typing.Sequence[PatientHistoryCategory]]
+
+        service_lines : typing.Optional[typing.Sequence[ServiceLineCreate]]
+            Each service line must be linked to a diagnosis. Concretely,
+            `service_line.diagnosis_pointers`must contain at least one entry which should be
+            in bounds of the diagnoses list field.
+
+
+        guarantor : typing.Optional[GuarantorCreate]
+            Personal and contact info for the guarantor of the patient responsibility.
+
+
+        external_claim_submission : typing.Optional[ExternalClaimSubmissionCreate]
+            ***This field is in beta.***
+            To be included for claims that have been submitted outside of Candid.
+            Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
+
+
+        tag_ids : typing.Optional[typing.Sequence[TagId]]
+            Names of tags that should be on the encounter.
+
+        prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
+            Box 23 on the CMS-1500 claim form.
+
+        appointment_type : typing.Optional[str]
+            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
+
+        existing_medications : typing.Optional[typing.Sequence[Medication]]
+
+        vitals : typing.Optional[Vitals]
+
+        interventions : typing.Optional[typing.Sequence[Intervention]]
+
+        pay_to_address : typing.Optional[StreetAddressLongZip]
+            Specifies the address to which payments for the claim should be sent.
+
+        synchronicity : typing.Optional[SynchronicityType]
+            Whether or not this was a synchronous or asynchronous encounter.
+            Asynchronous encounters occur when providers and patients communicate online using
+            forms, instant messaging, or other pre-recorded digital mediums.
+            Synchronous encounters occur in live, real-time settings where the patient interacts
+            directly with the provider, such as over video or a phone call.
+
+        additional_information : typing.Optional[str]
+            Defines additional information on the claim needed by the payer.
+            Box 19 on the CMS-1500 claim form.
+
+        service_authorization_exception_code : typing.Optional[ServiceAuthorizationExceptionCode]
+            837p Loop2300 REF\*4N
+            Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+            reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+            obtaining the authorization.
+
+        admission_date : typing.Optional[Date]
+            837p Loop2300 DTP\*435, CMS-1500 Box 18
+            Required on all ambulance claims when the patient was known to be admitted to the hospital.
+            OR
+            Required on all claims involving inpatient medical visits.
+
+        discharge_date : typing.Optional[Date]
+            837p Loop2300 DTP\*096, CMS-1500 Box 18
+            Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+
+        onset_of_current_illness_or_symptom_date : typing.Optional[Date]
+            837p Loop2300 DTP\*431, CMS-1500 Box 14
+            Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
+            OR
+            This date is the onset of acute symptoms for the current illness or condition.
+
+        last_menstrual_period_date : typing.Optional[Date]
+            837p Loop2300 DTP\*484, CMS-1500 Box 14
+            Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+
+        delay_reason_code : typing.Optional[DelayReasonCode]
+            837i Loop2300, CLM-1300 Box 20
+            Code indicating the reason why a request was delayed
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import datetime
+
+        from candid import (
+            ClaimSubmissionPayerResponsibilityType,
+            DelayReasonCode,
+            DiagnosisCreate,
+            DiagnosisTypeCode,
+            EmrPayerCrosswalk,
+            EncounterServiceFacilityBase,
+            FacilityTypeCode,
+            Gender,
+            InsuranceTypeCode,
+            IntendedSubmissionMedium,
+            PatientCreate,
+            PatientRelationshipToInsuredCodeAll,
+            PhoneNumber,
+            PhoneNumberType,
+            ProcedureModifier,
+            ServiceLineUnits,
+            SourceOfPaymentCode,
+            State,
+            StreetAddressLongZip,
+            StreetAddressShortZip,
+            SubscriberCreate,
+        )
+        from candid.client import CandidApiClient
+        from candid.resources.billing_notes.v_2 import BillingNoteBase
+        from candid.resources.claim_submission.v_1 import (
+            ClaimFrequencyTypeCode,
+            ClaimSubmissionRecordCreate,
+            ExternalClaimSubmissionCreate,
+        )
+        from candid.resources.encounter_providers.v_2 import (
+            BillingProvider,
+            ReferringProvider,
+            RenderingProvider,
+        )
+        from candid.resources.encounters.v_4 import (
+            BillableStatusType,
+            ClinicalNote,
+            ClinicalNoteCategoryCreate,
+            IntakeFollowUp,
+            IntakeQuestion,
+            IntakeResponseAndFollowUps,
+            Intervention,
+            InterventionCategory,
+            Lab,
+            LabCodeType,
+            Medication,
+            NoteCategory,
+            PatientHistoryCategory,
+            PatientHistoryCategoryEnum,
+            ResponsiblePartyType,
+            ServiceAuthorizationExceptionCode,
+            SynchronicityType,
+            Vitals,
+        )
+        from candid.resources.guarantor.v_1 import GuarantorCreate
+        from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
+        from candid.resources.service_lines.v_2 import (
+            DrugIdentification,
+            ServiceLineCreate,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.encounters.v_4.create(
+            date_of_service="string",
+            end_date_of_service="string",
+            patient=PatientCreate(
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+                external_id="string",
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            billing_provider=BillingProvider(
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                tax_id="string",
+                npi="string",
+                taxonomy_code="string",
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            rendering_provider=RenderingProvider(
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                npi="string",
+                taxonomy_code="string",
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            referring_provider=ReferringProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            service_facility=EncounterServiceFacilityBase(
+                organization_name="string",
+                npi="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+            subscriber_primary=SubscriberCreate(
+                insurance_card=InsuranceCardCreate(
+                    member_id="string",
+                    payer_name="string",
+                    payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
+                ),
+                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            subscriber_secondary=SubscriberCreate(
+                insurance_card=InsuranceCardCreate(
+                    member_id="string",
+                    payer_name="string",
+                    payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
+                ),
+                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            diagnoses=[
+                DiagnosisCreate(
+                    name="string",
+                    code_type=DiagnosisTypeCode.ABF,
+                    code="string",
+                )
+            ],
+            clinical_notes=[
+                ClinicalNoteCategoryCreate(
+                    category=NoteCategory.CLINICAL,
+                    notes=[ClinicalNote()],
+                )
+            ],
+            billing_notes=[
+                BillingNoteBase(
+                    text="string",
+                )
+            ],
+            place_of_service_code=FacilityTypeCode.PHARMACY,
+            patient_histories=[
+                PatientHistoryCategory(
+                    category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
+                    questions=[
+                        IntakeQuestion(
+                            id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
+                            text="Do you have any allergies?",
+                            responses=[
+                                IntakeResponseAndFollowUps(
+                                    response="No allergies",
+                                    follow_ups=[
+                                        IntakeFollowUp(
+                                            id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
+                                            text="Do you have any allergies?",
+                                            response="No allergies",
+                                        )
+                                    ],
+                                )
+                            ],
+                        )
+                    ],
+                )
+            ],
+            service_lines=[
+                ServiceLineCreate(
+                    modifiers=[ProcedureModifier.TWENTY_TWO],
+                    procedure_code="string",
+                    quantity="string",
+                    units=ServiceLineUnits.MJ,
+                    charge_amount_cents=1,
+                    diagnosis_pointers=[1],
+                    drug_identification=DrugIdentification(),
+                    place_of_service_code=FacilityTypeCode.PHARMACY,
+                    description="string",
+                    date_of_service=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end_date_of_service=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                )
+            ],
+            guarantor=GuarantorCreate(
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+                first_name="string",
+                last_name="string",
+                external_id="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+            external_claim_submission=ExternalClaimSubmissionCreate(
+                claim_created_at=datetime.datetime.fromisoformat(
+                    "2023-01-01 12:00:00+00:00",
+                ),
+                patient_control_number="PATIENT_CONTROL_NUMBER",
+                submission_records=[
+                    ClaimSubmissionRecordCreate(
+                        submitted_at=datetime.datetime.fromisoformat(
+                            "2023-01-01 13:00:00+00:00",
+                        ),
+                        claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
+                        payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                        intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
+                    ),
+                    ClaimSubmissionRecordCreate(
+                        submitted_at=datetime.datetime.fromisoformat(
+                            "2023-01-04 12:00:00+00:00",
+                        ),
+                        claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
+                        payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                        intended_submission_medium=IntendedSubmissionMedium.PAPER,
+                    ),
+                ],
+            ),
+            tag_ids=["string"],
+            external_id="string",
+            prior_authorization_number="string",
+            patient_authorized_release=True,
+            benefits_assigned_to_provider=True,
+            provider_accepts_assignment=True,
+            appointment_type="string",
+            existing_medications=[
+                Medication(
+                    name="Lisinopril",
+                    rx_cui="860975",
+                    dosage="10mg",
+                    dosage_form="Tablet",
+                    frequency="Once Daily",
+                    as_needed=True,
+                )
+            ],
+            vitals=Vitals(
+                height_in=70,
+                weight_lbs=165,
+                blood_pressure_systolic_mmhg=115,
+                blood_pressure_diastolic_mmhg=85,
+                body_temperature_f=98.0,
+            ),
+            interventions=[
+                Intervention(
+                    name="Physical Therapy Session",
+                    category=InterventionCategory.LIFESTYLE,
+                    description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
+                    medication=Medication(
+                        name="Lisinopril",
+                        rx_cui="860975",
+                        dosage="10mg",
+                        dosage_form="Tablet",
+                        frequency="Once Daily",
+                        as_needed=True,
+                    ),
+                    labs=[
+                        Lab(
+                            name="Genetic Health Labs",
+                            code="GH12345",
+                            code_type=LabCodeType.QUEST,
+                        )
+                    ],
+                )
+            ],
+            pay_to_address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            synchronicity=SynchronicityType.SYNCHRONOUS,
+            billable_status=BillableStatusType.BILLABLE,
+            responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+            additional_information="string",
+            service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
+            admission_date="string",
+            discharge_date="string",
+            onset_of_current_illness_or_symptom_date="string",
+            last_menstrual_period_date="string",
+            delay_reason_code=DelayReasonCode.C_1,
+        )
         """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -437,42 +983,63 @@ class V4Client:
         if delay_reason_code is not OMIT:
             _request["delay_reason_code"] = delay_reason_code
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Encounter, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
                 raise EncounterExternalIdUniquenessError(
-                    pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EncounterPatientControlNumberUniquenessError":
                 raise EncounterPatientControlNumberUniquenessError(
-                    pydantic.parse_obj_as(EncounterPatientControlNumberUniquenessErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterPatientControlNumberUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
                 raise EncounterGuarantorMissingContactInfoError(
-                    pydantic.parse_obj_as(EncounterGuarantorMissingContactInfoErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterGuarantorMissingContactInfoErrorType, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
-                    pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "CashPayPayerError":
                 raise CashPayPayerError(
-                    pydantic.parse_obj_as(CashPayPayerErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(CashPayPayerErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -483,9 +1050,9 @@ class V4Client:
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         external_id: typing.Optional[EncounterExternalId] = OMIT,
         date_of_service: typing.Optional[Date] = OMIT,
-        diagnosis_ids: typing.Optional[typing.List[DiagnosisId]] = OMIT,
-        tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
-        clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = OMIT,
+        diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
+        tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
+        clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         billable_status: typing.Optional[BillableStatusType] = OMIT,
         responsible_party: typing.Optional[ResponsiblePartyType] = OMIT,
@@ -505,88 +1072,276 @@ class V4Client:
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
-        Parameters:
-            - encounter_id: EncounterId.
+        Parameters
+        ----------
+        encounter_id : EncounterId
 
-            - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
+        prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
+            Box 23 on the CMS-1500 claim form.
 
-            - external_id: typing.Optional[EncounterExternalId]. A client-specified unique ID to associate with this encounter;
-                                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
-                                                                 This field should not contain PHI.
+        external_id : typing.Optional[EncounterExternalId]
+            A client-specified unique ID to associate with this encounter;
+            for example, your internal encounter ID or a Dr. Chrono encounter ID.
+            This field should not contain PHI.
 
-            - date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-                                                      This date must be the local date in the timezone where the service occurred.
-                                                      Box 24a on the CMS-1500 claim form.
-                                                      If service occurred over a range of dates, this should be the start date.
-                                                      If service lines have distinct date_of_service values, updating the encounter's date_of_service will fail. If all service line date_of_service values are the same, updating the encounter's date_of_service will update all service line date_of_service values.
 
-            - diagnosis_ids: typing.Optional[typing.List[DiagnosisId]]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
-                                                                        may be submitted at this time, and coders will later prioritize the 12 that will be
-                                                                        submitted to the payor.
+        date_of_service : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+            Box 24a on the CMS-1500 claim form.
+            If service occurred over a range of dates, this should be the start date.
+            If service lines have distinct date_of_service values, updating the encounter's date_of_service will fail. If all service line date_of_service values are the same, updating the encounter's date_of_service will update all service line date_of_service values.
 
-            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.  Note all tags on encounter will be overriden with this list.
 
-            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
+        diagnosis_ids : typing.Optional[typing.Sequence[DiagnosisId]]
+            Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+            may be submitted at this time, and coders will later prioritize the 12 that will be
+            submitted to the payor.
 
-            - pay_to_address: typing.Optional[StreetAddressLongZip]. Specifies the address to which payments for the claim should be sent.
 
-            - billable_status: typing.Optional[BillableStatusType]. Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+        tag_ids : typing.Optional[typing.Sequence[TagId]]
+            Names of tags that should be on the encounter.  Note all tags on encounter will be overriden with this list.
 
-            - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
+        clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
+            Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
-            - provider_accepts_assignment: typing.Optional[bool]. Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form.
+        pay_to_address : typing.Optional[StreetAddressLongZip]
+            Specifies the address to which payments for the claim should be sent.
 
-            - benefits_assigned_to_provider: typing.Optional[bool]. Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
+        billable_status : typing.Optional[BillableStatusType]
+            Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter. Asynchronous encounters occur when providers and patients communicate online using forms, instant messaging, or other pre-recorded digital mediums. Synchronous encounters occur in live, real-time settings where the patient interacts directly with the provider, such as over video or a phone call.
 
-            - place_of_service_code: typing.Optional[FacilityTypeCode]. Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        responsible_party : typing.Optional[ResponsiblePartyType]
+            Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
-            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
-            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
-                                                          This date must be the local date in the timezone where the service occurred.
-                                                          If omitted, the Encounter is assumed to be for a single day.
-                                                          Must not be temporally before the date_of_service field.
-                                                          If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
+        provider_accepts_assignment : typing.Optional[bool]
+            Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form.
 
-            - subscriber_primary: typing.Optional[SubscriberCreate]. Contains details of the primary insurance subscriber.
 
-            - subscriber_secondary: typing.Optional[SubscriberCreate]. Contains details of the secondary insurance subscriber.
+        benefits_assigned_to_provider : typing.Optional[bool]
+            Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
 
-            - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
-                                                            Box 19 on the CMS-1500 claim form.
 
-            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF*4N
-                                                                                                        Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
-                                                                                                        reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
-                                                                                                        obtaining the authorization.
+        synchronicity : typing.Optional[SynchronicityType]
+            Whether or not this was a synchronous or asynchronous encounter. Asynchronous encounters occur when providers and patients communicate online using forms, instant messaging, or other pre-recorded digital mediums. Synchronous encounters occur in live, real-time settings where the patient interacts directly with the provider, such as over video or a phone call.
 
-            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP*435, CMS-1500 Box 18
-                                                     Required on all ambulance claims when the patient was known to be admitted to the hospital.
-                                                     OR
-                                                     Required on all claims involving inpatient medical visits.
 
-            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP*096, CMS-1500 Box 18
-                                                     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+        place_of_service_code : typing.Optional[FacilityTypeCode]
+            Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
-            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP*431, CMS-1500 Box 14
-                                                                               Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
-                                                                               OR
-                                                                               This date is the onset of acute symptoms for the current illness or condition.
 
-            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
-                                                                 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+        appointment_type : typing.Optional[str]
+            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
-            - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
-                                                                   Code indicating the reason why a request was delayed
 
-            - patient_authorized_release: typing.Optional[bool]. Whether this patient has authorized the release of medical information
-                                                                 for billing purpose.
-                                                                 Box 12 on the CMS-1500 claim form.
+        end_date_of_service : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+            This date must be the local date in the timezone where the service occurred.
+            If omitted, the Encounter is assumed to be for a single day.
+            Must not be temporally before the date_of_service field.
+            If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
 
+
+        subscriber_primary : typing.Optional[SubscriberCreate]
+            Contains details of the primary insurance subscriber.
+
+        subscriber_secondary : typing.Optional[SubscriberCreate]
+            Contains details of the secondary insurance subscriber.
+
+        additional_information : typing.Optional[str]
+            Defines additional information on the claim needed by the payer.
+            Box 19 on the CMS-1500 claim form.
+
+
+        service_authorization_exception_code : typing.Optional[ServiceAuthorizationExceptionCode]
+            837p Loop2300 REF*4N
+            Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+            reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+            obtaining the authorization.
+
+
+        admission_date : typing.Optional[Date]
+            837p Loop2300 DTP*435, CMS-1500 Box 18
+            Required on all ambulance claims when the patient was known to be admitted to the hospital.
+            OR
+            Required on all claims involving inpatient medical visits.
+
+
+        discharge_date : typing.Optional[Date]
+            837p Loop2300 DTP*096, CMS-1500 Box 18
+            Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+
+
+        onset_of_current_illness_or_symptom_date : typing.Optional[Date]
+            837p Loop2300 DTP*431, CMS-1500 Box 14
+            Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
+            OR
+            This date is the onset of acute symptoms for the current illness or condition.
+
+
+        last_menstrual_period_date : typing.Optional[Date]
+            837p Loop2300 DTP*484, CMS-1500 Box 14
+            Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+
+
+        delay_reason_code : typing.Optional[DelayReasonCode]
+            837i Loop2300, CLM-1300 Box 20
+            Code indicating the reason why a request was delayed
+
+
+        patient_authorized_release : typing.Optional[bool]
+            Whether this patient has authorized the release of medical information
+            for billing purpose.
+            Box 12 on the CMS-1500 claim form.
+
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import uuid
+
+        from candid import (
+            DelayReasonCode,
+            EmrPayerCrosswalk,
+            FacilityTypeCode,
+            Gender,
+            InsuranceTypeCode,
+            PatientRelationshipToInsuredCodeAll,
+            SourceOfPaymentCode,
+            State,
+            StreetAddressLongZip,
+            StreetAddressShortZip,
+            SubscriberCreate,
+        )
+        from candid.client import CandidApiClient
+        from candid.resources.encounters.v_4 import (
+            BillableStatusType,
+            ClinicalNote,
+            ClinicalNoteCategoryCreate,
+            NoteCategory,
+            ResponsiblePartyType,
+            ServiceAuthorizationExceptionCode,
+            SynchronicityType,
+        )
+        from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.encounters.v_4.update(
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            prior_authorization_number="string",
+            external_id="string",
+            date_of_service="string",
+            diagnosis_ids=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+            tag_ids=["string"],
+            clinical_notes=[
+                ClinicalNoteCategoryCreate(
+                    category=NoteCategory.CLINICAL,
+                    notes=[ClinicalNote()],
+                )
+            ],
+            pay_to_address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            billable_status=BillableStatusType.BILLABLE,
+            responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+            provider_accepts_assignment=True,
+            benefits_assigned_to_provider=True,
+            synchronicity=SynchronicityType.SYNCHRONOUS,
+            place_of_service_code=FacilityTypeCode.PHARMACY,
+            appointment_type="string",
+            end_date_of_service="string",
+            subscriber_primary=SubscriberCreate(
+                insurance_card=InsuranceCardCreate(
+                    member_id="string",
+                    payer_name="string",
+                    payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
+                ),
+                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            subscriber_secondary=SubscriberCreate(
+                insurance_card=InsuranceCardCreate(
+                    member_id="string",
+                    payer_name="string",
+                    payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
+                ),
+                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            additional_information="string",
+            service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
+            admission_date="string",
+            discharge_date="string",
+            onset_of_current_illness_or_symptom_date="string",
+            last_menstrual_period_date="string",
+            delay_reason_code=DelayReasonCode.C_1,
+            patient_authorized_release=True,
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -640,34 +1395,57 @@ class V4Client:
         if patient_authorized_release is not OMIT:
             _request["patient_authorized_release"] = patient_authorized_release
         _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{jsonable_encoder(encounter_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Encounter, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
                 raise EncounterExternalIdUniquenessError(
-                    pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
-                    pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -689,56 +1467,83 @@ class AsyncV4Client:
         search_term: typing.Optional[str] = None,
         external_id: typing.Optional[EncounterExternalId] = None,
         diagnoses_updated_since: typing.Optional[dt.datetime] = None,
-        tag_ids: typing.Optional[typing.Union[TagId, typing.List[TagId]]] = None,
+        tag_ids: typing.Optional[typing.Union[TagId, typing.Sequence[TagId]]] = None,
         work_queue_id: typing.Optional[WorkQueueId] = None,
         billable_status: typing.Optional[BillableStatusType] = None,
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
         patient_external_id: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterPage:
         """
-        Parameters:
-            - limit: typing.Optional[int]. Maximum number of entities per page, defaults to 100.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
 
-            - claim_status: typing.Optional[ClaimStatus]. Indicates the current status of an insurance claim within the billing process.
+        claim_status : typing.Optional[ClaimStatus]
+            Indicates the current status of an insurance claim within the billing process.
 
-            - sort: typing.Optional[EncounterSortOptions]. Defaults to created_at:desc.
+        sort : typing.Optional[EncounterSortOptions]
+            Defaults to created_at:desc.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
 
-            - date_of_service_min: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+        date_of_service_min : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - date_of_service_max: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+        date_of_service_max : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - primary_payer_names: typing.Optional[str]. Comma delimited string.
+        primary_payer_names : typing.Optional[str]
+            Comma delimited string.
 
-            - search_term: typing.Optional[str]. Filter by any of the following fields: encounter_id, claim_id, patient external_id,
-                                                 patient date of birth, patient first name, patient last name,
-                                                 or encounter external id.
-            - external_id: typing.Optional[EncounterExternalId]. Filter to an exact match on encounter external_id, if one exists.
+        search_term : typing.Optional[str]
+            Filter by any of the following fields: encounter_id, claim_id, patient external_id,
+            patient date of birth, patient first name, patient last name,
+            or encounter external id.
 
-            - diagnoses_updated_since: typing.Optional[dt.datetime]. ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
+        external_id : typing.Optional[EncounterExternalId]
+            Filter to an exact match on encounter external_id, if one exists.
 
-            - tag_ids: typing.Optional[typing.Union[TagId, typing.List[TagId]]]. Filter by name of tags on encounters.
+        diagnoses_updated_since : typing.Optional[dt.datetime]
+            ISO 8601 timestamp; ideally in UTC (although not required): 2019-08-24T14:15:22Z.
 
-            - work_queue_id: typing.Optional[WorkQueueId].
+        tag_ids : typing.Optional[typing.Union[TagId, typing.Sequence[TagId]]]
+            Filter by name of tags on encounters.
 
-            - billable_status: typing.Optional[BillableStatusType]. Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+        work_queue_id : typing.Optional[WorkQueueId]
 
-            - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
+        billable_status : typing.Optional[BillableStatusType]
+            Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType]. The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
+        responsible_party : typing.Optional[ResponsiblePartyType]
+            Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
-            - patient_external_id: typing.Optional[str]. The patient ID from the external EMR platform for the patient
-        ---
+        owner_of_next_action : typing.Optional[EncounterOwnerOfNextActionType]
+            The party who is responsible for taking the next action on an Encounter, as defined by ownership of open Tasks.
+
+        patient_external_id : typing.Optional[str]
+            The patient ID from the external EMR platform for the patient
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterPage
+
+        Examples
+        --------
         import datetime
 
         from candid import ClaimStatus
-        from candid.client import AsyncCandidApi
+        from candid.client import AsyncCandidApiClient
         from candid.resources.encounters.v_4 import EncounterSortOptions
 
-        client = AsyncCandidApi(
-            token="YOUR_TOKEN",
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
         )
         await client.encounters.v_4.get_all(
             limit=100,
@@ -756,94 +1561,158 @@ class AsyncV4Client:
         )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "claim_status": claim_status,
-                    "sort": sort,
-                    "page_token": page_token,
-                    "date_of_service_min": date_of_service_min,
-                    "date_of_service_max": date_of_service_max,
-                    "primary_payer_names": primary_payer_names,
-                    "search_term": search_term,
-                    "external_id": external_id,
-                    "diagnoses_updated_since": serialize_datetime(diagnoses_updated_since)
-                    if diagnoses_updated_since is not None
-                    else None,
-                    "tag_ids": tag_ids,
-                    "work_queue_id": work_queue_id,
-                    "billable_status": billable_status,
-                    "responsible_party": responsible_party,
-                    "owner_of_next_action": owner_of_next_action,
-                    "patient_external_id": patient_external_id,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "claim_status": claim_status,
+                            "sort": sort,
+                            "page_token": page_token,
+                            "date_of_service_min": date_of_service_min,
+                            "date_of_service_max": date_of_service_max,
+                            "primary_payer_names": primary_payer_names,
+                            "search_term": search_term,
+                            "external_id": external_id,
+                            "diagnoses_updated_since": serialize_datetime(diagnoses_updated_since)
+                            if diagnoses_updated_since is not None
+                            else None,
+                            "tag_ids": tag_ids,
+                            "work_queue_id": work_queue_id,
+                            "billable_status": billable_status,
+                            "responsible_party": responsible_party,
+                            "owner_of_next_action": owner_of_next_action,
+                            "patient_external_id": patient_external_id,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EncounterPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(EncounterPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get(self, encounter_id: EncounterId) -> Encounter:
+    async def get(
+        self, encounter_id: EncounterId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> Encounter:
         """
-        Parameters:
-            - encounter_id: EncounterId.
+        Parameters
+        ----------
+        encounter_id : EncounterId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.encounters.v_4.get(
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{jsonable_encoder(encounter_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Encounter, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def create(
         self,
         *,
-        date_of_service: typing.Optional[Date] = OMIT,
-        end_date_of_service: typing.Optional[Date] = OMIT,
         patient: PatientCreate,
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
+        diagnoses: typing.Sequence[DiagnosisCreate],
+        place_of_service_code: FacilityTypeCode,
+        external_id: EncounterExternalId,
+        patient_authorized_release: bool,
+        benefits_assigned_to_provider: bool,
+        provider_accepts_assignment: bool,
+        billable_status: BillableStatusType,
+        responsible_party: ResponsiblePartyType,
+        date_of_service: typing.Optional[Date] = OMIT,
+        end_date_of_service: typing.Optional[Date] = OMIT,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
         service_facility: typing.Optional[EncounterServiceFacilityBase] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
-        diagnoses: typing.List[DiagnosisCreate],
-        clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = OMIT,
-        billing_notes: typing.Optional[typing.List[BillingNoteBase]] = OMIT,
-        place_of_service_code: FacilityTypeCode,
-        patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = OMIT,
-        service_lines: typing.Optional[typing.List[ServiceLineCreate]] = OMIT,
+        clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
+        billing_notes: typing.Optional[typing.Sequence[BillingNoteBase]] = OMIT,
+        patient_histories: typing.Optional[typing.Sequence[PatientHistoryCategory]] = OMIT,
+        service_lines: typing.Optional[typing.Sequence[ServiceLineCreate]] = OMIT,
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
-        tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
-        external_id: EncounterExternalId,
+        tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
-        patient_authorized_release: bool,
-        benefits_assigned_to_provider: bool,
-        provider_accepts_assignment: bool,
         appointment_type: typing.Optional[str] = OMIT,
-        existing_medications: typing.Optional[typing.List[Medication]] = OMIT,
+        existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
         vitals: typing.Optional[Vitals] = OMIT,
-        interventions: typing.Optional[typing.List[Intervention]] = OMIT,
+        interventions: typing.Optional[typing.Sequence[Intervention]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
-        billable_status: BillableStatusType,
-        responsible_party: ResponsiblePartyType,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
         admission_date: typing.Optional[Date] = OMIT,
@@ -851,123 +1720,582 @@ class AsyncV4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
-        Parameters:
-            - date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-                                                      This date must be the local date in the timezone where the service occurred.
-                                                      Box 24a on the CMS-1500 claim form.
-                                                      If service occurred over a range of dates, this should be the start date.
-                                                      date_of_service must be defined on either the encounter or the service lines but not both.
-                                                      If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+        Parameters
+        ----------
+        patient : PatientCreate
+            Contains the identification information of the individual receiving medical services.
 
-            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
-                                                          This date must be the local date in the timezone where the service occurred.
-                                                          If omitted, the Encounter is assumed to be for a single day.
-                                                          Must not be temporally before the date_of_service field.
-                                                          If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
 
-            - patient: PatientCreate. Contains the identification information of the individual receiving medical services.
+        billing_provider : BillingProvider
+            The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
 
-            - billing_provider: BillingProvider. The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
 
-            - rendering_provider: RenderingProvider. The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
-                                                     For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
+        rendering_provider : RenderingProvider
+            The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
+            For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
 
-            - referring_provider: typing.Optional[ReferringProvider]. The provider who referred the services that were rendered.
-                                                                      All physicians who order services or refer Medicare beneficiaries must
-                                                                      report this data.
-                                                                      If a claim involves multiple referring physicians, create a separate
-                                                                      encounter for each physician.
 
-            - service_facility: typing.Optional[EncounterServiceFacilityBase]. Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
+        diagnoses : typing.Sequence[DiagnosisCreate]
+            Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+            may be submitted at this time, and coders will later prioritize the 12 that will be
+            submitted to the payor.
 
-            - subscriber_primary: typing.Optional[SubscriberCreate]. Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).
-                                                                     These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
-                                                                     However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
-                                                                     Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims.
 
-            - subscriber_secondary: typing.Optional[SubscriberCreate]. Please always include this when you have it, even for self-pay claims.
+        place_of_service_code : FacilityTypeCode
+            Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
-            - diagnoses: typing.List[DiagnosisCreate]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
-                                                       may be submitted at this time, and coders will later prioritize the 12 that will be
-                                                       submitted to the payor.
 
-            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
+        external_id : EncounterExternalId
+            A client-specified unique ID to associate with this encounter;
+            for example, your internal encounter ID or a Dr. Chrono encounter ID.
+            This field should not contain PHI.
 
-            - billing_notes: typing.Optional[typing.List[BillingNoteBase]]. Spot to store misc, human-readable, notes about this encounter to be used
-                                                                            in the billing process.
+        patient_authorized_release : bool
+            Whether this patient has authorized the release of medical information
+            for billing purpose.
+            Box 12 on the CMS-1500 claim form.
 
-            - place_of_service_code: FacilityTypeCode. Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        benefits_assigned_to_provider : bool
+            Whether this patient has authorized insurance payments to be made to you,
+            not them. If false, patient may receive reimbursement.
+            Box 13 on the CMS-1500 claim form.
 
-            - patient_histories: typing.Optional[typing.List[PatientHistoryCategory]].
+        provider_accepts_assignment : bool
+            Whether you have accepted the patient's authorization for insurance payments
+            to be made to you, not them.
+            Box 27 on the CMS-1500 claim form.
 
-            - service_lines: typing.Optional[typing.List[ServiceLineCreate]]. Each service line must be linked to a diagnosis. Concretely,
-                                                                              `service_line.diagnosis_pointers`must contain at least one entry which should be
-                                                                              in bounds of the diagnoses list field.
+        billable_status : BillableStatusType
+            Defines if the Encounter is to be billed by Candid to the responsible_party.
+            Examples for when this should be set to NOT_BILLABLE include
+            if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - guarantor: typing.Optional[GuarantorCreate]. Personal and contact info for the guarantor of the patient responsibility.
+        responsible_party : ResponsiblePartyType
+            Defines the party to be billed with the initial balance owed on the claim.
 
-            - external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate]. ***This field is in beta.***
-                                                                                         To be included for claims that have been submitted outside of Candid.
-                                                                                         Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
+        date_of_service : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+            Box 24a on the CMS-1500 claim form.
+            If service occurred over a range of dates, this should be the start date.
+            date_of_service must be defined on either the encounter or the service lines but not both.
+            If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
 
-            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.
 
-            - external_id: EncounterExternalId. A client-specified unique ID to associate with this encounter;
-                                                for example, your internal encounter ID or a Dr. Chrono encounter ID.
-                                                This field should not contain PHI.
-            - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
+        end_date_of_service : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+            This date must be the local date in the timezone where the service occurred.
+            If omitted, the Encounter is assumed to be for a single day.
+            Must not be temporally before the date_of_service field.
+            If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
 
-            - patient_authorized_release: bool. Whether this patient has authorized the release of medical information
-                                                for billing purpose.
-                                                Box 12 on the CMS-1500 claim form.
-            - benefits_assigned_to_provider: bool. Whether this patient has authorized insurance payments to be made to you,
-                                                   not them. If false, patient may receive reimbursement.
-                                                   Box 13 on the CMS-1500 claim form.
-            - provider_accepts_assignment: bool. Whether you have accepted the patient's authorization for insurance payments
-                                                 to be made to you, not them.
-                                                 Box 27 on the CMS-1500 claim form.
-            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
-            - existing_medications: typing.Optional[typing.List[Medication]].
+        referring_provider : typing.Optional[ReferringProvider]
+            The provider who referred the services that were rendered.
+            All physicians who order services or refer Medicare beneficiaries must
+            report this data.
+            If a claim involves multiple referring physicians, create a separate
+            encounter for each physician.
 
-            - vitals: typing.Optional[Vitals].
 
-            - interventions: typing.Optional[typing.List[Intervention]].
+        service_facility : typing.Optional[EncounterServiceFacilityBase]
+            Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
 
-            - pay_to_address: typing.Optional[StreetAddressLongZip]. Specifies the address to which payments for the claim should be sent.
 
-            - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter.
-                                                                 Asynchronous encounters occur when providers and patients communicate online using
-                                                                 forms, instant messaging, or other pre-recorded digital mediums.
-                                                                 Synchronous encounters occur in live, real-time settings where the patient interacts
-                                                                 directly with the provider, such as over video or a phone call.
-            - billable_status: BillableStatusType. Defines if the Encounter is to be billed by Candid to the responsible_party.
-                                                   Examples for when this should be set to NOT_BILLABLE include
-                                                   if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
-            - responsible_party: ResponsiblePartyType. Defines the party to be billed with the initial balance owed on the claim.
+        subscriber_primary : typing.Optional[SubscriberCreate]
+            Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. when the claim should be billed to insurance).
+            These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
+            However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
+            Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims.
 
-            - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
-                                                            Box 19 on the CMS-1500 claim form.
-            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF\*4N
-                                                                                                        Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
-                                                                                                        reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
-                                                                                                        obtaining the authorization.
-            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP\*435, CMS-1500 Box 18
-                                                     Required on all ambulance claims when the patient was known to be admitted to the hospital.
-                                                     OR
-                                                     Required on all claims involving inpatient medical visits.
-            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP\*096, CMS-1500 Box 18
-                                                     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
-            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP\*431, CMS-1500 Box 14
-                                                                               Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
-                                                                               OR
-                                                                               This date is the onset of acute symptoms for the current illness or condition.
-            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP\*484, CMS-1500 Box 14
-                                                                 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
-            - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
-                                                                   Code indicating the reason why a request was delayed
+
+        subscriber_secondary : typing.Optional[SubscriberCreate]
+            Please always include this when you have it, even for self-pay claims.
+
+
+        clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
+            Holds a collection of clinical observations made by healthcare providers during patient encounters.
+
+        billing_notes : typing.Optional[typing.Sequence[BillingNoteBase]]
+            Spot to store misc, human-readable, notes about this encounter to be used
+            in the billing process.
+
+
+        patient_histories : typing.Optional[typing.Sequence[PatientHistoryCategory]]
+
+        service_lines : typing.Optional[typing.Sequence[ServiceLineCreate]]
+            Each service line must be linked to a diagnosis. Concretely,
+            `service_line.diagnosis_pointers`must contain at least one entry which should be
+            in bounds of the diagnoses list field.
+
+
+        guarantor : typing.Optional[GuarantorCreate]
+            Personal and contact info for the guarantor of the patient responsibility.
+
+
+        external_claim_submission : typing.Optional[ExternalClaimSubmissionCreate]
+            ***This field is in beta.***
+            To be included for claims that have been submitted outside of Candid.
+            Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
+
+
+        tag_ids : typing.Optional[typing.Sequence[TagId]]
+            Names of tags that should be on the encounter.
+
+        prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
+            Box 23 on the CMS-1500 claim form.
+
+        appointment_type : typing.Optional[str]
+            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
+
+        existing_medications : typing.Optional[typing.Sequence[Medication]]
+
+        vitals : typing.Optional[Vitals]
+
+        interventions : typing.Optional[typing.Sequence[Intervention]]
+
+        pay_to_address : typing.Optional[StreetAddressLongZip]
+            Specifies the address to which payments for the claim should be sent.
+
+        synchronicity : typing.Optional[SynchronicityType]
+            Whether or not this was a synchronous or asynchronous encounter.
+            Asynchronous encounters occur when providers and patients communicate online using
+            forms, instant messaging, or other pre-recorded digital mediums.
+            Synchronous encounters occur in live, real-time settings where the patient interacts
+            directly with the provider, such as over video or a phone call.
+
+        additional_information : typing.Optional[str]
+            Defines additional information on the claim needed by the payer.
+            Box 19 on the CMS-1500 claim form.
+
+        service_authorization_exception_code : typing.Optional[ServiceAuthorizationExceptionCode]
+            837p Loop2300 REF\*4N
+            Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+            reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+            obtaining the authorization.
+
+        admission_date : typing.Optional[Date]
+            837p Loop2300 DTP\*435, CMS-1500 Box 18
+            Required on all ambulance claims when the patient was known to be admitted to the hospital.
+            OR
+            Required on all claims involving inpatient medical visits.
+
+        discharge_date : typing.Optional[Date]
+            837p Loop2300 DTP\*096, CMS-1500 Box 18
+            Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+
+        onset_of_current_illness_or_symptom_date : typing.Optional[Date]
+            837p Loop2300 DTP\*431, CMS-1500 Box 14
+            Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
+            OR
+            This date is the onset of acute symptoms for the current illness or condition.
+
+        last_menstrual_period_date : typing.Optional[Date]
+            837p Loop2300 DTP\*484, CMS-1500 Box 14
+            Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+
+        delay_reason_code : typing.Optional[DelayReasonCode]
+            837i Loop2300, CLM-1300 Box 20
+            Code indicating the reason why a request was delayed
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import datetime
+
+        from candid import (
+            ClaimSubmissionPayerResponsibilityType,
+            DelayReasonCode,
+            DiagnosisCreate,
+            DiagnosisTypeCode,
+            EmrPayerCrosswalk,
+            EncounterServiceFacilityBase,
+            FacilityTypeCode,
+            Gender,
+            InsuranceTypeCode,
+            IntendedSubmissionMedium,
+            PatientCreate,
+            PatientRelationshipToInsuredCodeAll,
+            PhoneNumber,
+            PhoneNumberType,
+            ProcedureModifier,
+            ServiceLineUnits,
+            SourceOfPaymentCode,
+            State,
+            StreetAddressLongZip,
+            StreetAddressShortZip,
+            SubscriberCreate,
+        )
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.billing_notes.v_2 import BillingNoteBase
+        from candid.resources.claim_submission.v_1 import (
+            ClaimFrequencyTypeCode,
+            ClaimSubmissionRecordCreate,
+            ExternalClaimSubmissionCreate,
+        )
+        from candid.resources.encounter_providers.v_2 import (
+            BillingProvider,
+            ReferringProvider,
+            RenderingProvider,
+        )
+        from candid.resources.encounters.v_4 import (
+            BillableStatusType,
+            ClinicalNote,
+            ClinicalNoteCategoryCreate,
+            IntakeFollowUp,
+            IntakeQuestion,
+            IntakeResponseAndFollowUps,
+            Intervention,
+            InterventionCategory,
+            Lab,
+            LabCodeType,
+            Medication,
+            NoteCategory,
+            PatientHistoryCategory,
+            PatientHistoryCategoryEnum,
+            ResponsiblePartyType,
+            ServiceAuthorizationExceptionCode,
+            SynchronicityType,
+            Vitals,
+        )
+        from candid.resources.guarantor.v_1 import GuarantorCreate
+        from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
+        from candid.resources.service_lines.v_2 import (
+            DrugIdentification,
+            ServiceLineCreate,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.encounters.v_4.create(
+            date_of_service="string",
+            end_date_of_service="string",
+            patient=PatientCreate(
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+                external_id="string",
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            billing_provider=BillingProvider(
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                tax_id="string",
+                npi="string",
+                taxonomy_code="string",
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            rendering_provider=RenderingProvider(
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                npi="string",
+                taxonomy_code="string",
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            referring_provider=ReferringProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            service_facility=EncounterServiceFacilityBase(
+                organization_name="string",
+                npi="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+            subscriber_primary=SubscriberCreate(
+                insurance_card=InsuranceCardCreate(
+                    member_id="string",
+                    payer_name="string",
+                    payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
+                ),
+                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            subscriber_secondary=SubscriberCreate(
+                insurance_card=InsuranceCardCreate(
+                    member_id="string",
+                    payer_name="string",
+                    payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
+                ),
+                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            diagnoses=[
+                DiagnosisCreate(
+                    name="string",
+                    code_type=DiagnosisTypeCode.ABF,
+                    code="string",
+                )
+            ],
+            clinical_notes=[
+                ClinicalNoteCategoryCreate(
+                    category=NoteCategory.CLINICAL,
+                    notes=[ClinicalNote()],
+                )
+            ],
+            billing_notes=[
+                BillingNoteBase(
+                    text="string",
+                )
+            ],
+            place_of_service_code=FacilityTypeCode.PHARMACY,
+            patient_histories=[
+                PatientHistoryCategory(
+                    category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
+                    questions=[
+                        IntakeQuestion(
+                            id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
+                            text="Do you have any allergies?",
+                            responses=[
+                                IntakeResponseAndFollowUps(
+                                    response="No allergies",
+                                    follow_ups=[
+                                        IntakeFollowUp(
+                                            id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
+                                            text="Do you have any allergies?",
+                                            response="No allergies",
+                                        )
+                                    ],
+                                )
+                            ],
+                        )
+                    ],
+                )
+            ],
+            service_lines=[
+                ServiceLineCreate(
+                    modifiers=[ProcedureModifier.TWENTY_TWO],
+                    procedure_code="string",
+                    quantity="string",
+                    units=ServiceLineUnits.MJ,
+                    charge_amount_cents=1,
+                    diagnosis_pointers=[1],
+                    drug_identification=DrugIdentification(),
+                    place_of_service_code=FacilityTypeCode.PHARMACY,
+                    description="string",
+                    date_of_service=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end_date_of_service=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                )
+            ],
+            guarantor=GuarantorCreate(
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+                first_name="string",
+                last_name="string",
+                external_id="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+            external_claim_submission=ExternalClaimSubmissionCreate(
+                claim_created_at=datetime.datetime.fromisoformat(
+                    "2023-01-01 12:00:00+00:00",
+                ),
+                patient_control_number="PATIENT_CONTROL_NUMBER",
+                submission_records=[
+                    ClaimSubmissionRecordCreate(
+                        submitted_at=datetime.datetime.fromisoformat(
+                            "2023-01-01 13:00:00+00:00",
+                        ),
+                        claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
+                        payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                        intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
+                    ),
+                    ClaimSubmissionRecordCreate(
+                        submitted_at=datetime.datetime.fromisoformat(
+                            "2023-01-04 12:00:00+00:00",
+                        ),
+                        claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
+                        payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                        intended_submission_medium=IntendedSubmissionMedium.PAPER,
+                    ),
+                ],
+            ),
+            tag_ids=["string"],
+            external_id="string",
+            prior_authorization_number="string",
+            patient_authorized_release=True,
+            benefits_assigned_to_provider=True,
+            provider_accepts_assignment=True,
+            appointment_type="string",
+            existing_medications=[
+                Medication(
+                    name="Lisinopril",
+                    rx_cui="860975",
+                    dosage="10mg",
+                    dosage_form="Tablet",
+                    frequency="Once Daily",
+                    as_needed=True,
+                )
+            ],
+            vitals=Vitals(
+                height_in=70,
+                weight_lbs=165,
+                blood_pressure_systolic_mmhg=115,
+                blood_pressure_diastolic_mmhg=85,
+                body_temperature_f=98.0,
+            ),
+            interventions=[
+                Intervention(
+                    name="Physical Therapy Session",
+                    category=InterventionCategory.LIFESTYLE,
+                    description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
+                    medication=Medication(
+                        name="Lisinopril",
+                        rx_cui="860975",
+                        dosage="10mg",
+                        dosage_form="Tablet",
+                        frequency="Once Daily",
+                        as_needed=True,
+                    ),
+                    labs=[
+                        Lab(
+                            name="Genetic Health Labs",
+                            code="GH12345",
+                            code_type=LabCodeType.QUEST,
+                        )
+                    ],
+                )
+            ],
+            pay_to_address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            synchronicity=SynchronicityType.SYNCHRONOUS,
+            billable_status=BillableStatusType.BILLABLE,
+            responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+            additional_information="string",
+            service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
+            admission_date="string",
+            discharge_date="string",
+            onset_of_current_illness_or_symptom_date="string",
+            last_menstrual_period_date="string",
+            delay_reason_code=DelayReasonCode.C_1,
+        )
         """
         _request: typing.Dict[str, typing.Any] = {
             "patient": patient,
@@ -1037,42 +2365,63 @@ class AsyncV4Client:
         if delay_reason_code is not OMIT:
             _request["delay_reason_code"] = delay_reason_code
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/encounters/v4"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Encounter, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
                 raise EncounterExternalIdUniquenessError(
-                    pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EncounterPatientControlNumberUniquenessError":
                 raise EncounterPatientControlNumberUniquenessError(
-                    pydantic.parse_obj_as(EncounterPatientControlNumberUniquenessErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterPatientControlNumberUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
                 raise EncounterGuarantorMissingContactInfoError(
-                    pydantic.parse_obj_as(EncounterGuarantorMissingContactInfoErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterGuarantorMissingContactInfoErrorType, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
-                    pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "CashPayPayerError":
                 raise CashPayPayerError(
-                    pydantic.parse_obj_as(CashPayPayerErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(CashPayPayerErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -1083,9 +2432,9 @@ class AsyncV4Client:
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         external_id: typing.Optional[EncounterExternalId] = OMIT,
         date_of_service: typing.Optional[Date] = OMIT,
-        diagnosis_ids: typing.Optional[typing.List[DiagnosisId]] = OMIT,
-        tag_ids: typing.Optional[typing.List[TagId]] = OMIT,
-        clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = OMIT,
+        diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
+        tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
+        clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         billable_status: typing.Optional[BillableStatusType] = OMIT,
         responsible_party: typing.Optional[ResponsiblePartyType] = OMIT,
@@ -1105,88 +2454,276 @@ class AsyncV4Client:
         last_menstrual_period_date: typing.Optional[Date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
-        Parameters:
-            - encounter_id: EncounterId.
+        Parameters
+        ----------
+        encounter_id : EncounterId
 
-            - prior_authorization_number: typing.Optional[PriorAuthorizationNumber]. Box 23 on the CMS-1500 claim form.
+        prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
+            Box 23 on the CMS-1500 claim form.
 
-            - external_id: typing.Optional[EncounterExternalId]. A client-specified unique ID to associate with this encounter;
-                                                                 for example, your internal encounter ID or a Dr. Chrono encounter ID.
-                                                                 This field should not contain PHI.
+        external_id : typing.Optional[EncounterExternalId]
+            A client-specified unique ID to associate with this encounter;
+            for example, your internal encounter ID or a Dr. Chrono encounter ID.
+            This field should not contain PHI.
 
-            - date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-                                                      This date must be the local date in the timezone where the service occurred.
-                                                      Box 24a on the CMS-1500 claim form.
-                                                      If service occurred over a range of dates, this should be the start date.
-                                                      If service lines have distinct date_of_service values, updating the encounter's date_of_service will fail. If all service line date_of_service values are the same, updating the encounter's date_of_service will update all service line date_of_service values.
 
-            - diagnosis_ids: typing.Optional[typing.List[DiagnosisId]]. Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
-                                                                        may be submitted at this time, and coders will later prioritize the 12 that will be
-                                                                        submitted to the payor.
+        date_of_service : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+            Box 24a on the CMS-1500 claim form.
+            If service occurred over a range of dates, this should be the start date.
+            If service lines have distinct date_of_service values, updating the encounter's date_of_service will fail. If all service line date_of_service values are the same, updating the encounter's date_of_service will update all service line date_of_service values.
 
-            - tag_ids: typing.Optional[typing.List[TagId]]. Names of tags that should be on the encounter.  Note all tags on encounter will be overriden with this list.
 
-            - clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]]. Holds a collection of clinical observations made by healthcare providers during patient encounters.
+        diagnosis_ids : typing.Optional[typing.Sequence[DiagnosisId]]
+            Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+            may be submitted at this time, and coders will later prioritize the 12 that will be
+            submitted to the payor.
 
-            - pay_to_address: typing.Optional[StreetAddressLongZip]. Specifies the address to which payments for the claim should be sent.
 
-            - billable_status: typing.Optional[BillableStatusType]. Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+        tag_ids : typing.Optional[typing.Sequence[TagId]]
+            Names of tags that should be on the encounter.  Note all tags on encounter will be overriden with this list.
 
-            - responsible_party: typing.Optional[ResponsiblePartyType]. Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
+        clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
+            Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
-            - provider_accepts_assignment: typing.Optional[bool]. Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form.
+        pay_to_address : typing.Optional[StreetAddressLongZip]
+            Specifies the address to which payments for the claim should be sent.
 
-            - benefits_assigned_to_provider: typing.Optional[bool]. Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
+        billable_status : typing.Optional[BillableStatusType]
+            Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-            - synchronicity: typing.Optional[SynchronicityType]. Whether or not this was a synchronous or asynchronous encounter. Asynchronous encounters occur when providers and patients communicate online using forms, instant messaging, or other pre-recorded digital mediums. Synchronous encounters occur in live, real-time settings where the patient interacts directly with the provider, such as over video or a phone call.
 
-            - place_of_service_code: typing.Optional[FacilityTypeCode]. Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+        responsible_party : typing.Optional[ResponsiblePartyType]
+            Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
 
-            - appointment_type: typing.Optional[str]. Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
-            - end_date_of_service: typing.Optional[Date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
-                                                          This date must be the local date in the timezone where the service occurred.
-                                                          If omitted, the Encounter is assumed to be for a single day.
-                                                          Must not be temporally before the date_of_service field.
-                                                          If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
+        provider_accepts_assignment : typing.Optional[bool]
+            Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form.
 
-            - subscriber_primary: typing.Optional[SubscriberCreate]. Contains details of the primary insurance subscriber.
 
-            - subscriber_secondary: typing.Optional[SubscriberCreate]. Contains details of the secondary insurance subscriber.
+        benefits_assigned_to_provider : typing.Optional[bool]
+            Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
 
-            - additional_information: typing.Optional[str]. Defines additional information on the claim needed by the payer.
-                                                            Box 19 on the CMS-1500 claim form.
 
-            - service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode]. 837p Loop2300 REF*4N
-                                                                                                        Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
-                                                                                                        reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
-                                                                                                        obtaining the authorization.
+        synchronicity : typing.Optional[SynchronicityType]
+            Whether or not this was a synchronous or asynchronous encounter. Asynchronous encounters occur when providers and patients communicate online using forms, instant messaging, or other pre-recorded digital mediums. Synchronous encounters occur in live, real-time settings where the patient interacts directly with the provider, such as over video or a phone call.
 
-            - admission_date: typing.Optional[Date]. 837p Loop2300 DTP*435, CMS-1500 Box 18
-                                                     Required on all ambulance claims when the patient was known to be admitted to the hospital.
-                                                     OR
-                                                     Required on all claims involving inpatient medical visits.
 
-            - discharge_date: typing.Optional[Date]. 837p Loop2300 DTP*096, CMS-1500 Box 18
-                                                     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+        place_of_service_code : typing.Optional[FacilityTypeCode]
+            Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
-            - onset_of_current_illness_or_symptom_date: typing.Optional[Date]. 837p Loop2300 DTP*431, CMS-1500 Box 14
-                                                                               Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
-                                                                               OR
-                                                                               This date is the onset of acute symptoms for the current illness or condition.
 
-            - last_menstrual_period_date: typing.Optional[Date]. 837p Loop2300 DTP*484, CMS-1500 Box 14
-                                                                 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+        appointment_type : typing.Optional[str]
+            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
-            - delay_reason_code: typing.Optional[DelayReasonCode]. 837i Loop2300, CLM-1300 Box 20
-                                                                   Code indicating the reason why a request was delayed
 
-            - patient_authorized_release: typing.Optional[bool]. Whether this patient has authorized the release of medical information
-                                                                 for billing purpose.
-                                                                 Box 12 on the CMS-1500 claim form.
+        end_date_of_service : typing.Optional[Date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+            This date must be the local date in the timezone where the service occurred.
+            If omitted, the Encounter is assumed to be for a single day.
+            Must not be temporally before the date_of_service field.
+            If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
 
+
+        subscriber_primary : typing.Optional[SubscriberCreate]
+            Contains details of the primary insurance subscriber.
+
+        subscriber_secondary : typing.Optional[SubscriberCreate]
+            Contains details of the secondary insurance subscriber.
+
+        additional_information : typing.Optional[str]
+            Defines additional information on the claim needed by the payer.
+            Box 19 on the CMS-1500 claim form.
+
+
+        service_authorization_exception_code : typing.Optional[ServiceAuthorizationExceptionCode]
+            837p Loop2300 REF*4N
+            Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
+            reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
+            obtaining the authorization.
+
+
+        admission_date : typing.Optional[Date]
+            837p Loop2300 DTP*435, CMS-1500 Box 18
+            Required on all ambulance claims when the patient was known to be admitted to the hospital.
+            OR
+            Required on all claims involving inpatient medical visits.
+
+
+        discharge_date : typing.Optional[Date]
+            837p Loop2300 DTP*096, CMS-1500 Box 18
+            Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+
+
+        onset_of_current_illness_or_symptom_date : typing.Optional[Date]
+            837p Loop2300 DTP*431, CMS-1500 Box 14
+            Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
+            OR
+            This date is the onset of acute symptoms for the current illness or condition.
+
+
+        last_menstrual_period_date : typing.Optional[Date]
+            837p Loop2300 DTP*484, CMS-1500 Box 14
+            Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
+
+
+        delay_reason_code : typing.Optional[DelayReasonCode]
+            837i Loop2300, CLM-1300 Box 20
+            Code indicating the reason why a request was delayed
+
+
+        patient_authorized_release : typing.Optional[bool]
+            Whether this patient has authorized the release of medical information
+            for billing purpose.
+            Box 12 on the CMS-1500 claim form.
+
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import uuid
+
+        from candid import (
+            DelayReasonCode,
+            EmrPayerCrosswalk,
+            FacilityTypeCode,
+            Gender,
+            InsuranceTypeCode,
+            PatientRelationshipToInsuredCodeAll,
+            SourceOfPaymentCode,
+            State,
+            StreetAddressLongZip,
+            StreetAddressShortZip,
+            SubscriberCreate,
+        )
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.encounters.v_4 import (
+            BillableStatusType,
+            ClinicalNote,
+            ClinicalNoteCategoryCreate,
+            NoteCategory,
+            ResponsiblePartyType,
+            ServiceAuthorizationExceptionCode,
+            SynchronicityType,
+        )
+        from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.encounters.v_4.update(
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            prior_authorization_number="string",
+            external_id="string",
+            date_of_service="string",
+            diagnosis_ids=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+            tag_ids=["string"],
+            clinical_notes=[
+                ClinicalNoteCategoryCreate(
+                    category=NoteCategory.CLINICAL,
+                    notes=[ClinicalNote()],
+                )
+            ],
+            pay_to_address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            billable_status=BillableStatusType.BILLABLE,
+            responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+            provider_accepts_assignment=True,
+            benefits_assigned_to_provider=True,
+            synchronicity=SynchronicityType.SYNCHRONOUS,
+            place_of_service_code=FacilityTypeCode.PHARMACY,
+            appointment_type="string",
+            end_date_of_service="string",
+            subscriber_primary=SubscriberCreate(
+                insurance_card=InsuranceCardCreate(
+                    member_id="string",
+                    payer_name="string",
+                    payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
+                ),
+                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            subscriber_secondary=SubscriberCreate(
+                insurance_card=InsuranceCardCreate(
+                    member_id="string",
+                    payer_name="string",
+                    payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
+                ),
+                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
+            additional_information="string",
+            service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
+            admission_date="string",
+            discharge_date="string",
+            onset_of_current_illness_or_symptom_date="string",
+            last_menstrual_period_date="string",
+            delay_reason_code=DelayReasonCode.C_1,
+            patient_authorized_release=True,
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if prior_authorization_number is not OMIT:
@@ -1240,33 +2777,56 @@ class AsyncV4Client:
         if patient_authorized_release is not OMIT:
             _request["patient_authorized_release"] = patient_authorized_release
         _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{encounter_id}"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/encounters/v4/{jsonable_encoder(encounter_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Encounter, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Encounter, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
                 raise EncounterExternalIdUniquenessError(
-                    pydantic.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterExternalIdUniquenessErrorType, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
-                    pydantic.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

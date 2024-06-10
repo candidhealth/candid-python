@@ -3,21 +3,21 @@
 import datetime as dt
 import typing
 
+import pydantic
+
 from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....service_lines.resources.v_2.types.denial_reason_content import DenialReasonContent
 from .....x_12.resources.v_1.types.claim_adjustment_reason_code import ClaimAdjustmentReasonCode
 from .....x_12.resources.v_1.types.remittance_advice_remark_code import RemittanceAdviceRemarkCode
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class ServiceLineAdjudicationCreate(pydantic.BaseModel):
-    denial_reason: typing.Optional[DenialReasonContent] = pydantic.Field(
-        default=None, description="Will be treated as a denial if present"
-    )
+    denial_reason: typing.Optional[DenialReasonContent] = pydantic.Field(default=None)
+    """
+    Will be treated as a denial if present
+    """
+
     insurance_allowed_amount_cents: typing.Optional[int] = None
     insurance_paid_amount_cents: typing.Optional[int] = None
     deductible_amount_cents: typing.Optional[int] = None
@@ -31,10 +31,15 @@ class ServiceLineAdjudicationCreate(pydantic.BaseModel):
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

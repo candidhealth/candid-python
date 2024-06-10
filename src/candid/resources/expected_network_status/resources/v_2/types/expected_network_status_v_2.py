@@ -2,40 +2,91 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
-import typing_extensions
+import pydantic
 
-from .in_network_status import InNetworkStatus
-from .indeterminate_network_status import IndeterminateNetworkStatus
-from .out_of_network_status import OutOfNetworkStatus
-
-
-class ExpectedNetworkStatusV2_InNetwork(InNetworkStatus):
-    type: typing_extensions.Literal["in_network"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....organization_providers.resources.v_2.types.organization_provider_id import OrganizationProviderId
+from .....payers.resources.v_3.types.payer_uuid import PayerUuid
+from .explanation import Explanation
 
 
-class ExpectedNetworkStatusV2_OutOfNetwork(OutOfNetworkStatus):
-    type: typing_extensions.Literal["out_of_network"]
+class ExpectedNetworkStatusV2_InNetwork(pydantic.BaseModel):
+    routed_payer_uuid: PayerUuid
+    routed_billing_provider_id: OrganizationProviderId
+    type: typing.Literal["in_network"] = "in_network"
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
 
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
 
-class ExpectedNetworkStatusV2_Indeterminate(IndeterminateNetworkStatus):
-    type: typing_extensions.Literal["indeterminate"]
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
+
+
+class ExpectedNetworkStatusV2_OutOfNetwork(pydantic.BaseModel):
+    explanation: Explanation
+    routed_payer_uuid: PayerUuid
+    routed_billing_provider_id: OrganizationProviderId
+    type: typing.Literal["out_of_network"] = "out_of_network"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
+
+    class Config:
+        frozen = True
+        smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
+
+
+class ExpectedNetworkStatusV2_Indeterminate(pydantic.BaseModel):
+    error: str
+    explanation: Explanation
+    routed_payer_uuid: typing.Optional[PayerUuid] = None
+    routed_billing_provider_id: typing.Optional[OrganizationProviderId] = None
+    type: typing.Literal["indeterminate"] = "indeterminate"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
+
+    class Config:
+        frozen = True
+        smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
 ExpectedNetworkStatusV2 = typing.Union[

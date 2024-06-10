@@ -4,31 +4,18 @@ from __future__ import annotations
 
 import typing
 
-import typing_extensions
+import pydantic
 
 from .refund_reason import RefundReason
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class RefundReasonUpdate_Set(pydantic.BaseModel):
-    type: typing_extensions.Literal["set"]
     value: RefundReason
+    type: typing.Literal["set"] = "set"
 
     class Config:
         frozen = True
         smart_union = True
 
 
-class RefundReasonUpdate_Remove(pydantic.BaseModel):
-    type: typing_extensions.Literal["remove"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-RefundReasonUpdate = typing.Union[RefundReasonUpdate_Set, RefundReasonUpdate_Remove]
+RefundReasonUpdate = typing.Union[RefundReasonUpdate_Set]

@@ -7,15 +7,14 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
+from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.errors.http_service_unavailable_error import HttpServiceUnavailableError
 from ....commons.types.http_service_unavailable_error_message import HttpServiceUnavailableErrorMessage
 from ....commons.types.request_validation_error import RequestValidationError
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -25,7 +24,9 @@ class V2Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def submit_eligibility_check(self, *, request: typing.Any) -> typing.Any:
+    def submit_eligibility_check(
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
         """
         This API is a wrapper around Change Healthcare's eligibility API. Below are some helpful documentation links:
 
@@ -42,66 +43,73 @@ class V2Client:
 
         A schema of the response object can be found here: [Change Healthcare Docs](https://developers.changehealthcare.com/eligibilityandclaims/reference/medicaleligibility)
 
-        Parameters:
-            - request: typing.Any.
+        Parameters
+        ----------
+        request : typing.Any
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Any
+
+        Examples
+        --------
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.eligibility.v_2.submit_eligibility_check(
+            request={"key": "value"},
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.Any, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpServiceUnavailableError":
                 raise HttpServiceUnavailableError(
-                    pydantic.parse_obj_as(HttpServiceUnavailableErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(HttpServiceUnavailableErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def submit_eligibility_check_availity(self) -> typing.Any:
-        """
-        If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
-
-        This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:
-
-        - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
-        - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
-
-        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
-
-        - Note Availity requires a free developer account to access this documentation.
-
-        Check connection status of Availity API and partners here:
-
-        - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
-        """
-        _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "HttpRequestValidationError":
-                raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
-                )
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    def submit_eligibility_check_availity_post(self, *, request: typing.Any) -> typing.Any:
+    def submit_eligibility_check_availity(
+        self, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
         """
         If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
 
@@ -118,26 +126,140 @@ class V2Client:
 
         - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
 
-        Parameters:
-            - request: typing.Any.
+        Parameters
+        ----------
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Any
+
+        Examples
+        --------
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.eligibility.v_2.submit_eligibility_check_availity()
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.Any, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def submit_eligibility_check_availity_post(
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
+        """
+        If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
+
+        This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:
+
+        - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
+        - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
+
+        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
+
+        - Note Availity requires a free developer account to access this documentation.
+
+        Check connection status of Availity API and partners here:
+
+        - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
+
+        Parameters
+        ----------
+        request : typing.Any
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Any
+
+        Examples
+        --------
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.eligibility.v_2.submit_eligibility_check_availity_post(
+            request={"key": "value"},
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(typing.Any, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -146,7 +268,9 @@ class AsyncV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def submit_eligibility_check(self, *, request: typing.Any) -> typing.Any:
+    async def submit_eligibility_check(
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
         """
         This API is a wrapper around Change Healthcare's eligibility API. Below are some helpful documentation links:
 
@@ -163,66 +287,73 @@ class AsyncV2Client:
 
         A schema of the response object can be found here: [Change Healthcare Docs](https://developers.changehealthcare.com/eligibilityandclaims/reference/medicaleligibility)
 
-        Parameters:
-            - request: typing.Any.
+        Parameters
+        ----------
+        request : typing.Any
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Any
+
+        Examples
+        --------
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.eligibility.v_2.submit_eligibility_check(
+            request={"key": "value"},
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.Any, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpServiceUnavailableError":
                 raise HttpServiceUnavailableError(
-                    pydantic.parse_obj_as(HttpServiceUnavailableErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(HttpServiceUnavailableErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def submit_eligibility_check_availity(self) -> typing.Any:
-        """
-        If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
-
-        This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:
-
-        - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
-        - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
-
-        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
-
-        - Note Availity requires a free developer account to access this documentation.
-
-        Check connection status of Availity API and partners here:
-
-        - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
-        """
-        _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "HttpRequestValidationError":
-                raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
-                )
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    async def submit_eligibility_check_availity_post(self, *, request: typing.Any) -> typing.Any:
+    async def submit_eligibility_check_availity(
+        self, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
         """
         If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
 
@@ -239,25 +370,139 @@ class AsyncV2Client:
 
         - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
 
-        Parameters:
-            - request: typing.Any.
+        Parameters
+        ----------
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Any
+
+        Examples
+        --------
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.eligibility.v_2.submit_eligibility_check_availity()
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.Any, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
-                    pydantic.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def submit_eligibility_check_availity_post(
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
+        """
+        If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
+
+        This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:
+
+        - [Availity - Coverages 1.0.0 API](https://developer.availity.com/partner/documentation#c_coverages_references)
+        - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
+
+        A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
+
+        - Note Availity requires a free developer account to access this documentation.
+
+        Check connection status of Availity API and partners here:
+
+        - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
+
+        Parameters
+        ----------
+        request : typing.Any
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Any
+
+        Examples
+        --------
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.eligibility.v_2.submit_eligibility_check_availity_post(
+            request={"key": "value"},
+        )
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/eligibility/v2/availity"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(typing.Any, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

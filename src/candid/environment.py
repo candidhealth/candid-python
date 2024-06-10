@@ -3,6 +3,6 @@
 import enum
 
 
-class CandidApiEnvironment(enum.Enum):
+class CandidApiClientEnvironment(enum.Enum):
     PRODUCTION = "https://api.joincandidhealth.com"
     STAGING = "https://api-staging.joincandidhealth.com"

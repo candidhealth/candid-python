@@ -3,51 +3,86 @@
 import datetime as dt
 import typing
 
-from ......core.datetime_utils import serialize_datetime
-from .claim_submission_record_create import ClaimSubmissionRecordCreate
+import pydantic
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .claim_submission_record_create import ClaimSubmissionRecordCreate
 
 
 class ExternalClaimSubmissionCreate(pydantic.BaseModel):
     """
+    Examples
+    --------
     import datetime
 
-    from candid import (ClaimSubmissionPayerResponsibilityType,
-                        IntendedSubmissionMedium)
+    from candid import (
+        ClaimSubmissionPayerResponsibilityType,
+        IntendedSubmissionMedium,
+    )
     from candid.resources.claim_submission.v_1 import (
-        ClaimFrequencyTypeCode, ClaimSubmissionRecordCreate,
-        ExternalClaimSubmissionCreate)
+        ClaimFrequencyTypeCode,
+        ClaimSubmissionRecordCreate,
+        ExternalClaimSubmissionCreate,
+    )
 
-    ExternalClaimSubmissionCreate(claim_created_at=datetime.datetime.fromisoformat("2023-01-01 12:00:00+00:00", ), patient_control_number="PATIENT_CONTROL_NUMBER", submission_records=[ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-01 13:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.1, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC, ), ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-04 12:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.7, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, intended_submission_medium=IntendedSubmissionMedium.PAPER, )], )
+    ExternalClaimSubmissionCreate(
+        claim_created_at=datetime.datetime.fromisoformat(
+            "2023-01-01 12:00:00+00:00",
+        ),
+        patient_control_number="PATIENT_CONTROL_NUMBER",
+        submission_records=[
+            ClaimSubmissionRecordCreate(
+                submitted_at=datetime.datetime.fromisoformat(
+                    "2023-01-01 13:00:00+00:00",
+                ),
+                claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
+                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
+            ),
+            ClaimSubmissionRecordCreate(
+                submitted_at=datetime.datetime.fromisoformat(
+                    "2023-01-04 12:00:00+00:00",
+                ),
+                claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
+                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                intended_submission_medium=IntendedSubmissionMedium.PAPER,
+            ),
+        ],
+    )
     """
 
-    claim_created_at: dt.datetime = pydantic.Field(description="When the claim was created in the external system.")
-    patient_control_number: str = pydantic.Field(
-        description=(
-            "The Patient Control Number sent on the claim to the payer. To guarantee compatibility with all payers, this field must consist\n"
-            "only of uppercase letters and numbers and be no more than 14 characters long.\n"
-        )
-    )
-    submission_records: typing.List[ClaimSubmissionRecordCreate] = pydantic.Field(
-        description=(
-            "A successful claim submission record will be created for each value provided.\n"
-            "An empty list may be provided for cases where the claim originated in an external system but was never submitted to a payer.\n"
-        )
-    )
+    claim_created_at: dt.datetime = pydantic.Field()
+    """
+    When the claim was created in the external system.
+    """
+
+    patient_control_number: str = pydantic.Field()
+    """
+    The Patient Control Number sent on the claim to the payer. To guarantee compatibility with all payers, this field must consist
+    only of uppercase letters and numbers and be no more than 14 characters long.
+    """
+
+    submission_records: typing.List[ClaimSubmissionRecordCreate] = pydantic.Field()
+    """
+    A successful claim submission record will be created for each value provided.
+    An empty list may be provided for cases where the claim originated in an external system but was never submitted to a payer.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

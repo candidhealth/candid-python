@@ -4,29 +4,16 @@ from __future__ import annotations
 
 import typing
 
-import typing_extensions
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+import pydantic
 
 
 class NoteUpdate_Set(pydantic.BaseModel):
-    type: typing_extensions.Literal["set"]
     value: str
+    type: typing.Literal["set"] = "set"
 
     class Config:
         frozen = True
         smart_union = True
 
 
-class NoteUpdate_Remove(pydantic.BaseModel):
-    type: typing_extensions.Literal["remove"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-NoteUpdate = typing.Union[NoteUpdate_Set, NoteUpdate_Remove]
+NoteUpdate = typing.Union[NoteUpdate_Set]
