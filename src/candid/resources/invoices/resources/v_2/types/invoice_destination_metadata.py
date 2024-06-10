@@ -3,36 +3,48 @@
 import datetime as dt
 import typing
 
-from ......core.datetime_utils import serialize_datetime
-from .invoice_destination import InvoiceDestination
+import pydantic
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .invoice_destination import InvoiceDestination
 
 
 class InvoiceDestinationMetadata(pydantic.BaseModel):
-    invoice_destination: InvoiceDestination = pydantic.Field(
-        description="Defines which third-party service this invoice was created in"
-    )
-    source_id: str = pydantic.Field(description="The id of the invoice in the third-party service")
-    source_customer_id: str = pydantic.Field(
-        description="The id of the customer that the invoice is attributed to in the third-party service"
-    )
-    destination_status: typing.Optional[str] = pydantic.Field(
-        default=None, description="The status of the invoice in the third-party service"
-    )
+    invoice_destination: InvoiceDestination = pydantic.Field()
+    """
+    Defines which third-party service this invoice was created in
+    """
+
+    source_id: str = pydantic.Field()
+    """
+    The id of the invoice in the third-party service
+    """
+
+    source_customer_id: str = pydantic.Field()
+    """
+    The id of the customer that the invoice is attributed to in the third-party service
+    """
+
+    destination_status: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The status of the invoice in the third-party service
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

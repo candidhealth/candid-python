@@ -8,6 +8,8 @@ T_Result = typing.TypeVar("T_Result")
 
 class ServiceFacilityMode(str, enum.Enum):
     """
+    Examples
+    --------
     from candid.resources.organization_service_facilities.v_2 import (
         ServiceFacilityMode,
     )

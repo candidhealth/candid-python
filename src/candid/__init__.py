@@ -181,7 +181,8 @@ from .resources import (
     write_offs,
     x_12,
 )
-from .environment import CandidApiEnvironment
+from .environment import CandidApiClientEnvironment
+from .version import __version__
 
 __all__ = [
     "AccountType",
@@ -199,7 +200,7 @@ __all__ = [
     "AllocationTarget_ServiceLine",
     "AllocationTarget_Unattributed",
     "BillingProviderAllocationTarget",
-    "CandidApiEnvironment",
+    "CandidApiClientEnvironment",
     "Claim",
     "ClaimAdjustmentGroupCodes",
     "ClaimAllocationTarget",
@@ -328,6 +329,7 @@ __all__ = [
     "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage",
     "UserId",
     "WorkQueueId",
+    "__version__",
     "auth",
     "billing_notes",
     "claim_submission",

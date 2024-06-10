@@ -3,34 +3,42 @@
 import datetime as dt
 import typing
 
-from ......core.datetime_utils import serialize_datetime
+import pydantic
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 
 
 class EncounterProviderBase(pydantic.BaseModel):
-    first_name: typing.Optional[str] = pydantic.Field(
-        default=None, description="If the provider is an individual, this should be set instead of organization name"
-    )
-    last_name: typing.Optional[str] = pydantic.Field(
-        default=None, description="If the provider is an individual, this should be set instead of organization name"
-    )
-    organization_name: typing.Optional[str] = pydantic.Field(
-        default=None, description="If the provider is an organization, this should be set instead of first + last name"
-    )
+    first_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    If the provider is an individual, this should be set instead of organization name
+    """
+
+    last_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    If the provider is an individual, this should be set instead of organization name
+    """
+
+    organization_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    If the provider is an organization, this should be set instead of first + last name
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

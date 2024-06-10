@@ -8,6 +8,8 @@ T_Result = typing.TypeVar("T_Result")
 
 class SortDirection(str, enum.Enum):
     """
+    Examples
+    --------
     from candid import SortDirection
 
     SortDirection.ASC

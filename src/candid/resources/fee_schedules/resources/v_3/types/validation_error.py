@@ -2,61 +2,129 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
-import typing_extensions
+import pydantic
 
-from .....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
-from .....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
-from .overlapping_rate_entries_error import OverlappingRateEntriesError
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .rate_entry import RateEntry
 
 
-class ValidationError_OverlappingRateEntries(OverlappingRateEntriesError):
-    type: typing_extensions.Literal["overlapping_rate_entries"]
+class ValidationError_OverlappingRateEntries(pydantic.BaseModel):
+    message: str
+    rate_a: RateEntry
+    rate_b: RateEntry
+    type: typing.Literal["overlapping_rate_entries"] = "overlapping_rate_entries"
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
 
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
 
-class ValidationError_VersionConflict(EntityConflictErrorMessage):
-    type: typing_extensions.Literal["version_conflict"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
-
-
-class ValidationError_OrganizationProviderNotFound(EntityNotFoundErrorMessage):
-    type: typing_extensions.Literal["organization_provider_not_found"]
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
+
+
+class ValidationError_VersionConflict(pydantic.BaseModel):
+    entity_name: str
+    type: typing.Literal["version_conflict"] = "version_conflict"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
+
+    class Config:
+        frozen = True
+        smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
+
+
+class ValidationError_OrganizationProviderNotFound(pydantic.BaseModel):
+    id: str
+    type: typing.Literal["organization_provider_not_found"] = "organization_provider_not_found"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
+
+    class Config:
+        frozen = True
+        smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
 class ValidationError_DuplicateRate(pydantic.BaseModel):
-    type: typing_extensions.Literal["duplicate_rate"]
+    type: typing.Literal["duplicate_rate"] = "duplicate_rate"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
 class ValidationError_EmptyEntries(pydantic.BaseModel):
-    type: typing_extensions.Literal["empty_entries"]
+    type: typing.Literal["empty_entries"] = "empty_entries"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
 ValidationError = typing.Union[

@@ -2,30 +2,62 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
-import typing_extensions
+import pydantic
 
-from .medicaid_provider_identifier import MedicaidProviderIdentifier
-from .medicare_provider_identifier import MedicareProviderIdentifier
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
+from ...commons.types.state import State
 
 
-class IdentifierValue_MedicareProviderIdentifier(MedicareProviderIdentifier):
-    type: typing_extensions.Literal["medicare_provider_identifier"]
+class IdentifierValue_MedicareProviderIdentifier(pydantic.BaseModel):
+    state: State
+    provider_number: str
+    type: typing.Literal["medicare_provider_identifier"] = "medicare_provider_identifier"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
-class IdentifierValue_MedicaidProviderIdentifier(MedicaidProviderIdentifier):
-    type: typing_extensions.Literal["medicaid_provider_identifier"]
+class IdentifierValue_MedicaidProviderIdentifier(pydantic.BaseModel):
+    state: State
+    provider_number: str
+    type: typing.Literal["medicaid_provider_identifier"] = "medicaid_provider_identifier"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
 IdentifierValue = typing.Union[IdentifierValue_MedicareProviderIdentifier, IdentifierValue_MedicaidProviderIdentifier]

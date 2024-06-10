@@ -2,12 +2,13 @@
 
 import datetime as dt
 import typing
-import urllib.parse
 from json.decoder import JSONDecodeError
 
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.request_options import RequestOptions
 from ....commons.types.email import Email
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.phone_number import PhoneNumber
@@ -18,11 +19,6 @@ from .types.guarantor import Guarantor
 from .types.guarantor_create import GuarantorCreate
 from .types.guarantor_id import GuarantorId
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -31,54 +27,133 @@ class V1Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def create(self, encounter_id: EncounterId, *, request: GuarantorCreate) -> Guarantor:
+    def create(
+        self,
+        encounter_id: EncounterId,
+        *,
+        request: GuarantorCreate,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Guarantor:
         """
         Creates a new guarantor and returns the newly created Guarantor object.
 
-        Parameters:
-            - encounter_id: EncounterId.
+        Parameters
+        ----------
+        encounter_id : EncounterId
 
-            - request: GuarantorCreate.
+        request : GuarantorCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Guarantor
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
+        from candid.client import CandidApiClient
+        from candid.resources.guarantor.v_1 import GuarantorCreate
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.guarantor.v_1.create(
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=GuarantorCreate(
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+                first_name="string",
+                last_name="string",
+                external_id="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{encounter_id}"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/guarantors/v1/{jsonable_encoder(encounter_id)}",
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Guarantor, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Guarantor, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EncounterHasExistingGuarantorError":
                 raise EncounterHasExistingGuarantorError(
-                    pydantic.parse_obj_as(EncounterHasExistingGuarantorErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterHasExistingGuarantorErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, guarantor_id: GuarantorId) -> Guarantor:
+    def get(self, guarantor_id: GuarantorId, *, request_options: typing.Optional[RequestOptions] = None) -> Guarantor:
         """
         Retrieves a guarantor by its `guarantor_id`.
 
-        Parameters:
-            - guarantor_id: GuarantorId.
+        Parameters
+        ----------
+        guarantor_id : GuarantorId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Guarantor
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.guarantor.v_1.get(
+            guarantor_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{guarantor_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}", method="GET", request_options=request_options
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Guarantor, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Guarantor, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -90,67 +165,111 @@ class V1Client:
         external_id: typing.Optional[str] = OMIT,
         date_of_birth: typing.Optional[dt.date] = OMIT,
         address: typing.Optional[StreetAddressShortZip] = OMIT,
-        phone_numbers: typing.Optional[typing.List[PhoneNumber]] = OMIT,
+        phone_numbers: typing.Optional[typing.Sequence[PhoneNumber]] = OMIT,
         phone_consent: typing.Optional[bool] = OMIT,
         email: typing.Optional[Email] = OMIT,
         email_consent: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Guarantor:
         """
         Updates a guarantor by its `guarantor_id`.
 
-        Parameters:
-            - guarantor_id: GuarantorId.
+        Parameters
+        ----------
+        guarantor_id : GuarantorId
 
-            - first_name: typing.Optional[str].
+        first_name : typing.Optional[str]
 
-            - last_name: typing.Optional[str].
+        last_name : typing.Optional[str]
 
-            - external_id: typing.Optional[str]. A unique identifier for the guarantor assigned by an external system.
+        external_id : typing.Optional[str]
+            A unique identifier for the guarantor assigned by an external system.
 
-            - date_of_birth: typing.Optional[dt.date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+        date_of_birth : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - address: typing.Optional[StreetAddressShortZip].
 
-            - phone_numbers: typing.Optional[typing.List[PhoneNumber]].
+        address : typing.Optional[StreetAddressShortZip]
 
-            - phone_consent: typing.Optional[bool].
+        phone_numbers : typing.Optional[typing.Sequence[PhoneNumber]]
 
-            - email: typing.Optional[Email].
+        phone_consent : typing.Optional[bool]
 
-            - email_consent: typing.Optional[bool].
+        email : typing.Optional[Email]
+
+        email_consent : typing.Optional[bool]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Guarantor
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.guarantor.v_1.update(
+            guarantor_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            first_name="string",
+            last_name="string",
+            external_id="string",
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            address=StreetAddressShortZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            phone_numbers=[
+                PhoneNumber(
+                    number="1234567890",
+                    type=PhoneNumberType.HOME,
+                )
+            ],
+            phone_consent=True,
+            email="johndoe@joincandidhealth.com",
+            email_consent=True,
+        )
         """
-        _request: typing.Dict[str, typing.Any] = {}
-        if first_name is not OMIT:
-            _request["first_name"] = first_name
-        if last_name is not OMIT:
-            _request["last_name"] = last_name
-        if external_id is not OMIT:
-            _request["external_id"] = external_id
-        if date_of_birth is not OMIT:
-            _request["date_of_birth"] = date_of_birth
-        if address is not OMIT:
-            _request["address"] = address
-        if phone_numbers is not OMIT:
-            _request["phone_numbers"] = phone_numbers
-        if phone_consent is not OMIT:
-            _request["phone_consent"] = phone_consent
-        if email is not OMIT:
-            _request["email"] = email
-        if email_consent is not OMIT:
-            _request["email_consent"] = email_consent
         _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{guarantor_id}"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}",
+            method="PATCH",
+            json={
+                "first_name": first_name,
+                "last_name": last_name,
+                "external_id": external_id,
+                "date_of_birth": date_of_birth,
+                "address": address,
+                "phone_numbers": phone_numbers,
+                "phone_consent": phone_consent,
+                "email": email,
+                "email_consent": email_consent,
+            },
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Guarantor, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Guarantor, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -158,54 +277,135 @@ class AsyncV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def create(self, encounter_id: EncounterId, *, request: GuarantorCreate) -> Guarantor:
+    async def create(
+        self,
+        encounter_id: EncounterId,
+        *,
+        request: GuarantorCreate,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Guarantor:
         """
         Creates a new guarantor and returns the newly created Guarantor object.
 
-        Parameters:
-            - encounter_id: EncounterId.
+        Parameters
+        ----------
+        encounter_id : EncounterId
 
-            - request: GuarantorCreate.
+        request : GuarantorCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Guarantor
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.guarantor.v_1 import GuarantorCreate
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.guarantor.v_1.create(
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=GuarantorCreate(
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+                first_name="string",
+                last_name="string",
+                external_id="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{encounter_id}"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/guarantors/v1/{jsonable_encoder(encounter_id)}",
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Guarantor, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Guarantor, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EncounterHasExistingGuarantorError":
                 raise EncounterHasExistingGuarantorError(
-                    pydantic.parse_obj_as(EncounterHasExistingGuarantorErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EncounterHasExistingGuarantorErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get(self, guarantor_id: GuarantorId) -> Guarantor:
+    async def get(
+        self, guarantor_id: GuarantorId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> Guarantor:
         """
         Retrieves a guarantor by its `guarantor_id`.
 
-        Parameters:
-            - guarantor_id: GuarantorId.
+        Parameters
+        ----------
+        guarantor_id : GuarantorId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Guarantor
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.guarantor.v_1.get(
+            guarantor_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{guarantor_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}", method="GET", request_options=request_options
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Guarantor, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Guarantor, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
@@ -217,65 +417,109 @@ class AsyncV1Client:
         external_id: typing.Optional[str] = OMIT,
         date_of_birth: typing.Optional[dt.date] = OMIT,
         address: typing.Optional[StreetAddressShortZip] = OMIT,
-        phone_numbers: typing.Optional[typing.List[PhoneNumber]] = OMIT,
+        phone_numbers: typing.Optional[typing.Sequence[PhoneNumber]] = OMIT,
         phone_consent: typing.Optional[bool] = OMIT,
         email: typing.Optional[Email] = OMIT,
         email_consent: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> Guarantor:
         """
         Updates a guarantor by its `guarantor_id`.
 
-        Parameters:
-            - guarantor_id: GuarantorId.
+        Parameters
+        ----------
+        guarantor_id : GuarantorId
 
-            - first_name: typing.Optional[str].
+        first_name : typing.Optional[str]
 
-            - last_name: typing.Optional[str].
+        last_name : typing.Optional[str]
 
-            - external_id: typing.Optional[str]. A unique identifier for the guarantor assigned by an external system.
+        external_id : typing.Optional[str]
+            A unique identifier for the guarantor assigned by an external system.
 
-            - date_of_birth: typing.Optional[dt.date]. Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+        date_of_birth : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-            - address: typing.Optional[StreetAddressShortZip].
 
-            - phone_numbers: typing.Optional[typing.List[PhoneNumber]].
+        address : typing.Optional[StreetAddressShortZip]
 
-            - phone_consent: typing.Optional[bool].
+        phone_numbers : typing.Optional[typing.Sequence[PhoneNumber]]
 
-            - email: typing.Optional[Email].
+        phone_consent : typing.Optional[bool]
 
-            - email_consent: typing.Optional[bool].
+        email : typing.Optional[Email]
+
+        email_consent : typing.Optional[bool]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Guarantor
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.guarantor.v_1.update(
+            guarantor_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            first_name="string",
+            last_name="string",
+            external_id="string",
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            address=StreetAddressShortZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            phone_numbers=[
+                PhoneNumber(
+                    number="1234567890",
+                    type=PhoneNumberType.HOME,
+                )
+            ],
+            phone_consent=True,
+            email="johndoe@joincandidhealth.com",
+            email_consent=True,
+        )
         """
-        _request: typing.Dict[str, typing.Any] = {}
-        if first_name is not OMIT:
-            _request["first_name"] = first_name
-        if last_name is not OMIT:
-            _request["last_name"] = last_name
-        if external_id is not OMIT:
-            _request["external_id"] = external_id
-        if date_of_birth is not OMIT:
-            _request["date_of_birth"] = date_of_birth
-        if address is not OMIT:
-            _request["address"] = address
-        if phone_numbers is not OMIT:
-            _request["phone_numbers"] = phone_numbers
-        if phone_consent is not OMIT:
-            _request["phone_consent"] = phone_consent
-        if email is not OMIT:
-            _request["email"] = email
-        if email_consent is not OMIT:
-            _request["email_consent"] = email_consent
         _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/guarantors/v1/{guarantor_id}"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}",
+            method="PATCH",
+            json={
+                "first_name": first_name,
+                "last_name": last_name,
+                "external_id": external_id,
+                "date_of_birth": date_of_birth,
+                "address": address,
+                "phone_numbers": phone_numbers,
+                "phone_consent": phone_consent,
+                "email": email,
+                "email_consent": email_consent,
+            },
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Guarantor, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Guarantor, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
