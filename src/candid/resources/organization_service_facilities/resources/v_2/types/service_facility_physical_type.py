@@ -8,11 +8,13 @@ T_Result = typing.TypeVar("T_Result")
 
 class ServiceFacilityPhysicalType(str, enum.Enum):
     """
+    Examples
+    --------
     from candid.resources.organization_service_facilities.v_2 import (
         ServiceFacilityPhysicalType,
     )
 
-    ServiceFacilityPhysicalType.SI
+    ServiceFacilityPhysicalType.SITE
     """
 
     SITE = "si"

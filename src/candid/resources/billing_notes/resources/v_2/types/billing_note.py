@@ -3,19 +3,19 @@
 import datetime as dt
 import typing
 
+import pydantic
+
 from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.encounter_id import EncounterId
 from .billing_note_base import BillingNoteBase
 from .billing_note_id import BillingNoteId
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class BillingNote(BillingNoteBase):
     """
+    Examples
+    --------
     import datetime
     import uuid
 
@@ -39,12 +39,12 @@ class BillingNote(BillingNoteBase):
 
     billing_note_id: BillingNoteId
     encounter_id: EncounterId
-    created_at: dt.datetime = pydantic.Field(
-        description=(
-            "An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).\n"
-            "For example, 2017-07-21T17:32:28Z.\n"
-        )
-    )
+    created_at: dt.datetime = pydantic.Field()
+    """
+    An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).
+    For example, 2017-07-21T17:32:28Z.
+    """
+
     author_auth_0_id: typing.Optional[str] = pydantic.Field(alias="author_auth0_id", default=None)
     author_name: typing.Optional[str] = None
 
@@ -53,11 +53,17 @@ class BillingNote(BillingNoteBase):
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
         allow_population_by_field_name = True
+        populate_by_name = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

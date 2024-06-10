@@ -29,8 +29,6 @@ from .rates_page import RatesPage
 from .threshold_match import ThresholdMatch
 from .validation_error import (
     ValidationError,
-    ValidationError_DuplicateRate,
-    ValidationError_EmptyEntries,
     ValidationError_OrganizationProviderNotFound,
     ValidationError_OverlappingRateEntries,
     ValidationError_VersionConflict,
@@ -67,8 +65,6 @@ __all__ = [
     "RatesPage",
     "ThresholdMatch",
     "ValidationError",
-    "ValidationError_DuplicateRate",
-    "ValidationError_EmptyEntries",
     "ValidationError_OrganizationProviderNotFound",
     "ValidationError_OverlappingRateEntries",
     "ValidationError_VersionConflict",

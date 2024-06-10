@@ -7,7 +7,10 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
 from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.types.claim_id import ClaimId
 from ....commons.types.page_token import PageToken
 from ....commons.types.patient_external_id import PatientExternalId
@@ -22,11 +25,6 @@ from .types.write_off_create import WriteOffCreate
 from .types.write_off_id import WriteOffId
 from .types.write_off_sort_field import WriteOffSortField
 from .types.write_offs_page import WriteOffsPage
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -48,124 +46,339 @@ class V1Client:
         sort: typing.Optional[WriteOffSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
-        account_types: typing.Optional[typing.Union[AccountType, typing.List[AccountType]]] = None,
+        account_types: typing.Optional[typing.Union[AccountType, typing.Sequence[AccountType]]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> WriteOffsPage:
         """
         Returns all write-offs satisfying the search criteria.
 
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100. The value must be greater than 0 and less than 1000.
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+        patient_external_id : typing.Optional[PatientExternalId]
 
-            - payer_uuid: typing.Optional[PayerUuid].
+        payer_uuid : typing.Optional[PayerUuid]
 
-            - service_line_id: typing.Optional[ServiceLineId].
+        service_line_id : typing.Optional[ServiceLineId]
 
-            - claim_id: typing.Optional[ClaimId].
+        claim_id : typing.Optional[ClaimId]
 
-            - billing_provider_id: typing.Optional[ProviderId].
+        billing_provider_id : typing.Optional[ProviderId]
 
-            - sort: typing.Optional[WriteOffSortField]. Defaults to write_off_timestamp
+        sort : typing.Optional[WriteOffSortField]
+            Defaults to write_off_timestamp
 
-            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
 
-            - account_types: typing.Optional[typing.Union[AccountType, typing.List[AccountType]]]. Filters the returned values to include only the provided account types.
+        account_types : typing.Optional[typing.Union[AccountType, typing.Sequence[AccountType]]]
+            Filters the returned values to include only the provided account types.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WriteOffsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import AccountType, SortDirection
+        from candid.client import CandidApiClient
+        from candid.resources.write_offs.v_1 import WriteOffSortField
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.write_offs.v_1.get_multi(
+            limit=1,
+            patient_external_id="string",
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            claim_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            sort=WriteOffSortField.AMOUNT_CENTS,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            account_types=AccountType.PATIENT,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "patient_external_id": patient_external_id,
-                    "payer_uuid": jsonable_encoder(payer_uuid),
-                    "service_line_id": jsonable_encoder(service_line_id),
-                    "claim_id": jsonable_encoder(claim_id),
-                    "billing_provider_id": jsonable_encoder(billing_provider_id),
-                    "sort": sort,
-                    "sort_direction": sort_direction,
-                    "page_token": page_token,
-                    "account_types": account_types,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "patient_external_id": patient_external_id,
+                            "payer_uuid": jsonable_encoder(payer_uuid),
+                            "service_line_id": jsonable_encoder(service_line_id),
+                            "claim_id": jsonable_encoder(claim_id),
+                            "billing_provider_id": jsonable_encoder(billing_provider_id),
+                            "sort": sort,
+                            "sort_direction": sort_direction,
+                            "page_token": page_token,
+                            "account_types": account_types,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WriteOffsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(WriteOffsPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, write_off_id: WriteOffId) -> WriteOff:
+    def get(self, write_off_id: WriteOffId, *, request_options: typing.Optional[RequestOptions] = None) -> WriteOff:
         """
         Retrieves a previously created write off by its `write_off_id`.
 
-        Parameters:
-            - write_off_id: WriteOffId.
+        Parameters
+        ----------
+        write_off_id : WriteOffId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WriteOff
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.write_offs.v_1.get(
+            write_off_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/write-offs/v1/{write_off_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/write-offs/v1/{jsonable_encoder(write_off_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WriteOff, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(WriteOff, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(self, *, write_offs: typing.List[WriteOffCreate]) -> CreateWriteOffsResponse:
+    def create(
+        self, *, write_offs: typing.Sequence[WriteOffCreate], request_options: typing.Optional[RequestOptions] = None
+    ) -> CreateWriteOffsResponse:
         """
         Creates one or many write-offs given a specific set of allocations.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
 
-        Parameters:
-            - write_offs: typing.List[WriteOffCreate].
+        Parameters
+        ----------
+        write_offs : typing.Sequence[WriteOffCreate]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CreateWriteOffsResponse
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import CandidApiClient
+        from candid.resources.write_offs.v_1 import (
+            PatientWriteOffReason,
+            WriteOffCreate_Patient,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.write_offs.v_1.create(
+            write_offs=[
+                WriteOffCreate_Patient(
+                    write_off_timestamp=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                    write_off_note="string",
+                    write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
+                    service_line_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    amount_cents=1,
+                )
+            ],
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
-            json=jsonable_encoder({"write_offs": write_offs}),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder({"write_offs": write_offs})
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder({"write_offs": write_offs}),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(CreateWriteOffsResponse, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(CreateWriteOffsResponse, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def revert(self, write_off_id: WriteOffId) -> WriteOff:
+    def revert(self, write_off_id: WriteOffId, *, request_options: typing.Optional[RequestOptions] = None) -> WriteOff:
         """
         Reverts a write off given a `write_off_id`.
 
-        Parameters:
-            - write_off_id: WriteOffId.
+        Parameters
+        ----------
+        write_off_id : WriteOffId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WriteOff
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.write_offs.v_1.revert(
+            write_off_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/write-offs/v1/{write_off_id}/revert"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/write-offs/v1/{jsonable_encoder(write_off_id)}/revert"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WriteOff, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(WriteOff, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -185,122 +398,341 @@ class AsyncV1Client:
         sort: typing.Optional[WriteOffSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
-        account_types: typing.Optional[typing.Union[AccountType, typing.List[AccountType]]] = None,
+        account_types: typing.Optional[typing.Union[AccountType, typing.Sequence[AccountType]]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> WriteOffsPage:
         """
         Returns all write-offs satisfying the search criteria.
 
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100. The value must be greater than 0 and less than 1000.
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+        patient_external_id : typing.Optional[PatientExternalId]
 
-            - payer_uuid: typing.Optional[PayerUuid].
+        payer_uuid : typing.Optional[PayerUuid]
 
-            - service_line_id: typing.Optional[ServiceLineId].
+        service_line_id : typing.Optional[ServiceLineId]
 
-            - claim_id: typing.Optional[ClaimId].
+        claim_id : typing.Optional[ClaimId]
 
-            - billing_provider_id: typing.Optional[ProviderId].
+        billing_provider_id : typing.Optional[ProviderId]
 
-            - sort: typing.Optional[WriteOffSortField]. Defaults to write_off_timestamp
+        sort : typing.Optional[WriteOffSortField]
+            Defaults to write_off_timestamp
 
-            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
 
-            - account_types: typing.Optional[typing.Union[AccountType, typing.List[AccountType]]]. Filters the returned values to include only the provided account types.
+        account_types : typing.Optional[typing.Union[AccountType, typing.Sequence[AccountType]]]
+            Filters the returned values to include only the provided account types.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WriteOffsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import AccountType, SortDirection
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.write_offs.v_1 import WriteOffSortField
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.write_offs.v_1.get_multi(
+            limit=1,
+            patient_external_id="string",
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            claim_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            sort=WriteOffSortField.AMOUNT_CENTS,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            account_types=AccountType.PATIENT,
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "patient_external_id": patient_external_id,
-                    "payer_uuid": jsonable_encoder(payer_uuid),
-                    "service_line_id": jsonable_encoder(service_line_id),
-                    "claim_id": jsonable_encoder(claim_id),
-                    "billing_provider_id": jsonable_encoder(billing_provider_id),
-                    "sort": sort,
-                    "sort_direction": sort_direction,
-                    "page_token": page_token,
-                    "account_types": account_types,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "patient_external_id": patient_external_id,
+                            "payer_uuid": jsonable_encoder(payer_uuid),
+                            "service_line_id": jsonable_encoder(service_line_id),
+                            "claim_id": jsonable_encoder(claim_id),
+                            "billing_provider_id": jsonable_encoder(billing_provider_id),
+                            "sort": sort,
+                            "sort_direction": sort_direction,
+                            "page_token": page_token,
+                            "account_types": account_types,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WriteOffsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(WriteOffsPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get(self, write_off_id: WriteOffId) -> WriteOff:
+    async def get(
+        self, write_off_id: WriteOffId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> WriteOff:
         """
         Retrieves a previously created write off by its `write_off_id`.
 
-        Parameters:
-            - write_off_id: WriteOffId.
+        Parameters
+        ----------
+        write_off_id : WriteOffId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WriteOff
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.write_offs.v_1.get(
+            write_off_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/write-offs/v1/{write_off_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/write-offs/v1/{jsonable_encoder(write_off_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WriteOff, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(WriteOff, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create(self, *, write_offs: typing.List[WriteOffCreate]) -> CreateWriteOffsResponse:
+    async def create(
+        self, *, write_offs: typing.Sequence[WriteOffCreate], request_options: typing.Optional[RequestOptions] = None
+    ) -> CreateWriteOffsResponse:
         """
         Creates one or many write-offs given a specific set of allocations.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
 
-        Parameters:
-            - write_offs: typing.List[WriteOffCreate].
+        Parameters
+        ----------
+        write_offs : typing.Sequence[WriteOffCreate]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CreateWriteOffsResponse
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.write_offs.v_1 import (
+            PatientWriteOffReason,
+            WriteOffCreate_Patient,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.write_offs.v_1.create(
+            write_offs=[
+                WriteOffCreate_Patient(
+                    write_off_timestamp=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                    write_off_note="string",
+                    write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
+                    service_line_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    amount_cents=1,
+                )
+            ],
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
-            json=jsonable_encoder({"write_offs": write_offs}),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/write-offs/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder({"write_offs": write_offs})
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder({"write_offs": write_offs}),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(CreateWriteOffsResponse, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(CreateWriteOffsResponse, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def revert(self, write_off_id: WriteOffId) -> WriteOff:
+    async def revert(
+        self, write_off_id: WriteOffId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> WriteOff:
         """
         Reverts a write off given a `write_off_id`.
 
-        Parameters:
-            - write_off_id: WriteOffId.
+        Parameters
+        ----------
+        write_off_id : WriteOffId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WriteOff
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.write_offs.v_1.revert(
+            write_off_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/write-offs/v1/{write_off_id}/revert"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/write-offs/v1/{jsonable_encoder(write_off_id)}/revert"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WriteOff, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(WriteOff, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)

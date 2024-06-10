@@ -22,6 +22,7 @@ class InsuranceWriteOffReason(str, enum.Enum):
     CASE_RATE_OR_CAPITATED = "CASE_RATE_OR_CAPITATED"
     OTHER = "OTHER"
     UNKNOWN = "UNKNOWN"
+    CONTRACTUAL_ADJUSTMENT = "CONTRACTUAL_ADJUSTMENT"
 
     def visit(
         self,
@@ -40,6 +41,7 @@ class InsuranceWriteOffReason(str, enum.Enum):
         case_rate_or_capitated: typing.Callable[[], T_Result],
         other: typing.Callable[[], T_Result],
         unknown: typing.Callable[[], T_Result],
+        contractual_adjustment: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is InsuranceWriteOffReason.SMALL_BALANCE:
             return small_balance()
@@ -71,3 +73,5 @@ class InsuranceWriteOffReason(str, enum.Enum):
             return other()
         if self is InsuranceWriteOffReason.UNKNOWN:
             return unknown()
+        if self is InsuranceWriteOffReason.CONTRACTUAL_ADJUSTMENT:
+            return contractual_adjustment()

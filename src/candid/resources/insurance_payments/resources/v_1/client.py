@@ -8,7 +8,10 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
 from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
@@ -27,11 +30,6 @@ from .types.insurance_payment_create import InsurancePaymentCreate
 from .types.insurance_payment_id import InsurancePaymentId
 from .types.insurance_payment_sort_field import InsurancePaymentSortField
 from .types.insurance_payments_page import InsurancePaymentsPage
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -52,129 +50,291 @@ class V1Client:
         sort: typing.Optional[InsurancePaymentSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> InsurancePaymentsPage:
         """
         Returns all non-ERA originated insurance payments satisfying the search criteria
 
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100. The value must be greater than 0 and less than 1000.
 
-            - payer_uuid: typing.Optional[PayerUuid].
+        payer_uuid : typing.Optional[PayerUuid]
 
-            - claim_id: typing.Optional[ClaimId].
+        claim_id : typing.Optional[ClaimId]
 
-            - service_line_id: typing.Optional[ServiceLineId].
+        service_line_id : typing.Optional[ServiceLineId]
 
-            - billing_provider_id: typing.Optional[ProviderId].
+        billing_provider_id : typing.Optional[ProviderId]
 
-            - sort: typing.Optional[InsurancePaymentSortField]. Defaults to payment_timestamp
+        sort : typing.Optional[InsurancePaymentSortField]
+            Defaults to payment_timestamp
 
-            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsurancePaymentsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import SortDirection
+        from candid.client import CandidApiClient
+        from candid.resources.insurance_payments.v_1 import InsurancePaymentSortField
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.insurance_payments.v_1.get_multi(
+            limit=1,
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            claim_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            sort=InsurancePaymentSortField.AMOUNT_CENTS,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-payments/v1"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "payer_uuid": jsonable_encoder(payer_uuid),
-                    "claim_id": jsonable_encoder(claim_id),
-                    "service_line_id": jsonable_encoder(service_line_id),
-                    "billing_provider_id": jsonable_encoder(billing_provider_id),
-                    "sort": sort,
-                    "sort_direction": sort_direction,
-                    "page_token": page_token,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-payments/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "payer_uuid": jsonable_encoder(payer_uuid),
+                            "claim_id": jsonable_encoder(claim_id),
+                            "service_line_id": jsonable_encoder(service_line_id),
+                            "billing_provider_id": jsonable_encoder(billing_provider_id),
+                            "sort": sort,
+                            "sort_direction": sort_direction,
+                            "page_token": page_token,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(InsurancePaymentsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(InsurancePaymentsPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, insurance_payment_id: InsurancePaymentId) -> InsurancePayment:
+    def get(
+        self, insurance_payment_id: InsurancePaymentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> InsurancePayment:
         """
         Retrieves a previously created insurance payment by its `insurance_payment_id`.
         If the payment does not exist, a `403` will be thrown.
 
-        Parameters:
-            - insurance_payment_id: InsurancePaymentId.
+        Parameters
+        ----------
+        insurance_payment_id : InsurancePaymentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsurancePayment
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.insurance_payments.v_1.get(
+            insurance_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-payments/v1/{insurance_payment_id}"
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(self, *, request: InsurancePaymentCreate) -> InsurancePayment:
+    def create(
+        self, *, request: InsurancePaymentCreate, request_options: typing.Optional[RequestOptions] = None
+    ) -> InsurancePayment:
         """
         Creates a new insurance payment record and returns the newly created `InsurancePayment` object. This endpoint
         should only be used for insurance payments that do not have a corresponding ERA (for example: a settlement check
         from a payer). If the payment is an ERA, then you should used the insurance-adjudications API.
 
-        Parameters:
-            - request: InsurancePaymentCreate.
+        Parameters
+        ----------
+        request : InsurancePaymentCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsurancePayment
+
+        Examples
+        --------
+        import datetime
+
+        from candid import AllocationCreate
+        from candid.client import CandidApiClient
+        from candid.resources.insurance_payments.v_1 import InsurancePaymentCreate
+        from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.insurance_payments.v_1.create(
+            request=InsurancePaymentCreate(
+                payer_identifier=PayerIdentifier_PayerInfo(),
+                amount_cents=1,
+                payment_timestamp=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                payment_note="string",
+                allocations=[AllocationCreate()],
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-payments/v1"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-payments/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -184,17 +344,48 @@ class V1Client:
         *,
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[NoteUpdate] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> InsurancePayment:
         """
         Updates the patient payment record matching the provided insurance_payment_id. If updating the payment amount,
         then the allocations must be appropriately updated as well.
 
-        Parameters:
-            - insurance_payment_id: InsurancePaymentId.
+        Parameters
+        ----------
+        insurance_payment_id : InsurancePaymentId
 
-            - payment_timestamp: typing.Optional[dt.datetime].
+        payment_timestamp : typing.Optional[dt.datetime]
 
-            - payment_note: typing.Optional[NoteUpdate].
+        payment_note : typing.Optional[NoteUpdate]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsurancePayment
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import NoteUpdate_Set
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.insurance_payments.v_1.update(
+            insurance_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            payment_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            payment_note=NoteUpdate_Set(value="string"),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if payment_timestamp is not OMIT:
@@ -202,51 +393,119 @@ class V1Client:
         if payment_note is not OMIT:
             _request["payment_note"] = payment_note
         _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-payments/v1/{insurance_payment_id}"
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
             ),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def delete(self, insurance_payment_id: InsurancePaymentId) -> None:
+    def delete(
+        self, insurance_payment_id: InsurancePaymentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
         """
         Deletes the insurance payment record matching the provided `insurance_payment_id`.
         If the matching record's organization_id does not match the authenticated user's
         current organization_id, then a response code of `403` will be returned.
 
-        Parameters:
-            - insurance_payment_id: InsurancePaymentId.
+        Parameters
+        ----------
+        insurance_payment_id : InsurancePaymentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.insurance_payments.v_1.delete(
+            insurance_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-payments/v1/{insurance_payment_id}"
+            method="DELETE",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -257,15 +516,15 @@ class V1Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -285,129 +544,291 @@ class AsyncV1Client:
         sort: typing.Optional[InsurancePaymentSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> InsurancePaymentsPage:
         """
         Returns all non-ERA originated insurance payments satisfying the search criteria
 
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100. The value must be greater than 0 and less than 1000.
 
-            - payer_uuid: typing.Optional[PayerUuid].
+        payer_uuid : typing.Optional[PayerUuid]
 
-            - claim_id: typing.Optional[ClaimId].
+        claim_id : typing.Optional[ClaimId]
 
-            - service_line_id: typing.Optional[ServiceLineId].
+        service_line_id : typing.Optional[ServiceLineId]
 
-            - billing_provider_id: typing.Optional[ProviderId].
+        billing_provider_id : typing.Optional[ProviderId]
 
-            - sort: typing.Optional[InsurancePaymentSortField]. Defaults to payment_timestamp
+        sort : typing.Optional[InsurancePaymentSortField]
+            Defaults to payment_timestamp
 
-            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsurancePaymentsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import SortDirection
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.insurance_payments.v_1 import InsurancePaymentSortField
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.insurance_payments.v_1.get_multi(
+            limit=1,
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            claim_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            sort=InsurancePaymentSortField.AMOUNT_CENTS,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-payments/v1"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "payer_uuid": jsonable_encoder(payer_uuid),
-                    "claim_id": jsonable_encoder(claim_id),
-                    "service_line_id": jsonable_encoder(service_line_id),
-                    "billing_provider_id": jsonable_encoder(billing_provider_id),
-                    "sort": sort,
-                    "sort_direction": sort_direction,
-                    "page_token": page_token,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-payments/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "payer_uuid": jsonable_encoder(payer_uuid),
+                            "claim_id": jsonable_encoder(claim_id),
+                            "service_line_id": jsonable_encoder(service_line_id),
+                            "billing_provider_id": jsonable_encoder(billing_provider_id),
+                            "sort": sort,
+                            "sort_direction": sort_direction,
+                            "page_token": page_token,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(InsurancePaymentsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(InsurancePaymentsPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get(self, insurance_payment_id: InsurancePaymentId) -> InsurancePayment:
+    async def get(
+        self, insurance_payment_id: InsurancePaymentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> InsurancePayment:
         """
         Retrieves a previously created insurance payment by its `insurance_payment_id`.
         If the payment does not exist, a `403` will be thrown.
 
-        Parameters:
-            - insurance_payment_id: InsurancePaymentId.
+        Parameters
+        ----------
+        insurance_payment_id : InsurancePaymentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsurancePayment
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.insurance_payments.v_1.get(
+            insurance_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-payments/v1/{insurance_payment_id}"
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create(self, *, request: InsurancePaymentCreate) -> InsurancePayment:
+    async def create(
+        self, *, request: InsurancePaymentCreate, request_options: typing.Optional[RequestOptions] = None
+    ) -> InsurancePayment:
         """
         Creates a new insurance payment record and returns the newly created `InsurancePayment` object. This endpoint
         should only be used for insurance payments that do not have a corresponding ERA (for example: a settlement check
         from a payer). If the payment is an ERA, then you should used the insurance-adjudications API.
 
-        Parameters:
-            - request: InsurancePaymentCreate.
+        Parameters
+        ----------
+        request : InsurancePaymentCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsurancePayment
+
+        Examples
+        --------
+        import datetime
+
+        from candid import AllocationCreate
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.insurance_payments.v_1 import InsurancePaymentCreate
+        from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.insurance_payments.v_1.create(
+            request=InsurancePaymentCreate(
+                payer_identifier=PayerIdentifier_PayerInfo(),
+                amount_cents=1,
+                payment_timestamp=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                payment_note="string",
+                allocations=[AllocationCreate()],
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-payments/v1"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/insurance-payments/v1"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -417,17 +838,48 @@ class AsyncV1Client:
         *,
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[NoteUpdate] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> InsurancePayment:
         """
         Updates the patient payment record matching the provided insurance_payment_id. If updating the payment amount,
         then the allocations must be appropriately updated as well.
 
-        Parameters:
-            - insurance_payment_id: InsurancePaymentId.
+        Parameters
+        ----------
+        insurance_payment_id : InsurancePaymentId
 
-            - payment_timestamp: typing.Optional[dt.datetime].
+        payment_timestamp : typing.Optional[dt.datetime]
 
-            - payment_note: typing.Optional[NoteUpdate].
+        payment_note : typing.Optional[NoteUpdate]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsurancePayment
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import NoteUpdate_Set
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.insurance_payments.v_1.update(
+            insurance_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            payment_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            payment_note=NoteUpdate_Set(value="string"),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if payment_timestamp is not OMIT:
@@ -435,51 +887,119 @@ class AsyncV1Client:
         if payment_note is not OMIT:
             _request["payment_note"] = payment_note
         _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-payments/v1/{insurance_payment_id}"
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
             ),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(InsurancePayment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def delete(self, insurance_payment_id: InsurancePaymentId) -> None:
+    async def delete(
+        self, insurance_payment_id: InsurancePaymentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
         """
         Deletes the insurance payment record matching the provided `insurance_payment_id`.
         If the matching record's organization_id does not match the authenticated user's
         current organization_id, then a response code of `403` will be returned.
 
-        Parameters:
-            - insurance_payment_id: InsurancePaymentId.
+        Parameters
+        ----------
+        insurance_payment_id : InsurancePaymentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.insurance_payments.v_1.delete(
+            insurance_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/insurance-payments/v1/{insurance_payment_id}"
+            method="DELETE",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -490,14 +1010,14 @@ class AsyncV1Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

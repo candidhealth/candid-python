@@ -3,62 +3,95 @@
 import datetime as dt
 import typing
 
+import pydantic
+
 from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .license_type import LicenseType
 from .organization_provider_address import OrganizationProviderAddress
 from .provider_type import ProviderType
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class OrganizationProviderBase(pydantic.BaseModel):
-    npi: str = pydantic.Field(
-        description="The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long."
-    )
-    is_rendering: bool = pydantic.Field(description="Whether the provider can be used to render services.")
-    is_billing: bool = pydantic.Field(description="Whether the provider can be used to bill services.")
-    first_name: typing.Optional[str] = pydantic.Field(
-        default=None, description="The first name of the provider, if the provider is an individual."
-    )
-    last_name: typing.Optional[str] = pydantic.Field(
-        default=None, description="The last name of the provider, if the provider is an individual."
-    )
-    organization_name: typing.Optional[str] = pydantic.Field(
-        default=None, description="The name of the provider, if the provider is an organization."
-    )
-    provider_type: ProviderType = pydantic.Field(
-        description="Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider."
-    )
-    tax_id: typing.Optional[str] = pydantic.Field(
-        default=None,
-        description="If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.",
-    )
-    taxonomy_code: typing.Optional[str] = pydantic.Field(
-        default=None, description="A code designating classification and specialization."
-    )
-    license_type: LicenseType = pydantic.Field(description="The type of license that the provider holds.")
-    ptan: typing.Optional[str] = pydantic.Field(
-        default=None, description="The Provider Transaction Access Number for the provider."
-    )
-    medicaid_provider_id: typing.Optional[str] = pydantic.Field(
-        default=None, description="The medicaid provider ID for the provider."
-    )
-    addresses: typing.Optional[typing.List[OrganizationProviderAddress]] = pydantic.Field(
-        default=None, description="The addresses associated with this provider."
-    )
+    npi: str = pydantic.Field()
+    """
+    The NPI of the provider. This must be all digits [0-9] and exactly 10 characters long.
+    """
+
+    is_rendering: bool = pydantic.Field()
+    """
+    Whether the provider can be used to render services.
+    """
+
+    is_billing: bool = pydantic.Field()
+    """
+    Whether the provider can be used to bill services.
+    """
+
+    first_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The first name of the provider, if the provider is an individual.
+    """
+
+    last_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The last name of the provider, if the provider is an individual.
+    """
+
+    organization_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The name of the provider, if the provider is an organization.
+    """
+
+    provider_type: ProviderType = pydantic.Field()
+    """
+    Whether the provider is an individual (NPPES Type 1) or organization (NPPES Type 2) provider.
+    """
+
+    tax_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+    """
+
+    taxonomy_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    A code designating classification and specialization.
+    """
+
+    license_type: LicenseType = pydantic.Field()
+    """
+    The type of license that the provider holds.
+    """
+
+    ptan: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The Provider Transaction Access Number for the provider.
+    """
+
+    medicaid_provider_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The medicaid provider ID for the provider.
+    """
+
+    addresses: typing.Optional[typing.List[OrganizationProviderAddress]] = pydantic.Field(default=None)
+    """
+    The addresses associated with this provider.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

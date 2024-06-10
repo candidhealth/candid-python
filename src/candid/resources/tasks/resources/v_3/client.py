@@ -9,7 +9,10 @@ from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.datetime_utils import serialize_datetime
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
 from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
@@ -31,11 +34,6 @@ from .types.task_sort_options import TaskSortOptions
 from .types.task_update_v_3 import TaskUpdateV3
 from .types.task_updated_to_deprecated_status_error_type import TaskUpdatedToDeprecatedStatusErrorType
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -44,23 +42,65 @@ class V3Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get_actions(self, task_id: TaskId) -> TaskActions:
+    def get_actions(self, task_id: TaskId, *, request_options: typing.Optional[RequestOptions] = None) -> TaskActions:
         """
-        Parameters:
-            - task_id: TaskId.
+        Parameters
+        ----------
+        task_id : TaskId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        TaskActions
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.get_actions(
+            task_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{task_id}/actions"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{jsonable_encoder(task_id)}/actions"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TaskActions, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(TaskActions, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_multi(
@@ -79,151 +119,390 @@ class V3Client:
         date_of_service_max: typing.Optional[dt.date] = None,
         billing_provider_npi: typing.Optional[str] = None,
         sort: typing.Optional[TaskSortOptions] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> TaskPage:
         """
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
 
-            - status: typing.Optional[TaskStatus].
+        status : typing.Optional[TaskStatus]
 
-            - task_type: typing.Optional[TaskType].
+        task_type : typing.Optional[TaskType]
 
-            - categories: typing.Optional[str]. Only return tasks with categories that match one in this comma-separated list.
+        categories : typing.Optional[str]
+            Only return tasks with categories that match one in this comma-separated list.
 
-            - updated_since: typing.Optional[dt.datetime]. Only return tasks updated on or after this date-time
+        updated_since : typing.Optional[dt.datetime]
+            Only return tasks updated on or after this date-time
 
-            - encounter_id: typing.Optional[EncounterId]. Only return tasks associated with this encounter
+        encounter_id : typing.Optional[EncounterId]
+            Only return tasks associated with this encounter
 
-            - search_term: typing.Optional[str]. Query tasks by encounter_id, claim_id, task_id, or external_id
+        search_term : typing.Optional[str]
+            Query tasks by encounter_id, claim_id, task_id, or external_id
 
-            - assigned_to_id: typing.Optional[UserId]. Only return tasks assigned to this user
+        assigned_to_id : typing.Optional[UserId]
+            Only return tasks assigned to this user
 
-            - date_of_service_min: typing.Optional[dt.date]. The minimum date of service for the linked encounter
+        date_of_service_min : typing.Optional[dt.date]
+            The minimum date of service for the linked encounter
 
-            - date_of_service_max: typing.Optional[dt.date]. The maximum date of service for the linked encounter
+        date_of_service_max : typing.Optional[dt.date]
+            The maximum date of service for the linked encounter
 
-            - billing_provider_npi: typing.Optional[str]. The NPI of the billing provider associated with the task's claim
+        billing_provider_npi : typing.Optional[str]
+            The NPI of the billing provider associated with the task's claim
 
-            - sort: typing.Optional[TaskSortOptions]. Defaults to updated_at:desc
+        sort : typing.Optional[TaskSortOptions]
+            Defaults to updated_at:desc
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        TaskPage
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import CandidApiClient
+        from candid.resources.tasks import TaskStatus, TaskType
+        from candid.resources.tasks.v_3 import TaskSortOptions
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.get_multi(
+            limit=1,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            status=TaskStatus.FINISHED,
+            task_type=TaskType.CUSTOMER_DATA_REQUEST,
+            categories="string",
+            updated_since=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            search_term="string",
+            assigned_to_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            date_of_service_min=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            date_of_service_max=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            billing_provider_npi="string",
+            sort=TaskSortOptions.UPDATED_AT_ASC,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/tasks/v3"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "page_token": page_token,
-                    "status": status,
-                    "task_type": task_type,
-                    "categories": categories,
-                    "updated_since": serialize_datetime(updated_since) if updated_since is not None else None,
-                    "encounter_id": jsonable_encoder(encounter_id),
-                    "search_term": search_term,
-                    "assigned_to_id": jsonable_encoder(assigned_to_id),
-                    "date_of_service_min": str(date_of_service_min) if date_of_service_min is not None else None,
-                    "date_of_service_max": str(date_of_service_max) if date_of_service_max is not None else None,
-                    "billing_provider_npi": billing_provider_npi,
-                    "sort": sort,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/tasks/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "page_token": page_token,
+                            "status": status,
+                            "task_type": task_type,
+                            "categories": categories,
+                            "updated_since": serialize_datetime(updated_since) if updated_since is not None else None,
+                            "encounter_id": jsonable_encoder(encounter_id),
+                            "search_term": search_term,
+                            "assigned_to_id": jsonable_encoder(assigned_to_id),
+                            "date_of_service_min": str(date_of_service_min)
+                            if date_of_service_min is not None
+                            else None,
+                            "date_of_service_max": str(date_of_service_max)
+                            if date_of_service_max is not None
+                            else None,
+                            "billing_provider_npi": billing_provider_npi,
+                            "sort": sort,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TaskPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(TaskPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, task_id: TaskId) -> Task:
+    def get(self, task_id: TaskId, *, request_options: typing.Optional[RequestOptions] = None) -> Task:
         """
-        Parameters:
-            - task_id: TaskId.
+        Parameters
+        ----------
+        task_id : TaskId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Task
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.get(
+            task_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{task_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{jsonable_encoder(task_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Task, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Task, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(self, *, request: TaskCreateV3) -> Task:
+    def create(self, *, request: TaskCreateV3, request_options: typing.Optional[RequestOptions] = None) -> Task:
         """
-        Parameters:
-            - request: TaskCreateV3.
+        Parameters
+        ----------
+        request : TaskCreateV3
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Task
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+        from candid.resources.tasks import TaskCategory, TaskType
+        from candid.resources.tasks.v_3 import TaskCreateV3
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.create(
+            request=TaskCreateV3(
+                encounter_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                task_type=TaskType.CUSTOMER_DATA_REQUEST,
+                description="string",
+                blocks_claim_submission=True,
+                assignee_user_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                category=TaskCategory.OTHER,
+                work_queue_id="string",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/tasks/v3"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/tasks/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Task, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Task, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def update(self, task_id: TaskId, *, request: TaskUpdateV3) -> Task:
+    def update(
+        self, task_id: TaskId, *, request: TaskUpdateV3, request_options: typing.Optional[RequestOptions] = None
+    ) -> Task:
         """
-        Parameters:
-            - task_id: TaskId.
+        Parameters
+        ----------
+        task_id : TaskId
 
-            - request: TaskUpdateV3.
+        request : TaskUpdateV3
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Task
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+        from candid.resources.tasks import TaskStatus
+        from candid.resources.tasks.v_3 import TaskUpdateV3
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.update(
+            task_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=TaskUpdateV3(
+                status=TaskStatus.FINISHED,
+                assignee_user_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                blocks_claim_submission=True,
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{task_id}"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{jsonable_encoder(task_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Task, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Task, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "TaskUpdatedToDeprecatedStatusError":
                 raise TaskUpdatedToDeprecatedStatusError(
-                    pydantic.parse_obj_as(TaskUpdatedToDeprecatedStatusErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(TaskUpdatedToDeprecatedStatusErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -232,23 +511,67 @@ class AsyncV3Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get_actions(self, task_id: TaskId) -> TaskActions:
+    async def get_actions(
+        self, task_id: TaskId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> TaskActions:
         """
-        Parameters:
-            - task_id: TaskId.
+        Parameters
+        ----------
+        task_id : TaskId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        TaskActions
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.tasks.v_3.get_actions(
+            task_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{task_id}/actions"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{jsonable_encoder(task_id)}/actions"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TaskActions, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(TaskActions, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_multi(
@@ -267,150 +590,389 @@ class AsyncV3Client:
         date_of_service_max: typing.Optional[dt.date] = None,
         billing_provider_npi: typing.Optional[str] = None,
         sort: typing.Optional[TaskSortOptions] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> TaskPage:
         """
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
 
-            - status: typing.Optional[TaskStatus].
+        status : typing.Optional[TaskStatus]
 
-            - task_type: typing.Optional[TaskType].
+        task_type : typing.Optional[TaskType]
 
-            - categories: typing.Optional[str]. Only return tasks with categories that match one in this comma-separated list.
+        categories : typing.Optional[str]
+            Only return tasks with categories that match one in this comma-separated list.
 
-            - updated_since: typing.Optional[dt.datetime]. Only return tasks updated on or after this date-time
+        updated_since : typing.Optional[dt.datetime]
+            Only return tasks updated on or after this date-time
 
-            - encounter_id: typing.Optional[EncounterId]. Only return tasks associated with this encounter
+        encounter_id : typing.Optional[EncounterId]
+            Only return tasks associated with this encounter
 
-            - search_term: typing.Optional[str]. Query tasks by encounter_id, claim_id, task_id, or external_id
+        search_term : typing.Optional[str]
+            Query tasks by encounter_id, claim_id, task_id, or external_id
 
-            - assigned_to_id: typing.Optional[UserId]. Only return tasks assigned to this user
+        assigned_to_id : typing.Optional[UserId]
+            Only return tasks assigned to this user
 
-            - date_of_service_min: typing.Optional[dt.date]. The minimum date of service for the linked encounter
+        date_of_service_min : typing.Optional[dt.date]
+            The minimum date of service for the linked encounter
 
-            - date_of_service_max: typing.Optional[dt.date]. The maximum date of service for the linked encounter
+        date_of_service_max : typing.Optional[dt.date]
+            The maximum date of service for the linked encounter
 
-            - billing_provider_npi: typing.Optional[str]. The NPI of the billing provider associated with the task's claim
+        billing_provider_npi : typing.Optional[str]
+            The NPI of the billing provider associated with the task's claim
 
-            - sort: typing.Optional[TaskSortOptions]. Defaults to updated_at:desc
+        sort : typing.Optional[TaskSortOptions]
+            Defaults to updated_at:desc
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        TaskPage
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.tasks import TaskStatus, TaskType
+        from candid.resources.tasks.v_3 import TaskSortOptions
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.tasks.v_3.get_multi(
+            limit=1,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            status=TaskStatus.FINISHED,
+            task_type=TaskType.CUSTOMER_DATA_REQUEST,
+            categories="string",
+            updated_since=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            search_term="string",
+            assigned_to_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            date_of_service_min=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            date_of_service_max=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            billing_provider_npi="string",
+            sort=TaskSortOptions.UPDATED_AT_ASC,
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/tasks/v3"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "page_token": page_token,
-                    "status": status,
-                    "task_type": task_type,
-                    "categories": categories,
-                    "updated_since": serialize_datetime(updated_since) if updated_since is not None else None,
-                    "encounter_id": jsonable_encoder(encounter_id),
-                    "search_term": search_term,
-                    "assigned_to_id": jsonable_encoder(assigned_to_id),
-                    "date_of_service_min": str(date_of_service_min) if date_of_service_min is not None else None,
-                    "date_of_service_max": str(date_of_service_max) if date_of_service_max is not None else None,
-                    "billing_provider_npi": billing_provider_npi,
-                    "sort": sort,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/tasks/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "limit": limit,
+                            "page_token": page_token,
+                            "status": status,
+                            "task_type": task_type,
+                            "categories": categories,
+                            "updated_since": serialize_datetime(updated_since) if updated_since is not None else None,
+                            "encounter_id": jsonable_encoder(encounter_id),
+                            "search_term": search_term,
+                            "assigned_to_id": jsonable_encoder(assigned_to_id),
+                            "date_of_service_min": str(date_of_service_min)
+                            if date_of_service_min is not None
+                            else None,
+                            "date_of_service_max": str(date_of_service_max)
+                            if date_of_service_max is not None
+                            else None,
+                            "billing_provider_npi": billing_provider_npi,
+                            "sort": sort,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(TaskPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(TaskPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get(self, task_id: TaskId) -> Task:
+    async def get(self, task_id: TaskId, *, request_options: typing.Optional[RequestOptions] = None) -> Task:
         """
-        Parameters:
-            - task_id: TaskId.
+        Parameters
+        ----------
+        task_id : TaskId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Task
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.tasks.v_3.get(
+            task_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{task_id}"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{jsonable_encoder(task_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Task, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Task, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create(self, *, request: TaskCreateV3) -> Task:
+    async def create(self, *, request: TaskCreateV3, request_options: typing.Optional[RequestOptions] = None) -> Task:
         """
-        Parameters:
-            - request: TaskCreateV3.
+        Parameters
+        ----------
+        request : TaskCreateV3
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Task
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.tasks import TaskCategory, TaskType
+        from candid.resources.tasks.v_3 import TaskCreateV3
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.tasks.v_3.create(
+            request=TaskCreateV3(
+                encounter_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                task_type=TaskType.CUSTOMER_DATA_REQUEST,
+                description="string",
+                blocks_claim_submission=True,
+                assignee_user_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                category=TaskCategory.OTHER,
+                work_queue_id="string",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/tasks/v3"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/tasks/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Task, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Task, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def update(self, task_id: TaskId, *, request: TaskUpdateV3) -> Task:
+    async def update(
+        self, task_id: TaskId, *, request: TaskUpdateV3, request_options: typing.Optional[RequestOptions] = None
+    ) -> Task:
         """
-        Parameters:
-            - task_id: TaskId.
+        Parameters
+        ----------
+        task_id : TaskId
 
-            - request: TaskUpdateV3.
+        request : TaskUpdateV3
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Task
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.tasks import TaskStatus
+        from candid.resources.tasks.v_3 import TaskUpdateV3
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.tasks.v_3.update(
+            task_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=TaskUpdateV3(
+                status=TaskStatus.FINISHED,
+                assignee_user_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                blocks_claim_submission=True,
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{task_id}"),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/tasks/v3/{jsonable_encoder(task_id)}"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(Task, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(Task, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "TaskUpdatedToDeprecatedStatusError":
                 raise TaskUpdatedToDeprecatedStatusError(
-                    pydantic.parse_obj_as(TaskUpdatedToDeprecatedStatusErrorType, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(TaskUpdatedToDeprecatedStatusErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
