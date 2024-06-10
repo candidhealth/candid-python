@@ -3,7 +3,10 @@
 import datetime as dt
 import typing
 
+import pydantic
+
 from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.claim_id import ClaimId
 from .....commons.types.date_range_optional_end import DateRangeOptionalEnd
 from .....commons.types.decimal import Decimal
@@ -18,27 +21,123 @@ from .service_line_adjustment import ServiceLineAdjustment
 from .service_line_denial_reason import ServiceLineDenialReason
 from .service_line_era_data import ServiceLineEraData
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class ServiceLine(pydantic.BaseModel):
     """
+    Examples
+    --------
     import datetime
     import uuid
 
-    from candid import (DateRangeOptionalEnd, FacilityTypeCode, Invoice,
-                        InvoiceItem, InvoiceStatus, ProcedureModifier,
-                        ServiceLineUnits)
-    from candid.resources.service_lines.v_2 import (DenialReasonContent,
-                                                    ServiceLine,
-                                                    ServiceLineAdjustment,
-                                                    ServiceLineDenialReason,
-                                                    ServiceLineEraData)
+    from candid import DateRangeOptionalEnd, Invoice, InvoiceItem
+    from candid.resources.service_lines.v_2 import (
+        ServiceLine,
+        ServiceLineAdjustment,
+        ServiceLineDenialReason,
+        ServiceLineEraData,
+    )
 
-    ServiceLine(modifiers=[ProcedureModifier.22], charge_amount_cents=10000, allowed_amount_cents=8000, insurance_balance_cents=0, patient_balance_cents=2000, paid_amount_cents=8000, patient_responsibility_cents=2000, diagnosis_id_zero=uuid.UUID("4ac84bcd-12f5-4f86-a57b-e06749127c98", ), diagnosis_id_one=uuid.UUID("eea5ca5a-8b43-45fd-8cbd-c6cc1103e759", ), diagnosis_id_two=uuid.UUID("5c4aa029-2db9-4202-916e-e93c708f65ff", ), diagnosis_id_three=uuid.UUID("81795126-a3ac-443c-b47e-7259a16ab4a2", ), service_line_era_data=ServiceLineEraData(service_line_adjustments=[ServiceLineAdjustment(created_at=datetime.datetime.fromisoformat("2023-01-01 00:00:00+00:00", ), adjustment_group_code="CO", adjustment_reason_code="CO", adjustment_amount_cents=1000, adjustment_note="test_note", )], remittance_advice_remark_codes=["N362"], ), service_line_manual_adjustments=[ServiceLineAdjustment(created_at=datetime.datetime.fromisoformat("2023-01-01 00:00:00+00:00", ), adjustment_group_code="CO", adjustment_reason_code="CO", adjustment_amount_cents=1000, adjustment_note="test_note", )], related_invoices=[Invoice(id=uuid.UUID("901be2f1-41bc-456e-9987-4fe2f84f9d75", ), created_at=datetime.datetime.fromisoformat("2023-01-01 00:00:00+00:00", ), updated_at=datetime.datetime.fromisoformat("2023-01-01 00:00:00+00:00", ), organzation_id=uuid.UUID("f13f73d4-4344-46ea-9d93-33bcffbb9f36", ), source_id="9B626577-8808-4F28-9ED1-F0DFF0D49BBC", source_customer_id="624D1972-8C69-4C2F-AEFA-10856F734DB3", patient_external_id="10FED4D6-4C5A-48DF-838A-EEF45A74788D", note="test_note", due_date="2023-10-10", status=InvoiceStatus.DRAFT, url="https://example.com", customer_invoice_url="https://example.com", items=[InvoiceItem(service_line_id=uuid.UUID("ced00f23-6e68-4678-9dbc-f5aa2969a565", ), amount_cents=500, )], )], denial_reason=ServiceLineDenialReason(reason=DenialReasonContent.AUTHORIZATION_REQUIRED, ), place_of_service_code=FacilityTypeCode.01, service_line_id=uuid.UUID("ced00f23-6e68-4678-9dbc-f5aa2969a565", ), procedure_code="99213", quantity="1", units=ServiceLineUnits.MJ, claim_id=uuid.UUID("026a1fb8-748e-4859-a2d7-3ea9e07d25ae", ), date_of_service_range=DateRangeOptionalEnd(start_date="2023-01-01", end_date="2023-01-03", ), date_of_service=datetime.date.fromisoformat("2023-01-01", ), end_date_of_service=datetime.date.fromisoformat("2023-01-03", ), )
+    ServiceLine(
+        modifiers=["22"],
+        charge_amount_cents=10000,
+        allowed_amount_cents=8000,
+        insurance_balance_cents=0,
+        patient_balance_cents=2000,
+        paid_amount_cents=8000,
+        patient_responsibility_cents=2000,
+        diagnosis_id_zero=uuid.UUID(
+            "4ac84bcd-12f5-4f86-a57b-e06749127c98",
+        ),
+        diagnosis_id_one=uuid.UUID(
+            "eea5ca5a-8b43-45fd-8cbd-c6cc1103e759",
+        ),
+        diagnosis_id_two=uuid.UUID(
+            "5c4aa029-2db9-4202-916e-e93c708f65ff",
+        ),
+        diagnosis_id_three=uuid.UUID(
+            "81795126-a3ac-443c-b47e-7259a16ab4a2",
+        ),
+        service_line_era_data=ServiceLineEraData(
+            service_line_adjustments=[
+                ServiceLineAdjustment(
+                    created_at=datetime.datetime.fromisoformat(
+                        "2023-01-01 00:00:00+00:00",
+                    ),
+                    adjustment_group_code="CO",
+                    adjustment_reason_code="CO",
+                    adjustment_amount_cents=1000,
+                    adjustment_note="test_note",
+                )
+            ],
+            remittance_advice_remark_codes=["N362"],
+        ),
+        service_line_manual_adjustments=[
+            ServiceLineAdjustment(
+                created_at=datetime.datetime.fromisoformat(
+                    "2023-01-01 00:00:00+00:00",
+                ),
+                adjustment_group_code="CO",
+                adjustment_reason_code="CO",
+                adjustment_amount_cents=1000,
+                adjustment_note="test_note",
+            )
+        ],
+        related_invoices=[
+            Invoice(
+                id=uuid.UUID(
+                    "901be2f1-41bc-456e-9987-4fe2f84f9d75",
+                ),
+                created_at=datetime.datetime.fromisoformat(
+                    "2023-01-01 00:00:00+00:00",
+                ),
+                updated_at=datetime.datetime.fromisoformat(
+                    "2023-01-01 00:00:00+00:00",
+                ),
+                organzation_id=uuid.UUID(
+                    "f13f73d4-4344-46ea-9d93-33bcffbb9f36",
+                ),
+                source_id="9B626577-8808-4F28-9ED1-F0DFF0D49BBC",
+                source_customer_id="624D1972-8C69-4C2F-AEFA-10856F734DB3",
+                patient_external_id="10FED4D6-4C5A-48DF-838A-EEF45A74788D",
+                note="test_note",
+                due_date="2023-10-10",
+                status="draft",
+                url="https://example.com",
+                customer_invoice_url="https://example.com",
+                items=[
+                    InvoiceItem(
+                        service_line_id=uuid.UUID(
+                            "ced00f23-6e68-4678-9dbc-f5aa2969a565",
+                        ),
+                        amount_cents=500,
+                    )
+                ],
+            )
+        ],
+        denial_reason=ServiceLineDenialReason(
+            reason="Authorization Required",
+        ),
+        place_of_service_code="01",
+        service_line_id=uuid.UUID(
+            "ced00f23-6e68-4678-9dbc-f5aa2969a565",
+        ),
+        procedure_code="99213",
+        quantity="1",
+        units="MJ",
+        claim_id=uuid.UUID(
+            "026a1fb8-748e-4859-a2d7-3ea9e07d25ae",
+        ),
+        date_of_service_range=DateRangeOptionalEnd(
+            start_date="2023-01-01",
+            end_date="2023-01-03",
+        ),
+        date_of_service=datetime.date.fromisoformat(
+            "2023-01-01",
+        ),
+        end_date_of_service=datetime.date.fromisoformat(
+            "2023-01-03",
+        ),
+    )
     """
 
     modifiers: typing.Optional[typing.List[ProcedureModifier]] = None
@@ -60,25 +159,26 @@ class ServiceLine(pydantic.BaseModel):
     place_of_service_code: typing.Optional[FacilityTypeCode] = None
     service_line_id: ServiceLineId
     procedure_code: str
-    quantity: Decimal = pydantic.Field(
-        description=(
-            "String representation of a Decimal that can be parsed by most libraries.\n"
-            "A ServiceLine quantity cannot contain more than one digit of precision.\n"
-            "Example: 1.1 is valid, 1.11 is not.\n"
-        )
-    )
+    quantity: Decimal = pydantic.Field()
+    """
+    String representation of a Decimal that can be parsed by most libraries.
+    A ServiceLine quantity cannot contain more than one digit of precision.
+    Example: 1.1 is valid, 1.11 is not.
+    """
+
     units: ServiceLineUnits
     claim_id: ClaimId
-    date_of_service_range: DateRangeOptionalEnd = pydantic.Field(
-        description=(
-            "A range of dates of service for this service line. If the service line is for a single date, the end date\n"
-            "will be empty.\n"
-        )
-    )
-    description: typing.Optional[str] = pydantic.Field(
-        default=None,
-        description="A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on the 837-P.",
-    )
+    date_of_service_range: DateRangeOptionalEnd = pydantic.Field()
+    """
+    A range of dates of service for this service line. If the service line is for a single date, the end date
+    will be empty.
+    """
+
+    description: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on the 837-P.
+    """
+
     date_of_service: dt.date
     end_date_of_service: typing.Optional[dt.date] = None
 
@@ -87,10 +187,15 @@ class ServiceLine(pydantic.BaseModel):
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

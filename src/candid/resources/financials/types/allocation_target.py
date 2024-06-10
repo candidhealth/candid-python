@@ -2,58 +2,106 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
-import typing_extensions
+import pydantic
 
-from .billing_provider_allocation_target import BillingProviderAllocationTarget
-from .claim_allocation_target import ClaimAllocationTarget
-from .service_line_allocation_target import ServiceLineAllocationTarget
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
+from ...commons.types.claim_id import ClaimId
+from ...commons.types.encounter_id import EncounterId
+from ...commons.types.provider_id import ProviderId
+from ...commons.types.service_line_id import ServiceLineId
 
 
-class AllocationTarget_ServiceLine(ServiceLineAllocationTarget):
-    type: typing_extensions.Literal["service_line"]
+class AllocationTarget_ServiceLine(pydantic.BaseModel):
+    """
+    Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
+    claim, billing provider, or is unallocated.
+    """
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
+    service_line_id: ServiceLineId
+    claim_id: ClaimId
+    encounter_id: EncounterId
+    type: typing.Literal["service_line"] = "service_line"
 
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
 
-class AllocationTarget_Claim(ClaimAllocationTarget):
-    type: typing_extensions.Literal["claim"]
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
 
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
-
-
-class AllocationTarget_BillingProviderId(BillingProviderAllocationTarget):
-    type: typing_extensions.Literal["billing_provider_id"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-        allow_population_by_field_name = True
-
-
-class AllocationTarget_Unattributed(pydantic.BaseModel):
-    type: typing_extensions.Literal["unattributed"]
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
+
+
+class AllocationTarget_Claim(pydantic.BaseModel):
+    """
+    Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
+    claim, billing provider, or is unallocated.
+    """
+
+    claim_id: ClaimId
+    encounter_id: EncounterId
+    type: typing.Literal["claim"] = "claim"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
+
+    class Config:
+        frozen = True
+        smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
+
+
+class AllocationTarget_BillingProviderId(pydantic.BaseModel):
+    """
+    Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
+    claim, billing provider, or is unallocated.
+    """
+
+    billing_provider_id: ProviderId
+    type: typing.Literal["billing_provider_id"] = "billing_provider_id"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
+
+    class Config:
+        frozen = True
+        smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
 AllocationTarget = typing.Union[
-    AllocationTarget_ServiceLine,
-    AllocationTarget_Claim,
-    AllocationTarget_BillingProviderId,
-    AllocationTarget_Unattributed,
+    AllocationTarget_ServiceLine, AllocationTarget_Claim, AllocationTarget_BillingProviderId
 ]

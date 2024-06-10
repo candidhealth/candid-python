@@ -4,21 +4,16 @@ from __future__ import annotations
 
 import typing
 
-import typing_extensions
+import pydantic
 
 from .....commons.types.claim_id import ClaimId
 from .....commons.types.provider_id import ProviderId
 from .....commons.types.service_line_id import ServiceLineId
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class InsuranceWriteOffTarget_ServiceLineId(pydantic.BaseModel):
-    type: typing_extensions.Literal["service_line_id"]
     value: ServiceLineId
+    type: typing.Literal["service_line_id"] = "service_line_id"
 
     class Config:
         frozen = True
@@ -26,8 +21,8 @@ class InsuranceWriteOffTarget_ServiceLineId(pydantic.BaseModel):
 
 
 class InsuranceWriteOffTarget_ClaimId(pydantic.BaseModel):
-    type: typing_extensions.Literal["claim_id"]
     value: ClaimId
+    type: typing.Literal["claim_id"] = "claim_id"
 
     class Config:
         frozen = True
@@ -35,8 +30,8 @@ class InsuranceWriteOffTarget_ClaimId(pydantic.BaseModel):
 
 
 class InsuranceWriteOffTarget_BillingProviderId(pydantic.BaseModel):
-    type: typing_extensions.Literal["billing_provider_id"]
     value: ProviderId
+    type: typing.Literal["billing_provider_id"] = "billing_provider_id"
 
     class Config:
         frozen = True

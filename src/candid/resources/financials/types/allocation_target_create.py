@@ -4,22 +4,17 @@ from __future__ import annotations
 
 import typing
 
-import typing_extensions
+import pydantic
 
 from ...commons.types.claim_id import ClaimId
 from ...commons.types.encounter_external_id import EncounterExternalId
 from ...commons.types.provider_id import ProviderId
 from ...commons.types.service_line_id import ServiceLineId
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class AllocationTargetCreate_ServiceLineById(pydantic.BaseModel):
-    type: typing_extensions.Literal["service_line_by_id"]
     value: ServiceLineId
+    type: typing.Literal["service_line_by_id"] = "service_line_by_id"
 
     class Config:
         frozen = True
@@ -27,8 +22,8 @@ class AllocationTargetCreate_ServiceLineById(pydantic.BaseModel):
 
 
 class AllocationTargetCreate_ClaimById(pydantic.BaseModel):
-    type: typing_extensions.Literal["claim_by_id"]
     value: ClaimId
+    type: typing.Literal["claim_by_id"] = "claim_by_id"
 
     class Config:
         frozen = True
@@ -36,8 +31,8 @@ class AllocationTargetCreate_ClaimById(pydantic.BaseModel):
 
 
 class AllocationTargetCreate_ClaimByEncounterExternalId(pydantic.BaseModel):
-    type: typing_extensions.Literal["claim_by_encounter_external_id"]
     value: EncounterExternalId
+    type: typing.Literal["claim_by_encounter_external_id"] = "claim_by_encounter_external_id"
 
     class Config:
         frozen = True
@@ -45,16 +40,8 @@ class AllocationTargetCreate_ClaimByEncounterExternalId(pydantic.BaseModel):
 
 
 class AllocationTargetCreate_BillingProviderById(pydantic.BaseModel):
-    type: typing_extensions.Literal["billing_provider_by_id"]
     value: ProviderId
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-class AllocationTargetCreate_Unattributed(pydantic.BaseModel):
-    type: typing_extensions.Literal["unattributed"]
+    type: typing.Literal["billing_provider_by_id"] = "billing_provider_by_id"
 
     class Config:
         frozen = True
@@ -66,5 +53,4 @@ AllocationTargetCreate = typing.Union[
     AllocationTargetCreate_ClaimById,
     AllocationTargetCreate_ClaimByEncounterExternalId,
     AllocationTargetCreate_BillingProviderById,
-    AllocationTargetCreate_Unattributed,
 ]

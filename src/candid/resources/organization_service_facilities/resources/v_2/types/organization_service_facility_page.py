@@ -3,24 +3,24 @@
 import datetime as dt
 import typing
 
+import pydantic
+
 from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.resource_page import ResourcePage
 from .organization_service_facility import OrganizationServiceFacility
 
 
 class OrganizationServiceFacilityPage(ResourcePage):
     """
+    Examples
+    --------
     import uuid
 
-    from candid import State, StreetAddressLongZip
+    from candid import StreetAddressLongZip
     from candid.resources.organization_service_facilities.v_2 import (
         OrganizationServiceFacility,
         OrganizationServiceFacilityPage,
-        ServiceFacilityMode,
-        ServiceFacilityOperationalStatus,
-        ServiceFacilityPhysicalType,
-        ServiceFacilityStatus,
-        ServiceFacilityType,
     )
 
     OrganizationServiceFacilityPage(
@@ -32,17 +32,17 @@ class OrganizationServiceFacilityPage(ResourcePage):
                 name="Test Service Facility",
                 aliases=["Test Service Facility Alias"],
                 description="Test Service Facility Description",
-                status=ServiceFacilityStatus.ACTIVE,
-                operational_status=ServiceFacilityOperationalStatus.C,
-                mode=ServiceFacilityMode.INSTANCE,
-                type=ServiceFacilityType.DX,
-                physical_type=ServiceFacilityPhysicalType.SI,
+                status="active",
+                operational_status="C",
+                mode="instance",
+                type="DX",
+                physical_type="si",
                 telecoms=["555-555-5555"],
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state=State.NY,
+                    state="NY",
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -58,11 +58,17 @@ class OrganizationServiceFacilityPage(ResourcePage):
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
         allow_population_by_field_name = True
+        populate_by_name = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

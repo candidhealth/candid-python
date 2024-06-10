@@ -8,7 +8,10 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.query_encoder import encode_query
 from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.request_options import RequestOptions
 from ....commons.errors.entity_conflict_error import EntityConflictError
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
@@ -37,11 +40,6 @@ from .types.rate_upload import RateUpload
 from .types.rate_upload_with_possible_errors import RateUploadWithPossibleErrors
 from .types.rates_page import RatesPage
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -50,70 +48,162 @@ class V3Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get_match(self, service_line_id: ServiceLineId) -> typing.Optional[MatchResult]:
+    def get_match(
+        self, service_line_id: ServiceLineId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[MatchResult]:
         """
         Gets the rate that matches a service line. No result means no rate exists matching the service line's dimensions.
 
-        Parameters:
-            - service_line_id: ServiceLineId.
+        Parameters
+        ----------
+        service_line_id : ServiceLineId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Optional[MatchResult]
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.get_match(
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/service-line/{service_line_id}/match"
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Optional[MatchResult], _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.Optional[MatchResult], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "FailedToBuildServiceLineDimensions":
                 raise FailedToBuildServiceLineDimensions(
-                    pydantic.parse_obj_as(ErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(ErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def test_match(self, service_line_id: ServiceLineId, rate_id: RateId) -> MatchTestResult:
+    def test_match(
+        self,
+        service_line_id: ServiceLineId,
+        rate_id: RateId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> MatchTestResult:
         """
         Tests a service line against a rate to see if it matches.
 
-        Parameters:
-            - service_line_id: ServiceLineId.
+        Parameters
+        ----------
+        service_line_id : ServiceLineId
 
-            - rate_id: RateId.
+        rate_id : RateId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        MatchTestResult
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.test_match(
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rate_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
+            method="GET",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"api/fee-schedules/v3/service-line/{service_line_id}/match/{rate_id}",
+                f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match/{jsonable_encoder(rate_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(MatchTestResult, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(MatchTestResult, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "FailedToBuildServiceLineDimensions":
                 raise FailedToBuildServiceLineDimensions(
-                    pydantic.parse_obj_as(ErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(ErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -125,219 +215,515 @@ class V3Client:
         active_date: typing.Optional[dt.date] = None,
         payer_uuid: typing.Optional[PayerUuid] = None,
         organization_billing_provider_id: typing.Optional[OrganizationProviderId] = None,
-        states: typing.Optional[typing.Union[State, typing.List[State]]] = None,
-        zip_codes: typing.Optional[typing.Union[str, typing.List[str]]] = None,
-        license_types: typing.Optional[typing.Union[LicenseType, typing.List[LicenseType]]] = None,
-        facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.List[FacilityTypeCode]]] = None,
-        network_types: typing.Optional[typing.Union[NetworkType, typing.List[NetworkType]]] = None,
+        states: typing.Optional[typing.Union[State, typing.Sequence[State]]] = None,
+        zip_codes: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        license_types: typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]] = None,
+        facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]] = None,
+        network_types: typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]] = None,
         cpt_code: typing.Optional[str] = None,
-        modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.List[ProcedureModifier]]] = None,
+        modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> RatesPage:
         """
         Gets a list of dimensions with their rates. The rates returned will always be the most recent versions of those rates.
 
-        Parameters:
-            - page_token: typing.Optional[PageToken].
+        Parameters
+        ----------
+        page_token : typing.Optional[PageToken]
 
-            - limit: typing.Optional[int]. Max number of dimensions returned. Defaults to 100. Max is 100.
+        limit : typing.Optional[int]
+            Max number of dimensions returned. Defaults to 100. Max is 100.
 
-            - active_date: typing.Optional[dt.date].
+        active_date : typing.Optional[dt.date]
 
-            - payer_uuid: typing.Optional[PayerUuid].
+        payer_uuid : typing.Optional[PayerUuid]
 
-            - organization_billing_provider_id: typing.Optional[OrganizationProviderId].
+        organization_billing_provider_id : typing.Optional[OrganizationProviderId]
 
-            - states: typing.Optional[typing.Union[State, typing.List[State]]].
+        states : typing.Optional[typing.Union[State, typing.Sequence[State]]]
 
-            - zip_codes: typing.Optional[typing.Union[str, typing.List[str]]].
+        zip_codes : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
-            - license_types: typing.Optional[typing.Union[LicenseType, typing.List[LicenseType]]].
+        license_types : typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]]
 
-            - facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.List[FacilityTypeCode]]].
+        facility_type_codes : typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]]
 
-            - network_types: typing.Optional[typing.Union[NetworkType, typing.List[NetworkType]]].
+        network_types : typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]]
 
-            - cpt_code: typing.Optional[str].
+        cpt_code : typing.Optional[str]
 
-            - modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.List[ProcedureModifier]]].
+        modifiers : typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        RatesPage
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.get_multi(
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            limit=1,
+            active_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            organization_billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            states="AA",
+            zip_codes="string",
+            license_types="MD",
+            facility_type_codes="01",
+            network_types="12",
+            cpt_code="string",
+            modifiers="22",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3"),
-            params=remove_none_from_dict(
-                {
-                    "page_token": page_token,
-                    "limit": limit,
-                    "active_date": str(active_date) if active_date is not None else None,
-                    "payer_uuid": jsonable_encoder(payer_uuid),
-                    "organization_billing_provider_id": jsonable_encoder(organization_billing_provider_id),
-                    "states": states,
-                    "zip_codes": zip_codes,
-                    "license_types": license_types,
-                    "facility_type_codes": facility_type_codes,
-                    "network_types": network_types,
-                    "cpt_code": cpt_code,
-                    "modifiers": modifiers,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "page_token": page_token,
+                            "limit": limit,
+                            "active_date": str(active_date) if active_date is not None else None,
+                            "payer_uuid": jsonable_encoder(payer_uuid),
+                            "organization_billing_provider_id": jsonable_encoder(organization_billing_provider_id),
+                            "states": states,
+                            "zip_codes": zip_codes,
+                            "license_types": license_types,
+                            "facility_type_codes": facility_type_codes,
+                            "network_types": network_types,
+                            "cpt_code": cpt_code,
+                            "modifiers": modifiers,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(RatesPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(RatesPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_unique_values_for_dimension(
         self,
         *,
+        pivot_dimension: DimensionName,
         page_token: typing.Optional[PageToken] = None,
         limit: typing.Optional[int] = None,
-        pivot_dimension: DimensionName,
         payer_uuid: typing.Optional[PayerUuid] = None,
         organization_billing_provider_id: typing.Optional[OrganizationProviderId] = None,
-        states: typing.Optional[typing.Union[State, typing.List[State]]] = None,
-        zip_codes: typing.Optional[typing.Union[str, typing.List[str]]] = None,
-        license_types: typing.Optional[typing.Union[LicenseType, typing.List[LicenseType]]] = None,
-        facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.List[FacilityTypeCode]]] = None,
-        network_types: typing.Optional[typing.Union[NetworkType, typing.List[NetworkType]]] = None,
+        states: typing.Optional[typing.Union[State, typing.Sequence[State]]] = None,
+        zip_codes: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        license_types: typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]] = None,
+        facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]] = None,
+        network_types: typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]] = None,
         cpt_code: typing.Optional[str] = None,
-        modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.List[ProcedureModifier]]] = None,
+        modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> DimensionsPage:
         """
         Gets unique values for a dimension based on other selection criteria. The response is a list of dimensions with your criteria and the unique values populated. This API is useful for driving pivots on dimension values.
 
-        Parameters:
-            - page_token: typing.Optional[PageToken].
+        Parameters
+        ----------
+        pivot_dimension : DimensionName
+            The name of the dimension to fetch unique values for.
 
-            - limit: typing.Optional[int]. Max number of values returned. Defaults to 1000. Max is 1000.
+        page_token : typing.Optional[PageToken]
 
-            - pivot_dimension: DimensionName. The name of the dimension to fetch unique values for.
+        limit : typing.Optional[int]
+            Max number of values returned. Defaults to 1000. Max is 1000.
 
-            - payer_uuid: typing.Optional[PayerUuid].
+        payer_uuid : typing.Optional[PayerUuid]
 
-            - organization_billing_provider_id: typing.Optional[OrganizationProviderId].
+        organization_billing_provider_id : typing.Optional[OrganizationProviderId]
 
-            - states: typing.Optional[typing.Union[State, typing.List[State]]].
+        states : typing.Optional[typing.Union[State, typing.Sequence[State]]]
 
-            - zip_codes: typing.Optional[typing.Union[str, typing.List[str]]].
+        zip_codes : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
-            - license_types: typing.Optional[typing.Union[LicenseType, typing.List[LicenseType]]].
+        license_types : typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]]
 
-            - facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.List[FacilityTypeCode]]].
+        facility_type_codes : typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]]
 
-            - network_types: typing.Optional[typing.Union[NetworkType, typing.List[NetworkType]]].
+        network_types : typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]]
 
-            - cpt_code: typing.Optional[str].
+        cpt_code : typing.Optional[str]
 
-            - modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.List[ProcedureModifier]]].
+        modifiers : typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        DimensionsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.get_unique_values_for_dimension(
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            limit=1,
+            pivot_dimension="payer_uuid",
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            organization_billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            states="AA",
+            zip_codes="string",
+            license_types="MD",
+            facility_type_codes="01",
+            network_types="12",
+            cpt_code="string",
+            modifiers="22",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
+            method="GET",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3/unique-dimension-values"
             ),
-            params=remove_none_from_dict(
-                {
-                    "page_token": page_token,
-                    "limit": limit,
-                    "pivot_dimension": pivot_dimension,
-                    "payer_uuid": jsonable_encoder(payer_uuid),
-                    "organization_billing_provider_id": jsonable_encoder(organization_billing_provider_id),
-                    "states": states,
-                    "zip_codes": zip_codes,
-                    "license_types": license_types,
-                    "facility_type_codes": facility_type_codes,
-                    "network_types": network_types,
-                    "cpt_code": cpt_code,
-                    "modifiers": modifiers,
-                }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "page_token": page_token,
+                            "limit": limit,
+                            "pivot_dimension": pivot_dimension,
+                            "payer_uuid": jsonable_encoder(payer_uuid),
+                            "organization_billing_provider_id": jsonable_encoder(organization_billing_provider_id),
+                            "states": states,
+                            "zip_codes": zip_codes,
+                            "license_types": license_types,
+                            "facility_type_codes": facility_type_codes,
+                            "network_types": network_types,
+                            "cpt_code": cpt_code,
+                            "modifiers": modifiers,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DimensionsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(DimensionsPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get_rate_history(self, rate_id: RateId) -> typing.List[Rate]:
+    def get_rate_history(
+        self, rate_id: RateId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[Rate]:
         """
         Gets every version of a rate.
 
-        Parameters:
-            - rate_id: RateId.
+        Parameters
+        ----------
+        rate_id : RateId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[Rate]
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.get_rate_history(
+            rate_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/{rate_id}/history"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/history"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.List[Rate], _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.List[Rate], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def upload_fee_schedule(self, *, dry_run: bool, rates: typing.List[RateUpload]) -> typing.List[Rate]:
+    def upload_fee_schedule(
+        self,
+        *,
+        dry_run: bool,
+        rates: typing.Sequence[RateUpload],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.List[Rate]:
         """
         Uploads a new fee schedule.\n Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will be returned.\n Use the dry run flag to discover already existing rates and to run validations. If validations for any rate fail, no rates will be saved to the system.
 
-        Parameters:
-            - dry_run: bool.
+        Parameters
+        ----------
+        dry_run : bool
 
-            - rates: typing.List[RateUpload].
+        rates : typing.Sequence[RateUpload]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[Rate]
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import CandidApiClient
+        from candid.resources.fee_schedules.v_3 import (
+            Dimensions,
+            RateEntry,
+            RateUpload_NewRate,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.upload_fee_schedule(
+            dry_run=True,
+            rates=[
+                RateUpload_NewRate(
+                    dimensions=Dimensions(
+                        payer_uuid=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        organization_billing_provider_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        states={"AA"},
+                        zip_codes={"string"},
+                        license_types={"MD"},
+                        facility_type_codes={"01"},
+                        network_types={"12"},
+                        cpt_code="string",
+                        modifiers={"22"},
+                    ),
+                    entries=[
+                        RateEntry(
+                            start_date=datetime.date.fromisoformat(
+                                "2024-04-11",
+                            ),
+                            rate_cents=33000,
+                            is_deactivated=False,
+                        )
+                    ],
+                )
+            ],
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3"),
-            json=jsonable_encoder({"dry_run": dry_run, "rates": rates}),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder({"dry_run": dry_run, "rates": rates})
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder({"dry_run": dry_run, "rates": rates}),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.List[Rate], _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.List[Rate], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "FeeScheduleValidationHttpError":
                 raise FeeScheduleValidationHttpError(
-                    pydantic.parse_obj_as(typing.List[RateUploadWithPossibleErrors], _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(typing.List[RateUploadWithPossibleErrors], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def delete_rate(self, rate_id: RateId, version: int) -> None:
+    def delete_rate(
+        self, rate_id: RateId, version: int, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
         """
         Soft deletes a rate from the system. Only the most recent version of a rate can be deleted.
 
-        Parameters:
-            - rate_id: RateId.
+        Parameters
+        ----------
+        rate_id : RateId
 
-            - version: int.
+        version : int
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.delete_rate(
+            rate_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            version=1,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/{rate_id}/{version}"
+            method="DELETE",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/{jsonable_encoder(version)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -348,86 +734,228 @@ class V3Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityConflictError":
                 raise EntityConflictError(
-                    pydantic.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get_payer_thresholds_default(self) -> PayerThreshold:
+    def get_payer_thresholds_default(
+        self, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> PayerThreshold:
         """
         Gets the default payer threshold
+
+        Parameters
+        ----------
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PayerThreshold
+
+        Examples
+        --------
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.get_payer_thresholds_default()
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
+            method="GET",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3/payer-threshold/default"
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PayerThreshold, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PayerThreshold, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_payer_thresholds(
-        self, *, payer_uuids: typing.Union[PayerUuid, typing.List[PayerUuid]]
+        self,
+        *,
+        payer_uuids: typing.Union[PayerUuid, typing.Sequence[PayerUuid]],
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PayerThresholdsPage:
         """
         Gets a list of payers and thresholds by their uuids
 
-        Parameters:
-            - payer_uuids: typing.Union[PayerUuid, typing.List[PayerUuid]].
+        Parameters
+        ----------
+        payer_uuids : typing.Union[PayerUuid, typing.Sequence[PayerUuid]]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PayerThresholdsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.get_payer_thresholds(
+            payer_uuids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3/payer-threshold"),
-            params=remove_none_from_dict({"payer_uuids": jsonable_encoder(payer_uuids)}),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3/payer-threshold"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "payer_uuids": jsonable_encoder(payer_uuids),
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PayerThresholdsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PayerThresholdsPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def set_payer_threshold(self, payer_uuid: PayerUuid, *, request: PayerThreshold) -> PayerThreshold:
+    def set_payer_threshold(
+        self, payer_uuid: PayerUuid, *, request: PayerThreshold, request_options: typing.Optional[RequestOptions] = None
+    ) -> PayerThreshold:
         """
         Sets the threshold information for a payer
 
-        Parameters:
-            - payer_uuid: PayerUuid.
+        Parameters
+        ----------
+        payer_uuid : PayerUuid
 
-            - request: PayerThreshold.
+        request : PayerThreshold
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PayerThreshold
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+        from candid.resources.fee_schedules.v_3 import PayerThreshold
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.set_payer_threshold(
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=PayerThreshold(
+                upper_threshold_cents=1,
+                lower_threshold_cents=1,
+                disable_paid_incorrectly=True,
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "PUT",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/payer-threshold/{payer_uuid}"
+            method="PUT",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/fee-schedules/v3/payer-threshold/{jsonable_encoder(payer_uuid)}",
             ),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PayerThreshold, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PayerThreshold, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -436,70 +964,162 @@ class AsyncV3Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get_match(self, service_line_id: ServiceLineId) -> typing.Optional[MatchResult]:
+    async def get_match(
+        self, service_line_id: ServiceLineId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Optional[MatchResult]:
         """
         Gets the rate that matches a service line. No result means no rate exists matching the service line's dimensions.
 
-        Parameters:
-            - service_line_id: ServiceLineId.
+        Parameters
+        ----------
+        service_line_id : ServiceLineId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.Optional[MatchResult]
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.get_match(
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/service-line/{service_line_id}/match"
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Optional[MatchResult], _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.Optional[MatchResult], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "FailedToBuildServiceLineDimensions":
                 raise FailedToBuildServiceLineDimensions(
-                    pydantic.parse_obj_as(ErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(ErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def test_match(self, service_line_id: ServiceLineId, rate_id: RateId) -> MatchTestResult:
+    async def test_match(
+        self,
+        service_line_id: ServiceLineId,
+        rate_id: RateId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> MatchTestResult:
         """
         Tests a service line against a rate to see if it matches.
 
-        Parameters:
-            - service_line_id: ServiceLineId.
+        Parameters
+        ----------
+        service_line_id : ServiceLineId
 
-            - rate_id: RateId.
+        rate_id : RateId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        MatchTestResult
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.test_match(
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rate_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
+            method="GET",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/",
-                f"api/fee-schedules/v3/service-line/{service_line_id}/match/{rate_id}",
+                f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match/{jsonable_encoder(rate_id)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(MatchTestResult, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(MatchTestResult, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "FailedToBuildServiceLineDimensions":
                 raise FailedToBuildServiceLineDimensions(
-                    pydantic.parse_obj_as(ErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(ErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -511,219 +1131,515 @@ class AsyncV3Client:
         active_date: typing.Optional[dt.date] = None,
         payer_uuid: typing.Optional[PayerUuid] = None,
         organization_billing_provider_id: typing.Optional[OrganizationProviderId] = None,
-        states: typing.Optional[typing.Union[State, typing.List[State]]] = None,
-        zip_codes: typing.Optional[typing.Union[str, typing.List[str]]] = None,
-        license_types: typing.Optional[typing.Union[LicenseType, typing.List[LicenseType]]] = None,
-        facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.List[FacilityTypeCode]]] = None,
-        network_types: typing.Optional[typing.Union[NetworkType, typing.List[NetworkType]]] = None,
+        states: typing.Optional[typing.Union[State, typing.Sequence[State]]] = None,
+        zip_codes: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        license_types: typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]] = None,
+        facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]] = None,
+        network_types: typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]] = None,
         cpt_code: typing.Optional[str] = None,
-        modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.List[ProcedureModifier]]] = None,
+        modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> RatesPage:
         """
         Gets a list of dimensions with their rates. The rates returned will always be the most recent versions of those rates.
 
-        Parameters:
-            - page_token: typing.Optional[PageToken].
+        Parameters
+        ----------
+        page_token : typing.Optional[PageToken]
 
-            - limit: typing.Optional[int]. Max number of dimensions returned. Defaults to 100. Max is 100.
+        limit : typing.Optional[int]
+            Max number of dimensions returned. Defaults to 100. Max is 100.
 
-            - active_date: typing.Optional[dt.date].
+        active_date : typing.Optional[dt.date]
 
-            - payer_uuid: typing.Optional[PayerUuid].
+        payer_uuid : typing.Optional[PayerUuid]
 
-            - organization_billing_provider_id: typing.Optional[OrganizationProviderId].
+        organization_billing_provider_id : typing.Optional[OrganizationProviderId]
 
-            - states: typing.Optional[typing.Union[State, typing.List[State]]].
+        states : typing.Optional[typing.Union[State, typing.Sequence[State]]]
 
-            - zip_codes: typing.Optional[typing.Union[str, typing.List[str]]].
+        zip_codes : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
-            - license_types: typing.Optional[typing.Union[LicenseType, typing.List[LicenseType]]].
+        license_types : typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]]
 
-            - facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.List[FacilityTypeCode]]].
+        facility_type_codes : typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]]
 
-            - network_types: typing.Optional[typing.Union[NetworkType, typing.List[NetworkType]]].
+        network_types : typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]]
 
-            - cpt_code: typing.Optional[str].
+        cpt_code : typing.Optional[str]
 
-            - modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.List[ProcedureModifier]]].
+        modifiers : typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        RatesPage
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.get_multi(
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            limit=1,
+            active_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            organization_billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            states="AA",
+            zip_codes="string",
+            license_types="MD",
+            facility_type_codes="01",
+            network_types="12",
+            cpt_code="string",
+            modifiers="22",
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3"),
-            params=remove_none_from_dict(
-                {
-                    "page_token": page_token,
-                    "limit": limit,
-                    "active_date": str(active_date) if active_date is not None else None,
-                    "payer_uuid": jsonable_encoder(payer_uuid),
-                    "organization_billing_provider_id": jsonable_encoder(organization_billing_provider_id),
-                    "states": states,
-                    "zip_codes": zip_codes,
-                    "license_types": license_types,
-                    "facility_type_codes": facility_type_codes,
-                    "network_types": network_types,
-                    "cpt_code": cpt_code,
-                    "modifiers": modifiers,
-                }
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "page_token": page_token,
+                            "limit": limit,
+                            "active_date": str(active_date) if active_date is not None else None,
+                            "payer_uuid": jsonable_encoder(payer_uuid),
+                            "organization_billing_provider_id": jsonable_encoder(organization_billing_provider_id),
+                            "states": states,
+                            "zip_codes": zip_codes,
+                            "license_types": license_types,
+                            "facility_type_codes": facility_type_codes,
+                            "network_types": network_types,
+                            "cpt_code": cpt_code,
+                            "modifiers": modifiers,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(RatesPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(RatesPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_unique_values_for_dimension(
         self,
         *,
+        pivot_dimension: DimensionName,
         page_token: typing.Optional[PageToken] = None,
         limit: typing.Optional[int] = None,
-        pivot_dimension: DimensionName,
         payer_uuid: typing.Optional[PayerUuid] = None,
         organization_billing_provider_id: typing.Optional[OrganizationProviderId] = None,
-        states: typing.Optional[typing.Union[State, typing.List[State]]] = None,
-        zip_codes: typing.Optional[typing.Union[str, typing.List[str]]] = None,
-        license_types: typing.Optional[typing.Union[LicenseType, typing.List[LicenseType]]] = None,
-        facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.List[FacilityTypeCode]]] = None,
-        network_types: typing.Optional[typing.Union[NetworkType, typing.List[NetworkType]]] = None,
+        states: typing.Optional[typing.Union[State, typing.Sequence[State]]] = None,
+        zip_codes: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        license_types: typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]] = None,
+        facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]] = None,
+        network_types: typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]] = None,
         cpt_code: typing.Optional[str] = None,
-        modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.List[ProcedureModifier]]] = None,
+        modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> DimensionsPage:
         """
         Gets unique values for a dimension based on other selection criteria. The response is a list of dimensions with your criteria and the unique values populated. This API is useful for driving pivots on dimension values.
 
-        Parameters:
-            - page_token: typing.Optional[PageToken].
+        Parameters
+        ----------
+        pivot_dimension : DimensionName
+            The name of the dimension to fetch unique values for.
 
-            - limit: typing.Optional[int]. Max number of values returned. Defaults to 1000. Max is 1000.
+        page_token : typing.Optional[PageToken]
 
-            - pivot_dimension: DimensionName. The name of the dimension to fetch unique values for.
+        limit : typing.Optional[int]
+            Max number of values returned. Defaults to 1000. Max is 1000.
 
-            - payer_uuid: typing.Optional[PayerUuid].
+        payer_uuid : typing.Optional[PayerUuid]
 
-            - organization_billing_provider_id: typing.Optional[OrganizationProviderId].
+        organization_billing_provider_id : typing.Optional[OrganizationProviderId]
 
-            - states: typing.Optional[typing.Union[State, typing.List[State]]].
+        states : typing.Optional[typing.Union[State, typing.Sequence[State]]]
 
-            - zip_codes: typing.Optional[typing.Union[str, typing.List[str]]].
+        zip_codes : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
-            - license_types: typing.Optional[typing.Union[LicenseType, typing.List[LicenseType]]].
+        license_types : typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]]
 
-            - facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.List[FacilityTypeCode]]].
+        facility_type_codes : typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]]
 
-            - network_types: typing.Optional[typing.Union[NetworkType, typing.List[NetworkType]]].
+        network_types : typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]]
 
-            - cpt_code: typing.Optional[str].
+        cpt_code : typing.Optional[str]
 
-            - modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.List[ProcedureModifier]]].
+        modifiers : typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        DimensionsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.get_unique_values_for_dimension(
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            limit=1,
+            pivot_dimension="payer_uuid",
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            organization_billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            states="AA",
+            zip_codes="string",
+            license_types="MD",
+            facility_type_codes="01",
+            network_types="12",
+            cpt_code="string",
+            modifiers="22",
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
+            method="GET",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3/unique-dimension-values"
             ),
-            params=remove_none_from_dict(
-                {
-                    "page_token": page_token,
-                    "limit": limit,
-                    "pivot_dimension": pivot_dimension,
-                    "payer_uuid": jsonable_encoder(payer_uuid),
-                    "organization_billing_provider_id": jsonable_encoder(organization_billing_provider_id),
-                    "states": states,
-                    "zip_codes": zip_codes,
-                    "license_types": license_types,
-                    "facility_type_codes": facility_type_codes,
-                    "network_types": network_types,
-                    "cpt_code": cpt_code,
-                    "modifiers": modifiers,
-                }
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "page_token": page_token,
+                            "limit": limit,
+                            "pivot_dimension": pivot_dimension,
+                            "payer_uuid": jsonable_encoder(payer_uuid),
+                            "organization_billing_provider_id": jsonable_encoder(organization_billing_provider_id),
+                            "states": states,
+                            "zip_codes": zip_codes,
+                            "license_types": license_types,
+                            "facility_type_codes": facility_type_codes,
+                            "network_types": network_types,
+                            "cpt_code": cpt_code,
+                            "modifiers": modifiers,
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DimensionsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(DimensionsPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get_rate_history(self, rate_id: RateId) -> typing.List[Rate]:
+    async def get_rate_history(
+        self, rate_id: RateId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[Rate]:
         """
         Gets every version of a rate.
 
-        Parameters:
-            - rate_id: RateId.
+        Parameters
+        ----------
+        rate_id : RateId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[Rate]
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.get_rate_history(
+            rate_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/{rate_id}/history"),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/history"
+            ),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.List[Rate], _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.List[Rate], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def upload_fee_schedule(self, *, dry_run: bool, rates: typing.List[RateUpload]) -> typing.List[Rate]:
+    async def upload_fee_schedule(
+        self,
+        *,
+        dry_run: bool,
+        rates: typing.Sequence[RateUpload],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.List[Rate]:
         """
         Uploads a new fee schedule.\n Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will be returned.\n Use the dry run flag to discover already existing rates and to run validations. If validations for any rate fail, no rates will be saved to the system.
 
-        Parameters:
-            - dry_run: bool.
+        Parameters
+        ----------
+        dry_run : bool
 
-            - rates: typing.List[RateUpload].
+        rates : typing.Sequence[RateUpload]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[Rate]
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.fee_schedules.v_3 import (
+            Dimensions,
+            RateEntry,
+            RateUpload_NewRate,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.upload_fee_schedule(
+            dry_run=True,
+            rates=[
+                RateUpload_NewRate(
+                    dimensions=Dimensions(
+                        payer_uuid=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        organization_billing_provider_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        states={"AA"},
+                        zip_codes={"string"},
+                        license_types={"MD"},
+                        facility_type_codes={"01"},
+                        network_types={"12"},
+                        cpt_code="string",
+                        modifiers={"22"},
+                    ),
+                    entries=[
+                        RateEntry(
+                            start_date=datetime.date.fromisoformat(
+                                "2024-04-11",
+                            ),
+                            rate_cents=33000,
+                            is_deactivated=False,
+                        )
+                    ],
+                )
+            ],
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3"),
-            json=jsonable_encoder({"dry_run": dry_run, "rates": rates}),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="POST",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3"),
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder({"dry_run": dry_run, "rates": rates})
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder({"dry_run": dry_run, "rates": rates}),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.List[Rate], _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.List[Rate], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "FeeScheduleValidationHttpError":
                 raise FeeScheduleValidationHttpError(
-                    pydantic.parse_obj_as(typing.List[RateUploadWithPossibleErrors], _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(typing.List[RateUploadWithPossibleErrors], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def delete_rate(self, rate_id: RateId, version: int) -> None:
+    async def delete_rate(
+        self, rate_id: RateId, version: int, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
         """
         Soft deletes a rate from the system. Only the most recent version of a rate can be deleted.
 
-        Parameters:
-            - rate_id: RateId.
+        Parameters
+        ----------
+        rate_id : RateId
 
-            - version: int.
+        version : int
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.delete_rate(
+            rate_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            version=1,
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/{rate_id}/{version}"
+            method="DELETE",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/{jsonable_encoder(version)}",
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
             return
@@ -734,85 +1650,227 @@ class AsyncV3Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityConflictError":
                 raise EntityConflictError(
-                    pydantic.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get_payer_thresholds_default(self) -> PayerThreshold:
+    async def get_payer_thresholds_default(
+        self, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> PayerThreshold:
         """
         Gets the default payer threshold
+
+        Parameters
+        ----------
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PayerThreshold
+
+        Examples
+        --------
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.get_payer_thresholds_default()
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
+            method="GET",
+            url=urllib.parse.urljoin(
                 f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3/payer-threshold/default"
             ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PayerThreshold, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PayerThreshold, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_payer_thresholds(
-        self, *, payer_uuids: typing.Union[PayerUuid, typing.List[PayerUuid]]
+        self,
+        *,
+        payer_uuids: typing.Union[PayerUuid, typing.Sequence[PayerUuid]],
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PayerThresholdsPage:
         """
         Gets a list of payers and thresholds by their uuids
 
-        Parameters:
-            - payer_uuids: typing.Union[PayerUuid, typing.List[PayerUuid]].
+        Parameters
+        ----------
+        payer_uuids : typing.Union[PayerUuid, typing.Sequence[PayerUuid]]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PayerThresholdsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.get_payer_thresholds(
+            payer_uuids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3/payer-threshold"),
-            params=remove_none_from_dict({"payer_uuids": jsonable_encoder(payer_uuids)}),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            method="GET",
+            url=urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/fee-schedules/v3/payer-threshold"),
+            params=encode_query(
+                jsonable_encoder(
+                    remove_none_from_dict(
+                        {
+                            "payer_uuids": jsonable_encoder(payer_uuids),
+                            **(
+                                request_options.get("additional_query_parameters", {})
+                                if request_options is not None
+                                else {}
+                            ),
+                        }
+                    )
+                )
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PayerThresholdsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PayerThresholdsPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def set_payer_threshold(self, payer_uuid: PayerUuid, *, request: PayerThreshold) -> PayerThreshold:
+    async def set_payer_threshold(
+        self, payer_uuid: PayerUuid, *, request: PayerThreshold, request_options: typing.Optional[RequestOptions] = None
+    ) -> PayerThreshold:
         """
         Sets the threshold information for a payer
 
-        Parameters:
-            - payer_uuid: PayerUuid.
+        Parameters
+        ----------
+        payer_uuid : PayerUuid
 
-            - request: PayerThreshold.
+        request : PayerThreshold
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PayerThreshold
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.fee_schedules.v_3 import PayerThreshold
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.fee_schedules.v_3.set_payer_threshold(
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=PayerThreshold(
+                upper_threshold_cents=1,
+                lower_threshold_cents=1,
+                disable_paid_incorrectly=True,
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "PUT",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/fee-schedules/v3/payer-threshold/{payer_uuid}"
+            method="PUT",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/fee-schedules/v3/payer-threshold/{jsonable_encoder(payer_uuid)}",
             ),
-            json=jsonable_encoder(request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PayerThreshold, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PayerThreshold, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

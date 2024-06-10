@@ -3,17 +3,22 @@
 import datetime as dt
 import typing
 
+import pydantic
+
 from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
 from .diagnosis_id import DiagnosisId
 from .standalone_diagnosis_create import StandaloneDiagnosisCreate
 
 
 class Diagnosis(StandaloneDiagnosisCreate):
     """
+    Examples
+    --------
     import datetime
     import uuid
 
-    from candid import Diagnosis, DiagnosisTypeCode
+    from candid import Diagnosis
 
     Diagnosis(
         diagnosis_id=uuid.UUID(
@@ -29,7 +34,7 @@ class Diagnosis(StandaloneDiagnosisCreate):
             "3f63985b-51a4-4dd4-9418-7d50b2520792",
         ),
         name="John Doe",
-        code_type=DiagnosisTypeCode.ABF,
+        code_type="ABF",
         code="I10",
     )
     """
@@ -43,11 +48,17 @@ class Diagnosis(StandaloneDiagnosisCreate):
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
         allow_population_by_field_name = True
+        populate_by_name = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

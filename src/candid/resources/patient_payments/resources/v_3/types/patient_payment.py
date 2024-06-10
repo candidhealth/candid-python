@@ -3,7 +3,10 @@
 import datetime as dt
 import typing
 
+import pydantic
+
 from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.encounter_external_id import EncounterExternalId
 from .....commons.types.organization_id import OrganizationId
 from .....commons.types.patient_external_id import PatientExternalId
@@ -12,22 +15,15 @@ from .patient_payment_id import PatientPaymentId
 from .patient_payment_source import PatientPaymentSource
 from .patient_payment_status import PatientPaymentStatus
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class PatientPayment(pydantic.BaseModel):
     """
+    Examples
+    --------
     import datetime
     import uuid
 
-    from candid.resources.patient_payments.v_3 import (
-        PatientPayment,
-        PatientPaymentSource,
-        PatientPaymentStatus,
-    )
+    from candid.resources.patient_payments.v_3 import PatientPayment
 
     PatientPayment(
         patient_payment_id="CF237BE1-E793-4BBF-8958-61D5179D1D0D",
@@ -35,12 +31,12 @@ class PatientPayment(pydantic.BaseModel):
             "0788ca2a-b20d-4b8e-b8d4-07fa0b3b4907",
         ),
         source_internal_id="D1A76039-D5C5-4323-A2FC-B7C8B6AEF6A4",
-        source=PatientPaymentSource.MANUAL_ENTRY,
+        source="MANUAL_ENTRY",
         amount_cents=2000,
         payment_timestamp=datetime.datetime.fromisoformat(
             "2023-01-01 00:00:00+00:00",
         ),
-        status=PatientPaymentStatus.PENDING,
+        status="PENDING",
         payment_name="John Doe",
         payment_note="test payment note",
         patient_external_id="B7437260-D6B4-48CF-B9D7-753C09F34E76",
@@ -69,10 +65,15 @@ class PatientPayment(pydantic.BaseModel):
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

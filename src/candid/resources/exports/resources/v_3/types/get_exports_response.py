@@ -3,16 +3,16 @@
 import datetime as dt
 import typing
 
-from ......core.datetime_utils import serialize_datetime
+import pydantic
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 
 
 class GetExportsResponse(pydantic.BaseModel):
     """
+    Examples
+    --------
     import datetime
 
     from candid.resources.exports.v_3 import GetExportsResponse
@@ -29,26 +29,36 @@ class GetExportsResponse(pydantic.BaseModel):
     )
     """
 
-    name: str = pydantic.Field(
-        description="Report name; contains date strings representing the start and end date of the export."
-    )
+    name: str = pydantic.Field()
+    """
+    Report name; contains date strings representing the start and end date of the export.
+    """
+
     created_at: dt.datetime
-    authenticated_download_url: str = pydantic.Field(
-        description="Authenticated URL where a customer's report can be retrieved."
-    )
-    authenticated_download_url_expiration: dt.datetime = pydantic.Field(
-        description="Expiration datetime of the authenticated URL. URLs expire after 2 minutes."
-    )
+    authenticated_download_url: str = pydantic.Field()
+    """
+    Authenticated URL where a customer's report can be retrieved.
+    """
+
+    authenticated_download_url_expiration: dt.datetime = pydantic.Field()
+    """
+    Expiration datetime of the authenticated URL. URLs expire after 2 minutes.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

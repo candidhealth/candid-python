@@ -3,14 +3,12 @@
 import datetime as dt
 import typing
 
+import pydantic
+
 from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .encounter_provider_base import EncounterProviderBase
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
 
 class BillingProvider(EncounterProviderBase):
@@ -26,9 +24,11 @@ class BillingProvider(EncounterProviderBase):
     """
 
     address: StreetAddressLongZip
-    tax_id: str = pydantic.Field(
-        description="If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting."
-    )
+    tax_id: str = pydantic.Field()
+    """
+    If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+    """
+
     npi: str
     taxonomy_code: typing.Optional[str] = None
 
@@ -37,11 +37,17 @@ class BillingProvider(EncounterProviderBase):
         return super().json(**kwargs_with_defaults)
 
     def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
-        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
-        return super().dict(**kwargs_with_defaults)
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
         allow_population_by_field_name = True
+        populate_by_name = True
+        extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

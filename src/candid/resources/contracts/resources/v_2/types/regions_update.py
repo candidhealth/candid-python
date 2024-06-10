@@ -4,31 +4,18 @@ from __future__ import annotations
 
 import typing
 
-import typing_extensions
+import pydantic
 
 from .....commons.types.regions import Regions
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class RegionsUpdate_Set(pydantic.BaseModel):
-    type: typing_extensions.Literal["set"]
     value: Regions
+    type: typing.Literal["set"] = "set"
 
     class Config:
         frozen = True
         smart_union = True
 
 
-class RegionsUpdate_Remove(pydantic.BaseModel):
-    type: typing_extensions.Literal["remove"]
-
-    class Config:
-        frozen = True
-        smart_union = True
-
-
-RegionsUpdate = typing.Union[RegionsUpdate_Set, RegionsUpdate_Remove]
+RegionsUpdate = typing.Union[RegionsUpdate_Set]

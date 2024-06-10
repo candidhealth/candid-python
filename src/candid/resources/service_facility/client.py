@@ -7,14 +7,13 @@ from json.decoder import JSONDecodeError
 from ...core.api_error import ApiError
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
+from ...core.pydantic_utilities import pydantic_v1
+from ...core.query_encoder import encode_query
+from ...core.remove_none_from_dict import remove_none_from_dict
+from ...core.request_options import RequestOptions
 from ..commons.types.street_address_long_zip import StreetAddressLongZip
 from .types.encounter_service_facility import EncounterServiceFacility
 from .types.service_facility_id import ServiceFacilityId
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -31,18 +30,57 @@ class ServiceFacilityClient:
         organization_name: typing.Optional[str] = OMIT,
         npi: typing.Optional[str] = OMIT,
         address: typing.Optional[StreetAddressLongZip] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterServiceFacility:
         """
-        Parameters:
-            - service_facility_id: ServiceFacilityId.
+        Parameters
+        ----------
+        service_facility_id : ServiceFacilityId
 
-            - organization_name: typing.Optional[str].
+        organization_name : typing.Optional[str]
 
-            - npi: typing.Optional[str]. An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.
-                                         Box 32 section (a) of the CMS-1500 claim form.
+        npi : typing.Optional[str]
+            An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.
+            Box 32 section (a) of the CMS-1500 claim form.
 
-            - address: typing.Optional[StreetAddressLongZip]. zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
 
+        address : typing.Optional[StreetAddressLongZip]
+            zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
+
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterServiceFacility
+
+        Examples
+        --------
+        import uuid
+
+        from candid import StreetAddressLongZip
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.service_facility.update(
+            service_facility_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            organization_name="string",
+            npi="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state="NY",
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if organization_name is not OMIT:
@@ -52,20 +90,42 @@ class ServiceFacilityClient:
         if address is not OMIT:
             _request["address"] = address
         _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/service_facility/v2/{service_facility_id}"
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/service_facility/v2/{jsonable_encoder(service_facility_id)}",
             ),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EncounterServiceFacility, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(EncounterServiceFacility, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -80,18 +140,57 @@ class AsyncServiceFacilityClient:
         organization_name: typing.Optional[str] = OMIT,
         npi: typing.Optional[str] = OMIT,
         address: typing.Optional[StreetAddressLongZip] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterServiceFacility:
         """
-        Parameters:
-            - service_facility_id: ServiceFacilityId.
+        Parameters
+        ----------
+        service_facility_id : ServiceFacilityId
 
-            - organization_name: typing.Optional[str].
+        organization_name : typing.Optional[str]
 
-            - npi: typing.Optional[str]. An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.
-                                         Box 32 section (a) of the CMS-1500 claim form.
+        npi : typing.Optional[str]
+            An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.
+            Box 32 section (a) of the CMS-1500 claim form.
 
-            - address: typing.Optional[StreetAddressLongZip]. zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
 
+        address : typing.Optional[StreetAddressLongZip]
+            zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
+
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterServiceFacility
+
+        Examples
+        --------
+        import uuid
+
+        from candid import StreetAddressLongZip
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.service_facility.update(
+            service_facility_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            organization_name="string",
+            npi="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state="NY",
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+        )
         """
         _request: typing.Dict[str, typing.Any] = {}
         if organization_name is not OMIT:
@@ -101,18 +200,40 @@ class AsyncServiceFacilityClient:
         if address is not OMIT:
             _request["address"] = address
         _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/service_facility/v2/{service_facility_id}"
+            method="PATCH",
+            url=urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/",
+                f"api/service_facility/v2/{jsonable_encoder(service_facility_id)}",
             ),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            params=encode_query(
+                jsonable_encoder(
+                    request_options.get("additional_query_parameters") if request_options is not None else None
+                )
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EncounterServiceFacility, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(EncounterServiceFacility, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
