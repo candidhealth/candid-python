@@ -1,5 +1,5 @@
 from candid import (
-    CandidApiEnvironment,
+    CandidApiClientEnvironment,
     EncounterExternalId,
     Date,
     PatientCreate,
@@ -13,19 +13,19 @@ from candid import (
     ServiceLineUnits,
     Decimal,
 )
-from candid.candid_api_client import CandidApiClient, CandidApiClientOptions
+from candid.client import CandidApiClient
 from candid.resources.encounter_providers.resources.v_2 import BillingProvider, RenderingProvider
 from candid.resources.encounters.resources.v_4 import BillableStatusType, ResponsiblePartyType
 from candid.resources.service_lines.resources.v_2 import ServiceLineCreate
 
 
-def client_options() -> CandidApiClientOptions:
-    import os
-    return CandidApiClientOptions(client_id=os.environ["CLIENT_ID"], client_secret=os.environ["CLIENT_SECRET"])
-
-
 def main() -> None:
-    client = CandidApiClient(environment=CandidApiEnvironment.STAGING, options=client_options())
+    import os
+    client = CandidApiClient(
+        environment=CandidApiClientEnvironment.STAGING,
+        client_id=os.environ["CLIENT_ID"],
+        client_secret=os.environ["CLIENT_SECRET"],
+    )
 
     created_encounter = client.encounters.v_4.create(
         external_id=EncounterExternalId("emr-claim-id-abcd"),

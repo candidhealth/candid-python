@@ -2,13 +2,13 @@
 
 import datetime as dt
 import typing
-import urllib.parse
 from json.decoder import JSONDecodeError
 
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
-from .....core.remove_none_from_dict import remove_none_from_dict
+from .....core.pydantic_utilities import pydantic_v1
+from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
@@ -33,11 +33,6 @@ from .types.patient_refund_id import PatientRefundId
 from .types.patient_refund_sort_field import PatientRefundSortField
 from .types.patient_refunds_page import PatientRefundsPage
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -56,105 +51,174 @@ class V1Client:
         billing_provider_id: typing.Optional[ProviderId] = None,
         unattributed: typing.Optional[bool] = None,
         invoice_id: typing.Optional[InvoiceId] = None,
-        sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
+        sources: typing.Optional[
+            typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]
+        ] = None,
         sort: typing.Optional[PatientRefundSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefundsPage:
         """
         Returns all patient refunds satisfying the search criteria AND whose organization_id matches
         the current organization_id of the authenticated user.
 
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100. The value must be greater than 0 and less than 1000.
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+        patient_external_id : typing.Optional[PatientExternalId]
 
-            - claim_id: typing.Optional[ClaimId].
+        claim_id : typing.Optional[ClaimId]
 
-            - service_line_id: typing.Optional[ServiceLineId].
+        service_line_id : typing.Optional[ServiceLineId]
 
-            - billing_provider_id: typing.Optional[ProviderId].
+        billing_provider_id : typing.Optional[ProviderId]
 
-            - unattributed: typing.Optional[bool]. returns payments with unattributed allocations if set to true
+        unattributed : typing.Optional[bool]
+            returns payments with unattributed allocations if set to true
 
-            - invoice_id: typing.Optional[InvoiceId].
+        invoice_id : typing.Optional[InvoiceId]
 
-            - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
+        sources : typing.Optional[typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]]
 
-            - sort: typing.Optional[PatientRefundSortField]. Defaults to refund_timestamp
+        sort : typing.Optional[PatientRefundSortField]
+            Defaults to refund_timestamp
 
-            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientRefundsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import PatientTransactionSource, SortDirection
+        from candid.client import CandidApiClient
+        from candid.resources.patient_refunds.v_1 import PatientRefundSortField
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_refunds.v_1.get_multi(
+            limit=1,
+            patient_external_id="string",
+            claim_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            unattributed=True,
+            invoice_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            sources=PatientTransactionSource.MANUAL_ENTRY,
+            sort=PatientRefundSortField.REFUND_SOURCE,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-refunds/v1"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "patient_external_id": patient_external_id,
-                    "claim_id": jsonable_encoder(claim_id),
-                    "service_line_id": jsonable_encoder(service_line_id),
-                    "billing_provider_id": jsonable_encoder(billing_provider_id),
-                    "unattributed": unattributed,
-                    "invoice_id": jsonable_encoder(invoice_id),
-                    "sources": sources,
-                    "sort": sort,
-                    "sort_direction": sort_direction,
-                    "page_token": page_token,
-                }
-            ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            "api/patient-refunds/v1",
+            method="GET",
+            params={
+                "limit": limit,
+                "patient_external_id": patient_external_id,
+                "claim_id": jsonable_encoder(claim_id),
+                "service_line_id": jsonable_encoder(service_line_id),
+                "billing_provider_id": jsonable_encoder(billing_provider_id),
+                "unattributed": unattributed,
+                "invoice_id": jsonable_encoder(invoice_id),
+                "sources": sources,
+                "sort": sort,
+                "sort_direction": sort_direction,
+                "page_token": page_token,
+            },
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientRefundsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientRefundsPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def get(self, patient_refund_id: PatientRefundId) -> PatientRefund:
+    def get(
+        self, patient_refund_id: PatientRefundId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> PatientRefund:
         """
         Retrieves a previously created patient refund by its `patient_refund_id`.
 
-        Parameters:
-            - patient_refund_id: PatientRefundId.
+        Parameters
+        ----------
+        patient_refund_id : PatientRefundId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientRefund
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_refunds.v_1.get(
+            patient_refund_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-refunds/v1/{patient_refund_id}"
-            ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientRefund, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientRefund, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -162,71 +226,114 @@ class V1Client:
         self,
         *,
         amount_cents: int,
+        patient_external_id: PatientExternalId,
+        allocations: typing.Sequence[AllocationCreate],
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[str] = OMIT,
-        patient_external_id: PatientExternalId,
-        allocations: typing.List[AllocationCreate],
         invoice: typing.Optional[InvoiceId] = OMIT,
         refund_reason: typing.Optional[RefundReason] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefund:
         """
         Creates a new patient refund record and returns the newly created PatientRefund object.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
 
-        Parameters:
-            - amount_cents: int.
+        Parameters
+        ----------
+        amount_cents : int
 
-            - refund_timestamp: typing.Optional[dt.datetime].
+        patient_external_id : PatientExternalId
 
-            - refund_note: typing.Optional[str].
+        allocations : typing.Sequence[AllocationCreate]
 
-            - patient_external_id: PatientExternalId.
+        refund_timestamp : typing.Optional[dt.datetime]
 
-            - allocations: typing.List[AllocationCreate].
+        refund_note : typing.Optional[str]
 
-            - invoice: typing.Optional[InvoiceId].
+        invoice : typing.Optional[InvoiceId]
 
-            - refund_reason: typing.Optional[RefundReason].
+        refund_reason : typing.Optional[RefundReason]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientRefund
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import (
+            AllocationCreate,
+            AllocationTargetCreate_ServiceLineById,
+            RefundReason,
+        )
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_refunds.v_1.create(
+            amount_cents=1,
+            refund_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            refund_note="string",
+            patient_external_id="string",
+            allocations=[
+                AllocationCreate(
+                    amount_cents=1,
+                    target=AllocationTargetCreate_ServiceLineById(
+                        value=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ),
+                )
+            ],
+            invoice=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            refund_reason=RefundReason.OVERCHARGED,
+        )
         """
-        _request: typing.Dict[str, typing.Any] = {
-            "amount_cents": amount_cents,
-            "patient_external_id": patient_external_id,
-            "allocations": allocations,
-        }
-        if refund_timestamp is not OMIT:
-            _request["refund_timestamp"] = refund_timestamp
-        if refund_note is not OMIT:
-            _request["refund_note"] = refund_note
-        if invoice is not OMIT:
-            _request["invoice"] = invoice
-        if refund_reason is not OMIT:
-            _request["refund_reason"] = refund_reason
         _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-refunds/v1"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            "api/patient-refunds/v1",
+            method="POST",
+            json={
+                "amount_cents": amount_cents,
+                "refund_timestamp": refund_timestamp,
+                "refund_note": refund_note,
+                "patient_external_id": patient_external_id,
+                "allocations": allocations,
+                "invoice": invoice,
+                "refund_reason": refund_reason,
+            },
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientRefund, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientRefund, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -238,74 +345,133 @@ class V1Client:
         refund_note: typing.Optional[NoteUpdate] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
         refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefund:
         """
         Updates the patient refund record matching the provided patient_refund_id.
 
-        Parameters:
-            - patient_refund_id: PatientRefundId.
+        Parameters
+        ----------
+        patient_refund_id : PatientRefundId
 
-            - refund_timestamp: typing.Optional[dt.datetime].
+        refund_timestamp : typing.Optional[dt.datetime]
 
-            - refund_note: typing.Optional[NoteUpdate].
+        refund_note : typing.Optional[NoteUpdate]
 
-            - invoice: typing.Optional[InvoiceUpdate].
+        invoice : typing.Optional[InvoiceUpdate]
 
-            - refund_reason: typing.Optional[RefundReasonUpdate].
-        """
-        _request: typing.Dict[str, typing.Any] = {}
-        if refund_timestamp is not OMIT:
-            _request["refund_timestamp"] = refund_timestamp
-        if refund_note is not OMIT:
-            _request["refund_note"] = refund_note
-        if invoice is not OMIT:
-            _request["invoice"] = invoice
-        if refund_reason is not OMIT:
-            _request["refund_reason"] = refund_reason
-        _response = self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-refunds/v1/{patient_refund_id}"
+        refund_reason : typing.Optional[RefundReasonUpdate]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientRefund
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import (
+            InvoiceUpdate_Set,
+            NoteUpdate_Set,
+            RefundReason,
+            RefundReasonUpdate_Set,
+        )
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_refunds.v_1.update(
+            patient_refund_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            refund_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            refund_note=NoteUpdate_Set(value="string"),
+            invoice=InvoiceUpdate_Set(
+                value=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ),
+            refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            method="PATCH",
+            json={
+                "refund_timestamp": refund_timestamp,
+                "refund_note": refund_note,
+                "invoice": invoice,
+                "refund_reason": refund_reason,
+            },
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientRefund, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientRefund, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def delete(self, patient_refund_id: PatientRefundId) -> None:
+    def delete(
+        self, patient_refund_id: PatientRefundId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
         """
         Deletes the patient refund record matching the provided patient_refund_id.
 
-        Parameters:
-            - patient_refund_id: PatientRefundId.
+        Parameters
+        ----------
+        patient_refund_id : PatientRefundId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_refunds.v_1.delete(
+            patient_refund_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-refunds/v1/{patient_refund_id}"
-            ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            method="DELETE",
+            request_options=request_options,
         )
         if 200 <= _response.status_code < 300:
             return
@@ -316,15 +482,15 @@ class V1Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -343,105 +509,174 @@ class AsyncV1Client:
         billing_provider_id: typing.Optional[ProviderId] = None,
         unattributed: typing.Optional[bool] = None,
         invoice_id: typing.Optional[InvoiceId] = None,
-        sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]] = None,
+        sources: typing.Optional[
+            typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]
+        ] = None,
         sort: typing.Optional[PatientRefundSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefundsPage:
         """
         Returns all patient refunds satisfying the search criteria AND whose organization_id matches
         the current organization_id of the authenticated user.
 
-        Parameters:
-            - limit: typing.Optional[int]. Defaults to 100. The value must be greater than 0 and less than 1000.
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Defaults to 100. The value must be greater than 0 and less than 1000.
 
-            - patient_external_id: typing.Optional[PatientExternalId].
+        patient_external_id : typing.Optional[PatientExternalId]
 
-            - claim_id: typing.Optional[ClaimId].
+        claim_id : typing.Optional[ClaimId]
 
-            - service_line_id: typing.Optional[ServiceLineId].
+        service_line_id : typing.Optional[ServiceLineId]
 
-            - billing_provider_id: typing.Optional[ProviderId].
+        billing_provider_id : typing.Optional[ProviderId]
 
-            - unattributed: typing.Optional[bool]. returns payments with unattributed allocations if set to true
+        unattributed : typing.Optional[bool]
+            returns payments with unattributed allocations if set to true
 
-            - invoice_id: typing.Optional[InvoiceId].
+        invoice_id : typing.Optional[InvoiceId]
 
-            - sources: typing.Optional[typing.Union[PatientTransactionSource, typing.List[PatientTransactionSource]]].
+        sources : typing.Optional[typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]]
 
-            - sort: typing.Optional[PatientRefundSortField]. Defaults to refund_timestamp
+        sort : typing.Optional[PatientRefundSortField]
+            Defaults to refund_timestamp
 
-            - sort_direction: typing.Optional[SortDirection]. Sort direction. Defaults to descending order if not provided.
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
-            - page_token: typing.Optional[PageToken].
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientRefundsPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import PatientTransactionSource, SortDirection
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.patient_refunds.v_1 import PatientRefundSortField
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_refunds.v_1.get_multi(
+            limit=1,
+            patient_external_id="string",
+            claim_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            unattributed=True,
+            invoice_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            sources=PatientTransactionSource.MANUAL_ENTRY,
+            sort=PatientRefundSortField.REFUND_SOURCE,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-refunds/v1"),
-            params=remove_none_from_dict(
-                {
-                    "limit": limit,
-                    "patient_external_id": patient_external_id,
-                    "claim_id": jsonable_encoder(claim_id),
-                    "service_line_id": jsonable_encoder(service_line_id),
-                    "billing_provider_id": jsonable_encoder(billing_provider_id),
-                    "unattributed": unattributed,
-                    "invoice_id": jsonable_encoder(invoice_id),
-                    "sources": sources,
-                    "sort": sort,
-                    "sort_direction": sort_direction,
-                    "page_token": page_token,
-                }
-            ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            "api/patient-refunds/v1",
+            method="GET",
+            params={
+                "limit": limit,
+                "patient_external_id": patient_external_id,
+                "claim_id": jsonable_encoder(claim_id),
+                "service_line_id": jsonable_encoder(service_line_id),
+                "billing_provider_id": jsonable_encoder(billing_provider_id),
+                "unattributed": unattributed,
+                "invoice_id": jsonable_encoder(invoice_id),
+                "sources": sources,
+                "sort": sort,
+                "sort_direction": sort_direction,
+                "page_token": page_token,
+            },
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientRefundsPage, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientRefundsPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def get(self, patient_refund_id: PatientRefundId) -> PatientRefund:
+    async def get(
+        self, patient_refund_id: PatientRefundId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> PatientRefund:
         """
         Retrieves a previously created patient refund by its `patient_refund_id`.
 
-        Parameters:
-            - patient_refund_id: PatientRefundId.
+        Parameters
+        ----------
+        patient_refund_id : PatientRefundId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientRefund
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_refunds.v_1.get(
+            patient_refund_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-refunds/v1/{patient_refund_id}"
-            ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientRefund, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientRefund, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -449,71 +684,114 @@ class AsyncV1Client:
         self,
         *,
         amount_cents: int,
+        patient_external_id: PatientExternalId,
+        allocations: typing.Sequence[AllocationCreate],
         refund_timestamp: typing.Optional[dt.datetime] = OMIT,
         refund_note: typing.Optional[str] = OMIT,
-        patient_external_id: PatientExternalId,
-        allocations: typing.List[AllocationCreate],
         invoice: typing.Optional[InvoiceId] = OMIT,
         refund_reason: typing.Optional[RefundReason] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefund:
         """
         Creates a new patient refund record and returns the newly created PatientRefund object.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
 
-        Parameters:
-            - amount_cents: int.
+        Parameters
+        ----------
+        amount_cents : int
 
-            - refund_timestamp: typing.Optional[dt.datetime].
+        patient_external_id : PatientExternalId
 
-            - refund_note: typing.Optional[str].
+        allocations : typing.Sequence[AllocationCreate]
 
-            - patient_external_id: PatientExternalId.
+        refund_timestamp : typing.Optional[dt.datetime]
 
-            - allocations: typing.List[AllocationCreate].
+        refund_note : typing.Optional[str]
 
-            - invoice: typing.Optional[InvoiceId].
+        invoice : typing.Optional[InvoiceId]
 
-            - refund_reason: typing.Optional[RefundReason].
+        refund_reason : typing.Optional[RefundReason]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientRefund
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import (
+            AllocationCreate,
+            AllocationTargetCreate_ServiceLineById,
+            RefundReason,
+        )
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_refunds.v_1.create(
+            amount_cents=1,
+            refund_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            refund_note="string",
+            patient_external_id="string",
+            allocations=[
+                AllocationCreate(
+                    amount_cents=1,
+                    target=AllocationTargetCreate_ServiceLineById(
+                        value=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ),
+                )
+            ],
+            invoice=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            refund_reason=RefundReason.OVERCHARGED,
+        )
         """
-        _request: typing.Dict[str, typing.Any] = {
-            "amount_cents": amount_cents,
-            "patient_external_id": patient_external_id,
-            "allocations": allocations,
-        }
-        if refund_timestamp is not OMIT:
-            _request["refund_timestamp"] = refund_timestamp
-        if refund_note is not OMIT:
-            _request["refund_note"] = refund_note
-        if invoice is not OMIT:
-            _request["invoice"] = invoice
-        if refund_reason is not OMIT:
-            _request["refund_reason"] = refund_reason
         _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "api/patient-refunds/v1"),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            "api/patient-refunds/v1",
+            method="POST",
+            json={
+                "amount_cents": amount_cents,
+                "refund_timestamp": refund_timestamp,
+                "refund_note": refund_note,
+                "patient_external_id": patient_external_id,
+                "allocations": allocations,
+                "invoice": invoice,
+                "refund_reason": refund_reason,
+            },
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientRefund, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientRefund, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -525,74 +803,133 @@ class AsyncV1Client:
         refund_note: typing.Optional[NoteUpdate] = OMIT,
         invoice: typing.Optional[InvoiceUpdate] = OMIT,
         refund_reason: typing.Optional[RefundReasonUpdate] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefund:
         """
         Updates the patient refund record matching the provided patient_refund_id.
 
-        Parameters:
-            - patient_refund_id: PatientRefundId.
+        Parameters
+        ----------
+        patient_refund_id : PatientRefundId
 
-            - refund_timestamp: typing.Optional[dt.datetime].
+        refund_timestamp : typing.Optional[dt.datetime]
 
-            - refund_note: typing.Optional[NoteUpdate].
+        refund_note : typing.Optional[NoteUpdate]
 
-            - invoice: typing.Optional[InvoiceUpdate].
+        invoice : typing.Optional[InvoiceUpdate]
 
-            - refund_reason: typing.Optional[RefundReasonUpdate].
-        """
-        _request: typing.Dict[str, typing.Any] = {}
-        if refund_timestamp is not OMIT:
-            _request["refund_timestamp"] = refund_timestamp
-        if refund_note is not OMIT:
-            _request["refund_note"] = refund_note
-        if invoice is not OMIT:
-            _request["invoice"] = invoice
-        if refund_reason is not OMIT:
-            _request["refund_reason"] = refund_reason
-        _response = await self._client_wrapper.httpx_client.request(
-            "PATCH",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-refunds/v1/{patient_refund_id}"
+        refund_reason : typing.Optional[RefundReasonUpdate]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientRefund
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import (
+            InvoiceUpdate_Set,
+            NoteUpdate_Set,
+            RefundReason,
+            RefundReasonUpdate_Set,
+        )
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_refunds.v_1.update(
+            patient_refund_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            json=jsonable_encoder(_request),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            refund_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            refund_note=NoteUpdate_Set(value="string"),
+            invoice=InvoiceUpdate_Set(
+                value=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ),
+            refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
+        )
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            method="PATCH",
+            json={
+                "refund_timestamp": refund_timestamp,
+                "refund_note": refund_note,
+                "invoice": invoice,
+                "refund_reason": refund_reason,
+            },
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PatientRefund, _response_json)  # type: ignore
+            return pydantic_v1.parse_obj_as(PatientRefund, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def delete(self, patient_refund_id: PatientRefundId) -> None:
+    async def delete(
+        self, patient_refund_id: PatientRefundId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
         """
         Deletes the patient refund record matching the provided patient_refund_id.
 
-        Parameters:
-            - patient_refund_id: PatientRefundId.
+        Parameters
+        ----------
+        patient_refund_id : PatientRefundId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        await client.patient_refunds.v_1.delete(
+            patient_refund_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "DELETE",
-            urllib.parse.urljoin(
-                f"{self._client_wrapper.get_base_url()}/", f"api/patient-refunds/v1/{patient_refund_id}"
-            ),
-            headers=self._client_wrapper.get_headers(),
-            timeout=60,
+            f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            method="DELETE",
+            request_options=request_options,
         )
         if 200 <= _response.status_code < 300:
             return
@@ -603,14 +940,14 @@ class AsyncV1Client:
         if "errorName" in _response_json:
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
-                    pydantic.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
-                    pydantic.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
-                    pydantic.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

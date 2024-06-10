@@ -2,24 +2,22 @@
 
 from __future__ import annotations
 
+import datetime as dt
 import typing
 
-import typing_extensions
+import pydantic
 
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
 from ...commons.types.claim_id import ClaimId
 from ...commons.types.encounter_external_id import EncounterExternalId
 from ...commons.types.provider_id import ProviderId
 from ...commons.types.service_line_id import ServiceLineId
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 
 class AllocationTargetCreate_ServiceLineById(pydantic.BaseModel):
-    type: typing_extensions.Literal["service_line_by_id"]
     value: ServiceLineId
+    type: typing.Literal["service_line_by_id"] = "service_line_by_id"
 
     class Config:
         frozen = True
@@ -27,8 +25,8 @@ class AllocationTargetCreate_ServiceLineById(pydantic.BaseModel):
 
 
 class AllocationTargetCreate_ClaimById(pydantic.BaseModel):
-    type: typing_extensions.Literal["claim_by_id"]
     value: ClaimId
+    type: typing.Literal["claim_by_id"] = "claim_by_id"
 
     class Config:
         frozen = True
@@ -36,8 +34,8 @@ class AllocationTargetCreate_ClaimById(pydantic.BaseModel):
 
 
 class AllocationTargetCreate_ClaimByEncounterExternalId(pydantic.BaseModel):
-    type: typing_extensions.Literal["claim_by_encounter_external_id"]
     value: EncounterExternalId
+    type: typing.Literal["claim_by_encounter_external_id"] = "claim_by_encounter_external_id"
 
     class Config:
         frozen = True
@@ -45,8 +43,8 @@ class AllocationTargetCreate_ClaimByEncounterExternalId(pydantic.BaseModel):
 
 
 class AllocationTargetCreate_BillingProviderById(pydantic.BaseModel):
-    type: typing_extensions.Literal["billing_provider_by_id"]
     value: ProviderId
+    type: typing.Literal["billing_provider_by_id"] = "billing_provider_by_id"
 
     class Config:
         frozen = True
@@ -54,11 +52,30 @@ class AllocationTargetCreate_BillingProviderById(pydantic.BaseModel):
 
 
 class AllocationTargetCreate_Unattributed(pydantic.BaseModel):
-    type: typing_extensions.Literal["unattributed"]
+    """
+    Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
+    claim, billing provider, or is unallocated.
+    """
+
+    type: typing.Literal["unattributed"] = "unattributed"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
 
     class Config:
         frozen = True
         smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
 
 
 AllocationTargetCreate = typing.Union[

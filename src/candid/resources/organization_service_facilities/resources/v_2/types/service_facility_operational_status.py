@@ -8,11 +8,13 @@ T_Result = typing.TypeVar("T_Result")
 
 class ServiceFacilityOperationalStatus(str, enum.Enum):
     """
+    Examples
+    --------
     from candid.resources.organization_service_facilities.v_2 import (
         ServiceFacilityOperationalStatus,
     )
 
-    ServiceFacilityOperationalStatus.C
+    ServiceFacilityOperationalStatus.CLOSED
     """
 
     CLOSED = "C"
