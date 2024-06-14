@@ -16,6 +16,7 @@ from .resources.expected_network_status.client import AsyncExpectedNetworkStatus
 from .resources.exports.client import AsyncExportsClient, ExportsClient
 from .resources.fee_schedules.client import AsyncFeeSchedulesClient, FeeSchedulesClient
 from .resources.guarantor.client import AsyncGuarantorClient, GuarantorClient
+from .resources.import_invoice.client import AsyncImportInvoiceClient, ImportInvoiceClient
 from .resources.insurance_adjudications.client import AsyncInsuranceAdjudicationsClient, InsuranceAdjudicationsClient
 from .resources.insurance_payments.client import AsyncInsurancePaymentsClient, InsurancePaymentsClient
 from .resources.insurance_refunds.client import AsyncInsuranceRefundsClient, InsuranceRefundsClient
@@ -115,6 +116,7 @@ class CandidApiClient:
         self.exports = ExportsClient(client_wrapper=self._client_wrapper)
         self.fee_schedules = FeeSchedulesClient(client_wrapper=self._client_wrapper)
         self.guarantor = GuarantorClient(client_wrapper=self._client_wrapper)
+        self.import_invoice = ImportInvoiceClient(client_wrapper=self._client_wrapper)
         self.insurance_adjudications = InsuranceAdjudicationsClient(client_wrapper=self._client_wrapper)
         self.insurance_payments = InsurancePaymentsClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = InsuranceRefundsClient(client_wrapper=self._client_wrapper)
@@ -211,6 +213,7 @@ class AsyncCandidApiClient:
         self.exports = AsyncExportsClient(client_wrapper=self._client_wrapper)
         self.fee_schedules = AsyncFeeSchedulesClient(client_wrapper=self._client_wrapper)
         self.guarantor = AsyncGuarantorClient(client_wrapper=self._client_wrapper)
+        self.import_invoice = AsyncImportInvoiceClient(client_wrapper=self._client_wrapper)
         self.insurance_adjudications = AsyncInsuranceAdjudicationsClient(client_wrapper=self._client_wrapper)
         self.insurance_payments = AsyncInsurancePaymentsClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = AsyncInsuranceRefundsClient(client_wrapper=self._client_wrapper)
