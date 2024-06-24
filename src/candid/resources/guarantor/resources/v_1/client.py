@@ -9,9 +9,11 @@ from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import pydantic_v1
 from .....core.request_options import RequestOptions
+from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
 from ....commons.types.email import Email
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.phone_number import PhoneNumber
+from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.street_address_short_zip import StreetAddressShortZip
 from .errors.encounter_has_existing_guarantor_error import EncounterHasExistingGuarantorError
 from .types.encounter_has_existing_guarantor_error_type import EncounterHasExistingGuarantorErrorType
@@ -111,6 +113,10 @@ class V1Client:
             if _response_json["errorName"] == "EncounterHasExistingGuarantorError":
                 raise EncounterHasExistingGuarantorError(
                     pydantic_v1.parse_obj_as(EncounterHasExistingGuarantorErrorType, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -361,6 +367,10 @@ class AsyncV1Client:
             if _response_json["errorName"] == "EncounterHasExistingGuarantorError":
                 raise EncounterHasExistingGuarantorError(
                     pydantic_v1.parse_obj_as(EncounterHasExistingGuarantorErrorType, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
