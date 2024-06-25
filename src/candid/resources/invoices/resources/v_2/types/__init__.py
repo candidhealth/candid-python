@@ -14,6 +14,7 @@ from .invoice_item_attribution_create import (
 )
 from .invoice_item_create import InvoiceItemCreate
 from .invoice_item_info import InvoiceItemInfo
+from .invoice_sort_field import InvoiceSortField
 from .invoice_status import InvoiceStatus
 from .service_line_invoice_item import ServiceLineInvoiceItem
 from .unattributed_invoice_item import UnattributedInvoiceItem
@@ -31,6 +32,7 @@ __all__ = [
     "InvoiceItemAttributionCreate_Unattributed",
     "InvoiceItemCreate",
     "InvoiceItemInfo",
+    "InvoiceSortField",
     "InvoiceStatus",
     "ServiceLineInvoiceItem",
     "UnattributedInvoiceItem",

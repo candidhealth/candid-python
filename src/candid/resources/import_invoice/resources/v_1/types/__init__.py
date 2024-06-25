@@ -3,6 +3,7 @@
 from .create_import_invoice_request import CreateImportInvoiceRequest
 from .import_invoice import ImportInvoice
 from .import_invoice_update_request import ImportInvoiceUpdateRequest
+from .import_invoices_page import ImportInvoicesPage
 from .invoice_item_info_update import InvoiceItemInfoUpdate
 from .invoice_item_update_type import InvoiceItemUpdateType
 
@@ -10,6 +11,7 @@ __all__ = [
     "CreateImportInvoiceRequest",
     "ImportInvoice",
     "ImportInvoiceUpdateRequest",
+    "ImportInvoicesPage",
     "InvoiceItemInfoUpdate",
     "InvoiceItemUpdateType",
 ]

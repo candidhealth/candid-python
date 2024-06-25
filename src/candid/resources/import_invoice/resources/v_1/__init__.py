@@ -4,6 +4,7 @@ from .types import (
     CreateImportInvoiceRequest,
     ImportInvoice,
     ImportInvoiceUpdateRequest,
+    ImportInvoicesPage,
     InvoiceItemInfoUpdate,
     InvoiceItemUpdateType,
 )
@@ -12,6 +13,7 @@ __all__ = [
     "CreateImportInvoiceRequest",
     "ImportInvoice",
     "ImportInvoiceUpdateRequest",
+    "ImportInvoicesPage",
     "InvoiceItemInfoUpdate",
     "InvoiceItemUpdateType",
 ]
