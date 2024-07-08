@@ -5,17 +5,14 @@ import typing
 
 import pydantic
 
-from ....core.datetime_utils import serialize_datetime
-from ....core.pydantic_utilities import deep_union_pydantic_dicts
-from ...commons.types.patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
-from ...commons.types.street_address_short_zip import StreetAddressShortZip
-from .individual_base import IndividualBase
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....payment_account_configs.types.payment_account_config_id import PaymentAccountConfigId
 
 
-class SubscriberBase(IndividualBase):
-    patient_relationship_to_subscriber_code: PatientRelationshipToInsuredCodeAll
-    date_of_birth: typing.Optional[dt.date] = None
-    address: typing.Optional[StreetAddressShortZip] = None
+class ExternalPaymentAccountConfig(pydantic.BaseModel):
+    id: PaymentAccountConfigId
+    account_name: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -32,7 +29,5 @@ class SubscriberBase(IndividualBase):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

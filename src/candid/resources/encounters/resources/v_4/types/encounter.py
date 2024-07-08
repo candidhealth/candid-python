@@ -9,7 +9,6 @@ from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....billing_notes.resources.v_2.types.billing_note import BillingNote
 from .....claims.types.claim import Claim
-from .....commons.types.date import Date
 from .....commons.types.encounter_id import EncounterId
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.link_url import LinkUrl
@@ -247,7 +246,9 @@ class Encounter(EncounterBase):
             email="johndoe@joincandidhealth.com",
             email_consent=True,
             external_id="49460F77-6456-41F1-AC6D-0AED08614D39",
-            date_of_birth="2000-01-01",
+            date_of_birth=datetime.date.fromisoformat(
+                "2000-01-01",
+            ),
             address=StreetAddressShortZip(
                 address_1="123 Main St",
                 address_2="Apt 1",
@@ -380,7 +381,9 @@ class Encounter(EncounterBase):
                 insurance_type=InsuranceTypeCode.C_12,
             ),
             patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-            date_of_birth="2000-01-01",
+            date_of_birth=datetime.date.fromisoformat(
+                "2000-01-01",
+            ),
             address=StreetAddressShortZip(
                 address_1="123 Main St",
                 address_2="Apt 1",
@@ -414,7 +417,9 @@ class Encounter(EncounterBase):
                 insurance_type=InsuranceTypeCode.C_12,
             ),
             patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-            date_of_birth="2000-01-01",
+            date_of_birth=datetime.date.fromisoformat(
+                "2000-01-01",
+            ),
             address=StreetAddressShortZip(
                 address_1="123 Main St",
                 address_2="Apt 1",
@@ -542,8 +547,12 @@ class Encounter(EncounterBase):
         owner_of_next_action=EncounterOwnerOfNextActionType.CANDID,
         submission_origin=EncounterSubmissionOriginType.CANDID,
         external_id="5C21490F-A9C0-45F4-B5DB-136E3AEC617A",
-        date_of_service="2023-01-01",
-        end_date_of_service="2023-01-05",
+        date_of_service=datetime.date.fromisoformat(
+            "2023-01-01",
+        ),
+        end_date_of_service=datetime.date.fromisoformat(
+            "2023-01-05",
+        ),
         prior_authorization_number="PA1234567",
         patient_authorized_release=True,
         benefits_assigned_to_provider=True,
@@ -600,9 +609,15 @@ class Encounter(EncounterBase):
         billable_status=BillableStatusType.BILLABLE,
         responsible_party=ResponsiblePartyType.INSURANCE_PAY,
         service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-        admission_date="2023-01-01",
-        discharge_date="2023-01-05",
-        onset_of_current_illness_or_symptom_date="2023-01-01",
+        admission_date=datetime.date.fromisoformat(
+            "2023-01-01",
+        ),
+        discharge_date=datetime.date.fromisoformat(
+            "2023-01-05",
+        ),
+        onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+            "2023-01-01",
+        ),
     )
     """
 
@@ -612,7 +627,7 @@ class Encounter(EncounterBase):
     It's used to track and manage a patient's medical records, treatments, and other healthcare-related information.
     """
 
-    date_of_service: Date = pydantic.Field()
+    date_of_service: dt.date = pydantic.Field()
     """
     Date formatted as YYYY-MM-DD; eg: 2019-08-24.
     This date must be the local date in the timezone where the service occurred.
@@ -621,7 +636,7 @@ class Encounter(EncounterBase):
     date_of_service must be defined on either the encounter or the service lines but not both.
     """
 
-    end_date_of_service: typing.Optional[Date] = pydantic.Field(default=None)
+    end_date_of_service: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     Date formatted as YYYY-MM-DD; eg: 2019-08-25.
     This date must be the local date in the timezone where the service occurred.

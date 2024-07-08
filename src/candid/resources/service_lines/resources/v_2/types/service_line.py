@@ -166,6 +166,7 @@ class ServiceLine(pydantic.BaseModel):
     related_invoice_info: typing.Optional[typing.List[InvoiceInfo]] = None
     denial_reason: typing.Optional[ServiceLineDenialReason] = None
     place_of_service_code: typing.Optional[FacilityTypeCode] = None
+    place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = None
     service_line_id: ServiceLineId
     procedure_code: str
     quantity: Decimal = pydantic.Field()

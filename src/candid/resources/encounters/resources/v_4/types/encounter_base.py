@@ -7,7 +7,6 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .....commons.types.date import Date
 from .....commons.types.delay_reason_code import DelayReasonCode
 from .....commons.types.encounter_external_id import EncounterExternalId
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
@@ -105,7 +104,7 @@ class EncounterBase(pydantic.BaseModel):
     obtaining the authorization.
     """
 
-    admission_date: typing.Optional[Date] = pydantic.Field(default=None)
+    admission_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     837p Loop2300 DTP\*435, CMS-1500 Box 18
     Required on all ambulance claims when the patient was known to be admitted to the hospital.
@@ -113,13 +112,13 @@ class EncounterBase(pydantic.BaseModel):
     Required on all claims involving inpatient medical visits.
     """
 
-    discharge_date: typing.Optional[Date] = pydantic.Field(default=None)
+    discharge_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     837p Loop2300 DTP\*096, CMS-1500 Box 18
     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
     """
 
-    onset_of_current_illness_or_symptom_date: typing.Optional[Date] = pydantic.Field(default=None)
+    onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     837p Loop2300 DTP\*431, CMS-1500 Box 14
     Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
@@ -127,7 +126,7 @@ class EncounterBase(pydantic.BaseModel):
     This date is the onset of acute symptoms for the current illness or condition.
     """
 
-    last_menstrual_period_date: typing.Optional[Date] = pydantic.Field(default=None)
+    last_menstrual_period_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     837p Loop2300 DTP\*484, CMS-1500 Box 14
     Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.

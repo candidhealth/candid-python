@@ -10,9 +10,11 @@ from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.patient_external_id import PatientExternalId
 from .....invoices.resources.v_2.types.invoice_item_create import InvoiceItemCreate
 from .....invoices.resources.v_2.types.invoice_status import InvoiceStatus
+from .....payment_account_configs.types.payment_account_config_id import PaymentAccountConfigId
 
 
 class CreateImportInvoiceRequest(pydantic.BaseModel):
+    external_payment_account_config_id: PaymentAccountConfigId
     patient_external_id: PatientExternalId
     external_customer_identifier: str = pydantic.Field()
     """

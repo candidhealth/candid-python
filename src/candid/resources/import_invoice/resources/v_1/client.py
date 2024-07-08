@@ -51,6 +51,7 @@ class V1Client:
         Examples
         --------
         import datetime
+        import uuid
 
         from candid.client import CandidApiClient
         from candid.resources.import_invoice.v_1 import CreateImportInvoiceRequest
@@ -62,6 +63,9 @@ class V1Client:
         )
         client.import_invoice.v_1.import_invoice(
             request=CreateImportInvoiceRequest(
+                external_payment_account_config_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
                 patient_external_id="string",
                 external_customer_identifier="string",
                 note="string",
@@ -345,6 +349,7 @@ class AsyncV1Client:
         Examples
         --------
         import datetime
+        import uuid
 
         from candid.client import AsyncCandidApiClient
         from candid.resources.import_invoice.v_1 import CreateImportInvoiceRequest
@@ -356,6 +361,9 @@ class AsyncV1Client:
         )
         await client.import_invoice.v_1.import_invoice(
             request=CreateImportInvoiceRequest(
+                external_payment_account_config_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
                 patient_external_id="string",
                 external_customer_identifier="string",
                 note="string",

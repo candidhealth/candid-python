@@ -17,6 +17,7 @@ class Patient(PatientBase):
     """
     Examples
     --------
+    import datetime
     import uuid
 
     from candid import (
@@ -42,7 +43,9 @@ class Patient(PatientBase):
         email="johndoe@joincandidhealth.com",
         email_consent=True,
         external_id="49460F77-6456-41F1-AC6D-0AED08614D39",
-        date_of_birth="2000-01-01",
+        date_of_birth=datetime.date.fromisoformat(
+            "2000-01-01",
+        ),
         address=StreetAddressShortZip(
             address_1="123 Main St",
             address_2="Apt 1",

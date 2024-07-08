@@ -16,7 +16,6 @@ from ....claims.types.claim_status import ClaimStatus
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
 from ....commons.errors.unauthorized_error import UnauthorizedError
-from ....commons.types.date import Date
 from ....commons.types.delay_reason_code import DelayReasonCode
 from ....commons.types.encounter_external_id import EncounterExternalId
 from ....commons.types.encounter_id import EncounterId
@@ -78,8 +77,8 @@ class V4Client:
         claim_status: typing.Optional[ClaimStatus] = None,
         sort: typing.Optional[EncounterSortOptions] = None,
         page_token: typing.Optional[PageToken] = None,
-        date_of_service_min: typing.Optional[Date] = None,
-        date_of_service_max: typing.Optional[Date] = None,
+        date_of_service_min: typing.Optional[dt.date] = None,
+        date_of_service_max: typing.Optional[dt.date] = None,
         primary_payer_names: typing.Optional[str] = None,
         search_term: typing.Optional[str] = None,
         external_id: typing.Optional[EncounterExternalId] = None,
@@ -106,10 +105,10 @@ class V4Client:
 
         page_token : typing.Optional[PageToken]
 
-        date_of_service_min : typing.Optional[Date]
+        date_of_service_min : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-        date_of_service_max : typing.Optional[Date]
+        date_of_service_max : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
         primary_payer_names : typing.Optional[str]
@@ -167,8 +166,12 @@ class V4Client:
             claim_status=ClaimStatus.BILLER_RECEIVED,
             sort=EncounterSortOptions.CREATED_AT_ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            date_of_service_min="2019-08-24",
-            date_of_service_max="2019-08-25",
+            date_of_service_min=datetime.date.fromisoformat(
+                "2019-08-24",
+            ),
+            date_of_service_max=datetime.date.fromisoformat(
+                "2019-08-25",
+            ),
             primary_payer_names="Medicare,Medicaid",
             search_term="doe",
             external_id="123456",
@@ -185,8 +188,8 @@ class V4Client:
                 "claim_status": claim_status,
                 "sort": sort,
                 "page_token": page_token,
-                "date_of_service_min": date_of_service_min,
-                "date_of_service_max": date_of_service_max,
+                "date_of_service_min": str(date_of_service_min) if date_of_service_min is not None else None,
+                "date_of_service_max": str(date_of_service_max) if date_of_service_max is not None else None,
                 "primary_payer_names": primary_payer_names,
                 "search_term": search_term,
                 "external_id": external_id,
@@ -264,8 +267,8 @@ class V4Client:
         provider_accepts_assignment: bool,
         billable_status: BillableStatusType,
         responsible_party: ResponsiblePartyType,
-        date_of_service: typing.Optional[Date] = OMIT,
-        end_date_of_service: typing.Optional[Date] = OMIT,
+        date_of_service: typing.Optional[dt.date] = OMIT,
+        end_date_of_service: typing.Optional[dt.date] = OMIT,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
         service_facility: typing.Optional[EncounterServiceFacilityBase] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
@@ -286,10 +289,10 @@ class V4Client:
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
-        admission_date: typing.Optional[Date] = OMIT,
-        discharge_date: typing.Optional[Date] = OMIT,
-        onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
-        last_menstrual_period_date: typing.Optional[Date] = OMIT,
+        admission_date: typing.Optional[dt.date] = OMIT,
+        discharge_date: typing.Optional[dt.date] = OMIT,
+        onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
+        last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
@@ -347,7 +350,7 @@ class V4Client:
         responsible_party : ResponsiblePartyType
             Defines the party to be billed with the initial balance owed on the claim.
 
-        date_of_service : typing.Optional[Date]
+        date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
             Box 24a on the CMS-1500 claim form.
@@ -356,7 +359,7 @@ class V4Client:
             If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
 
 
-        end_date_of_service : typing.Optional[Date]
+        end_date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
             This date must be the local date in the timezone where the service occurred.
             If omitted, the Encounter is assumed to be for a single day.
@@ -448,23 +451,23 @@ class V4Client:
             reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
             obtaining the authorization.
 
-        admission_date : typing.Optional[Date]
+        admission_date : typing.Optional[dt.date]
             837p Loop2300 DTP\*435, CMS-1500 Box 18
             Required on all ambulance claims when the patient was known to be admitted to the hospital.
             OR
             Required on all claims involving inpatient medical visits.
 
-        discharge_date : typing.Optional[Date]
+        discharge_date : typing.Optional[dt.date]
             837p Loop2300 DTP\*096, CMS-1500 Box 18
             Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
 
-        onset_of_current_illness_or_symptom_date : typing.Optional[Date]
+        onset_of_current_illness_or_symptom_date : typing.Optional[dt.date]
             837p Loop2300 DTP\*431, CMS-1500 Box 14
             Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
             OR
             This date is the onset of acute symptoms for the current illness or condition.
 
-        last_menstrual_period_date : typing.Optional[Date]
+        last_menstrual_period_date : typing.Optional[dt.date]
             837p Loop2300 DTP\*484, CMS-1500 Box 14
             Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
 
@@ -550,8 +553,12 @@ class V4Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.encounters.v_4.create(
-            date_of_service="string",
-            end_date_of_service="string",
+            date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            end_date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             patient=PatientCreate(
                 phone_numbers=[
                     PhoneNumber(
@@ -563,7 +570,9 @@ class V4Client:
                 email="johndoe@joincandidhealth.com",
                 email_consent=True,
                 external_id="string",
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -650,7 +659,9 @@ class V4Client:
                     insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -679,7 +690,9 @@ class V4Client:
                     insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -861,10 +874,18 @@ class V4Client:
             responsible_party=ResponsiblePartyType.INSURANCE_PAY,
             additional_information="string",
             service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-            admission_date="string",
-            discharge_date="string",
-            onset_of_current_illness_or_symptom_date="string",
-            last_menstrual_period_date="string",
+            admission_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            discharge_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            last_menstrual_period_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             delay_reason_code=DelayReasonCode.C_1,
         )
         """
@@ -953,7 +974,7 @@ class V4Client:
         *,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         external_id: typing.Optional[EncounterExternalId] = OMIT,
-        date_of_service: typing.Optional[Date] = OMIT,
+        date_of_service: typing.Optional[dt.date] = OMIT,
         diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
         clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
@@ -964,16 +985,17 @@ class V4Client:
         benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
+        place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
-        end_date_of_service: typing.Optional[Date] = OMIT,
+        end_date_of_service: typing.Optional[dt.date] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
-        admission_date: typing.Optional[Date] = OMIT,
-        discharge_date: typing.Optional[Date] = OMIT,
-        onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
-        last_menstrual_period_date: typing.Optional[Date] = OMIT,
+        admission_date: typing.Optional[dt.date] = OMIT,
+        discharge_date: typing.Optional[dt.date] = OMIT,
+        onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
+        last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -992,7 +1014,7 @@ class V4Client:
             This field should not contain PHI.
 
 
-        date_of_service : typing.Optional[Date]
+        date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
             Box 24a on the CMS-1500 claim form.
@@ -1039,11 +1061,15 @@ class V4Client:
             Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
 
+        place_of_service_code_as_submitted : typing.Optional[FacilityTypeCode]
+            Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+
+
         appointment_type : typing.Optional[str]
             Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
 
-        end_date_of_service : typing.Optional[Date]
+        end_date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
             This date must be the local date in the timezone where the service occurred.
             If omitted, the Encounter is assumed to be for a single day.
@@ -1069,26 +1095,26 @@ class V4Client:
             obtaining the authorization.
 
 
-        admission_date : typing.Optional[Date]
+        admission_date : typing.Optional[dt.date]
             837p Loop2300 DTP*435, CMS-1500 Box 18
             Required on all ambulance claims when the patient was known to be admitted to the hospital.
             OR
             Required on all claims involving inpatient medical visits.
 
 
-        discharge_date : typing.Optional[Date]
+        discharge_date : typing.Optional[dt.date]
             837p Loop2300 DTP*096, CMS-1500 Box 18
             Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
 
 
-        onset_of_current_illness_or_symptom_date : typing.Optional[Date]
+        onset_of_current_illness_or_symptom_date : typing.Optional[dt.date]
             837p Loop2300 DTP*431, CMS-1500 Box 14
             Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
             OR
             This date is the onset of acute symptoms for the current illness or condition.
 
 
-        last_menstrual_period_date : typing.Optional[Date]
+        last_menstrual_period_date : typing.Optional[dt.date]
             837p Loop2300 DTP*484, CMS-1500 Box 14
             Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
 
@@ -1113,6 +1139,7 @@ class V4Client:
 
         Examples
         --------
+        import datetime
         import uuid
 
         from candid import (
@@ -1150,7 +1177,9 @@ class V4Client:
             ),
             prior_authorization_number="string",
             external_id="string",
-            date_of_service="string",
+            date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             diagnosis_ids=[
                 uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
@@ -1177,8 +1206,11 @@ class V4Client:
             benefits_assigned_to_provider=True,
             synchronicity=SynchronicityType.SYNCHRONOUS,
             place_of_service_code=FacilityTypeCode.PHARMACY,
+            place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
             appointment_type="string",
-            end_date_of_service="string",
+            end_date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             subscriber_primary=SubscriberCreate(
                 insurance_card=InsuranceCardCreate(
                     member_id="string",
@@ -1195,7 +1227,9 @@ class V4Client:
                     insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -1224,7 +1258,9 @@ class V4Client:
                     insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -1239,10 +1275,18 @@ class V4Client:
             ),
             additional_information="string",
             service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-            admission_date="string",
-            discharge_date="string",
-            onset_of_current_illness_or_symptom_date="string",
-            last_menstrual_period_date="string",
+            admission_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            discharge_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            last_menstrual_period_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             delay_reason_code=DelayReasonCode.C_1,
             patient_authorized_release=True,
         )
@@ -1264,6 +1308,7 @@ class V4Client:
                 "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "synchronicity": synchronicity,
                 "place_of_service_code": place_of_service_code,
+                "place_of_service_code_as_submitted": place_of_service_code_as_submitted,
                 "appointment_type": appointment_type,
                 "end_date_of_service": end_date_of_service,
                 "subscriber_primary": subscriber_primary,
@@ -1317,8 +1362,8 @@ class AsyncV4Client:
         claim_status: typing.Optional[ClaimStatus] = None,
         sort: typing.Optional[EncounterSortOptions] = None,
         page_token: typing.Optional[PageToken] = None,
-        date_of_service_min: typing.Optional[Date] = None,
-        date_of_service_max: typing.Optional[Date] = None,
+        date_of_service_min: typing.Optional[dt.date] = None,
+        date_of_service_max: typing.Optional[dt.date] = None,
         primary_payer_names: typing.Optional[str] = None,
         search_term: typing.Optional[str] = None,
         external_id: typing.Optional[EncounterExternalId] = None,
@@ -1345,10 +1390,10 @@ class AsyncV4Client:
 
         page_token : typing.Optional[PageToken]
 
-        date_of_service_min : typing.Optional[Date]
+        date_of_service_min : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-        date_of_service_max : typing.Optional[Date]
+        date_of_service_max : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
         primary_payer_names : typing.Optional[str]
@@ -1406,8 +1451,12 @@ class AsyncV4Client:
             claim_status=ClaimStatus.BILLER_RECEIVED,
             sort=EncounterSortOptions.CREATED_AT_ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            date_of_service_min="2019-08-24",
-            date_of_service_max="2019-08-25",
+            date_of_service_min=datetime.date.fromisoformat(
+                "2019-08-24",
+            ),
+            date_of_service_max=datetime.date.fromisoformat(
+                "2019-08-25",
+            ),
             primary_payer_names="Medicare,Medicaid",
             search_term="doe",
             external_id="123456",
@@ -1424,8 +1473,8 @@ class AsyncV4Client:
                 "claim_status": claim_status,
                 "sort": sort,
                 "page_token": page_token,
-                "date_of_service_min": date_of_service_min,
-                "date_of_service_max": date_of_service_max,
+                "date_of_service_min": str(date_of_service_min) if date_of_service_min is not None else None,
+                "date_of_service_max": str(date_of_service_max) if date_of_service_max is not None else None,
                 "primary_payer_names": primary_payer_names,
                 "search_term": search_term,
                 "external_id": external_id,
@@ -1505,8 +1554,8 @@ class AsyncV4Client:
         provider_accepts_assignment: bool,
         billable_status: BillableStatusType,
         responsible_party: ResponsiblePartyType,
-        date_of_service: typing.Optional[Date] = OMIT,
-        end_date_of_service: typing.Optional[Date] = OMIT,
+        date_of_service: typing.Optional[dt.date] = OMIT,
+        end_date_of_service: typing.Optional[dt.date] = OMIT,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
         service_facility: typing.Optional[EncounterServiceFacilityBase] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
@@ -1527,10 +1576,10 @@ class AsyncV4Client:
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
-        admission_date: typing.Optional[Date] = OMIT,
-        discharge_date: typing.Optional[Date] = OMIT,
-        onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
-        last_menstrual_period_date: typing.Optional[Date] = OMIT,
+        admission_date: typing.Optional[dt.date] = OMIT,
+        discharge_date: typing.Optional[dt.date] = OMIT,
+        onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
+        last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
@@ -1588,7 +1637,7 @@ class AsyncV4Client:
         responsible_party : ResponsiblePartyType
             Defines the party to be billed with the initial balance owed on the claim.
 
-        date_of_service : typing.Optional[Date]
+        date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
             Box 24a on the CMS-1500 claim form.
@@ -1597,7 +1646,7 @@ class AsyncV4Client:
             If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
 
 
-        end_date_of_service : typing.Optional[Date]
+        end_date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
             This date must be the local date in the timezone where the service occurred.
             If omitted, the Encounter is assumed to be for a single day.
@@ -1689,23 +1738,23 @@ class AsyncV4Client:
             reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
             obtaining the authorization.
 
-        admission_date : typing.Optional[Date]
+        admission_date : typing.Optional[dt.date]
             837p Loop2300 DTP\*435, CMS-1500 Box 18
             Required on all ambulance claims when the patient was known to be admitted to the hospital.
             OR
             Required on all claims involving inpatient medical visits.
 
-        discharge_date : typing.Optional[Date]
+        discharge_date : typing.Optional[dt.date]
             837p Loop2300 DTP\*096, CMS-1500 Box 18
             Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
 
-        onset_of_current_illness_or_symptom_date : typing.Optional[Date]
+        onset_of_current_illness_or_symptom_date : typing.Optional[dt.date]
             837p Loop2300 DTP\*431, CMS-1500 Box 14
             Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
             OR
             This date is the onset of acute symptoms for the current illness or condition.
 
-        last_menstrual_period_date : typing.Optional[Date]
+        last_menstrual_period_date : typing.Optional[dt.date]
             837p Loop2300 DTP\*484, CMS-1500 Box 14
             Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
 
@@ -1791,8 +1840,12 @@ class AsyncV4Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         await client.encounters.v_4.create(
-            date_of_service="string",
-            end_date_of_service="string",
+            date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            end_date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             patient=PatientCreate(
                 phone_numbers=[
                     PhoneNumber(
@@ -1804,7 +1857,9 @@ class AsyncV4Client:
                 email="johndoe@joincandidhealth.com",
                 email_consent=True,
                 external_id="string",
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -1891,7 +1946,9 @@ class AsyncV4Client:
                     insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -1920,7 +1977,9 @@ class AsyncV4Client:
                     insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -2102,10 +2161,18 @@ class AsyncV4Client:
             responsible_party=ResponsiblePartyType.INSURANCE_PAY,
             additional_information="string",
             service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-            admission_date="string",
-            discharge_date="string",
-            onset_of_current_illness_or_symptom_date="string",
-            last_menstrual_period_date="string",
+            admission_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            discharge_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            last_menstrual_period_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             delay_reason_code=DelayReasonCode.C_1,
         )
         """
@@ -2194,7 +2261,7 @@ class AsyncV4Client:
         *,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         external_id: typing.Optional[EncounterExternalId] = OMIT,
-        date_of_service: typing.Optional[Date] = OMIT,
+        date_of_service: typing.Optional[dt.date] = OMIT,
         diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
         clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
@@ -2205,16 +2272,17 @@ class AsyncV4Client:
         benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
+        place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
-        end_date_of_service: typing.Optional[Date] = OMIT,
+        end_date_of_service: typing.Optional[dt.date] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
-        admission_date: typing.Optional[Date] = OMIT,
-        discharge_date: typing.Optional[Date] = OMIT,
-        onset_of_current_illness_or_symptom_date: typing.Optional[Date] = OMIT,
-        last_menstrual_period_date: typing.Optional[Date] = OMIT,
+        admission_date: typing.Optional[dt.date] = OMIT,
+        discharge_date: typing.Optional[dt.date] = OMIT,
+        onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
+        last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -2233,7 +2301,7 @@ class AsyncV4Client:
             This field should not contain PHI.
 
 
-        date_of_service : typing.Optional[Date]
+        date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
             Box 24a on the CMS-1500 claim form.
@@ -2280,11 +2348,15 @@ class AsyncV4Client:
             Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
 
+        place_of_service_code_as_submitted : typing.Optional[FacilityTypeCode]
+            Box 24B on the CMS-1500 claim form. Line-level place of service is not currently supported. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+
+
         appointment_type : typing.Optional[str]
             Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
 
-        end_date_of_service : typing.Optional[Date]
+        end_date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
             This date must be the local date in the timezone where the service occurred.
             If omitted, the Encounter is assumed to be for a single day.
@@ -2310,26 +2382,26 @@ class AsyncV4Client:
             obtaining the authorization.
 
 
-        admission_date : typing.Optional[Date]
+        admission_date : typing.Optional[dt.date]
             837p Loop2300 DTP*435, CMS-1500 Box 18
             Required on all ambulance claims when the patient was known to be admitted to the hospital.
             OR
             Required on all claims involving inpatient medical visits.
 
 
-        discharge_date : typing.Optional[Date]
+        discharge_date : typing.Optional[dt.date]
             837p Loop2300 DTP*096, CMS-1500 Box 18
             Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
 
 
-        onset_of_current_illness_or_symptom_date : typing.Optional[Date]
+        onset_of_current_illness_or_symptom_date : typing.Optional[dt.date]
             837p Loop2300 DTP*431, CMS-1500 Box 14
             Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
             OR
             This date is the onset of acute symptoms for the current illness or condition.
 
 
-        last_menstrual_period_date : typing.Optional[Date]
+        last_menstrual_period_date : typing.Optional[dt.date]
             837p Loop2300 DTP*484, CMS-1500 Box 14
             Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
 
@@ -2354,6 +2426,7 @@ class AsyncV4Client:
 
         Examples
         --------
+        import datetime
         import uuid
 
         from candid import (
@@ -2391,7 +2464,9 @@ class AsyncV4Client:
             ),
             prior_authorization_number="string",
             external_id="string",
-            date_of_service="string",
+            date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             diagnosis_ids=[
                 uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
@@ -2418,8 +2493,11 @@ class AsyncV4Client:
             benefits_assigned_to_provider=True,
             synchronicity=SynchronicityType.SYNCHRONOUS,
             place_of_service_code=FacilityTypeCode.PHARMACY,
+            place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
             appointment_type="string",
-            end_date_of_service="string",
+            end_date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             subscriber_primary=SubscriberCreate(
                 insurance_card=InsuranceCardCreate(
                     member_id="string",
@@ -2436,7 +2514,9 @@ class AsyncV4Client:
                     insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -2465,7 +2545,9 @@ class AsyncV4Client:
                     insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                date_of_birth="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -2480,10 +2562,18 @@ class AsyncV4Client:
             ),
             additional_information="string",
             service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-            admission_date="string",
-            discharge_date="string",
-            onset_of_current_illness_or_symptom_date="string",
-            last_menstrual_period_date="string",
+            admission_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            discharge_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            last_menstrual_period_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             delay_reason_code=DelayReasonCode.C_1,
             patient_authorized_release=True,
         )
@@ -2505,6 +2595,7 @@ class AsyncV4Client:
                 "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "synchronicity": synchronicity,
                 "place_of_service_code": place_of_service_code,
+                "place_of_service_code_as_submitted": place_of_service_code_as_submitted,
                 "appointment_type": appointment_type,
                 "end_date_of_service": end_date_of_service,
                 "subscriber_primary": subscriber_primary,

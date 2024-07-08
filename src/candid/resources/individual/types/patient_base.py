@@ -7,7 +7,6 @@ import pydantic
 
 from ....core.datetime_utils import serialize_datetime
 from ....core.pydantic_utilities import deep_union_pydantic_dicts
-from ...commons.types.date import Date
 from ...commons.types.street_address_short_zip import StreetAddressShortZip
 from .individual_base import IndividualBase
 
@@ -18,7 +17,7 @@ class PatientBase(IndividualBase):
     The ID used to identify this individual in your system. For example, your internal patient ID or an EHR patient ID.
     """
 
-    date_of_birth: Date = pydantic.Field()
+    date_of_birth: dt.date = pydantic.Field()
     """
     Box 3 on the CMS-1500 claim form. The date format should be in ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
     """

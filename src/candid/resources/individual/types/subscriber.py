@@ -16,6 +16,7 @@ class Subscriber(SubscriberBase):
     """
     Examples
     --------
+    import datetime
     import uuid
 
     from candid import (
@@ -50,7 +51,9 @@ class Subscriber(SubscriberBase):
             insurance_type=InsuranceTypeCode.C_12,
         ),
         patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-        date_of_birth="2000-01-01",
+        date_of_birth=datetime.date.fromisoformat(
+            "2000-01-01",
+        ),
         address=StreetAddressShortZip(
             address_1="123 Main St",
             address_2="Apt 1",

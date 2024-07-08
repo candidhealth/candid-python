@@ -231,7 +231,9 @@ class EncounterPage(ResourcePage):
                     email="johndoe@joincandidhealth.com",
                     email_consent=True,
                     external_id="49460F77-6456-41F1-AC6D-0AED08614D39",
-                    date_of_birth="2000-01-01",
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2000-01-01",
+                    ),
                     address=StreetAddressShortZip(
                         address_1="123 Main St",
                         address_2="Apt 1",
@@ -364,7 +366,9 @@ class EncounterPage(ResourcePage):
                         insurance_type=InsuranceTypeCode.C_12,
                     ),
                     patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                    date_of_birth="2000-01-01",
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2000-01-01",
+                    ),
                     address=StreetAddressShortZip(
                         address_1="123 Main St",
                         address_2="Apt 1",
@@ -398,7 +402,9 @@ class EncounterPage(ResourcePage):
                         insurance_type=InsuranceTypeCode.C_12,
                     ),
                     patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                    date_of_birth="2000-01-01",
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2000-01-01",
+                    ),
                     address=StreetAddressShortZip(
                         address_1="123 Main St",
                         address_2="Apt 1",
@@ -526,8 +532,12 @@ class EncounterPage(ResourcePage):
                 owner_of_next_action=EncounterOwnerOfNextActionType.CANDID,
                 submission_origin=EncounterSubmissionOriginType.CANDID,
                 external_id="5C21490F-A9C0-45F4-B5DB-136E3AEC617A",
-                date_of_service="2023-01-01",
-                end_date_of_service="2023-01-05",
+                date_of_service=datetime.date.fromisoformat(
+                    "2023-01-01",
+                ),
+                end_date_of_service=datetime.date.fromisoformat(
+                    "2023-01-05",
+                ),
                 prior_authorization_number="PA1234567",
                 patient_authorized_release=True,
                 benefits_assigned_to_provider=True,
@@ -584,9 +594,15 @@ class EncounterPage(ResourcePage):
                 billable_status=BillableStatusType.BILLABLE,
                 responsible_party=ResponsiblePartyType.INSURANCE_PAY,
                 service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-                admission_date="2023-01-01",
-                discharge_date="2023-01-05",
-                onset_of_current_illness_or_symptom_date="2023-01-01",
+                admission_date=datetime.date.fromisoformat(
+                    "2023-01-01",
+                ),
+                discharge_date=datetime.date.fromisoformat(
+                    "2023-01-05",
+                ),
+                onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+                    "2023-01-01",
+                ),
             )
         ],
     )

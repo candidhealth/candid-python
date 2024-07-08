@@ -11,6 +11,7 @@ class InvoiceDestination(str, enum.Enum):
     CEDAR = "CEDAR"
     HEALTHIE = "HEALTHIE"
     COLLECTLY = "COLLECTLY"
+    THIRD_PARTY_PAYERS = "THIRD_PARTY_PAYERS"
 
     def visit(
         self,
@@ -18,6 +19,7 @@ class InvoiceDestination(str, enum.Enum):
         cedar: typing.Callable[[], T_Result],
         healthie: typing.Callable[[], T_Result],
         collectly: typing.Callable[[], T_Result],
+        third_party_payers: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is InvoiceDestination.STRIPE:
             return stripe()
@@ -27,3 +29,5 @@ class InvoiceDestination(str, enum.Enum):
             return healthie()
         if self is InvoiceDestination.COLLECTLY:
             return collectly()
+        if self is InvoiceDestination.THIRD_PARTY_PAYERS:
+            return third_party_payers()

@@ -14,6 +14,10 @@ from .resources.eligibility.client import AsyncEligibilityClient, EligibilityCli
 from .resources.encounters.client import AsyncEncountersClient, EncountersClient
 from .resources.expected_network_status.client import AsyncExpectedNetworkStatusClient, ExpectedNetworkStatusClient
 from .resources.exports.client import AsyncExportsClient, ExportsClient
+from .resources.external_payment_account_config.client import (
+    AsyncExternalPaymentAccountConfigClient,
+    ExternalPaymentAccountConfigClient,
+)
 from .resources.fee_schedules.client import AsyncFeeSchedulesClient, FeeSchedulesClient
 from .resources.guarantor.client import AsyncGuarantorClient, GuarantorClient
 from .resources.import_invoice.client import AsyncImportInvoiceClient, ImportInvoiceClient
@@ -114,6 +118,7 @@ class CandidApiClient:
         self.encounters = EncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = ExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = ExportsClient(client_wrapper=self._client_wrapper)
+        self.external_payment_account_config = ExternalPaymentAccountConfigClient(client_wrapper=self._client_wrapper)
         self.fee_schedules = FeeSchedulesClient(client_wrapper=self._client_wrapper)
         self.guarantor = GuarantorClient(client_wrapper=self._client_wrapper)
         self.import_invoice = ImportInvoiceClient(client_wrapper=self._client_wrapper)
@@ -211,6 +216,9 @@ class AsyncCandidApiClient:
         self.encounters = AsyncEncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = AsyncExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = AsyncExportsClient(client_wrapper=self._client_wrapper)
+        self.external_payment_account_config = AsyncExternalPaymentAccountConfigClient(
+            client_wrapper=self._client_wrapper
+        )
         self.fee_schedules = AsyncFeeSchedulesClient(client_wrapper=self._client_wrapper)
         self.guarantor = AsyncGuarantorClient(client_wrapper=self._client_wrapper)
         self.import_invoice = AsyncImportInvoiceClient(client_wrapper=self._client_wrapper)

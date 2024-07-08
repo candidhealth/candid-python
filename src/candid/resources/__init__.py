@@ -15,6 +15,7 @@ from . import (
     era_commons,
     expected_network_status,
     exports,
+    external_payment_account_config,
     fee_schedules,
     financials,
     guarantor,
@@ -31,6 +32,7 @@ from . import (
     patient_payments,
     patient_refunds,
     payers,
+    payment_account_configs,
     remits,
     service_facility,
     service_lines,
@@ -172,6 +174,7 @@ from .individual import (
     SubscriberCreate,
 )
 from .invoices import Invoice, InvoiceItem, InvoiceStatus
+from .payment_account_configs import PaymentAccountConfigId
 from .service_facility import EncounterServiceFacility, EncounterServiceFacilityBase, ServiceFacilityId
 from .tags import Tag, TagColorEnum, TagCreate, TagId
 
@@ -266,6 +269,7 @@ __all__ = [
     "PatientExternalId",
     "PatientRelationshipToInsuredCodeAll",
     "PatientTransactionSource",
+    "PaymentAccountConfigId",
     "PhoneNumber",
     "PhoneNumberType",
     "ProcedureModifier",
@@ -333,6 +337,7 @@ __all__ = [
     "era_commons",
     "expected_network_status",
     "exports",
+    "external_payment_account_config",
     "fee_schedules",
     "financials",
     "guarantor",
@@ -349,6 +354,7 @@ __all__ = [
     "patient_payments",
     "patient_refunds",
     "payers",
+    "payment_account_configs",
     "remits",
     "service_facility",
     "service_lines",

@@ -186,8 +186,7 @@ class V1Client:
         self, *, write_offs: typing.Sequence[WriteOffCreate], request_options: typing.Optional[RequestOptions] = None
     ) -> CreateWriteOffsResponse:
         """
-        Creates one or many write-offs given a specific set of allocations.
-        The allocations can describe whether the refund is being applied toward a specific service line,
+        Creates one or many write-offs applied toward a specific service line,
         claim, or billing provider.
 
         Parameters
@@ -451,8 +450,7 @@ class AsyncV1Client:
         self, *, write_offs: typing.Sequence[WriteOffCreate], request_options: typing.Optional[RequestOptions] = None
     ) -> CreateWriteOffsResponse:
         """
-        Creates one or many write-offs given a specific set of allocations.
-        The allocations can describe whether the refund is being applied toward a specific service line,
+        Creates one or many write-offs applied toward a specific service line,
         claim, or billing provider.
 
         Parameters
