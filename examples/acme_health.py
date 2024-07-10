@@ -1,7 +1,6 @@
 from candid import (
     CandidApiClientEnvironment,
     EncounterExternalId,
-    Date,
     PatientCreate,
     Gender,
     StreetAddressShortZip,
@@ -13,6 +12,7 @@ from candid import (
     ServiceLineUnits,
     Decimal,
 )
+import datetime as dt
 from candid.client import CandidApiClient
 from candid.resources.encounter_providers.resources.v_2 import BillingProvider, RenderingProvider
 from candid.resources.encounters.resources.v_4 import BillableStatusType, ResponsiblePartyType
@@ -29,14 +29,14 @@ def main() -> None:
 
     created_encounter = client.encounters.v_4.create(
         external_id=EncounterExternalId("emr-claim-id-abcd"),
-        date_of_service=Date("2023-05-23"),
+        date_of_service=dt.date(2023, 5, 23),
         billable_status=BillableStatusType.BILLABLE,  # or BillableStatusType.NOT_BILLABLE
         responsible_party=ResponsiblePartyType.INSURANCE_PAY,  # or ResponsiblePartyType.SELF_PAY
         patient=PatientCreate(
             external_id="emr-patient-id-123",
             first_name="Loki",
             last_name="Laufeyson",
-            date_of_birth=Date("1983-12-17"),
+            date_of_birth=dt.date(1983, 12, 17),
             gender=Gender.MALE,
             address=StreetAddressShortZip(
                 address_1="1234 Main St",
