@@ -4,16 +4,22 @@ from .types import (
     BillingProvider,
     EncounterProvider,
     EncounterProviderBase,
+    InitialReferringProvider,
+    OrderingProvider,
     ProviderId,
     ReferringProvider,
     RenderingProvider,
+    SupervisingProvider,
 )
 
 __all__ = [
     "BillingProvider",
     "EncounterProvider",
     "EncounterProviderBase",
+    "InitialReferringProvider",
+    "OrderingProvider",
     "ProviderId",
     "ReferringProvider",
     "RenderingProvider",
+    "SupervisingProvider",
 ]

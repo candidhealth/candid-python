@@ -15,6 +15,7 @@ from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_id import ServiceLineId
 from .....commons.types.service_line_units import ServiceLineUnits
 from .....diagnoses.types.diagnosis_id import DiagnosisId
+from .....encounter_providers.resources.v_2.types.encounter_provider import EncounterProvider
 from .....invoices.resources.v_2.types.invoice_info import InvoiceInfo
 from .....invoices.types.invoice import Invoice
 from .service_line_adjustment import ServiceLineAdjustment
@@ -169,6 +170,10 @@ class ServiceLine(pydantic.BaseModel):
     place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = None
     service_line_id: ServiceLineId
     procedure_code: str
+    referring_provider: typing.Optional[EncounterProvider] = None
+    initial_referring_provider: typing.Optional[EncounterProvider] = None
+    supervising_provider: typing.Optional[EncounterProvider] = None
+    ordering_provider: typing.Optional[EncounterProvider] = None
     quantity: Decimal = pydantic.Field()
     """
     String representation of a Decimal that can be parsed by most libraries.

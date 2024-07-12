@@ -32,6 +32,7 @@ from .resources.organization_service_facilities.client import (
 from .resources.patient_payments.client import AsyncPatientPaymentsClient, PatientPaymentsClient
 from .resources.patient_refunds.client import AsyncPatientRefundsClient, PatientRefundsClient
 from .resources.payers.client import AsyncPayersClient, PayersClient
+from .resources.pre_encounter.client import AsyncPreEncounterClient, PreEncounterClient
 from .resources.service_facility.client import AsyncServiceFacilityClient, ServiceFacilityClient
 from .resources.tasks.client import AsyncTasksClient, TasksClient
 from .resources.write_offs.client import AsyncWriteOffsClient, WriteOffsClient
@@ -133,6 +134,7 @@ class CandidApiClient:
         self.tasks = TasksClient(client_wrapper=self._client_wrapper)
         self.write_offs = WriteOffsClient(client_wrapper=self._client_wrapper)
         self.service_facility = ServiceFacilityClient(client_wrapper=self._client_wrapper)
+        self.pre_encounter = PreEncounterClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncCandidApiClient:
@@ -235,6 +237,7 @@ class AsyncCandidApiClient:
         self.tasks = AsyncTasksClient(client_wrapper=self._client_wrapper)
         self.write_offs = AsyncWriteOffsClient(client_wrapper=self._client_wrapper)
         self.service_facility = AsyncServiceFacilityClient(client_wrapper=self._client_wrapper)
+        self.pre_encounter = AsyncPreEncounterClient(client_wrapper=self._client_wrapper)
 
 
 def _get_base_url(*, base_url: typing.Optional[str] = None, environment: CandidApiClientEnvironment) -> str:

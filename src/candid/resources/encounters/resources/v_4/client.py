@@ -29,8 +29,11 @@ from ....commons.types.work_queue_id import WorkQueueId
 from ....diagnoses.types.diagnosis_create import DiagnosisCreate
 from ....diagnoses.types.diagnosis_id import DiagnosisId
 from ....encounter_providers.resources.v_2.types.billing_provider import BillingProvider
+from ....encounter_providers.resources.v_2.types.initial_referring_provider import InitialReferringProvider
+from ....encounter_providers.resources.v_2.types.ordering_provider import OrderingProvider
 from ....encounter_providers.resources.v_2.types.referring_provider import ReferringProvider
 from ....encounter_providers.resources.v_2.types.rendering_provider import RenderingProvider
+from ....encounter_providers.resources.v_2.types.supervising_provider import SupervisingProvider
 from ....guarantor.resources.v_1.types.guarantor_create import GuarantorCreate
 from ....individual.types.patient_create import PatientCreate
 from ....individual.types.subscriber_create import SubscriberCreate
@@ -270,6 +273,9 @@ class V4Client:
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
+        initial_referring_provider: typing.Optional[InitialReferringProvider] = OMIT,
+        supervising_provider: typing.Optional[SupervisingProvider] = OMIT,
+        ordering_provider: typing.Optional[OrderingProvider] = OMIT,
         service_facility: typing.Optional[EncounterServiceFacilityBase] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
@@ -368,11 +374,23 @@ class V4Client:
 
 
         referring_provider : typing.Optional[ReferringProvider]
-            The provider who referred the services that were rendered.
+            The final provider who referred the services that were rendered.
             All physicians who order services or refer Medicare beneficiaries must
             report this data.
-            If a claim involves multiple referring physicians, create a separate
-            encounter for each physician.
+
+
+        initial_referring_provider : typing.Optional[InitialReferringProvider]
+            The first provider who referred the services that were rendered.
+            All physicians who order services or refer Medicare beneficiaries must
+            report this data. This field cannot be populated unless referring_provider is first populated.
+
+
+        supervising_provider : typing.Optional[SupervisingProvider]
+            The provider who is supervising the rendering provider.
+
+
+        ordering_provider : typing.Optional[OrderingProvider]
+            The provider who ordered the services that were rendered.
 
 
         service_facility : typing.Optional[EncounterServiceFacilityBase]
@@ -502,6 +520,7 @@ class V4Client:
             PhoneNumber,
             PhoneNumberType,
             ProcedureModifier,
+            QualifierCode,
             ServiceLineUnits,
             SourceOfPaymentCode,
             State,
@@ -518,8 +537,11 @@ class V4Client:
         )
         from candid.resources.encounter_providers.v_2 import (
             BillingProvider,
+            InitialReferringProvider,
+            OrderingProvider,
             ReferringProvider,
             RenderingProvider,
+            SupervisingProvider,
         )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
@@ -617,6 +639,52 @@ class V4Client:
                 organization_name="string",
             ),
             referring_provider=ReferringProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            initial_referring_provider=InitialReferringProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                qualifier=QualifierCode.DQ,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            supervising_provider=SupervisingProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            ordering_provider=OrderingProvider(
                 npi="string",
                 taxonomy_code="string",
                 address=StreetAddressLongZip(
@@ -764,6 +832,67 @@ class V4Client:
                     end_date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
+                    referring_provider=ReferringProvider(
+                        npi="string",
+                        taxonomy_code="string",
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
+                    ),
+                    initial_referring_provider=InitialReferringProvider(
+                        npi="string",
+                        taxonomy_code="string",
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        qualifier=QualifierCode.DQ,
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
+                    ),
+                    supervising_provider=SupervisingProvider(
+                        npi="string",
+                        taxonomy_code="string",
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
+                    ),
+                    ordering_provider=OrderingProvider(
+                        npi="string",
+                        taxonomy_code="string",
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
+                    ),
                 )
             ],
             guarantor=GuarantorCreate(
@@ -899,6 +1028,9 @@ class V4Client:
                 "billing_provider": billing_provider,
                 "rendering_provider": rendering_provider,
                 "referring_provider": referring_provider,
+                "initial_referring_provider": initial_referring_provider,
+                "supervising_provider": supervising_provider,
+                "ordering_provider": ordering_provider,
                 "service_facility": service_facility,
                 "subscriber_primary": subscriber_primary,
                 "subscriber_secondary": subscriber_secondary,
@@ -1557,6 +1689,9 @@ class AsyncV4Client:
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         referring_provider: typing.Optional[ReferringProvider] = OMIT,
+        initial_referring_provider: typing.Optional[InitialReferringProvider] = OMIT,
+        supervising_provider: typing.Optional[SupervisingProvider] = OMIT,
+        ordering_provider: typing.Optional[OrderingProvider] = OMIT,
         service_facility: typing.Optional[EncounterServiceFacilityBase] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
@@ -1655,11 +1790,23 @@ class AsyncV4Client:
 
 
         referring_provider : typing.Optional[ReferringProvider]
-            The provider who referred the services that were rendered.
+            The final provider who referred the services that were rendered.
             All physicians who order services or refer Medicare beneficiaries must
             report this data.
-            If a claim involves multiple referring physicians, create a separate
-            encounter for each physician.
+
+
+        initial_referring_provider : typing.Optional[InitialReferringProvider]
+            The first provider who referred the services that were rendered.
+            All physicians who order services or refer Medicare beneficiaries must
+            report this data. This field cannot be populated unless referring_provider is first populated.
+
+
+        supervising_provider : typing.Optional[SupervisingProvider]
+            The provider who is supervising the rendering provider.
+
+
+        ordering_provider : typing.Optional[OrderingProvider]
+            The provider who ordered the services that were rendered.
 
 
         service_facility : typing.Optional[EncounterServiceFacilityBase]
@@ -1789,6 +1936,7 @@ class AsyncV4Client:
             PhoneNumber,
             PhoneNumberType,
             ProcedureModifier,
+            QualifierCode,
             ServiceLineUnits,
             SourceOfPaymentCode,
             State,
@@ -1805,8 +1953,11 @@ class AsyncV4Client:
         )
         from candid.resources.encounter_providers.v_2 import (
             BillingProvider,
+            InitialReferringProvider,
+            OrderingProvider,
             ReferringProvider,
             RenderingProvider,
+            SupervisingProvider,
         )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
@@ -1904,6 +2055,52 @@ class AsyncV4Client:
                 organization_name="string",
             ),
             referring_provider=ReferringProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            initial_referring_provider=InitialReferringProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                qualifier=QualifierCode.DQ,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            supervising_provider=SupervisingProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            ordering_provider=OrderingProvider(
                 npi="string",
                 taxonomy_code="string",
                 address=StreetAddressLongZip(
@@ -2051,6 +2248,67 @@ class AsyncV4Client:
                     end_date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
+                    referring_provider=ReferringProvider(
+                        npi="string",
+                        taxonomy_code="string",
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
+                    ),
+                    initial_referring_provider=InitialReferringProvider(
+                        npi="string",
+                        taxonomy_code="string",
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        qualifier=QualifierCode.DQ,
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
+                    ),
+                    supervising_provider=SupervisingProvider(
+                        npi="string",
+                        taxonomy_code="string",
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
+                    ),
+                    ordering_provider=OrderingProvider(
+                        npi="string",
+                        taxonomy_code="string",
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
+                    ),
                 )
             ],
             guarantor=GuarantorCreate(
@@ -2186,6 +2444,9 @@ class AsyncV4Client:
                 "billing_provider": billing_provider,
                 "rendering_provider": rendering_provider,
                 "referring_provider": referring_provider,
+                "initial_referring_provider": initial_referring_provider,
+                "supervising_provider": supervising_provider,
+                "ordering_provider": ordering_provider,
                 "service_facility": service_facility,
                 "subscriber_primary": subscriber_primary,
                 "subscriber_secondary": subscriber_secondary,

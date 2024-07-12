@@ -3,15 +3,21 @@
 from .billing_provider import BillingProvider
 from .encounter_provider import EncounterProvider
 from .encounter_provider_base import EncounterProviderBase
+from .initial_referring_provider import InitialReferringProvider
+from .ordering_provider import OrderingProvider
 from .provider_id import ProviderId
 from .referring_provider import ReferringProvider
 from .rendering_provider import RenderingProvider
+from .supervising_provider import SupervisingProvider
 
 __all__ = [
     "BillingProvider",
     "EncounterProvider",
     "EncounterProviderBase",
+    "InitialReferringProvider",
+    "OrderingProvider",
     "ProviderId",
     "ReferringProvider",
     "RenderingProvider",
+    "SupervisingProvider",
 ]

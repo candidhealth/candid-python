@@ -11,6 +11,10 @@ from .....commons.types.decimal import Decimal
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_units import ServiceLineUnits
+from .....encounter_providers.resources.v_2.types.initial_referring_provider import InitialReferringProvider
+from .....encounter_providers.resources.v_2.types.ordering_provider import OrderingProvider
+from .....encounter_providers.resources.v_2.types.referring_provider import ReferringProvider
+from .....encounter_providers.resources.v_2.types.supervising_provider import SupervisingProvider
 from .drug_identification import DrugIdentification
 
 
@@ -46,6 +50,29 @@ class ServiceLineCreate(pydantic.BaseModel):
 
     date_of_service: typing.Optional[dt.date] = None
     end_date_of_service: typing.Optional[dt.date] = None
+    referring_provider: typing.Optional[ReferringProvider] = pydantic.Field(default=None)
+    """
+    The final provider who referred the services that were rendered.
+    All physicians who order services or refer Medicare beneficiaries must
+    report this data.
+    """
+
+    initial_referring_provider: typing.Optional[InitialReferringProvider] = pydantic.Field(default=None)
+    """
+    The first provider who referred the services that were rendered.
+    All physicians who order services or refer Medicare beneficiaries must
+    report this data. This field cannot be populated unless referring_provider is first populated.
+    """
+
+    supervising_provider: typing.Optional[SupervisingProvider] = pydantic.Field(default=None)
+    """
+    The provider who is supervising the rendering provider.
+    """
+
+    ordering_provider: typing.Optional[OrderingProvider] = pydantic.Field(default=None)
+    """
+    The provider who ordered the services that were rendered.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

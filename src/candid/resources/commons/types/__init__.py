@@ -31,6 +31,7 @@ from .phone_number import PhoneNumber
 from .phone_number_type import PhoneNumberType
 from .procedure_modifier import ProcedureModifier
 from .provider_id import ProviderId
+from .qualifier_code import QualifierCode
 from .rate_id import RateId
 from .region_national import RegionNational
 from .region_states import RegionStates
@@ -94,6 +95,7 @@ __all__ = [
     "PhoneNumberType",
     "ProcedureModifier",
     "ProviderId",
+    "QualifierCode",
     "RateId",
     "RegionNational",
     "RegionStates",

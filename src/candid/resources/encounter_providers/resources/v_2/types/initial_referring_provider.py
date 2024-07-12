@@ -10,44 +10,17 @@ from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.qualifier_code import QualifierCode
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .encounter_provider_base import EncounterProviderBase
-from .provider_id import ProviderId
 
 
-class EncounterProvider(EncounterProviderBase):
+class InitialReferringProvider(EncounterProviderBase):
+    npi: str = pydantic.Field()
     """
-    Examples
-    --------
-    import uuid
-
-    from candid import State, StreetAddressLongZip
-    from candid.resources.encounter_providers.v_2 import EncounterProvider
-
-    EncounterProvider(
-        provider_id=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        tax_id="123456789",
-        npi="1234567890",
-        taxonomy_code="207Q00000X",
-        first_name="John",
-        last_name="Doe",
-        organization_name="Organization Name",
-    )
+    A National Provider Identifier is a unique 10-digit identification
+    number issued to health care providers in the United States
     """
 
-    provider_id: ProviderId
-    address: StreetAddressLongZip
-    tax_id: typing.Optional[str] = None
-    npi: str
     taxonomy_code: typing.Optional[str] = None
+    address: typing.Optional[StreetAddressLongZip] = None
     qualifier: typing.Optional[QualifierCode] = None
 
     def json(self, **kwargs: typing.Any) -> str:
