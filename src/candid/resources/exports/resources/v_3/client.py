@@ -77,6 +77,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/exports/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"start_date": str(start_date), "end_date": str(end_date)},
             request_options=request_options,
@@ -151,6 +152,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import datetime
 
         from candid.client import AsyncCandidApiClient
@@ -159,17 +161,24 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.exports.v_3.get_exports(
-            start_date=datetime.date.fromisoformat(
-                "2023-10-01",
-            ),
-            end_date=datetime.date.fromisoformat(
-                "2023-10-02",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.exports.v_3.get_exports(
+                start_date=datetime.date.fromisoformat(
+                    "2023-10-01",
+                ),
+                end_date=datetime.date.fromisoformat(
+                    "2023-10-02",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/exports/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"start_date": str(start_date), "end_date": str(end_date)},
             request_options=request_options,

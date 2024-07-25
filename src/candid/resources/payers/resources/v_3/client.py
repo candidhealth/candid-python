@@ -48,7 +48,10 @@ class V3Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/payers/v3/{jsonable_encoder(payer_uuid)}", method="GET", request_options=request_options
+            f"api/payers/v3/{jsonable_encoder(payer_uuid)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -99,6 +102,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/payers/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"limit": limit, "search_term": search_term, "page_token": page_token},
             request_options=request_options,
@@ -131,6 +135,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -139,14 +144,23 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.payers.v_3.get(
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.payers.v_3.get(
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/payers/v3/{jsonable_encoder(payer_uuid)}", method="GET", request_options=request_options
+            f"api/payers/v3/{jsonable_encoder(payer_uuid)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -183,20 +197,29 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
+
         from candid.client import AsyncCandidApiClient
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.payers.v_3.get_all(
-            limit=100,
-            search_term="john",
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+
+
+        async def main() -> None:
+            await client.payers.v_3.get_all(
+                limit=100,
+                search_term="john",
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/payers/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"limit": limit, "search_term": search_term, "page_token": page_token},
             request_options=request_options,

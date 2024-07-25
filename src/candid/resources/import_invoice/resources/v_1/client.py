@@ -80,7 +80,12 @@ class V1Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/import-invoice/v1", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/import-invoice/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -175,6 +180,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/import-invoice/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "patient_external_id": patient_external_id,
@@ -231,7 +237,10 @@ class V1Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/import-invoice/v1/{jsonable_encoder(invoice_id)}", method="GET", request_options=request_options
+            f"api/import-invoice/v1/{jsonable_encoder(invoice_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -306,6 +315,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/import-invoice/v1/{jsonable_encoder(invoice_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json=request,
             request_options=request_options,
@@ -348,6 +358,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -359,26 +370,37 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.import_invoice.v_1.import_invoice(
-            request=CreateImportInvoiceRequest(
-                external_payment_account_config_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+
+
+        async def main() -> None:
+            await client.import_invoice.v_1.import_invoice(
+                request=CreateImportInvoiceRequest(
+                    external_payment_account_config_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    patient_external_id="string",
+                    external_customer_identifier="string",
+                    note="string",
+                    due_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    items=[InvoiceItemCreate()],
+                    status=InvoiceStatus.DRAFT,
+                    external_identifier="string",
+                    customer_invoice_url="string",
                 ),
-                patient_external_id="string",
-                external_customer_identifier="string",
-                note="string",
-                due_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                items=[InvoiceItemCreate()],
-                status=InvoiceStatus.DRAFT,
-                external_identifier="string",
-                customer_invoice_url="string",
-            ),
-        )
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/import-invoice/v1", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/import-invoice/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -444,6 +466,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
 
         from candid import SortDirection
@@ -454,25 +477,32 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.import_invoice.v_1.get_multi(
-            patient_external_id="string",
-            encounter_external_id="string",
-            note="string",
-            due_date_before=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            due_date_after=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            status=InvoiceStatus.DRAFT,
-            limit=1,
-            sort=InvoiceSortField.CREATED_AT,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+
+
+        async def main() -> None:
+            await client.import_invoice.v_1.get_multi(
+                patient_external_id="string",
+                encounter_external_id="string",
+                note="string",
+                due_date_before=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                due_date_after=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                status=InvoiceStatus.DRAFT,
+                limit=1,
+                sort=InvoiceSortField.CREATED_AT,
+                sort_direction=SortDirection.ASC,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/import-invoice/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "patient_external_id": patient_external_id,
@@ -516,6 +546,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -524,14 +555,23 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.import_invoice.v_1.get(
-            invoice_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.import_invoice.v_1.get(
+                invoice_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/import-invoice/v1/{jsonable_encoder(invoice_id)}", method="GET", request_options=request_options
+            f"api/import-invoice/v1/{jsonable_encoder(invoice_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -571,6 +611,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -586,26 +627,33 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.import_invoice.v_1.update(
-            invoice_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            request=ImportInvoiceUpdateRequest(
-                customer_invoice_url="string",
-                status=InvoiceStatus.DRAFT,
-                note="string",
-                due_date=datetime.date.fromisoformat(
-                    "2023-01-15",
+
+
+        async def main() -> None:
+            await client.import_invoice.v_1.update(
+                invoice_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                items=InvoiceItemInfoUpdate(
-                    update_type=InvoiceItemUpdateType.APPEND,
-                    items=[InvoiceItemCreate()],
+                request=ImportInvoiceUpdateRequest(
+                    customer_invoice_url="string",
+                    status=InvoiceStatus.DRAFT,
+                    note="string",
+                    due_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    items=InvoiceItemInfoUpdate(
+                        update_type=InvoiceItemUpdateType.APPEND,
+                        items=[InvoiceItemCreate()],
+                    ),
                 ),
-            ),
-        )
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/import-invoice/v1/{jsonable_encoder(invoice_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json=request,
             request_options=request_options,

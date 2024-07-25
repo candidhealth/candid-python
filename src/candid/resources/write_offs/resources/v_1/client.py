@@ -117,6 +117,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/write-offs/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "limit": limit,
@@ -172,7 +173,10 @@ class V1Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/write-offs/v1/{jsonable_encoder(write_off_id)}", method="GET", request_options=request_options
+            f"api/write-offs/v1/{jsonable_encoder(write_off_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -233,6 +237,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/write-offs/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={"write_offs": write_offs},
             request_options=request_options,
@@ -278,7 +283,10 @@ class V1Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/write-offs/v1/{jsonable_encoder(write_off_id)}/revert", method="POST", request_options=request_options
+            f"api/write-offs/v1/{jsonable_encoder(write_off_id)}/revert",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -346,6 +354,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid import AccountType, SortDirection
@@ -356,29 +365,36 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.write_offs.v_1.get_multi(
-            limit=1,
-            patient_external_id="string",
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            claim_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            sort=WriteOffSortField.AMOUNT_CENTS,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            account_types=AccountType.PATIENT,
-        )
+
+
+        async def main() -> None:
+            await client.write_offs.v_1.get_multi(
+                limit=1,
+                patient_external_id="string",
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                service_line_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                claim_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                billing_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                sort=WriteOffSortField.AMOUNT_CENTS,
+                sort_direction=SortDirection.ASC,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+                account_types=AccountType.PATIENT,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/write-offs/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "limit": limit,
@@ -421,6 +437,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -429,14 +446,23 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.write_offs.v_1.get(
-            write_off_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.write_offs.v_1.get(
+                write_off_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/write-offs/v1/{jsonable_encoder(write_off_id)}", method="GET", request_options=request_options
+            f"api/write-offs/v1/{jsonable_encoder(write_off_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -466,6 +492,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -479,24 +506,31 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.write_offs.v_1.create(
-            write_offs=[
-                WriteOffCreate_Patient(
-                    write_off_timestamp=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    write_off_note="string",
-                    write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
-                    service_line_id=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    amount_cents=1,
-                )
-            ],
-        )
+
+
+        async def main() -> None:
+            await client.write_offs.v_1.create(
+                write_offs=[
+                    WriteOffCreate_Patient(
+                        write_off_timestamp=datetime.datetime.fromisoformat(
+                            "2024-01-15 09:30:00+00:00",
+                        ),
+                        write_off_note="string",
+                        write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
+                        service_line_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        amount_cents=1,
+                    )
+                ],
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/write-offs/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={"write_offs": write_offs},
             request_options=request_options,
@@ -529,6 +563,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -537,14 +572,23 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.write_offs.v_1.revert(
-            write_off_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.write_offs.v_1.revert(
+                write_off_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/write-offs/v1/{jsonable_encoder(write_off_id)}/revert", method="POST", request_options=request_options
+            f"api/write-offs/v1/{jsonable_encoder(write_off_id)}/revert",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()

@@ -80,6 +80,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -144,6 +145,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match/{jsonable_encoder(rate_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -254,6 +256,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "page_token": page_token,
@@ -368,6 +371,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3/unique-dimension-values",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "page_token": page_token,
@@ -427,7 +431,10 @@ class V3Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/history", method="GET", request_options=request_options
+            f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/history",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -517,6 +524,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={"dry_run": dry_run, "rates": rates},
             request_options=request_options,
@@ -573,6 +581,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )
@@ -619,7 +628,10 @@ class V3Client:
         client.fee_schedules.v_3.get_payer_thresholds_default()
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/fee-schedules/v3/payer-threshold/default", method="GET", request_options=request_options
+            "api/fee-schedules/v3/payer-threshold/default",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -667,6 +679,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3/payer-threshold",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"payer_uuids": jsonable_encoder(payer_uuids)},
             request_options=request_options,
@@ -722,6 +735,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/payer-threshold/{jsonable_encoder(payer_uuid)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PUT",
             json=request,
             request_options=request_options,
@@ -764,6 +778,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -772,14 +787,21 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.get_match(
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.get_match(
+                service_line_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -825,6 +847,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -833,17 +856,24 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.test_match(
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            rate_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.test_match(
+                service_line_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                rate_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match/{jsonable_encoder(rate_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -920,6 +950,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -931,29 +962,36 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.get_multi(
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            limit=1,
-            active_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            organization_billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            states=State.AA,
-            zip_codes="string",
-            license_types=LicenseType.MD,
-            facility_type_codes=FacilityTypeCode.PHARMACY,
-            network_types=NetworkType.PPO,
-            cpt_code="string",
-            modifiers=ProcedureModifier.TWENTY_TWO,
-        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.get_multi(
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+                limit=1,
+                active_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                organization_billing_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                states=State.AA,
+                zip_codes="string",
+                license_types=LicenseType.MD,
+                facility_type_codes=FacilityTypeCode.PHARMACY,
+                network_types=NetworkType.PPO,
+                cpt_code="string",
+                modifiers=ProcedureModifier.TWENTY_TWO,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "page_token": page_token,
@@ -1036,6 +1074,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
@@ -1047,27 +1086,34 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.get_unique_values_for_dimension(
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            limit=1,
-            pivot_dimension=DimensionName.PAYER_UUID,
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            organization_billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            states=State.AA,
-            zip_codes="string",
-            license_types=LicenseType.MD,
-            facility_type_codes=FacilityTypeCode.PHARMACY,
-            network_types=NetworkType.PPO,
-            cpt_code="string",
-            modifiers=ProcedureModifier.TWENTY_TWO,
-        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.get_unique_values_for_dimension(
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+                limit=1,
+                pivot_dimension=DimensionName.PAYER_UUID,
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                organization_billing_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                states=State.AA,
+                zip_codes="string",
+                license_types=LicenseType.MD,
+                facility_type_codes=FacilityTypeCode.PHARMACY,
+                network_types=NetworkType.PPO,
+                cpt_code="string",
+                modifiers=ProcedureModifier.TWENTY_TWO,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3/unique-dimension-values",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "page_token": page_token,
@@ -1112,6 +1158,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -1120,14 +1167,23 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.get_rate_history(
-            rate_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.get_rate_history(
+                rate_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/history", method="GET", request_options=request_options
+            f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/history",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -1167,6 +1223,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -1183,40 +1240,47 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.upload_fee_schedule(
-            dry_run=True,
-            rates=[
-                RateUpload_NewRate(
-                    dimensions=Dimensions(
-                        payer_uuid=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                        organization_billing_provider_id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                        states={State.AA},
-                        zip_codes={"string"},
-                        license_types={LicenseType.MD},
-                        facility_type_codes={FacilityTypeCode.PHARMACY},
-                        network_types={NetworkType.PPO},
-                        cpt_code="string",
-                        modifiers={ProcedureModifier.TWENTY_TWO},
-                    ),
-                    entries=[
-                        RateEntry(
-                            start_date=datetime.date.fromisoformat(
-                                "2024-04-11",
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.upload_fee_schedule(
+                dry_run=True,
+                rates=[
+                    RateUpload_NewRate(
+                        dimensions=Dimensions(
+                            payer_uuid=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                             ),
-                            rate_cents=33000,
-                            is_deactivated=False,
-                        )
-                    ],
-                )
-            ],
-        )
+                            organization_billing_provider_id=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            ),
+                            states={State.AA},
+                            zip_codes={"string"},
+                            license_types={LicenseType.MD},
+                            facility_type_codes={FacilityTypeCode.PHARMACY},
+                            network_types={NetworkType.PPO},
+                            cpt_code="string",
+                            modifiers={ProcedureModifier.TWENTY_TWO},
+                        ),
+                        entries=[
+                            RateEntry(
+                                start_date=datetime.date.fromisoformat(
+                                    "2024-04-11",
+                                ),
+                                rate_cents=33000,
+                                is_deactivated=False,
+                            )
+                        ],
+                    )
+                ],
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={"dry_run": dry_run, "rates": rates},
             request_options=request_options,
@@ -1256,6 +1320,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -1264,15 +1329,22 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.delete_rate(
-            rate_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            version=1,
-        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.delete_rate(
+                rate_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                version=1,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )
@@ -1310,16 +1382,27 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
+
         from candid.client import AsyncCandidApiClient
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.get_payer_thresholds_default()
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.get_payer_thresholds_default()
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/fee-schedules/v3/payer-threshold/default", method="GET", request_options=request_options
+            "api/fee-schedules/v3/payer-threshold/default",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -1351,6 +1434,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -1359,14 +1443,21 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.get_payer_thresholds(
-            payer_uuids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.get_payer_thresholds(
+                payer_uuids=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3/payer-threshold",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"payer_uuids": jsonable_encoder(payer_uuids)},
             request_options=request_options,
@@ -1400,6 +1491,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -1409,19 +1501,26 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.fee_schedules.v_3.set_payer_threshold(
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            request=PayerThreshold(
-                upper_threshold_cents=1,
-                lower_threshold_cents=1,
-                disable_paid_incorrectly=True,
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.set_payer_threshold(
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                request=PayerThreshold(
+                    upper_threshold_cents=1,
+                    lower_threshold_cents=1,
+                    disable_paid_incorrectly=True,
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/payer-threshold/{jsonable_encoder(payer_uuid)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PUT",
             json=request,
             request_options=request_options,

@@ -44,9 +44,6 @@ class CandidApiClient:
 
     Parameters
     ----------
-    base_url : typing.Optional[str]
-        The base url to use for requests from the client.
-
     environment : CandidApiClientEnvironment
         The environment to use for requests from the client. from .environment import CandidApiClientEnvironment
 
@@ -81,7 +78,6 @@ class CandidApiClient:
     def __init__(
         self,
         *,
-        base_url: typing.Optional[str] = None,
         environment: CandidApiClientEnvironment = CandidApiClientEnvironment.PRODUCTION,
         client_id: str,
         client_secret: str,
@@ -95,7 +91,7 @@ class CandidApiClient:
             client_id=client_id,
             client_secret=client_secret,
             client_wrapper=SyncClientWrapper(
-                base_url=_get_base_url(base_url=base_url, environment=environment),
+                environment=environment,
                 httpx_client=httpx.Client(timeout=_defaulted_timeout, follow_redirects=follow_redirects)
                 if follow_redirects is not None
                 else httpx.Client(timeout=_defaulted_timeout),
@@ -103,7 +99,7 @@ class CandidApiClient:
             ),
         )
         self._client_wrapper = SyncClientWrapper(
-            base_url=_get_base_url(base_url=base_url, environment=environment),
+            environment=environment,
             token=_token_getter_override if _token_getter_override is not None else oauth_token_provider.get_token,
             httpx_client=httpx_client
             if httpx_client is not None
@@ -143,9 +139,6 @@ class AsyncCandidApiClient:
 
     Parameters
     ----------
-    base_url : typing.Optional[str]
-        The base url to use for requests from the client.
-
     environment : CandidApiClientEnvironment
         The environment to use for requests from the client. from .environment import CandidApiClientEnvironment
 
@@ -180,7 +173,6 @@ class AsyncCandidApiClient:
     def __init__(
         self,
         *,
-        base_url: typing.Optional[str] = None,
         environment: CandidApiClientEnvironment = CandidApiClientEnvironment.PRODUCTION,
         client_id: str,
         client_secret: str,
@@ -194,7 +186,7 @@ class AsyncCandidApiClient:
             client_id=client_id,
             client_secret=client_secret,
             client_wrapper=SyncClientWrapper(
-                base_url=_get_base_url(base_url=base_url, environment=environment),
+                environment=environment,
                 httpx_client=httpx.Client(timeout=_defaulted_timeout, follow_redirects=follow_redirects)
                 if follow_redirects is not None
                 else httpx.Client(timeout=_defaulted_timeout),
@@ -202,7 +194,7 @@ class AsyncCandidApiClient:
             ),
         )
         self._client_wrapper = AsyncClientWrapper(
-            base_url=_get_base_url(base_url=base_url, environment=environment),
+            environment=environment,
             token=_token_getter_override if _token_getter_override is not None else oauth_token_provider.get_token,
             httpx_client=httpx_client
             if httpx_client is not None
@@ -238,12 +230,3 @@ class AsyncCandidApiClient:
         self.write_offs = AsyncWriteOffsClient(client_wrapper=self._client_wrapper)
         self.service_facility = AsyncServiceFacilityClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = AsyncPreEncounterClient(client_wrapper=self._client_wrapper)
-
-
-def _get_base_url(*, base_url: typing.Optional[str] = None, environment: CandidApiClientEnvironment) -> str:
-    if base_url is not None:
-        return base_url
-    elif environment is not None:
-        return environment.value
-    else:
-        raise Exception("Please pass in either base_url or environment to construct the client")

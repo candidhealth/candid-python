@@ -134,6 +134,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/patient-refunds/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "limit": limit,
@@ -202,6 +203,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -303,6 +305,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/patient-refunds/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={
                 "amount_cents": amount_cents,
@@ -404,6 +407,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={
                 "refund_timestamp": refund_timestamp,
@@ -470,6 +474,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )
@@ -558,6 +563,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid import PatientTransactionSource, SortDirection
@@ -568,30 +574,37 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.patient_refunds.v_1.get_multi(
-            limit=1,
-            patient_external_id="string",
-            claim_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            unattributed=True,
-            invoice_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            sources=PatientTransactionSource.MANUAL_ENTRY,
-            sort=PatientRefundSortField.REFUND_SOURCE,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+
+
+        async def main() -> None:
+            await client.patient_refunds.v_1.get_multi(
+                limit=1,
+                patient_external_id="string",
+                claim_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                service_line_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                billing_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                unattributed=True,
+                invoice_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                sources=PatientTransactionSource.MANUAL_ENTRY,
+                sort=PatientRefundSortField.REFUND_SOURCE,
+                sort_direction=SortDirection.ASC,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/patient-refunds/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "limit": limit,
@@ -644,6 +657,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -652,14 +666,21 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.patient_refunds.v_1.get(
-            patient_refund_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.patient_refunds.v_1.get(
+                patient_refund_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -722,6 +743,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -736,31 +758,38 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.patient_refunds.v_1.create(
-            amount_cents=1,
-            refund_timestamp=datetime.datetime.fromisoformat(
-                "2024-01-15 09:30:00+00:00",
-            ),
-            refund_note="string",
-            patient_external_id="string",
-            allocations=[
-                AllocationCreate(
-                    amount_cents=1,
-                    target=AllocationTargetCreate_ServiceLineById(
-                        value=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        )
-                    ),
-                )
-            ],
-            invoice=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            refund_reason=RefundReason.OVERCHARGED,
-        )
+
+
+        async def main() -> None:
+            await client.patient_refunds.v_1.create(
+                amount_cents=1,
+                refund_timestamp=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                refund_note="string",
+                patient_external_id="string",
+                allocations=[
+                    AllocationCreate(
+                        amount_cents=1,
+                        target=AllocationTargetCreate_ServiceLineById(
+                            value=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ),
+                    )
+                ],
+                invoice=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                refund_reason=RefundReason.OVERCHARGED,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/patient-refunds/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={
                 "amount_cents": amount_cents,
@@ -829,6 +858,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -844,24 +874,31 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.patient_refunds.v_1.update(
-            patient_refund_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            refund_timestamp=datetime.datetime.fromisoformat(
-                "2024-01-15 09:30:00+00:00",
-            ),
-            refund_note=NoteUpdate_Set(value="string"),
-            invoice=InvoiceUpdate_Set(
-                value=uuid.UUID(
+
+
+        async def main() -> None:
+            await client.patient_refunds.v_1.update(
+                patient_refund_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
-            ),
-            refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
-        )
+                ),
+                refund_timestamp=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                refund_note=NoteUpdate_Set(value="string"),
+                invoice=InvoiceUpdate_Set(
+                    value=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ),
+                refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={
                 "refund_timestamp": refund_timestamp,
@@ -912,6 +949,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -920,14 +958,21 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.patient_refunds.v_1.delete(
-            patient_refund_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.patient_refunds.v_1.delete(
+                patient_refund_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/patient-refunds/v1/{jsonable_encoder(patient_refund_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )

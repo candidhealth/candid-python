@@ -98,6 +98,7 @@ class V2Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/expected-network-status/v2/compute/{jsonable_encoder(rendering_provider_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json=request,
             request_options=request_options,
@@ -183,6 +184,7 @@ class V2Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/expected-network-status/v2/compute",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json=request,
             request_options=request_options,
@@ -237,6 +239,7 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -252,36 +255,43 @@ class AsyncV2Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.expected_network_status.v_2.compute_for_rendering_provider(
-            rendering_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            request=ExpectedNetworkStatusRequestV2(
-                service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
-                place_of_service_code=FacilityTypeCode.PHARMACY,
-                subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
-                patient_address=StreetAddressShortZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-                billing_provider_id=uuid.UUID(
+
+
+        async def main() -> None:
+            await client.expected_network_status.v_2.compute_for_rendering_provider(
+                rendering_provider_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                organization_service_facility_id=uuid.UUID(
-                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                request=ExpectedNetworkStatusRequestV2(
+                    service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
+                    place_of_service_code=FacilityTypeCode.PHARMACY,
+                    subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
+                    patient_address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    billing_provider_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    organization_service_facility_id=uuid.UUID(
+                        "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                    ),
+                    date_of_service=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
-                date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-            ),
-        )
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/expected-network-status/v2/compute/{jsonable_encoder(rendering_provider_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json=request,
             request_options=request_options,
@@ -325,6 +335,7 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -340,33 +351,40 @@ class AsyncV2Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.expected_network_status.v_2.compute_all_in_network_providers(
-            request=ComputeAllInNetworkProvidersRequest(
-                service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
-                place_of_service_code=FacilityTypeCode.PHARMACY,
-                subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
-                patient_address=StreetAddressShortZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
+
+
+        async def main() -> None:
+            await client.expected_network_status.v_2.compute_all_in_network_providers(
+                request=ComputeAllInNetworkProvidersRequest(
+                    service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
+                    place_of_service_code=FacilityTypeCode.PHARMACY,
+                    subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
+                    patient_address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    billing_provider_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    organization_service_facility_id=uuid.UUID(
+                        "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                    ),
+                    date_of_service=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
-                billing_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                organization_service_facility_id=uuid.UUID(
-                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-                ),
-                date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-            ),
-        )
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/expected-network-status/v2/compute",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json=request,
             request_options=request_options,

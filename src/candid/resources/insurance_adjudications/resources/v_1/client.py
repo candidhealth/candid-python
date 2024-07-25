@@ -60,6 +60,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/insurance-adjudications/v1/{jsonable_encoder(insurance_adjudication_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -126,7 +127,12 @@ class V1Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/insurance-adjudications/v1", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/insurance-adjudications/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -179,6 +185,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/insurance-adjudications/v1/{jsonable_encoder(insurance_adjudication_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )
@@ -217,6 +224,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -225,14 +233,21 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.insurance_adjudications.v_1.get(
-            insurance_adjudication_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.insurance_adjudications.v_1.get(
+                insurance_adjudication_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/insurance-adjudications/v1/{jsonable_encoder(insurance_adjudication_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -263,6 +278,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -278,28 +294,39 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.insurance_adjudications.v_1.create(
-            request=InsuranceAdjudicationCreate(
-                payer_identifier=PayerIdentifier_PayerInfo(),
-                payee=Payee(),
-                post_date=datetime.date.fromisoformat(
-                    "2023-01-15",
+
+
+        async def main() -> None:
+            await client.insurance_adjudications.v_1.create(
+                request=InsuranceAdjudicationCreate(
+                    payer_identifier=PayerIdentifier_PayerInfo(),
+                    payee=Payee(),
+                    post_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    check_number="string",
+                    check_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    note="string",
+                    claims={
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ): [ClaimAdjudicationCreate()]
+                    },
                 ),
-                check_number="string",
-                check_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                note="string",
-                claims={
-                    uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ): [ClaimAdjudicationCreate()]
-                },
-            ),
-        )
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/insurance-adjudications/v1", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/insurance-adjudications/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -336,6 +363,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -344,14 +372,21 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.insurance_adjudications.v_1.delete(
-            insurance_adjudication_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.insurance_adjudications.v_1.delete(
+                insurance_adjudication_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/insurance-adjudications/v1/{jsonable_encoder(insurance_adjudication_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )

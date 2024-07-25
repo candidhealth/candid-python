@@ -52,6 +52,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/external-payment-account-config/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"limit": limit, "page_token": page_token},
             request_options=request_options,
@@ -93,19 +94,28 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
+
         from candid.client import AsyncCandidApiClient
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.external_payment_account_config.v_1.get_multi(
-            limit=1,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+
+
+        async def main() -> None:
+            await client.external_payment_account_config.v_1.get_multi(
+                limit=1,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/external-payment-account-config/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"limit": limit, "page_token": page_token},
             request_options=request_options,

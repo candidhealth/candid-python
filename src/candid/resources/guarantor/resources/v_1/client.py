@@ -98,6 +98,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/guarantors/v1/{jsonable_encoder(encounter_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json=request,
             request_options=request_options,
@@ -152,7 +153,10 @@ class V1Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}", method="GET", request_options=request_options
+            f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -255,6 +259,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={
                 "first_name": first_name,
@@ -308,6 +313,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -319,39 +325,46 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.guarantor.v_1.create(
-            encounter_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            request=GuarantorCreate(
-                phone_numbers=[
-                    PhoneNumber(
-                        number="1234567890",
-                        type=PhoneNumberType.HOME,
-                    )
-                ],
-                phone_consent=True,
-                email="johndoe@joincandidhealth.com",
-                email_consent=True,
-                first_name="string",
-                last_name="string",
-                external_id="string",
-                date_of_birth=datetime.date.fromisoformat(
-                    "2023-01-15",
+
+
+        async def main() -> None:
+            await client.guarantor.v_1.create(
+                encounter_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                address=StreetAddressShortZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
+                request=GuarantorCreate(
+                    phone_numbers=[
+                        PhoneNumber(
+                            number="1234567890",
+                            type=PhoneNumberType.HOME,
+                        )
+                    ],
+                    phone_consent=True,
+                    email="johndoe@joincandidhealth.com",
+                    email_consent=True,
+                    first_name="string",
+                    last_name="string",
+                    external_id="string",
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
                 ),
-            ),
-        )
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/guarantors/v1/{jsonable_encoder(encounter_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json=request,
             request_options=request_options,
@@ -393,6 +406,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -401,14 +415,23 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.guarantor.v_1.get(
-            guarantor_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.guarantor.v_1.get(
+                guarantor_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}", method="GET", request_options=request_options
+            f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -470,6 +493,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -480,37 +504,44 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.guarantor.v_1.update(
-            guarantor_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            first_name="string",
-            last_name="string",
-            external_id="string",
-            date_of_birth=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            address=StreetAddressShortZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
-            ),
-            phone_numbers=[
-                PhoneNumber(
-                    number="1234567890",
-                    type=PhoneNumberType.HOME,
-                )
-            ],
-            phone_consent=True,
-            email="johndoe@joincandidhealth.com",
-            email_consent=True,
-        )
+
+
+        async def main() -> None:
+            await client.guarantor.v_1.update(
+                guarantor_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                first_name="string",
+                last_name="string",
+                external_id="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/guarantors/v1/{jsonable_encoder(guarantor_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={
                 "first_name": first_name,

@@ -55,6 +55,7 @@ class V2Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/billing_notes/v2",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={"encounter_id": encounter_id, "text": text},
             request_options=request_options,
@@ -93,6 +94,7 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -101,15 +103,22 @@ class AsyncV2Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.billing_notes.v_2.create(
-            encounter_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            text="string",
-        )
+
+
+        async def main() -> None:
+            await client.billing_notes.v_2.create(
+                encounter_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                text="string",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/billing_notes/v2",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={"encounter_id": encounter_id, "text": text},
             request_options=request_options,

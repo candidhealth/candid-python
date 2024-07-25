@@ -5,10 +5,10 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from ...common.types.organization_id import OrganizationId
-from ...common.types.user_id import UserId
+from ..........core.datetime_utils import serialize_datetime
+from ..........core.pydantic_utilities import deep_union_pydantic_dicts
+from .......common.types.organization_id import OrganizationId
+from .......common.types.user_id import UserId
 from .mutable_patient import MutablePatient
 from .patient_id import PatientId
 
@@ -34,8 +34,8 @@ class Patient(MutablePatient):
     The version of the patient. Any update to any property of a patient object will create a new version.
     """
 
-    updated_at: dt.datetime = pydantic.Field(alias="updatedAt")
-    updating_user_id: UserId = pydantic.Field(alias="updatingUserId")
+    updated_at: dt.datetime
+    updating_user_id: UserId = pydantic.Field()
     """
     The user ID of the user who last updated the patient.
     """

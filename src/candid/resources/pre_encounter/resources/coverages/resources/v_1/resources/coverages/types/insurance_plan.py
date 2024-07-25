@@ -5,23 +5,22 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from ...common.types.address import Address
-from ...common.types.contact_point import ContactPoint
-from ...common.types.gender import Gender
-from ...common.types.human_name import HumanName
-from ...common.types.period import Period
-from ...common.types.relationship import Relationship
+from ..........core.datetime_utils import serialize_datetime
+from ..........core.pydantic_utilities import deep_union_pydantic_dicts
+from .......common.types.payer_id import PayerId
+from .......common.types.period import Period
+from .coverage_type import CoverageType
 
 
-class Contact(pydantic.BaseModel):
-    relationship: typing.List[Relationship]
-    name: HumanName
-    gender: typing.Optional[Gender] = None
-    telecoms: typing.List[ContactPoint]
-    addresses: typing.List[Address]
+class InsurancePlan(pydantic.BaseModel):
+    member_id: str
+    payer_id: PayerId
+    payer_name: str
+    group_number: typing.Optional[str] = None
+    name: typing.Optional[str] = None
+    type: typing.Optional[CoverageType] = None
     period: typing.Optional[Period] = None
+    insurance_card_image_locator: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

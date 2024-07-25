@@ -5,10 +5,10 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from ...common.types.relationship import Relationship
-from ...patients.types.patient_id import PatientId
+from ..........core.datetime_utils import serialize_datetime
+from ..........core.pydantic_utilities import deep_union_pydantic_dicts
+from .......common.types.relationship import Relationship
+from .......patients.resources.v_1.resources.patients.types.patient_id import PatientId
 from .coverage_status import CoverageStatus
 from .insurance_plan import InsurancePlan
 from .subscriber import Subscriber
@@ -35,7 +35,7 @@ class MutableCoverage(pydantic.BaseModel):
     The patient who benefits from the insurance coverage
     """
 
-    insurance_plan: InsurancePlan = pydantic.Field(alias="insurancePlan")
+    insurance_plan: InsurancePlan
     verified: bool = pydantic.Field()
     """
     A boolean indicating if the coverage has been verified by a user.
@@ -56,7 +56,5 @@ class MutableCoverage(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

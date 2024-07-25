@@ -113,6 +113,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/insurance-payments/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "limit": limit,
@@ -179,6 +180,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -244,7 +246,12 @@ class V1Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/insurance-payments/v1", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/insurance-payments/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -318,6 +325,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={"payment_timestamp": payment_timestamp, "payment_note": payment_note},
             request_options=request_options,
@@ -381,6 +389,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )
@@ -456,6 +465,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid import SortDirection
@@ -466,27 +476,34 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.insurance_payments.v_1.get_multi(
-            limit=1,
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            claim_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            sort=InsurancePaymentSortField.AMOUNT_CENTS,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+
+
+        async def main() -> None:
+            await client.insurance_payments.v_1.get_multi(
+                limit=1,
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                claim_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                service_line_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                billing_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                sort=InsurancePaymentSortField.AMOUNT_CENTS,
+                sort_direction=SortDirection.ASC,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/insurance-payments/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "limit": limit,
@@ -537,6 +554,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -545,14 +563,21 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.insurance_payments.v_1.get(
-            insurance_payment_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.insurance_payments.v_1.get(
+                insurance_payment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -594,6 +619,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
 
         from candid import AllocationCreate
@@ -605,20 +631,31 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.insurance_payments.v_1.create(
-            request=InsurancePaymentCreate(
-                payer_identifier=PayerIdentifier_PayerInfo(),
-                amount_cents=1,
-                payment_timestamp=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
+
+
+        async def main() -> None:
+            await client.insurance_payments.v_1.create(
+                request=InsurancePaymentCreate(
+                    payer_identifier=PayerIdentifier_PayerInfo(),
+                    amount_cents=1,
+                    payment_timestamp=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                    payment_note="string",
+                    allocations=[AllocationCreate()],
                 ),
-                payment_note="string",
-                allocations=[AllocationCreate()],
-            ),
-        )
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/insurance-payments/v1", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/insurance-payments/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -670,6 +707,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import datetime
         import uuid
 
@@ -680,18 +718,25 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.insurance_payments.v_1.update(
-            insurance_payment_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            payment_timestamp=datetime.datetime.fromisoformat(
-                "2024-01-15 09:30:00+00:00",
-            ),
-            payment_note=NoteUpdate_Set(value="string"),
-        )
+
+
+        async def main() -> None:
+            await client.insurance_payments.v_1.update(
+                insurance_payment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                payment_timestamp=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                payment_note=NoteUpdate_Set(value="string"),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={"payment_timestamp": payment_timestamp, "payment_note": payment_note},
             request_options=request_options,
@@ -739,6 +784,7 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -747,14 +793,21 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.insurance_payments.v_1.delete(
-            insurance_payment_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.insurance_payments.v_1.delete(
+                insurance_payment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/insurance-payments/v1/{jsonable_encoder(insurance_payment_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )

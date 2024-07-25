@@ -16,7 +16,7 @@ class Address(pydantic.BaseModel):
     line: typing.List[str]
     city: str
     state: str
-    postal_code: str = pydantic.Field(alias="postalCode")
+    postal_code: str
     country: str
     period: typing.Optional[Period] = None
 
@@ -35,7 +35,5 @@ class Address(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

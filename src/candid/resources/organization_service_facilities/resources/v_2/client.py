@@ -63,6 +63,7 @@ class V2Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -122,6 +123,7 @@ class V2Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/organization-service-facilities/v2",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"limit": limit, "name": name, "page_token": page_token},
             request_options=request_options,
@@ -190,6 +192,7 @@ class V2Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/organization-service-facilities/v2",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json=request,
             request_options=request_options,
@@ -275,6 +278,7 @@ class V2Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json=request,
             request_options=request_options,
@@ -333,6 +337,7 @@ class V2Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )
@@ -374,6 +379,7 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -382,14 +388,21 @@ class AsyncV2Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.organization_service_facilities.v_2.get(
-            organization_service_facility_id=uuid.UUID(
-                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.organization_service_facilities.v_2.get(
+                organization_service_facility_id=uuid.UUID(
+                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -435,20 +448,29 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
+
         from candid.client import AsyncCandidApiClient
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.organization_service_facilities.v_2.get_multi(
-            limit=100,
-            name="Test Service Facility",
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+
+
+        async def main() -> None:
+            await client.organization_service_facilities.v_2.get_multi(
+                limit=100,
+                name="Test Service Facility",
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/organization-service-facilities/v2",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={"limit": limit, "name": name, "page_token": page_token},
             request_options=request_options,
@@ -478,6 +500,8 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
+
         from candid import State, StreetAddressLongZip
         from candid.client import AsyncCandidApiClient
         from candid.resources.organization_service_facilities.v_2 import (
@@ -493,30 +517,37 @@ class AsyncV2Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.organization_service_facilities.v_2.create(
-            request=OrganizationServiceFacilityCreate(
-                name="Test Service Facility",
-                aliases=["Test Service Facility Alias"],
-                description="Test Service Facility Description",
-                status=ServiceFacilityStatus.ACTIVE,
-                operational_status=ServiceFacilityOperationalStatus.CLOSED,
-                mode=ServiceFacilityMode.INSTANCE,
-                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
-                physical_type=ServiceFacilityPhysicalType.SITE,
-                telecoms=["555-555-5555"],
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
+
+
+        async def main() -> None:
+            await client.organization_service_facilities.v_2.create(
+                request=OrganizationServiceFacilityCreate(
+                    name="Test Service Facility",
+                    aliases=["Test Service Facility Alias"],
+                    description="Test Service Facility Description",
+                    status=ServiceFacilityStatus.ACTIVE,
+                    operational_status=ServiceFacilityOperationalStatus.CLOSED,
+                    mode=ServiceFacilityMode.INSTANCE,
+                    type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                    physical_type=ServiceFacilityPhysicalType.SITE,
+                    telecoms=["555-555-5555"],
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
                 ),
-            ),
-        )
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/organization-service-facilities/v2",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json=request,
             request_options=request_options,
@@ -558,6 +589,7 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid import State, StreetAddressLongZip
@@ -575,33 +607,40 @@ class AsyncV2Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.organization_service_facilities.v_2.update(
-            organization_service_facility_id=uuid.UUID(
-                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-            ),
-            request=OrganizationServiceFacilityUpdate(
-                name="Test Service Facility",
-                aliases=["Test Service Facility Alias"],
-                description="Test Service Facility Description",
-                status=ServiceFacilityStatus.ACTIVE,
-                operational_status=ServiceFacilityOperationalStatus.CLOSED,
-                mode=ServiceFacilityMode.INSTANCE,
-                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
-                physical_type=ServiceFacilityPhysicalType.SITE,
-                telecoms=["555-555-5555"],
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
+
+
+        async def main() -> None:
+            await client.organization_service_facilities.v_2.update(
+                organization_service_facility_id=uuid.UUID(
+                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
                 ),
-            ),
-        )
+                request=OrganizationServiceFacilityUpdate(
+                    name="Test Service Facility",
+                    aliases=["Test Service Facility Alias"],
+                    description="Test Service Facility Description",
+                    status=ServiceFacilityStatus.ACTIVE,
+                    operational_status=ServiceFacilityOperationalStatus.CLOSED,
+                    mode=ServiceFacilityMode.INSTANCE,
+                    type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                    physical_type=ServiceFacilityPhysicalType.SITE,
+                    telecoms=["555-555-5555"],
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json=request,
             request_options=request_options,
@@ -644,6 +683,7 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -652,14 +692,21 @@ class AsyncV2Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.organization_service_facilities.v_2.delete(
-            organization_service_facility_id=uuid.UUID(
-                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.organization_service_facilities.v_2.delete(
+                organization_service_facility_id=uuid.UUID(
+                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
         )

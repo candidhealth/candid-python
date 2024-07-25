@@ -81,6 +81,7 @@ class ServiceFacilityClient:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/service_facility/v2/{jsonable_encoder(service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={"organization_name": organization_name, "npi": npi, "address": address},
             request_options=request_options,
@@ -133,6 +134,7 @@ class AsyncServiceFacilityClient:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid import State, StreetAddressLongZip
@@ -142,24 +144,31 @@ class AsyncServiceFacilityClient:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.service_facility.update(
-            service_facility_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            organization_name="string",
-            npi="string",
-            address=StreetAddressLongZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.service_facility.update(
+                service_facility_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                organization_name="string",
+                npi="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/service_facility/v2/{jsonable_encoder(service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={"organization_name": organization_name, "npi": npi, "address": address},
             request_options=request_options,

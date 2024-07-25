@@ -63,7 +63,12 @@ class V2Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/eligibility/v2", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/eligibility/v2",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -121,7 +126,10 @@ class V2Client:
         client.eligibility.v_2.submit_eligibility_check_availity()
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/eligibility/v2/availity", method="GET", request_options=request_options
+            "api/eligibility/v2/availity",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -179,7 +187,12 @@ class V2Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/eligibility/v2/availity", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/eligibility/v2/availity",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -231,18 +244,31 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
+
         from candid.client import AsyncCandidApiClient
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.eligibility.v_2.submit_eligibility_check(
-            request={"key": "value"},
-        )
+
+
+        async def main() -> None:
+            await client.eligibility.v_2.submit_eligibility_check(
+                request={"key": "value"},
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/eligibility/v2", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/eligibility/v2",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -291,16 +317,27 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
+
         from candid.client import AsyncCandidApiClient
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.eligibility.v_2.submit_eligibility_check_availity()
+
+
+        async def main() -> None:
+            await client.eligibility.v_2.submit_eligibility_check_availity()
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/eligibility/v2/availity", method="GET", request_options=request_options
+            "api/eligibility/v2/availity",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()
@@ -347,18 +384,31 @@ class AsyncV2Client:
 
         Examples
         --------
+        import asyncio
+
         from candid.client import AsyncCandidApiClient
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.eligibility.v_2.submit_eligibility_check_availity_post(
-            request={"key": "value"},
-        )
+
+
+        async def main() -> None:
+            await client.eligibility.v_2.submit_eligibility_check_availity_post(
+                request={"key": "value"},
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/eligibility/v2/availity", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/eligibility/v2/availity",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()

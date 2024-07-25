@@ -70,6 +70,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -152,6 +153,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/organization-providers/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "limit": limit,
@@ -243,7 +245,12 @@ class V3Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/organization-providers/v3", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/organization-providers/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -339,6 +346,7 @@ class V3Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json=request,
             request_options=request_options,
@@ -390,6 +398,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid.client import AsyncCandidApiClient
@@ -398,14 +407,21 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.organization_providers.v_3.get(
-            organization_provider_id=uuid.UUID(
-                "965a563a-0285-4910-9569-e3739c0f6eab",
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.organization_providers.v_3.get(
+                organization_provider_id=uuid.UUID(
+                    "965a563a-0285-4910-9569-e3739c0f6eab",
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
         )
@@ -467,6 +483,8 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
+
         from candid.client import AsyncCandidApiClient
         from candid.resources.organization_providers.v_2 import (
             OrganizationProviderSortOptions,
@@ -476,18 +494,25 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.organization_providers.v_3.get_multi(
-            limit=100,
-            search_term="john",
-            npi="1234567890",
-            is_rendering=True,
-            is_billing=True,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
-        )
+
+
+        async def main() -> None:
+            await client.organization_providers.v_3.get_multi(
+                limit=100,
+                search_term="john",
+                npi="1234567890",
+                is_rendering=True,
+                is_billing=True,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+                sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/organization-providers/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "limit": limit,
@@ -525,6 +550,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import datetime
 
         from candid import IdentifierCreate, State, StreetAddressLongZip
@@ -543,43 +569,54 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.organization_providers.v_3.create(
-            request=OrganizationProviderCreateV2(
-                npi="string",
-                is_rendering=True,
-                is_billing=True,
-                first_name="string",
-                last_name="string",
-                organization_name="string",
-                provider_type=ProviderType.INDIVIDUAL,
-                tax_id="string",
-                taxonomy_code="string",
-                license_type=LicenseType.MD,
-                addresses=[
-                    OrganizationProviderAddress(
-                        address=StreetAddressLongZip(
-                            address_1="123 Main St",
-                            address_2="Apt 1",
-                            city="New York",
-                            state=State.NY,
-                            zip_code="10001",
-                            zip_plus_four_code="1234",
-                        ),
-                        address_type=AddressType.DEFAULT,
-                    )
-                ],
-                employment_start_date=datetime.date.fromisoformat(
-                    "2023-01-15",
+
+
+        async def main() -> None:
+            await client.organization_providers.v_3.create(
+                request=OrganizationProviderCreateV2(
+                    npi="string",
+                    is_rendering=True,
+                    is_billing=True,
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
+                    provider_type=ProviderType.INDIVIDUAL,
+                    tax_id="string",
+                    taxonomy_code="string",
+                    license_type=LicenseType.MD,
+                    addresses=[
+                        OrganizationProviderAddress(
+                            address=StreetAddressLongZip(
+                                address_1="123 Main St",
+                                address_2="Apt 1",
+                                city="New York",
+                                state=State.NY,
+                                zip_code="10001",
+                                zip_plus_four_code="1234",
+                            ),
+                            address_type=AddressType.DEFAULT,
+                        )
+                    ],
+                    employment_start_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    employment_termination_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    qualifications=[IdentifierCreate()],
                 ),
-                employment_termination_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                qualifications=[IdentifierCreate()],
-            ),
-        )
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/organization-providers/v3", method="POST", json=request, request_options=request_options, omit=OMIT
+            "api/organization-providers/v3",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()
@@ -621,6 +658,7 @@ class AsyncV3Client:
 
         Examples
         --------
+        import asyncio
         import uuid
 
         from candid import State, StreetAddressLongZip, UpdatableIdentifier_Add
@@ -639,42 +677,49 @@ class AsyncV3Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.organization_providers.v_3.update(
-            organization_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            request=OrganizationProviderUpdateV2(
-                npi="string",
-                is_rendering=True,
-                is_billing=True,
-                first_name="string",
-                last_name="string",
-                organization_name="string",
-                provider_type=ProviderType.INDIVIDUAL,
-                tax_id="string",
-                taxonomy_code="string",
-                license_type=LicenseType.MD,
-                addresses=[
-                    OrganizationProviderAddress(
-                        address=StreetAddressLongZip(
-                            address_1="123 Main St",
-                            address_2="Apt 1",
-                            city="New York",
-                            state=State.NY,
-                            zip_code="10001",
-                            zip_plus_four_code="1234",
-                        ),
-                        address_type=AddressType.DEFAULT,
-                    )
-                ],
-                employment_start_date="string",
-                employment_termination_date="string",
-                qualifications=[UpdatableIdentifier_Add()],
-            ),
-        )
+
+
+        async def main() -> None:
+            await client.organization_providers.v_3.update(
+                organization_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                request=OrganizationProviderUpdateV2(
+                    npi="string",
+                    is_rendering=True,
+                    is_billing=True,
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
+                    provider_type=ProviderType.INDIVIDUAL,
+                    tax_id="string",
+                    taxonomy_code="string",
+                    license_type=LicenseType.MD,
+                    addresses=[
+                        OrganizationProviderAddress(
+                            address=StreetAddressLongZip(
+                                address_1="123 Main St",
+                                address_2="Apt 1",
+                                city="New York",
+                                state=State.NY,
+                                zip_code="10001",
+                                zip_plus_four_code="1234",
+                            ),
+                            address_type=AddressType.DEFAULT,
+                        )
+                    ],
+                    employment_start_date="string",
+                    employment_termination_date="string",
+                    qualifications=[UpdatableIdentifier_Add()],
+                ),
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json=request,
             request_options=request_options,

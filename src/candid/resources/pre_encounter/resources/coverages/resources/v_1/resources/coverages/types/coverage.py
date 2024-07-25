@@ -5,10 +5,10 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from ...common.types.organization_id import OrganizationId
-from ...common.types.user_id import UserId
+from ..........core.datetime_utils import serialize_datetime
+from ..........core.pydantic_utilities import deep_union_pydantic_dicts
+from .......common.types.organization_id import OrganizationId
+from .......common.types.user_id import UserId
 from .coverage_id import CoverageId
 from .mutable_coverage import MutableCoverage
 
@@ -34,8 +34,8 @@ class Coverage(MutableCoverage):
     The version of the coverage. Any update to any property of a coverage object will create a new version.
     """
 
-    updated_at: dt.datetime = pydantic.Field(alias="updatedAt")
-    updating_user_id: UserId = pydantic.Field(alias="updatingUserId")
+    updated_at: dt.datetime
+    updating_user_id: UserId = pydantic.Field()
     """
     The user ID of the user who last updated the coverage.
     """

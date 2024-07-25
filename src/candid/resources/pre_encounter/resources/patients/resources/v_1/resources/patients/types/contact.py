@@ -5,17 +5,23 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from ..........core.datetime_utils import serialize_datetime
+from ..........core.pydantic_utilities import deep_union_pydantic_dicts
+from .......common.types.address import Address
+from .......common.types.contact_point import ContactPoint
+from .......common.types.gender import Gender
+from .......common.types.human_name import HumanName
+from .......common.types.period import Period
+from .......common.types.relationship import Relationship
 
 
-class ExternalProvenance(pydantic.BaseModel):
-    """
-    Information about the upstream system that owns this patient data.
-    """
-
-    external_id: str = pydantic.Field(alias="externalId")
-    system_name: str = pydantic.Field(alias="systemName")
+class Contact(pydantic.BaseModel):
+    relationship: typing.List[Relationship]
+    name: HumanName
+    gender: typing.Optional[Gender] = None
+    telecoms: typing.List[ContactPoint]
+    addresses: typing.List[Address]
+    period: typing.Optional[Period] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -32,7 +38,5 @@ class ExternalProvenance(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

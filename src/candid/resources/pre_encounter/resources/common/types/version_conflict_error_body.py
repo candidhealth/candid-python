@@ -12,7 +12,7 @@ from .error_base import ErrorBase
 
 class VersionConflictErrorBody(ErrorBase):
     code: typing.Literal["VERSION_CONFLICT"] = "VERSION_CONFLICT"
-    latest_version: int = pydantic.Field(alias="latestVersion")
+    latest_version: int
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

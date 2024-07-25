@@ -5,22 +5,16 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from ...common.types.payer_id import PayerId
-from ...common.types.period import Period
-from .coverage_type import CoverageType
+from ..........core.datetime_utils import serialize_datetime
+from ..........core.pydantic_utilities import deep_union_pydantic_dicts
+from .......common.types.gender import Gender
+from .......common.types.human_name import HumanName
 
 
-class InsurancePlan(pydantic.BaseModel):
-    member_id: str = pydantic.Field(alias="memberId")
-    payer_id: PayerId = pydantic.Field(alias="payerId")
-    payer_name: str = pydantic.Field(alias="payerName")
-    group_number: typing.Optional[str] = pydantic.Field(alias="groupNumber", default=None)
-    name: typing.Optional[str] = None
-    type: typing.Optional[CoverageType] = None
-    period: typing.Optional[Period] = None
-    insurance_card_image_locator: typing.Optional[str] = pydantic.Field(alias="insuranceCardImageLocator", default=None)
+class Subscriber(pydantic.BaseModel):
+    name: HumanName
+    date_of_birth: dt.date
+    gender: Gender
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -37,7 +31,5 @@ class InsurancePlan(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

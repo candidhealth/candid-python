@@ -5,12 +5,12 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from ...common.types.address import Address
-from ...common.types.contact_point import ContactPoint
-from ...common.types.gender import Gender
-from ...common.types.human_name import HumanName
+from ..........core.datetime_utils import serialize_datetime
+from ..........core.pydantic_utilities import deep_union_pydantic_dicts
+from .......common.types.address import Address
+from .......common.types.contact_point import ContactPoint
+from .......common.types.gender import Gender
+from .......common.types.human_name import HumanName
 from .contact import Contact
 from .external_provenance import ExternalProvenance
 from .external_provider import ExternalProvider
@@ -23,47 +23,47 @@ class MutablePatient(pydantic.BaseModel):
     """
 
     name: HumanName
-    other_names: typing.List[HumanName] = pydantic.Field(alias="otherNames")
+    other_names: typing.List[HumanName] = pydantic.Field()
     """
     Other names for the patient.
     """
 
     gender: Gender
-    birth_date: dt.date = pydantic.Field(alias="birthDate")
-    marital_status: typing.Optional[MaritalStatus] = pydantic.Field(alias="maritalStatus", default=None)
+    birth_date: dt.date
+    marital_status: typing.Optional[MaritalStatus] = None
     deceased: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     Time of death for the patient. Leave unset if the patient is not deceased.
     """
 
-    multiple_birth: typing.Optional[int] = pydantic.Field(alias="multipleBirth", default=None)
+    multiple_birth: typing.Optional[int] = pydantic.Field(default=None)
     """
     The number of siblings the patient was born with. Leave unset if the patient was not part of a multiple birth.
     """
 
-    primary_address: Address = pydantic.Field(alias="primaryAddress")
+    primary_address: Address = pydantic.Field()
     """
     The primary address for the patient.
     """
 
-    other_addresses: typing.List[Address] = pydantic.Field(alias="otherAddresses")
+    other_addresses: typing.List[Address] = pydantic.Field()
     """
     Other addresses for the patient.
     """
 
-    primary_telecom: ContactPoint = pydantic.Field(alias="primaryTelecom")
+    primary_telecom: ContactPoint = pydantic.Field()
     """
     The primary phone number for the patient.
     """
 
-    other_telecoms: typing.List[ContactPoint] = pydantic.Field(alias="otherTelecoms")
+    other_telecoms: typing.List[ContactPoint] = pydantic.Field()
     """
     Other phone numbers for the patient.
     """
 
     photo: typing.Optional[str] = None
     language: typing.Optional[str] = None
-    external_provenance: typing.Optional[ExternalProvenance] = pydantic.Field(alias="externalProvenance", default=None)
+    external_provenance: typing.Optional[ExternalProvenance] = pydantic.Field(default=None)
     """
     Information about the upstream system that owns this patient data. Leave unset if Candid owns patient data.
     """
@@ -73,7 +73,7 @@ class MutablePatient(pydantic.BaseModel):
     Contacts for the patient.
     """
 
-    general_practitioners: typing.List[ExternalProvider] = pydantic.Field(alias="generalPractitioners")
+    general_practitioners: typing.List[ExternalProvider]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -90,7 +90,5 @@ class MutablePatient(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

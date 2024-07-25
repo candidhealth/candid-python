@@ -98,6 +98,7 @@ class V1Client:
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/expected-network-status/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={
                 "external_patient_id": external_patient_id,
@@ -183,6 +184,8 @@ class AsyncV1Client:
 
         Examples
         --------
+        import asyncio
+
         from candid import InsuranceTypeCode, State
         from candid.client import AsyncCandidApiClient
 
@@ -190,21 +193,28 @@ class AsyncV1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        await client.expected_network_status.v_1.compute(
-            external_patient_id="string",
-            subscriber_payer_id="string",
-            subscriber_payer_name="string",
-            subscriber_insurance_type=InsuranceTypeCode.C_01,
-            subscriber_plan_name="string",
-            billing_provider_npi="string",
-            billing_provider_tin="string",
-            rendering_provider_npi="string",
-            contracted_state=State.AA,
-            date_of_service="string",
-        )
+
+
+        async def main() -> None:
+            await client.expected_network_status.v_1.compute(
+                external_patient_id="string",
+                subscriber_payer_id="string",
+                subscriber_payer_name="string",
+                subscriber_insurance_type=InsuranceTypeCode.C_01,
+                subscriber_plan_name="string",
+                billing_provider_npi="string",
+                billing_provider_tin="string",
+                rendering_provider_npi="string",
+                contracted_state=State.AA,
+                date_of_service="string",
+            )
+
+
+        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/expected-network-status/v1",
+            base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json={
                 "external_patient_id": external_patient_id,
