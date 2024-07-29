@@ -26,6 +26,7 @@ from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.street_address_long_zip import StreetAddressLongZip
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from ....commons.types.work_queue_id import WorkQueueId
+from ....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from ....diagnoses.types.diagnosis_create import DiagnosisCreate
 from ....diagnoses.types.diagnosis_id import DiagnosisId
 from ....encounter_providers.resources.v_2.types.billing_provider import BillingProvider
@@ -43,6 +44,7 @@ from .errors.cash_pay_payer_error import CashPayPayerError
 from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
 from .errors.encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
 from .errors.encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
+from .errors.schema_instance_validation_http_failure import SchemaInstanceValidationHttpFailure
 from .types.billable_status_type import BillableStatusType
 from .types.cash_pay_payer_error_message import CashPayPayerErrorMessage
 from .types.clinical_note_category_create import ClinicalNoteCategoryCreate
@@ -60,6 +62,7 @@ from .types.medication import Medication
 from .types.patient_history_category import PatientHistoryCategory
 from .types.prior_authorization_number import PriorAuthorizationNumber
 from .types.responsible_party_type import ResponsiblePartyType
+from .types.schema_instance_validation_failure import SchemaInstanceValidationFailure
 from .types.service_authorization_exception_code import ServiceAuthorizationExceptionCode
 from .types.synchronicity_type import SynchronicityType
 from .types.vitals import Vitals
@@ -288,6 +291,7 @@ class V4Client:
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
+        schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
@@ -436,6 +440,11 @@ class V4Client:
         tag_ids : typing.Optional[typing.Sequence[TagId]]
             Names of tags that should be on the encounter.
 
+        schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+            instances cannot be created for the same schema on an encounter.
+
+
         prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
             Box 23 on the CMS-1500 claim form.
 
@@ -502,6 +511,7 @@ class V4Client:
         Examples
         --------
         import datetime
+        import uuid
 
         from candid import (
             ClaimSubmissionPayerResponsibilityType,
@@ -534,6 +544,7 @@ class V4Client:
             ClaimSubmissionRecordCreate,
             ExternalClaimSubmissionCreate,
         )
+        from candid.resources.custom_schemas.v_1 import SchemaInstance
         from candid.resources.encounter_providers.v_2 import (
             BillingProvider,
             InitialReferringProvider,
@@ -929,6 +940,19 @@ class V4Client:
                 ],
             ),
             tag_ids=["string"],
+            schema_instances=[
+                SchemaInstance(
+                    schema_id=uuid.UUID(
+                        "ec096b13-f80a-471d-aaeb-54b021c9d582",
+                    ),
+                    content={
+                        "provider_category": "internist",
+                        "is_urgent_care": true,
+                        "bmi": 24.2,
+                        "age": 38,
+                    },
+                )
+            ],
             external_id="string",
             prior_authorization_number="string",
             patient_authorized_release=True,
@@ -1027,6 +1051,7 @@ class V4Client:
                 "guarantor": guarantor,
                 "external_claim_submission": external_claim_submission,
                 "tag_ids": tag_ids,
+                "schema_instances": schema_instances,
                 "external_id": external_id,
                 "prior_authorization_number": prior_authorization_number,
                 "patient_authorized_release": patient_authorized_release,
@@ -1082,6 +1107,10 @@ class V4Client:
                 raise CashPayPayerError(
                     pydantic_v1.parse_obj_as(CashPayPayerErrorMessage, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -1114,6 +1143,7 @@ class V4Client:
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
+        schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -1246,6 +1276,13 @@ class V4Client:
             Box 12 on the CMS-1500 claim form.
 
 
+        schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+            instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
+            semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
+            is provided as an input, then the encounter's schema instances will be cleared.
+
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1272,6 +1309,7 @@ class V4Client:
             SubscriberCreate,
         )
         from candid.client import CandidApiClient
+        from candid.resources.custom_schemas.v_1 import SchemaInstance
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
             ClinicalNote,
@@ -1405,6 +1443,19 @@ class V4Client:
             ),
             delay_reason_code=DelayReasonCode.C_1,
             patient_authorized_release=True,
+            schema_instances=[
+                SchemaInstance(
+                    schema_id=uuid.UUID(
+                        "ec096b13-f80a-471d-aaeb-54b021c9d582",
+                    ),
+                    content={
+                        "provider_category": "internist",
+                        "is_urgent_care": true,
+                        "bmi": 24.2,
+                        "age": 38,
+                    },
+                )
+            ],
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1438,6 +1489,7 @@ class V4Client:
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
                 "patient_authorized_release": patient_authorized_release,
+                "schema_instances": schema_instances,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1464,6 +1516,10 @@ class V4Client:
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
                     pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -1704,6 +1760,7 @@ class AsyncV4Client:
         guarantor: typing.Optional[GuarantorCreate] = OMIT,
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
+        schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
@@ -1852,6 +1909,11 @@ class AsyncV4Client:
         tag_ids : typing.Optional[typing.Sequence[TagId]]
             Names of tags that should be on the encounter.
 
+        schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+            instances cannot be created for the same schema on an encounter.
+
+
         prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
             Box 23 on the CMS-1500 claim form.
 
@@ -1919,6 +1981,7 @@ class AsyncV4Client:
         --------
         import asyncio
         import datetime
+        import uuid
 
         from candid import (
             ClaimSubmissionPayerResponsibilityType,
@@ -1951,6 +2014,7 @@ class AsyncV4Client:
             ClaimSubmissionRecordCreate,
             ExternalClaimSubmissionCreate,
         )
+        from candid.resources.custom_schemas.v_1 import SchemaInstance
         from candid.resources.encounter_providers.v_2 import (
             BillingProvider,
             InitialReferringProvider,
@@ -2349,6 +2413,19 @@ class AsyncV4Client:
                     ],
                 ),
                 tag_ids=["string"],
+                schema_instances=[
+                    SchemaInstance(
+                        schema_id=uuid.UUID(
+                            "ec096b13-f80a-471d-aaeb-54b021c9d582",
+                        ),
+                        content={
+                            "provider_category": "internist",
+                            "is_urgent_care": true,
+                            "bmi": 24.2,
+                            "age": 38,
+                        },
+                    )
+                ],
                 external_id="string",
                 prior_authorization_number="string",
                 patient_authorized_release=True,
@@ -2450,6 +2527,7 @@ class AsyncV4Client:
                 "guarantor": guarantor,
                 "external_claim_submission": external_claim_submission,
                 "tag_ids": tag_ids,
+                "schema_instances": schema_instances,
                 "external_id": external_id,
                 "prior_authorization_number": prior_authorization_number,
                 "patient_authorized_release": patient_authorized_release,
@@ -2505,6 +2583,10 @@ class AsyncV4Client:
                 raise CashPayPayerError(
                     pydantic_v1.parse_obj_as(CashPayPayerErrorMessage, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
@@ -2537,6 +2619,7 @@ class AsyncV4Client:
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
+        schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -2669,6 +2752,13 @@ class AsyncV4Client:
             Box 12 on the CMS-1500 claim form.
 
 
+        schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+            instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
+            semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
+            is provided as an input, then the encounter's schema instances will be cleared.
+
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2696,6 +2786,7 @@ class AsyncV4Client:
             SubscriberCreate,
         )
         from candid.client import AsyncCandidApiClient
+        from candid.resources.custom_schemas.v_1 import SchemaInstance
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
             ClinicalNote,
@@ -2832,6 +2923,19 @@ class AsyncV4Client:
                 ),
                 delay_reason_code=DelayReasonCode.C_1,
                 patient_authorized_release=True,
+                schema_instances=[
+                    SchemaInstance(
+                        schema_id=uuid.UUID(
+                            "ec096b13-f80a-471d-aaeb-54b021c9d582",
+                        ),
+                        content={
+                            "provider_category": "internist",
+                            "is_urgent_care": true,
+                            "bmi": 24.2,
+                            "age": 38,
+                        },
+                    )
+                ],
             )
 
 
@@ -2868,6 +2972,7 @@ class AsyncV4Client:
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
                 "patient_authorized_release": patient_authorized_release,
+                "schema_instances": schema_instances,
             },
             request_options=request_options,
             omit=OMIT,
@@ -2894,5 +2999,9 @@ class AsyncV4Client:
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
                     pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

@@ -13,6 +13,7 @@ from .....commons.types.encounter_id import EncounterId
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.link_url import LinkUrl
 from .....commons.types.work_queue_id import WorkQueueId
+from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from .....diagnoses.types.diagnosis import Diagnosis
 from .....encounter_providers.resources.v_2.types.encounter_provider import EncounterProvider
 from .....guarantor.resources.v_1.types.guarantor import Guarantor
@@ -65,6 +66,7 @@ class Encounter(EncounterBase):
         TagColorEnum,
     )
     from candid.resources.billing_notes.v_2 import BillingNote
+    from candid.resources.custom_schemas.v_1 import SchemaInstance
     from candid.resources.encounter_providers.v_2 import EncounterProvider
     from candid.resources.encounters.v_4 import (
         BillableStatusType,
@@ -618,6 +620,19 @@ class Encounter(EncounterBase):
         onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
             "2023-01-01",
         ),
+        schema_instances=[
+            SchemaInstance(
+                schema_id=uuid.UUID(
+                    "ec096b13-f80a-471d-aaeb-54b021c9d582",
+                ),
+                content={
+                    "provider_category": "internist",
+                    "is_urgent_care": true,
+                    "bmi": 24.2,
+                    "age": 38,
+                },
+            )
+        ],
     )
     """
 
@@ -739,6 +754,12 @@ class Encounter(EncounterBase):
     The party who originally submitted the Claim.
     For Claims originating in Candid, this will be EncounterSubmissionOriginType.CANDID.
     For Encounters created with an external_claim_submission object, this will be EncounterSubmissionOriginType.EXTERNAL.
+    """
+
+    schema_instances: typing.List[SchemaInstance] = pydantic.Field()
+    """
+    Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+    instances cannot be created for the same schema on an encounter.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

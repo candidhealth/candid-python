@@ -29,6 +29,7 @@ from .patient_external_id import PatientExternalId
 from .patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
 from .phone_number import PhoneNumber
 from .phone_number_type import PhoneNumberType
+from .primitive import Primitive
 from .procedure_modifier import ProcedureModifier
 from .provider_id import ProviderId
 from .qualifier_code import QualifierCode
@@ -43,6 +44,7 @@ from .removable_date_range_optional_end import (
 )
 from .request_validation_error import RequestValidationError
 from .resource_page import ResourcePage
+from .schema_id import SchemaId
 from .service_line_id import ServiceLineId
 from .service_line_units import ServiceLineUnits
 from .sort_direction import SortDirection
@@ -93,6 +95,7 @@ __all__ = [
     "PatientRelationshipToInsuredCodeAll",
     "PhoneNumber",
     "PhoneNumberType",
+    "Primitive",
     "ProcedureModifier",
     "ProviderId",
     "QualifierCode",
@@ -107,6 +110,7 @@ __all__ = [
     "RemovableDateRangeOptionalEnd_Remove",
     "RequestValidationError",
     "ResourcePage",
+    "SchemaId",
     "ServiceLineId",
     "ServiceLineUnits",
     "SortDirection",

@@ -47,6 +47,7 @@ class EncounterPage(ResourcePage):
         TagColorEnum,
     )
     from candid.resources.billing_notes.v_2 import BillingNote
+    from candid.resources.custom_schemas.v_1 import SchemaInstance
     from candid.resources.encounter_providers.v_2 import EncounterProvider
     from candid.resources.encounters.v_4 import (
         BillableStatusType,
@@ -603,6 +604,19 @@ class EncounterPage(ResourcePage):
                 onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
                     "2023-01-01",
                 ),
+                schema_instances=[
+                    SchemaInstance(
+                        schema_id=uuid.UUID(
+                            "ec096b13-f80a-471d-aaeb-54b021c9d582",
+                        ),
+                        content={
+                            "provider_category": "internist",
+                            "is_urgent_care": true,
+                            "bmi": 24.2,
+                            "age": 38,
+                        },
+                    )
+                ],
             )
         ],
     )

@@ -770,6 +770,349 @@ value, overriding what was set before.
 </dl>
 </details>
 
+## CustomSchemas V1
+<details><summary><code>client.custom_schemas.v_1.<a href="src/candid/resources/custom_schemas/resources/v_1/client.py">get_multi</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns all custom schemas.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.custom_schemas.v_1.get_multi()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_schemas.v_1.<a href="src/candid/resources/custom_schemas/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Return a custom schema with a given ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.custom_schemas.v_1.get(
+    schema_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**schema_id:** `SchemaId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_schemas.v_1.<a href="src/candid/resources/custom_schemas/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a custom schema. Schema keys can be referenced as inputs in user-configurable rules in the Rules
+Engine, and key-value pairs can be attached to claims via the Encounters API.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import Primitive
+from candid.client import CandidApiClient
+from candid.resources.custom_schemas.v_1 import SchemaField
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.custom_schemas.v_1.create(
+    name="string",
+    description="string",
+    fields=[
+        SchemaField(
+            key="string",
+            type=Primitive.BOOLEAN,
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**fields:** `typing.Sequence[SchemaField]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**description:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.custom_schemas.v_1.<a href="src/candid/resources/custom_schemas/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update the name, description, or keys on a preexisting schema.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import Primitive
+from candid.client import CandidApiClient
+from candid.resources.custom_schemas.v_1 import SchemaField
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.custom_schemas.v_1.update(
+    schema_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    name="string",
+    description="string",
+    fields_to_add=[
+        SchemaField(
+            key="string",
+            type=Primitive.BOOLEAN,
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**schema_id:** `SchemaId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**description:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**fields_to_add:** `typing.Optional[typing.Sequence[SchemaField]]` — A list of typed entries to add to schema. Only additive modifications are permitted.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Eligibility V2
 <details><summary><code>client.eligibility.v_2.<a href="src/candid/resources/eligibility/resources/v_2/client.py">submit_eligibility_check</a>(...)</code></summary>
 <dl>
@@ -1293,6 +1636,7 @@ client.encounters.v_4.get(
 
 ```python
 import datetime
+import uuid
 
 from candid import (
     ClaimSubmissionPayerResponsibilityType,
@@ -1325,6 +1669,7 @@ from candid.resources.claim_submission.v_1 import (
     ClaimSubmissionRecordCreate,
     ExternalClaimSubmissionCreate,
 )
+from candid.resources.custom_schemas.v_1 import SchemaInstance
 from candid.resources.encounter_providers.v_2 import (
     BillingProvider,
     InitialReferringProvider,
@@ -1720,6 +2065,19 @@ client.encounters.v_4.create(
         ],
     ),
     tag_ids=["string"],
+    schema_instances=[
+        SchemaInstance(
+            schema_id=uuid.UUID(
+                "ec096b13-f80a-471d-aaeb-54b021c9d582",
+            ),
+            content={
+                "provider_category": "internist",
+                "is_urgent_care": true,
+                "bmi": 24.2,
+                "age": 38,
+            },
+        )
+    ],
     external_id="string",
     prior_authorization_number="string",
     patient_authorized_release=True,
@@ -2099,6 +2457,18 @@ Candid supports posting remits and payments to these claims and working them in-
 <dl>
 <dd>
 
+**schema_instances:** `typing.Optional[typing.Sequence[SchemaInstance]]` 
+
+Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+instances cannot be created for the same schema on an encounter.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **prior_authorization_number:** `typing.Optional[PriorAuthorizationNumber]` — Box 23 on the CMS-1500 claim form.
     
 </dd>
@@ -2286,6 +2656,7 @@ from candid import (
     SubscriberCreate,
 )
 from candid.client import CandidApiClient
+from candid.resources.custom_schemas.v_1 import SchemaInstance
 from candid.resources.encounters.v_4 import (
     BillableStatusType,
     ClinicalNote,
@@ -2419,6 +2790,19 @@ client.encounters.v_4.update(
     ),
     delay_reason_code=DelayReasonCode.C_1,
     patient_authorized_release=True,
+    schema_instances=[
+        SchemaInstance(
+            schema_id=uuid.UUID(
+                "ec096b13-f80a-471d-aaeb-54b021c9d582",
+            ),
+            content={
+                "provider_category": "internist",
+                "is_urgent_care": true,
+                "bmi": 24.2,
+                "age": 38,
+            },
+        )
+    ],
 )
 
 ```
@@ -2714,6 +3098,20 @@ Code indicating the reason why a request was delayed
 Whether this patient has authorized the release of medical information
 for billing purpose.
 Box 12 on the CMS-1500 claim form.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**schema_instances:** `typing.Optional[typing.Sequence[SchemaInstance]]` 
+
+Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
+semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
+is provided as an input, then the encounter's schema instances will be cleared.
 
     
 </dd>
