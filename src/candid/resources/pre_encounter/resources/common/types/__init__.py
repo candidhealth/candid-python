@@ -4,7 +4,9 @@ from .address import Address
 from .address_use import AddressUse
 from .contact_point import ContactPoint
 from .contact_point_use import ContactPointUse
+from .disability_status import DisabilityStatus
 from .error_base import ErrorBase
+from .ethnicity import Ethnicity
 from .gender import Gender
 from .human_name import HumanName
 from .name_use import NameUse
@@ -12,7 +14,10 @@ from .not_found_error_body import NotFoundErrorBody
 from .organization_id import OrganizationId
 from .payer_id import PayerId
 from .period import Period
+from .race import Race
 from .relationship import Relationship
+from .sex import Sex
+from .sexual_orientation import SexualOrientation
 from .user_id import UserId
 from .version_conflict_error_body import VersionConflictErrorBody
 
@@ -21,7 +26,9 @@ __all__ = [
     "AddressUse",
     "ContactPoint",
     "ContactPointUse",
+    "DisabilityStatus",
     "ErrorBase",
+    "Ethnicity",
     "Gender",
     "HumanName",
     "NameUse",
@@ -29,7 +36,10 @@ __all__ = [
     "OrganizationId",
     "PayerId",
     "Period",
+    "Race",
     "Relationship",
+    "Sex",
+    "SexualOrientation",
     "UserId",
     "VersionConflictErrorBody",
 ]

@@ -5,15 +5,21 @@ import typing
 
 import pydantic
 
-from ..........core.datetime_utils import serialize_datetime
-from ..........core.pydantic_utilities import deep_union_pydantic_dicts
-from .......common.types.address import Address
-from .......common.types.contact_point import ContactPoint
-from .......common.types.gender import Gender
-from .......common.types.human_name import HumanName
+from ........core.datetime_utils import serialize_datetime
+from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.address import Address
+from .....common.types.contact_point import ContactPoint
+from .....common.types.disability_status import DisabilityStatus
+from .....common.types.ethnicity import Ethnicity
+from .....common.types.gender import Gender
+from .....common.types.human_name import HumanName
+from .....common.types.race import Race
+from .....common.types.sex import Sex
+from .....common.types.sexual_orientation import SexualOrientation
 from .contact import Contact
 from .external_provenance import ExternalProvenance
 from .external_provider import ExternalProvider
+from .filing_order import FilingOrder
 from .marital_status import MaritalStatus
 
 
@@ -30,6 +36,20 @@ class MutablePatient(pydantic.BaseModel):
 
     gender: Gender
     birth_date: dt.date
+    social_security_number: typing.Optional[str] = None
+    biological_sex: typing.Optional[Sex] = pydantic.Field(default=None)
+    """
+    The biological sex of the patient.
+    """
+
+    sexual_orientation: typing.Optional[SexualOrientation] = pydantic.Field(default=None)
+    """
+    The sexual orientation of the patient.
+    """
+
+    race: typing.Optional[Race] = None
+    ethnicity: typing.Optional[Ethnicity] = None
+    disability_status: typing.Optional[DisabilityStatus] = None
     marital_status: typing.Optional[MaritalStatus] = None
     deceased: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
@@ -61,6 +81,8 @@ class MutablePatient(pydantic.BaseModel):
     Other phone numbers for the patient.
     """
 
+    email: typing.Optional[str] = None
+    electronic_communication_opt_in: typing.Optional[bool] = None
     photo: typing.Optional[str] = None
     language: typing.Optional[str] = None
     external_provenance: typing.Optional[ExternalProvenance] = pydantic.Field(default=None)
@@ -74,6 +96,7 @@ class MutablePatient(pydantic.BaseModel):
     """
 
     general_practitioners: typing.List[ExternalProvider]
+    filing_order: FilingOrder
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -5,19 +5,17 @@ import typing
 
 import pydantic
 
-from ..........core.datetime_utils import serialize_datetime
-from ..........core.pydantic_utilities import deep_union_pydantic_dicts
-from .......common.types.address import Address
-from .......common.types.contact_point import ContactPoint
-from .......common.types.human_name import HumanName
-from .......common.types.period import Period
+from ........core.datetime_utils import serialize_datetime
+from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....coverages.resources.v_1.types.coverage_id import CoverageId
 
 
-class ExternalProvider(pydantic.BaseModel):
-    name: HumanName
-    telecoms: typing.List[ContactPoint]
-    addresses: typing.List[Address]
-    period: typing.Optional[Period] = None
+class FilingOrder(pydantic.BaseModel):
+    """
+    The patient's active coverages, in order of primary, secondary, etc.
+    """
+
+    coverages: typing.List[CoverageId]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -5,8 +5,8 @@ import typing
 
 import pydantic
 
-from ..........core.datetime_utils import serialize_datetime
-from ..........core.pydantic_utilities import deep_union_pydantic_dicts
+from ........core.datetime_utils import serialize_datetime
+from ........core.pydantic_utilities import deep_union_pydantic_dicts
 
 
 class ExternalProvenance(pydantic.BaseModel):

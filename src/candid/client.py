@@ -131,8 +131,8 @@ class CandidApiClient:
         self.payers = PayersClient(client_wrapper=self._client_wrapper)
         self.tasks = TasksClient(client_wrapper=self._client_wrapper)
         self.write_offs = WriteOffsClient(client_wrapper=self._client_wrapper)
-        self.service_facility = ServiceFacilityClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = PreEncounterClient(client_wrapper=self._client_wrapper)
+        self.service_facility = ServiceFacilityClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncCandidApiClient:
@@ -231,5 +231,5 @@ class AsyncCandidApiClient:
         self.payers = AsyncPayersClient(client_wrapper=self._client_wrapper)
         self.tasks = AsyncTasksClient(client_wrapper=self._client_wrapper)
         self.write_offs = AsyncWriteOffsClient(client_wrapper=self._client_wrapper)
-        self.service_facility = AsyncServiceFacilityClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = AsyncPreEncounterClient(client_wrapper=self._client_wrapper)
+        self.service_facility = AsyncServiceFacilityClient(client_wrapper=self._client_wrapper)

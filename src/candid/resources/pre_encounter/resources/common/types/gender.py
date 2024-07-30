@@ -7,23 +7,35 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class Gender(str, enum.Enum):
-    FEMALE = "FEMALE"
-    MALE = "MALE"
+    MAN = "MAN"
+    WOMAN = "WOMAN"
+    NON_BINARY = "NON_BINARY"
+    TWO_SPIRIT = "TWO_SPIRIT"
     OTHER = "OTHER"
     UNKNOWN = "UNKNOWN"
+    REFUSED = "REFUSED"
 
     def visit(
         self,
-        female: typing.Callable[[], T_Result],
-        male: typing.Callable[[], T_Result],
+        man: typing.Callable[[], T_Result],
+        woman: typing.Callable[[], T_Result],
+        non_binary: typing.Callable[[], T_Result],
+        two_spirit: typing.Callable[[], T_Result],
         other: typing.Callable[[], T_Result],
         unknown: typing.Callable[[], T_Result],
+        refused: typing.Callable[[], T_Result],
     ) -> T_Result:
-        if self is Gender.FEMALE:
-            return female()
-        if self is Gender.MALE:
-            return male()
+        if self is Gender.MAN:
+            return man()
+        if self is Gender.WOMAN:
+            return woman()
+        if self is Gender.NON_BINARY:
+            return non_binary()
+        if self is Gender.TWO_SPIRIT:
+            return two_spirit()
         if self is Gender.OTHER:
             return other()
         if self is Gender.UNKNOWN:
             return unknown()
+        if self is Gender.REFUSED:
+            return refused()

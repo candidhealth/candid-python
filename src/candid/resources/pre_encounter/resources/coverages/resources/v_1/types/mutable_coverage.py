@@ -5,10 +5,10 @@ import typing
 
 import pydantic
 
-from ..........core.datetime_utils import serialize_datetime
-from ..........core.pydantic_utilities import deep_union_pydantic_dicts
-from .......common.types.relationship import Relationship
-from .......patients.resources.v_1.resources.patients.types.patient_id import PatientId
+from ........core.datetime_utils import serialize_datetime
+from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.relationship import Relationship
+from .....patients.resources.v_1.types.patient_id import PatientId
 from .coverage_status import CoverageStatus
 from .insurance_plan import InsurancePlan
 from .subscriber import Subscriber
