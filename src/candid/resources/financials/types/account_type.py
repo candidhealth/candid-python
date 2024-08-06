@@ -9,9 +9,17 @@ T_Result = typing.TypeVar("T_Result")
 class AccountType(str, enum.Enum):
     PATIENT = "PATIENT"
     INSURANCE = "INSURANCE"
+    THIRD_PARTY_PAYER = "THIRD_PARTY_PAYER"
 
-    def visit(self, patient: typing.Callable[[], T_Result], insurance: typing.Callable[[], T_Result]) -> T_Result:
+    def visit(
+        self,
+        patient: typing.Callable[[], T_Result],
+        insurance: typing.Callable[[], T_Result],
+        third_party_payer: typing.Callable[[], T_Result],
+    ) -> T_Result:
         if self is AccountType.PATIENT:
             return patient()
         if self is AccountType.INSURANCE:
             return insurance()
+        if self is AccountType.THIRD_PARTY_PAYER:
+            return third_party_payer()

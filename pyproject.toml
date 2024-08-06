@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "candidhealth"
-version = "0.24.4"
+version = "0.24.5"
 description = ""
 readme = "README.md"
 authors = []

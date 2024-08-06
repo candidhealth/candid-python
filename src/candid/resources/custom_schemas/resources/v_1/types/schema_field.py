@@ -11,6 +11,18 @@ from .....commons.types.primitive import Primitive
 
 
 class SchemaField(pydantic.BaseModel):
+    """
+    Examples
+    --------
+    from candid import Primitive
+    from candid.resources.custom_schemas.v_1 import SchemaField
+
+    SchemaField(
+        key="provider_category",
+        type=Primitive.STRING,
+    )
+    """
+
     key: str
     type: Primitive
 

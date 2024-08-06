@@ -457,6 +457,11 @@ class ProcedureModifier(str, enum.Enum):
     Outpatient physical therapy services furnished in whole or in part by a physical therapist assistant
     """
 
+    DA = "DA"
+    """
+    Oral health assessment by a licensed health professional other than a dentist
+    """
+
     E_1 = "E1"
     """
     Upper left, eyelid
@@ -2034,6 +2039,7 @@ class ProcedureModifier(str, enum.Enum):
         ct: typing.Callable[[], T_Result],
         co: typing.Callable[[], T_Result],
         cq: typing.Callable[[], T_Result],
+        da: typing.Callable[[], T_Result],
         e_1: typing.Callable[[], T_Result],
         e_2: typing.Callable[[], T_Result],
         e_3: typing.Callable[[], T_Result],
@@ -2512,6 +2518,8 @@ class ProcedureModifier(str, enum.Enum):
             return co()
         if self is ProcedureModifier.CQ:
             return cq()
+        if self is ProcedureModifier.DA:
+            return da()
         if self is ProcedureModifier.E_1:
             return e_1()
         if self is ProcedureModifier.E_2:

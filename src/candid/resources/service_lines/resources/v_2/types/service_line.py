@@ -156,6 +156,9 @@ class ServiceLine(pydantic.BaseModel):
     insurance_balance_cents: typing.Optional[int] = None
     patient_balance_cents: typing.Optional[int] = None
     paid_amount_cents: typing.Optional[int] = None
+    primary_paid_amount_cents: typing.Optional[int] = None
+    secondary_paid_amount_cents: typing.Optional[int] = None
+    tertiary_paid_amount_cents: typing.Optional[int] = None
     patient_responsibility_cents: typing.Optional[int] = None
     diagnosis_id_zero: typing.Optional[DiagnosisId] = None
     diagnosis_id_one: typing.Optional[DiagnosisId] = None

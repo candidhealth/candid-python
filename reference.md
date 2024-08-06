@@ -869,7 +869,7 @@ client = CandidApiClient(
 )
 client.custom_schemas.v_1.get(
     schema_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        "ec096b13-f80a-471d-aaeb-54b021c9d582",
     ),
 )
 
@@ -919,7 +919,7 @@ client.custom_schemas.v_1.get(
 <dl>
 <dd>
 
-Create a custom schema. Schema keys can be referenced as inputs in user-configurable rules in the Rules
+Create custom schema with a set of typed keys. Schema keys can be referenced as inputs in user-configurable rules in the Rules
 Engine, and key-value pairs can be attached to claims via the Encounters API.
 </dd>
 </dl>
@@ -944,13 +944,25 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.custom_schemas.v_1.create(
-    name="string",
-    description="string",
+    name="General Medicine",
+    description="Values associated with a generic visit",
     fields=[
         SchemaField(
-            key="string",
+            key="provider_category",
+            type=Primitive.STRING,
+        ),
+        SchemaField(
+            key="is_urgent_care",
             type=Primitive.BOOLEAN,
-        )
+        ),
+        SchemaField(
+            key="bmi",
+            type=Primitive.DOUBLE,
+        ),
+        SchemaField(
+            key="age",
+            type=Primitive.INTEGER,
+        ),
     ],
 )
 
@@ -1043,14 +1055,14 @@ client = CandidApiClient(
 )
 client.custom_schemas.v_1.update(
     schema_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        "ec096b13-f80a-471d-aaeb-54b021c9d582",
     ),
-    name="string",
-    description="string",
+    name="General Medicine and Health",
+    description="Values collected during all visits",
     fields_to_add=[
         SchemaField(
-            key="string",
-            type=Primitive.BOOLEAN,
+            key="visit_type",
+            type=Primitive.STRING,
         )
     ],
 )
