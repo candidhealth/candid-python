@@ -47,91 +47,21 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.resources.pre_encounter import (
-            Address,
-            ContactPoint,
-            DisabilityStatus,
-            Ethnicity,
-            Gender,
-            HumanName,
-            Period,
-            Race,
-            Relationship,
-            Sex,
-            SexualOrientation,
-        )
-        from candid.resources.pre_encounter.patients.v_1 import (
-            Contact,
-            ExternalProvenance,
-            ExternalProvider,
-            FilingOrder,
-            MaritalStatus,
-            MutablePatient,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.pre_encounter import (Address, ContactPoint,
+                                                    DisabilityStatus, Ethnicity,
+                                                    Gender, HumanName, Period, Race,
+                                                    Relationship, Sex,
+                                                    SexualOrientation)
+        from candid.resources.pre_encounter.patients.v_1 import (Contact,
+                                                                 ExternalProvenance,
+                                                                 ExternalProvider,
+                                                                 FilingOrder,
+                                                                 MaritalStatus,
+                                                                 MutablePatient)
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.pre_encounter.patients.v_1.create(
-            request=MutablePatient(
-                name=HumanName(),
-                other_names=[HumanName()],
-                gender=Gender.MAN,
-                birth_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                social_security_number="string",
-                biological_sex=Sex.FEMALE,
-                sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                disability_status=DisabilityStatus.DISABLED,
-                marital_status=MaritalStatus.ANNULLED,
-                deceased=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                multiple_birth=1,
-                primary_address=Address(),
-                other_addresses=[Address()],
-                primary_telecom=ContactPoint(),
-                other_telecoms=[ContactPoint()],
-                email="string",
-                electronic_communication_opt_in=True,
-                photo="string",
-                language="string",
-                external_provenance=ExternalProvenance(
-                    external_id="string",
-                    system_name="string",
-                ),
-                contacts=[
-                    Contact(
-                        relationship=[Relationship.SELF],
-                        name=HumanName(),
-                        gender=Gender.MAN,
-                        telecoms=[ContactPoint()],
-                        addresses=[Address()],
-                        period=Period(),
-                    )
-                ],
-                general_practitioners=[
-                    ExternalProvider(
-                        name=HumanName(),
-                        npi="string",
-                        telecoms=[ContactPoint()],
-                        addresses=[Address()],
-                        period=Period(),
-                    )
-                ],
-                filing_order=FilingOrder(
-                    coverages=[
-                        uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        )
-                    ],
-                ),
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.pre_encounter.patients.v_1.create(request=MutablePatient(name=HumanName(), other_names=[HumanName()], gender=Gender.MAN, birth_date=datetime.date.fromisoformat("2023-01-15", ), social_security_number='string', biological_sex=Sex.FEMALE, sexual_orientation=SexualOrientation.HETEROSEXUAL, race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE, ethnicity=Ethnicity.HISPANIC_OR_LATINO, disability_status=DisabilityStatus.DISABLED, marital_status=MaritalStatus.ANNULLED, deceased=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), multiple_birth=1, primary_address=Address(), other_addresses=[Address()], primary_telecom=ContactPoint(), other_telecoms=[ContactPoint()], email='string', electronic_communication_opt_in=True, photo='string', language='string', external_provenance=ExternalProvenance(external_id='string', system_name='string', ), contacts=[Contact(relationship=[Relationship.SELF], name=HumanName(), gender=Gender.MAN, telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], general_practitioners=[ExternalProvider(name=HumanName(), npi='string', telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], filing_order=FilingOrder(coverages=[uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )], ), ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             "patients/v1",
@@ -172,14 +102,10 @@ class V1Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.pre_encounter.patients.v_1.get(
-            id="string",
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.pre_encounter.patients.v_1.get(id='string', )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"patients/v1/{jsonable_encoder(id)}",
@@ -220,14 +146,10 @@ class V1Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.pre_encounter.patients.v_1.get_history(
-            id="string",
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.pre_encounter.patients.v_1.get_history(id='string', )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"patients/v1/{jsonable_encoder(id)}/history",
@@ -280,93 +202,21 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.resources.pre_encounter import (
-            Address,
-            ContactPoint,
-            DisabilityStatus,
-            Ethnicity,
-            Gender,
-            HumanName,
-            Period,
-            Race,
-            Relationship,
-            Sex,
-            SexualOrientation,
-        )
-        from candid.resources.pre_encounter.patients.v_1 import (
-            Contact,
-            ExternalProvenance,
-            ExternalProvider,
-            FilingOrder,
-            MaritalStatus,
-            MutablePatient,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.pre_encounter import (Address, ContactPoint,
+                                                    DisabilityStatus, Ethnicity,
+                                                    Gender, HumanName, Period, Race,
+                                                    Relationship, Sex,
+                                                    SexualOrientation)
+        from candid.resources.pre_encounter.patients.v_1 import (Contact,
+                                                                 ExternalProvenance,
+                                                                 ExternalProvider,
+                                                                 FilingOrder,
+                                                                 MaritalStatus,
+                                                                 MutablePatient)
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.pre_encounter.patients.v_1.update(
-            id="string",
-            version="string",
-            request=MutablePatient(
-                name=HumanName(),
-                other_names=[HumanName()],
-                gender=Gender.MAN,
-                birth_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                social_security_number="string",
-                biological_sex=Sex.FEMALE,
-                sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                disability_status=DisabilityStatus.DISABLED,
-                marital_status=MaritalStatus.ANNULLED,
-                deceased=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                multiple_birth=1,
-                primary_address=Address(),
-                other_addresses=[Address()],
-                primary_telecom=ContactPoint(),
-                other_telecoms=[ContactPoint()],
-                email="string",
-                electronic_communication_opt_in=True,
-                photo="string",
-                language="string",
-                external_provenance=ExternalProvenance(
-                    external_id="string",
-                    system_name="string",
-                ),
-                contacts=[
-                    Contact(
-                        relationship=[Relationship.SELF],
-                        name=HumanName(),
-                        gender=Gender.MAN,
-                        telecoms=[ContactPoint()],
-                        addresses=[Address()],
-                        period=Period(),
-                    )
-                ],
-                general_practitioners=[
-                    ExternalProvider(
-                        name=HumanName(),
-                        npi="string",
-                        telecoms=[ContactPoint()],
-                        addresses=[Address()],
-                        period=Period(),
-                    )
-                ],
-                filing_order=FilingOrder(
-                    coverages=[
-                        uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        )
-                    ],
-                ),
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.pre_encounter.patients.v_1.update(id='string', version='string', request=MutablePatient(name=HumanName(), other_names=[HumanName()], gender=Gender.MAN, birth_date=datetime.date.fromisoformat("2023-01-15", ), social_security_number='string', biological_sex=Sex.FEMALE, sexual_orientation=SexualOrientation.HETEROSEXUAL, race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE, ethnicity=Ethnicity.HISPANIC_OR_LATINO, disability_status=DisabilityStatus.DISABLED, marital_status=MaritalStatus.ANNULLED, deceased=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), multiple_birth=1, primary_address=Address(), other_addresses=[Address()], primary_telecom=ContactPoint(), other_telecoms=[ContactPoint()], email='string', electronic_communication_opt_in=True, photo='string', language='string', external_provenance=ExternalProvenance(external_id='string', system_name='string', ), contacts=[Contact(relationship=[Relationship.SELF], name=HumanName(), gender=Gender.MAN, telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], general_practitioners=[ExternalProvider(name=HumanName(), npi='string', telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], filing_order=FilingOrder(coverages=[uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )], ), ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"patients/v1/{jsonable_encoder(id)}/{jsonable_encoder(version)}",
@@ -415,15 +265,10 @@ class V1Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.pre_encounter.patients.v_1.deactivate(
-            id="string",
-            version="string",
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.pre_encounter.patients.v_1.deactivate(id='string', version='string', )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"patients/v1/{jsonable_encoder(id)}/{jsonable_encoder(version)}",
@@ -468,14 +313,10 @@ class V1Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.pre_encounter.patients.v_1.search(
-            name_contains="string",
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.pre_encounter.patients.v_1.search(name_contains='string', )
         """
         _response = self._client_wrapper.httpx_client.request(
             "patients/v1",
@@ -514,16 +355,10 @@ class V1Client:
         import datetime
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.pre_encounter.patients.v_1.scan(
-            since=datetime.datetime.fromisoformat(
-                "2024-01-15 09:30:00+00:00",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.pre_encounter.patients.v_1.scan(since=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             "patients/v1/updates/scan",
@@ -569,96 +404,22 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.resources.pre_encounter import (
-            Address,
-            ContactPoint,
-            DisabilityStatus,
-            Ethnicity,
-            Gender,
-            HumanName,
-            Period,
-            Race,
-            Relationship,
-            Sex,
-            SexualOrientation,
-        )
-        from candid.resources.pre_encounter.patients.v_1 import (
-            Contact,
-            ExternalProvenance,
-            ExternalProvider,
-            FilingOrder,
-            MaritalStatus,
-            MutablePatient,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.pre_encounter import (Address, ContactPoint,
+                                                    DisabilityStatus, Ethnicity,
+                                                    Gender, HumanName, Period, Race,
+                                                    Relationship, Sex,
+                                                    SexualOrientation)
+        from candid.resources.pre_encounter.patients.v_1 import (Contact,
+                                                                 ExternalProvenance,
+                                                                 ExternalProvider,
+                                                                 FilingOrder,
+                                                                 MaritalStatus,
+                                                                 MutablePatient)
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.pre_encounter.patients.v_1.create(
-                request=MutablePatient(
-                    name=HumanName(),
-                    other_names=[HumanName()],
-                    gender=Gender.MAN,
-                    birth_date=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    social_security_number="string",
-                    biological_sex=Sex.FEMALE,
-                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                    disability_status=DisabilityStatus.DISABLED,
-                    marital_status=MaritalStatus.ANNULLED,
-                    deceased=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    multiple_birth=1,
-                    primary_address=Address(),
-                    other_addresses=[Address()],
-                    primary_telecom=ContactPoint(),
-                    other_telecoms=[ContactPoint()],
-                    email="string",
-                    electronic_communication_opt_in=True,
-                    photo="string",
-                    language="string",
-                    external_provenance=ExternalProvenance(
-                        external_id="string",
-                        system_name="string",
-                    ),
-                    contacts=[
-                        Contact(
-                            relationship=[Relationship.SELF],
-                            name=HumanName(),
-                            gender=Gender.MAN,
-                            telecoms=[ContactPoint()],
-                            addresses=[Address()],
-                            period=Period(),
-                        )
-                    ],
-                    general_practitioners=[
-                        ExternalProvider(
-                            name=HumanName(),
-                            npi="string",
-                            telecoms=[ContactPoint()],
-                            addresses=[Address()],
-                            period=Period(),
-                        )
-                    ],
-                    filing_order=FilingOrder(
-                        coverages=[
-                            uuid.UUID(
-                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                            )
-                        ],
-                    ),
-                ),
-            )
-
-
+            await client.pre_encounter.patients.v_1.create(request=MutablePatient(name=HumanName(), other_names=[HumanName()], gender=Gender.MAN, birth_date=datetime.date.fromisoformat("2023-01-15", ), social_security_number='string', biological_sex=Sex.FEMALE, sexual_orientation=SexualOrientation.HETEROSEXUAL, race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE, ethnicity=Ethnicity.HISPANIC_OR_LATINO, disability_status=DisabilityStatus.DISABLED, marital_status=MaritalStatus.ANNULLED, deceased=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), multiple_birth=1, primary_address=Address(), other_addresses=[Address()], primary_telecom=ContactPoint(), other_telecoms=[ContactPoint()], email='string', electronic_communication_opt_in=True, photo='string', language='string', external_provenance=ExternalProvenance(external_id='string', system_name='string', ), contacts=[Contact(relationship=[Relationship.SELF], name=HumanName(), gender=Gender.MAN, telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], general_practitioners=[ExternalProvider(name=HumanName(), npi='string', telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], filing_order=FilingOrder(coverages=[uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )], ), ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -702,19 +463,11 @@ class AsyncV1Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.pre_encounter.patients.v_1.get(
-                id="string",
-            )
-
-
+            await client.pre_encounter.patients.v_1.get(id='string', )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -758,19 +511,11 @@ class AsyncV1Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.pre_encounter.patients.v_1.get_history(
-                id="string",
-            )
-
-
+            await client.pre_encounter.patients.v_1.get_history(id='string', )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -825,98 +570,22 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.resources.pre_encounter import (
-            Address,
-            ContactPoint,
-            DisabilityStatus,
-            Ethnicity,
-            Gender,
-            HumanName,
-            Period,
-            Race,
-            Relationship,
-            Sex,
-            SexualOrientation,
-        )
-        from candid.resources.pre_encounter.patients.v_1 import (
-            Contact,
-            ExternalProvenance,
-            ExternalProvider,
-            FilingOrder,
-            MaritalStatus,
-            MutablePatient,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.pre_encounter import (Address, ContactPoint,
+                                                    DisabilityStatus, Ethnicity,
+                                                    Gender, HumanName, Period, Race,
+                                                    Relationship, Sex,
+                                                    SexualOrientation)
+        from candid.resources.pre_encounter.patients.v_1 import (Contact,
+                                                                 ExternalProvenance,
+                                                                 ExternalProvider,
+                                                                 FilingOrder,
+                                                                 MaritalStatus,
+                                                                 MutablePatient)
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.pre_encounter.patients.v_1.update(
-                id="string",
-                version="string",
-                request=MutablePatient(
-                    name=HumanName(),
-                    other_names=[HumanName()],
-                    gender=Gender.MAN,
-                    birth_date=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    social_security_number="string",
-                    biological_sex=Sex.FEMALE,
-                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                    disability_status=DisabilityStatus.DISABLED,
-                    marital_status=MaritalStatus.ANNULLED,
-                    deceased=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    multiple_birth=1,
-                    primary_address=Address(),
-                    other_addresses=[Address()],
-                    primary_telecom=ContactPoint(),
-                    other_telecoms=[ContactPoint()],
-                    email="string",
-                    electronic_communication_opt_in=True,
-                    photo="string",
-                    language="string",
-                    external_provenance=ExternalProvenance(
-                        external_id="string",
-                        system_name="string",
-                    ),
-                    contacts=[
-                        Contact(
-                            relationship=[Relationship.SELF],
-                            name=HumanName(),
-                            gender=Gender.MAN,
-                            telecoms=[ContactPoint()],
-                            addresses=[Address()],
-                            period=Period(),
-                        )
-                    ],
-                    general_practitioners=[
-                        ExternalProvider(
-                            name=HumanName(),
-                            npi="string",
-                            telecoms=[ContactPoint()],
-                            addresses=[Address()],
-                            period=Period(),
-                        )
-                    ],
-                    filing_order=FilingOrder(
-                        coverages=[
-                            uuid.UUID(
-                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                            )
-                        ],
-                    ),
-                ),
-            )
-
-
+            await client.pre_encounter.patients.v_1.update(id='string', version='string', request=MutablePatient(name=HumanName(), other_names=[HumanName()], gender=Gender.MAN, birth_date=datetime.date.fromisoformat("2023-01-15", ), social_security_number='string', biological_sex=Sex.FEMALE, sexual_orientation=SexualOrientation.HETEROSEXUAL, race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE, ethnicity=Ethnicity.HISPANIC_OR_LATINO, disability_status=DisabilityStatus.DISABLED, marital_status=MaritalStatus.ANNULLED, deceased=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), multiple_birth=1, primary_address=Address(), other_addresses=[Address()], primary_telecom=ContactPoint(), other_telecoms=[ContactPoint()], email='string', electronic_communication_opt_in=True, photo='string', language='string', external_provenance=ExternalProvenance(external_id='string', system_name='string', ), contacts=[Contact(relationship=[Relationship.SELF], name=HumanName(), gender=Gender.MAN, telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], general_practitioners=[ExternalProvider(name=HumanName(), npi='string', telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], filing_order=FilingOrder(coverages=[uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )], ), ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -968,20 +637,11 @@ class AsyncV1Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.pre_encounter.patients.v_1.deactivate(
-                id="string",
-                version="string",
-            )
-
-
+            await client.pre_encounter.patients.v_1.deactivate(id='string', version='string', )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1029,19 +689,11 @@ class AsyncV1Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.pre_encounter.patients.v_1.search(
-                name_contains="string",
-            )
-
-
+            await client.pre_encounter.patients.v_1.search(name_contains='string', )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1082,21 +734,11 @@ class AsyncV1Client:
         import datetime
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.pre_encounter.patients.v_1.scan(
-                since=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-            )
-
-
+            await client.pre_encounter.patients.v_1.scan(since=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

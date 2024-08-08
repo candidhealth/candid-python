@@ -61,19 +61,10 @@ class V3Client:
         import datetime
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.exports.v_3.get_exports(
-            start_date=datetime.date.fromisoformat(
-                "2023-10-01",
-            ),
-            end_date=datetime.date.fromisoformat(
-                "2023-10-02",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.exports.v_3.get_exports(start_date=datetime.date.fromisoformat("2023-10-01", ), end_date=datetime.date.fromisoformat("2023-10-02", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/exports/v3",
@@ -156,24 +147,11 @@ class AsyncV3Client:
         import datetime
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.exports.v_3.get_exports(
-                start_date=datetime.date.fromisoformat(
-                    "2023-10-01",
-                ),
-                end_date=datetime.date.fromisoformat(
-                    "2023-10-02",
-                ),
-            )
-
-
+            await client.exports.v_3.get_exports(start_date=datetime.date.fromisoformat("2023-10-01", ), end_date=datetime.date.fromisoformat("2023-10-02", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

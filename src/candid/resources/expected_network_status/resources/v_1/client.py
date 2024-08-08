@@ -78,23 +78,10 @@ class V1Client:
         --------
         from candid import InsuranceTypeCode, State
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.expected_network_status.v_1.compute(
-            external_patient_id="string",
-            subscriber_payer_id="string",
-            subscriber_payer_name="string",
-            subscriber_insurance_type=InsuranceTypeCode.C_01,
-            subscriber_plan_name="string",
-            billing_provider_npi="string",
-            billing_provider_tin="string",
-            rendering_provider_npi="string",
-            contracted_state=State.AA,
-            date_of_service="string",
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.expected_network_status.v_1.compute(external_patient_id='string', subscriber_payer_id='string', subscriber_payer_name='string', subscriber_insurance_type=InsuranceTypeCode.C_01, subscriber_plan_name='string', billing_provider_npi='string', billing_provider_tin='string', rendering_provider_npi='string', contracted_state=State.AA, date_of_service='string', )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/expected-network-status/v1",
@@ -188,28 +175,11 @@ class AsyncV1Client:
 
         from candid import InsuranceTypeCode, State
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.expected_network_status.v_1.compute(
-                external_patient_id="string",
-                subscriber_payer_id="string",
-                subscriber_payer_name="string",
-                subscriber_insurance_type=InsuranceTypeCode.C_01,
-                subscriber_plan_name="string",
-                billing_provider_npi="string",
-                billing_provider_tin="string",
-                rendering_provider_npi="string",
-                contracted_state=State.AA,
-                date_of_service="string",
-            )
-
-
+            await client.expected_network_status.v_1.compute(external_patient_id='string', subscriber_payer_id='string', subscriber_payer_name='string', subscriber_insurance_type=InsuranceTypeCode.C_01, subscriber_plan_name='string', billing_provider_npi='string', billing_provider_tin='string', rendering_provider_npi='string', contracted_state=State.AA, date_of_service='string', )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

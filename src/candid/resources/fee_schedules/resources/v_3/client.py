@@ -67,16 +67,10 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.fee_schedules.v_3.get_match(
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.fee_schedules.v_3.get_match(service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match",
@@ -129,19 +123,10 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.fee_schedules.v_3.test_match(
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            rate_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.fee_schedules.v_3.test_match(service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rate_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/service-line/{jsonable_encoder(service_line_id)}/match/{jsonable_encoder(rate_id)}",
@@ -227,32 +212,11 @@ class V3Client:
 
         from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_providers.v_2 import LicenseType
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.fee_schedules.v_3.get_multi(
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            limit=1,
-            active_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            organization_billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            states=State.AA,
-            zip_codes="string",
-            license_types=LicenseType.MD,
-            facility_type_codes=FacilityTypeCode.PHARMACY,
-            network_types=NetworkType.PPO,
-            cpt_code="string",
-            modifiers=ProcedureModifier.TWENTY_TWO,
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.fee_schedules.v_3.get_multi(page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', limit=1, active_date=datetime.date.fromisoformat("2023-01-15", ), payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), states=State.AA, zip_codes='string', license_types=LicenseType.MD, facility_type_codes=FacilityTypeCode.PHARMACY, network_types=NetworkType.PPO, cpt_code='string', modifiers=ProcedureModifier.TWENTY_TWO, )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3",
@@ -343,31 +307,12 @@ class V3Client:
 
         from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.fee_schedules.v_3 import DimensionName
         from candid.resources.organization_providers.v_2 import LicenseType
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.fee_schedules.v_3.get_unique_values_for_dimension(
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            limit=1,
-            pivot_dimension=DimensionName.PAYER_UUID,
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            organization_billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            states=State.AA,
-            zip_codes="string",
-            license_types=LicenseType.MD,
-            facility_type_codes=FacilityTypeCode.PHARMACY,
-            network_types=NetworkType.PPO,
-            cpt_code="string",
-            modifiers=ProcedureModifier.TWENTY_TWO,
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.fee_schedules.v_3.get_unique_values_for_dimension(page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', limit=1, pivot_dimension=DimensionName.PAYER_UUID, payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), states=State.AA, zip_codes='string', license_types=LicenseType.MD, facility_type_codes=FacilityTypeCode.PHARMACY, network_types=NetworkType.PPO, cpt_code='string', modifiers=ProcedureModifier.TWENTY_TWO, )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3/unique-dimension-values",
@@ -419,16 +364,10 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.fee_schedules.v_3.get_rate_history(
-            rate_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.fee_schedules.v_3.get_rate_history(rate_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/history",
@@ -479,48 +418,13 @@ class V3Client:
 
         from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
         from candid.client import CandidApiClient
-        from candid.resources.fee_schedules.v_3 import (
-            Dimensions,
-            RateEntry,
-            RateUpload_NewRate,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.fee_schedules.v_3 import (Dimensions, RateEntry,
+                                                        RateUpload_NewRate)
         from candid.resources.organization_providers.v_2 import LicenseType
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.fee_schedules.v_3.upload_fee_schedule(
-            dry_run=True,
-            rates=[
-                RateUpload_NewRate(
-                    dimensions=Dimensions(
-                        payer_uuid=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                        organization_billing_provider_id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                        states={State.AA},
-                        zip_codes={"string"},
-                        license_types={LicenseType.MD},
-                        facility_type_codes={FacilityTypeCode.PHARMACY},
-                        network_types={NetworkType.PPO},
-                        cpt_code="string",
-                        modifiers={ProcedureModifier.TWENTY_TWO},
-                    ),
-                    entries=[
-                        RateEntry(
-                            start_date=datetime.date.fromisoformat(
-                                "2024-04-11",
-                            ),
-                            rate_cents=33000,
-                            is_deactivated=False,
-                        )
-                    ],
-                )
-            ],
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.fee_schedules.v_3.upload_fee_schedule(dry_run=True, rates=[RateUpload_NewRate(dimensions=Dimensions(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), states={State.AA}, zip_codes={'string'}, license_types={LicenseType.MD}, facility_type_codes={FacilityTypeCode.PHARMACY}, network_types={NetworkType.PPO}, cpt_code='string', modifiers={ProcedureModifier.TWENTY_TWO}, ), entries=[RateEntry(start_date=datetime.date.fromisoformat("2024-04-11", ), rate_cents=33000, is_deactivated=False, )], )], )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3",
@@ -567,17 +471,10 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.fee_schedules.v_3.delete_rate(
-            rate_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            version=1,
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.fee_schedules.v_3.delete_rate(rate_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), version=1, )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/{jsonable_encoder(rate_id)}/{jsonable_encoder(version)}",
@@ -620,11 +517,9 @@ class V3Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         client.fee_schedules.v_3.get_payer_thresholds_default()
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -666,16 +561,10 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.fee_schedules.v_3.get_payer_thresholds(
-            payer_uuids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.fee_schedules.v_3.get_payer_thresholds(payer_uuids=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3/payer-threshold",
@@ -716,22 +605,11 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.fee_schedules.v_3 import PayerThreshold
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.fee_schedules.v_3.set_payer_threshold(
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            request=PayerThreshold(
-                upper_threshold_cents=1,
-                lower_threshold_cents=1,
-                disable_paid_incorrectly=True,
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.fee_schedules.v_3.set_payer_threshold(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=PayerThreshold(upper_threshold_cents=1, lower_threshold_cents=1, disable_paid_incorrectly=True, ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/fee-schedules/v3/payer-threshold/{jsonable_encoder(payer_uuid)}",
@@ -782,21 +660,11 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.fee_schedules.v_3.get_match(
-                service_line_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
+            await client.fee_schedules.v_3.get_match(service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -851,24 +719,11 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.fee_schedules.v_3.test_match(
-                service_line_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                rate_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
+            await client.fee_schedules.v_3.test_match(service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rate_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -956,37 +811,12 @@ class AsyncV3Client:
 
         from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_providers.v_2 import LicenseType
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.fee_schedules.v_3.get_multi(
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                limit=1,
-                active_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                organization_billing_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                states=State.AA,
-                zip_codes="string",
-                license_types=LicenseType.MD,
-                facility_type_codes=FacilityTypeCode.PHARMACY,
-                network_types=NetworkType.PPO,
-                cpt_code="string",
-                modifiers=ProcedureModifier.TWENTY_TWO,
-            )
-
-
+            await client.fee_schedules.v_3.get_multi(page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', limit=1, active_date=datetime.date.fromisoformat("2023-01-15", ), payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), states=State.AA, zip_codes='string', license_types=LicenseType.MD, facility_type_codes=FacilityTypeCode.PHARMACY, network_types=NetworkType.PPO, cpt_code='string', modifiers=ProcedureModifier.TWENTY_TWO, )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1079,36 +909,13 @@ class AsyncV3Client:
 
         from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.fee_schedules.v_3 import DimensionName
         from candid.resources.organization_providers.v_2 import LicenseType
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.fee_schedules.v_3.get_unique_values_for_dimension(
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                limit=1,
-                pivot_dimension=DimensionName.PAYER_UUID,
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                organization_billing_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                states=State.AA,
-                zip_codes="string",
-                license_types=LicenseType.MD,
-                facility_type_codes=FacilityTypeCode.PHARMACY,
-                network_types=NetworkType.PPO,
-                cpt_code="string",
-                modifiers=ProcedureModifier.TWENTY_TWO,
-            )
-
-
+            await client.fee_schedules.v_3.get_unique_values_for_dimension(page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', limit=1, pivot_dimension=DimensionName.PAYER_UUID, payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), states=State.AA, zip_codes='string', license_types=LicenseType.MD, facility_type_codes=FacilityTypeCode.PHARMACY, network_types=NetworkType.PPO, cpt_code='string', modifiers=ProcedureModifier.TWENTY_TWO, )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1162,21 +969,11 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.fee_schedules.v_3.get_rate_history(
-                rate_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
+            await client.fee_schedules.v_3.get_rate_history(rate_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1229,53 +1026,14 @@ class AsyncV3Client:
 
         from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
         from candid.client import AsyncCandidApiClient
-        from candid.resources.fee_schedules.v_3 import (
-            Dimensions,
-            RateEntry,
-            RateUpload_NewRate,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.fee_schedules.v_3 import (Dimensions, RateEntry,
+                                                        RateUpload_NewRate)
         from candid.resources.organization_providers.v_2 import LicenseType
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.fee_schedules.v_3.upload_fee_schedule(
-                dry_run=True,
-                rates=[
-                    RateUpload_NewRate(
-                        dimensions=Dimensions(
-                            payer_uuid=uuid.UUID(
-                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                            ),
-                            organization_billing_provider_id=uuid.UUID(
-                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                            ),
-                            states={State.AA},
-                            zip_codes={"string"},
-                            license_types={LicenseType.MD},
-                            facility_type_codes={FacilityTypeCode.PHARMACY},
-                            network_types={NetworkType.PPO},
-                            cpt_code="string",
-                            modifiers={ProcedureModifier.TWENTY_TWO},
-                        ),
-                        entries=[
-                            RateEntry(
-                                start_date=datetime.date.fromisoformat(
-                                    "2024-04-11",
-                                ),
-                                rate_cents=33000,
-                                is_deactivated=False,
-                            )
-                        ],
-                    )
-                ],
-            )
-
-
+            await client.fee_schedules.v_3.upload_fee_schedule(dry_run=True, rates=[RateUpload_NewRate(dimensions=Dimensions(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), states={State.AA}, zip_codes={'string'}, license_types={LicenseType.MD}, facility_type_codes={FacilityTypeCode.PHARMACY}, network_types={NetworkType.PPO}, cpt_code='string', modifiers={ProcedureModifier.TWENTY_TWO}, ), entries=[RateEntry(start_date=datetime.date.fromisoformat("2024-04-11", ), rate_cents=33000, is_deactivated=False, )], )], )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1324,22 +1082,11 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.fee_schedules.v_3.delete_rate(
-                rate_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                version=1,
-            )
-
-
+            await client.fee_schedules.v_3.delete_rate(rate_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), version=1, )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1385,17 +1132,11 @@ class AsyncV3Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
             await client.fee_schedules.v_3.get_payer_thresholds_default()
-
-
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1438,21 +1179,11 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.fee_schedules.v_3.get_payer_thresholds(
-                payer_uuids=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
+            await client.fee_schedules.v_3.get_payer_thresholds(payer_uuids=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1495,27 +1226,12 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.fee_schedules.v_3 import PayerThreshold
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.fee_schedules.v_3.set_payer_threshold(
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                request=PayerThreshold(
-                    upper_threshold_cents=1,
-                    lower_threshold_cents=1,
-                    disable_paid_incorrectly=True,
-                ),
-            )
-
-
+            await client.fee_schedules.v_3.set_payer_threshold(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=PayerThreshold(upper_threshold_cents=1, lower_threshold_cents=1, disable_paid_incorrectly=True, ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

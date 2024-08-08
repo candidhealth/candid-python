@@ -43,11 +43,9 @@ class V1Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         client.custom_schemas.v_1.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -89,16 +87,10 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.custom_schemas.v_1.get(
-            schema_id=uuid.UUID(
-                "ec096b13-f80a-471d-aaeb-54b021c9d582",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.custom_schemas.v_1.get(schema_id=uuid.UUID("ec096b13-f80a-471d-aaeb-54b021c9d582", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/custom-schemas/v1/{jsonable_encoder(schema_id)}",
@@ -154,34 +146,11 @@ class V1Client:
         --------
         from candid import Primitive
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.custom_schemas.v_1 import SchemaField
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.custom_schemas.v_1.create(
-            name="General Medicine",
-            description="Values associated with a generic visit",
-            fields=[
-                SchemaField(
-                    key="provider_category",
-                    type=Primitive.STRING,
-                ),
-                SchemaField(
-                    key="is_urgent_care",
-                    type=Primitive.BOOLEAN,
-                ),
-                SchemaField(
-                    key="bmi",
-                    type=Primitive.DOUBLE,
-                ),
-                SchemaField(
-                    key="age",
-                    type=Primitive.INTEGER,
-                ),
-            ],
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.custom_schemas.v_1.create(name='General Medicine', description='Values associated with a generic visit', fields=[SchemaField(key='provider_category', type=Primitive.STRING, ), SchemaField(key='is_urgent_care', type=Primitive.BOOLEAN, ), SchemaField(key='bmi', type=Primitive.DOUBLE, ), SchemaField(key='age', type=Primitive.INTEGER, )], )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/custom-schemas/v1",
@@ -240,25 +209,11 @@ class V1Client:
 
         from candid import Primitive
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.custom_schemas.v_1 import SchemaField
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.custom_schemas.v_1.update(
-            schema_id=uuid.UUID(
-                "ec096b13-f80a-471d-aaeb-54b021c9d582",
-            ),
-            name="General Medicine and Health",
-            description="Values collected during all visits",
-            fields_to_add=[
-                SchemaField(
-                    key="visit_type",
-                    type=Primitive.STRING,
-                )
-            ],
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.custom_schemas.v_1.update(schema_id=uuid.UUID("ec096b13-f80a-471d-aaeb-54b021c9d582", ), name='General Medicine and Health', description='Values collected during all visits', fields_to_add=[SchemaField(key='visit_type', type=Primitive.STRING, )], )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/custom-schemas/v1/{jsonable_encoder(schema_id)}",
@@ -312,17 +267,11 @@ class AsyncV1Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
             await client.custom_schemas.v_1.get_multi()
-
-
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -365,21 +314,11 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.custom_schemas.v_1.get(
-                schema_id=uuid.UUID(
-                    "ec096b13-f80a-471d-aaeb-54b021c9d582",
-                ),
-            )
-
-
+            await client.custom_schemas.v_1.get(schema_id=uuid.UUID("ec096b13-f80a-471d-aaeb-54b021c9d582", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -438,39 +377,12 @@ class AsyncV1Client:
 
         from candid import Primitive
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.custom_schemas.v_1 import SchemaField
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.custom_schemas.v_1.create(
-                name="General Medicine",
-                description="Values associated with a generic visit",
-                fields=[
-                    SchemaField(
-                        key="provider_category",
-                        type=Primitive.STRING,
-                    ),
-                    SchemaField(
-                        key="is_urgent_care",
-                        type=Primitive.BOOLEAN,
-                    ),
-                    SchemaField(
-                        key="bmi",
-                        type=Primitive.DOUBLE,
-                    ),
-                    SchemaField(
-                        key="age",
-                        type=Primitive.INTEGER,
-                    ),
-                ],
-            )
-
-
+            await client.custom_schemas.v_1.create(name='General Medicine', description='Values associated with a generic visit', fields=[SchemaField(key='provider_category', type=Primitive.STRING, ), SchemaField(key='is_urgent_care', type=Primitive.BOOLEAN, ), SchemaField(key='bmi', type=Primitive.DOUBLE, ), SchemaField(key='age', type=Primitive.INTEGER, )], )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -531,30 +443,12 @@ class AsyncV1Client:
 
         from candid import Primitive
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.custom_schemas.v_1 import SchemaField
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.custom_schemas.v_1.update(
-                schema_id=uuid.UUID(
-                    "ec096b13-f80a-471d-aaeb-54b021c9d582",
-                ),
-                name="General Medicine and Health",
-                description="Values collected during all visits",
-                fields_to_add=[
-                    SchemaField(
-                        key="visit_type",
-                        type=Primitive.STRING,
-                    )
-                ],
-            )
-
-
+            await client.custom_schemas.v_1.update(schema_id=uuid.UUID("ec096b13-f80a-471d-aaeb-54b021c9d582", ), name='General Medicine and Health', description='Values collected during all visits', fields_to_add=[SchemaField(key='visit_type', type=Primitive.STRING, )], )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

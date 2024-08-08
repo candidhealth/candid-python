@@ -53,14 +53,10 @@ class V2Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.eligibility.v_2.submit_eligibility_check(
-            request={"key": "value"},
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.eligibility.v_2.submit_eligibility_check(request={"key": "value"}, )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/eligibility/v2",
@@ -118,11 +114,9 @@ class V2Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         client.eligibility.v_2.submit_eligibility_check_availity()
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -177,14 +171,10 @@ class V2Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.eligibility.v_2.submit_eligibility_check_availity_post(
-            request={"key": "value"},
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.eligibility.v_2.submit_eligibility_check_availity_post(request={"key": "value"}, )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/eligibility/v2/availity",
@@ -247,19 +237,11 @@ class AsyncV2Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.eligibility.v_2.submit_eligibility_check(
-                request={"key": "value"},
-            )
-
-
+            await client.eligibility.v_2.submit_eligibility_check(request={"key": "value"}, )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -320,17 +302,11 @@ class AsyncV2Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
             await client.eligibility.v_2.submit_eligibility_check_availity()
-
-
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -387,19 +363,11 @@ class AsyncV2Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.eligibility.v_2.submit_eligibility_check_availity_post(
-                request={"key": "value"},
-            )
-
-
+            await client.eligibility.v_2.submit_eligibility_check_availity_post(request={"key": "value"}, )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

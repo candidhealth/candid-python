@@ -17,15 +17,10 @@ Instantiate and use the client with the following:
 
 ```python
 from candid.client import CandidApiClient
+from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.auth.v_2.get_token(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
+client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+client.auth.v_2.get_token(client_id='YOUR_CLIENT_ID', client_secret='YOUR_CLIENT_SECRET', )
 ```
 
 ## Async Client
@@ -36,22 +31,12 @@ The SDK also exports an `async` client so that you can make non-blocking calls t
 import asyncio
 
 from candid.client import AsyncCandidApiClient
+from candid.environment import CandidApiClientEnvironment
 
-client = AsyncCandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-
-
+client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
 async def main() -> None:
-    await client.auth.v_2.get_token(
-        client_id="YOUR_CLIENT_ID",
-        client_secret="YOUR_CLIENT_SECRET",
-    )
-
-
-asyncio.run(main())
-```
+    await client.auth.v_2.get_token(client_id='YOUR_CLIENT_ID', client_secret='YOUR_CLIENT_SECRET', )
+asyncio.run(main())```
 
 ## Exception Handling
 

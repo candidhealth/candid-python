@@ -88,32 +88,11 @@ class V1Client:
 
         from candid import AccountType, SortDirection
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.write_offs.v_1 import WriteOffSortField
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.write_offs.v_1.get_multi(
-            limit=1,
-            patient_external_id="string",
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            claim_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            sort=WriteOffSortField.AMOUNT_CENTS,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            account_types=AccountType.PATIENT,
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.write_offs.v_1.get_multi(limit=1, patient_external_id='string', payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), claim_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), sort=WriteOffSortField.AMOUNT_CENTS, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', account_types=AccountType.PATIENT, )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/write-offs/v1",
@@ -161,16 +140,10 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.write_offs.v_1.get(
-            write_off_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.write_offs.v_1.get(write_off_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/write-offs/v1/{jsonable_encoder(write_off_id)}",
@@ -210,30 +183,12 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.resources.write_offs.v_1 import (
-            PatientWriteOffReason,
-            WriteOffCreate_Patient,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.write_offs.v_1 import (PatientWriteOffReason,
+                                                     WriteOffCreate_Patient)
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.write_offs.v_1.create(
-            write_offs=[
-                WriteOffCreate_Patient(
-                    write_off_timestamp=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    write_off_note="string",
-                    write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
-                    service_line_id=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    amount_cents=1,
-                )
-            ],
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.write_offs.v_1.create(write_offs=[WriteOffCreate_Patient(write_off_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), write_off_note='string', write_off_reason=PatientWriteOffReason.SMALL_BALANCE, service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), amount_cents=1, )], )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/write-offs/v1",
@@ -271,16 +226,10 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.write_offs.v_1.revert(
-            write_off_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.write_offs.v_1.revert(write_off_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/write-offs/v1/{jsonable_encoder(write_off_id)}/revert",
@@ -359,37 +308,12 @@ class AsyncV1Client:
 
         from candid import AccountType, SortDirection
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.write_offs.v_1 import WriteOffSortField
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.write_offs.v_1.get_multi(
-                limit=1,
-                patient_external_id="string",
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                service_line_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                claim_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                billing_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                sort=WriteOffSortField.AMOUNT_CENTS,
-                sort_direction=SortDirection.ASC,
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                account_types=AccountType.PATIENT,
-            )
-
-
+            await client.write_offs.v_1.get_multi(limit=1, patient_external_id='string', payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), claim_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), sort=WriteOffSortField.AMOUNT_CENTS, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', account_types=AccountType.PATIENT, )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -441,21 +365,11 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.write_offs.v_1.get(
-                write_off_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
+            await client.write_offs.v_1.get(write_off_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -497,35 +411,13 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.resources.write_offs.v_1 import (
-            PatientWriteOffReason,
-            WriteOffCreate_Patient,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.write_offs.v_1 import (PatientWriteOffReason,
+                                                     WriteOffCreate_Patient)
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.write_offs.v_1.create(
-                write_offs=[
-                    WriteOffCreate_Patient(
-                        write_off_timestamp=datetime.datetime.fromisoformat(
-                            "2024-01-15 09:30:00+00:00",
-                        ),
-                        write_off_note="string",
-                        write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
-                        service_line_id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                        amount_cents=1,
-                    )
-                ],
-            )
-
-
+            await client.write_offs.v_1.create(write_offs=[WriteOffCreate_Patient(write_off_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), write_off_note='string', write_off_reason=PatientWriteOffReason.SMALL_BALANCE, service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), amount_cents=1, )], )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -567,21 +459,11 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.write_offs.v_1.revert(
-                write_off_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
+            await client.write_offs.v_1.revert(write_off_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

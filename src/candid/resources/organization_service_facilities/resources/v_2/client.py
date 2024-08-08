@@ -50,16 +50,10 @@ class V2Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.organization_service_facilities.v_2.get(
-            organization_service_facility_id=uuid.UUID(
-                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.organization_service_facilities.v_2.get(organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
@@ -110,16 +104,10 @@ class V2Client:
         Examples
         --------
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.organization_service_facilities.v_2.get_multi(
-            limit=100,
-            name="Test Service Facility",
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.organization_service_facilities.v_2.get_multi(limit=100, name='Test Service Facility', page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/organization-service-facilities/v2",
@@ -155,40 +143,14 @@ class V2Client:
         --------
         from candid import State, StreetAddressLongZip
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_service_facilities.v_2 import (
-            OrganizationServiceFacilityCreate,
-            ServiceFacilityMode,
-            ServiceFacilityOperationalStatus,
-            ServiceFacilityPhysicalType,
-            ServiceFacilityStatus,
-            ServiceFacilityType,
-        )
+            OrganizationServiceFacilityCreate, ServiceFacilityMode,
+            ServiceFacilityOperationalStatus, ServiceFacilityPhysicalType,
+            ServiceFacilityStatus, ServiceFacilityType)
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.organization_service_facilities.v_2.create(
-            request=OrganizationServiceFacilityCreate(
-                name="Test Service Facility",
-                aliases=["Test Service Facility Alias"],
-                description="Test Service Facility Description",
-                status=ServiceFacilityStatus.ACTIVE,
-                operational_status=ServiceFacilityOperationalStatus.CLOSED,
-                mode=ServiceFacilityMode.INSTANCE,
-                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
-                physical_type=ServiceFacilityPhysicalType.SITE,
-                telecoms=["555-555-5555"],
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.organization_service_facilities.v_2.create(request=OrganizationServiceFacilityCreate(name='Test Service Facility', aliases=['Test Service Facility Alias'], description='Test Service Facility Description', status=ServiceFacilityStatus.ACTIVE, operational_status=ServiceFacilityOperationalStatus.CLOSED, mode=ServiceFacilityMode.INSTANCE, type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT, physical_type=ServiceFacilityPhysicalType.SITE, telecoms=['555-555-5555'], address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/organization-service-facilities/v2",
@@ -238,43 +200,14 @@ class V2Client:
 
         from candid import State, StreetAddressLongZip
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_service_facilities.v_2 import (
-            OrganizationServiceFacilityUpdate,
-            ServiceFacilityMode,
-            ServiceFacilityOperationalStatus,
-            ServiceFacilityPhysicalType,
-            ServiceFacilityStatus,
-            ServiceFacilityType,
-        )
+            OrganizationServiceFacilityUpdate, ServiceFacilityMode,
+            ServiceFacilityOperationalStatus, ServiceFacilityPhysicalType,
+            ServiceFacilityStatus, ServiceFacilityType)
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.organization_service_facilities.v_2.update(
-            organization_service_facility_id=uuid.UUID(
-                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-            ),
-            request=OrganizationServiceFacilityUpdate(
-                name="Test Service Facility",
-                aliases=["Test Service Facility Alias"],
-                description="Test Service Facility Description",
-                status=ServiceFacilityStatus.ACTIVE,
-                operational_status=ServiceFacilityOperationalStatus.CLOSED,
-                mode=ServiceFacilityMode.INSTANCE,
-                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
-                physical_type=ServiceFacilityPhysicalType.SITE,
-                telecoms=["555-555-5555"],
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.organization_service_facilities.v_2.update(organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), request=OrganizationServiceFacilityUpdate(name='Test Service Facility', aliases=['Test Service Facility Alias'], description='Test Service Facility Description', status=ServiceFacilityStatus.ACTIVE, operational_status=ServiceFacilityOperationalStatus.CLOSED, mode=ServiceFacilityMode.INSTANCE, type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT, physical_type=ServiceFacilityPhysicalType.SITE, telecoms=['555-555-5555'], address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
@@ -324,16 +257,10 @@ class V2Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.organization_service_facilities.v_2.delete(
-            organization_service_facility_id=uuid.UUID(
-                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.organization_service_facilities.v_2.delete(organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-service-facilities/v2/{jsonable_encoder(organization_service_facility_id)}",
@@ -383,21 +310,11 @@ class AsyncV2Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.organization_service_facilities.v_2.get(
-                organization_service_facility_id=uuid.UUID(
-                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-                ),
-            )
-
-
+            await client.organization_service_facilities.v_2.get(organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -451,21 +368,11 @@ class AsyncV2Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.organization_service_facilities.v_2.get_multi(
-                limit=100,
-                name="Test Service Facility",
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            )
-
-
+            await client.organization_service_facilities.v_2.get_multi(limit=100, name='Test Service Facility', page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -504,45 +411,15 @@ class AsyncV2Client:
 
         from candid import State, StreetAddressLongZip
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_service_facilities.v_2 import (
-            OrganizationServiceFacilityCreate,
-            ServiceFacilityMode,
-            ServiceFacilityOperationalStatus,
-            ServiceFacilityPhysicalType,
-            ServiceFacilityStatus,
-            ServiceFacilityType,
-        )
+            OrganizationServiceFacilityCreate, ServiceFacilityMode,
+            ServiceFacilityOperationalStatus, ServiceFacilityPhysicalType,
+            ServiceFacilityStatus, ServiceFacilityType)
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.organization_service_facilities.v_2.create(
-                request=OrganizationServiceFacilityCreate(
-                    name="Test Service Facility",
-                    aliases=["Test Service Facility Alias"],
-                    description="Test Service Facility Description",
-                    status=ServiceFacilityStatus.ACTIVE,
-                    operational_status=ServiceFacilityOperationalStatus.CLOSED,
-                    mode=ServiceFacilityMode.INSTANCE,
-                    type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
-                    physical_type=ServiceFacilityPhysicalType.SITE,
-                    telecoms=["555-555-5555"],
-                    address=StreetAddressLongZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
-                    ),
-                ),
-            )
-
-
+            await client.organization_service_facilities.v_2.create(request=OrganizationServiceFacilityCreate(name='Test Service Facility', aliases=['Test Service Facility Alias'], description='Test Service Facility Description', status=ServiceFacilityStatus.ACTIVE, operational_status=ServiceFacilityOperationalStatus.CLOSED, mode=ServiceFacilityMode.INSTANCE, type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT, physical_type=ServiceFacilityPhysicalType.SITE, telecoms=['555-555-5555'], address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -594,48 +471,15 @@ class AsyncV2Client:
 
         from candid import State, StreetAddressLongZip
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_service_facilities.v_2 import (
-            OrganizationServiceFacilityUpdate,
-            ServiceFacilityMode,
-            ServiceFacilityOperationalStatus,
-            ServiceFacilityPhysicalType,
-            ServiceFacilityStatus,
-            ServiceFacilityType,
-        )
+            OrganizationServiceFacilityUpdate, ServiceFacilityMode,
+            ServiceFacilityOperationalStatus, ServiceFacilityPhysicalType,
+            ServiceFacilityStatus, ServiceFacilityType)
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.organization_service_facilities.v_2.update(
-                organization_service_facility_id=uuid.UUID(
-                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-                ),
-                request=OrganizationServiceFacilityUpdate(
-                    name="Test Service Facility",
-                    aliases=["Test Service Facility Alias"],
-                    description="Test Service Facility Description",
-                    status=ServiceFacilityStatus.ACTIVE,
-                    operational_status=ServiceFacilityOperationalStatus.CLOSED,
-                    mode=ServiceFacilityMode.INSTANCE,
-                    type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
-                    physical_type=ServiceFacilityPhysicalType.SITE,
-                    telecoms=["555-555-5555"],
-                    address=StreetAddressLongZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
-                    ),
-                ),
-            )
-
-
+            await client.organization_service_facilities.v_2.update(organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), request=OrganizationServiceFacilityUpdate(name='Test Service Facility', aliases=['Test Service Facility Alias'], description='Test Service Facility Description', status=ServiceFacilityStatus.ACTIVE, operational_status=ServiceFacilityOperationalStatus.CLOSED, mode=ServiceFacilityMode.INSTANCE, type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT, physical_type=ServiceFacilityPhysicalType.SITE, telecoms=['555-555-5555'], address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -687,21 +531,11 @@ class AsyncV2Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.organization_service_facilities.v_2.delete(
-                organization_service_facility_id=uuid.UUID(
-                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
-                ),
-            )
-
-
+            await client.organization_service_facilities.v_2.delete(organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

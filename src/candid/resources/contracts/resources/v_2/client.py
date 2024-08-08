@@ -59,16 +59,10 @@ class V2Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.contracts.v_2.get(
-            contract_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.contracts.v_2.get(contract_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/contracts/v2/{jsonable_encoder(contract_id)}",
@@ -136,25 +130,11 @@ class V2Client:
 
         from candid import State
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.contracts.v_2 import ContractStatus
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.contracts.v_2.get_multi(
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            limit=1,
-            contracting_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            rendering_provider_ids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            payer_names="string",
-            states=State.AA,
-            contract_status=ContractStatus.PENDING,
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.contracts.v_2.get_multi(page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', limit=1, contracting_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rendering_provider_ids=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), payer_names='string', states=State.AA, contract_status=ContractStatus.PENDING, )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/contracts/v2",
@@ -248,37 +228,12 @@ class V2Client:
 
         from candid import Regions_States
         from candid.client import CandidApiClient
-        from candid.resources.contracts.v_2 import (
-            AuthorizedSignatory,
-            ContractStatus,
-            InsuranceTypes,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.contracts.v_2 import (AuthorizedSignatory,
+                                                    ContractStatus, InsuranceTypes)
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.contracts.v_2.create(
-            contracting_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            rendering_provider_ids={
-                uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
-            },
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            effective_date="string",
-            expiration_date="string",
-            regions=Regions_States(),
-            contract_status=ContractStatus.PENDING,
-            authorized_signatory=AuthorizedSignatory(),
-            commercial_insurance_types=InsuranceTypes(),
-            medicare_insurance_types=InsuranceTypes(),
-            medicaid_insurance_types=InsuranceTypes(),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.contracts.v_2.create(contracting_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rendering_provider_ids={uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )}, payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), effective_date='string', expiration_date='string', regions=Regions_States(), contract_status=ContractStatus.PENDING, authorized_signatory=AuthorizedSignatory(), commercial_insurance_types=InsuranceTypes(), medicare_insurance_types=InsuranceTypes(), medicaid_insurance_types=InsuranceTypes(), )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/contracts/v2",
@@ -326,16 +281,10 @@ class V2Client:
         import uuid
 
         from candid.client import CandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.contracts.v_2.delete(
-            contract_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.contracts.v_2.delete(contract_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/contracts/v2/{jsonable_encoder(contract_id)}",
@@ -416,47 +365,13 @@ class V2Client:
 
         from candid import Regions_States, State
         from candid.client import CandidApiClient
-        from candid.resources.contracts.v_2 import (
-            AuthorizedSignatoryUpdate_Set,
-            ContractStatus,
-            DateUpdate_Set,
-            InsuranceTypes,
-            RegionsUpdate_Set,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.contracts.v_2 import (AuthorizedSignatoryUpdate_Set,
+                                                    ContractStatus, DateUpdate_Set,
+                                                    InsuranceTypes, RegionsUpdate_Set)
 
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.contracts.v_2.update(
-            contract_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            rendering_provider_ids={
-                uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
-            },
-            effective_date="string",
-            expiration_date=DateUpdate_Set(value="string"),
-            regions=RegionsUpdate_Set(
-                value=Regions_States(
-                    states=[State.AA],
-                )
-            ),
-            contract_status=ContractStatus.PENDING,
-            authorized_signatory=AuthorizedSignatoryUpdate_Set(
-                first_name="string",
-                last_name="string",
-                title="string",
-                email="string",
-                phone="string",
-                fax="string",
-            ),
-            commercial_insurance_types=InsuranceTypes(),
-            medicare_insurance_types=InsuranceTypes(),
-            medicaid_insurance_types=InsuranceTypes(),
-        )
+        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client.contracts.v_2.update(contract_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rendering_provider_ids={uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )}, effective_date='string', expiration_date=DateUpdate_Set(value='string'), regions=RegionsUpdate_Set(value=Regions_States(states=[State.AA], )), contract_status=ContractStatus.PENDING, authorized_signatory=AuthorizedSignatoryUpdate_Set(first_name='string', last_name='string', title='string', email='string', phone='string', fax='string', ), commercial_insurance_types=InsuranceTypes(), medicare_insurance_types=InsuranceTypes(), medicaid_insurance_types=InsuranceTypes(), )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/contracts/v2/{jsonable_encoder(contract_id)}",
@@ -515,21 +430,11 @@ class AsyncV2Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.contracts.v_2.get(
-                contract_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
+            await client.contracts.v_2.get(contract_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -599,30 +504,12 @@ class AsyncV2Client:
 
         from candid import State
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
         from candid.resources.contracts.v_2 import ContractStatus
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.contracts.v_2.get_multi(
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                limit=1,
-                contracting_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                rendering_provider_ids=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                payer_names="string",
-                states=State.AA,
-                contract_status=ContractStatus.PENDING,
-            )
-
-
+            await client.contracts.v_2.get_multi(page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', limit=1, contracting_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rendering_provider_ids=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), payer_names='string', states=State.AA, contract_status=ContractStatus.PENDING, )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -718,42 +605,13 @@ class AsyncV2Client:
 
         from candid import Regions_States
         from candid.client import AsyncCandidApiClient
-        from candid.resources.contracts.v_2 import (
-            AuthorizedSignatory,
-            ContractStatus,
-            InsuranceTypes,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.contracts.v_2 import (AuthorizedSignatory,
+                                                    ContractStatus, InsuranceTypes)
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.contracts.v_2.create(
-                contracting_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                rendering_provider_ids={
-                    uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    )
-                },
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                effective_date="string",
-                expiration_date="string",
-                regions=Regions_States(),
-                contract_status=ContractStatus.PENDING,
-                authorized_signatory=AuthorizedSignatory(),
-                commercial_insurance_types=InsuranceTypes(),
-                medicare_insurance_types=InsuranceTypes(),
-                medicaid_insurance_types=InsuranceTypes(),
-            )
-
-
+            await client.contracts.v_2.create(contracting_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rendering_provider_ids={uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )}, payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), effective_date='string', expiration_date='string', regions=Regions_States(), contract_status=ContractStatus.PENDING, authorized_signatory=AuthorizedSignatory(), commercial_insurance_types=InsuranceTypes(), medicare_insurance_types=InsuranceTypes(), medicaid_insurance_types=InsuranceTypes(), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -803,21 +661,11 @@ class AsyncV2Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
+        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.contracts.v_2.delete(
-                contract_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
+            await client.contracts.v_2.delete(contract_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -900,52 +748,14 @@ class AsyncV2Client:
 
         from candid import Regions_States, State
         from candid.client import AsyncCandidApiClient
-        from candid.resources.contracts.v_2 import (
-            AuthorizedSignatoryUpdate_Set,
-            ContractStatus,
-            DateUpdate_Set,
-            InsuranceTypes,
-            RegionsUpdate_Set,
-        )
+        from candid.environment import CandidApiClientEnvironment
+        from candid.resources.contracts.v_2 import (AuthorizedSignatoryUpdate_Set,
+                                                    ContractStatus, DateUpdate_Set,
+                                                    InsuranceTypes, RegionsUpdate_Set)
 
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
+        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
         async def main() -> None:
-            await client.contracts.v_2.update(
-                contract_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                rendering_provider_ids={
-                    uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    )
-                },
-                effective_date="string",
-                expiration_date=DateUpdate_Set(value="string"),
-                regions=RegionsUpdate_Set(
-                    value=Regions_States(
-                        states=[State.AA],
-                    )
-                ),
-                contract_status=ContractStatus.PENDING,
-                authorized_signatory=AuthorizedSignatoryUpdate_Set(
-                    first_name="string",
-                    last_name="string",
-                    title="string",
-                    email="string",
-                    phone="string",
-                    fax="string",
-                ),
-                commercial_insurance_types=InsuranceTypes(),
-                medicare_insurance_types=InsuranceTypes(),
-                medicaid_insurance_types=InsuranceTypes(),
-            )
-
-
+            await client.contracts.v_2.update(contract_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rendering_provider_ids={uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )}, effective_date='string', expiration_date=DateUpdate_Set(value='string'), regions=RegionsUpdate_Set(value=Regions_States(states=[State.AA], )), contract_status=ContractStatus.PENDING, authorized_signatory=AuthorizedSignatoryUpdate_Set(first_name='string', last_name='string', title='string', email='string', phone='string', fax='string', ), commercial_insurance_types=InsuranceTypes(), medicare_insurance_types=InsuranceTypes(), medicaid_insurance_types=InsuranceTypes(), )
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

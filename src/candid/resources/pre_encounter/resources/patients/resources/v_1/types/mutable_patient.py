@@ -34,7 +34,7 @@ class MutablePatient(pydantic.BaseModel):
     Other names for the patient.
     """
 
-    gender: Gender
+    gender: typing.Optional[Gender] = None
     birth_date: dt.date
     social_security_number: typing.Optional[str] = None
     biological_sex: typing.Optional[Sex] = pydantic.Field(default=None)
