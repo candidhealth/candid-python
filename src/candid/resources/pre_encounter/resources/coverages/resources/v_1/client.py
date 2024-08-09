@@ -46,17 +46,46 @@ class V1Client:
         import datetime
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
-        from candid.resources.pre_encounter import (Gender, HumanName, Period,
-                                                    Relationship)
-        from candid.resources.pre_encounter.coverages.v_1 import (CoverageStatus,
-                                                                  InsurancePlan,
-                                                                  MutableCoverage,
-                                                                  NetworkType,
-                                                                  Subscriber)
+        from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+        from candid.resources.pre_encounter.coverages.v_1 import (
+            CoverageStatus,
+            InsurancePlan,
+            InsuranceTypeCode,
+            MutableCoverage,
+            NetworkType,
+            Subscriber,
+        )
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.pre_encounter.coverages.v_1.create(request=MutableCoverage(status=CoverageStatus.ACTIVE, subscriber=Subscriber(name=HumanName(), date_of_birth=datetime.date.fromisoformat("2023-01-15", ), gender=Gender.MAN, ), relationship=Relationship.SELF, patient='string', insurance_plan=InsurancePlan(member_id='string', payer_id='string', payer_name='string', group_number='string', name='string', type=NetworkType.PPO, period=Period(), insurance_card_image_locator='string', ), verified=True, ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.create(
+            request=MutableCoverage(
+                status=CoverageStatus.ACTIVE,
+                subscriber=Subscriber(
+                    name=HumanName(),
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    biological_sex=Sex.FEMALE,
+                ),
+                relationship=Relationship.SELF,
+                patient="string",
+                insurance_plan=InsurancePlan(
+                    member_id="string",
+                    payer_id="string",
+                    payer_name="string",
+                    group_number="string",
+                    name="string",
+                    plan_type=NetworkType.SELF_PAY,
+                    type=InsuranceTypeCode.C_01,
+                    period=Period(),
+                    insurance_card_image_locator="string",
+                ),
+                verified=True,
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "coverages/v1",
@@ -106,17 +135,50 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
-        from candid.resources.pre_encounter import (Gender, HumanName, Period,
-                                                    Relationship)
-        from candid.resources.pre_encounter.coverages.v_1 import (CoverageStatus,
-                                                                  InsurancePlan,
-                                                                  MutableCoverage,
-                                                                  NetworkType,
-                                                                  Subscriber)
+        from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+        from candid.resources.pre_encounter.coverages.v_1 import (
+            CoverageStatus,
+            InsurancePlan,
+            InsuranceTypeCode,
+            MutableCoverage,
+            NetworkType,
+            Subscriber,
+        )
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.pre_encounter.coverages.v_1.update(id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), version='string', request=MutableCoverage(status=CoverageStatus.ACTIVE, subscriber=Subscriber(name=HumanName(), date_of_birth=datetime.date.fromisoformat("2023-01-15", ), gender=Gender.MAN, ), relationship=Relationship.SELF, patient='string', insurance_plan=InsurancePlan(member_id='string', payer_id='string', payer_name='string', group_number='string', name='string', type=NetworkType.PPO, period=Period(), insurance_card_image_locator='string', ), verified=True, ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.update(
+            id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            version="string",
+            request=MutableCoverage(
+                status=CoverageStatus.ACTIVE,
+                subscriber=Subscriber(
+                    name=HumanName(),
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    biological_sex=Sex.FEMALE,
+                ),
+                relationship=Relationship.SELF,
+                patient="string",
+                insurance_plan=InsurancePlan(
+                    member_id="string",
+                    payer_id="string",
+                    payer_name="string",
+                    group_number="string",
+                    name="string",
+                    plan_type=NetworkType.SELF_PAY,
+                    type=InsuranceTypeCode.C_01,
+                    period=Period(),
+                    insurance_card_image_locator="string",
+                ),
+                verified=True,
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"coverages/v1/{jsonable_encoder(id)}/{jsonable_encoder(version)}",
@@ -163,10 +225,16 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.pre_encounter.coverages.v_1.get(id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.get(
+            id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"coverages/v1/{jsonable_encoder(id)}",
@@ -204,10 +272,16 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.pre_encounter.coverages.v_1.get_history(id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.get_history(
+            id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"coverages/v1/{jsonable_encoder(id)}/history",
@@ -248,10 +322,14 @@ class V1Client:
         Examples
         --------
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.pre_encounter.coverages.v_1.get_multi(patient_id='string', )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.get_multi(
+            patient_id="string",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "coverages/v1",
@@ -290,10 +368,16 @@ class V1Client:
         import datetime
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.pre_encounter.coverages.v_1.scan(since=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.scan(
+            since=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "coverages/v1/updates/scan",
@@ -338,18 +422,51 @@ class AsyncV1Client:
         import datetime
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
-        from candid.resources.pre_encounter import (Gender, HumanName, Period,
-                                                    Relationship)
-        from candid.resources.pre_encounter.coverages.v_1 import (CoverageStatus,
-                                                                  InsurancePlan,
-                                                                  MutableCoverage,
-                                                                  NetworkType,
-                                                                  Subscriber)
+        from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+        from candid.resources.pre_encounter.coverages.v_1 import (
+            CoverageStatus,
+            InsurancePlan,
+            InsuranceTypeCode,
+            MutableCoverage,
+            NetworkType,
+            Subscriber,
+        )
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.pre_encounter.coverages.v_1.create(request=MutableCoverage(status=CoverageStatus.ACTIVE, subscriber=Subscriber(name=HumanName(), date_of_birth=datetime.date.fromisoformat("2023-01-15", ), gender=Gender.MAN, ), relationship=Relationship.SELF, patient='string', insurance_plan=InsurancePlan(member_id='string', payer_id='string', payer_name='string', group_number='string', name='string', type=NetworkType.PPO, period=Period(), insurance_card_image_locator='string', ), verified=True, ), )
+            await client.pre_encounter.coverages.v_1.create(
+                request=MutableCoverage(
+                    status=CoverageStatus.ACTIVE,
+                    subscriber=Subscriber(
+                        name=HumanName(),
+                        date_of_birth=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        biological_sex=Sex.FEMALE,
+                    ),
+                    relationship=Relationship.SELF,
+                    patient="string",
+                    insurance_plan=InsurancePlan(
+                        member_id="string",
+                        payer_id="string",
+                        payer_name="string",
+                        group_number="string",
+                        name="string",
+                        plan_type=NetworkType.SELF_PAY,
+                        type=InsuranceTypeCode.C_01,
+                        period=Period(),
+                        insurance_card_image_locator="string",
+                    ),
+                    verified=True,
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -401,18 +518,55 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
-        from candid.resources.pre_encounter import (Gender, HumanName, Period,
-                                                    Relationship)
-        from candid.resources.pre_encounter.coverages.v_1 import (CoverageStatus,
-                                                                  InsurancePlan,
-                                                                  MutableCoverage,
-                                                                  NetworkType,
-                                                                  Subscriber)
+        from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+        from candid.resources.pre_encounter.coverages.v_1 import (
+            CoverageStatus,
+            InsurancePlan,
+            InsuranceTypeCode,
+            MutableCoverage,
+            NetworkType,
+            Subscriber,
+        )
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.pre_encounter.coverages.v_1.update(id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), version='string', request=MutableCoverage(status=CoverageStatus.ACTIVE, subscriber=Subscriber(name=HumanName(), date_of_birth=datetime.date.fromisoformat("2023-01-15", ), gender=Gender.MAN, ), relationship=Relationship.SELF, patient='string', insurance_plan=InsurancePlan(member_id='string', payer_id='string', payer_name='string', group_number='string', name='string', type=NetworkType.PPO, period=Period(), insurance_card_image_locator='string', ), verified=True, ), )
+            await client.pre_encounter.coverages.v_1.update(
+                id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                version="string",
+                request=MutableCoverage(
+                    status=CoverageStatus.ACTIVE,
+                    subscriber=Subscriber(
+                        name=HumanName(),
+                        date_of_birth=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        biological_sex=Sex.FEMALE,
+                    ),
+                    relationship=Relationship.SELF,
+                    patient="string",
+                    insurance_plan=InsurancePlan(
+                        member_id="string",
+                        payer_id="string",
+                        payer_name="string",
+                        group_number="string",
+                        name="string",
+                        plan_type=NetworkType.SELF_PAY,
+                        type=InsuranceTypeCode.C_01,
+                        period=Period(),
+                        insurance_card_image_locator="string",
+                    ),
+                    verified=True,
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -461,11 +615,21 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.pre_encounter.coverages.v_1.get(id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+            await client.pre_encounter.coverages.v_1.get(
+                id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -505,11 +669,21 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.pre_encounter.coverages.v_1.get_history(id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+            await client.pre_encounter.coverages.v_1.get_history(
+                id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -553,11 +727,19 @@ class AsyncV1Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.pre_encounter.coverages.v_1.get_multi(patient_id='string', )
+            await client.pre_encounter.coverages.v_1.get_multi(
+                patient_id="string",
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -598,11 +780,21 @@ class AsyncV1Client:
         import datetime
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.pre_encounter.coverages.v_1.scan(since=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), )
+            await client.pre_encounter.coverages.v_1.scan(
+                since=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

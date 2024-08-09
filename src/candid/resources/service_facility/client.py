@@ -58,10 +58,26 @@ class ServiceFacilityClient:
 
         from candid import State, StreetAddressLongZip
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.service_facility.update(service_facility_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_name='string', npi='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.service_facility.update(
+            service_facility_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            organization_name="string",
+            npi="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/service_facility/v2/{jsonable_encoder(service_facility_id)}",
@@ -123,11 +139,31 @@ class AsyncServiceFacilityClient:
 
         from candid import State, StreetAddressLongZip
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.service_facility.update(service_facility_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_name='string', npi='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), )
+            await client.service_facility.update(
+                service_facility_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                organization_name="string",
+                npi="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

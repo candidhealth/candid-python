@@ -9,7 +9,6 @@ from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
 from .....common.types.address import Address
 from .....common.types.contact_point import ContactPoint
-from .....common.types.gender import Gender
 from .....common.types.human_name import HumanName
 from .....common.types.period import Period
 from .....common.types.relationship import Relationship
@@ -18,7 +17,6 @@ from .....common.types.relationship import Relationship
 class Contact(pydantic.BaseModel):
     relationship: typing.List[Relationship]
     name: HumanName
-    gender: typing.Optional[Gender] = None
     telecoms: typing.List[ContactPoint]
     addresses: typing.List[Address]
     period: typing.Optional[Period] = None

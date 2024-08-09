@@ -2,20 +2,10 @@
 
 from .contact import Contact
 from .external_provenance import ExternalProvenance
-from .external_provider import ExternalProvider
 from .filing_order import FilingOrder
 from .marital_status import MaritalStatus
 from .mutable_patient import MutablePatient
 from .patient import Patient
 from .patient_id import PatientId
 
-__all__ = [
-    "Contact",
-    "ExternalProvenance",
-    "ExternalProvider",
-    "FilingOrder",
-    "MaritalStatus",
-    "MutablePatient",
-    "Patient",
-    "PatientId",
-]
+__all__ = ["Contact", "ExternalProvenance", "FilingOrder", "MaritalStatus", "MutablePatient", "Patient", "PatientId"]

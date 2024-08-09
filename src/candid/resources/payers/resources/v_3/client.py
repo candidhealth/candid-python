@@ -36,10 +36,16 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.payers.v_3.get(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.payers.v_3.get(
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/payers/v3/{jsonable_encoder(payer_uuid)}",
@@ -83,10 +89,16 @@ class V3Client:
         Examples
         --------
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.payers.v_3.get_all(limit=100, search_term='john', page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.payers.v_3.get_all(
+            limit=100,
+            search_term="john",
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/payers/v3",
@@ -127,11 +139,21 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.payers.v_3.get(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+            await client.payers.v_3.get(
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -178,11 +200,21 @@ class AsyncV3Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.payers.v_3.get_all(limit=100, search_term='john', page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+            await client.payers.v_3.get_all(
+                limit=100,
+                search_term="john",
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

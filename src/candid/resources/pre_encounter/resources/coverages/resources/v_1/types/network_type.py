@@ -7,6 +7,16 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class NetworkType(str, enum.Enum):
+    SELF_PAY = "09"
+    """
+    Self-pay
+    """
+
+    OTHER_NON_FEDERAL_PROGRAMS = "11"
+    """
+    Other Non-Federal Programs
+    """
+
     PPO = "12"
     """
     Preferred Provider Organization (PPO)
@@ -42,14 +52,29 @@ class NetworkType(str, enum.Enum):
     Automobile Medical
     """
 
+    BLUE_CROSS_BLUE_SHIELD = "BL"
+    """
+    Blue Cross/Blue Shield
+    """
+
     CHAMPUS = "CH"
     """
     CHAMPUS
     """
 
+    COMMERCIAL_INSURANCE_CO = "CI"
+    """
+    Commercial Insurance Co.
+    """
+
     DISABILITY = "DS"
     """
     Disability
+    """
+
+    FEDERAL_EMPLOYEES = "FI"
+    """
+    Federal Employees Program
     """
 
     HMO = "HM"
@@ -104,6 +129,8 @@ class NetworkType(str, enum.Enum):
 
     def visit(
         self,
+        self_pay: typing.Callable[[], T_Result],
+        other_non_federal_programs: typing.Callable[[], T_Result],
         ppo: typing.Callable[[], T_Result],
         pos: typing.Callable[[], T_Result],
         epo: typing.Callable[[], T_Result],
@@ -111,8 +138,11 @@ class NetworkType(str, enum.Enum):
         hmo_medicare_risk: typing.Callable[[], T_Result],
         dmo: typing.Callable[[], T_Result],
         auto: typing.Callable[[], T_Result],
+        blue_cross_blue_shield: typing.Callable[[], T_Result],
         champus: typing.Callable[[], T_Result],
+        commercial_insurance_co: typing.Callable[[], T_Result],
         disability: typing.Callable[[], T_Result],
+        federal_employees: typing.Callable[[], T_Result],
         hmo: typing.Callable[[], T_Result],
         liability: typing.Callable[[], T_Result],
         medicare_part_a: typing.Callable[[], T_Result],
@@ -124,6 +154,10 @@ class NetworkType(str, enum.Enum):
         workers_comp_health_claim: typing.Callable[[], T_Result],
         mutually_defined: typing.Callable[[], T_Result],
     ) -> T_Result:
+        if self is NetworkType.SELF_PAY:
+            return self_pay()
+        if self is NetworkType.OTHER_NON_FEDERAL_PROGRAMS:
+            return other_non_federal_programs()
         if self is NetworkType.PPO:
             return ppo()
         if self is NetworkType.POS:
@@ -138,10 +172,16 @@ class NetworkType(str, enum.Enum):
             return dmo()
         if self is NetworkType.AUTO:
             return auto()
+        if self is NetworkType.BLUE_CROSS_BLUE_SHIELD:
+            return blue_cross_blue_shield()
         if self is NetworkType.CHAMPUS:
             return champus()
+        if self is NetworkType.COMMERCIAL_INSURANCE_CO:
+            return commercial_insurance_co()
         if self is NetworkType.DISABILITY:
             return disability()
+        if self is NetworkType.FEDERAL_EMPLOYEES:
+            return federal_employees()
         if self is NetworkType.HMO:
             return hmo()
         if self is NetworkType.LIABILITY:

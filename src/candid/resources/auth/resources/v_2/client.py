@@ -59,10 +59,15 @@ class V2Client:
         Examples
         --------
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.auth.v_2.get_token(client_id='YOUR_CLIENT_ID', client_secret='YOUR_CLIENT_SECRET', )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.auth.v_2.get_token(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/auth/v2/token",
@@ -132,11 +137,20 @@ class AsyncV2Client:
         import asyncio
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.auth.v_2.get_token(client_id='YOUR_CLIENT_ID', client_secret='YOUR_CLIENT_SECRET', )
+            await client.auth.v_2.get_token(
+                client_id="YOUR_CLIENT_ID",
+                client_secret="YOUR_CLIENT_SECRET",
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

@@ -57,10 +57,16 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.tasks.v_3.get_actions(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.get_actions(
+            task_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/tasks/v3/{jsonable_encoder(task_id)}/actions",
@@ -146,12 +152,38 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.tasks import TaskStatus, TaskType
         from candid.resources.tasks.v_3 import TaskSortOptions
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.tasks.v_3.get_multi(limit=1, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', status=TaskStatus.FINISHED, task_type=TaskType.CUSTOMER_DATA_REQUEST, categories='string', updated_since=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), search_term='string', assigned_to_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), date_of_service_min=datetime.date.fromisoformat("2023-01-15", ), date_of_service_max=datetime.date.fromisoformat("2023-01-15", ), billing_provider_npi='string', sort=TaskSortOptions.UPDATED_AT_ASC, )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.get_multi(
+            limit=1,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            status=TaskStatus.FINISHED,
+            task_type=TaskType.CUSTOMER_DATA_REQUEST,
+            categories="string",
+            updated_since=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            search_term="string",
+            assigned_to_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            date_of_service_min=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            date_of_service_max=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            billing_provider_npi="string",
+            sort=TaskSortOptions.UPDATED_AT_ASC,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/tasks/v3",
@@ -205,10 +237,16 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.tasks.v_3.get(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.get(
+            task_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/tasks/v3/{jsonable_encoder(task_id)}",
@@ -251,12 +289,28 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.tasks import TaskCategory, TaskType
         from candid.resources.tasks.v_3 import TaskCreateV3
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.tasks.v_3.create(request=TaskCreateV3(encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), task_type=TaskType.CUSTOMER_DATA_REQUEST, description='string', blocks_claim_submission=True, assignee_user_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), category=TaskCategory.OTHER, work_queue_id='string', ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.create(
+            request=TaskCreateV3(
+                encounter_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                task_type=TaskType.CUSTOMER_DATA_REQUEST,
+                description="string",
+                blocks_claim_submission=True,
+                assignee_user_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                category=TaskCategory.OTHER,
+                work_queue_id="string",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/tasks/v3",
@@ -296,12 +350,25 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.tasks import TaskStatus
         from candid.resources.tasks.v_3 import TaskUpdateV3
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.tasks.v_3.update(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=TaskUpdateV3(status=TaskStatus.FINISHED, assignee_user_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), blocks_claim_submission=True, ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.tasks.v_3.update(
+            task_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=TaskUpdateV3(
+                status=TaskStatus.FINISHED,
+                assignee_user_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                blocks_claim_submission=True,
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/tasks/v3/{jsonable_encoder(task_id)}",
@@ -358,11 +425,21 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.tasks.v_3.get_actions(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+            await client.tasks.v_3.get_actions(
+                task_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -450,13 +527,43 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.tasks import TaskStatus, TaskType
         from candid.resources.tasks.v_3 import TaskSortOptions
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.tasks.v_3.get_multi(limit=1, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', status=TaskStatus.FINISHED, task_type=TaskType.CUSTOMER_DATA_REQUEST, categories='string', updated_since=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), search_term='string', assigned_to_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), date_of_service_min=datetime.date.fromisoformat("2023-01-15", ), date_of_service_max=datetime.date.fromisoformat("2023-01-15", ), billing_provider_npi='string', sort=TaskSortOptions.UPDATED_AT_ASC, )
+            await client.tasks.v_3.get_multi(
+                limit=1,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+                status=TaskStatus.FINISHED,
+                task_type=TaskType.CUSTOMER_DATA_REQUEST,
+                categories="string",
+                updated_since=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                encounter_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                search_term="string",
+                assigned_to_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                date_of_service_min=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                date_of_service_max=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                billing_provider_npi="string",
+                sort=TaskSortOptions.UPDATED_AT_ASC,
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -512,11 +619,21 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.tasks.v_3.get(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+            await client.tasks.v_3.get(
+                task_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -561,13 +678,33 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.tasks import TaskCategory, TaskType
         from candid.resources.tasks.v_3 import TaskCreateV3
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.tasks.v_3.create(request=TaskCreateV3(encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), task_type=TaskType.CUSTOMER_DATA_REQUEST, description='string', blocks_claim_submission=True, assignee_user_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), category=TaskCategory.OTHER, work_queue_id='string', ), )
+            await client.tasks.v_3.create(
+                request=TaskCreateV3(
+                    encounter_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    task_type=TaskType.CUSTOMER_DATA_REQUEST,
+                    description="string",
+                    blocks_claim_submission=True,
+                    assignee_user_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    category=TaskCategory.OTHER,
+                    work_queue_id="string",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -609,13 +746,30 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.tasks import TaskStatus
         from candid.resources.tasks.v_3 import TaskUpdateV3
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.tasks.v_3.update(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=TaskUpdateV3(status=TaskStatus.FINISHED, assignee_user_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), blocks_claim_submission=True, ), )
+            await client.tasks.v_3.update(
+                task_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                request=TaskUpdateV3(
+                    status=TaskStatus.FINISHED,
+                    assignee_user_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    blocks_claim_submission=True,
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

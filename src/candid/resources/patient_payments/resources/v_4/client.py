@@ -102,11 +102,33 @@ class V4Client:
 
         from candid import PatientTransactionSource, SortDirection
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.patient_payments.v_4 import PatientPaymentSortField
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.patient_payments.v_4.get_multi(limit=1, patient_external_id='string', claim_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), unattributed=True, invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), sources=PatientTransactionSource.MANUAL_ENTRY, sort=PatientPaymentSortField.PAYMENT_SOURCE, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.get_multi(
+            limit=1,
+            patient_external_id="string",
+            claim_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            unattributed=True,
+            invoice_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            sources=PatientTransactionSource.MANUAL_ENTRY,
+            sort=PatientPaymentSortField.PAYMENT_SOURCE,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/patient-payments/v4",
@@ -166,10 +188,16 @@ class V4Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.patient_payments.v_4.get(patient_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.get(
+            patient_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/patient-payments/v4/{jsonable_encoder(patient_payment_id)}",
@@ -238,10 +266,32 @@ class V4Client:
 
         from candid import AllocationCreate, AllocationTargetCreate_ServiceLineById
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.patient_payments.v_4.create(amount_cents=1, payment_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), payment_note='string', patient_external_id='string', allocations=[AllocationCreate(amount_cents=1, target=AllocationTargetCreate_ServiceLineById(value=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )), )], invoice=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.create(
+            amount_cents=1,
+            payment_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            payment_note="string",
+            patient_external_id="string",
+            allocations=[
+                AllocationCreate(
+                    amount_cents=1,
+                    target=AllocationTargetCreate_ServiceLineById(
+                        value=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ),
+                )
+            ],
+            invoice=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/patient-payments/v4",
@@ -315,10 +365,25 @@ class V4Client:
 
         from candid import InvoiceUpdate_Set, NoteUpdate_Set
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.patient_payments.v_4.update(patient_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), payment_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), payment_note=NoteUpdate_Set(value='string'), invoice=InvoiceUpdate_Set(value=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.update(
+            patient_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            payment_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            payment_note=NoteUpdate_Set(value="string"),
+            invoice=InvoiceUpdate_Set(
+                value=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/patient-payments/v4/{jsonable_encoder(patient_payment_id)}",
@@ -371,10 +436,16 @@ class V4Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.patient_payments.v_4.delete(patient_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.patient_payments.v_4.delete(
+            patient_payment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/patient-payments/v4/{jsonable_encoder(patient_payment_id)}",
@@ -472,12 +543,38 @@ class AsyncV4Client:
 
         from candid import PatientTransactionSource, SortDirection
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.patient_payments.v_4 import PatientPaymentSortField
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.patient_payments.v_4.get_multi(limit=1, patient_external_id='string', claim_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), unattributed=True, invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), sources=PatientTransactionSource.MANUAL_ENTRY, sort=PatientPaymentSortField.PAYMENT_SOURCE, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+            await client.patient_payments.v_4.get_multi(
+                limit=1,
+                patient_external_id="string",
+                claim_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                service_line_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                billing_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                unattributed=True,
+                invoice_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                sources=PatientTransactionSource.MANUAL_ENTRY,
+                sort=PatientPaymentSortField.PAYMENT_SOURCE,
+                sort_direction=SortDirection.ASC,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -539,11 +636,21 @@ class AsyncV4Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.patient_payments.v_4.get(patient_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+            await client.patient_payments.v_4.get(
+                patient_payment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -614,11 +721,37 @@ class AsyncV4Client:
 
         from candid import AllocationCreate, AllocationTargetCreate_ServiceLineById
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.patient_payments.v_4.create(amount_cents=1, payment_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), payment_note='string', patient_external_id='string', allocations=[AllocationCreate(amount_cents=1, target=AllocationTargetCreate_ServiceLineById(value=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )), )], invoice=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+            await client.patient_payments.v_4.create(
+                amount_cents=1,
+                payment_timestamp=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                payment_note="string",
+                patient_external_id="string",
+                allocations=[
+                    AllocationCreate(
+                        amount_cents=1,
+                        target=AllocationTargetCreate_ServiceLineById(
+                            value=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ),
+                    )
+                ],
+                invoice=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -694,11 +827,30 @@ class AsyncV4Client:
 
         from candid import InvoiceUpdate_Set, NoteUpdate_Set
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.patient_payments.v_4.update(patient_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), payment_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), payment_note=NoteUpdate_Set(value='string'), invoice=InvoiceUpdate_Set(value=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )), )
+            await client.patient_payments.v_4.update(
+                patient_payment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                payment_timestamp=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                payment_note=NoteUpdate_Set(value="string"),
+                invoice=InvoiceUpdate_Set(
+                    value=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -753,11 +905,21 @@ class AsyncV4Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.patient_payments.v_4.delete(patient_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+            await client.patient_payments.v_4.delete(
+                patient_payment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

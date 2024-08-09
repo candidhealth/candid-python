@@ -11,6 +11,7 @@ from .....common.types.address import Address
 from .....common.types.contact_point import ContactPoint
 from .....common.types.disability_status import DisabilityStatus
 from .....common.types.ethnicity import Ethnicity
+from .....common.types.external_provider import ExternalProvider
 from .....common.types.gender import Gender
 from .....common.types.human_name import HumanName
 from .....common.types.race import Race
@@ -18,7 +19,6 @@ from .....common.types.sex import Sex
 from .....common.types.sexual_orientation import SexualOrientation
 from .contact import Contact
 from .external_provenance import ExternalProvenance
-from .external_provider import ExternalProvider
 from .filing_order import FilingOrder
 from .marital_status import MaritalStatus
 
@@ -37,9 +37,9 @@ class MutablePatient(pydantic.BaseModel):
     gender: typing.Optional[Gender] = None
     birth_date: dt.date
     social_security_number: typing.Optional[str] = None
-    biological_sex: typing.Optional[Sex] = pydantic.Field(default=None)
+    biological_sex: Sex = pydantic.Field()
     """
-    The biological sex of the patient.
+    The biological sex of the patient. This corresponds to the HL7 AdministrativeGender https://www.hl7.org/fhir/valueset-administrative-gender.html
     """
 
     sexual_orientation: typing.Optional[SexualOrientation] = pydantic.Field(default=None)

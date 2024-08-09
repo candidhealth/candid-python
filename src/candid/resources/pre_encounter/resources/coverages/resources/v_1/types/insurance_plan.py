@@ -9,6 +9,7 @@ from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
 from .....common.types.payer_id import PayerId
 from .....common.types.period import Period
+from .insurance_type_code import InsuranceTypeCode
 from .network_type import NetworkType
 
 
@@ -18,7 +19,8 @@ class InsurancePlan(pydantic.BaseModel):
     payer_name: str
     group_number: typing.Optional[str] = None
     name: typing.Optional[str] = None
-    type: typing.Optional[NetworkType] = None
+    plan_type: typing.Optional[NetworkType] = None
+    type: typing.Optional[InsuranceTypeCode] = None
     period: typing.Optional[Period] = None
     insurance_card_image_locator: typing.Optional[str] = None
 

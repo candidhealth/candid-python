@@ -46,7 +46,13 @@ class CandidApiClient:
     Parameters
     ----------
     environment : CandidApiClientEnvironment
-        The environment to use for requests from the client.
+        The environment to use for requests from the client. from .environment import CandidApiClientEnvironment
+
+
+
+        Defaults to CandidApiClientEnvironment.PRODUCTION
+
+
 
     client_id : str
     client_secret : str
@@ -63,15 +69,17 @@ class CandidApiClient:
     Examples
     --------
     from candid.client import CandidApiClient
-    from candid.environment import CandidApiClientEnvironment
 
-    client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+    client = CandidApiClient(
+        client_id="YOUR_CLIENT_ID",
+        client_secret="YOUR_CLIENT_SECRET",
+    )
     """
 
     def __init__(
         self,
         *,
-        environment: CandidApiClientEnvironment,
+        environment: CandidApiClientEnvironment = CandidApiClientEnvironment.PRODUCTION,
         client_id: str,
         client_secret: str,
         _token_getter_override: typing.Optional[typing.Callable[[], str]] = None,
@@ -134,7 +142,13 @@ class AsyncCandidApiClient:
     Parameters
     ----------
     environment : CandidApiClientEnvironment
-        The environment to use for requests from the client.
+        The environment to use for requests from the client. from .environment import CandidApiClientEnvironment
+
+
+
+        Defaults to CandidApiClientEnvironment.PRODUCTION
+
+
 
     client_id : str
     client_secret : str
@@ -151,15 +165,17 @@ class AsyncCandidApiClient:
     Examples
     --------
     from candid.client import AsyncCandidApiClient
-    from candid.environment import CandidApiClientEnvironment
 
-    client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+    client = AsyncCandidApiClient(
+        client_id="YOUR_CLIENT_ID",
+        client_secret="YOUR_CLIENT_SECRET",
+    )
     """
 
     def __init__(
         self,
         *,
-        environment: CandidApiClientEnvironment,
+        environment: CandidApiClientEnvironment = CandidApiClientEnvironment.PRODUCTION,
         client_id: str,
         client_secret: str,
         _token_getter_override: typing.Optional[typing.Callable[[], str]] = None,

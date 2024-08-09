@@ -57,10 +57,16 @@ class V3Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.organization_providers.v_3.get(organization_provider_id=uuid.UUID("965a563a-0285-4910-9569-e3739c0f6eab", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_providers.v_3.get(
+            organization_provider_id=uuid.UUID(
+                "965a563a-0285-4910-9569-e3739c0f6eab",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
@@ -98,41 +104,52 @@ class V3Client:
         ----------
         limit : typing.Optional[int]
             Limit the number of results returned. Defaults to 100.
-        
+
         search_term : typing.Optional[str]
             Filter to a name or a part of a name.
-        
+
         npi : typing.Optional[str]
             Filter to a specific NPI.
-        
+
         is_rendering : typing.Optional[bool]
             Filter to only rendering providers.
-        
+
         is_billing : typing.Optional[bool]
             Filter to only billing providers.
-        
+
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
-        
+
         sort : typing.Optional[OrganizationProviderSortOptions]
             Defaults to PROVIDER_NAME_ASC.
-        
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
-        
+
         Returns
         -------
         OrganizationProviderPageV2
-        
+
         Examples
         --------
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
-        from candid.resources.organization_providers.v_2 import \
-            OrganizationProviderSortOptions
-        
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.organization_providers.v_3.get_multi(limit=100, search_term='john', npi='1234567890', is_rendering=True, is_billing=True, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC, )
+        from candid.resources.organization_providers.v_2 import (
+            OrganizationProviderSortOptions,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_providers.v_3.get_multi(
+            limit=100,
+            search_term="john",
+            npi="1234567890",
+            is_rendering=True,
+            is_billing=True,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/organization-providers/v3",
@@ -164,28 +181,68 @@ class V3Client:
         Parameters
         ----------
         request : OrganizationProviderCreateV2
-        
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
-        
+
         Returns
         -------
         OrganizationProviderV2
-        
+
         Examples
         --------
         import datetime
-        
+
         from candid import IdentifierCreate, State, StreetAddressLongZip
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_providers.v_2 import (
-            AddressType, LicenseType, OrganizationProviderAddress, ProviderType)
-        from candid.resources.organization_providers.v_3 import \
-            OrganizationProviderCreateV2
-        
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.organization_providers.v_3.create(request=OrganizationProviderCreateV2(npi='string', is_rendering=True, is_billing=True, first_name='string', last_name='string', organization_name='string', provider_type=ProviderType.INDIVIDUAL, tax_id='string', taxonomy_code='string', license_type=LicenseType.MD, addresses=[OrganizationProviderAddress(address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), address_type=AddressType.DEFAULT, )], employment_start_date=datetime.date.fromisoformat("2023-01-15", ), employment_termination_date=datetime.date.fromisoformat("2023-01-15", ), qualifications=[IdentifierCreate()], ), )
+            AddressType,
+            LicenseType,
+            OrganizationProviderAddress,
+            ProviderType,
+        )
+        from candid.resources.organization_providers.v_3 import (
+            OrganizationProviderCreateV2,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_providers.v_3.create(
+            request=OrganizationProviderCreateV2(
+                npi="string",
+                is_rendering=True,
+                is_billing=True,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+                provider_type=ProviderType.INDIVIDUAL,
+                tax_id="string",
+                taxonomy_code="string",
+                license_type=LicenseType.MD,
+                addresses=[
+                    OrganizationProviderAddress(
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        address_type=AddressType.DEFAULT,
+                    )
+                ],
+                employment_start_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                employment_termination_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                qualifications=[IdentifierCreate()],
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/organization-providers/v3",
@@ -223,30 +280,69 @@ class V3Client:
         Parameters
         ----------
         organization_provider_id : OrganizationProviderId
-        
+
         request : OrganizationProviderUpdateV2
-        
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
-        
+
         Returns
         -------
         OrganizationProviderV2
-        
+
         Examples
         --------
         import uuid
-        
+
         from candid import State, StreetAddressLongZip, UpdatableIdentifier_Add
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_providers.v_2 import (
-            AddressType, LicenseType, OrganizationProviderAddress, ProviderType)
-        from candid.resources.organization_providers.v_3 import \
-            OrganizationProviderUpdateV2
-        
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.organization_providers.v_3.update(organization_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=OrganizationProviderUpdateV2(npi='string', is_rendering=True, is_billing=True, first_name='string', last_name='string', organization_name='string', provider_type=ProviderType.INDIVIDUAL, tax_id='string', taxonomy_code='string', license_type=LicenseType.MD, addresses=[OrganizationProviderAddress(address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), address_type=AddressType.DEFAULT, )], employment_start_date='string', employment_termination_date='string', qualifications=[UpdatableIdentifier_Add()], ), )
+            AddressType,
+            LicenseType,
+            OrganizationProviderAddress,
+            ProviderType,
+        )
+        from candid.resources.organization_providers.v_3 import (
+            OrganizationProviderUpdateV2,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_providers.v_3.update(
+            organization_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=OrganizationProviderUpdateV2(
+                npi="string",
+                is_rendering=True,
+                is_billing=True,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+                provider_type=ProviderType.INDIVIDUAL,
+                tax_id="string",
+                taxonomy_code="string",
+                license_type=LicenseType.MD,
+                addresses=[
+                    OrganizationProviderAddress(
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        address_type=AddressType.DEFAULT,
+                    )
+                ],
+                employment_start_date="string",
+                employment_termination_date="string",
+                qualifications=[UpdatableIdentifier_Add()],
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}",
@@ -306,11 +402,21 @@ class AsyncV3Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.organization_providers.v_3.get(organization_provider_id=uuid.UUID("965a563a-0285-4910-9569-e3739c0f6eab", ), )
+            await client.organization_providers.v_3.get(
+                organization_provider_id=uuid.UUID(
+                    "965a563a-0285-4910-9569-e3739c0f6eab",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -349,44 +455,59 @@ class AsyncV3Client:
         ----------
         limit : typing.Optional[int]
             Limit the number of results returned. Defaults to 100.
-        
+
         search_term : typing.Optional[str]
             Filter to a name or a part of a name.
-        
+
         npi : typing.Optional[str]
             Filter to a specific NPI.
-        
+
         is_rendering : typing.Optional[bool]
             Filter to only rendering providers.
-        
+
         is_billing : typing.Optional[bool]
             Filter to only billing providers.
-        
+
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
-        
+
         sort : typing.Optional[OrganizationProviderSortOptions]
             Defaults to PROVIDER_NAME_ASC.
-        
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
-        
+
         Returns
         -------
         OrganizationProviderPageV2
-        
+
         Examples
         --------
         import asyncio
-        
+
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
-        from candid.resources.organization_providers.v_2 import \
-            OrganizationProviderSortOptions
-        
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        from candid.resources.organization_providers.v_2 import (
+            OrganizationProviderSortOptions,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.organization_providers.v_3.get_multi(limit=100, search_term='john', npi='1234567890', is_rendering=True, is_billing=True, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC, )
+            await client.organization_providers.v_3.get_multi(
+                limit=100,
+                search_term="john",
+                npi="1234567890",
+                is_rendering=True,
+                is_billing=True,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+                sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -419,30 +540,74 @@ class AsyncV3Client:
         Parameters
         ----------
         request : OrganizationProviderCreateV2
-        
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
-        
+
         Returns
         -------
         OrganizationProviderV2
-        
+
         Examples
         --------
         import asyncio
         import datetime
-        
+
         from candid import IdentifierCreate, State, StreetAddressLongZip
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_providers.v_2 import (
-            AddressType, LicenseType, OrganizationProviderAddress, ProviderType)
-        from candid.resources.organization_providers.v_3 import \
-            OrganizationProviderCreateV2
-        
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+            AddressType,
+            LicenseType,
+            OrganizationProviderAddress,
+            ProviderType,
+        )
+        from candid.resources.organization_providers.v_3 import (
+            OrganizationProviderCreateV2,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.organization_providers.v_3.create(request=OrganizationProviderCreateV2(npi='string', is_rendering=True, is_billing=True, first_name='string', last_name='string', organization_name='string', provider_type=ProviderType.INDIVIDUAL, tax_id='string', taxonomy_code='string', license_type=LicenseType.MD, addresses=[OrganizationProviderAddress(address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), address_type=AddressType.DEFAULT, )], employment_start_date=datetime.date.fromisoformat("2023-01-15", ), employment_termination_date=datetime.date.fromisoformat("2023-01-15", ), qualifications=[IdentifierCreate()], ), )
+            await client.organization_providers.v_3.create(
+                request=OrganizationProviderCreateV2(
+                    npi="string",
+                    is_rendering=True,
+                    is_billing=True,
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
+                    provider_type=ProviderType.INDIVIDUAL,
+                    tax_id="string",
+                    taxonomy_code="string",
+                    license_type=LicenseType.MD,
+                    addresses=[
+                        OrganizationProviderAddress(
+                            address=StreetAddressLongZip(
+                                address_1="123 Main St",
+                                address_2="Apt 1",
+                                city="New York",
+                                state=State.NY,
+                                zip_code="10001",
+                                zip_plus_four_code="1234",
+                            ),
+                            address_type=AddressType.DEFAULT,
+                        )
+                    ],
+                    employment_start_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    employment_termination_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    qualifications=[IdentifierCreate()],
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -481,32 +646,75 @@ class AsyncV3Client:
         Parameters
         ----------
         organization_provider_id : OrganizationProviderId
-        
+
         request : OrganizationProviderUpdateV2
-        
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
-        
+
         Returns
         -------
         OrganizationProviderV2
-        
+
         Examples
         --------
         import asyncio
         import uuid
-        
+
         from candid import State, StreetAddressLongZip, UpdatableIdentifier_Add
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.organization_providers.v_2 import (
-            AddressType, LicenseType, OrganizationProviderAddress, ProviderType)
-        from candid.resources.organization_providers.v_3 import \
-            OrganizationProviderUpdateV2
-        
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+            AddressType,
+            LicenseType,
+            OrganizationProviderAddress,
+            ProviderType,
+        )
+        from candid.resources.organization_providers.v_3 import (
+            OrganizationProviderUpdateV2,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.organization_providers.v_3.update(organization_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=OrganizationProviderUpdateV2(npi='string', is_rendering=True, is_billing=True, first_name='string', last_name='string', organization_name='string', provider_type=ProviderType.INDIVIDUAL, tax_id='string', taxonomy_code='string', license_type=LicenseType.MD, addresses=[OrganizationProviderAddress(address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), address_type=AddressType.DEFAULT, )], employment_start_date='string', employment_termination_date='string', qualifications=[UpdatableIdentifier_Add()], ), )
+            await client.organization_providers.v_3.update(
+                organization_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                request=OrganizationProviderUpdateV2(
+                    npi="string",
+                    is_rendering=True,
+                    is_billing=True,
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
+                    provider_type=ProviderType.INDIVIDUAL,
+                    tax_id="string",
+                    taxonomy_code="string",
+                    license_type=LicenseType.MD,
+                    addresses=[
+                        OrganizationProviderAddress(
+                            address=StreetAddressLongZip(
+                                address_1="123 Main St",
+                                address_2="Apt 1",
+                                city="New York",
+                                state=State.NY,
+                                zip_code="10001",
+                                zip_plus_four_code="1234",
+                            ),
+                            address_type=AddressType.DEFAULT,
+                        )
+                    ],
+                    employment_start_date="string",
+                    employment_termination_date="string",
+                    qualifications=[UpdatableIdentifier_Add()],
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

@@ -44,10 +44,15 @@ requests; if the client attempts to generate a token too often, it will be rate-
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.auth.v_2.get_token(client_id='YOUR_CLIENT_ID', client_secret='YOUR_CLIENT_SECRET', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.auth.v_2.get_token(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
 
 ```
 </dd>
@@ -108,10 +113,17 @@ client.auth.v_2.get_token(client_id='YOUR_CLIENT_ID', client_secret='YOUR_CLIENT
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.billing_notes.v_2.create(encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), text='string', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.billing_notes.v_2.create(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    text="string",
+)
 
 ```
 </dd>
@@ -172,10 +184,16 @@ client.billing_notes.v_2.create(encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.contracts.v_2.get(contract_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_2.get(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -228,11 +246,25 @@ import uuid
 
 from candid import State
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.contracts.v_2 import ContractStatus
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.contracts.v_2.get_multi(page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', limit=1, contracting_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rendering_provider_ids=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), payer_names='string', states=State.AA, contract_status=ContractStatus.PENDING, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_2.get_multi(
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    limit=1,
+    contracting_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    rendering_provider_ids=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    payer_names="string",
+    states=State.AA,
+    contract_status=ContractStatus.PENDING,
+)
 
 ```
 </dd>
@@ -349,12 +381,37 @@ import uuid
 
 from candid import Regions_States
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.contracts.v_2 import (AuthorizedSignatory,
-                                            ContractStatus, InsuranceTypes)
+from candid.resources.contracts.v_2 import (
+    AuthorizedSignatory,
+    ContractStatus,
+    InsuranceTypes,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.contracts.v_2.create(contracting_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rendering_provider_ids={uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )}, payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), effective_date='string', expiration_date='string', regions=Regions_States(), contract_status=ContractStatus.PENDING, authorized_signatory=AuthorizedSignatory(), commercial_insurance_types=InsuranceTypes(), medicare_insurance_types=InsuranceTypes(), medicaid_insurance_types=InsuranceTypes(), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_2.create(
+    contracting_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    rendering_provider_ids={
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        )
+    },
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    effective_date="string",
+    expiration_date="string",
+    regions=Regions_States(),
+    contract_status=ContractStatus.PENDING,
+    authorized_signatory=AuthorizedSignatory(),
+    commercial_insurance_types=InsuranceTypes(),
+    medicare_insurance_types=InsuranceTypes(),
+    medicaid_insurance_types=InsuranceTypes(),
+)
 
 ```
 </dd>
@@ -494,10 +551,16 @@ It may also be set to "national" for the entirety of the US.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.contracts.v_2.delete(contract_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_2.delete(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -550,13 +613,47 @@ import uuid
 
 from candid import Regions_States, State
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.contracts.v_2 import (AuthorizedSignatoryUpdate_Set,
-                                            ContractStatus, DateUpdate_Set,
-                                            InsuranceTypes, RegionsUpdate_Set)
+from candid.resources.contracts.v_2 import (
+    AuthorizedSignatoryUpdate_Set,
+    ContractStatus,
+    DateUpdate_Set,
+    InsuranceTypes,
+    RegionsUpdate_Set,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.contracts.v_2.update(contract_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rendering_provider_ids={uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )}, effective_date='string', expiration_date=DateUpdate_Set(value='string'), regions=RegionsUpdate_Set(value=Regions_States(states=[State.AA], )), contract_status=ContractStatus.PENDING, authorized_signatory=AuthorizedSignatoryUpdate_Set(first_name='string', last_name='string', title='string', email='string', phone='string', fax='string', ), commercial_insurance_types=InsuranceTypes(), medicare_insurance_types=InsuranceTypes(), medicaid_insurance_types=InsuranceTypes(), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_2.update(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    rendering_provider_ids={
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        )
+    },
+    effective_date="string",
+    expiration_date=DateUpdate_Set(value="string"),
+    regions=RegionsUpdate_Set(
+        value=Regions_States(
+            states=[State.AA],
+        )
+    ),
+    contract_status=ContractStatus.PENDING,
+    authorized_signatory=AuthorizedSignatoryUpdate_Set(
+        first_name="string",
+        last_name="string",
+        title="string",
+        email="string",
+        phone="string",
+        fax="string",
+    ),
+    commercial_insurance_types=InsuranceTypes(),
+    medicare_insurance_types=InsuranceTypes(),
+    medicaid_insurance_types=InsuranceTypes(),
+)
 
 ```
 </dd>
@@ -702,9 +799,11 @@ Returns all custom schemas.
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
 client.custom_schemas.v_1.get_multi()
 
 ```
@@ -763,10 +862,16 @@ Return a custom schema with a given ID.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.custom_schemas.v_1.get(schema_id=uuid.UUID("ec096b13-f80a-471d-aaeb-54b021c9d582", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.custom_schemas.v_1.get(
+    schema_id=uuid.UUID(
+        "ec096b13-f80a-471d-aaeb-54b021c9d582",
+    ),
+)
 
 ```
 </dd>
@@ -832,11 +937,34 @@ Engine, and key-value pairs can be attached to claims via the Encounters API.
 ```python
 from candid import Primitive
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.custom_schemas.v_1 import SchemaField
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.custom_schemas.v_1.create(name='General Medicine', description='Values associated with a generic visit', fields=[SchemaField(key='provider_category', type=Primitive.STRING, ), SchemaField(key='is_urgent_care', type=Primitive.BOOLEAN, ), SchemaField(key='bmi', type=Primitive.DOUBLE, ), SchemaField(key='age', type=Primitive.INTEGER, )], )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.custom_schemas.v_1.create(
+    name="General Medicine",
+    description="Values associated with a generic visit",
+    fields=[
+        SchemaField(
+            key="provider_category",
+            type=Primitive.STRING,
+        ),
+        SchemaField(
+            key="is_urgent_care",
+            type=Primitive.BOOLEAN,
+        ),
+        SchemaField(
+            key="bmi",
+            type=Primitive.DOUBLE,
+        ),
+        SchemaField(
+            key="age",
+            type=Primitive.INTEGER,
+        ),
+    ],
+)
 
 ```
 </dd>
@@ -919,11 +1047,25 @@ import uuid
 
 from candid import Primitive
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.custom_schemas.v_1 import SchemaField
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.custom_schemas.v_1.update(schema_id=uuid.UUID("ec096b13-f80a-471d-aaeb-54b021c9d582", ), name='General Medicine and Health', description='Values collected during all visits', fields_to_add=[SchemaField(key='visit_type', type=Primitive.STRING, )], )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.custom_schemas.v_1.update(
+    schema_id=uuid.UUID(
+        "ec096b13-f80a-471d-aaeb-54b021c9d582",
+    ),
+    name="General Medicine and Health",
+    description="Values collected during all visits",
+    fields_to_add=[
+        SchemaField(
+            key="visit_type",
+            type=Primitive.STRING,
+        )
+    ],
+)
 
 ```
 </dd>
@@ -1025,10 +1167,14 @@ A schema of the response object can be found here: [Change Healthcare Docs](http
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.eligibility.v_2.submit_eligibility_check(request={"key": "value"}, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.eligibility.v_2.submit_eligibility_check(
+    request={"key": "value"},
+)
 
 ```
 </dd>
@@ -1109,9 +1255,11 @@ Check connection status of Availity API and partners here:
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
 client.eligibility.v_2.submit_eligibility_check_availity()
 
 ```
@@ -1181,10 +1329,14 @@ Check connection status of Availity API and partners here:
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.eligibility.v_2.submit_eligibility_check_availity_post(request={"key": "value"}, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.eligibility.v_2.submit_eligibility_check_availity_post(
+    request={"key": "value"},
+)
 
 ```
 </dd>
@@ -1238,11 +1390,30 @@ import datetime
 
 from candid import ClaimStatus
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.encounters.v_4 import EncounterSortOptions
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.encounters.v_4.get_all(limit=100, claim_status=ClaimStatus.BILLER_RECEIVED, sort=EncounterSortOptions.CREATED_AT_ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', date_of_service_min=datetime.date.fromisoformat("2019-08-24", ), date_of_service_max=datetime.date.fromisoformat("2019-08-25", ), primary_payer_names='Medicare,Medicaid', search_term='doe', external_id='123456', diagnoses_updated_since=datetime.datetime.fromisoformat("2019-08-24 14:15:22+00:00", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounters.v_4.get_all(
+    limit=100,
+    claim_status=ClaimStatus.BILLER_RECEIVED,
+    sort=EncounterSortOptions.CREATED_AT_ASC,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    date_of_service_min=datetime.date.fromisoformat(
+        "2019-08-24",
+    ),
+    date_of_service_max=datetime.date.fromisoformat(
+        "2019-08-25",
+    ),
+    primary_payer_names="Medicare,Medicaid",
+    search_term="doe",
+    external_id="123456",
+    diagnoses_updated_since=datetime.datetime.fromisoformat(
+        "2019-08-24 14:15:22+00:00",
+    ),
+)
 
 ```
 </dd>
@@ -1418,10 +1589,16 @@ or encounter external id.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.encounters.v_4.get(encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounters.v_4.get(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -1473,48 +1650,518 @@ client.encounters.v_4.get(encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a
 import datetime
 import uuid
 
-from candid import (ClaimSubmissionPayerResponsibilityType, DelayReasonCode,
-                    DiagnosisCreate, DiagnosisTypeCode, EmrPayerCrosswalk,
-                    EncounterServiceFacilityBase, FacilityTypeCode, Gender,
-                    InsuranceTypeCode, IntendedSubmissionMedium, PatientCreate,
-                    PatientRelationshipToInsuredCodeAll, PhoneNumber,
-                    PhoneNumberType, ProcedureModifier, QualifierCode,
-                    ServiceLineUnits, SourceOfPaymentCode, State,
-                    StreetAddressLongZip, StreetAddressShortZip,
-                    SubscriberCreate)
+from candid import (
+    ClaimSubmissionPayerResponsibilityType,
+    DelayReasonCode,
+    DiagnosisCreate,
+    DiagnosisTypeCode,
+    EmrPayerCrosswalk,
+    EncounterServiceFacilityBase,
+    FacilityTypeCode,
+    Gender,
+    InsuranceTypeCode,
+    IntendedSubmissionMedium,
+    PatientCreate,
+    PatientRelationshipToInsuredCodeAll,
+    PhoneNumber,
+    PhoneNumberType,
+    ProcedureModifier,
+    QualifierCode,
+    ServiceLineUnits,
+    SourceOfPaymentCode,
+    State,
+    StreetAddressLongZip,
+    StreetAddressShortZip,
+    SubscriberCreate,
+)
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.billing_notes.v_2 import BillingNoteBase
 from candid.resources.claim_submission.v_1 import (
-    ClaimFrequencyTypeCode, ClaimSubmissionRecordCreate,
-    ExternalClaimSubmissionCreate)
+    ClaimFrequencyTypeCode,
+    ClaimSubmissionRecordCreate,
+    ExternalClaimSubmissionCreate,
+)
 from candid.resources.custom_schemas.v_1 import SchemaInstance
-from candid.resources.encounter_providers.v_2 import (BillingProvider,
-                                                      InitialReferringProvider,
-                                                      OrderingProvider,
-                                                      ReferringProvider,
-                                                      RenderingProvider,
-                                                      SupervisingProvider)
-from candid.resources.encounters.v_4 import (BillableStatusType, ClinicalNote,
-                                             ClinicalNoteCategoryCreate,
-                                             IntakeFollowUp, IntakeQuestion,
-                                             IntakeResponseAndFollowUps,
-                                             Intervention,
-                                             InterventionCategory, Lab,
-                                             LabCodeType, Medication,
-                                             NoteCategory,
-                                             PatientHistoryCategory,
-                                             PatientHistoryCategoryEnum,
-                                             ResponsiblePartyType,
-                                             ServiceAuthorizationExceptionCode,
-                                             SynchronicityType, Vitals)
+from candid.resources.encounter_providers.v_2 import (
+    BillingProvider,
+    InitialReferringProvider,
+    OrderingProvider,
+    ReferringProvider,
+    RenderingProvider,
+    SupervisingProvider,
+)
+from candid.resources.encounters.v_4 import (
+    BillableStatusType,
+    ClinicalNote,
+    ClinicalNoteCategoryCreate,
+    IntakeFollowUp,
+    IntakeQuestion,
+    IntakeResponseAndFollowUps,
+    Intervention,
+    InterventionCategory,
+    Lab,
+    LabCodeType,
+    Medication,
+    NoteCategory,
+    PatientHistoryCategory,
+    PatientHistoryCategoryEnum,
+    ResponsiblePartyType,
+    ServiceAuthorizationExceptionCode,
+    SynchronicityType,
+    Vitals,
+)
 from candid.resources.guarantor.v_1 import GuarantorCreate
 from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
-from candid.resources.service_lines.v_2 import (DrugIdentification,
-                                                ServiceLineCreate)
+from candid.resources.service_lines.v_2 import (
+    DrugIdentification,
+    ServiceLineCreate,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.encounters.v_4.create(date_of_service=datetime.date.fromisoformat("2023-01-15", ), end_date_of_service=datetime.date.fromisoformat("2023-01-15", ), patient=PatientCreate(phone_numbers=[PhoneNumber(number='1234567890', type=PhoneNumberType.HOME, )], phone_consent=True, email='johndoe@joincandidhealth.com', email_consent=True, external_id='string', date_of_birth=datetime.date.fromisoformat("2023-01-15", ), address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', gender=Gender.MALE, ), billing_provider=BillingProvider(address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), tax_id='string', npi='string', taxonomy_code='string', first_name='string', last_name='string', organization_name='string', ), rendering_provider=RenderingProvider(address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), npi='string', taxonomy_code='string', first_name='string', last_name='string', organization_name='string', ), referring_provider=ReferringProvider(npi='string', taxonomy_code='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', organization_name='string', ), initial_referring_provider=InitialReferringProvider(npi='string', taxonomy_code='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), qualifier=QualifierCode.DQ, first_name='string', last_name='string', organization_name='string', ), supervising_provider=SupervisingProvider(npi='string', taxonomy_code='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', organization_name='string', ), service_facility=EncounterServiceFacilityBase(organization_name='string', npi='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), ), subscriber_primary=SubscriberCreate(insurance_card=InsuranceCardCreate(member_id='string', payer_name='string', payer_id='string', rx_bin='string', rx_pcn='string', image_url_front='string', image_url_back='string', emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE, group_number='string', plan_name='string', plan_type=SourceOfPaymentCode.SELF_PAY, insurance_type=InsuranceTypeCode.C_01, ), patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE, date_of_birth=datetime.date.fromisoformat("2023-01-15", ), address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', gender=Gender.MALE, ), subscriber_secondary=SubscriberCreate(insurance_card=InsuranceCardCreate(member_id='string', payer_name='string', payer_id='string', rx_bin='string', rx_pcn='string', image_url_front='string', image_url_back='string', emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE, group_number='string', plan_name='string', plan_type=SourceOfPaymentCode.SELF_PAY, insurance_type=InsuranceTypeCode.C_01, ), patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE, date_of_birth=datetime.date.fromisoformat("2023-01-15", ), address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', gender=Gender.MALE, ), diagnoses=[DiagnosisCreate(name='string', code_type=DiagnosisTypeCode.ABF, code='string', )], clinical_notes=[ClinicalNoteCategoryCreate(category=NoteCategory.CLINICAL, notes=[ClinicalNote()], )], billing_notes=[BillingNoteBase(text='string', )], place_of_service_code=FacilityTypeCode.PHARMACY, patient_histories=[PatientHistoryCategory(category=PatientHistoryCategoryEnum.PRESENT_ILLNESS, questions=[IntakeQuestion(id='6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176', text='Do you have any allergies?', responses=[IntakeResponseAndFollowUps(response='No allergies', follow_ups=[IntakeFollowUp(id='4F3D57F9-AC94-49D6-87E4-E804B709917A', text='Do you have any allergies?', response='No allergies', )], )], )], )], service_lines=[ServiceLineCreate(modifiers=[ProcedureModifier.TWENTY_TWO], procedure_code='string', quantity='string', units=ServiceLineUnits.MJ, charge_amount_cents=1, diagnosis_pointers=[1], drug_identification=DrugIdentification(), place_of_service_code=FacilityTypeCode.PHARMACY, description='string', date_of_service=datetime.date.fromisoformat("2023-01-15", ), end_date_of_service=datetime.date.fromisoformat("2023-01-15", ), referring_provider=ReferringProvider(npi='string', taxonomy_code='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', organization_name='string', ), initial_referring_provider=InitialReferringProvider(npi='string', taxonomy_code='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), qualifier=QualifierCode.DQ, first_name='string', last_name='string', organization_name='string', ), supervising_provider=SupervisingProvider(npi='string', taxonomy_code='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', organization_name='string', ), ordering_provider=OrderingProvider(npi='string', taxonomy_code='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', organization_name='string', ), )], guarantor=GuarantorCreate(phone_numbers=[PhoneNumber(number='1234567890', type=PhoneNumberType.HOME, )], phone_consent=True, email='johndoe@joincandidhealth.com', email_consent=True, first_name='string', last_name='string', external_id='string', date_of_birth=datetime.date.fromisoformat("2023-01-15", ), address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), ), external_claim_submission=ExternalClaimSubmissionCreate(claim_created_at=datetime.datetime.fromisoformat("2023-01-01 12:00:00+00:00", ), patient_control_number='PATIENT_CONTROL_NUMBER', submission_records=[ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-01 13:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC, ), ClaimSubmissionRecordCreate(submitted_at=datetime.datetime.fromisoformat("2023-01-04 12:00:00+00:00", ), claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT, payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY, intended_submission_medium=IntendedSubmissionMedium.PAPER, )], ), tag_ids=['string'], schema_instances=[SchemaInstance(schema_id=uuid.UUID("ec096b13-f80a-471d-aaeb-54b021c9d582", ), content={'provider_category': "internist", 'is_urgent_care': true, 'bmi': 24.2, 'age': 38}, )], external_id='string', prior_authorization_number='string', patient_authorized_release=True, benefits_assigned_to_provider=True, provider_accepts_assignment=True, appointment_type='string', existing_medications=[Medication(name='Lisinopril', rx_cui='860975', dosage='10mg', dosage_form='Tablet', frequency='Once Daily', as_needed=True, )], vitals=Vitals(height_in=70, weight_lbs=165, blood_pressure_systolic_mmhg=115, blood_pressure_diastolic_mmhg=85, body_temperature_f=98.0, ), interventions=[Intervention(name='Physical Therapy Session', category=InterventionCategory.LIFESTYLE, description='A session focused on improving muscular strength, flexibility, and range of motion post-injury.', medication=Medication(name='Lisinopril', rx_cui='860975', dosage='10mg', dosage_form='Tablet', frequency='Once Daily', as_needed=True, ), labs=[Lab(name='Genetic Health Labs', code='GH12345', code_type=LabCodeType.QUEST, )], )], pay_to_address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), synchronicity=SynchronicityType.SYNCHRONOUS, billable_status=BillableStatusType.BILLABLE, responsible_party=ResponsiblePartyType.INSURANCE_PAY, additional_information='string', service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1, admission_date=datetime.date.fromisoformat("2023-01-15", ), discharge_date=datetime.date.fromisoformat("2023-01-15", ), onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat("2023-01-15", ), last_menstrual_period_date=datetime.date.fromisoformat("2023-01-15", ), delay_reason_code=DelayReasonCode.C_1, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounters.v_4.create(
+    date_of_service=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    end_date_of_service=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    patient=PatientCreate(
+        phone_numbers=[
+            PhoneNumber(
+                number="1234567890",
+                type=PhoneNumberType.HOME,
+            )
+        ],
+        phone_consent=True,
+        email="johndoe@joincandidhealth.com",
+        email_consent=True,
+        external_id="string",
+        date_of_birth=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        gender=Gender.MALE,
+    ),
+    billing_provider=BillingProvider(
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        tax_id="string",
+        npi="string",
+        taxonomy_code="string",
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+    rendering_provider=RenderingProvider(
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        npi="string",
+        taxonomy_code="string",
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+    referring_provider=ReferringProvider(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+    initial_referring_provider=InitialReferringProvider(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        qualifier=QualifierCode.DQ,
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+    supervising_provider=SupervisingProvider(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+    service_facility=EncounterServiceFacilityBase(
+        organization_name="string",
+        npi="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+    ),
+    subscriber_primary=SubscriberCreate(
+        insurance_card=InsuranceCardCreate(
+            member_id="string",
+            payer_name="string",
+            payer_id="string",
+            rx_bin="string",
+            rx_pcn="string",
+            image_url_front="string",
+            image_url_back="string",
+            emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+            group_number="string",
+            plan_name="string",
+            plan_type=SourceOfPaymentCode.SELF_PAY,
+            insurance_type=InsuranceTypeCode.C_01,
+        ),
+        patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+        date_of_birth=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        gender=Gender.MALE,
+    ),
+    subscriber_secondary=SubscriberCreate(
+        insurance_card=InsuranceCardCreate(
+            member_id="string",
+            payer_name="string",
+            payer_id="string",
+            rx_bin="string",
+            rx_pcn="string",
+            image_url_front="string",
+            image_url_back="string",
+            emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+            group_number="string",
+            plan_name="string",
+            plan_type=SourceOfPaymentCode.SELF_PAY,
+            insurance_type=InsuranceTypeCode.C_01,
+        ),
+        patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+        date_of_birth=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        gender=Gender.MALE,
+    ),
+    diagnoses=[
+        DiagnosisCreate(
+            name="string",
+            code_type=DiagnosisTypeCode.ABF,
+            code="string",
+        )
+    ],
+    clinical_notes=[
+        ClinicalNoteCategoryCreate(
+            category=NoteCategory.CLINICAL,
+            notes=[ClinicalNote()],
+        )
+    ],
+    billing_notes=[
+        BillingNoteBase(
+            text="string",
+        )
+    ],
+    place_of_service_code=FacilityTypeCode.PHARMACY,
+    patient_histories=[
+        PatientHistoryCategory(
+            category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
+            questions=[
+                IntakeQuestion(
+                    id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
+                    text="Do you have any allergies?",
+                    responses=[
+                        IntakeResponseAndFollowUps(
+                            response="No allergies",
+                            follow_ups=[
+                                IntakeFollowUp(
+                                    id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
+                                    text="Do you have any allergies?",
+                                    response="No allergies",
+                                )
+                            ],
+                        )
+                    ],
+                )
+            ],
+        )
+    ],
+    service_lines=[
+        ServiceLineCreate(
+            modifiers=[ProcedureModifier.TWENTY_TWO],
+            procedure_code="string",
+            quantity="string",
+            units=ServiceLineUnits.MJ,
+            charge_amount_cents=1,
+            diagnosis_pointers=[1],
+            drug_identification=DrugIdentification(),
+            place_of_service_code=FacilityTypeCode.PHARMACY,
+            description="string",
+            date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            end_date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            referring_provider=ReferringProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            initial_referring_provider=InitialReferringProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                qualifier=QualifierCode.DQ,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            supervising_provider=SupervisingProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            ordering_provider=OrderingProvider(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+        )
+    ],
+    guarantor=GuarantorCreate(
+        phone_numbers=[
+            PhoneNumber(
+                number="1234567890",
+                type=PhoneNumberType.HOME,
+            )
+        ],
+        phone_consent=True,
+        email="johndoe@joincandidhealth.com",
+        email_consent=True,
+        first_name="string",
+        last_name="string",
+        external_id="string",
+        date_of_birth=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+    ),
+    external_claim_submission=ExternalClaimSubmissionCreate(
+        claim_created_at=datetime.datetime.fromisoformat(
+            "2023-01-01 12:00:00+00:00",
+        ),
+        patient_control_number="PATIENT_CONTROL_NUMBER",
+        submission_records=[
+            ClaimSubmissionRecordCreate(
+                submitted_at=datetime.datetime.fromisoformat(
+                    "2023-01-01 13:00:00+00:00",
+                ),
+                claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
+                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
+            ),
+            ClaimSubmissionRecordCreate(
+                submitted_at=datetime.datetime.fromisoformat(
+                    "2023-01-04 12:00:00+00:00",
+                ),
+                claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
+                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                intended_submission_medium=IntendedSubmissionMedium.PAPER,
+            ),
+        ],
+    ),
+    tag_ids=["string"],
+    schema_instances=[
+        SchemaInstance(
+            schema_id=uuid.UUID(
+                "ec096b13-f80a-471d-aaeb-54b021c9d582",
+            ),
+            content={
+                "provider_category": "internist",
+                "is_urgent_care": true,
+                "bmi": 24.2,
+                "age": 38,
+            },
+        )
+    ],
+    external_id="string",
+    prior_authorization_number="string",
+    patient_authorized_release=True,
+    benefits_assigned_to_provider=True,
+    provider_accepts_assignment=True,
+    appointment_type="string",
+    existing_medications=[
+        Medication(
+            name="Lisinopril",
+            rx_cui="860975",
+            dosage="10mg",
+            dosage_form="Tablet",
+            frequency="Once Daily",
+            as_needed=True,
+        )
+    ],
+    vitals=Vitals(
+        height_in=70,
+        weight_lbs=165,
+        blood_pressure_systolic_mmhg=115,
+        blood_pressure_diastolic_mmhg=85,
+        body_temperature_f=98.0,
+    ),
+    interventions=[
+        Intervention(
+            name="Physical Therapy Session",
+            category=InterventionCategory.LIFESTYLE,
+            description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
+            medication=Medication(
+                name="Lisinopril",
+                rx_cui="860975",
+                dosage="10mg",
+                dosage_form="Tablet",
+                frequency="Once Daily",
+                as_needed=True,
+            ),
+            labs=[
+                Lab(
+                    name="Genetic Health Labs",
+                    code="GH12345",
+                    code_type=LabCodeType.QUEST,
+                )
+            ],
+        )
+    ],
+    pay_to_address=StreetAddressLongZip(
+        address_1="123 Main St",
+        address_2="Apt 1",
+        city="New York",
+        state=State.NY,
+        zip_code="10001",
+        zip_plus_four_code="1234",
+    ),
+    synchronicity=SynchronicityType.SYNCHRONOUS,
+    billable_status=BillableStatusType.BILLABLE,
+    responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+    additional_information="string",
+    service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
+    admission_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    discharge_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    last_menstrual_period_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    delay_reason_code=DelayReasonCode.C_1,
+)
 
 ```
 </dd>
@@ -2007,24 +2654,168 @@ Code indicating the reason why a request was delayed
 import datetime
 import uuid
 
-from candid import (DelayReasonCode, EmrPayerCrosswalk, FacilityTypeCode,
-                    Gender, InsuranceTypeCode,
-                    PatientRelationshipToInsuredCodeAll, SourceOfPaymentCode,
-                    State, StreetAddressLongZip, StreetAddressShortZip,
-                    SubscriberCreate)
+from candid import (
+    DelayReasonCode,
+    EmrPayerCrosswalk,
+    FacilityTypeCode,
+    Gender,
+    InsuranceTypeCode,
+    PatientRelationshipToInsuredCodeAll,
+    SourceOfPaymentCode,
+    State,
+    StreetAddressLongZip,
+    StreetAddressShortZip,
+    SubscriberCreate,
+)
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.custom_schemas.v_1 import SchemaInstance
-from candid.resources.encounters.v_4 import (BillableStatusType, ClinicalNote,
-                                             ClinicalNoteCategoryCreate,
-                                             NoteCategory,
-                                             ResponsiblePartyType,
-                                             ServiceAuthorizationExceptionCode,
-                                             SynchronicityType)
+from candid.resources.encounters.v_4 import (
+    BillableStatusType,
+    ClinicalNote,
+    ClinicalNoteCategoryCreate,
+    NoteCategory,
+    ResponsiblePartyType,
+    ServiceAuthorizationExceptionCode,
+    SynchronicityType,
+)
 from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.encounters.v_4.update(encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), prior_authorization_number='string', external_id='string', date_of_service=datetime.date.fromisoformat("2023-01-15", ), diagnosis_ids=[uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )], tag_ids=['string'], clinical_notes=[ClinicalNoteCategoryCreate(category=NoteCategory.CLINICAL, notes=[ClinicalNote()], )], pay_to_address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), billable_status=BillableStatusType.BILLABLE, responsible_party=ResponsiblePartyType.INSURANCE_PAY, provider_accepts_assignment=True, benefits_assigned_to_provider=True, synchronicity=SynchronicityType.SYNCHRONOUS, place_of_service_code=FacilityTypeCode.PHARMACY, place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY, appointment_type='string', end_date_of_service=datetime.date.fromisoformat("2023-01-15", ), subscriber_primary=SubscriberCreate(insurance_card=InsuranceCardCreate(member_id='string', payer_name='string', payer_id='string', rx_bin='string', rx_pcn='string', image_url_front='string', image_url_back='string', emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE, group_number='string', plan_name='string', plan_type=SourceOfPaymentCode.SELF_PAY, insurance_type=InsuranceTypeCode.C_01, ), patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE, date_of_birth=datetime.date.fromisoformat("2023-01-15", ), address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', gender=Gender.MALE, ), subscriber_secondary=SubscriberCreate(insurance_card=InsuranceCardCreate(member_id='string', payer_name='string', payer_id='string', rx_bin='string', rx_pcn='string', image_url_front='string', image_url_back='string', emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE, group_number='string', plan_name='string', plan_type=SourceOfPaymentCode.SELF_PAY, insurance_type=InsuranceTypeCode.C_01, ), patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE, date_of_birth=datetime.date.fromisoformat("2023-01-15", ), address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), first_name='string', last_name='string', gender=Gender.MALE, ), additional_information='string', service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1, admission_date=datetime.date.fromisoformat("2023-01-15", ), discharge_date=datetime.date.fromisoformat("2023-01-15", ), onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat("2023-01-15", ), last_menstrual_period_date=datetime.date.fromisoformat("2023-01-15", ), delay_reason_code=DelayReasonCode.C_1, patient_authorized_release=True, schema_instances=[SchemaInstance(schema_id=uuid.UUID("ec096b13-f80a-471d-aaeb-54b021c9d582", ), content={'provider_category': "internist", 'is_urgent_care': true, 'bmi': 24.2, 'age': 38}, )], )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounters.v_4.update(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    prior_authorization_number="string",
+    external_id="string",
+    date_of_service=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    diagnosis_ids=[
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        )
+    ],
+    tag_ids=["string"],
+    clinical_notes=[
+        ClinicalNoteCategoryCreate(
+            category=NoteCategory.CLINICAL,
+            notes=[ClinicalNote()],
+        )
+    ],
+    pay_to_address=StreetAddressLongZip(
+        address_1="123 Main St",
+        address_2="Apt 1",
+        city="New York",
+        state=State.NY,
+        zip_code="10001",
+        zip_plus_four_code="1234",
+    ),
+    billable_status=BillableStatusType.BILLABLE,
+    responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+    provider_accepts_assignment=True,
+    benefits_assigned_to_provider=True,
+    synchronicity=SynchronicityType.SYNCHRONOUS,
+    place_of_service_code=FacilityTypeCode.PHARMACY,
+    place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
+    appointment_type="string",
+    end_date_of_service=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    subscriber_primary=SubscriberCreate(
+        insurance_card=InsuranceCardCreate(
+            member_id="string",
+            payer_name="string",
+            payer_id="string",
+            rx_bin="string",
+            rx_pcn="string",
+            image_url_front="string",
+            image_url_back="string",
+            emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+            group_number="string",
+            plan_name="string",
+            plan_type=SourceOfPaymentCode.SELF_PAY,
+            insurance_type=InsuranceTypeCode.C_01,
+        ),
+        patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+        date_of_birth=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        gender=Gender.MALE,
+    ),
+    subscriber_secondary=SubscriberCreate(
+        insurance_card=InsuranceCardCreate(
+            member_id="string",
+            payer_name="string",
+            payer_id="string",
+            rx_bin="string",
+            rx_pcn="string",
+            image_url_front="string",
+            image_url_back="string",
+            emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+            group_number="string",
+            plan_name="string",
+            plan_type=SourceOfPaymentCode.SELF_PAY,
+            insurance_type=InsuranceTypeCode.C_01,
+        ),
+        patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+        date_of_birth=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        gender=Gender.MALE,
+    ),
+    additional_information="string",
+    service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
+    admission_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    discharge_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    last_menstrual_period_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    delay_reason_code=DelayReasonCode.C_1,
+    patient_authorized_release=True,
+    schema_instances=[
+        SchemaInstance(
+            schema_id=uuid.UUID(
+                "ec096b13-f80a-471d-aaeb-54b021c9d582",
+            ),
+            content={
+                "provider_category": "internist",
+                "is_urgent_care": true,
+                "bmi": 24.2,
+                "age": 38,
+            },
+        )
+    ],
+)
 
 ```
 </dd>
@@ -2383,10 +3174,23 @@ Computes the expected network status given the provided information.
 ```python
 from candid import InsuranceTypeCode, State
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.expected_network_status.v_1.compute(external_patient_id='string', subscriber_payer_id='string', subscriber_payer_name='string', subscriber_insurance_type=InsuranceTypeCode.C_01, subscriber_plan_name='string', billing_provider_npi='string', billing_provider_tin='string', rendering_provider_npi='string', contracted_state=State.AA, date_of_service='string', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.expected_network_status.v_1.compute(
+    external_patient_id="string",
+    subscriber_payer_id="string",
+    subscriber_payer_name="string",
+    subscriber_insurance_type=InsuranceTypeCode.C_01,
+    subscriber_plan_name="string",
+    billing_provider_npi="string",
+    billing_provider_tin="string",
+    rendering_provider_npi="string",
+    contracted_state=State.AA,
+    date_of_service="string",
+)
 
 ```
 </dd>
@@ -2530,13 +3334,43 @@ import uuid
 
 from candid import FacilityTypeCode, State, StreetAddressShortZip
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.expected_network_status.v_2 import (
-    ExpectedNetworkStatusRequestV2, ExpectedNetworkStatusSubscriberInformation,
-    ServiceType)
+    ExpectedNetworkStatusRequestV2,
+    ExpectedNetworkStatusSubscriberInformation,
+    ServiceType,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.expected_network_status.v_2.compute_for_rendering_provider(rendering_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=ExpectedNetworkStatusRequestV2(service_type=ServiceType.NEW_PATIENT_VIDEO_APPT, place_of_service_code=FacilityTypeCode.PHARMACY, subscriber_information=ExpectedNetworkStatusSubscriberInformation(), patient_address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), date_of_service=datetime.date.fromisoformat("2023-01-15", ), ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.expected_network_status.v_2.compute_for_rendering_provider(
+    rendering_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=ExpectedNetworkStatusRequestV2(
+        service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
+        place_of_service_code=FacilityTypeCode.PHARMACY,
+        subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
+        patient_address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        billing_provider_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        organization_service_facility_id=uuid.UUID(
+            "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+        ),
+        date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+    ),
+)
 
 ```
 </dd>
@@ -2614,13 +3448,40 @@ import uuid
 
 from candid import FacilityTypeCode, State, StreetAddressShortZip
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.expected_network_status.v_2 import (
     ComputeAllInNetworkProvidersRequest,
-    ExpectedNetworkStatusSubscriberInformation, ServiceType)
+    ExpectedNetworkStatusSubscriberInformation,
+    ServiceType,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.expected_network_status.v_2.compute_all_in_network_providers(request=ComputeAllInNetworkProvidersRequest(service_type=ServiceType.NEW_PATIENT_VIDEO_APPT, place_of_service_code=FacilityTypeCode.PHARMACY, subscriber_information=ExpectedNetworkStatusSubscriberInformation(), patient_address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), date_of_service=datetime.date.fromisoformat("2023-01-15", ), ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.expected_network_status.v_2.compute_all_in_network_providers(
+    request=ComputeAllInNetworkProvidersRequest(
+        service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
+        place_of_service_code=FacilityTypeCode.PHARMACY,
+        subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
+        patient_address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        billing_provider_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        organization_service_facility_id=uuid.UUID(
+            "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+        ),
+        date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+    ),
+)
 
 ```
 </dd>
@@ -2698,10 +3559,19 @@ our [Support team](mailto:support@joincandidhealth.com) with any data requests o
 import datetime
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.exports.v_3.get_exports(start_date=datetime.date.fromisoformat("2023-10-01", ), end_date=datetime.date.fromisoformat("2023-10-02", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.exports.v_3.get_exports(
+    start_date=datetime.date.fromisoformat(
+        "2023-10-01",
+    ),
+    end_date=datetime.date.fromisoformat(
+        "2023-10-02",
+    ),
+)
 
 ```
 </dd>
@@ -2766,10 +3636,15 @@ Must be within 30 days of start_date.
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.external_payment_account_config.v_1.get_multi(limit=1, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.external_payment_account_config.v_1.get_multi(
+    limit=1,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
 
 ```
 </dd>
@@ -2844,10 +3719,16 @@ Gets the rate that matches a service line. No result means no rate exists matchi
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.fee_schedules.v_3.get_match(service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.get_match(
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -2913,10 +3794,19 @@ Tests a service line against a rate to see if it matches.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.fee_schedules.v_3.test_match(service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), rate_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.test_match(
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    rate_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -2992,11 +3882,32 @@ import uuid
 
 from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.organization_providers.v_2 import LicenseType
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.fee_schedules.v_3.get_multi(page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', limit=1, active_date=datetime.date.fromisoformat("2023-01-15", ), payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), states=State.AA, zip_codes='string', license_types=LicenseType.MD, facility_type_codes=FacilityTypeCode.PHARMACY, network_types=NetworkType.PPO, cpt_code='string', modifiers=ProcedureModifier.TWENTY_TWO, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.get_multi(
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    limit=1,
+    active_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    organization_billing_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    states=State.AA,
+    zip_codes="string",
+    license_types=LicenseType.MD,
+    facility_type_codes=FacilityTypeCode.PHARMACY,
+    network_types=NetworkType.PPO,
+    cpt_code="string",
+    modifiers=ProcedureModifier.TWENTY_TWO,
+)
 
 ```
 </dd>
@@ -3155,12 +4066,31 @@ import uuid
 
 from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.fee_schedules.v_3 import DimensionName
 from candid.resources.organization_providers.v_2 import LicenseType
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.fee_schedules.v_3.get_unique_values_for_dimension(page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', limit=1, pivot_dimension=DimensionName.PAYER_UUID, payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), states=State.AA, zip_codes='string', license_types=LicenseType.MD, facility_type_codes=FacilityTypeCode.PHARMACY, network_types=NetworkType.PPO, cpt_code='string', modifiers=ProcedureModifier.TWENTY_TWO, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.get_unique_values_for_dimension(
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    limit=1,
+    pivot_dimension=DimensionName.PAYER_UUID,
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    organization_billing_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    states=State.AA,
+    zip_codes="string",
+    license_types=LicenseType.MD,
+    facility_type_codes=FacilityTypeCode.PHARMACY,
+    network_types=NetworkType.PPO,
+    cpt_code="string",
+    modifiers=ProcedureModifier.TWENTY_TWO,
+)
 
 ```
 </dd>
@@ -3318,10 +4248,16 @@ Gets every version of a rate.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.fee_schedules.v_3.get_rate_history(rate_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.get_rate_history(
+    rate_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -3389,13 +4325,48 @@ import uuid
 
 from candid import FacilityTypeCode, NetworkType, ProcedureModifier, State
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.fee_schedules.v_3 import (Dimensions, RateEntry,
-                                                RateUpload_NewRate)
+from candid.resources.fee_schedules.v_3 import (
+    Dimensions,
+    RateEntry,
+    RateUpload_NewRate,
+)
 from candid.resources.organization_providers.v_2 import LicenseType
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.fee_schedules.v_3.upload_fee_schedule(dry_run=True, rates=[RateUpload_NewRate(dimensions=Dimensions(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), states={State.AA}, zip_codes={'string'}, license_types={LicenseType.MD}, facility_type_codes={FacilityTypeCode.PHARMACY}, network_types={NetworkType.PPO}, cpt_code='string', modifiers={ProcedureModifier.TWENTY_TWO}, ), entries=[RateEntry(start_date=datetime.date.fromisoformat("2024-04-11", ), rate_cents=33000, is_deactivated=False, )], )], )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.upload_fee_schedule(
+    dry_run=True,
+    rates=[
+        RateUpload_NewRate(
+            dimensions=Dimensions(
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                organization_billing_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                states={State.AA},
+                zip_codes={"string"},
+                license_types={LicenseType.MD},
+                facility_type_codes={FacilityTypeCode.PHARMACY},
+                network_types={NetworkType.PPO},
+                cpt_code="string",
+                modifiers={ProcedureModifier.TWENTY_TWO},
+            ),
+            entries=[
+                RateEntry(
+                    start_date=datetime.date.fromisoformat(
+                        "2024-04-11",
+                    ),
+                    rate_cents=33000,
+                    is_deactivated=False,
+                )
+            ],
+        )
+    ],
+)
 
 ```
 </dd>
@@ -3469,10 +4440,17 @@ Soft deletes a rate from the system. Only the most recent version of a rate can 
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.fee_schedules.v_3.delete_rate(rate_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), version=1, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.delete_rate(
+    rate_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    version=1,
+)
 
 ```
 </dd>
@@ -3544,9 +4522,11 @@ Gets the default payer threshold
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
 client.fee_schedules.v_3.get_payer_thresholds_default()
 
 ```
@@ -3605,10 +4585,16 @@ Gets a list of payers and thresholds by their uuids
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.fee_schedules.v_3.get_payer_thresholds(payer_uuids=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.get_payer_thresholds(
+    payer_uuids=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -3674,11 +4660,22 @@ Sets the threshold information for a payer
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.fee_schedules.v_3 import PayerThreshold
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.fee_schedules.v_3.set_payer_threshold(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=PayerThreshold(upper_threshold_cents=1, lower_threshold_cents=1, disable_paid_incorrectly=True, ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.set_payer_threshold(
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=PayerThreshold(
+        upper_threshold_cents=1,
+        lower_threshold_cents=1,
+        disable_paid_incorrectly=True,
+    ),
+)
 
 ```
 </dd>
@@ -3755,11 +4752,42 @@ import uuid
 
 from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.guarantor.v_1 import GuarantorCreate
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.guarantor.v_1.create(encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=GuarantorCreate(phone_numbers=[PhoneNumber(number='1234567890', type=PhoneNumberType.HOME, )], phone_consent=True, email='johndoe@joincandidhealth.com', email_consent=True, first_name='string', last_name='string', external_id='string', date_of_birth=datetime.date.fromisoformat("2023-01-15", ), address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.guarantor.v_1.create(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=GuarantorCreate(
+        phone_numbers=[
+            PhoneNumber(
+                number="1234567890",
+                type=PhoneNumberType.HOME,
+            )
+        ],
+        phone_consent=True,
+        email="johndoe@joincandidhealth.com",
+        email_consent=True,
+        first_name="string",
+        last_name="string",
+        external_id="string",
+        date_of_birth=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+    ),
+)
 
 ```
 </dd>
@@ -3833,10 +4861,16 @@ Retrieves a guarantor by its `guarantor_id`.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.guarantor.v_1.get(guarantor_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.guarantor.v_1.get(
+    guarantor_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -3904,10 +4938,39 @@ import uuid
 
 from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.guarantor.v_1.update(guarantor_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), first_name='string', last_name='string', external_id='string', date_of_birth=datetime.date.fromisoformat("2023-01-15", ), address=StreetAddressShortZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), phone_numbers=[PhoneNumber(number='1234567890', type=PhoneNumberType.HOME, )], phone_consent=True, email='johndoe@joincandidhealth.com', email_consent=True, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.guarantor.v_1.update(
+    guarantor_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    first_name="string",
+    last_name="string",
+    external_id="string",
+    date_of_birth=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    address=StreetAddressShortZip(
+        address_1="123 Main St",
+        address_2="Apt 1",
+        city="New York",
+        state=State.NY,
+        zip_code="10001",
+        zip_plus_four_code="1234",
+    ),
+    phone_numbers=[
+        PhoneNumber(
+            number="1234567890",
+            type=PhoneNumberType.HOME,
+        )
+    ],
+    phone_consent=True,
+    email="johndoe@joincandidhealth.com",
+    email_consent=True,
+)
 
 ```
 </dd>
@@ -4048,12 +5111,30 @@ import datetime
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.import_invoice.v_1 import CreateImportInvoiceRequest
 from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.import_invoice.v_1.import_invoice(request=CreateImportInvoiceRequest(external_payment_account_config_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), patient_external_id='string', external_customer_identifier='string', note='string', due_date=datetime.date.fromisoformat("2023-01-15", ), items=[InvoiceItemCreate()], status=InvoiceStatus.DRAFT, external_identifier='string', customer_invoice_url='string', ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.import_invoice.v_1.import_invoice(
+    request=CreateImportInvoiceRequest(
+        external_payment_account_config_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        patient_external_id="string",
+        external_customer_identifier="string",
+        note="string",
+        due_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        items=[InvoiceItemCreate()],
+        status=InvoiceStatus.DRAFT,
+        external_identifier="string",
+        customer_invoice_url="string",
+    ),
+)
 
 ```
 </dd>
@@ -4120,11 +5201,28 @@ import datetime
 
 from candid import SortDirection
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.invoices.v_2 import InvoiceSortField, InvoiceStatus
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.import_invoice.v_1.get_multi(patient_external_id='string', encounter_external_id='string', note='string', due_date_before=datetime.date.fromisoformat("2023-01-15", ), due_date_after=datetime.date.fromisoformat("2023-01-15", ), status=InvoiceStatus.DRAFT, limit=1, sort=InvoiceSortField.CREATED_AT, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.import_invoice.v_1.get_multi(
+    patient_external_id="string",
+    encounter_external_id="string",
+    note="string",
+    due_date_before=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    due_date_after=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    status=InvoiceStatus.DRAFT,
+    limit=1,
+    sort=InvoiceSortField.CREATED_AT,
+    sort_direction=SortDirection.ASC,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
 
 ```
 </dd>
@@ -4262,10 +5360,16 @@ Retrieve and view an import invoice
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.import_invoice.v_1.get(invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.import_invoice.v_1.get(
+    invoice_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -4332,14 +5436,34 @@ import datetime
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.import_invoice.v_1 import (ImportInvoiceUpdateRequest,
-                                                 InvoiceItemInfoUpdate,
-                                                 InvoiceItemUpdateType)
+from candid.resources.import_invoice.v_1 import (
+    ImportInvoiceUpdateRequest,
+    InvoiceItemInfoUpdate,
+    InvoiceItemUpdateType,
+)
 from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.import_invoice.v_1.update(invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=ImportInvoiceUpdateRequest(customer_invoice_url='string', status=InvoiceStatus.DRAFT, note='string', due_date=datetime.date.fromisoformat("2023-01-15", ), items=InvoiceItemInfoUpdate(update_type=InvoiceItemUpdateType.APPEND, items=[InvoiceItemCreate()], ), ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.import_invoice.v_1.update(
+    invoice_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=ImportInvoiceUpdateRequest(
+        customer_invoice_url="string",
+        status=InvoiceStatus.DRAFT,
+        note="string",
+        due_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        items=InvoiceItemInfoUpdate(
+            update_type=InvoiceItemUpdateType.APPEND,
+            items=[InvoiceItemCreate()],
+        ),
+    ),
+)
 
 ```
 </dd>
@@ -4414,10 +5538,16 @@ Retrieves a previously created insurance adjudication by its `insurance_adjudica
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_adjudications.v_1.get(insurance_adjudication_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_adjudications.v_1.get(
+    insurance_adjudication_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -4484,14 +5614,36 @@ import datetime
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.insurance_adjudications.v_1 import (
-    ClaimAdjudicationCreate, InsuranceAdjudicationCreate)
+    ClaimAdjudicationCreate,
+    InsuranceAdjudicationCreate,
+)
 from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
 from candid.resources.remits.v_1 import Payee
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_adjudications.v_1.create(request=InsuranceAdjudicationCreate(payer_identifier=PayerIdentifier_PayerInfo(), payee=Payee(), post_date=datetime.date.fromisoformat("2023-01-15", ), check_number='string', check_date=datetime.date.fromisoformat("2023-01-15", ), note='string', claims={uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ): [ClaimAdjudicationCreate()]}, ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_adjudications.v_1.create(
+    request=InsuranceAdjudicationCreate(
+        payer_identifier=PayerIdentifier_PayerInfo(),
+        payee=Payee(),
+        post_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        check_number="string",
+        check_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        note="string",
+        claims={
+            uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ): [ClaimAdjudicationCreate()]
+        },
+    ),
+)
 
 ```
 </dd>
@@ -4557,10 +5709,16 @@ Deletes the insurance adjudication record matching the provided insurance_adjudi
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_adjudications.v_1.delete(insurance_adjudication_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_adjudications.v_1.delete(
+    insurance_adjudication_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -4628,11 +5786,30 @@ import uuid
 
 from candid import SortDirection
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.insurance_payments.v_1 import InsurancePaymentSortField
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_payments.v_1.get_multi(limit=1, payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), claim_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), sort=InsurancePaymentSortField.AMOUNT_CENTS, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_payments.v_1.get_multi(
+    limit=1,
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    claim_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    billing_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    sort=InsurancePaymentSortField.AMOUNT_CENTS,
+    sort_direction=SortDirection.ASC,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
 
 ```
 </dd>
@@ -4755,10 +5932,16 @@ If the payment does not exist, a `403` will be thrown.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_payments.v_1.get(insurance_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_payments.v_1.get(
+    insurance_payment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -4827,12 +6010,24 @@ import datetime
 
 from candid import AllocationCreate
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.insurance_payments.v_1 import InsurancePaymentCreate
 from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_payments.v_1.create(request=InsurancePaymentCreate(payer_identifier=PayerIdentifier_PayerInfo(), amount_cents=1, payment_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), payment_note='string', allocations=[AllocationCreate()], ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_payments.v_1.create(
+    request=InsurancePaymentCreate(
+        payer_identifier=PayerIdentifier_PayerInfo(),
+        amount_cents=1,
+        payment_timestamp=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        payment_note="string",
+        allocations=[AllocationCreate()],
+    ),
+)
 
 ```
 </dd>
@@ -4901,10 +6096,20 @@ import uuid
 
 from candid import NoteUpdate_Set
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_payments.v_1.update(insurance_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), payment_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), payment_note=NoteUpdate_Set(value='string'), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_payments.v_1.update(
+    insurance_payment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    payment_timestamp=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+    payment_note=NoteUpdate_Set(value="string"),
+)
 
 ```
 </dd>
@@ -4988,10 +6193,16 @@ current organization_id, then a response code of `403` will be returned.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_payments.v_1.delete(insurance_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_payments.v_1.delete(
+    insurance_payment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -5060,11 +6271,30 @@ import uuid
 
 from candid import SortDirection
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.insurance_refunds.v_1 import InsuranceRefundSortField
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_refunds.v_1.get_multi(limit=1, payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), claim_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), sort=InsuranceRefundSortField.AMOUNT_CENTS, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_refunds.v_1.get_multi(
+    limit=1,
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    claim_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    billing_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    sort=InsuranceRefundSortField.AMOUNT_CENTS,
+    sort_direction=SortDirection.ASC,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
 
 ```
 </dd>
@@ -5187,10 +6417,16 @@ If the refund does not exist, a `403` will be thrown.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_refunds.v_1.get(insurance_refund_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_refunds.v_1.get(
+    insurance_refund_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -5259,12 +6495,25 @@ import datetime
 
 from candid import AllocationCreate, RefundReason
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.insurance_refunds.v_1 import InsuranceRefundCreate
 from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_refunds.v_1.create(request=InsuranceRefundCreate(payer_identifier=PayerIdentifier_PayerInfo(), amount_cents=1, refund_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), refund_note='string', allocations=[AllocationCreate()], refund_reason=RefundReason.OVERCHARGED, ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_refunds.v_1.create(
+    request=InsuranceRefundCreate(
+        payer_identifier=PayerIdentifier_PayerInfo(),
+        amount_cents=1,
+        refund_timestamp=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        refund_note="string",
+        allocations=[AllocationCreate()],
+        refund_reason=RefundReason.OVERCHARGED,
+    ),
+)
 
 ```
 </dd>
@@ -5333,10 +6582,21 @@ import uuid
 
 from candid import NoteUpdate_Set, RefundReason, RefundReasonUpdate_Set
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_refunds.v_1.update(insurance_refund_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), refund_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), refund_note=NoteUpdate_Set(value='string'), refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_refunds.v_1.update(
+    insurance_refund_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    refund_timestamp=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+    refund_note=NoteUpdate_Set(value="string"),
+    refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
+)
 
 ```
 </dd>
@@ -5428,10 +6688,16 @@ current organization_id, then a response code of `403` will be returned.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.insurance_refunds.v_1.delete(insurance_refund_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_refunds.v_1.delete(
+    insurance_refund_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -5484,10 +6750,16 @@ client.insurance_refunds.v_1.delete(insurance_refund_id=uuid.UUID("d5e9c84f-c2b2
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.organization_service_facilities.v_2.get(organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_service_facilities.v_2.get(
+    organization_service_facility_id=uuid.UUID(
+        "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+    ),
+)
 
 ```
 </dd>
@@ -5537,10 +6809,16 @@ client.organization_service_facilities.v_2.get(organization_service_facility_id=
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.organization_service_facilities.v_2.get_multi(limit=100, name='Test Service Facility', page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_service_facilities.v_2.get_multi(
+    limit=100,
+    name="Test Service Facility",
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
 
 ```
 </dd>
@@ -5607,14 +6885,40 @@ client.organization_service_facilities.v_2.get_multi(limit=100, name='Test Servi
 ```python
 from candid import State, StreetAddressLongZip
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.organization_service_facilities.v_2 import (
-    OrganizationServiceFacilityCreate, ServiceFacilityMode,
-    ServiceFacilityOperationalStatus, ServiceFacilityPhysicalType,
-    ServiceFacilityStatus, ServiceFacilityType)
+    OrganizationServiceFacilityCreate,
+    ServiceFacilityMode,
+    ServiceFacilityOperationalStatus,
+    ServiceFacilityPhysicalType,
+    ServiceFacilityStatus,
+    ServiceFacilityType,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.organization_service_facilities.v_2.create(request=OrganizationServiceFacilityCreate(name='Test Service Facility', aliases=['Test Service Facility Alias'], description='Test Service Facility Description', status=ServiceFacilityStatus.ACTIVE, operational_status=ServiceFacilityOperationalStatus.CLOSED, mode=ServiceFacilityMode.INSTANCE, type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT, physical_type=ServiceFacilityPhysicalType.SITE, telecoms=['555-555-5555'], address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_service_facilities.v_2.create(
+    request=OrganizationServiceFacilityCreate(
+        name="Test Service Facility",
+        aliases=["Test Service Facility Alias"],
+        description="Test Service Facility Description",
+        status=ServiceFacilityStatus.ACTIVE,
+        operational_status=ServiceFacilityOperationalStatus.CLOSED,
+        mode=ServiceFacilityMode.INSTANCE,
+        type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+        physical_type=ServiceFacilityPhysicalType.SITE,
+        telecoms=["555-555-5555"],
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+    ),
+)
 
 ```
 </dd>
@@ -5667,14 +6971,43 @@ import uuid
 
 from candid import State, StreetAddressLongZip
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.organization_service_facilities.v_2 import (
-    OrganizationServiceFacilityUpdate, ServiceFacilityMode,
-    ServiceFacilityOperationalStatus, ServiceFacilityPhysicalType,
-    ServiceFacilityStatus, ServiceFacilityType)
+    OrganizationServiceFacilityUpdate,
+    ServiceFacilityMode,
+    ServiceFacilityOperationalStatus,
+    ServiceFacilityPhysicalType,
+    ServiceFacilityStatus,
+    ServiceFacilityType,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.organization_service_facilities.v_2.update(organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), request=OrganizationServiceFacilityUpdate(name='Test Service Facility', aliases=['Test Service Facility Alias'], description='Test Service Facility Description', status=ServiceFacilityStatus.ACTIVE, operational_status=ServiceFacilityOperationalStatus.CLOSED, mode=ServiceFacilityMode.INSTANCE, type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT, physical_type=ServiceFacilityPhysicalType.SITE, telecoms=['555-555-5555'], address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_service_facilities.v_2.update(
+    organization_service_facility_id=uuid.UUID(
+        "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+    ),
+    request=OrganizationServiceFacilityUpdate(
+        name="Test Service Facility",
+        aliases=["Test Service Facility Alias"],
+        description="Test Service Facility Description",
+        status=ServiceFacilityStatus.ACTIVE,
+        operational_status=ServiceFacilityOperationalStatus.CLOSED,
+        mode=ServiceFacilityMode.INSTANCE,
+        type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+        physical_type=ServiceFacilityPhysicalType.SITE,
+        telecoms=["555-555-5555"],
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+    ),
+)
 
 ```
 </dd>
@@ -5734,10 +7067,16 @@ client.organization_service_facilities.v_2.update(organization_service_facility_
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.organization_service_facilities.v_2.delete(organization_service_facility_id=uuid.UUID("30f55ee6-8c0e-43fc-a7fc-dac00d5bf569", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_service_facilities.v_2.delete(
+    organization_service_facility_id=uuid.UUID(
+        "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+    ),
+)
 
 ```
 </dd>
@@ -5790,10 +7129,16 @@ client.organization_service_facilities.v_2.delete(organization_service_facility_
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.organization_providers.v_3.get(organization_provider_id=uuid.UUID("965a563a-0285-4910-9569-e3739c0f6eab", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.get(
+    organization_provider_id=uuid.UUID(
+        "965a563a-0285-4910-9569-e3739c0f6eab",
+    ),
+)
 
 ```
 </dd>
@@ -5843,12 +7188,23 @@ client.organization_providers.v_3.get(organization_provider_id=uuid.UUID("965a56
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.organization_providers.v_2 import \
-    OrganizationProviderSortOptions
+from candid.resources.organization_providers.v_2 import (
+    OrganizationProviderSortOptions,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.organization_providers.v_3.get_multi(limit=100, search_term='john', npi='1234567890', is_rendering=True, is_billing=True, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.get_multi(
+    limit=100,
+    search_term="john",
+    npi="1234567890",
+    is_rendering=True,
+    is_billing=True,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
+)
 
 ```
 </dd>
@@ -5949,14 +7305,54 @@ import datetime
 
 from candid import IdentifierCreate, State, StreetAddressLongZip
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.organization_providers.v_2 import (
-    AddressType, LicenseType, OrganizationProviderAddress, ProviderType)
-from candid.resources.organization_providers.v_3 import \
-    OrganizationProviderCreateV2
+    AddressType,
+    LicenseType,
+    OrganizationProviderAddress,
+    ProviderType,
+)
+from candid.resources.organization_providers.v_3 import (
+    OrganizationProviderCreateV2,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.organization_providers.v_3.create(request=OrganizationProviderCreateV2(npi='string', is_rendering=True, is_billing=True, first_name='string', last_name='string', organization_name='string', provider_type=ProviderType.INDIVIDUAL, tax_id='string', taxonomy_code='string', license_type=LicenseType.MD, addresses=[OrganizationProviderAddress(address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), address_type=AddressType.DEFAULT, )], employment_start_date=datetime.date.fromisoformat("2023-01-15", ), employment_termination_date=datetime.date.fromisoformat("2023-01-15", ), qualifications=[IdentifierCreate()], ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.create(
+    request=OrganizationProviderCreateV2(
+        npi="string",
+        is_rendering=True,
+        is_billing=True,
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+        provider_type=ProviderType.INDIVIDUAL,
+        tax_id="string",
+        taxonomy_code="string",
+        license_type=LicenseType.MD,
+        addresses=[
+            OrganizationProviderAddress(
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                address_type=AddressType.DEFAULT,
+            )
+        ],
+        employment_start_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        employment_termination_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        qualifications=[IdentifierCreate()],
+    ),
+)
 
 ```
 </dd>
@@ -6009,14 +7405,53 @@ import uuid
 
 from candid import State, StreetAddressLongZip, UpdatableIdentifier_Add
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.organization_providers.v_2 import (
-    AddressType, LicenseType, OrganizationProviderAddress, ProviderType)
-from candid.resources.organization_providers.v_3 import \
-    OrganizationProviderUpdateV2
+    AddressType,
+    LicenseType,
+    OrganizationProviderAddress,
+    ProviderType,
+)
+from candid.resources.organization_providers.v_3 import (
+    OrganizationProviderUpdateV2,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.organization_providers.v_3.update(organization_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=OrganizationProviderUpdateV2(npi='string', is_rendering=True, is_billing=True, first_name='string', last_name='string', organization_name='string', provider_type=ProviderType.INDIVIDUAL, tax_id='string', taxonomy_code='string', license_type=LicenseType.MD, addresses=[OrganizationProviderAddress(address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), address_type=AddressType.DEFAULT, )], employment_start_date='string', employment_termination_date='string', qualifications=[UpdatableIdentifier_Add()], ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.update(
+    organization_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=OrganizationProviderUpdateV2(
+        npi="string",
+        is_rendering=True,
+        is_billing=True,
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+        provider_type=ProviderType.INDIVIDUAL,
+        tax_id="string",
+        taxonomy_code="string",
+        license_type=LicenseType.MD,
+        addresses=[
+            OrganizationProviderAddress(
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                address_type=AddressType.DEFAULT,
+            )
+        ],
+        employment_start_date="string",
+        employment_termination_date="string",
+        qualifications=[UpdatableIdentifier_Add()],
+    ),
+)
 
 ```
 </dd>
@@ -6093,11 +7528,33 @@ import uuid
 
 from candid import PatientTransactionSource, SortDirection
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.patient_payments.v_4 import PatientPaymentSortField
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_payments.v_4.get_multi(limit=1, patient_external_id='string', claim_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), unattributed=True, invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), sources=PatientTransactionSource.MANUAL_ENTRY, sort=PatientPaymentSortField.PAYMENT_SOURCE, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_payments.v_4.get_multi(
+    limit=1,
+    patient_external_id="string",
+    claim_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    billing_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    unattributed=True,
+    invoice_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    sources=PatientTransactionSource.MANUAL_ENTRY,
+    sort=PatientPaymentSortField.PAYMENT_SOURCE,
+    sort_direction=SortDirection.ASC,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
 
 ```
 </dd>
@@ -6247,10 +7704,16 @@ Retrieves a previously created patient payment by its `patient_payment_id`.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_payments.v_4.get(patient_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_payments.v_4.get(
+    patient_payment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -6320,10 +7783,32 @@ import uuid
 
 from candid import AllocationCreate, AllocationTargetCreate_ServiceLineById
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_payments.v_4.create(amount_cents=1, payment_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), payment_note='string', patient_external_id='string', allocations=[AllocationCreate(amount_cents=1, target=AllocationTargetCreate_ServiceLineById(value=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )), )], invoice=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_payments.v_4.create(
+    amount_cents=1,
+    payment_timestamp=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+    payment_note="string",
+    patient_external_id="string",
+    allocations=[
+        AllocationCreate(
+            amount_cents=1,
+            target=AllocationTargetCreate_ServiceLineById(
+                value=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ),
+        )
+    ],
+    invoice=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -6431,10 +7916,25 @@ import uuid
 
 from candid import InvoiceUpdate_Set, NoteUpdate_Set
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_payments.v_4.update(patient_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), payment_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), payment_note=NoteUpdate_Set(value='string'), invoice=InvoiceUpdate_Set(value=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_payments.v_4.update(
+    patient_payment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    payment_timestamp=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+    payment_note=NoteUpdate_Set(value="string"),
+    invoice=InvoiceUpdate_Set(
+        value=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        )
+    ),
+)
 
 ```
 </dd>
@@ -6524,10 +8024,16 @@ Deletes the patient payment record matching the provided patient_payment_id.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_payments.v_4.delete(patient_payment_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_payments.v_4.delete(
+    patient_payment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -6596,11 +8102,33 @@ import uuid
 
 from candid import PatientTransactionSource, SortDirection
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.patient_refunds.v_1 import PatientRefundSortField
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_refunds.v_1.get_multi(limit=1, patient_external_id='string', claim_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), unattributed=True, invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), sources=PatientTransactionSource.MANUAL_ENTRY, sort=PatientRefundSortField.REFUND_SOURCE, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_refunds.v_1.get_multi(
+    limit=1,
+    patient_external_id="string",
+    claim_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    billing_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    unattributed=True,
+    invoice_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    sources=PatientTransactionSource.MANUAL_ENTRY,
+    sort=PatientRefundSortField.REFUND_SOURCE,
+    sort_direction=SortDirection.ASC,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
 
 ```
 </dd>
@@ -6750,10 +8278,16 @@ Retrieves a previously created patient refund by its `patient_refund_id`.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_refunds.v_1.get(patient_refund_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_refunds.v_1.get(
+    patient_refund_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -6821,13 +8355,39 @@ claim, or billing provider.
 import datetime
 import uuid
 
-from candid import (AllocationCreate, AllocationTargetCreate_ServiceLineById,
-                    RefundReason)
+from candid import (
+    AllocationCreate,
+    AllocationTargetCreate_ServiceLineById,
+    RefundReason,
+)
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_refunds.v_1.create(amount_cents=1, refund_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), refund_note='string', patient_external_id='string', allocations=[AllocationCreate(amount_cents=1, target=AllocationTargetCreate_ServiceLineById(value=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )), )], invoice=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), refund_reason=RefundReason.OVERCHARGED, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_refunds.v_1.create(
+    amount_cents=1,
+    refund_timestamp=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+    refund_note="string",
+    patient_external_id="string",
+    allocations=[
+        AllocationCreate(
+            amount_cents=1,
+            target=AllocationTargetCreate_ServiceLineById(
+                value=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ),
+        )
+    ],
+    invoice=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    refund_reason=RefundReason.OVERCHARGED,
+)
 
 ```
 </dd>
@@ -6941,13 +8501,33 @@ Updates the patient refund record matching the provided patient_refund_id.
 import datetime
 import uuid
 
-from candid import (InvoiceUpdate_Set, NoteUpdate_Set, RefundReason,
-                    RefundReasonUpdate_Set)
+from candid import (
+    InvoiceUpdate_Set,
+    NoteUpdate_Set,
+    RefundReason,
+    RefundReasonUpdate_Set,
+)
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_refunds.v_1.update(patient_refund_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), refund_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), refund_note=NoteUpdate_Set(value='string'), invoice=InvoiceUpdate_Set(value=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )), refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_refunds.v_1.update(
+    patient_refund_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    refund_timestamp=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+    refund_note=NoteUpdate_Set(value="string"),
+    invoice=InvoiceUpdate_Set(
+        value=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        )
+    ),
+    refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
+)
 
 ```
 </dd>
@@ -7045,10 +8625,16 @@ Deletes the patient refund record matching the provided patient_refund_id.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.patient_refunds.v_1.delete(patient_refund_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_refunds.v_1.delete(
+    patient_refund_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -7101,10 +8687,16 @@ client.patient_refunds.v_1.delete(patient_refund_id=uuid.UUID("d5e9c84f-c2b2-4bf
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.payers.v_3.get(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.payers.v_3.get(
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -7154,10 +8746,16 @@ client.payers.v_3.get(payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.payers.v_3.get_all(limit=100, search_term='john', page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.payers.v_3.get_all(
+    limit=100,
+    search_term="john",
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
 
 ```
 </dd>
@@ -7226,10 +8824,16 @@ client.payers.v_3.get_all(limit=100, search_term='john', page_token='eyJ0b2tlbiI
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.tasks.v_3.get_actions(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.tasks.v_3.get_actions(
+    task_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -7282,12 +8886,38 @@ import datetime
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.tasks import TaskStatus, TaskType
 from candid.resources.tasks.v_3 import TaskSortOptions
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.tasks.v_3.get_multi(limit=1, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', status=TaskStatus.FINISHED, task_type=TaskType.CUSTOMER_DATA_REQUEST, categories='string', updated_since=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), search_term='string', assigned_to_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), date_of_service_min=datetime.date.fromisoformat("2023-01-15", ), date_of_service_max=datetime.date.fromisoformat("2023-01-15", ), billing_provider_npi='string', sort=TaskSortOptions.UPDATED_AT_ASC, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.tasks.v_3.get_multi(
+    limit=1,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    status=TaskStatus.FINISHED,
+    task_type=TaskType.CUSTOMER_DATA_REQUEST,
+    categories="string",
+    updated_since=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    search_term="string",
+    assigned_to_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    date_of_service_min=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    date_of_service_max=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    billing_provider_npi="string",
+    sort=TaskSortOptions.UPDATED_AT_ASC,
+)
 
 ```
 </dd>
@@ -7435,10 +9065,16 @@ client.tasks.v_3.get_multi(limit=1, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2Vu
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.tasks.v_3.get(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.tasks.v_3.get(
+    task_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -7490,12 +9126,28 @@ client.tasks.v_3.get(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.tasks import TaskCategory, TaskType
 from candid.resources.tasks.v_3 import TaskCreateV3
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.tasks.v_3.create(request=TaskCreateV3(encounter_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), task_type=TaskType.CUSTOMER_DATA_REQUEST, description='string', blocks_claim_submission=True, assignee_user_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), category=TaskCategory.OTHER, work_queue_id='string', ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.tasks.v_3.create(
+    request=TaskCreateV3(
+        encounter_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        task_type=TaskType.CUSTOMER_DATA_REQUEST,
+        description="string",
+        blocks_claim_submission=True,
+        assignee_user_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        category=TaskCategory.OTHER,
+        work_queue_id="string",
+    ),
+)
 
 ```
 </dd>
@@ -7547,12 +9199,25 @@ client.tasks.v_3.create(request=TaskCreateV3(encounter_id=uuid.UUID("d5e9c84f-c2
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.tasks import TaskStatus
 from candid.resources.tasks.v_3 import TaskUpdateV3
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.tasks.v_3.update(task_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=TaskUpdateV3(status=TaskStatus.FINISHED, assignee_user_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), blocks_claim_submission=True, ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.tasks.v_3.update(
+    task_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=TaskUpdateV3(
+        status=TaskStatus.FINISHED,
+        assignee_user_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        blocks_claim_submission=True,
+    ),
+)
 
 ```
 </dd>
@@ -7628,11 +9293,32 @@ import uuid
 
 from candid import AccountType, SortDirection
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 from candid.resources.write_offs.v_1 import WriteOffSortField
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.write_offs.v_1.get_multi(limit=1, patient_external_id='string', payer_uuid=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), claim_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), billing_provider_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), sort=WriteOffSortField.AMOUNT_CENTS, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', account_types=AccountType.PATIENT, )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.get_multi(
+    limit=1,
+    patient_external_id="string",
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    claim_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    billing_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    sort=WriteOffSortField.AMOUNT_CENTS,
+    sort_direction=SortDirection.ASC,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    account_types=AccountType.PATIENT,
+)
 
 ```
 </dd>
@@ -7770,10 +9456,16 @@ Retrieves a previously created write off by its `write_off_id`.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.write_offs.v_1.get(write_off_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.get(
+    write_off_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -7841,12 +9533,30 @@ import datetime
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.write_offs.v_1 import (PatientWriteOffReason,
-                                             WriteOffCreate_Patient)
+from candid.resources.write_offs.v_1 import (
+    PatientWriteOffReason,
+    WriteOffCreate_Patient,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.write_offs.v_1.create(write_offs=[WriteOffCreate_Patient(write_off_timestamp=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), write_off_note='string', write_off_reason=PatientWriteOffReason.SMALL_BALANCE, service_line_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), amount_cents=1, )], )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.create(
+    write_offs=[
+        WriteOffCreate_Patient(
+            write_off_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            write_off_note="string",
+            write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            amount_cents=1,
+        )
+    ],
+)
 
 ```
 </dd>
@@ -7912,10 +9622,16 @@ Reverts a write off given a `write_off_id`.
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.write_offs.v_1.revert(write_off_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.revert(
+    write_off_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -7982,17 +9698,46 @@ Creates a new Coverage. A Coverage provides the high-level identifiers and descr
 import datetime
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.pre_encounter import (Gender, HumanName, Period,
-                                            Relationship)
-from candid.resources.pre_encounter.coverages.v_1 import (CoverageStatus,
-                                                          InsurancePlan,
-                                                          MutableCoverage,
-                                                          NetworkType,
-                                                          Subscriber)
+from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+from candid.resources.pre_encounter.coverages.v_1 import (
+    CoverageStatus,
+    InsurancePlan,
+    InsuranceTypeCode,
+    MutableCoverage,
+    NetworkType,
+    Subscriber,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.coverages.v_1.create(request=MutableCoverage(status=CoverageStatus.ACTIVE, subscriber=Subscriber(name=HumanName(), date_of_birth=datetime.date.fromisoformat("2023-01-15", ), gender=Gender.MAN, ), relationship=Relationship.SELF, patient='string', insurance_plan=InsurancePlan(member_id='string', payer_id='string', payer_name='string', group_number='string', name='string', type=NetworkType.PPO, period=Period(), insurance_card_image_locator='string', ), verified=True, ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.create(
+    request=MutableCoverage(
+        status=CoverageStatus.ACTIVE,
+        subscriber=Subscriber(
+            name=HumanName(),
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            biological_sex=Sex.FEMALE,
+        ),
+        relationship=Relationship.SELF,
+        patient="string",
+        insurance_plan=InsurancePlan(
+            member_id="string",
+            payer_id="string",
+            payer_name="string",
+            group_number="string",
+            name="string",
+            plan_type=NetworkType.SELF_PAY,
+            type=InsuranceTypeCode.C_01,
+            period=Period(),
+            insurance_card_image_locator="string",
+        ),
+        verified=True,
+    ),
+)
 
 ```
 </dd>
@@ -8059,17 +9804,50 @@ import datetime
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.pre_encounter import (Gender, HumanName, Period,
-                                            Relationship)
-from candid.resources.pre_encounter.coverages.v_1 import (CoverageStatus,
-                                                          InsurancePlan,
-                                                          MutableCoverage,
-                                                          NetworkType,
-                                                          Subscriber)
+from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+from candid.resources.pre_encounter.coverages.v_1 import (
+    CoverageStatus,
+    InsurancePlan,
+    InsuranceTypeCode,
+    MutableCoverage,
+    NetworkType,
+    Subscriber,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.coverages.v_1.update(id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), version='string', request=MutableCoverage(status=CoverageStatus.ACTIVE, subscriber=Subscriber(name=HumanName(), date_of_birth=datetime.date.fromisoformat("2023-01-15", ), gender=Gender.MAN, ), relationship=Relationship.SELF, patient='string', insurance_plan=InsurancePlan(member_id='string', payer_id='string', payer_name='string', group_number='string', name='string', type=NetworkType.PPO, period=Period(), insurance_card_image_locator='string', ), verified=True, ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.update(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    version="string",
+    request=MutableCoverage(
+        status=CoverageStatus.ACTIVE,
+        subscriber=Subscriber(
+            name=HumanName(),
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            biological_sex=Sex.FEMALE,
+        ),
+        relationship=Relationship.SELF,
+        patient="string",
+        insurance_plan=InsurancePlan(
+            member_id="string",
+            payer_id="string",
+            payer_name="string",
+            group_number="string",
+            name="string",
+            plan_type=NetworkType.SELF_PAY,
+            type=InsuranceTypeCode.C_01,
+            period=Period(),
+            insurance_card_image_locator="string",
+        ),
+        verified=True,
+    ),
+)
 
 ```
 </dd>
@@ -8151,10 +9929,16 @@ gets a specific Coverage
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.coverages.v_1.get(id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.get(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -8220,10 +10004,16 @@ Gets a coverage along with it's full history. The return list is ordered by vers
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.coverages.v_1.get_history(id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.get_history(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
 
 ```
 </dd>
@@ -8287,10 +10077,14 @@ returns a list of Coverages based on the search criteria
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.coverages.v_1.get_multi(patient_id='string', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.get_multi(
+    patient_id="string",
+)
 
 ```
 </dd>
@@ -8356,10 +10150,16 @@ Scans up to 100 coverage updates. The since query parameter is inclusive, and th
 import datetime
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.coverages.v_1.scan(since=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.scan(
+    since=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+)
 
 ```
 </dd>
@@ -8427,21 +10227,82 @@ import datetime
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.pre_encounter import (Address, ContactPoint,
-                                            DisabilityStatus, Ethnicity,
-                                            Gender, HumanName, Period, Race,
-                                            Relationship, Sex,
-                                            SexualOrientation)
-from candid.resources.pre_encounter.patients.v_1 import (Contact,
-                                                         ExternalProvenance,
-                                                         ExternalProvider,
-                                                         FilingOrder,
-                                                         MaritalStatus,
-                                                         MutablePatient)
+from candid.resources.pre_encounter import (
+    Address,
+    ContactPoint,
+    DisabilityStatus,
+    Ethnicity,
+    ExternalProvider,
+    Gender,
+    HumanName,
+    Period,
+    Race,
+    Relationship,
+    Sex,
+    SexualOrientation,
+)
+from candid.resources.pre_encounter.patients.v_1 import (
+    Contact,
+    ExternalProvenance,
+    FilingOrder,
+    MaritalStatus,
+    MutablePatient,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.patients.v_1.create(request=MutablePatient(name=HumanName(), other_names=[HumanName()], gender=Gender.MAN, birth_date=datetime.date.fromisoformat("2023-01-15", ), social_security_number='string', biological_sex=Sex.FEMALE, sexual_orientation=SexualOrientation.HETEROSEXUAL, race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE, ethnicity=Ethnicity.HISPANIC_OR_LATINO, disability_status=DisabilityStatus.DISABLED, marital_status=MaritalStatus.ANNULLED, deceased=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), multiple_birth=1, primary_address=Address(), other_addresses=[Address()], primary_telecom=ContactPoint(), other_telecoms=[ContactPoint()], email='string', electronic_communication_opt_in=True, photo='string', language='string', external_provenance=ExternalProvenance(external_id='string', system_name='string', ), contacts=[Contact(relationship=[Relationship.SELF], name=HumanName(), gender=Gender.MAN, telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], general_practitioners=[ExternalProvider(name=HumanName(), npi='string', telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], filing_order=FilingOrder(coverages=[uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )], ), ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.create(
+    request=MutablePatient(
+        name=HumanName(),
+        other_names=[HumanName()],
+        gender=Gender.MAN,
+        birth_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        social_security_number="string",
+        biological_sex=Sex.FEMALE,
+        sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+        disability_status=DisabilityStatus.DISABLED,
+        marital_status=MaritalStatus.ANNULLED,
+        deceased=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        multiple_birth=1,
+        primary_address=Address(),
+        other_addresses=[Address()],
+        primary_telecom=ContactPoint(),
+        other_telecoms=[ContactPoint()],
+        email="string",
+        electronic_communication_opt_in=True,
+        photo="string",
+        language="string",
+        external_provenance=ExternalProvenance(
+            external_id="string",
+            system_name="string",
+        ),
+        contacts=[
+            Contact(
+                relationship=[Relationship.SELF],
+                name=HumanName(),
+                telecoms=[ContactPoint()],
+                addresses=[Address()],
+                period=Period(),
+            )
+        ],
+        general_practitioners=[ExternalProvider()],
+        filing_order=FilingOrder(
+            coverages=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+        ),
+    ),
+)
 
 ```
 </dd>
@@ -8505,10 +10366,14 @@ Gets a patient.
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.patients.v_1.get(id='string', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.get(
+    id="string",
+)
 
 ```
 </dd>
@@ -8572,10 +10437,14 @@ Gets a patient along with it's full history. The return list is ordered by versi
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.patients.v_1.get_history(id='string', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.get_history(
+    id="string",
+)
 
 ```
 </dd>
@@ -8642,21 +10511,84 @@ import datetime
 import uuid
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
-from candid.resources.pre_encounter import (Address, ContactPoint,
-                                            DisabilityStatus, Ethnicity,
-                                            Gender, HumanName, Period, Race,
-                                            Relationship, Sex,
-                                            SexualOrientation)
-from candid.resources.pre_encounter.patients.v_1 import (Contact,
-                                                         ExternalProvenance,
-                                                         ExternalProvider,
-                                                         FilingOrder,
-                                                         MaritalStatus,
-                                                         MutablePatient)
+from candid.resources.pre_encounter import (
+    Address,
+    ContactPoint,
+    DisabilityStatus,
+    Ethnicity,
+    ExternalProvider,
+    Gender,
+    HumanName,
+    Period,
+    Race,
+    Relationship,
+    Sex,
+    SexualOrientation,
+)
+from candid.resources.pre_encounter.patients.v_1 import (
+    Contact,
+    ExternalProvenance,
+    FilingOrder,
+    MaritalStatus,
+    MutablePatient,
+)
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.patients.v_1.update(id='string', version='string', request=MutablePatient(name=HumanName(), other_names=[HumanName()], gender=Gender.MAN, birth_date=datetime.date.fromisoformat("2023-01-15", ), social_security_number='string', biological_sex=Sex.FEMALE, sexual_orientation=SexualOrientation.HETEROSEXUAL, race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE, ethnicity=Ethnicity.HISPANIC_OR_LATINO, disability_status=DisabilityStatus.DISABLED, marital_status=MaritalStatus.ANNULLED, deceased=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), multiple_birth=1, primary_address=Address(), other_addresses=[Address()], primary_telecom=ContactPoint(), other_telecoms=[ContactPoint()], email='string', electronic_communication_opt_in=True, photo='string', language='string', external_provenance=ExternalProvenance(external_id='string', system_name='string', ), contacts=[Contact(relationship=[Relationship.SELF], name=HumanName(), gender=Gender.MAN, telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], general_practitioners=[ExternalProvider(name=HumanName(), npi='string', telecoms=[ContactPoint()], addresses=[Address()], period=Period(), )], filing_order=FilingOrder(coverages=[uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", )], ), ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.update(
+    id="string",
+    version="string",
+    request=MutablePatient(
+        name=HumanName(),
+        other_names=[HumanName()],
+        gender=Gender.MAN,
+        birth_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        social_security_number="string",
+        biological_sex=Sex.FEMALE,
+        sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+        disability_status=DisabilityStatus.DISABLED,
+        marital_status=MaritalStatus.ANNULLED,
+        deceased=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        multiple_birth=1,
+        primary_address=Address(),
+        other_addresses=[Address()],
+        primary_telecom=ContactPoint(),
+        other_telecoms=[ContactPoint()],
+        email="string",
+        electronic_communication_opt_in=True,
+        photo="string",
+        language="string",
+        external_provenance=ExternalProvenance(
+            external_id="string",
+            system_name="string",
+        ),
+        contacts=[
+            Contact(
+                relationship=[Relationship.SELF],
+                name=HumanName(),
+                telecoms=[ContactPoint()],
+                addresses=[Address()],
+                period=Period(),
+            )
+        ],
+        general_practitioners=[ExternalProvider()],
+        filing_order=FilingOrder(
+            coverages=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+        ),
+    ),
+)
 
 ```
 </dd>
@@ -8736,10 +10668,15 @@ Sets a patient as deactivated. The path must contain the most recent version to 
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.patients.v_1.deactivate(id='string', version='string', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.deactivate(
+    id="string",
+    version="string",
+)
 
 ```
 </dd>
@@ -8811,10 +10748,14 @@ Searches for patients that match the query parameters.
 
 ```python
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.patients.v_1.search(name_contains='string', )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.search(
+    name_contains="string",
+)
 
 ```
 </dd>
@@ -8880,10 +10821,16 @@ Scans up to 100 patient updates. The since query parameter is inclusive, and the
 import datetime
 
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.pre_encounter.patients.v_1.scan(since=datetime.datetime.fromisoformat("2024-01-15 09:30:00+00:00", ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.scan(
+    since=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+)
 
 ```
 </dd>
@@ -8937,10 +10884,26 @@ import uuid
 
 from candid import State, StreetAddressLongZip
 from candid.client import CandidApiClient
-from candid.environment import CandidApiClientEnvironment
 
-client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-client.service_facility.update(service_facility_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), organization_name='string', npi='string', address=StreetAddressLongZip(address_1='123 Main St', address_2='Apt 1', city='New York', state=State.NY, zip_code='10001', zip_plus_four_code='1234', ), )
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.service_facility.update(
+    service_facility_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    organization_name="string",
+    npi="string",
+    address=StreetAddressLongZip(
+        address_1="123 Main St",
+        address_2="Apt 1",
+        city="New York",
+        state=State.NY,
+        zip_code="10001",
+        zip_plus_four_code="1234",
+    ),
+)
 
 ```
 </dd>

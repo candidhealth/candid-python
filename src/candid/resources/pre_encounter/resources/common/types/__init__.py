@@ -7,6 +7,8 @@ from .contact_point_use import ContactPointUse
 from .disability_status import DisabilityStatus
 from .error_base import ErrorBase
 from .ethnicity import Ethnicity
+from .external_provider import ExternalProvider
+from .external_provider_type import ExternalProviderType
 from .gender import Gender
 from .human_name import HumanName
 from .name_use import NameUse
@@ -29,6 +31,8 @@ __all__ = [
     "DisabilityStatus",
     "ErrorBase",
     "Ethnicity",
+    "ExternalProvider",
+    "ExternalProviderType",
     "Gender",
     "HumanName",
     "NameUse",

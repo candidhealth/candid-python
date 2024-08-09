@@ -54,12 +54,30 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.import_invoice.v_1 import CreateImportInvoiceRequest
         from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.import_invoice.v_1.import_invoice(request=CreateImportInvoiceRequest(external_payment_account_config_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), patient_external_id='string', external_customer_identifier='string', note='string', due_date=datetime.date.fromisoformat("2023-01-15", ), items=[InvoiceItemCreate()], status=InvoiceStatus.DRAFT, external_identifier='string', customer_invoice_url='string', ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.import_invoice.v_1.import_invoice(
+            request=CreateImportInvoiceRequest(
+                external_payment_account_config_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                patient_external_id="string",
+                external_customer_identifier="string",
+                note="string",
+                due_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                items=[InvoiceItemCreate()],
+                status=InvoiceStatus.DRAFT,
+                external_identifier="string",
+                customer_invoice_url="string",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/import-invoice/v1",
@@ -137,11 +155,28 @@ class V1Client:
 
         from candid import SortDirection
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.invoices.v_2 import InvoiceSortField, InvoiceStatus
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.import_invoice.v_1.get_multi(patient_external_id='string', encounter_external_id='string', note='string', due_date_before=datetime.date.fromisoformat("2023-01-15", ), due_date_after=datetime.date.fromisoformat("2023-01-15", ), status=InvoiceStatus.DRAFT, limit=1, sort=InvoiceSortField.CREATED_AT, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.import_invoice.v_1.get_multi(
+            patient_external_id="string",
+            encounter_external_id="string",
+            note="string",
+            due_date_before=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            due_date_after=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            status=InvoiceStatus.DRAFT,
+            limit=1,
+            sort=InvoiceSortField.CREATED_AT,
+            sort_direction=SortDirection.ASC,
+            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/import-invoice/v1",
@@ -190,10 +225,16 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.import_invoice.v_1.get(invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.import_invoice.v_1.get(
+            invoice_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/import-invoice/v1/{jsonable_encoder(invoice_id)}",
@@ -243,14 +284,34 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.environment import CandidApiClientEnvironment
-        from candid.resources.import_invoice.v_1 import (ImportInvoiceUpdateRequest,
-                                                         InvoiceItemInfoUpdate,
-                                                         InvoiceItemUpdateType)
+        from candid.resources.import_invoice.v_1 import (
+            ImportInvoiceUpdateRequest,
+            InvoiceItemInfoUpdate,
+            InvoiceItemUpdateType,
+        )
         from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
 
-        client = CandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
-        client.import_invoice.v_1.update(invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=ImportInvoiceUpdateRequest(customer_invoice_url='string', status=InvoiceStatus.DRAFT, note='string', due_date=datetime.date.fromisoformat("2023-01-15", ), items=InvoiceItemInfoUpdate(update_type=InvoiceItemUpdateType.APPEND, items=[InvoiceItemCreate()], ), ), )
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.import_invoice.v_1.update(
+            invoice_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=ImportInvoiceUpdateRequest(
+                customer_invoice_url="string",
+                status=InvoiceStatus.DRAFT,
+                note="string",
+                due_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                items=InvoiceItemInfoUpdate(
+                    update_type=InvoiceItemUpdateType.APPEND,
+                    items=[InvoiceItemCreate()],
+                ),
+            ),
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/import-invoice/v1/{jsonable_encoder(invoice_id)}",
@@ -302,13 +363,35 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.import_invoice.v_1 import CreateImportInvoiceRequest
         from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.import_invoice.v_1.import_invoice(request=CreateImportInvoiceRequest(external_payment_account_config_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), patient_external_id='string', external_customer_identifier='string', note='string', due_date=datetime.date.fromisoformat("2023-01-15", ), items=[InvoiceItemCreate()], status=InvoiceStatus.DRAFT, external_identifier='string', customer_invoice_url='string', ), )
+            await client.import_invoice.v_1.import_invoice(
+                request=CreateImportInvoiceRequest(
+                    external_payment_account_config_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    patient_external_id="string",
+                    external_customer_identifier="string",
+                    note="string",
+                    due_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    items=[InvoiceItemCreate()],
+                    status=InvoiceStatus.DRAFT,
+                    external_identifier="string",
+                    customer_invoice_url="string",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -388,12 +471,33 @@ class AsyncV1Client:
 
         from candid import SortDirection
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
         from candid.resources.invoices.v_2 import InvoiceSortField, InvoiceStatus
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.import_invoice.v_1.get_multi(patient_external_id='string', encounter_external_id='string', note='string', due_date_before=datetime.date.fromisoformat("2023-01-15", ), due_date_after=datetime.date.fromisoformat("2023-01-15", ), status=InvoiceStatus.DRAFT, limit=1, sort=InvoiceSortField.CREATED_AT, sort_direction=SortDirection.ASC, page_token='eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9', )
+            await client.import_invoice.v_1.get_multi(
+                patient_external_id="string",
+                encounter_external_id="string",
+                note="string",
+                due_date_before=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                due_date_after=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                status=InvoiceStatus.DRAFT,
+                limit=1,
+                sort=InvoiceSortField.CREATED_AT,
+                sort_direction=SortDirection.ASC,
+                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -446,11 +550,21 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.import_invoice.v_1.get(invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), )
+            await client.import_invoice.v_1.get(
+                invoice_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -502,15 +616,39 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.environment import CandidApiClientEnvironment
-        from candid.resources.import_invoice.v_1 import (ImportInvoiceUpdateRequest,
-                                                         InvoiceItemInfoUpdate,
-                                                         InvoiceItemUpdateType)
+        from candid.resources.import_invoice.v_1 import (
+            ImportInvoiceUpdateRequest,
+            InvoiceItemInfoUpdate,
+            InvoiceItemUpdateType,
+        )
         from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
 
-        client = AsyncCandidApiClient(environment=CandidApiClientEnvironment., client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", )
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
         async def main() -> None:
-            await client.import_invoice.v_1.update(invoice_id=uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32", ), request=ImportInvoiceUpdateRequest(customer_invoice_url='string', status=InvoiceStatus.DRAFT, note='string', due_date=datetime.date.fromisoformat("2023-01-15", ), items=InvoiceItemInfoUpdate(update_type=InvoiceItemUpdateType.APPEND, items=[InvoiceItemCreate()], ), ), )
+            await client.import_invoice.v_1.update(
+                invoice_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                request=ImportInvoiceUpdateRequest(
+                    customer_invoice_url="string",
+                    status=InvoiceStatus.DRAFT,
+                    note="string",
+                    due_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    items=InvoiceItemInfoUpdate(
+                        update_type=InvoiceItemUpdateType.APPEND,
+                        items=[InvoiceItemCreate()],
+                    ),
+                ),
+            )
+
+
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(

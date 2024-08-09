@@ -7,14 +7,14 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .....common.types.gender import Gender
 from .....common.types.human_name import HumanName
+from .....common.types.sex import Sex
 
 
 class Subscriber(pydantic.BaseModel):
     name: HumanName
     date_of_birth: dt.date
-    gender: Gender
+    biological_sex: Sex
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

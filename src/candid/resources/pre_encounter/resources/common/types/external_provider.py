@@ -5,17 +5,19 @@ import typing
 
 import pydantic
 
-from ........core.datetime_utils import serialize_datetime
-from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .....common.types.address import Address
-from .....common.types.contact_point import ContactPoint
-from .....common.types.human_name import HumanName
-from .....common.types.period import Period
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .address import Address
+from .contact_point import ContactPoint
+from .external_provider_type import ExternalProviderType
+from .human_name import HumanName
+from .period import Period
 
 
 class ExternalProvider(pydantic.BaseModel):
     name: HumanName
-    npi: str
+    type: typing.Optional[ExternalProviderType] = None
+    npi: typing.Optional[str] = None
     telecoms: typing.List[ContactPoint]
     addresses: typing.List[Address]
     period: typing.Optional[Period] = None
