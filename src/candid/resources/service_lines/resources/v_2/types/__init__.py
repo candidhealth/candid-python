@@ -7,8 +7,10 @@ from .service_id_qualifier import ServiceIdQualifier
 from .service_line import ServiceLine
 from .service_line_adjustment import ServiceLineAdjustment
 from .service_line_create import ServiceLineCreate
+from .service_line_create_standalone import ServiceLineCreateStandalone
 from .service_line_denial_reason import ServiceLineDenialReason
 from .service_line_era_data import ServiceLineEraData
+from .service_line_update import ServiceLineUpdate
 
 __all__ = [
     "DenialReasonContent",
@@ -18,6 +20,8 @@ __all__ = [
     "ServiceLine",
     "ServiceLineAdjustment",
     "ServiceLineCreate",
+    "ServiceLineCreateStandalone",
     "ServiceLineDenialReason",
     "ServiceLineEraData",
+    "ServiceLineUpdate",
 ]

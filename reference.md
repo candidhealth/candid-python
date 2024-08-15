@@ -8807,6 +8807,226 @@ client.payers.v_3.get_all(
 </dl>
 </details>
 
+## ServiceLines V2
+<details><summary><code>client.service_lines.v_2.<a href="src/candid/resources/service_lines/resources/v_2/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
+from candid.client import CandidApiClient
+from candid.resources.service_lines.v_2 import (
+    ServiceLineAdjustment,
+    ServiceLineCreateStandalone,
+    ServiceLineDenialReason,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.service_lines.v_2.create(
+    request=ServiceLineCreateStandalone(
+        modifiers=[ProcedureModifier.TWENTY_TWO],
+        charge_amount_cents=1,
+        allowed_amount_cents=1,
+        insurance_balance_cents=1,
+        patient_balance_cents=1,
+        primary_paid_amount_cents=1,
+        secondary_paid_amount_cents=1,
+        tertiary_paid_amount_cents=1,
+        patient_responsibility_cents=1,
+        diagnosis_id_zero=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        diagnosis_id_one=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        diagnosis_id_two=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        diagnosis_id_three=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        service_line_manual_adjustments=[ServiceLineAdjustment()],
+        denial_reason=ServiceLineDenialReason(),
+        place_of_service_code=FacilityTypeCode.PHARMACY,
+        place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
+        procedure_code="string",
+        quantity="string",
+        units=ServiceLineUnits.MJ,
+        claim_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        description="string",
+        date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        end_date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ServiceLineCreateStandalone` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.service_lines.v_2.<a href="src/candid/resources/service_lines/resources/v_2/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
+from candid.client import CandidApiClient
+from candid.resources.service_lines.v_2 import (
+    ServiceLineAdjustment,
+    ServiceLineDenialReason,
+    ServiceLineUpdate,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.service_lines.v_2.update(
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=ServiceLineUpdate(
+        edit_reason="string",
+        modifiers=[ProcedureModifier.TWENTY_TWO],
+        charge_amount_cents=1,
+        allowed_amount_cents=1,
+        insurance_balance_cents=1,
+        patient_balance_cents=1,
+        primary_paid_amount_cents=1,
+        secondary_paid_amount_cents=1,
+        tertiary_paid_amount_cents=1,
+        patient_responsibility_cents=1,
+        diagnosis_id_zero=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        diagnosis_id_one=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        diagnosis_id_two=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        diagnosis_id_three=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        service_line_manual_adjustments=[ServiceLineAdjustment()],
+        denial_reason=ServiceLineDenialReason(),
+        place_of_service_code=FacilityTypeCode.PHARMACY,
+        place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
+        units=ServiceLineUnits.MJ,
+        procedure_code="string",
+        quantity="string",
+        description="string",
+        date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        end_date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**service_line_id:** `ServiceLineId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `ServiceLineUpdate` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Tasks V3
 <details><summary><code>client.tasks.v_3.<a href="src/candid/resources/tasks/resources/v_3/client.py">get_actions</a>(...)</code></summary>
 <dl>

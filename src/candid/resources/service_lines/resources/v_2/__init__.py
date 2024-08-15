@@ -8,8 +8,10 @@ from .types import (
     ServiceLine,
     ServiceLineAdjustment,
     ServiceLineCreate,
+    ServiceLineCreateStandalone,
     ServiceLineDenialReason,
     ServiceLineEraData,
+    ServiceLineUpdate,
 )
 
 __all__ = [
@@ -20,6 +22,8 @@ __all__ = [
     "ServiceLine",
     "ServiceLineAdjustment",
     "ServiceLineCreate",
+    "ServiceLineCreateStandalone",
     "ServiceLineDenialReason",
     "ServiceLineEraData",
+    "ServiceLineUpdate",
 ]

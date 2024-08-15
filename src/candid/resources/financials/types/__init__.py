@@ -5,6 +5,7 @@ from .allocation import Allocation
 from .allocation_create import AllocationCreate
 from .allocation_target import (
     AllocationTarget,
+    AllocationTarget_Appointment,
     AllocationTarget_BillingProviderId,
     AllocationTarget_Claim,
     AllocationTarget_ServiceLine,
@@ -12,12 +13,14 @@ from .allocation_target import (
 )
 from .allocation_target_create import (
     AllocationTargetCreate,
+    AllocationTargetCreate_AppointmentById,
     AllocationTargetCreate_BillingProviderById,
     AllocationTargetCreate_ClaimByEncounterExternalId,
     AllocationTargetCreate_ClaimById,
     AllocationTargetCreate_ServiceLineById,
     AllocationTargetCreate_Unattributed,
 )
+from .appointment_allocation_target import AppointmentAllocationTarget
 from .billing_provider_allocation_target import BillingProviderAllocationTarget
 from .claim_allocation_target import ClaimAllocationTarget
 from .invoice_update import InvoiceUpdate, InvoiceUpdate_Remove, InvoiceUpdate_Set
@@ -33,15 +36,18 @@ __all__ = [
     "AllocationCreate",
     "AllocationTarget",
     "AllocationTargetCreate",
+    "AllocationTargetCreate_AppointmentById",
     "AllocationTargetCreate_BillingProviderById",
     "AllocationTargetCreate_ClaimByEncounterExternalId",
     "AllocationTargetCreate_ClaimById",
     "AllocationTargetCreate_ServiceLineById",
     "AllocationTargetCreate_Unattributed",
+    "AllocationTarget_Appointment",
     "AllocationTarget_BillingProviderId",
     "AllocationTarget_Claim",
     "AllocationTarget_ServiceLine",
     "AllocationTarget_Unattributed",
+    "AppointmentAllocationTarget",
     "BillingProviderAllocationTarget",
     "ClaimAllocationTarget",
     "InvoiceUpdate",

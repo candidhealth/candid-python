@@ -5,26 +5,13 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .....commons.types.claim_id import ClaimId
-from .....commons.types.patient_external_id import PatientExternalId
-from .....commons.types.service_line_id import ServiceLineId
-from .patient_write_off_reason import PatientWriteOffReason
-from .write_off_id import WriteOffId
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
+from ...commons.types.appointment_id import AppointmentId
 
 
-class PatientWriteOff(pydantic.BaseModel):
-    write_off_id: WriteOffId
-    write_off_timestamp: dt.datetime
-    write_off_note: typing.Optional[str] = None
-    write_off_reason: PatientWriteOffReason
-    patient_external_id: PatientExternalId
-    claim_id: ClaimId
-    service_line_id: ServiceLineId
-    reverts_write_off_id: typing.Optional[WriteOffId] = None
-    reverted_by_write_off_id: typing.Optional[WriteOffId] = None
-    amount_cents: int
+class AppointmentAllocationTarget(pydantic.BaseModel):
+    appointment_id: AppointmentId
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

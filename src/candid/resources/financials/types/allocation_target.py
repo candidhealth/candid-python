@@ -9,6 +9,7 @@ import pydantic
 
 from ....core.datetime_utils import serialize_datetime
 from ....core.pydantic_utilities import deep_union_pydantic_dicts
+from ...commons.types.appointment_id import AppointmentId
 from ...commons.types.claim_id import ClaimId
 from ...commons.types.encounter_id import EncounterId
 from ...commons.types.provider_id import ProviderId
@@ -102,6 +103,34 @@ class AllocationTarget_BillingProviderId(pydantic.BaseModel):
         json_encoders = {dt.datetime: serialize_datetime}
 
 
+class AllocationTarget_Appointment(pydantic.BaseModel):
+    """
+    Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
+    claim, billing provider, or is unallocated.
+    """
+
+    appointment_id: AppointmentId
+    type: typing.Literal["appointment"] = "appointment"
+
+    def json(self, **kwargs: typing.Any) -> str:
+        kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        return super().json(**kwargs_with_defaults)
+
+    def dict(self, **kwargs: typing.Any) -> typing.Dict[str, typing.Any]:
+        kwargs_with_defaults_exclude_unset: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
+        kwargs_with_defaults_exclude_none: typing.Any = {"by_alias": True, "exclude_none": True, **kwargs}
+
+        return deep_union_pydantic_dicts(
+            super().dict(**kwargs_with_defaults_exclude_unset), super().dict(**kwargs_with_defaults_exclude_none)
+        )
+
+    class Config:
+        frozen = True
+        smart_union = True
+        extra = pydantic.Extra.forbid
+        json_encoders = {dt.datetime: serialize_datetime}
+
+
 class AllocationTarget_Unattributed(pydantic.BaseModel):
     """
     Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
@@ -133,5 +162,6 @@ AllocationTarget = typing.Union[
     AllocationTarget_ServiceLine,
     AllocationTarget_Claim,
     AllocationTarget_BillingProviderId,
+    AllocationTarget_Appointment,
     AllocationTarget_Unattributed,
 ]

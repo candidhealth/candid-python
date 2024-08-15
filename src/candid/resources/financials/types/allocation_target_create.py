@@ -9,6 +9,7 @@ import pydantic
 
 from ....core.datetime_utils import serialize_datetime
 from ....core.pydantic_utilities import deep_union_pydantic_dicts
+from ...commons.types.appointment_id import AppointmentId
 from ...commons.types.claim_id import ClaimId
 from ...commons.types.encounter_external_id import EncounterExternalId
 from ...commons.types.provider_id import ProviderId
@@ -51,6 +52,15 @@ class AllocationTargetCreate_BillingProviderById(pydantic.BaseModel):
         smart_union = True
 
 
+class AllocationTargetCreate_AppointmentById(pydantic.BaseModel):
+    value: AppointmentId
+    type: typing.Literal["appointment_by_id"] = "appointment_by_id"
+
+    class Config:
+        frozen = True
+        smart_union = True
+
+
 class AllocationTargetCreate_Unattributed(pydantic.BaseModel):
     """
     Allocation targets describe whether the portion of a payment is being applied toward a specific service line,
@@ -83,5 +93,6 @@ AllocationTargetCreate = typing.Union[
     AllocationTargetCreate_ClaimById,
     AllocationTargetCreate_ClaimByEncounterExternalId,
     AllocationTargetCreate_BillingProviderById,
+    AllocationTargetCreate_AppointmentById,
     AllocationTargetCreate_Unattributed,
 ]

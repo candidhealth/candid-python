@@ -9,6 +9,8 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....commons.types.claim_id import ClaimId
+from .....commons.types.patient_external_id import PatientExternalId
 from .....commons.types.service_line_id import ServiceLineId
 from .....payers.resources.v_3.types.payer import Payer
 from .insurance_write_off_reason import InsuranceWriteOffReason
@@ -22,6 +24,8 @@ class WriteOff_Patient(pydantic.BaseModel):
     write_off_timestamp: dt.datetime
     write_off_note: typing.Optional[str] = None
     write_off_reason: PatientWriteOffReason
+    patient_external_id: PatientExternalId
+    claim_id: ClaimId
     service_line_id: ServiceLineId
     reverts_write_off_id: typing.Optional[WriteOffId] = None
     reverted_by_write_off_id: typing.Optional[WriteOffId] = None
