@@ -50,7 +50,6 @@ class V2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import CandidApiClient
         from candid.resources.service_lines.v_2 import (
-            ServiceLineAdjustment,
             ServiceLineCreateStandalone,
             ServiceLineDenialReason,
         )
@@ -63,13 +62,6 @@ class V2Client:
             request=ServiceLineCreateStandalone(
                 modifiers=[ProcedureModifier.TWENTY_TWO],
                 charge_amount_cents=1,
-                allowed_amount_cents=1,
-                insurance_balance_cents=1,
-                patient_balance_cents=1,
-                primary_paid_amount_cents=1,
-                secondary_paid_amount_cents=1,
-                tertiary_paid_amount_cents=1,
-                patient_responsibility_cents=1,
                 diagnosis_id_zero=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
@@ -82,10 +74,8 @@ class V2Client:
                 diagnosis_id_three=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                service_line_manual_adjustments=[ServiceLineAdjustment()],
                 denial_reason=ServiceLineDenialReason(),
                 place_of_service_code=FacilityTypeCode.PHARMACY,
-                place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
                 procedure_code="string",
                 quantity="string",
                 units=ServiceLineUnits.MJ,
@@ -152,7 +142,6 @@ class V2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import CandidApiClient
         from candid.resources.service_lines.v_2 import (
-            ServiceLineAdjustment,
             ServiceLineDenialReason,
             ServiceLineUpdate,
         )
@@ -169,13 +158,6 @@ class V2Client:
                 edit_reason="string",
                 modifiers=[ProcedureModifier.TWENTY_TWO],
                 charge_amount_cents=1,
-                allowed_amount_cents=1,
-                insurance_balance_cents=1,
-                patient_balance_cents=1,
-                primary_paid_amount_cents=1,
-                secondary_paid_amount_cents=1,
-                tertiary_paid_amount_cents=1,
-                patient_responsibility_cents=1,
                 diagnosis_id_zero=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
@@ -188,10 +170,8 @@ class V2Client:
                 diagnosis_id_three=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                service_line_manual_adjustments=[ServiceLineAdjustment()],
                 denial_reason=ServiceLineDenialReason(),
                 place_of_service_code=FacilityTypeCode.PHARMACY,
-                place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
                 units=ServiceLineUnits.MJ,
                 procedure_code="string",
                 quantity="string",
@@ -263,7 +243,6 @@ class AsyncV2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import AsyncCandidApiClient
         from candid.resources.service_lines.v_2 import (
-            ServiceLineAdjustment,
             ServiceLineCreateStandalone,
             ServiceLineDenialReason,
         )
@@ -279,13 +258,6 @@ class AsyncV2Client:
                 request=ServiceLineCreateStandalone(
                     modifiers=[ProcedureModifier.TWENTY_TWO],
                     charge_amount_cents=1,
-                    allowed_amount_cents=1,
-                    insurance_balance_cents=1,
-                    patient_balance_cents=1,
-                    primary_paid_amount_cents=1,
-                    secondary_paid_amount_cents=1,
-                    tertiary_paid_amount_cents=1,
-                    patient_responsibility_cents=1,
                     diagnosis_id_zero=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
@@ -298,10 +270,8 @@ class AsyncV2Client:
                     diagnosis_id_three=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    service_line_manual_adjustments=[ServiceLineAdjustment()],
                     denial_reason=ServiceLineDenialReason(),
                     place_of_service_code=FacilityTypeCode.PHARMACY,
-                    place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
                     procedure_code="string",
                     quantity="string",
                     units=ServiceLineUnits.MJ,
@@ -372,7 +342,6 @@ class AsyncV2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import AsyncCandidApiClient
         from candid.resources.service_lines.v_2 import (
-            ServiceLineAdjustment,
             ServiceLineDenialReason,
             ServiceLineUpdate,
         )
@@ -392,13 +361,6 @@ class AsyncV2Client:
                     edit_reason="string",
                     modifiers=[ProcedureModifier.TWENTY_TWO],
                     charge_amount_cents=1,
-                    allowed_amount_cents=1,
-                    insurance_balance_cents=1,
-                    patient_balance_cents=1,
-                    primary_paid_amount_cents=1,
-                    secondary_paid_amount_cents=1,
-                    tertiary_paid_amount_cents=1,
-                    patient_responsibility_cents=1,
                     diagnosis_id_zero=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
@@ -411,10 +373,8 @@ class AsyncV2Client:
                     diagnosis_id_three=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    service_line_manual_adjustments=[ServiceLineAdjustment()],
                     denial_reason=ServiceLineDenialReason(),
                     place_of_service_code=FacilityTypeCode.PHARMACY,
-                    place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
                     units=ServiceLineUnits.MJ,
                     procedure_code="string",
                     quantity="string",

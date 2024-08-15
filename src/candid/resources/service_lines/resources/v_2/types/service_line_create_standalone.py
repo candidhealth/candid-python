@@ -13,28 +13,18 @@ from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_units import ServiceLineUnits
 from .....diagnoses.types.diagnosis_id import DiagnosisId
-from .service_line_adjustment import ServiceLineAdjustment
 from .service_line_denial_reason import ServiceLineDenialReason
 
 
 class ServiceLineCreateStandalone(pydantic.BaseModel):
     modifiers: typing.Optional[typing.List[ProcedureModifier]] = None
     charge_amount_cents: typing.Optional[int] = None
-    allowed_amount_cents: typing.Optional[int] = None
-    insurance_balance_cents: typing.Optional[int] = None
-    patient_balance_cents: typing.Optional[int] = None
-    primary_paid_amount_cents: typing.Optional[int] = None
-    secondary_paid_amount_cents: typing.Optional[int] = None
-    tertiary_paid_amount_cents: typing.Optional[int] = None
-    patient_responsibility_cents: typing.Optional[int] = None
     diagnosis_id_zero: typing.Optional[DiagnosisId] = None
     diagnosis_id_one: typing.Optional[DiagnosisId] = None
     diagnosis_id_two: typing.Optional[DiagnosisId] = None
     diagnosis_id_three: typing.Optional[DiagnosisId] = None
-    service_line_manual_adjustments: typing.Optional[typing.List[ServiceLineAdjustment]] = None
     denial_reason: typing.Optional[ServiceLineDenialReason] = None
     place_of_service_code: typing.Optional[FacilityTypeCode] = None
-    place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = None
     procedure_code: str
     quantity: Decimal = pydantic.Field()
     """

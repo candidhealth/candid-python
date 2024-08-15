@@ -48,9 +48,6 @@ class Encounter(EncounterBase):
         FacilityTypeCode,
         Gender,
         InsuranceTypeCode,
-        Invoice,
-        InvoiceItem,
-        InvoiceStatus,
         Patient,
         PatientRelationshipToInsuredCodeAll,
         PhoneNumber,
@@ -102,9 +99,7 @@ class Encounter(EncounterBase):
     from candid.resources.service_lines.v_2 import (
         DenialReasonContent,
         ServiceLine,
-        ServiceLineAdjustment,
         ServiceLineDenialReason,
-        ServiceLineEraData,
     )
 
     Encounter(
@@ -125,8 +120,6 @@ class Encounter(EncounterBase):
                         modifiers=[ProcedureModifier.TWENTY_TWO],
                         charge_amount_cents=10000,
                         allowed_amount_cents=8000,
-                        insurance_balance_cents=0,
-                        patient_balance_cents=2000,
                         paid_amount_cents=8000,
                         patient_responsibility_cents=2000,
                         diagnosis_id_zero=uuid.UUID(
@@ -141,63 +134,6 @@ class Encounter(EncounterBase):
                         diagnosis_id_three=uuid.UUID(
                             "81795126-a3ac-443c-b47e-7259a16ab4a2",
                         ),
-                        service_line_era_data=ServiceLineEraData(
-                            service_line_adjustments=[
-                                ServiceLineAdjustment(
-                                    created_at=datetime.datetime.fromisoformat(
-                                        "2023-01-01 00:00:00+00:00",
-                                    ),
-                                    adjustment_group_code="CO",
-                                    adjustment_reason_code="CO",
-                                    adjustment_amount_cents=1000,
-                                    adjustment_note="test_note",
-                                )
-                            ],
-                            remittance_advice_remark_codes=["N362"],
-                        ),
-                        service_line_manual_adjustments=[
-                            ServiceLineAdjustment(
-                                created_at=datetime.datetime.fromisoformat(
-                                    "2023-01-01 00:00:00+00:00",
-                                ),
-                                adjustment_group_code="CO",
-                                adjustment_reason_code="CO",
-                                adjustment_amount_cents=1000,
-                                adjustment_note="test_note",
-                            )
-                        ],
-                        related_invoices=[
-                            Invoice(
-                                id=uuid.UUID(
-                                    "901be2f1-41bc-456e-9987-4fe2f84f9d75",
-                                ),
-                                created_at=datetime.datetime.fromisoformat(
-                                    "2023-01-01 00:00:00+00:00",
-                                ),
-                                updated_at=datetime.datetime.fromisoformat(
-                                    "2023-01-01 00:00:00+00:00",
-                                ),
-                                organzation_id=uuid.UUID(
-                                    "f13f73d4-4344-46ea-9d93-33bcffbb9f36",
-                                ),
-                                source_id="9B626577-8808-4F28-9ED1-F0DFF0D49BBC",
-                                source_customer_id="624D1972-8C69-4C2F-AEFA-10856F734DB3",
-                                patient_external_id="10FED4D6-4C5A-48DF-838A-EEF45A74788D",
-                                note="test_note",
-                                due_date="2023-10-10",
-                                status=InvoiceStatus.DRAFT,
-                                url="https://example.com",
-                                customer_invoice_url="https://example.com",
-                                items=[
-                                    InvoiceItem(
-                                        service_line_id=uuid.UUID(
-                                            "ced00f23-6e68-4678-9dbc-f5aa2969a565",
-                                        ),
-                                        amount_cents=500,
-                                    )
-                                ],
-                            )
-                        ],
                         denial_reason=ServiceLineDenialReason(
                             reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
                         ),

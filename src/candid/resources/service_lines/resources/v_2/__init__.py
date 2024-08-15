@@ -10,7 +10,6 @@ from .types import (
     ServiceLineCreate,
     ServiceLineCreateStandalone,
     ServiceLineDenialReason,
-    ServiceLineEraData,
     ServiceLineUpdate,
 )
 
@@ -24,6 +23,5 @@ __all__ = [
     "ServiceLineCreate",
     "ServiceLineCreateStandalone",
     "ServiceLineDenialReason",
-    "ServiceLineEraData",
     "ServiceLineUpdate",
 ]
