@@ -191,6 +191,9 @@ from .resources import (
     service_lines,
     tags,
     tasks,
+    third_party_payer_payments,
+    third_party_payer_refunds,
+    third_party_payers,
     write_offs,
     x_12,
 )
@@ -390,6 +393,9 @@ __all__ = [
     "service_lines",
     "tags",
     "tasks",
+    "third_party_payer_payments",
+    "third_party_payer_refunds",
+    "third_party_payers",
     "write_offs",
     "x_12",
 ]
