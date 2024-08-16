@@ -9007,6 +9007,67 @@ client.service_lines.v_2.update(
 </dl>
 </details>
 
+<details><summary><code>client.service_lines.v_2.<a href="src/candid/resources/service_lines/resources/v_2/client.py">delete</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.service_lines.v_2.delete(
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**service_line_id:** `ServiceLineId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Tasks V3
 <details><summary><code>client.tasks.v_3.<a href="src/candid/resources/tasks/resources/v_3/client.py">get_actions</a>(...)</code></summary>
 <dl>

@@ -214,6 +214,60 @@ class V2Client:
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def delete(
+        self, service_line_id: ServiceLineId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        service_line_id : ServiceLineId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.service_lines.v_2.delete(
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/service-lines/v2/{jsonable_encoder(service_line_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
 
 class AsyncV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -417,5 +471,66 @@ class AsyncV2Client:
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
                     pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def delete(
+        self, service_line_id: ServiceLineId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        service_line_id : ServiceLineId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.service_lines.v_2.delete(
+                service_line_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/service-lines/v2/{jsonable_encoder(service_line_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
