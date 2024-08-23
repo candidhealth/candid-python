@@ -15,8 +15,11 @@ from ....common.errors.version_conflict_error import VersionConflictError
 from ....common.types.not_found_error_body import NotFoundErrorBody
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from .types.coverage import Coverage
+from .types.coverage_eligibility_check_response import CoverageEligibilityCheckResponse
 from .types.coverage_id import CoverageId
+from .types.eligibility_check_metadata import EligibilityCheckMetadata
 from .types.mutable_coverage import MutableCoverage
+from .types.service_type_code import ServiceTypeCode
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -48,11 +51,17 @@ class V1Client:
         from candid.client import CandidApiClient
         from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
         from candid.resources.pre_encounter.coverages.v_1 import (
+            CoverageBenefits,
             CoverageStatus,
+            EligibilityCheckMetadata,
+            EligibilityCheckStatus,
             InsurancePlan,
             InsuranceTypeCode,
             MutableCoverage,
             NetworkType,
+            PlanCoverage,
+            ServiceCoverage,
+            ServiceTypeCode,
             Subscriber,
         )
 
@@ -84,6 +93,21 @@ class V1Client:
                     insurance_card_image_locator="string",
                 ),
                 verified=True,
+                eligibility_checks=[
+                    EligibilityCheckMetadata(
+                        check_id="string",
+                        service_code=ServiceTypeCode.MEDICAL_CARE,
+                        status=EligibilityCheckStatus.CREATED,
+                        initiated_by="string",
+                        initiated_at=datetime.datetime.fromisoformat(
+                            "2024-01-15 09:30:00+00:00",
+                        ),
+                    )
+                ],
+                benefits=CoverageBenefits(
+                    plan_coverage=PlanCoverage(),
+                    service_specific_coverage=[ServiceCoverage()],
+                ),
             ),
         )
         """
@@ -112,7 +136,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Coverage:
         """
-        Updates a Coverage. The path must contain the most recent version to prevent races. Updating historic versions is not supported.
+        Updates a Coverage. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -137,11 +161,17 @@ class V1Client:
         from candid.client import CandidApiClient
         from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
         from candid.resources.pre_encounter.coverages.v_1 import (
+            CoverageBenefits,
             CoverageStatus,
+            EligibilityCheckMetadata,
+            EligibilityCheckStatus,
             InsurancePlan,
             InsuranceTypeCode,
             MutableCoverage,
             NetworkType,
+            PlanCoverage,
+            ServiceCoverage,
+            ServiceTypeCode,
             Subscriber,
         )
 
@@ -177,6 +207,21 @@ class V1Client:
                     insurance_card_image_locator="string",
                 ),
                 verified=True,
+                eligibility_checks=[
+                    EligibilityCheckMetadata(
+                        check_id="string",
+                        service_code=ServiceTypeCode.MEDICAL_CARE,
+                        status=EligibilityCheckStatus.CREATED,
+                        initiated_by="string",
+                        initiated_at=datetime.datetime.fromisoformat(
+                            "2024-01-15 09:30:00+00:00",
+                        ),
+                    )
+                ],
+                benefits=CoverageBenefits(
+                    plan_coverage=PlanCoverage(),
+                    service_specific_coverage=[ServiceCoverage()],
+                ),
             ),
         )
         """
@@ -306,7 +351,7 @@ class V1Client:
         self, *, patient_id: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Coverage]:
         """
-        returns a list of Coverages based on the search criteria
+        Returns a list of Coverages based on the search criteria.
 
         Parameters
         ----------
@@ -394,6 +439,124 @@ class V1Client:
             return pydantic_v1.parse_obj_as(typing.List[Coverage], _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def check_eligibility(
+        self,
+        id: CoverageId,
+        *,
+        service_code: ServiceTypeCode,
+        date_of_service: dt.date,
+        npi: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> EligibilityCheckMetadata:
+        """
+        Initiates an eligibility check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        id : CoverageId
+
+        service_code : ServiceTypeCode
+
+        date_of_service : dt.date
+
+        npi : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityCheckMetadata
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import CandidApiClient
+        from candid.resources.pre_encounter.coverages.v_1 import ServiceTypeCode
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.check_eligibility(
+            id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            service_code=ServiceTypeCode.MEDICAL_CARE,
+            date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            npi="string",
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"coverages/v1/{jsonable_encoder(id)}/eligibility",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json={"service_code": service_code, "date_of_service": date_of_service, "npi": npi},
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(EligibilityCheckMetadata, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def get_eligibility(
+        self, id: CoverageId, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> CoverageEligibilityCheckResponse:
+        """
+        Gets the eligibility of a patient for a specific coverage if successful.
+
+        Parameters
+        ----------
+        id : CoverageId
+
+        check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CoverageEligibilityCheckResponse
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.get_eligibility(
+            id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            check_id="string",
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"coverages/v1/{jsonable_encoder(id)}/eligibility/{jsonable_encoder(check_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(CoverageEligibilityCheckResponse, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
 
 class AsyncV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -424,11 +587,17 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApiClient
         from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
         from candid.resources.pre_encounter.coverages.v_1 import (
+            CoverageBenefits,
             CoverageStatus,
+            EligibilityCheckMetadata,
+            EligibilityCheckStatus,
             InsurancePlan,
             InsuranceTypeCode,
             MutableCoverage,
             NetworkType,
+            PlanCoverage,
+            ServiceCoverage,
+            ServiceTypeCode,
             Subscriber,
         )
 
@@ -463,6 +632,21 @@ class AsyncV1Client:
                         insurance_card_image_locator="string",
                     ),
                     verified=True,
+                    eligibility_checks=[
+                        EligibilityCheckMetadata(
+                            check_id="string",
+                            service_code=ServiceTypeCode.MEDICAL_CARE,
+                            status=EligibilityCheckStatus.CREATED,
+                            initiated_by="string",
+                            initiated_at=datetime.datetime.fromisoformat(
+                                "2024-01-15 09:30:00+00:00",
+                            ),
+                        )
+                    ],
+                    benefits=CoverageBenefits(
+                        plan_coverage=PlanCoverage(),
+                        service_specific_coverage=[ServiceCoverage()],
+                    ),
                 ),
             )
 
@@ -494,7 +678,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Coverage:
         """
-        Updates a Coverage. The path must contain the most recent version to prevent races. Updating historic versions is not supported.
+        Updates a Coverage. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -520,11 +704,17 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApiClient
         from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
         from candid.resources.pre_encounter.coverages.v_1 import (
+            CoverageBenefits,
             CoverageStatus,
+            EligibilityCheckMetadata,
+            EligibilityCheckStatus,
             InsurancePlan,
             InsuranceTypeCode,
             MutableCoverage,
             NetworkType,
+            PlanCoverage,
+            ServiceCoverage,
+            ServiceTypeCode,
             Subscriber,
         )
 
@@ -563,6 +753,21 @@ class AsyncV1Client:
                         insurance_card_image_locator="string",
                     ),
                     verified=True,
+                    eligibility_checks=[
+                        EligibilityCheckMetadata(
+                            check_id="string",
+                            service_code=ServiceTypeCode.MEDICAL_CARE,
+                            status=EligibilityCheckStatus.CREATED,
+                            initiated_by="string",
+                            initiated_at=datetime.datetime.fromisoformat(
+                                "2024-01-15 09:30:00+00:00",
+                            ),
+                        )
+                    ],
+                    benefits=CoverageBenefits(
+                        plan_coverage=PlanCoverage(),
+                        service_specific_coverage=[ServiceCoverage()],
+                    ),
                 ),
             )
 
@@ -709,7 +914,7 @@ class AsyncV1Client:
         self, *, patient_id: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Coverage]:
         """
-        returns a list of Coverages based on the search criteria
+        Returns a list of Coverages based on the search criteria.
 
         Parameters
         ----------
@@ -810,4 +1015,136 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(typing.List[Coverage], _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def check_eligibility(
+        self,
+        id: CoverageId,
+        *,
+        service_code: ServiceTypeCode,
+        date_of_service: dt.date,
+        npi: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> EligibilityCheckMetadata:
+        """
+        Initiates an eligibility check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        id : CoverageId
+
+        service_code : ServiceTypeCode
+
+        date_of_service : dt.date
+
+        npi : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityCheckMetadata
+
+        Examples
+        --------
+        import asyncio
+        import datetime
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.pre_encounter.coverages.v_1 import ServiceTypeCode
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.coverages.v_1.check_eligibility(
+                id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                service_code=ServiceTypeCode.MEDICAL_CARE,
+                date_of_service=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                npi="string",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"coverages/v1/{jsonable_encoder(id)}/eligibility",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json={"service_code": service_code, "date_of_service": date_of_service, "npi": npi},
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(EligibilityCheckMetadata, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def get_eligibility(
+        self, id: CoverageId, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> CoverageEligibilityCheckResponse:
+        """
+        Gets the eligibility of a patient for a specific coverage if successful.
+
+        Parameters
+        ----------
+        id : CoverageId
+
+        check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CoverageEligibilityCheckResponse
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.coverages.v_1.get_eligibility(
+                id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                check_id="string",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"coverages/v1/{jsonable_encoder(id)}/eligibility/{jsonable_encoder(check_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(CoverageEligibilityCheckResponse, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)

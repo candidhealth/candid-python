@@ -5,24 +5,14 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .address import Address
-from .canonical_provider_id import CanonicalProviderId
-from .contact_point import ContactPoint
-from .external_provider_type import ExternalProviderType
-from .human_name import HumanName
-from .period import Period
+from ........core.datetime_utils import serialize_datetime
+from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .plan_coverage_details import PlanCoverageDetails
 
 
-class ExternalProvider(pydantic.BaseModel):
-    name: HumanName
-    type: typing.Optional[ExternalProviderType] = None
-    npi: typing.Optional[str] = None
-    telecoms: typing.List[ContactPoint]
-    addresses: typing.List[Address]
-    period: typing.Optional[Period] = None
-    canonical_id: typing.Optional[CanonicalProviderId] = None
+class PlanCoverage(pydantic.BaseModel):
+    in_network: typing.Optional[PlanCoverageDetails] = None
+    out_of_network: typing.Optional[PlanCoverageDetails] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

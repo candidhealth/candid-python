@@ -301,11 +301,6 @@ class InsuranceTypeCode(str, enum.Enum):
     Other
     """
 
-    CPE = "PE"
-    """
-    Property Insurance - Personal
-    """
-
     CPL = "PL"
     """
     Personal
@@ -421,7 +416,6 @@ class InsuranceTypeCode(str, enum.Enum):
         cmv: typing.Callable[[], T_Result],
         coa: typing.Callable[[], T_Result],
         cot: typing.Callable[[], T_Result],
-        cpe: typing.Callable[[], T_Result],
         cpl: typing.Callable[[], T_Result],
         cpp: typing.Callable[[], T_Result],
         cpr: typing.Callable[[], T_Result],
@@ -550,8 +544,6 @@ class InsuranceTypeCode(str, enum.Enum):
             return coa()
         if self is InsuranceTypeCode.COT:
             return cot()
-        if self is InsuranceTypeCode.CPE:
-            return cpe()
         if self is InsuranceTypeCode.CPL:
             return cpl()
         if self is InsuranceTypeCode.CPP:

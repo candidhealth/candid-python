@@ -9,44 +9,35 @@ from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
 from .....common.types.organization_id import OrganizationId
 from .....common.types.user_id import UserId
-from .mutable_patient import MutablePatient
-from .patient_id import PatientId
+from .appointment_id import AppointmentId
+from .mutable_appointment import MutableAppointment
 
 
-class Patient(MutablePatient):
+class Appointment(MutableAppointment):
     """
-    A patient object with immutable server-owned properties.
-    """
-
-    id: PatientId = pydantic.Field()
-    """
-    The unique UUID identifier for a Patient. Patient ID is used in machine contexts.
+    An appointment object with immutable server-owned properties.
     """
 
-    mrn: str = pydantic.Field()
-    """
-    The medical record number for the patient. Human-friendly Candid generated MRNs are of the form "YYMMDDXXXX", where "YYYYMMDD" is the date of patient creation and "XXXX" is a zero-padded incrementing integer.
-    """
-
+    id: AppointmentId
     organization_id: OrganizationId = pydantic.Field()
     """
-    The organization that owns this patient.
+    The organization that owns this appointment.
     """
 
     deactivated: bool = pydantic.Field()
     """
-    True if the patient is deactivated. Deactivated patients are not returned in search results but are returned in all other endpoints including scan.
+    True if the appointment is deactivated. Deactivated appointments are not returned in search results but are returned in all other endpoints including scan.
     """
 
     version: int = pydantic.Field()
     """
-    The version of the patient. Any update to any property of a patient object will create a new version.
+    The version of the appointment. Any update to any property of an appointment object will create a new version.
     """
 
     updated_at: dt.datetime
     updating_user_id: UserId = pydantic.Field()
     """
-    The user ID of the user who last updated the patient.
+    The user ID of the user who last updated the appointment.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

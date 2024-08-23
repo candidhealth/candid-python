@@ -9,7 +9,9 @@ from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
 from .....common.types.relationship import Relationship
 from .....patients.resources.v_1.types.patient_id import PatientId
+from .coverage_benefits import CoverageBenefits
 from .coverage_status import CoverageStatus
+from .eligibility_check_metadata import EligibilityCheckMetadata
 from .insurance_plan import InsurancePlan
 from .subscriber import Subscriber
 
@@ -39,6 +41,16 @@ class MutableCoverage(pydantic.BaseModel):
     verified: bool = pydantic.Field()
     """
     A boolean indicating if the coverage has been verified by a user.
+    """
+
+    eligibility_checks: typing.Optional[typing.List[EligibilityCheckMetadata]] = pydantic.Field(default=None)
+    """
+    A list of eligibility check metadata that have been initiated on this coverage.
+    """
+
+    benefits: typing.Optional[CoverageBenefits] = pydantic.Field(default=None)
+    """
+    The eligibility of the patient for the coverage, manually verified by users.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

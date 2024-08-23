@@ -7,5 +7,17 @@ from .marital_status import MaritalStatus
 from .mutable_patient import MutablePatient
 from .patient import Patient
 from .patient_id import PatientId
+from .patient_page import PatientPage
+from .patient_sort_field import PatientSortField
 
-__all__ = ["Contact", "ExternalProvenance", "FilingOrder", "MaritalStatus", "MutablePatient", "Patient", "PatientId"]
+__all__ = [
+    "Contact",
+    "ExternalProvenance",
+    "FilingOrder",
+    "MaritalStatus",
+    "MutablePatient",
+    "Patient",
+    "PatientId",
+    "PatientPage",
+    "PatientSortField",
+]

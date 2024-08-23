@@ -20,6 +20,7 @@ class Contact(pydantic.BaseModel):
     telecoms: typing.List[ContactPoint]
     addresses: typing.List[Address]
     period: typing.Optional[Period] = None
+    hipaa_authorization: typing.Optional[bool] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -7,22 +7,12 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .address import Address
-from .canonical_provider_id import CanonicalProviderId
-from .contact_point import ContactPoint
-from .external_provider_type import ExternalProviderType
-from .human_name import HumanName
-from .period import Period
+from .page_token import PageToken
 
 
-class ExternalProvider(pydantic.BaseModel):
-    name: HumanName
-    type: typing.Optional[ExternalProviderType] = None
-    npi: typing.Optional[str] = None
-    telecoms: typing.List[ContactPoint]
-    addresses: typing.List[Address]
-    period: typing.Optional[Period] = None
-    canonical_id: typing.Optional[CanonicalProviderId] = None
+class ResourcePage(pydantic.BaseModel):
+    next_page_token: typing.Optional[PageToken] = None
+    prev_page_token: typing.Optional[PageToken] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

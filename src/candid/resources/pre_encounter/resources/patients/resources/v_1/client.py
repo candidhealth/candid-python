@@ -13,10 +13,14 @@ from .......core.request_options import RequestOptions
 from ....common.errors.not_found_error import NotFoundError
 from ....common.errors.version_conflict_error import VersionConflictError
 from ....common.types.not_found_error_body import NotFoundErrorBody
+from ....common.types.page_token import PageToken
+from ....common.types.sort_direction import SortDirection
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from .types.mutable_patient import MutablePatient
 from .types.patient import Patient
 from .types.patient_id import PatientId
+from .types.patient_page import PatientPage
+from .types.patient_sort_field import PatientSortField
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -111,6 +115,7 @@ class V1Client:
                         telecoms=[ContactPoint()],
                         addresses=[Address()],
                         period=Period(),
+                        hipaa_authorization=True,
                     )
                 ],
                 general_practitioners=[ExternalProvider()],
@@ -143,6 +148,72 @@ class V1Client:
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
                 )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def get_multi(
+        self,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        sort_field: typing.Optional[PatientSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PatientPage:
+        """
+        Searches for patients that match the query parameters.
+
+        Parameters
+        ----------
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+
+        sort_field : typing.Optional[PatientSortField]
+
+        sort_direction : typing.Optional[SortDirection]
+            Defaults to ascending.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPage
+
+        Examples
+        --------
+        from candid.client import CandidApiClient
+        from candid.resources.pre_encounter import SortDirection
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.patients.v_1.get_multi(
+            page_token="string",
+            limit=1,
+            sort_field="string",
+            sort_direction=SortDirection.ASC,
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "patients/v1/get_multi",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "page_token": page_token,
+                "limit": limit,
+                "sort_field": sort_field,
+                "sort_direction": sort_direction,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(PatientPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get(self, id: PatientId, *, request_options: typing.Optional[RequestOptions] = None) -> Patient:
@@ -248,7 +319,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Updates a patient. The path must contain the most recent version to prevent races. Updating historic versions is not supported.
+        Updates a patient. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -337,6 +408,7 @@ class V1Client:
                         telecoms=[ContactPoint()],
                         addresses=[Address()],
                         period=Period(),
+                        hipaa_authorization=True,
                     )
                 ],
                 general_practitioners=[ExternalProvider()],
@@ -379,7 +451,7 @@ class V1Client:
         self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets a patient as deactivated. The path must contain the most recent version to prevent races. Dactivating historic versions is not supported. Subsequent updates via PUT to the patient will "reactivate" the patient and set the deactivated flag to false.
+        Sets a patient as deactivated. The path must contain the most recent version to prevent race conditions. Deactivating historic versions is not supported. Subsequent updates via PUT to the patient will "reactivate" the patient and set the deactivated flag to false.
 
         Parameters
         ----------
@@ -431,14 +503,21 @@ class V1Client:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def search(
-        self, *, name_contains: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        mrn: typing.Optional[str] = None,
+        similar_name_ordering: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[Patient]:
         """
-        Searches for patients that match the query parameters.
+        Returns a list of Patients based on the search criteria.
 
         Parameters
         ----------
-        name_contains : typing.Optional[str]
+        mrn : typing.Optional[str]
+
+        similar_name_ordering : typing.Optional[str]
+            A string that is used to order similar names in search results.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -456,14 +535,15 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.search(
-            name_contains="string",
+            mrn="string",
+            similar_name_ordering="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
             "patients/v1",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="GET",
-            params={"name_contains": name_contains},
+            params={"mrn": mrn, "similar_name_ordering": similar_name_ordering},
             request_options=request_options,
         )
         try:
@@ -618,6 +698,7 @@ class AsyncV1Client:
                             telecoms=[ContactPoint()],
                             addresses=[Address()],
                             period=Period(),
+                            hipaa_authorization=True,
                         )
                     ],
                     general_practitioners=[ExternalProvider()],
@@ -653,6 +734,80 @@ class AsyncV1Client:
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
                 )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def get_multi(
+        self,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        sort_field: typing.Optional[PatientSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PatientPage:
+        """
+        Searches for patients that match the query parameters.
+
+        Parameters
+        ----------
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+
+        sort_field : typing.Optional[PatientSortField]
+
+        sort_direction : typing.Optional[SortDirection]
+            Defaults to ascending.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientPage
+
+        Examples
+        --------
+        import asyncio
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.pre_encounter import SortDirection
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.patients.v_1.get_multi(
+                page_token="string",
+                limit=1,
+                sort_field="string",
+                sort_direction=SortDirection.ASC,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "patients/v1/get_multi",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "page_token": page_token,
+                "limit": limit,
+                "sort_field": sort_field,
+                "sort_direction": sort_direction,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(PatientPage, _response_json)  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get(self, id: PatientId, *, request_options: typing.Optional[RequestOptions] = None) -> Patient:
@@ -774,7 +929,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Updates a patient. The path must contain the most recent version to prevent races. Updating historic versions is not supported.
+        Updates a patient. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -867,6 +1022,7 @@ class AsyncV1Client:
                             telecoms=[ContactPoint()],
                             addresses=[Address()],
                             period=Period(),
+                            hipaa_authorization=True,
                         )
                     ],
                     general_practitioners=[ExternalProvider()],
@@ -912,7 +1068,7 @@ class AsyncV1Client:
         self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets a patient as deactivated. The path must contain the most recent version to prevent races. Dactivating historic versions is not supported. Subsequent updates via PUT to the patient will "reactivate" the patient and set the deactivated flag to false.
+        Sets a patient as deactivated. The path must contain the most recent version to prevent race conditions. Deactivating historic versions is not supported. Subsequent updates via PUT to the patient will "reactivate" the patient and set the deactivated flag to false.
 
         Parameters
         ----------
@@ -972,14 +1128,21 @@ class AsyncV1Client:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def search(
-        self, *, name_contains: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        mrn: typing.Optional[str] = None,
+        similar_name_ordering: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[Patient]:
         """
-        Searches for patients that match the query parameters.
+        Returns a list of Patients based on the search criteria.
 
         Parameters
         ----------
-        name_contains : typing.Optional[str]
+        mrn : typing.Optional[str]
+
+        similar_name_ordering : typing.Optional[str]
+            A string that is used to order similar names in search results.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1002,7 +1165,8 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.search(
-                name_contains="string",
+                mrn="string",
+                similar_name_ordering="string",
             )
 
 
@@ -1012,7 +1176,7 @@ class AsyncV1Client:
             "patients/v1",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="GET",
-            params={"name_contains": name_contains},
+            params={"mrn": mrn, "similar_name_ordering": similar_name_ordering},
             request_options=request_options,
         )
         try:

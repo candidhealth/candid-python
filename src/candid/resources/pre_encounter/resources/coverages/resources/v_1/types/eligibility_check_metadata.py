@@ -5,24 +5,19 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .address import Address
-from .canonical_provider_id import CanonicalProviderId
-from .contact_point import ContactPoint
-from .external_provider_type import ExternalProviderType
-from .human_name import HumanName
-from .period import Period
+from ........core.datetime_utils import serialize_datetime
+from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.user_id import UserId
+from .eligibility_check_status import EligibilityCheckStatus
+from .service_type_code import ServiceTypeCode
 
 
-class ExternalProvider(pydantic.BaseModel):
-    name: HumanName
-    type: typing.Optional[ExternalProviderType] = None
-    npi: typing.Optional[str] = None
-    telecoms: typing.List[ContactPoint]
-    addresses: typing.List[Address]
-    period: typing.Optional[Period] = None
-    canonical_id: typing.Optional[CanonicalProviderId] = None
+class EligibilityCheckMetadata(pydantic.BaseModel):
+    check_id: str
+    service_code: ServiceTypeCode
+    status: EligibilityCheckStatus
+    initiated_by: UserId
+    initiated_at: dt.datetime
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
