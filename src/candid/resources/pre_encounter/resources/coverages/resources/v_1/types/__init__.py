@@ -9,12 +9,14 @@ from .coverage_value import CoverageValue
 from .eligibility_check import EligibilityCheck
 from .eligibility_check_metadata import EligibilityCheckMetadata
 from .eligibility_check_status import EligibilityCheckStatus
+from .eligibility_status import EligibilityStatus
 from .insurance_plan import InsurancePlan
 from .insurance_type_code import InsuranceTypeCode
 from .mutable_coverage import MutableCoverage
 from .network_type import NetworkType
 from .plan_coverage import PlanCoverage
 from .plan_coverage_details import PlanCoverageDetails
+from .plan_metadata import PlanMetadata
 from .service_coverage import ServiceCoverage
 from .service_coverage_details import ServiceCoverageDetails
 from .service_type_code import ServiceTypeCode
@@ -30,12 +32,14 @@ __all__ = [
     "EligibilityCheck",
     "EligibilityCheckMetadata",
     "EligibilityCheckStatus",
+    "EligibilityStatus",
     "InsurancePlan",
     "InsuranceTypeCode",
     "MutableCoverage",
     "NetworkType",
     "PlanCoverage",
     "PlanCoverageDetails",
+    "PlanMetadata",
     "ServiceCoverage",
     "ServiceCoverageDetails",
     "ServiceTypeCode",

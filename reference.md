@@ -12457,7 +12457,7 @@ client.pre_encounter.coverages.v_1.get_multi(
 <dl>
 <dd>
 
-Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt descending.
+Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 </dd>
 </dl>
 </dd>
@@ -12854,6 +12854,149 @@ client.pre_encounter.patients.v_1.create(
 </dl>
 </details>
 
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">create_no_duplicate_check</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Adds a patient without checking for duplicates.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import (
+    Address,
+    ContactPoint,
+    DisabilityStatus,
+    Ethnicity,
+    ExternalProvider,
+    Gender,
+    HumanName,
+    Period,
+    Race,
+    Relationship,
+    Sex,
+    SexualOrientation,
+)
+from candid.resources.pre_encounter.patients.v_1 import (
+    Contact,
+    ExternalProvenance,
+    FilingOrder,
+    MaritalStatus,
+    MutablePatient,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.create_no_duplicate_check(
+    request=MutablePatient(
+        name=HumanName(),
+        other_names=[HumanName()],
+        gender=Gender.MAN,
+        birth_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        social_security_number="string",
+        biological_sex=Sex.FEMALE,
+        sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+        disability_status=DisabilityStatus.DISABLED,
+        marital_status=MaritalStatus.ANNULLED,
+        deceased=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        multiple_birth=1,
+        primary_address=Address(),
+        other_addresses=[Address()],
+        primary_telecom=ContactPoint(),
+        other_telecoms=[ContactPoint()],
+        email="string",
+        electronic_communication_opt_in=True,
+        photo="string",
+        language="string",
+        external_provenance=ExternalProvenance(
+            external_id="string",
+            system_name="string",
+        ),
+        contacts=[
+            Contact(
+                relationship=[Relationship.SELF],
+                name=HumanName(),
+                telecoms=[ContactPoint()],
+                addresses=[Address()],
+                period=Period(),
+                hipaa_authorization=True,
+            )
+        ],
+        general_practitioners=[ExternalProvider()],
+        filing_order=FilingOrder(
+            coverages=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MutablePatient` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">get_multi</a>(...)</code></summary>
 <dl>
 <dd>
@@ -12889,8 +13032,9 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.get_multi(
-    page_token="string",
     limit=1,
+    mrn="string",
+    page_token="string",
     sort_field="string",
     sort_direction=SortDirection.ASC,
 )
@@ -12909,7 +13053,7 @@ client.pre_encounter.patients.v_1.get_multi(
 <dl>
 <dd>
 
-**page_token:** `typing.Optional[PageToken]` 
+**limit:** `typing.Optional[int]` 
     
 </dd>
 </dl>
@@ -12917,7 +13061,15 @@ client.pre_encounter.patients.v_1.get_multi(
 <dl>
 <dd>
 
-**limit:** `typing.Optional[int]` 
+**mrn:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
     
 </dd>
 </dl>
@@ -13428,7 +13580,7 @@ client.pre_encounter.patients.v_1.search(
 <dl>
 <dd>
 
-Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt descending.
+Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 </dd>
 </dl>
 </dd>

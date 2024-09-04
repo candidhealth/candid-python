@@ -20,7 +20,7 @@ class ExternalProvider(pydantic.BaseModel):
     type: typing.Optional[ExternalProviderType] = None
     npi: typing.Optional[str] = None
     telecoms: typing.List[ContactPoint]
-    addresses: typing.List[Address]
+    addresses: typing.Optional[typing.List[Address]] = None
     period: typing.Optional[Period] = None
     canonical_id: typing.Optional[CanonicalProviderId] = None
 

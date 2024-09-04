@@ -150,11 +150,134 @@ class V1Client:
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def create_no_duplicate_check(
+        self, *, request: MutablePatient, request_options: typing.Optional[RequestOptions] = None
+    ) -> Patient:
+        """
+        Adds a patient without checking for duplicates.
+
+        Parameters
+        ----------
+        request : MutablePatient
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Patient
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import CandidApiClient
+        from candid.resources.pre_encounter import (
+            Address,
+            ContactPoint,
+            DisabilityStatus,
+            Ethnicity,
+            ExternalProvider,
+            Gender,
+            HumanName,
+            Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
+        )
+        from candid.resources.pre_encounter.patients.v_1 import (
+            Contact,
+            ExternalProvenance,
+            FilingOrder,
+            MaritalStatus,
+            MutablePatient,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.patients.v_1.create_no_duplicate_check(
+            request=MutablePatient(
+                name=HumanName(),
+                other_names=[HumanName()],
+                gender=Gender.MAN,
+                birth_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                social_security_number="string",
+                biological_sex=Sex.FEMALE,
+                sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                disability_status=DisabilityStatus.DISABLED,
+                marital_status=MaritalStatus.ANNULLED,
+                deceased=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                multiple_birth=1,
+                primary_address=Address(),
+                other_addresses=[Address()],
+                primary_telecom=ContactPoint(),
+                other_telecoms=[ContactPoint()],
+                email="string",
+                electronic_communication_opt_in=True,
+                photo="string",
+                language="string",
+                external_provenance=ExternalProvenance(
+                    external_id="string",
+                    system_name="string",
+                ),
+                contacts=[
+                    Contact(
+                        relationship=[Relationship.SELF],
+                        name=HumanName(),
+                        telecoms=[ContactPoint()],
+                        addresses=[Address()],
+                        period=Period(),
+                        hipaa_authorization=True,
+                    )
+                ],
+                general_practitioners=[ExternalProvider()],
+                filing_order=FilingOrder(
+                    coverages=[
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ],
+                ),
+            ),
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "patients/v1",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(Patient, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "VersionConflictError":
+                raise VersionConflictError(
+                    pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
     def get_multi(
         self,
         *,
-        page_token: typing.Optional[PageToken] = None,
         limit: typing.Optional[int] = None,
+        mrn: typing.Optional[str] = None,
+        page_token: typing.Optional[PageToken] = None,
         sort_field: typing.Optional[PatientSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -164,9 +287,11 @@ class V1Client:
 
         Parameters
         ----------
-        page_token : typing.Optional[PageToken]
-
         limit : typing.Optional[int]
+
+        mrn : typing.Optional[str]
+
+        page_token : typing.Optional[PageToken]
 
         sort_field : typing.Optional[PatientSortField]
 
@@ -190,8 +315,9 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.get_multi(
-            page_token="string",
             limit=1,
+            mrn="string",
+            page_token="string",
             sort_field="string",
             sort_direction=SortDirection.ASC,
         )
@@ -201,8 +327,9 @@ class V1Client:
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="GET",
             params={
-                "page_token": page_token,
                 "limit": limit,
+                "mrn": mrn,
+                "page_token": page_token,
                 "sort_field": sort_field,
                 "sort_direction": sort_direction,
             },
@@ -558,7 +685,7 @@ class V1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Patient]:
         """
-        Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt descending.
+        Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------
@@ -736,11 +863,141 @@ class AsyncV1Client:
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    async def create_no_duplicate_check(
+        self, *, request: MutablePatient, request_options: typing.Optional[RequestOptions] = None
+    ) -> Patient:
+        """
+        Adds a patient without checking for duplicates.
+
+        Parameters
+        ----------
+        request : MutablePatient
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Patient
+
+        Examples
+        --------
+        import asyncio
+        import datetime
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.pre_encounter import (
+            Address,
+            ContactPoint,
+            DisabilityStatus,
+            Ethnicity,
+            ExternalProvider,
+            Gender,
+            HumanName,
+            Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
+        )
+        from candid.resources.pre_encounter.patients.v_1 import (
+            Contact,
+            ExternalProvenance,
+            FilingOrder,
+            MaritalStatus,
+            MutablePatient,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.patients.v_1.create_no_duplicate_check(
+                request=MutablePatient(
+                    name=HumanName(),
+                    other_names=[HumanName()],
+                    gender=Gender.MAN,
+                    birth_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    social_security_number="string",
+                    biological_sex=Sex.FEMALE,
+                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                    disability_status=DisabilityStatus.DISABLED,
+                    marital_status=MaritalStatus.ANNULLED,
+                    deceased=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                    multiple_birth=1,
+                    primary_address=Address(),
+                    other_addresses=[Address()],
+                    primary_telecom=ContactPoint(),
+                    other_telecoms=[ContactPoint()],
+                    email="string",
+                    electronic_communication_opt_in=True,
+                    photo="string",
+                    language="string",
+                    external_provenance=ExternalProvenance(
+                        external_id="string",
+                        system_name="string",
+                    ),
+                    contacts=[
+                        Contact(
+                            relationship=[Relationship.SELF],
+                            name=HumanName(),
+                            telecoms=[ContactPoint()],
+                            addresses=[Address()],
+                            period=Period(),
+                            hipaa_authorization=True,
+                        )
+                    ],
+                    general_practitioners=[ExternalProvider()],
+                    filing_order=FilingOrder(
+                        coverages=[
+                            uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ],
+                    ),
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "patients/v1",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(Patient, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "VersionConflictError":
+                raise VersionConflictError(
+                    pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
     async def get_multi(
         self,
         *,
-        page_token: typing.Optional[PageToken] = None,
         limit: typing.Optional[int] = None,
+        mrn: typing.Optional[str] = None,
+        page_token: typing.Optional[PageToken] = None,
         sort_field: typing.Optional[PatientSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -750,9 +1007,11 @@ class AsyncV1Client:
 
         Parameters
         ----------
-        page_token : typing.Optional[PageToken]
-
         limit : typing.Optional[int]
+
+        mrn : typing.Optional[str]
+
+        page_token : typing.Optional[PageToken]
 
         sort_field : typing.Optional[PatientSortField]
 
@@ -781,8 +1040,9 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.get_multi(
-                page_token="string",
                 limit=1,
+                mrn="string",
+                page_token="string",
                 sort_field="string",
                 sort_direction=SortDirection.ASC,
             )
@@ -795,8 +1055,9 @@ class AsyncV1Client:
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="GET",
             params={
-                "page_token": page_token,
                 "limit": limit,
+                "mrn": mrn,
+                "page_token": page_token,
                 "sort_field": sort_field,
                 "sort_direction": sort_direction,
             },
@@ -1191,7 +1452,7 @@ class AsyncV1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Patient]:
         """
-        Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt descending.
+        Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------

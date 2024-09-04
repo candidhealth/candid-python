@@ -13,7 +13,6 @@ from .eligibility_check_metadata import EligibilityCheckMetadata
 
 class CoverageEligibilityCheckResponse(pydantic.BaseModel):
     metadata: EligibilityCheckMetadata
-    error: typing.Optional[str] = None
     check: typing.Optional[EligibilityCheck] = None
 
     def json(self, **kwargs: typing.Any) -> str:

@@ -395,7 +395,7 @@ class V1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Coverage]:
         """
-        Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt descending.
+        Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------
@@ -966,7 +966,7 @@ class AsyncV1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Coverage]:
         """
-        Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt descending.
+        Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------

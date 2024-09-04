@@ -7,11 +7,18 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .eligibility_status import EligibilityStatus
 
 
-class CoverageValue(pydantic.BaseModel):
-    family: typing.Optional[float] = None
-    individual: typing.Optional[float] = None
+class PlanMetadata(pydantic.BaseModel):
+    insurance_type: typing.Optional[str] = None
+    insurance_type_code: typing.Optional[str] = None
+    plan_name: typing.Optional[str] = None
+    member_id: typing.Optional[str] = None
+    group_number: typing.Optional[str] = None
+    start_date: typing.Optional[dt.date] = None
+    end_date: typing.Optional[dt.date] = None
+    eligibility_status: typing.Optional[EligibilityStatus] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

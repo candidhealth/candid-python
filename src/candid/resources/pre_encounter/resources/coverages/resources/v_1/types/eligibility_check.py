@@ -7,10 +7,17 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .coverage_benefits import CoverageBenefits
+from .eligibility_status import EligibilityStatus
+from .plan_metadata import PlanMetadata
 
 
 class EligibilityCheck(pydantic.BaseModel):
     raw_json: typing.Any
+    errors: typing.Optional[typing.Any] = None
+    eligibility_status: EligibilityStatus
+    plan_metadata: typing.Optional[PlanMetadata] = None
+    benefits: typing.Optional[CoverageBenefits] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
