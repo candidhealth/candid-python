@@ -7,32 +7,22 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....commons.types.invoice_id import InvoiceId
+from .....financials.types.allocation import Allocation
+from .....financials.types.refund_reason import RefundReason
+from .....non_insurance_payers.resources.v_1.types.non_insurance_payer import NonInsurancePayer
+from .non_insurance_payer_refund_id import NonInsurancePayerRefundId
 
 
-class Vitals(pydantic.BaseModel):
-    """
-    Examples
-    --------
-    from candid.resources.encounters.v_4 import Vitals
-
-    Vitals(
-        height_in=70,
-        weight_lbs=165,
-        blood_pressure_systolic_mmhg=115,
-        blood_pressure_diastolic_mmhg=85,
-        body_temperature_f=98.0,
-        hemoglobin_gdl=15.1,
-        hematocrit_pct=51.2,
-    )
-    """
-
-    height_in: typing.Optional[int] = None
-    weight_lbs: typing.Optional[int] = None
-    blood_pressure_systolic_mmhg: typing.Optional[int] = None
-    blood_pressure_diastolic_mmhg: typing.Optional[int] = None
-    body_temperature_f: typing.Optional[float] = None
-    hemoglobin_gdl: typing.Optional[float] = None
-    hematocrit_pct: typing.Optional[float] = None
+class NonInsurancePayerRefund(pydantic.BaseModel):
+    non_insurance_payer_refund_id: NonInsurancePayerRefundId
+    non_insurance_payer: NonInsurancePayer
+    amount_cents: int
+    refund_timestamp: typing.Optional[dt.datetime] = None
+    refund_note: typing.Optional[str] = None
+    allocations: typing.List[Allocation]
+    refund_reason: typing.Optional[RefundReason] = None
+    invoice_id: typing.Optional[InvoiceId] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

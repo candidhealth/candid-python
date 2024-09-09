@@ -576,6 +576,8 @@ class Encounter(EncounterBase):
             blood_pressure_systolic_mmhg=115,
             blood_pressure_diastolic_mmhg=85,
             body_temperature_f=98.0,
+            hemoglobin_gdl=15.1,
+            hematocrit_pct=51.2,
         ),
         interventions=[
             Intervention(

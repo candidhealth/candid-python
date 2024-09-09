@@ -9,30 +9,21 @@ from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
 
 
-class Vitals(pydantic.BaseModel):
+class CreateNonInsurancePayerRequest(pydantic.BaseModel):
+    name: str = pydantic.Field()
     """
-    Examples
-    --------
-    from candid.resources.encounters.v_4 import Vitals
-
-    Vitals(
-        height_in=70,
-        weight_lbs=165,
-        blood_pressure_systolic_mmhg=115,
-        blood_pressure_diastolic_mmhg=85,
-        body_temperature_f=98.0,
-        hemoglobin_gdl=15.1,
-        hematocrit_pct=51.2,
-    )
+    Max 50 characters allowed
     """
 
-    height_in: typing.Optional[int] = None
-    weight_lbs: typing.Optional[int] = None
-    blood_pressure_systolic_mmhg: typing.Optional[int] = None
-    blood_pressure_diastolic_mmhg: typing.Optional[int] = None
-    body_temperature_f: typing.Optional[float] = None
-    hemoglobin_gdl: typing.Optional[float] = None
-    hematocrit_pct: typing.Optional[float] = None
+    description: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Max 255 characters allowed
+    """
+
+    category: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Max 255 characters allowed
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
