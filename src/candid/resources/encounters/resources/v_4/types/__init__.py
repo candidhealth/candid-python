@@ -48,6 +48,7 @@ from .service_authorization_exception_code import ServiceAuthorizationExceptionC
 from .synchronicity_type import SynchronicityType
 from .value_does_not_match_key_type_error import ValueDoesNotMatchKeyTypeError
 from .vitals import Vitals
+from .vitals_update import VitalsUpdate
 
 __all__ = [
     "BillableStatusType",
@@ -96,4 +97,5 @@ __all__ = [
     "SynchronicityType",
     "ValueDoesNotMatchKeyTypeError",
     "Vitals",
+    "VitalsUpdate",
 ]

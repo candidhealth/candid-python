@@ -12,6 +12,7 @@ from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_units import ServiceLineUnits
 from .....diagnoses.types.diagnosis_id import DiagnosisId
+from .drug_identification import DrugIdentification
 from .service_line_denial_reason import ServiceLineDenialReason
 
 
@@ -23,6 +24,7 @@ class ServiceLineUpdate(pydantic.BaseModel):
     diagnosis_id_one: typing.Optional[DiagnosisId] = None
     diagnosis_id_two: typing.Optional[DiagnosisId] = None
     diagnosis_id_three: typing.Optional[DiagnosisId] = None
+    drug_identification: typing.Optional[DrugIdentification] = None
     denial_reason: typing.Optional[ServiceLineDenialReason] = None
     place_of_service_code: typing.Optional[FacilityTypeCode] = None
     units: typing.Optional[ServiceLineUnits] = None

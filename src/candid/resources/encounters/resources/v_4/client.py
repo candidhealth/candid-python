@@ -66,6 +66,7 @@ from .types.schema_instance_validation_failure import SchemaInstanceValidationFa
 from .types.service_authorization_exception_code import ServiceAuthorizationExceptionCode
 from .types.synchronicity_type import SynchronicityType
 from .types.vitals import Vitals
+from .types.vitals_update import VitalsUpdate
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -1146,6 +1147,7 @@ class V4Client:
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        vitals: typing.Optional[VitalsUpdate] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -1285,6 +1287,11 @@ class V4Client:
             is provided as an input, then the encounter's schema instances will be cleared.
 
 
+        vitals : typing.Optional[VitalsUpdate]
+            If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
+            Otherwise, a new vitals object will be created for the encounter.
+
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1320,6 +1327,7 @@ class V4Client:
             ResponsiblePartyType,
             ServiceAuthorizationExceptionCode,
             SynchronicityType,
+            VitalsUpdate,
         )
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
@@ -1458,6 +1466,15 @@ class V4Client:
                     },
                 )
             ],
+            vitals=VitalsUpdate(
+                height_in=70,
+                weight_lbs=165,
+                blood_pressure_systolic_mmhg=115,
+                blood_pressure_diastolic_mmhg=85,
+                body_temperature_f=98.0,
+                hemoglobin_gdl=15.1,
+                hematocrit_pct=51.2,
+            ),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1492,6 +1509,7 @@ class V4Client:
                 "delay_reason_code": delay_reason_code,
                 "patient_authorized_release": patient_authorized_release,
                 "schema_instances": schema_instances,
+                "vitals": vitals,
             },
             request_options=request_options,
             omit=OMIT,
@@ -2624,6 +2642,7 @@ class AsyncV4Client:
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        vitals: typing.Optional[VitalsUpdate] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -2763,6 +2782,11 @@ class AsyncV4Client:
             is provided as an input, then the encounter's schema instances will be cleared.
 
 
+        vitals : typing.Optional[VitalsUpdate]
+            If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
+            Otherwise, a new vitals object will be created for the encounter.
+
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2799,6 +2823,7 @@ class AsyncV4Client:
             ResponsiblePartyType,
             ServiceAuthorizationExceptionCode,
             SynchronicityType,
+            VitalsUpdate,
         )
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
@@ -2940,6 +2965,15 @@ class AsyncV4Client:
                         },
                     )
                 ],
+                vitals=VitalsUpdate(
+                    height_in=70,
+                    weight_lbs=165,
+                    blood_pressure_systolic_mmhg=115,
+                    blood_pressure_diastolic_mmhg=85,
+                    body_temperature_f=98.0,
+                    hemoglobin_gdl=15.1,
+                    hematocrit_pct=51.2,
+                ),
             )
 
 
@@ -2977,6 +3011,7 @@ class AsyncV4Client:
                 "delay_reason_code": delay_reason_code,
                 "patient_authorized_release": patient_authorized_release,
                 "schema_instances": schema_instances,
+                "vitals": vitals,
             },
             request_options=request_options,
             omit=OMIT,

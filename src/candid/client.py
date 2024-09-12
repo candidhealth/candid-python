@@ -25,6 +25,7 @@ from .resources.import_invoice.client import AsyncImportInvoiceClient, ImportInv
 from .resources.insurance_adjudications.client import AsyncInsuranceAdjudicationsClient, InsuranceAdjudicationsClient
 from .resources.insurance_payments.client import AsyncInsurancePaymentsClient, InsurancePaymentsClient
 from .resources.insurance_refunds.client import AsyncInsuranceRefundsClient, InsuranceRefundsClient
+from .resources.medication_dispense.client import AsyncMedicationDispenseClient, MedicationDispenseClient
 from .resources.non_insurance_payer_payments.client import (
     AsyncNonInsurancePayerPaymentsClient,
     NonInsurancePayerPaymentsClient,
@@ -140,6 +141,7 @@ class CandidApiClient:
         self.insurance_adjudications = InsuranceAdjudicationsClient(client_wrapper=self._client_wrapper)
         self.insurance_payments = InsurancePaymentsClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = InsuranceRefundsClient(client_wrapper=self._client_wrapper)
+        self.medication_dispense = MedicationDispenseClient(client_wrapper=self._client_wrapper)
         self.non_insurance_payer_payments = NonInsurancePayerPaymentsClient(client_wrapper=self._client_wrapper)
         self.non_insurance_payer_refunds = NonInsurancePayerRefundsClient(client_wrapper=self._client_wrapper)
         self.non_insurance_payers = NonInsurancePayersClient(client_wrapper=self._client_wrapper)
@@ -245,6 +247,7 @@ class AsyncCandidApiClient:
         self.insurance_adjudications = AsyncInsuranceAdjudicationsClient(client_wrapper=self._client_wrapper)
         self.insurance_payments = AsyncInsurancePaymentsClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = AsyncInsuranceRefundsClient(client_wrapper=self._client_wrapper)
+        self.medication_dispense = AsyncMedicationDispenseClient(client_wrapper=self._client_wrapper)
         self.non_insurance_payer_payments = AsyncNonInsurancePayerPaymentsClient(client_wrapper=self._client_wrapper)
         self.non_insurance_payer_refunds = AsyncNonInsurancePayerRefundsClient(client_wrapper=self._client_wrapper)
         self.non_insurance_payers = AsyncNonInsurancePayersClient(client_wrapper=self._client_wrapper)

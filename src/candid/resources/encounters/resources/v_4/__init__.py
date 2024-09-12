@@ -47,6 +47,7 @@ from .types import (
     SynchronicityType,
     ValueDoesNotMatchKeyTypeError,
     Vitals,
+    VitalsUpdate,
 )
 from .errors import (
     CashPayPayerError,
@@ -108,4 +109,5 @@ __all__ = [
     "SynchronicityType",
     "ValueDoesNotMatchKeyTypeError",
     "Vitals",
+    "VitalsUpdate",
 ]

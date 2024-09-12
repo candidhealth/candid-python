@@ -18,6 +18,7 @@ from .....diagnoses.types.diagnosis_id import DiagnosisId
 from .....encounter_providers.resources.v_2.types.encounter_provider import EncounterProvider
 from .....invoices.resources.v_2.types.invoice_info import InvoiceInfo
 from .....invoices.types.invoice import Invoice
+from .drug_identification import DrugIdentification
 from .service_line_adjustment import ServiceLineAdjustment
 from .service_line_denial_reason import ServiceLineDenialReason
 from .service_line_era_data import ServiceLineEraData
@@ -164,6 +165,7 @@ class ServiceLine(pydantic.BaseModel):
     diagnosis_id_one: typing.Optional[DiagnosisId] = None
     diagnosis_id_two: typing.Optional[DiagnosisId] = None
     diagnosis_id_three: typing.Optional[DiagnosisId] = None
+    drug_identification: typing.Optional[DrugIdentification] = None
     service_line_era_data: typing.Optional[ServiceLineEraData] = None
     service_line_manual_adjustments: typing.Optional[typing.List[ServiceLineAdjustment]] = None
     related_invoices: typing.Optional[typing.List[Invoice]] = None

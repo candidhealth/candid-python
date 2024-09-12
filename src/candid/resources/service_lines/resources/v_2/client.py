@@ -142,6 +142,7 @@ class V2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import CandidApiClient
         from candid.resources.service_lines.v_2 import (
+            DrugIdentification,
             ServiceLineDenialReason,
             ServiceLineUpdate,
         )
@@ -170,6 +171,7 @@ class V2Client:
                 diagnosis_id_three=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
+                drug_identification=DrugIdentification(),
                 denial_reason=ServiceLineDenialReason(),
                 place_of_service_code=FacilityTypeCode.PHARMACY,
                 units=ServiceLineUnits.MJ,
@@ -396,6 +398,7 @@ class AsyncV2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import AsyncCandidApiClient
         from candid.resources.service_lines.v_2 import (
+            DrugIdentification,
             ServiceLineDenialReason,
             ServiceLineUpdate,
         )
@@ -427,6 +430,7 @@ class AsyncV2Client:
                     diagnosis_id_three=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
+                    drug_identification=DrugIdentification(),
                     denial_reason=ServiceLineDenialReason(),
                     place_of_service_code=FacilityTypeCode.PHARMACY,
                     units=ServiceLineUnits.MJ,

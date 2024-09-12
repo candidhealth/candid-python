@@ -2679,6 +2679,7 @@ from candid.resources.encounters.v_4 import (
     ResponsiblePartyType,
     ServiceAuthorizationExceptionCode,
     SynchronicityType,
+    VitalsUpdate,
 )
 from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
@@ -2817,6 +2818,15 @@ client.encounters.v_4.update(
             },
         )
     ],
+    vitals=VitalsUpdate(
+        height_in=70,
+        weight_lbs=165,
+        blood_pressure_systolic_mmhg=115,
+        blood_pressure_diastolic_mmhg=85,
+        body_temperature_f=98.0,
+        hemoglobin_gdl=15.1,
+        hematocrit_pct=51.2,
+    ),
 )
 
 ```
@@ -3126,6 +3136,18 @@ Key-value pairs that must adhere to a schema created via the Custom Schema API. 
 instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
 semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
 is provided as an input, then the encounter's schema instances will be cleared.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vitals:** `typing.Optional[VitalsUpdate]` 
+
+If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
+Otherwise, a new vitals object will be created for the encounter.
 
     
 </dd>
@@ -6716,6 +6738,81 @@ client.insurance_refunds.v_1.delete(
 <dd>
 
 **insurance_refund_id:** `InsuranceRefundId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## MedicationDispense V1
+<details><summary><code>client.medication_dispense.v_1.<a href="src/candid/resources/medication_dispense/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid import ProcedureModifier, ServiceLineUnits
+from candid.client import CandidApiClient
+from candid.resources.medication_dispense.v_1 import MedicationDispenseCreate
+from candid.resources.service_lines.v_2 import DrugIdentification
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.medication_dispense.v_1.create(
+    request=MedicationDispenseCreate(
+        medication_dispense_external_id="string",
+        patient_external_id="string",
+        procedure_code="string",
+        quantity="string",
+        units=ServiceLineUnits.MJ,
+        date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        drug_identification=DrugIdentification(),
+        description="string",
+        modifiers=[ProcedureModifier.TWENTY_TWO],
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MedicationDispenseCreate` 
     
 </dd>
 </dl>
@@ -10343,6 +10440,7 @@ import uuid
 from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
 from candid.client import CandidApiClient
 from candid.resources.service_lines.v_2 import (
+    DrugIdentification,
     ServiceLineDenialReason,
     ServiceLineUpdate,
 )
@@ -10371,6 +10469,7 @@ client.service_lines.v_2.update(
         diagnosis_id_three=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
+        drug_identification=DrugIdentification(),
         denial_reason=ServiceLineDenialReason(),
         place_of_service_code=FacilityTypeCode.PHARMACY,
         units=ServiceLineUnits.MJ,
@@ -12047,3 +12146,3122 @@ client.third_party_payers.v_1.toggle_enablement(
 </details>
 
 <details><summary><code>client.third_party_payers.v_1.<a href="src/candid/resources/third_party_payers/resources/v_1/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import SortDirection
+from candid.client import CandidApiClient
+from candid.resources.third_party_payers.v_1 import ThirdPartyPayerSortField
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.third_party_payers.v_1.get_multi(
+    name="string",
+    category="string",
+    enabled=True,
+    sort=ThirdPartyPayerSortField.NAME,
+    sort_direction=SortDirection.ASC,
+    limit=1,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**category:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**enabled:** `typing.Optional[bool]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort:** `typing.Optional[ThirdPartyPayerSortField]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Defaults to 100
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.third_party_payers.v_1.<a href="src/candid/resources/third_party_payers/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.third_party_payers.v_1.get(
+    third_party_payer_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**third_party_payer_id:** `ThirdPartyPayerId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.third_party_payers.v_1.<a href="src/candid/resources/third_party_payers/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+from candid.resources.third_party_payers.v_1 import (
+    ThirdPartyPayerCategoryUpdate,
+    ThirdPartyPayerDescriptionUpdate,
+    ThirdPartyPayerUpdateRequest,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.third_party_payers.v_1.update(
+    third_party_payer_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=ThirdPartyPayerUpdateRequest(
+        name="string",
+        description=ThirdPartyPayerDescriptionUpdate(),
+        category=ThirdPartyPayerCategoryUpdate(),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**third_party_payer_id:** `ThirdPartyPayerId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `ThirdPartyPayerUpdateRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.third_party_payers.v_1.<a href="src/candid/resources/third_party_payers/resources/v_1/client.py">delete</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.third_party_payers.v_1.delete(
+    third_party_payer_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**third_party_payer_id:** `ThirdPartyPayerId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## WriteOffs V1
+<details><summary><code>client.write_offs.v_1.<a href="src/candid/resources/write_offs/resources/v_1/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns all write-offs satisfying the search criteria.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import AccountType, SortDirection
+from candid.client import CandidApiClient
+from candid.resources.write_offs.v_1 import WriteOffSortField
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.get_multi(
+    limit=1,
+    patient_external_id="string",
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    claim_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    billing_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    sort=WriteOffSortField.AMOUNT_CENTS,
+    sort_direction=SortDirection.ASC,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    account_types=AccountType.PATIENT,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Defaults to 100. The value must be greater than 0 and less than 1000.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**patient_external_id:** `typing.Optional[PatientExternalId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_uuid:** `typing.Optional[PayerUuid]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**service_line_id:** `typing.Optional[ServiceLineId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_id:** `typing.Optional[ClaimId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**billing_provider_id:** `typing.Optional[ProviderId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort:** `typing.Optional[WriteOffSortField]` — Defaults to write_off_timestamp
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Sort direction. Defaults to descending order if not provided.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**account_types:** `typing.Optional[typing.Union[AccountType, typing.Sequence[AccountType]]]` — Filters the returned values to include only the provided account types.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.write_offs.v_1.<a href="src/candid/resources/write_offs/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieves a previously created write off by its `write_off_id`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.get(
+    write_off_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**write_off_id:** `WriteOffId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.write_offs.v_1.<a href="src/candid/resources/write_offs/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates one or many write-offs applied toward a specific service line,
+claim, or billing provider.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid.client import CandidApiClient
+from candid.resources.write_offs.v_1 import (
+    PatientWriteOffReason,
+    WriteOffCreate_Patient,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.create(
+    write_offs=[
+        WriteOffCreate_Patient(
+            write_off_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            write_off_note="string",
+            write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            amount_cents=1,
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**write_offs:** `typing.Sequence[WriteOffCreate]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.write_offs.v_1.<a href="src/candid/resources/write_offs/resources/v_1/client.py">revert</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Reverts a write off given a `write_off_id`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.revert(
+    write_off_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**write_off_id:** `WriteOffId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## PreEncounter Appointments V1
+<details><summary><code>client.pre_encounter.appointments.v_1.<a href="src/candid/resources/pre_encounter/resources/appointments/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Adds an appointment. VersionConflictError is returned when the placer_appointment_id is already in use.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import ExternalProvider
+from candid.resources.pre_encounter.appointments.v_1 import (
+    AppointmentReason,
+    AppointmentType,
+    AppointmentWorkQueue,
+    MutableAppointment,
+    Service,
+    UniversalServiceIdentifier,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.appointments.v_1.create(
+    request=MutableAppointment(
+        patient_id="string",
+        checked_in=True,
+        assigned_patient_location="string",
+        attending_doctor=ExternalProvider(),
+        referring_doctor=ExternalProvider(),
+        start_timestamp=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        service_duration=1,
+        services=[
+            Service(
+                universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
+                start_timestamp=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+            )
+        ],
+        placer_appointment_id="string",
+        appointment_reason=AppointmentReason.CHECKUP,
+        appointment_type=AppointmentType.COMPLETE,
+        location_resource_id="string",
+        work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MutableAppointment` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.appointments.v_1.<a href="src/candid/resources/pre_encounter/resources/appointments/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets an appointment.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.appointments.v_1.get(
+    id="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `AppointmentId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.appointments.v_1.<a href="src/candid/resources/pre_encounter/resources/appointments/resources/v_1/client.py">get_history</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets an appointment along with it's full history. The return list is ordered by version ascending.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.appointments.v_1.get_history(
+    id="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `AppointmentId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.appointments.v_1.<a href="src/candid/resources/pre_encounter/resources/appointments/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates an appointment. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import ExternalProvider
+from candid.resources.pre_encounter.appointments.v_1 import (
+    AppointmentReason,
+    AppointmentType,
+    AppointmentWorkQueue,
+    MutableAppointment,
+    Service,
+    UniversalServiceIdentifier,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.appointments.v_1.update(
+    id="string",
+    version="string",
+    request=MutableAppointment(
+        patient_id="string",
+        checked_in=True,
+        assigned_patient_location="string",
+        attending_doctor=ExternalProvider(),
+        referring_doctor=ExternalProvider(),
+        start_timestamp=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        service_duration=1,
+        services=[
+            Service(
+                universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
+                start_timestamp=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+            )
+        ],
+        placer_appointment_id="string",
+        appointment_reason=AppointmentReason.CHECKUP,
+        appointment_type=AppointmentType.COMPLETE,
+        location_resource_id="string",
+        work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `AppointmentId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `MutableAppointment` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.appointments.v_1.<a href="src/candid/resources/pre_encounter/resources/appointments/resources/v_1/client.py">deactivate</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Sets an appointment as deactivated. The path must contain the most recent version to prevent race conditions. Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.appointments.v_1.deactivate(
+    id="string",
+    version="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `AppointmentId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.appointments.v_1.<a href="src/candid/resources/pre_encounter/resources/appointments/resources/v_1/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Searches for appointments that match the query parameters.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import SortDirection
+from candid.resources.pre_encounter.appointments.v_1 import (
+    AppointmentSortField,
+    AppointmentWorkQueue,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.appointments.v_1.get_multi(
+    checked_in=True,
+    patient_id="string",
+    min_start_timestamp=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+    max_start_timestamp=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+    placer_appointment_id="string",
+    work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
+    sort_field=AppointmentSortField.START_TIMESTAMP,
+    sort_direction=SortDirection.ASC,
+    limit=1,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**checked_in:** `typing.Optional[bool]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**patient_id:** `typing.Optional[PatientId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**min_start_timestamp:** `typing.Optional[dt.datetime]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**max_start_timestamp:** `typing.Optional[dt.datetime]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**placer_appointment_id:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**work_queue:** `typing.Optional[AppointmentWorkQueue]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_field:** `typing.Optional[AppointmentSortField]` — Defaults to start_timestamp.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Defaults to asc.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Defaults to 1000.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## PreEncounter Coverages V1
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a new Coverage. A Coverage provides the high-level identifiers and descriptors of a specific insurance plan for a specific individual - typically the information you can find on an insurance card. Additionally a coverage will include detailed benefits information covered by the specific plan for the individual.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+from candid.resources.pre_encounter.coverages.v_1 import (
+    CoverageBenefits,
+    CoverageStatus,
+    EligibilityCheckMetadata,
+    EligibilityCheckStatus,
+    InsurancePlan,
+    InsuranceTypeCode,
+    MutableCoverage,
+    NetworkType,
+    PlanCoverage,
+    ServiceCoverage,
+    ServiceTypeCode,
+    Subscriber,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.create(
+    request=MutableCoverage(
+        status=CoverageStatus.ACTIVE,
+        subscriber=Subscriber(
+            name=HumanName(),
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            biological_sex=Sex.FEMALE,
+        ),
+        relationship=Relationship.SELF,
+        patient="string",
+        insurance_plan=InsurancePlan(
+            member_id="string",
+            payer_id="string",
+            payer_name="string",
+            group_number="string",
+            name="string",
+            plan_type=NetworkType.SELF_PAY,
+            type=InsuranceTypeCode.C_01,
+            period=Period(),
+            insurance_card_image_locator="string",
+        ),
+        verified=True,
+        eligibility_checks=[
+            EligibilityCheckMetadata(
+                check_id="string",
+                service_code=ServiceTypeCode.MEDICAL_CARE,
+                status=EligibilityCheckStatus.CREATED,
+                initiated_by="string",
+                initiated_at=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+            )
+        ],
+        benefits=CoverageBenefits(
+            plan_coverage=PlanCoverage(),
+            service_specific_coverage=[ServiceCoverage()],
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MutableCoverage` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a Coverage. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+from candid.resources.pre_encounter.coverages.v_1 import (
+    CoverageBenefits,
+    CoverageStatus,
+    EligibilityCheckMetadata,
+    EligibilityCheckStatus,
+    InsurancePlan,
+    InsuranceTypeCode,
+    MutableCoverage,
+    NetworkType,
+    PlanCoverage,
+    ServiceCoverage,
+    ServiceTypeCode,
+    Subscriber,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.update(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    version="string",
+    request=MutableCoverage(
+        status=CoverageStatus.ACTIVE,
+        subscriber=Subscriber(
+            name=HumanName(),
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            biological_sex=Sex.FEMALE,
+        ),
+        relationship=Relationship.SELF,
+        patient="string",
+        insurance_plan=InsurancePlan(
+            member_id="string",
+            payer_id="string",
+            payer_name="string",
+            group_number="string",
+            name="string",
+            plan_type=NetworkType.SELF_PAY,
+            type=InsuranceTypeCode.C_01,
+            period=Period(),
+            insurance_card_image_locator="string",
+        ),
+        verified=True,
+        eligibility_checks=[
+            EligibilityCheckMetadata(
+                check_id="string",
+                service_code=ServiceTypeCode.MEDICAL_CARE,
+                status=EligibilityCheckStatus.CREATED,
+                initiated_by="string",
+                initiated_at=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+            )
+        ],
+        benefits=CoverageBenefits(
+            plan_coverage=PlanCoverage(),
+            service_specific_coverage=[ServiceCoverage()],
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `CoverageId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `MutableCoverage` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+gets a specific Coverage
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.get(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `CoverageId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">get_history</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets a coverage along with it's full history. The return list is ordered by version ascending.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.get_history(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `CoverageId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns a list of Coverages based on the search criteria.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.get_multi(
+    patient_id="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**patient_id:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">scan</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.scan(
+    since=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**since:** `dt.datetime` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">check_eligibility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Initiates an eligibility check. Returns the metadata of the check if successfully initiated.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter.coverages.v_1 import ServiceTypeCode
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.check_eligibility(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    service_code=ServiceTypeCode.MEDICAL_CARE,
+    date_of_service=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    npi="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `CoverageId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**service_code:** `ServiceTypeCode` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date_of_service:** `dt.date` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**npi:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">get_eligibility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets the eligibility of a patient for a specific coverage if successful.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.get_eligibility(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    check_id="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `CoverageId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**check_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## PreEncounter Patients V1
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Adds a patient. VersionConflictError is returned when the patient's external ID is already in use.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import (
+    Address,
+    ContactPoint,
+    DisabilityStatus,
+    Ethnicity,
+    ExternalProvider,
+    Gender,
+    HumanName,
+    Period,
+    Race,
+    Relationship,
+    Sex,
+    SexualOrientation,
+)
+from candid.resources.pre_encounter.patients.v_1 import (
+    Contact,
+    ExternalProvenance,
+    FilingOrder,
+    MaritalStatus,
+    MutablePatient,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.create(
+    request=MutablePatient(
+        name=HumanName(),
+        other_names=[HumanName()],
+        gender=Gender.MAN,
+        birth_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        social_security_number="string",
+        biological_sex=Sex.FEMALE,
+        sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+        disability_status=DisabilityStatus.DISABLED,
+        marital_status=MaritalStatus.ANNULLED,
+        deceased=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        multiple_birth=1,
+        primary_address=Address(),
+        other_addresses=[Address()],
+        primary_telecom=ContactPoint(),
+        other_telecoms=[ContactPoint()],
+        email="string",
+        electronic_communication_opt_in=True,
+        photo="string",
+        language="string",
+        external_provenance=ExternalProvenance(
+            external_id="string",
+            system_name="string",
+        ),
+        contacts=[
+            Contact(
+                relationship=[Relationship.SELF],
+                name=HumanName(),
+                telecoms=[ContactPoint()],
+                addresses=[Address()],
+                period=Period(),
+                hipaa_authorization=True,
+            )
+        ],
+        general_practitioners=[ExternalProvider()],
+        filing_order=FilingOrder(
+            coverages=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MutablePatient` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">create_no_duplicate_check</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Adds a patient without checking for duplicates.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import (
+    Address,
+    ContactPoint,
+    DisabilityStatus,
+    Ethnicity,
+    ExternalProvider,
+    Gender,
+    HumanName,
+    Period,
+    Race,
+    Relationship,
+    Sex,
+    SexualOrientation,
+)
+from candid.resources.pre_encounter.patients.v_1 import (
+    Contact,
+    ExternalProvenance,
+    FilingOrder,
+    MaritalStatus,
+    MutablePatient,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.create_no_duplicate_check(
+    request=MutablePatient(
+        name=HumanName(),
+        other_names=[HumanName()],
+        gender=Gender.MAN,
+        birth_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        social_security_number="string",
+        biological_sex=Sex.FEMALE,
+        sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+        disability_status=DisabilityStatus.DISABLED,
+        marital_status=MaritalStatus.ANNULLED,
+        deceased=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        multiple_birth=1,
+        primary_address=Address(),
+        other_addresses=[Address()],
+        primary_telecom=ContactPoint(),
+        other_telecoms=[ContactPoint()],
+        email="string",
+        electronic_communication_opt_in=True,
+        photo="string",
+        language="string",
+        external_provenance=ExternalProvenance(
+            external_id="string",
+            system_name="string",
+        ),
+        contacts=[
+            Contact(
+                relationship=[Relationship.SELF],
+                name=HumanName(),
+                telecoms=[ContactPoint()],
+                addresses=[Address()],
+                period=Period(),
+                hipaa_authorization=True,
+            )
+        ],
+        general_practitioners=[ExternalProvider()],
+        filing_order=FilingOrder(
+            coverages=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MutablePatient` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Searches for patients that match the query parameters.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import SortDirection
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.get_multi(
+    limit=1,
+    mrn="string",
+    page_token="string",
+    sort_field="string",
+    sort_direction=SortDirection.ASC,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**mrn:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_field:** `typing.Optional[PatientSortField]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Defaults to ascending.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets a patient.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.get(
+    id="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `PatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">get_history</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets a patient along with it's full history. The return list is ordered by version ascending.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.get_history(
+    id="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `PatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a patient. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import (
+    Address,
+    ContactPoint,
+    DisabilityStatus,
+    Ethnicity,
+    ExternalProvider,
+    Gender,
+    HumanName,
+    Period,
+    Race,
+    Relationship,
+    Sex,
+    SexualOrientation,
+)
+from candid.resources.pre_encounter.patients.v_1 import (
+    Contact,
+    ExternalProvenance,
+    FilingOrder,
+    MaritalStatus,
+    MutablePatient,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.update(
+    id="string",
+    version="string",
+    request=MutablePatient(
+        name=HumanName(),
+        other_names=[HumanName()],
+        gender=Gender.MAN,
+        birth_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        social_security_number="string",
+        biological_sex=Sex.FEMALE,
+        sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+        disability_status=DisabilityStatus.DISABLED,
+        marital_status=MaritalStatus.ANNULLED,
+        deceased=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        multiple_birth=1,
+        primary_address=Address(),
+        other_addresses=[Address()],
+        primary_telecom=ContactPoint(),
+        other_telecoms=[ContactPoint()],
+        email="string",
+        electronic_communication_opt_in=True,
+        photo="string",
+        language="string",
+        external_provenance=ExternalProvenance(
+            external_id="string",
+            system_name="string",
+        ),
+        contacts=[
+            Contact(
+                relationship=[Relationship.SELF],
+                name=HumanName(),
+                telecoms=[ContactPoint()],
+                addresses=[Address()],
+                period=Period(),
+                hipaa_authorization=True,
+            )
+        ],
+        general_practitioners=[ExternalProvider()],
+        filing_order=FilingOrder(
+            coverages=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `PatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `MutablePatient` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">deactivate</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Sets a patient as deactivated. The path must contain the most recent version to prevent race conditions. Deactivating historic versions is not supported. Subsequent updates via PUT to the patient will "reactivate" the patient and set the deactivated flag to false.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.deactivate(
+    id="string",
+    version="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `PatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">search</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns a list of Patients based on the search criteria.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.search(
+    mrn="string",
+    similar_name_ordering="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**mrn:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**similar_name_ordering:** `typing.Optional[str]` — A string that is used to order similar names in search results.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">scan</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.scan(
+    since=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**since:** `dt.datetime` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## ServiceFacility
+<details><summary><code>client.service_facility.<a href="src/candid/resources/service_facility/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import State, StreetAddressLongZip
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.service_facility.update(
+    service_facility_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    organization_name="string",
+    npi="string",
+    address=StreetAddressLongZip(
+        address_1="123 Main St",
+        address_2="Apt 1",
+        city="New York",
+        state=State.NY,
+        zip_code="10001",
+        zip_plus_four_code="1234",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**service_facility_id:** `ServiceFacilityId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**organization_name:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**npi:** `typing.Optional[str]` 
+
+An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.
+Box 32 section (a) of the CMS-1500 claim form.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**address:** `typing.Optional[StreetAddressLongZip]` — zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
