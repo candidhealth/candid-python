@@ -53,12 +53,16 @@ class V1Client:
         from candid.client import CandidApiClient
         from candid.resources.pre_encounter import (
             Address,
+            AddressUse,
             ContactPoint,
+            ContactPointUse,
             DisabilityStatus,
             Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
             Gender,
             HumanName,
+            NameUse,
             Period,
             Race,
             Relationship,
@@ -79,8 +83,26 @@ class V1Client:
         )
         client.pre_encounter.patients.v_1.create(
             request=MutablePatient(
-                name=HumanName(),
-                other_names=[HumanName()],
+                name=HumanName(
+                    family="string",
+                    given=["string"],
+                    use=NameUse.USUAL,
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                ),
+                other_names=[
+                    HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    )
+                ],
                 gender=Gender.MAN,
                 birth_date=datetime.date.fromisoformat(
                     "2023-01-15",
@@ -96,10 +118,44 @@ class V1Client:
                     "2024-01-15 09:30:00+00:00",
                 ),
                 multiple_birth=1,
-                primary_address=Address(),
-                other_addresses=[Address()],
-                primary_telecom=ContactPoint(),
-                other_telecoms=[ContactPoint()],
+                primary_address=Address(
+                    use=AddressUse.HOME,
+                    line=["string"],
+                    city="string",
+                    state="string",
+                    postal_code="string",
+                    country="string",
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                ),
+                other_addresses=[
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    )
+                ],
+                primary_telecom=ContactPoint(
+                    value="string",
+                    use=ContactPointUse.HOME,
+                    period={"key": "value"},
+                ),
+                other_telecoms=[
+                    ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                        period={"key": "value"},
+                    )
+                ],
                 email="string",
                 electronic_communication_opt_in=True,
                 photo="string",
@@ -111,14 +167,71 @@ class V1Client:
                 contacts=[
                     Contact(
                         relationship=[Relationship.SELF],
-                        name=HumanName(),
-                        telecoms=[ContactPoint()],
-                        addresses=[Address()],
-                        period=Period(),
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["string"],
+                                city="string",
+                                state="string",
+                                postal_code="string",
+                                country="string",
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            )
+                        ],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
                         hipaa_authorization=True,
                     )
                 ],
-                general_practitioners=[ExternalProvider()],
+                general_practitioners=[
+                    ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[{"key": "value"}],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                        canonical_id="string",
+                    )
+                ],
                 filing_order=FilingOrder(
                     coverages=[
                         uuid.UUID(
@@ -175,12 +288,16 @@ class V1Client:
         from candid.client import CandidApiClient
         from candid.resources.pre_encounter import (
             Address,
+            AddressUse,
             ContactPoint,
+            ContactPointUse,
             DisabilityStatus,
             Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
             Gender,
             HumanName,
+            NameUse,
             Period,
             Race,
             Relationship,
@@ -201,8 +318,26 @@ class V1Client:
         )
         client.pre_encounter.patients.v_1.create_no_duplicate_check(
             request=MutablePatient(
-                name=HumanName(),
-                other_names=[HumanName()],
+                name=HumanName(
+                    family="string",
+                    given=["string"],
+                    use=NameUse.USUAL,
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                ),
+                other_names=[
+                    HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    )
+                ],
                 gender=Gender.MAN,
                 birth_date=datetime.date.fromisoformat(
                     "2023-01-15",
@@ -218,10 +353,44 @@ class V1Client:
                     "2024-01-15 09:30:00+00:00",
                 ),
                 multiple_birth=1,
-                primary_address=Address(),
-                other_addresses=[Address()],
-                primary_telecom=ContactPoint(),
-                other_telecoms=[ContactPoint()],
+                primary_address=Address(
+                    use=AddressUse.HOME,
+                    line=["string"],
+                    city="string",
+                    state="string",
+                    postal_code="string",
+                    country="string",
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                ),
+                other_addresses=[
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    )
+                ],
+                primary_telecom=ContactPoint(
+                    value="string",
+                    use=ContactPointUse.HOME,
+                    period={"key": "value"},
+                ),
+                other_telecoms=[
+                    ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                        period={"key": "value"},
+                    )
+                ],
                 email="string",
                 electronic_communication_opt_in=True,
                 photo="string",
@@ -233,14 +402,71 @@ class V1Client:
                 contacts=[
                     Contact(
                         relationship=[Relationship.SELF],
-                        name=HumanName(),
-                        telecoms=[ContactPoint()],
-                        addresses=[Address()],
-                        period=Period(),
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["string"],
+                                city="string",
+                                state="string",
+                                postal_code="string",
+                                country="string",
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            )
+                        ],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
                         hipaa_authorization=True,
                     )
                 ],
-                general_practitioners=[ExternalProvider()],
+                general_practitioners=[
+                    ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[{"key": "value"}],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                        canonical_id="string",
+                    )
+                ],
                 filing_order=FilingOrder(
                     coverages=[
                         uuid.UUID(
@@ -471,12 +697,16 @@ class V1Client:
         from candid.client import CandidApiClient
         from candid.resources.pre_encounter import (
             Address,
+            AddressUse,
             ContactPoint,
+            ContactPointUse,
             DisabilityStatus,
             Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
             Gender,
             HumanName,
+            NameUse,
             Period,
             Race,
             Relationship,
@@ -499,8 +729,26 @@ class V1Client:
             id="string",
             version="string",
             request=MutablePatient(
-                name=HumanName(),
-                other_names=[HumanName()],
+                name=HumanName(
+                    family="string",
+                    given=["string"],
+                    use=NameUse.USUAL,
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                ),
+                other_names=[
+                    HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    )
+                ],
                 gender=Gender.MAN,
                 birth_date=datetime.date.fromisoformat(
                     "2023-01-15",
@@ -516,10 +764,44 @@ class V1Client:
                     "2024-01-15 09:30:00+00:00",
                 ),
                 multiple_birth=1,
-                primary_address=Address(),
-                other_addresses=[Address()],
-                primary_telecom=ContactPoint(),
-                other_telecoms=[ContactPoint()],
+                primary_address=Address(
+                    use=AddressUse.HOME,
+                    line=["string"],
+                    city="string",
+                    state="string",
+                    postal_code="string",
+                    country="string",
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                ),
+                other_addresses=[
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    )
+                ],
+                primary_telecom=ContactPoint(
+                    value="string",
+                    use=ContactPointUse.HOME,
+                    period={"key": "value"},
+                ),
+                other_telecoms=[
+                    ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                        period={"key": "value"},
+                    )
+                ],
                 email="string",
                 electronic_communication_opt_in=True,
                 photo="string",
@@ -531,14 +813,71 @@ class V1Client:
                 contacts=[
                     Contact(
                         relationship=[Relationship.SELF],
-                        name=HumanName(),
-                        telecoms=[ContactPoint()],
-                        addresses=[Address()],
-                        period=Period(),
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["string"],
+                                city="string",
+                                state="string",
+                                postal_code="string",
+                                country="string",
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            )
+                        ],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
                         hipaa_authorization=True,
                     )
                 ],
-                general_practitioners=[ExternalProvider()],
+                general_practitioners=[
+                    ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[{"key": "value"}],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                        canonical_id="string",
+                    )
+                ],
                 filing_order=FilingOrder(
                     coverages=[
                         uuid.UUID(
@@ -760,12 +1099,16 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApiClient
         from candid.resources.pre_encounter import (
             Address,
+            AddressUse,
             ContactPoint,
+            ContactPointUse,
             DisabilityStatus,
             Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
             Gender,
             HumanName,
+            NameUse,
             Period,
             Race,
             Relationship,
@@ -789,8 +1132,26 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.patients.v_1.create(
                 request=MutablePatient(
-                    name=HumanName(),
-                    other_names=[HumanName()],
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    other_names=[
+                        HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        )
+                    ],
                     gender=Gender.MAN,
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
@@ -806,10 +1167,44 @@ class AsyncV1Client:
                         "2024-01-15 09:30:00+00:00",
                     ),
                     multiple_birth=1,
-                    primary_address=Address(),
-                    other_addresses=[Address()],
-                    primary_telecom=ContactPoint(),
-                    other_telecoms=[ContactPoint()],
+                    primary_address=Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    other_addresses=[
+                        Address(
+                            use=AddressUse.HOME,
+                            line=["string"],
+                            city="string",
+                            state="string",
+                            postal_code="string",
+                            country="string",
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        )
+                    ],
+                    primary_telecom=ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                        period={"key": "value"},
+                    ),
+                    other_telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                            period={"key": "value"},
+                        )
+                    ],
                     email="string",
                     electronic_communication_opt_in=True,
                     photo="string",
@@ -821,14 +1216,71 @@ class AsyncV1Client:
                     contacts=[
                         Contact(
                             relationship=[Relationship.SELF],
-                            name=HumanName(),
-                            telecoms=[ContactPoint()],
-                            addresses=[Address()],
-                            period=Period(),
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                    period={"key": "value"},
+                                )
+                            ],
+                            addresses=[
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["string"],
+                                    city="string",
+                                    state="string",
+                                    postal_code="string",
+                                    country="string",
+                                    period=Period(
+                                        start={"key": "value"},
+                                        end={"key": "value"},
+                                    ),
+                                )
+                            ],
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
                             hipaa_authorization=True,
                         )
                     ],
-                    general_practitioners=[ExternalProvider()],
+                    general_practitioners=[
+                        ExternalProvider(
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            ),
+                            type=ExternalProviderType.PRIMARY,
+                            npi="string",
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                    period={"key": "value"},
+                                )
+                            ],
+                            addresses=[{"key": "value"}],
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                            canonical_id="string",
+                        )
+                    ],
                     filing_order=FilingOrder(
                         coverages=[
                             uuid.UUID(
@@ -889,12 +1341,16 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApiClient
         from candid.resources.pre_encounter import (
             Address,
+            AddressUse,
             ContactPoint,
+            ContactPointUse,
             DisabilityStatus,
             Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
             Gender,
             HumanName,
+            NameUse,
             Period,
             Race,
             Relationship,
@@ -918,8 +1374,26 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.patients.v_1.create_no_duplicate_check(
                 request=MutablePatient(
-                    name=HumanName(),
-                    other_names=[HumanName()],
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    other_names=[
+                        HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        )
+                    ],
                     gender=Gender.MAN,
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
@@ -935,10 +1409,44 @@ class AsyncV1Client:
                         "2024-01-15 09:30:00+00:00",
                     ),
                     multiple_birth=1,
-                    primary_address=Address(),
-                    other_addresses=[Address()],
-                    primary_telecom=ContactPoint(),
-                    other_telecoms=[ContactPoint()],
+                    primary_address=Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    other_addresses=[
+                        Address(
+                            use=AddressUse.HOME,
+                            line=["string"],
+                            city="string",
+                            state="string",
+                            postal_code="string",
+                            country="string",
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        )
+                    ],
+                    primary_telecom=ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                        period={"key": "value"},
+                    ),
+                    other_telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                            period={"key": "value"},
+                        )
+                    ],
                     email="string",
                     electronic_communication_opt_in=True,
                     photo="string",
@@ -950,14 +1458,71 @@ class AsyncV1Client:
                     contacts=[
                         Contact(
                             relationship=[Relationship.SELF],
-                            name=HumanName(),
-                            telecoms=[ContactPoint()],
-                            addresses=[Address()],
-                            period=Period(),
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                    period={"key": "value"},
+                                )
+                            ],
+                            addresses=[
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["string"],
+                                    city="string",
+                                    state="string",
+                                    postal_code="string",
+                                    country="string",
+                                    period=Period(
+                                        start={"key": "value"},
+                                        end={"key": "value"},
+                                    ),
+                                )
+                            ],
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
                             hipaa_authorization=True,
                         )
                     ],
-                    general_practitioners=[ExternalProvider()],
+                    general_practitioners=[
+                        ExternalProvider(
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            ),
+                            type=ExternalProviderType.PRIMARY,
+                            npi="string",
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                    period={"key": "value"},
+                                )
+                            ],
+                            addresses=[{"key": "value"}],
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                            canonical_id="string",
+                        )
+                    ],
                     filing_order=FilingOrder(
                         coverages=[
                             uuid.UUID(
@@ -1216,12 +1781,16 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApiClient
         from candid.resources.pre_encounter import (
             Address,
+            AddressUse,
             ContactPoint,
+            ContactPointUse,
             DisabilityStatus,
             Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
             Gender,
             HumanName,
+            NameUse,
             Period,
             Race,
             Relationship,
@@ -1247,8 +1816,26 @@ class AsyncV1Client:
                 id="string",
                 version="string",
                 request=MutablePatient(
-                    name=HumanName(),
-                    other_names=[HumanName()],
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    other_names=[
+                        HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        )
+                    ],
                     gender=Gender.MAN,
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
@@ -1264,10 +1851,44 @@ class AsyncV1Client:
                         "2024-01-15 09:30:00+00:00",
                     ),
                     multiple_birth=1,
-                    primary_address=Address(),
-                    other_addresses=[Address()],
-                    primary_telecom=ContactPoint(),
-                    other_telecoms=[ContactPoint()],
+                    primary_address=Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    other_addresses=[
+                        Address(
+                            use=AddressUse.HOME,
+                            line=["string"],
+                            city="string",
+                            state="string",
+                            postal_code="string",
+                            country="string",
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        )
+                    ],
+                    primary_telecom=ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                        period={"key": "value"},
+                    ),
+                    other_telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                            period={"key": "value"},
+                        )
+                    ],
                     email="string",
                     electronic_communication_opt_in=True,
                     photo="string",
@@ -1279,14 +1900,71 @@ class AsyncV1Client:
                     contacts=[
                         Contact(
                             relationship=[Relationship.SELF],
-                            name=HumanName(),
-                            telecoms=[ContactPoint()],
-                            addresses=[Address()],
-                            period=Period(),
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                    period={"key": "value"},
+                                )
+                            ],
+                            addresses=[
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["string"],
+                                    city="string",
+                                    state="string",
+                                    postal_code="string",
+                                    country="string",
+                                    period=Period(
+                                        start={"key": "value"},
+                                        end={"key": "value"},
+                                    ),
+                                )
+                            ],
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
                             hipaa_authorization=True,
                         )
                     ],
-                    general_practitioners=[ExternalProvider()],
+                    general_practitioners=[
+                        ExternalProvider(
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            ),
+                            type=ExternalProviderType.PRIMARY,
+                            npi="string",
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                    period={"key": "value"},
+                                )
+                            ],
+                            addresses=[{"key": "value"}],
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                            canonical_id="string",
+                        )
+                    ],
                     filing_order=FilingOrder(
                         coverages=[
                             uuid.UUID(

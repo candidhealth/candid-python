@@ -52,7 +52,15 @@ class V1Client:
         import datetime
 
         from candid.client import CandidApiClient
-        from candid.resources.pre_encounter import ExternalProvider
+        from candid.resources.pre_encounter import (
+            ContactPoint,
+            ContactPointUse,
+            ExternalProvider,
+            ExternalProviderType,
+            HumanName,
+            NameUse,
+            Period,
+        )
         from candid.resources.pre_encounter.appointments.v_1 import (
             AppointmentReason,
             AppointmentType,
@@ -71,8 +79,58 @@ class V1Client:
                 patient_id="string",
                 checked_in=True,
                 assigned_patient_location="string",
-                attending_doctor=ExternalProvider(),
-                referring_doctor=ExternalProvider(),
+                attending_doctor=ExternalProvider(
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    type=ExternalProviderType.PRIMARY,
+                    npi="string",
+                    telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                            period={"key": "value"},
+                        )
+                    ],
+                    addresses=[{"key": "value"}],
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                    canonical_id="string",
+                ),
+                referring_doctor=ExternalProvider(
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    type=ExternalProviderType.PRIMARY,
+                    npi="string",
+                    telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                            period={"key": "value"},
+                        )
+                    ],
+                    addresses=[{"key": "value"}],
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                    canonical_id="string",
+                ),
                 start_timestamp=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
                 ),
@@ -239,7 +297,15 @@ class V1Client:
         import datetime
 
         from candid.client import CandidApiClient
-        from candid.resources.pre_encounter import ExternalProvider
+        from candid.resources.pre_encounter import (
+            ContactPoint,
+            ContactPointUse,
+            ExternalProvider,
+            ExternalProviderType,
+            HumanName,
+            NameUse,
+            Period,
+        )
         from candid.resources.pre_encounter.appointments.v_1 import (
             AppointmentReason,
             AppointmentType,
@@ -260,8 +326,58 @@ class V1Client:
                 patient_id="string",
                 checked_in=True,
                 assigned_patient_location="string",
-                attending_doctor=ExternalProvider(),
-                referring_doctor=ExternalProvider(),
+                attending_doctor=ExternalProvider(
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    type=ExternalProviderType.PRIMARY,
+                    npi="string",
+                    telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                            period={"key": "value"},
+                        )
+                    ],
+                    addresses=[{"key": "value"}],
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                    canonical_id="string",
+                ),
+                referring_doctor=ExternalProvider(
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    type=ExternalProviderType.PRIMARY,
+                    npi="string",
+                    telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                            period={"key": "value"},
+                        )
+                    ],
+                    addresses=[{"key": "value"}],
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                    canonical_id="string",
+                ),
                 start_timestamp=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
                 ),
@@ -497,7 +613,15 @@ class AsyncV1Client:
         import datetime
 
         from candid.client import AsyncCandidApiClient
-        from candid.resources.pre_encounter import ExternalProvider
+        from candid.resources.pre_encounter import (
+            ContactPoint,
+            ContactPointUse,
+            ExternalProvider,
+            ExternalProviderType,
+            HumanName,
+            NameUse,
+            Period,
+        )
         from candid.resources.pre_encounter.appointments.v_1 import (
             AppointmentReason,
             AppointmentType,
@@ -519,8 +643,58 @@ class AsyncV1Client:
                     patient_id="string",
                     checked_in=True,
                     assigned_patient_location="string",
-                    attending_doctor=ExternalProvider(),
-                    referring_doctor=ExternalProvider(),
+                    attending_doctor=ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[{"key": "value"}],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                        canonical_id="string",
+                    ),
+                    referring_doctor=ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[{"key": "value"}],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                        canonical_id="string",
+                    ),
                     start_timestamp=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
@@ -707,7 +881,15 @@ class AsyncV1Client:
         import datetime
 
         from candid.client import AsyncCandidApiClient
-        from candid.resources.pre_encounter import ExternalProvider
+        from candid.resources.pre_encounter import (
+            ContactPoint,
+            ContactPointUse,
+            ExternalProvider,
+            ExternalProviderType,
+            HumanName,
+            NameUse,
+            Period,
+        )
         from candid.resources.pre_encounter.appointments.v_1 import (
             AppointmentReason,
             AppointmentType,
@@ -731,8 +913,58 @@ class AsyncV1Client:
                     patient_id="string",
                     checked_in=True,
                     assigned_patient_location="string",
-                    attending_doctor=ExternalProvider(),
-                    referring_doctor=ExternalProvider(),
+                    attending_doctor=ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[{"key": "value"}],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                        canonical_id="string",
+                    ),
+                    referring_doctor=ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[{"key": "value"}],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                        canonical_id="string",
+                    ),
                     start_timestamp=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),

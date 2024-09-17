@@ -12,6 +12,7 @@ from ....core.pydantic_utilities import deep_union_pydantic_dicts
 from ...commons.types.appointment_id import AppointmentId
 from ...commons.types.claim_id import ClaimId
 from ...commons.types.encounter_id import EncounterId
+from ...commons.types.patient_external_id import PatientExternalId
 from ...commons.types.provider_id import ProviderId
 from ...commons.types.service_line_id import ServiceLineId
 
@@ -110,6 +111,7 @@ class AllocationTarget_Appointment(pydantic.BaseModel):
     """
 
     appointment_id: AppointmentId
+    patient_external_id: PatientExternalId
     type: typing.Literal["appointment"] = "appointment"
 
     def json(self, **kwargs: typing.Any) -> str:

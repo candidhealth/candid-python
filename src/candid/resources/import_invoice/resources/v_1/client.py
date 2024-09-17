@@ -9,13 +9,17 @@ from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import pydantic_v1
 from .....core.request_options import RequestOptions
+from ....commons.errors.entity_conflict_error import EntityConflictError
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
+from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.encounter_external_id import EncounterExternalId
+from ....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.invoice_id import InvoiceId
 from ....commons.types.page_token import PageToken
 from ....commons.types.patient_external_id import PatientExternalId
 from ....commons.types.sort_direction import SortDirection
+from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from ....invoices.resources.v_2.types.invoice_sort_field import InvoiceSortField
 from ....invoices.resources.v_2.types.invoice_status import InvoiceStatus
 from .types.create_import_invoice_request import CreateImportInvoiceRequest
@@ -55,7 +59,11 @@ class V1Client:
 
         from candid.client import CandidApiClient
         from candid.resources.import_invoice.v_1 import CreateImportInvoiceRequest
-        from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
+        from candid.resources.invoices.v_2 import (
+            InvoiceItemAttributionCreate_ServiceLineId,
+            InvoiceItemCreate,
+            InvoiceStatus,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -72,7 +80,16 @@ class V1Client:
                 due_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                items=[InvoiceItemCreate()],
+                items=[
+                    InvoiceItemCreate(
+                        attribution=InvoiceItemAttributionCreate_ServiceLineId(
+                            value=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ),
+                        amount_cents=1,
+                    )
+                ],
                 status=InvoiceStatus.DRAFT,
                 external_identifier="string",
                 customer_invoice_url="string",
@@ -93,6 +110,15 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(ImportInvoice, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_multi(
@@ -289,7 +315,11 @@ class V1Client:
             InvoiceItemInfoUpdate,
             InvoiceItemUpdateType,
         )
-        from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
+        from candid.resources.invoices.v_2 import (
+            InvoiceItemAttributionCreate_ServiceLineId,
+            InvoiceItemCreate,
+            InvoiceStatus,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -308,7 +338,16 @@ class V1Client:
                 ),
                 items=InvoiceItemInfoUpdate(
                     update_type=InvoiceItemUpdateType.APPEND,
-                    items=[InvoiceItemCreate()],
+                    items=[
+                        InvoiceItemCreate(
+                            attribution=InvoiceItemAttributionCreate_ServiceLineId(
+                                value=uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                )
+                            ),
+                            amount_cents=1,
+                        )
+                    ],
                 ),
             ),
         )
@@ -364,7 +403,11 @@ class AsyncV1Client:
 
         from candid.client import AsyncCandidApiClient
         from candid.resources.import_invoice.v_1 import CreateImportInvoiceRequest
-        from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
+        from candid.resources.invoices.v_2 import (
+            InvoiceItemAttributionCreate_ServiceLineId,
+            InvoiceItemCreate,
+            InvoiceStatus,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -384,7 +427,16 @@ class AsyncV1Client:
                     due_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    items=[InvoiceItemCreate()],
+                    items=[
+                        InvoiceItemCreate(
+                            attribution=InvoiceItemAttributionCreate_ServiceLineId(
+                                value=uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                )
+                            ),
+                            amount_cents=1,
+                        )
+                    ],
                     status=InvoiceStatus.DRAFT,
                     external_identifier="string",
                     customer_invoice_url="string",
@@ -408,6 +460,15 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(ImportInvoice, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_multi(
@@ -621,7 +682,11 @@ class AsyncV1Client:
             InvoiceItemInfoUpdate,
             InvoiceItemUpdateType,
         )
-        from candid.resources.invoices.v_2 import InvoiceItemCreate, InvoiceStatus
+        from candid.resources.invoices.v_2 import (
+            InvoiceItemAttributionCreate_ServiceLineId,
+            InvoiceItemCreate,
+            InvoiceStatus,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -643,7 +708,16 @@ class AsyncV1Client:
                     ),
                     items=InvoiceItemInfoUpdate(
                         update_type=InvoiceItemUpdateType.APPEND,
-                        items=[InvoiceItemCreate()],
+                        items=[
+                            InvoiceItemCreate(
+                                attribution=InvoiceItemAttributionCreate_ServiceLineId(
+                                    value=uuid.UUID(
+                                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                    )
+                                ),
+                                amount_cents=1,
+                            )
+                        ],
                     ),
                 ),
             )

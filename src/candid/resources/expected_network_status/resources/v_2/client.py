@@ -56,11 +56,19 @@ class V2Client:
         import datetime
         import uuid
 
-        from candid import FacilityTypeCode, State, StreetAddressShortZip
+        from candid import (
+            FacilityTypeCode,
+            InsuranceTypeCode,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.client import CandidApiClient
         from candid.resources.expected_network_status.v_2 import (
             ExpectedNetworkStatusRequestV2,
             ExpectedNetworkStatusSubscriberInformation,
+            InsuranceType,
+            InsuranceTypeCodes_InsuranceTypeCode,
+            LineOfBusiness,
             ServiceType,
         )
 
@@ -75,7 +83,18 @@ class V2Client:
             request=ExpectedNetworkStatusRequestV2(
                 service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
                 place_of_service_code=FacilityTypeCode.PHARMACY,
-                subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
+                subscriber_information=ExpectedNetworkStatusSubscriberInformation(
+                    payer_uuid=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    member_id="string",
+                    insurance_type=InsuranceType(
+                        line_of_business=LineOfBusiness.MEDICARE,
+                        insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
+                            value=InsuranceTypeCode.C_01
+                        ),
+                    ),
+                ),
                 patient_address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -145,11 +164,19 @@ class V2Client:
         import datetime
         import uuid
 
-        from candid import FacilityTypeCode, State, StreetAddressShortZip
+        from candid import (
+            FacilityTypeCode,
+            InsuranceTypeCode,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.client import CandidApiClient
         from candid.resources.expected_network_status.v_2 import (
             ComputeAllInNetworkProvidersRequest,
             ExpectedNetworkStatusSubscriberInformation,
+            InsuranceType,
+            InsuranceTypeCodes_InsuranceTypeCode,
+            LineOfBusiness,
             ServiceType,
         )
 
@@ -161,7 +188,18 @@ class V2Client:
             request=ComputeAllInNetworkProvidersRequest(
                 service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
                 place_of_service_code=FacilityTypeCode.PHARMACY,
-                subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
+                subscriber_information=ExpectedNetworkStatusSubscriberInformation(
+                    payer_uuid=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    member_id="string",
+                    insurance_type=InsuranceType(
+                        line_of_business=LineOfBusiness.MEDICARE,
+                        insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
+                            value=InsuranceTypeCode.C_01
+                        ),
+                    ),
+                ),
                 patient_address=StreetAddressShortZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -243,11 +281,19 @@ class AsyncV2Client:
         import datetime
         import uuid
 
-        from candid import FacilityTypeCode, State, StreetAddressShortZip
+        from candid import (
+            FacilityTypeCode,
+            InsuranceTypeCode,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.client import AsyncCandidApiClient
         from candid.resources.expected_network_status.v_2 import (
             ExpectedNetworkStatusRequestV2,
             ExpectedNetworkStatusSubscriberInformation,
+            InsuranceType,
+            InsuranceTypeCodes_InsuranceTypeCode,
+            LineOfBusiness,
             ServiceType,
         )
 
@@ -265,7 +311,18 @@ class AsyncV2Client:
                 request=ExpectedNetworkStatusRequestV2(
                     service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
                     place_of_service_code=FacilityTypeCode.PHARMACY,
-                    subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
+                    subscriber_information=ExpectedNetworkStatusSubscriberInformation(
+                        payer_uuid=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        member_id="string",
+                        insurance_type=InsuranceType(
+                            line_of_business=LineOfBusiness.MEDICARE,
+                            insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
+                                value=InsuranceTypeCode.C_01
+                            ),
+                        ),
+                    ),
                     patient_address=StreetAddressShortZip(
                         address_1="123 Main St",
                         address_2="Apt 1",
@@ -339,11 +396,19 @@ class AsyncV2Client:
         import datetime
         import uuid
 
-        from candid import FacilityTypeCode, State, StreetAddressShortZip
+        from candid import (
+            FacilityTypeCode,
+            InsuranceTypeCode,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.client import AsyncCandidApiClient
         from candid.resources.expected_network_status.v_2 import (
             ComputeAllInNetworkProvidersRequest,
             ExpectedNetworkStatusSubscriberInformation,
+            InsuranceType,
+            InsuranceTypeCodes_InsuranceTypeCode,
+            LineOfBusiness,
             ServiceType,
         )
 
@@ -358,7 +423,18 @@ class AsyncV2Client:
                 request=ComputeAllInNetworkProvidersRequest(
                     service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
                     place_of_service_code=FacilityTypeCode.PHARMACY,
-                    subscriber_information=ExpectedNetworkStatusSubscriberInformation(),
+                    subscriber_information=ExpectedNetworkStatusSubscriberInformation(
+                        payer_uuid=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        member_id="string",
+                        insurance_type=InsuranceType(
+                            line_of_business=LineOfBusiness.MEDICARE,
+                            insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
+                                value=InsuranceTypeCode.C_01
+                            ),
+                        ),
+                    ),
                     patient_address=StreetAddressShortZip(
                         address_1="123 Main St",
                         address_2="Apt 1",

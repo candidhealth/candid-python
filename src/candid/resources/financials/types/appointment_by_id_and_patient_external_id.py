@@ -7,25 +7,13 @@ import pydantic
 
 from ....core.datetime_utils import serialize_datetime
 from ....core.pydantic_utilities import deep_union_pydantic_dicts
-from ...commons.types.email import Email
-from ...commons.types.phone_number import PhoneNumber
-from ...non_insurance_payers.resources.v_1.types.non_insurance_payer_id import NonInsurancePayerId
-from .patient_base import PatientBase
+from ...commons.types.appointment_id import AppointmentId
+from ...commons.types.patient_external_id import PatientExternalId
 
 
-class PatientCreate(PatientBase):
-    phone_numbers: typing.Optional[typing.List[PhoneNumber]] = None
-    phone_consent: typing.Optional[bool] = pydantic.Field(default=None)
-    """
-    Defaults to false
-    """
-
-    email: typing.Optional[Email] = None
-    non_insurance_payers: typing.Optional[typing.List[NonInsurancePayerId]] = None
-    email_consent: typing.Optional[bool] = pydantic.Field(default=None)
-    """
-    Defaults to false
-    """
+class AppointmentByIdAndPatientExternalId(pydantic.BaseModel):
+    appointment_id: AppointmentId
+    patient_external_id: PatientExternalId
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -42,7 +30,5 @@ class PatientCreate(PatientBase):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.forbid
         json_encoders = {dt.datetime: serialize_datetime}

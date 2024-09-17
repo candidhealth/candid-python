@@ -60,7 +60,11 @@ class V1Client:
         from candid import ProcedureModifier, ServiceLineUnits
         from candid.client import CandidApiClient
         from candid.resources.medication_dispense.v_1 import MedicationDispenseCreate
-        from candid.resources.service_lines.v_2 import DrugIdentification
+        from candid.resources.service_lines.v_2 import (
+            DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -76,7 +80,15 @@ class V1Client:
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                drug_identification=DrugIdentification(),
+                drug_identification=DrugIdentification(
+                    service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
+                    national_drug_code="string",
+                    national_drug_unit_count="string",
+                    measurement_unit_code=MeasurementUnitCode.MILLILITERS,
+                    link_sequence_number="string",
+                    pharmacy_prescription_number="string",
+                    conversion_formula="string",
+                ),
                 description="string",
                 modifiers=[ProcedureModifier.TWENTY_TWO],
             ),
@@ -147,7 +159,11 @@ class AsyncV1Client:
         from candid import ProcedureModifier, ServiceLineUnits
         from candid.client import AsyncCandidApiClient
         from candid.resources.medication_dispense.v_1 import MedicationDispenseCreate
-        from candid.resources.service_lines.v_2 import DrugIdentification
+        from candid.resources.service_lines.v_2 import (
+            DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -166,7 +182,15 @@ class AsyncV1Client:
                     date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    drug_identification=DrugIdentification(),
+                    drug_identification=DrugIdentification(
+                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
+                        national_drug_code="string",
+                        national_drug_unit_count="string",
+                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
+                        link_sequence_number="string",
+                        pharmacy_prescription_number="string",
+                        conversion_formula="string",
+                    ),
                     description="string",
                     modifiers=[ProcedureModifier.TWENTY_TWO],
                 ),

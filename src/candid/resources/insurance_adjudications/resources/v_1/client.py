@@ -94,13 +94,14 @@ class V1Client:
         import datetime
         import uuid
 
+        from candid import ClaimStatusCodeCreate
         from candid.client import CandidApiClient
         from candid.resources.insurance_adjudications.v_1 import (
             ClaimAdjudicationCreate,
             InsuranceAdjudicationCreate,
         )
         from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
-        from candid.resources.remits.v_1 import Payee
+        from candid.resources.remits.v_1 import Payee, PayeeIdentifier_Npi
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -109,7 +110,10 @@ class V1Client:
         client.insurance_adjudications.v_1.create(
             request=InsuranceAdjudicationCreate(
                 payer_identifier=PayerIdentifier_PayerInfo(),
-                payee=Payee(),
+                payee=Payee(
+                    payee_name="string",
+                    payee_identifier=PayeeIdentifier_Npi(value="string"),
+                ),
                 post_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
@@ -119,9 +123,16 @@ class V1Client:
                 ),
                 note="string",
                 claims={
-                    uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ): [ClaimAdjudicationCreate()]
+                    uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",): [
+                        ClaimAdjudicationCreate(
+                            claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
+                            insurance_paid_amount_cents={"key": "value"},
+                            charge_amount_cents={"key": "value"},
+                            service_lines={"string": {"key": "value"}},
+                            payer_claim_number={"key": "value"},
+                            carcs=[{"key": "value"}],
+                        )
+                    ]
                 },
             ),
         )
@@ -282,13 +293,14 @@ class AsyncV1Client:
         import datetime
         import uuid
 
+        from candid import ClaimStatusCodeCreate
         from candid.client import AsyncCandidApiClient
         from candid.resources.insurance_adjudications.v_1 import (
             ClaimAdjudicationCreate,
             InsuranceAdjudicationCreate,
         )
         from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
-        from candid.resources.remits.v_1 import Payee
+        from candid.resources.remits.v_1 import Payee, PayeeIdentifier_Npi
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -300,7 +312,10 @@ class AsyncV1Client:
             await client.insurance_adjudications.v_1.create(
                 request=InsuranceAdjudicationCreate(
                     payer_identifier=PayerIdentifier_PayerInfo(),
-                    payee=Payee(),
+                    payee=Payee(
+                        payee_name="string",
+                        payee_identifier=PayeeIdentifier_Npi(value="string"),
+                    ),
                     post_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
@@ -310,9 +325,16 @@ class AsyncV1Client:
                     ),
                     note="string",
                     claims={
-                        uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ): [ClaimAdjudicationCreate()]
+                        uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",): [
+                            ClaimAdjudicationCreate(
+                                claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
+                                insurance_paid_amount_cents={"key": "value"},
+                                charge_amount_cents={"key": "value"},
+                                service_lines={"string": {"key": "value"}},
+                                payer_claim_number={"key": "value"},
+                                carcs=[{"key": "value"}],
+                            )
+                        ]
                     },
                 ),
             )

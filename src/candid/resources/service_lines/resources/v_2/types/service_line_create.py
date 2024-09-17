@@ -11,10 +11,7 @@ from .....commons.types.decimal import Decimal
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_units import ServiceLineUnits
-from .....encounter_providers.resources.v_2.types.initial_referring_provider import InitialReferringProvider
 from .....encounter_providers.resources.v_2.types.ordering_provider import OrderingProvider
-from .....encounter_providers.resources.v_2.types.referring_provider import ReferringProvider
-from .....encounter_providers.resources.v_2.types.supervising_provider import SupervisingProvider
 from .drug_identification import DrugIdentification
 
 
@@ -50,26 +47,6 @@ class ServiceLineCreate(pydantic.BaseModel):
 
     date_of_service: typing.Optional[dt.date] = None
     end_date_of_service: typing.Optional[dt.date] = None
-    referring_provider: typing.Optional[ReferringProvider] = pydantic.Field(default=None)
-    """
-    The final provider who referred the services that were rendered.
-    All physicians who order services or refer Medicare beneficiaries must
-    report this data.
-    """
-
-    initial_referring_provider: typing.Optional[InitialReferringProvider] = pydantic.Field(default=None)
-    """
-    The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
-    indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
-    Information in Loop ID-2310 applies to the entire claim unless overridden on a service line by the presence of Loop ID-2420 with the same value in NM101.
-    """
-
-    supervising_provider: typing.Optional[SupervisingProvider] = pydantic.Field(default=None)
-    """
-    Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-    Information in Loop ID-2310 applies to the entire claim unless overridden on a service line by the presence of Loop ID-2420 with the same value in NM101.
-    """
-
     ordering_provider: typing.Optional[OrderingProvider] = pydantic.Field(default=None)
     """
     Required when the service or supply was ordered by a provider who is different than the rendering provider for this service line.

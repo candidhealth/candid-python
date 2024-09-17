@@ -76,6 +76,7 @@ class EncounterPage(ResourcePage):
     )
     from candid.resources.guarantor.v_1 import Guarantor
     from candid.resources.insurance_cards.v_2 import InsuranceCard
+    from candid.resources.non_insurance_payers.v_1 import NonInsurancePayer
     from candid.resources.patient_payments.v_3 import (
         PatientPayment,
         PatientPaymentSource,
@@ -226,6 +227,17 @@ class EncounterPage(ResourcePage):
                         PhoneNumber(
                             number="1234567890",
                             type=PhoneNumberType.HOME,
+                        )
+                    ],
+                    non_insurance_payers=[
+                        NonInsurancePayer(
+                            non_insurance_payer_id=uuid.UUID(
+                                "eb7623ab-d5bc-4b25-b257-2b8fcec578de",
+                            ),
+                            name="Sunrise Foundation",
+                            category="Foundation",
+                            description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
+                            enabled=True,
                         )
                     ],
                     phone_consent=True,

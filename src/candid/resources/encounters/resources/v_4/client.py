@@ -389,12 +389,10 @@ class V4Client:
         initial_referring_provider : typing.Optional[InitialReferringProvider]
             The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
             indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
-            Information in Loop ID-2310 applies to the entire claim unless overridden on a service line by the presence of Loop ID-2420 with the same value in NM101.
 
 
         supervising_provider : typing.Optional[SupervisingProvider]
             Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-            Information in Loop ID-2310 applies to the entire claim unless overridden on a service line by the presence of Loop ID-2420 with the same value in NM101.
 
 
         service_facility : typing.Optional[EncounterServiceFacilityBase]
@@ -578,6 +576,8 @@ class V4Client:
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
         from candid.resources.service_lines.v_2 import (
             DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
             ServiceLineCreate,
         )
 
@@ -601,6 +601,11 @@ class V4Client:
                 ],
                 phone_consent=True,
                 email="johndoe@joincandidhealth.com",
+                non_insurance_payers=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ],
                 email_consent=True,
                 external_id="string",
                 date_of_birth=datetime.date.fromisoformat(
@@ -779,7 +784,16 @@ class V4Client:
             clinical_notes=[
                 ClinicalNoteCategoryCreate(
                     category=NoteCategory.CLINICAL,
-                    notes=[ClinicalNote()],
+                    notes=[
+                        ClinicalNote(
+                            text="string",
+                            author_name="string",
+                            author_npi="string",
+                            timestamp=datetime.datetime.fromisoformat(
+                                "2024-01-15 09:30:00+00:00",
+                            ),
+                        )
+                    ],
                 )
             ],
             billing_notes=[
@@ -819,7 +833,15 @@ class V4Client:
                     units=ServiceLineUnits.MJ,
                     charge_amount_cents=1,
                     diagnosis_pointers=[1],
-                    drug_identification=DrugIdentification(),
+                    drug_identification=DrugIdentification(
+                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
+                        national_drug_code="string",
+                        national_drug_unit_count="string",
+                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
+                        link_sequence_number="string",
+                        pharmacy_prescription_number="string",
+                        conversion_formula="string",
+                    ),
                     place_of_service_code=FacilityTypeCode.PHARMACY,
                     description="string",
                     date_of_service=datetime.date.fromisoformat(
@@ -827,52 +849,6 @@ class V4Client:
                     ),
                     end_date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",
-                    ),
-                    referring_provider=ReferringProvider(
-                        npi="string",
-                        taxonomy_code="string",
-                        address=StreetAddressLongZip(
-                            address_1="123 Main St",
-                            address_2="Apt 1",
-                            city="New York",
-                            state=State.NY,
-                            zip_code="10001",
-                            zip_plus_four_code="1234",
-                        ),
-                        first_name="string",
-                        last_name="string",
-                        organization_name="string",
-                    ),
-                    initial_referring_provider=InitialReferringProvider(
-                        npi="string",
-                        taxonomy_code="string",
-                        address=StreetAddressLongZip(
-                            address_1="123 Main St",
-                            address_2="Apt 1",
-                            city="New York",
-                            state=State.NY,
-                            zip_code="10001",
-                            zip_plus_four_code="1234",
-                        ),
-                        qualifier=QualifierCode.DQ,
-                        first_name="string",
-                        last_name="string",
-                        organization_name="string",
-                    ),
-                    supervising_provider=SupervisingProvider(
-                        npi="string",
-                        taxonomy_code="string",
-                        address=StreetAddressLongZip(
-                            address_1="123 Main St",
-                            address_2="Apt 1",
-                            city="New York",
-                            state=State.NY,
-                            zip_code="10001",
-                            zip_plus_four_code="1234",
-                        ),
-                        first_name="string",
-                        last_name="string",
-                        organization_name="string",
                     ),
                     ordering_provider=OrderingProvider(
                         npi="string",
@@ -1353,7 +1329,16 @@ class V4Client:
             clinical_notes=[
                 ClinicalNoteCategoryCreate(
                     category=NoteCategory.CLINICAL,
-                    notes=[ClinicalNote()],
+                    notes=[
+                        ClinicalNote(
+                            text="string",
+                            author_name="string",
+                            author_npi="string",
+                            timestamp=datetime.datetime.fromisoformat(
+                                "2024-01-15 09:30:00+00:00",
+                            ),
+                        )
+                    ],
                 )
             ],
             pay_to_address=StreetAddressLongZip(
@@ -1877,12 +1862,10 @@ class AsyncV4Client:
         initial_referring_provider : typing.Optional[InitialReferringProvider]
             The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
             indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
-            Information in Loop ID-2310 applies to the entire claim unless overridden on a service line by the presence of Loop ID-2420 with the same value in NM101.
 
 
         supervising_provider : typing.Optional[SupervisingProvider]
             Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-            Information in Loop ID-2310 applies to the entire claim unless overridden on a service line by the presence of Loop ID-2420 with the same value in NM101.
 
 
         service_facility : typing.Optional[EncounterServiceFacilityBase]
@@ -2067,6 +2050,8 @@ class AsyncV4Client:
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
         from candid.resources.service_lines.v_2 import (
             DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
             ServiceLineCreate,
         )
 
@@ -2093,6 +2078,11 @@ class AsyncV4Client:
                     ],
                     phone_consent=True,
                     email="johndoe@joincandidhealth.com",
+                    non_insurance_payers=[
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ],
                     email_consent=True,
                     external_id="string",
                     date_of_birth=datetime.date.fromisoformat(
@@ -2271,7 +2261,16 @@ class AsyncV4Client:
                 clinical_notes=[
                     ClinicalNoteCategoryCreate(
                         category=NoteCategory.CLINICAL,
-                        notes=[ClinicalNote()],
+                        notes=[
+                            ClinicalNote(
+                                text="string",
+                                author_name="string",
+                                author_npi="string",
+                                timestamp=datetime.datetime.fromisoformat(
+                                    "2024-01-15 09:30:00+00:00",
+                                ),
+                            )
+                        ],
                     )
                 ],
                 billing_notes=[
@@ -2311,7 +2310,15 @@ class AsyncV4Client:
                         units=ServiceLineUnits.MJ,
                         charge_amount_cents=1,
                         diagnosis_pointers=[1],
-                        drug_identification=DrugIdentification(),
+                        drug_identification=DrugIdentification(
+                            service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
+                            national_drug_code="string",
+                            national_drug_unit_count="string",
+                            measurement_unit_code=MeasurementUnitCode.MILLILITERS,
+                            link_sequence_number="string",
+                            pharmacy_prescription_number="string",
+                            conversion_formula="string",
+                        ),
                         place_of_service_code=FacilityTypeCode.PHARMACY,
                         description="string",
                         date_of_service=datetime.date.fromisoformat(
@@ -2319,52 +2326,6 @@ class AsyncV4Client:
                         ),
                         end_date_of_service=datetime.date.fromisoformat(
                             "2023-01-15",
-                        ),
-                        referring_provider=ReferringProvider(
-                            npi="string",
-                            taxonomy_code="string",
-                            address=StreetAddressLongZip(
-                                address_1="123 Main St",
-                                address_2="Apt 1",
-                                city="New York",
-                                state=State.NY,
-                                zip_code="10001",
-                                zip_plus_four_code="1234",
-                            ),
-                            first_name="string",
-                            last_name="string",
-                            organization_name="string",
-                        ),
-                        initial_referring_provider=InitialReferringProvider(
-                            npi="string",
-                            taxonomy_code="string",
-                            address=StreetAddressLongZip(
-                                address_1="123 Main St",
-                                address_2="Apt 1",
-                                city="New York",
-                                state=State.NY,
-                                zip_code="10001",
-                                zip_plus_four_code="1234",
-                            ),
-                            qualifier=QualifierCode.DQ,
-                            first_name="string",
-                            last_name="string",
-                            organization_name="string",
-                        ),
-                        supervising_provider=SupervisingProvider(
-                            npi="string",
-                            taxonomy_code="string",
-                            address=StreetAddressLongZip(
-                                address_1="123 Main St",
-                                address_2="Apt 1",
-                                city="New York",
-                                state=State.NY,
-                                zip_code="10001",
-                                zip_plus_four_code="1234",
-                            ),
-                            first_name="string",
-                            last_name="string",
-                            organization_name="string",
                         ),
                         ordering_provider=OrderingProvider(
                             npi="string",
@@ -2852,7 +2813,16 @@ class AsyncV4Client:
                 clinical_notes=[
                     ClinicalNoteCategoryCreate(
                         category=NoteCategory.CLINICAL,
-                        notes=[ClinicalNote()],
+                        notes=[
+                            ClinicalNote(
+                                text="string",
+                                author_name="string",
+                                author_npi="string",
+                                timestamp=datetime.datetime.fromisoformat(
+                                    "2024-01-15 09:30:00+00:00",
+                                ),
+                            )
+                        ],
                     )
                 ],
                 pay_to_address=StreetAddressLongZip(

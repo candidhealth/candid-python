@@ -50,6 +50,7 @@ class V2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import CandidApiClient
         from candid.resources.service_lines.v_2 import (
+            DenialReasonContent,
             ServiceLineCreateStandalone,
             ServiceLineDenialReason,
         )
@@ -74,7 +75,9 @@ class V2Client:
                 diagnosis_id_three=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                denial_reason=ServiceLineDenialReason(),
+                denial_reason=ServiceLineDenialReason(
+                    reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
+                ),
                 place_of_service_code=FacilityTypeCode.PHARMACY,
                 procedure_code="string",
                 quantity="string",
@@ -142,7 +145,10 @@ class V2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import CandidApiClient
         from candid.resources.service_lines.v_2 import (
+            DenialReasonContent,
             DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
             ServiceLineDenialReason,
             ServiceLineUpdate,
         )
@@ -171,8 +177,18 @@ class V2Client:
                 diagnosis_id_three=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                drug_identification=DrugIdentification(),
-                denial_reason=ServiceLineDenialReason(),
+                drug_identification=DrugIdentification(
+                    service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
+                    national_drug_code="string",
+                    national_drug_unit_count="string",
+                    measurement_unit_code=MeasurementUnitCode.MILLILITERS,
+                    link_sequence_number="string",
+                    pharmacy_prescription_number="string",
+                    conversion_formula="string",
+                ),
+                denial_reason=ServiceLineDenialReason(
+                    reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
+                ),
                 place_of_service_code=FacilityTypeCode.PHARMACY,
                 units=ServiceLineUnits.MJ,
                 procedure_code="string",
@@ -299,6 +315,7 @@ class AsyncV2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import AsyncCandidApiClient
         from candid.resources.service_lines.v_2 import (
+            DenialReasonContent,
             ServiceLineCreateStandalone,
             ServiceLineDenialReason,
         )
@@ -326,7 +343,9 @@ class AsyncV2Client:
                     diagnosis_id_three=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    denial_reason=ServiceLineDenialReason(),
+                    denial_reason=ServiceLineDenialReason(
+                        reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
+                    ),
                     place_of_service_code=FacilityTypeCode.PHARMACY,
                     procedure_code="string",
                     quantity="string",
@@ -398,7 +417,10 @@ class AsyncV2Client:
         from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
         from candid.client import AsyncCandidApiClient
         from candid.resources.service_lines.v_2 import (
+            DenialReasonContent,
             DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
             ServiceLineDenialReason,
             ServiceLineUpdate,
         )
@@ -430,8 +452,18 @@ class AsyncV2Client:
                     diagnosis_id_three=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    drug_identification=DrugIdentification(),
-                    denial_reason=ServiceLineDenialReason(),
+                    drug_identification=DrugIdentification(
+                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
+                        national_drug_code="string",
+                        national_drug_unit_count="string",
+                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
+                        link_sequence_number="string",
+                        pharmacy_prescription_number="string",
+                        conversion_formula="string",
+                    ),
+                    denial_reason=ServiceLineDenialReason(
+                        reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
+                    ),
                     place_of_service_code=FacilityTypeCode.PHARMACY,
                     units=ServiceLineUnits.MJ,
                     procedure_code="string",

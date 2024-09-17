@@ -9,6 +9,7 @@ from ....core.datetime_utils import serialize_datetime
 from ....core.pydantic_utilities import deep_union_pydantic_dicts
 from ...commons.types.email import Email
 from ...commons.types.phone_number import PhoneNumber
+from ...non_insurance_payers.resources.v_1.types.non_insurance_payer import NonInsurancePayer
 from .individual_id import IndividualId
 from .patient_base import PatientBase
 
@@ -28,6 +29,7 @@ class Patient(PatientBase):
         State,
         StreetAddressShortZip,
     )
+    from candid.resources.non_insurance_payers.v_1 import NonInsurancePayer
 
     Patient(
         individual_id=uuid.UUID(
@@ -37,6 +39,17 @@ class Patient(PatientBase):
             PhoneNumber(
                 number="1234567890",
                 type=PhoneNumberType.HOME,
+            )
+        ],
+        non_insurance_payers=[
+            NonInsurancePayer(
+                non_insurance_payer_id=uuid.UUID(
+                    "eb7623ab-d5bc-4b25-b257-2b8fcec578de",
+                ),
+                name="Sunrise Foundation",
+                category="Foundation",
+                description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
+                enabled=True,
             )
         ],
         phone_consent=True,
@@ -65,6 +78,7 @@ class Patient(PatientBase):
     phone_consent: bool
     email: typing.Optional[Email] = None
     email_consent: bool
+    non_insurance_payers: typing.List[NonInsurancePayer]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

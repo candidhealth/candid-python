@@ -8,10 +8,12 @@ import pydantic
 from ....core.datetime_utils import serialize_datetime
 from ....core.pydantic_utilities import deep_union_pydantic_dicts
 from ...commons.types.appointment_id import AppointmentId
+from ...commons.types.patient_external_id import PatientExternalId
 
 
 class AppointmentAllocationTarget(pydantic.BaseModel):
     appointment_id: AppointmentId
+    patient_external_id: PatientExternalId
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

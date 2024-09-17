@@ -175,9 +175,6 @@ class ServiceLine(pydantic.BaseModel):
     place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = None
     service_line_id: ServiceLineId
     procedure_code: str
-    referring_provider: typing.Optional[EncounterProvider] = None
-    initial_referring_provider: typing.Optional[EncounterProvider] = None
-    supervising_provider: typing.Optional[EncounterProvider] = None
     ordering_provider: typing.Optional[EncounterProvider] = None
     quantity: Decimal = pydantic.Field()
     """

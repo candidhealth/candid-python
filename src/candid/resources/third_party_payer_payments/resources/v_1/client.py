@@ -205,7 +205,7 @@ class V1Client:
         import datetime
         import uuid
 
-        from candid import AllocationCreate
+        from candid import AllocationCreate, AllocationTargetCreate_ServiceLineById
         from candid.client import CandidApiClient
         from candid.resources.third_party_payer_payments.v_1 import (
             ThirdPartyPayerPaymentCreate,
@@ -226,7 +226,16 @@ class V1Client:
                 ),
                 payment_note="string",
                 check_number="string",
-                allocations=[AllocationCreate()],
+                allocations=[
+                    AllocationCreate(
+                        amount_cents=1,
+                        target=AllocationTargetCreate_ServiceLineById(
+                            value=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ),
+                    )
+                ],
                 invoice_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
@@ -588,7 +597,7 @@ class AsyncV1Client:
         import datetime
         import uuid
 
-        from candid import AllocationCreate
+        from candid import AllocationCreate, AllocationTargetCreate_ServiceLineById
         from candid.client import AsyncCandidApiClient
         from candid.resources.third_party_payer_payments.v_1 import (
             ThirdPartyPayerPaymentCreate,
@@ -612,7 +621,16 @@ class AsyncV1Client:
                     ),
                     payment_note="string",
                     check_number="string",
-                    allocations=[AllocationCreate()],
+                    allocations=[
+                        AllocationCreate(
+                            amount_cents=1,
+                            target=AllocationTargetCreate_ServiceLineById(
+                                value=uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                )
+                            ),
+                        )
+                    ],
                     invoice_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),

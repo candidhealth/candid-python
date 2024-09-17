@@ -49,7 +49,13 @@ class V1Client:
         import datetime
 
         from candid.client import CandidApiClient
-        from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+        from candid.resources.pre_encounter import (
+            HumanName,
+            NameUse,
+            Period,
+            Relationship,
+            Sex,
+        )
         from candid.resources.pre_encounter.coverages.v_1 import (
             CoverageBenefits,
             CoverageStatus,
@@ -59,8 +65,6 @@ class V1Client:
             InsuranceTypeCode,
             MutableCoverage,
             NetworkType,
-            PlanCoverage,
-            ServiceCoverage,
             ServiceTypeCode,
             Subscriber,
         )
@@ -73,7 +77,15 @@ class V1Client:
             request=MutableCoverage(
                 status=CoverageStatus.ACTIVE,
                 subscriber=Subscriber(
-                    name=HumanName(),
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
@@ -89,7 +101,10 @@ class V1Client:
                     name="string",
                     plan_type=NetworkType.SELF_PAY,
                     type=InsuranceTypeCode.C_01,
-                    period=Period(),
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
                     insurance_card_image_locator="string",
                 ),
                 verified=True,
@@ -105,8 +120,8 @@ class V1Client:
                     )
                 ],
                 benefits=CoverageBenefits(
-                    plan_coverage=PlanCoverage(),
-                    service_specific_coverage=[ServiceCoverage()],
+                    plan_coverage={"key": "value"},
+                    service_specific_coverage={"key": "value"},
                 ),
             ),
         )
@@ -159,7 +174,13 @@ class V1Client:
         import uuid
 
         from candid.client import CandidApiClient
-        from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+        from candid.resources.pre_encounter import (
+            HumanName,
+            NameUse,
+            Period,
+            Relationship,
+            Sex,
+        )
         from candid.resources.pre_encounter.coverages.v_1 import (
             CoverageBenefits,
             CoverageStatus,
@@ -169,8 +190,6 @@ class V1Client:
             InsuranceTypeCode,
             MutableCoverage,
             NetworkType,
-            PlanCoverage,
-            ServiceCoverage,
             ServiceTypeCode,
             Subscriber,
         )
@@ -187,7 +206,15 @@ class V1Client:
             request=MutableCoverage(
                 status=CoverageStatus.ACTIVE,
                 subscriber=Subscriber(
-                    name=HumanName(),
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
@@ -203,7 +230,10 @@ class V1Client:
                     name="string",
                     plan_type=NetworkType.SELF_PAY,
                     type=InsuranceTypeCode.C_01,
-                    period=Period(),
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
                     insurance_card_image_locator="string",
                 ),
                 verified=True,
@@ -219,8 +249,8 @@ class V1Client:
                     )
                 ],
                 benefits=CoverageBenefits(
-                    plan_coverage=PlanCoverage(),
-                    service_specific_coverage=[ServiceCoverage()],
+                    plan_coverage={"key": "value"},
+                    service_specific_coverage={"key": "value"},
                 ),
             ),
         )
@@ -585,7 +615,13 @@ class AsyncV1Client:
         import datetime
 
         from candid.client import AsyncCandidApiClient
-        from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+        from candid.resources.pre_encounter import (
+            HumanName,
+            NameUse,
+            Period,
+            Relationship,
+            Sex,
+        )
         from candid.resources.pre_encounter.coverages.v_1 import (
             CoverageBenefits,
             CoverageStatus,
@@ -595,8 +631,6 @@ class AsyncV1Client:
             InsuranceTypeCode,
             MutableCoverage,
             NetworkType,
-            PlanCoverage,
-            ServiceCoverage,
             ServiceTypeCode,
             Subscriber,
         )
@@ -612,7 +646,15 @@ class AsyncV1Client:
                 request=MutableCoverage(
                     status=CoverageStatus.ACTIVE,
                     subscriber=Subscriber(
-                        name=HumanName(),
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",
                         ),
@@ -628,7 +670,10 @@ class AsyncV1Client:
                         name="string",
                         plan_type=NetworkType.SELF_PAY,
                         type=InsuranceTypeCode.C_01,
-                        period=Period(),
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
                         insurance_card_image_locator="string",
                     ),
                     verified=True,
@@ -644,8 +689,8 @@ class AsyncV1Client:
                         )
                     ],
                     benefits=CoverageBenefits(
-                        plan_coverage=PlanCoverage(),
-                        service_specific_coverage=[ServiceCoverage()],
+                        plan_coverage={"key": "value"},
+                        service_specific_coverage={"key": "value"},
                     ),
                 ),
             )
@@ -702,7 +747,13 @@ class AsyncV1Client:
         import uuid
 
         from candid.client import AsyncCandidApiClient
-        from candid.resources.pre_encounter import HumanName, Period, Relationship, Sex
+        from candid.resources.pre_encounter import (
+            HumanName,
+            NameUse,
+            Period,
+            Relationship,
+            Sex,
+        )
         from candid.resources.pre_encounter.coverages.v_1 import (
             CoverageBenefits,
             CoverageStatus,
@@ -712,8 +763,6 @@ class AsyncV1Client:
             InsuranceTypeCode,
             MutableCoverage,
             NetworkType,
-            PlanCoverage,
-            ServiceCoverage,
             ServiceTypeCode,
             Subscriber,
         )
@@ -733,7 +782,15 @@ class AsyncV1Client:
                 request=MutableCoverage(
                     status=CoverageStatus.ACTIVE,
                     subscriber=Subscriber(
-                        name=HumanName(),
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",
                         ),
@@ -749,7 +806,10 @@ class AsyncV1Client:
                         name="string",
                         plan_type=NetworkType.SELF_PAY,
                         type=InsuranceTypeCode.C_01,
-                        period=Period(),
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
                         insurance_card_image_locator="string",
                     ),
                     verified=True,
@@ -765,8 +825,8 @@ class AsyncV1Client:
                         )
                     ],
                     benefits=CoverageBenefits(
-                        plan_coverage=PlanCoverage(),
-                        service_specific_coverage=[ServiceCoverage()],
+                        plan_coverage={"key": "value"},
+                        service_specific_coverage={"key": "value"},
                     ),
                 ),
             )

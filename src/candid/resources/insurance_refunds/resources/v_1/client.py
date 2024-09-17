@@ -225,8 +225,13 @@ class V1Client:
         Examples
         --------
         import datetime
+        import uuid
 
-        from candid import AllocationCreate, RefundReason
+        from candid import (
+            AllocationCreate,
+            AllocationTargetCreate_ServiceLineById,
+            RefundReason,
+        )
         from candid.client import CandidApiClient
         from candid.resources.insurance_refunds.v_1 import InsuranceRefundCreate
         from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
@@ -243,7 +248,16 @@ class V1Client:
                     "2024-01-15 09:30:00+00:00",
                 ),
                 refund_note="string",
-                allocations=[AllocationCreate()],
+                allocations=[
+                    AllocationCreate(
+                        amount_cents=1,
+                        target=AllocationTargetCreate_ServiceLineById(
+                            value=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ),
+                    )
+                ],
                 refund_reason=RefundReason.OVERCHARGED,
             ),
         )
@@ -629,8 +643,13 @@ class AsyncV1Client:
         --------
         import asyncio
         import datetime
+        import uuid
 
-        from candid import AllocationCreate, RefundReason
+        from candid import (
+            AllocationCreate,
+            AllocationTargetCreate_ServiceLineById,
+            RefundReason,
+        )
         from candid.client import AsyncCandidApiClient
         from candid.resources.insurance_refunds.v_1 import InsuranceRefundCreate
         from candid.resources.payers.v_3 import PayerIdentifier_PayerInfo
@@ -650,7 +669,16 @@ class AsyncV1Client:
                         "2024-01-15 09:30:00+00:00",
                     ),
                     refund_note="string",
-                    allocations=[AllocationCreate()],
+                    allocations=[
+                        AllocationCreate(
+                            amount_cents=1,
+                            target=AllocationTargetCreate_ServiceLineById(
+                                value=uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                )
+                            ),
+                        )
+                    ],
                     refund_reason=RefundReason.OVERCHARGED,
                 ),
             )

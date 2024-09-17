@@ -193,7 +193,14 @@ class V3Client:
         --------
         import datetime
 
-        from candid import IdentifierCreate, State, StreetAddressLongZip
+        from candid import (
+            DateRangeOptionalEnd,
+            IdentifierCode,
+            IdentifierCreate,
+            IdentifierValue_MedicareProviderIdentifier,
+            State,
+            StreetAddressLongZip,
+        )
         from candid.client import CandidApiClient
         from candid.resources.organization_providers.v_2 import (
             AddressType,
@@ -240,7 +247,16 @@ class V3Client:
                 employment_termination_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                qualifications=[IdentifierCreate()],
+                qualifications=[
+                    IdentifierCreate(
+                        period=DateRangeOptionalEnd(
+                            start_date="string",
+                            end_date={"key": "value"},
+                        ),
+                        identifier_code=IdentifierCode.MCR,
+                        identifier_value=IdentifierValue_MedicareProviderIdentifier(),
+                    )
+                ],
             ),
         )
         """
@@ -294,7 +310,14 @@ class V3Client:
         --------
         import uuid
 
-        from candid import State, StreetAddressLongZip, UpdatableIdentifier_Add
+        from candid import (
+            DateRangeOptionalEnd,
+            IdentifierCode,
+            IdentifierValue_MedicareProviderIdentifier,
+            State,
+            StreetAddressLongZip,
+            UpdatableIdentifier_Add,
+        )
         from candid.client import CandidApiClient
         from candid.resources.organization_providers.v_2 import (
             AddressType,
@@ -340,7 +363,16 @@ class V3Client:
                 ],
                 employment_start_date="string",
                 employment_termination_date="string",
-                qualifications=[UpdatableIdentifier_Add()],
+                qualifications=[
+                    UpdatableIdentifier_Add(
+                        period=DateRangeOptionalEnd(
+                            start_date="string",
+                            end_date={"key": "value"},
+                        ),
+                        identifier_code=IdentifierCode.MCR,
+                        identifier_value=IdentifierValue_MedicareProviderIdentifier(),
+                    )
+                ],
             ),
         )
         """
@@ -553,7 +585,14 @@ class AsyncV3Client:
         import asyncio
         import datetime
 
-        from candid import IdentifierCreate, State, StreetAddressLongZip
+        from candid import (
+            DateRangeOptionalEnd,
+            IdentifierCode,
+            IdentifierCreate,
+            IdentifierValue_MedicareProviderIdentifier,
+            State,
+            StreetAddressLongZip,
+        )
         from candid.client import AsyncCandidApiClient
         from candid.resources.organization_providers.v_2 import (
             AddressType,
@@ -603,7 +642,16 @@ class AsyncV3Client:
                     employment_termination_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    qualifications=[IdentifierCreate()],
+                    qualifications=[
+                        IdentifierCreate(
+                            period=DateRangeOptionalEnd(
+                                start_date="string",
+                                end_date={"key": "value"},
+                            ),
+                            identifier_code=IdentifierCode.MCR,
+                            identifier_value=IdentifierValue_MedicareProviderIdentifier(),
+                        )
+                    ],
                 ),
             )
 
@@ -661,7 +709,14 @@ class AsyncV3Client:
         import asyncio
         import uuid
 
-        from candid import State, StreetAddressLongZip, UpdatableIdentifier_Add
+        from candid import (
+            DateRangeOptionalEnd,
+            IdentifierCode,
+            IdentifierValue_MedicareProviderIdentifier,
+            State,
+            StreetAddressLongZip,
+            UpdatableIdentifier_Add,
+        )
         from candid.client import AsyncCandidApiClient
         from candid.resources.organization_providers.v_2 import (
             AddressType,
@@ -710,7 +765,16 @@ class AsyncV3Client:
                     ],
                     employment_start_date="string",
                     employment_termination_date="string",
-                    qualifications=[UpdatableIdentifier_Add()],
+                    qualifications=[
+                        UpdatableIdentifier_Add(
+                            period=DateRangeOptionalEnd(
+                                start_date="string",
+                                end_date={"key": "value"},
+                            ),
+                            identifier_code=IdentifierCode.MCR,
+                            identifier_value=IdentifierValue_MedicareProviderIdentifier(),
+                        )
+                    ],
                 ),
             )
 
