@@ -35,7 +35,7 @@ class ComputeAllInNetworkRenderingProvidersResult_RenderingProviders(pydantic.Ba
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.forbid
+        extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}
 
 
@@ -61,7 +61,7 @@ class ComputeAllInNetworkRenderingProvidersResult_Indeterminate(pydantic.BaseMod
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.forbid
+        extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}
 
 
@@ -86,7 +86,7 @@ class ComputeAllInNetworkRenderingProvidersResult_OutOfNetwork(pydantic.BaseMode
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.forbid
+        extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}
 
 

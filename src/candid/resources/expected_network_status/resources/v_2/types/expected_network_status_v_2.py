@@ -34,7 +34,7 @@ class ExpectedNetworkStatusV2_InNetwork(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.forbid
+        extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}
 
 
@@ -59,7 +59,7 @@ class ExpectedNetworkStatusV2_OutOfNetwork(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.forbid
+        extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}
 
 
@@ -85,7 +85,7 @@ class ExpectedNetworkStatusV2_Indeterminate(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.forbid
+        extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}
 
 

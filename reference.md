@@ -1379,6 +1379,943 @@ client.eligibility.v_2.submit_eligibility_check_availity_post(
 </dl>
 </details>
 
+## EncounterProviders V2
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">update_referring_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import State, StreetAddressLongZip
+from candid.client import CandidApiClient
+from candid.resources.encounter_providers.v_2 import ReferringProviderUpdate
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.update_referring_provider(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=ReferringProviderUpdate(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `ReferringProviderUpdate` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">update_initial_referring_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import QualifierCode, State, StreetAddressLongZip
+from candid.client import CandidApiClient
+from candid.resources.encounter_providers.v_2 import (
+    InitialReferringProviderUpdate,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.update_initial_referring_provider(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=InitialReferringProviderUpdate(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        qualifier=QualifierCode.DQ,
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `InitialReferringProviderUpdate` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">update_supervising_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import State, StreetAddressLongZip
+from candid.client import CandidApiClient
+from candid.resources.encounter_providers.v_2 import SupervisingProviderUpdate
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.update_supervising_provider(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=SupervisingProviderUpdate(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `SupervisingProviderUpdate` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">update_ordering_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import State, StreetAddressLongZip
+from candid.client import CandidApiClient
+from candid.resources.encounter_providers.v_2 import OrderingProviderUpdate
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.update_ordering_provider(
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=OrderingProviderUpdate(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**service_line_id:** `ServiceLineId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `OrderingProviderUpdate` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">create_referring_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import State, StreetAddressLongZip
+from candid.client import CandidApiClient
+from candid.resources.encounter_providers.v_2 import ReferringProvider
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.create_referring_provider(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=ReferringProvider(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `ReferringProvider` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">create_initial_referring_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import QualifierCode, State, StreetAddressLongZip
+from candid.client import CandidApiClient
+from candid.resources.encounter_providers.v_2 import InitialReferringProvider
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.create_initial_referring_provider(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=InitialReferringProvider(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        qualifier=QualifierCode.DQ,
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `InitialReferringProvider` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">create_supervising_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import State, StreetAddressLongZip
+from candid.client import CandidApiClient
+from candid.resources.encounter_providers.v_2 import SupervisingProvider
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.create_supervising_provider(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=SupervisingProvider(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `SupervisingProvider` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">create_ordering_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import State, StreetAddressLongZip
+from candid.client import CandidApiClient
+from candid.resources.encounter_providers.v_2 import OrderingProvider
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.create_ordering_provider(
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=OrderingProvider(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**service_line_id:** `ServiceLineId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `OrderingProvider` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">delete_referring_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.delete_referring_provider(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">delete_initial_referring_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.delete_initial_referring_provider(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">delete_supervising_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.delete_supervising_provider(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_providers.v_2.<a href="src/candid/resources/encounter_providers/resources/v_2/client.py">delete_ordering_provider</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_providers.v_2.delete_ordering_provider(
+    service_line_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**service_line_id:** `ServiceLineId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Encounters V4
 <details><summary><code>client.encounters.v_4.<a href="src/candid/resources/encounters/resources/v_4/client.py">get_all</a>(...)</code></summary>
 <dl>

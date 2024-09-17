@@ -12,6 +12,7 @@ from .resources.billing_notes.client import AsyncBillingNotesClient, BillingNote
 from .resources.contracts.client import AsyncContractsClient, ContractsClient
 from .resources.custom_schemas.client import AsyncCustomSchemasClient, CustomSchemasClient
 from .resources.eligibility.client import AsyncEligibilityClient, EligibilityClient
+from .resources.encounter_providers.client import AsyncEncounterProvidersClient, EncounterProvidersClient
 from .resources.encounters.client import AsyncEncountersClient, EncountersClient
 from .resources.expected_network_status.client import AsyncExpectedNetworkStatusClient, ExpectedNetworkStatusClient
 from .resources.exports.client import AsyncExportsClient, ExportsClient
@@ -131,6 +132,7 @@ class CandidApiClient:
         self.contracts = ContractsClient(client_wrapper=self._client_wrapper)
         self.custom_schemas = CustomSchemasClient(client_wrapper=self._client_wrapper)
         self.eligibility = EligibilityClient(client_wrapper=self._client_wrapper)
+        self.encounter_providers = EncounterProvidersClient(client_wrapper=self._client_wrapper)
         self.encounters = EncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = ExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = ExportsClient(client_wrapper=self._client_wrapper)
@@ -235,6 +237,7 @@ class AsyncCandidApiClient:
         self.contracts = AsyncContractsClient(client_wrapper=self._client_wrapper)
         self.custom_schemas = AsyncCustomSchemasClient(client_wrapper=self._client_wrapper)
         self.eligibility = AsyncEligibilityClient(client_wrapper=self._client_wrapper)
+        self.encounter_providers = AsyncEncounterProvidersClient(client_wrapper=self._client_wrapper)
         self.encounters = AsyncEncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = AsyncExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = AsyncExportsClient(client_wrapper=self._client_wrapper)

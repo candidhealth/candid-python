@@ -5,11 +5,15 @@ from .types import (
     EncounterProvider,
     EncounterProviderBase,
     InitialReferringProvider,
+    InitialReferringProviderUpdate,
     OrderingProvider,
+    OrderingProviderUpdate,
     ProviderId,
     ReferringProvider,
+    ReferringProviderUpdate,
     RenderingProvider,
     SupervisingProvider,
+    SupervisingProviderUpdate,
 )
 
 __all__ = [
@@ -17,9 +21,13 @@ __all__ = [
     "EncounterProvider",
     "EncounterProviderBase",
     "InitialReferringProvider",
+    "InitialReferringProviderUpdate",
     "OrderingProvider",
+    "OrderingProviderUpdate",
     "ProviderId",
     "ReferringProvider",
+    "ReferringProviderUpdate",
     "RenderingProvider",
     "SupervisingProvider",
+    "SupervisingProviderUpdate",
 ]

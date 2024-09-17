@@ -4,20 +4,28 @@ from .billing_provider import BillingProvider
 from .encounter_provider import EncounterProvider
 from .encounter_provider_base import EncounterProviderBase
 from .initial_referring_provider import InitialReferringProvider
+from .initial_referring_provider_update import InitialReferringProviderUpdate
 from .ordering_provider import OrderingProvider
+from .ordering_provider_update import OrderingProviderUpdate
 from .provider_id import ProviderId
 from .referring_provider import ReferringProvider
+from .referring_provider_update import ReferringProviderUpdate
 from .rendering_provider import RenderingProvider
 from .supervising_provider import SupervisingProvider
+from .supervising_provider_update import SupervisingProviderUpdate
 
 __all__ = [
     "BillingProvider",
     "EncounterProvider",
     "EncounterProviderBase",
     "InitialReferringProvider",
+    "InitialReferringProviderUpdate",
     "OrderingProvider",
+    "OrderingProviderUpdate",
     "ProviderId",
     "ReferringProvider",
+    "ReferringProviderUpdate",
     "RenderingProvider",
     "SupervisingProvider",
+    "SupervisingProviderUpdate",
 ]
