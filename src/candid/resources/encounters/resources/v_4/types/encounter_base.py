@@ -13,8 +13,6 @@ from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .billable_status_type import BillableStatusType
 from .intervention import Intervention
 from .medication import Medication
-from .prior_authorization_number import PriorAuthorizationNumber
-from .responsible_party_type import ResponsiblePartyType
 from .service_authorization_exception_code import ServiceAuthorizationExceptionCode
 from .synchronicity_type import SynchronicityType
 from .vitals import Vitals
@@ -28,9 +26,23 @@ class EncounterBase(pydantic.BaseModel):
     This field should not contain PHI.
     """
 
-    prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = pydantic.Field(default=None)
+    date_of_service: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
-    Box 23 on the CMS-1500 claim form.
+    Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+    This date must be the local date in the timezone where the service occurred.
+    Box 24a on the CMS-1500 claim form.
+    If service occurred over a range of dates, this should be the start date.
+    date_of_service must be defined on either the encounter or the service lines but not both.
+    If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+    """
+
+    end_date_of_service: typing.Optional[dt.date] = pydantic.Field(default=None)
+    """
+    Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+    This date must be the local date in the timezone where the service occurred.
+    If omitted, the Encounter is assumed to be for a single day.
+    Must not be temporally before the date_of_service field.
+    If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
     """
 
     patient_authorized_release: bool = pydantic.Field()
@@ -52,11 +64,6 @@ class EncounterBase(pydantic.BaseModel):
     Whether you have accepted the patient's authorization for insurance payments
     to be made to you, not them.
     Box 27 on the CMS-1500 claim form.
-    """
-
-    appointment_type: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
     """
 
     existing_medications: typing.Optional[typing.List[Medication]] = None
@@ -81,11 +88,6 @@ class EncounterBase(pydantic.BaseModel):
     Defines if the Encounter is to be billed by Candid to the responsible_party.
     Examples for when this should be set to NOT_BILLABLE include
     if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
-    """
-
-    responsible_party: ResponsiblePartyType = pydantic.Field()
-    """
-    Defines the party to be billed with the initial balance owed on the claim.
     """
 
     additional_information: typing.Optional[str] = pydantic.Field(default=None)

@@ -30,6 +30,8 @@ from .patient_external_id import PatientExternalId
 from .patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
 from .phone_number import PhoneNumber
 from .phone_number_type import PhoneNumberType
+from .pre_encounter_appointment_id import PreEncounterAppointmentId
+from .pre_encounter_patient_id import PreEncounterPatientId
 from .primitive import Primitive
 from .procedure_modifier import ProcedureModifier
 from .provider_id import ProviderId
@@ -97,6 +99,8 @@ __all__ = [
     "PatientRelationshipToInsuredCodeAll",
     "PhoneNumber",
     "PhoneNumberType",
+    "PreEncounterAppointmentId",
+    "PreEncounterPatientId",
     "Primitive",
     "ProcedureModifier",
     "ProviderId",

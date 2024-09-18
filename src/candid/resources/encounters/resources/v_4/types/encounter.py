@@ -28,6 +28,8 @@ from .encounter_base import EncounterBase
 from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .encounter_submission_origin_type import EncounterSubmissionOriginType
 from .patient_history_category import PatientHistoryCategory
+from .prior_authorization_number import PriorAuthorizationNumber
+from .responsible_party_type import ResponsiblePartyType
 
 
 class Encounter(EncounterBase):
@@ -656,23 +658,6 @@ class Encounter(EncounterBase):
     It's used to track and manage a patient's medical records, treatments, and other healthcare-related information.
     """
 
-    date_of_service: dt.date = pydantic.Field()
-    """
-    Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-    This date must be the local date in the timezone where the service occurred.
-    Box 24a on the CMS-1500 claim form.
-    If service occurred over a range of dates, this should be the start date.
-    date_of_service must be defined on either the encounter or the service lines but not both.
-    """
-
-    end_date_of_service: typing.Optional[dt.date] = pydantic.Field(default=None)
-    """
-    Date formatted as YYYY-MM-DD; eg: 2019-08-25.
-    This date must be the local date in the timezone where the service occurred.
-    If omitted, the Encounter is assumed to be for a single day.
-    Must not be temporally before the date_of_service field.
-    """
-
     encounter_id: EncounterId
     claims: typing.List[Claim]
     patient: Patient = pydantic.Field()
@@ -715,6 +700,21 @@ class Encounter(EncounterBase):
     subscriber_secondary: typing.Optional[Subscriber] = pydantic.Field(default=None)
     """
     Contains details of the secondary insurance subscriber.
+    """
+
+    prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = pydantic.Field(default=None)
+    """
+    Box 23 on the CMS-1500 claim form.
+    """
+
+    appointment_type: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
+    """
+
+    responsible_party: ResponsiblePartyType = pydantic.Field()
+    """
+    Defines the party to be billed with the initial balance owed on the claim.
     """
 
     url: LinkUrl = pydantic.Field()
