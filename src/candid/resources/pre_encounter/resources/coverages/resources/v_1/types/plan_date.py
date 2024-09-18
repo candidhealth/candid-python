@@ -7,15 +7,12 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .....common.types.coverage_id import CoverageId
 
 
-class FilingOrder(pydantic.BaseModel):
-    """
-    The patient's active coverages, in order of primary, secondary, etc.
-    """
-
-    coverages: typing.List[CoverageId]
+class PlanDate(pydantic.BaseModel):
+    start_date: dt.date
+    end_date: typing.Optional[dt.date] = None
+    field_name: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

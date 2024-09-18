@@ -7,10 +7,8 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .....common.types.external_provider import ExternalProvider
-from .....patients.resources.v_1.types.patient_id import PatientId
-from .appointment_reason import AppointmentReason
-from .appointment_type import AppointmentType
+from .....common.types.patient_id import PatientId
+from .appointment_status import AppointmentStatus
 from .appointment_work_queue import AppointmentWorkQueue
 from .service import Service
 
@@ -25,27 +23,12 @@ class MutableAppointment(pydantic.BaseModel):
     The Candid-defined patient identifier.
     """
 
-    checked_in: typing.Optional[bool] = pydantic.Field(default=None)
+    start_timestamp: dt.datetime
+    status: typing.Optional[AppointmentStatus] = pydantic.Field(default=None)
     """
-    True if the patient has checked in. Defaults to false.
-    """
-
-    assigned_patient_location: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Patient’s initial assigned location or the location to which the patient is being moved. This location is stored on the Patient Demographics tab and is used when creating orders.
+    Defaults to PENDING. If status is NOT_READY, work_queue must be set. If status is READY or CHECKED_IN, work_queue must be null. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.
     """
 
-    attending_doctor: typing.Optional[ExternalProvider] = pydantic.Field(default=None)
-    """
-    Attending physician information. The attending physician will be stored as the Current MD for the patient.
-    """
-
-    referring_doctor: typing.Optional[ExternalProvider] = pydantic.Field(default=None)
-    """
-    Referring physician information. The referring physician will be stored as the Referring MD in the patient’s Providers list.
-    """
-
-    start_timestamp: typing.Optional[dt.datetime] = None
     service_duration: int = pydantic.Field()
     """
     The requested length of time allotted for the appointment. The units are in minutes.
@@ -57,20 +40,28 @@ class MutableAppointment(pydantic.BaseModel):
     ID for the appointment/order for the event.
     """
 
-    appointment_reason: typing.Optional[AppointmentReason] = None
-    appointment_type: typing.Optional[AppointmentType] = pydantic.Field(default=None)
+    estimated_copay_cents: typing.Optional[int] = None
+    estimated_patient_responsibility_cents: typing.Optional[int] = None
+    patient_deposit_cents: typing.Optional[int] = None
+    checked_in_timestamp: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
-    Contains the identifier code for the appointment.
+    The timestamp when the patient checked in for their appointment. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.
     """
 
+    notes: typing.Optional[str] = None
     location_resource_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Contains the coded identification of the location being scheduled. Components: <Identifier (ST)>^<Text (ST)>
     """
 
+    automated_eligibility_check_complete: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    True if the automated eligibility check has been completed. It is not recommended to change this value manually via API. This refers explicitly to the automated eligibility check that occurs a specific number of days before the appointment.
+    """
+
     work_queue: typing.Optional[AppointmentWorkQueue] = pydantic.Field(default=None)
     """
-    The work queue that the appointment belongs to. It is not recommended to change this value manually via API.
+    The work queue that the appointment belongs to. It is not recommended to change this value manually via API. If status is NOT_READY, work_queue must be set. If status is READY or CHECKED_IN, work_queue must be null.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

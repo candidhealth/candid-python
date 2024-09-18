@@ -7,15 +7,17 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .....common.types.coverage_id import CoverageId
+from .....common.types.address import Address
+from .....common.types.contact_point import ContactPoint
+from .....common.types.human_name import HumanName
 
 
-class FilingOrder(pydantic.BaseModel):
-    """
-    The patient's active coverages, in order of primary, secondary, etc.
-    """
-
-    coverages: typing.List[CoverageId]
+class Guarantor(pydantic.BaseModel):
+    name: HumanName
+    telecom: ContactPoint
+    email: typing.Optional[str] = None
+    birth_date: dt.date
+    address: Address
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

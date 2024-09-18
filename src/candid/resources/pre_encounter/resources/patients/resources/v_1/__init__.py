@@ -4,22 +4,28 @@ from .types import (
     Contact,
     ExternalProvenance,
     FilingOrder,
+    Guarantor,
     MaritalStatus,
     MutablePatient,
     Patient,
-    PatientId,
     PatientPage,
     PatientSortField,
+    PotentialDuplicatePatient,
+    PotentialDuplicatePatientsErrorBody,
 )
+from .errors import PotentialDuplicatePatients
 
 __all__ = [
     "Contact",
     "ExternalProvenance",
     "FilingOrder",
+    "Guarantor",
     "MaritalStatus",
     "MutablePatient",
     "Patient",
-    "PatientId",
     "PatientPage",
     "PatientSortField",
+    "PotentialDuplicatePatient",
+    "PotentialDuplicatePatients",
+    "PotentialDuplicatePatientsErrorBody",
 ]

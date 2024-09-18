@@ -12,11 +12,11 @@ from .......core.pydantic_utilities import pydantic_v1
 from .......core.request_options import RequestOptions
 from ....common.errors.not_found_error import NotFoundError
 from ....common.errors.version_conflict_error import VersionConflictError
+from ....common.types.coverage_id import CoverageId
 from ....common.types.not_found_error_body import NotFoundErrorBody
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from .types.coverage import Coverage
 from .types.coverage_eligibility_check_response import CoverageEligibilityCheckResponse
-from .types.coverage_id import CoverageId
 from .types.eligibility_check_metadata import EligibilityCheckMetadata
 from .types.mutable_coverage import MutableCoverage
 from .types.service_type_code import ServiceTypeCode
@@ -82,8 +82,12 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
                         ),
                     ),
                     date_of_birth=datetime.date.fromisoformat(
@@ -102,8 +106,12 @@ class V1Client:
                     plan_type=NetworkType.SELF_PAY,
                     type=InsuranceTypeCode.C_01,
                     period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
+                        start=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        end=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
                     ),
                     insurance_card_image_locator="string",
                 ),
@@ -211,8 +219,12 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
                         ),
                     ),
                     date_of_birth=datetime.date.fromisoformat(
@@ -231,8 +243,12 @@ class V1Client:
                     plan_type=NetworkType.SELF_PAY,
                     type=InsuranceTypeCode.C_01,
                     period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
+                        start=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        end=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
                     ),
                     insurance_card_image_locator="string",
                 ),
@@ -651,8 +667,12 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
+                                start=datetime.date.fromisoformat(
+                                    "2023-01-15",
+                                ),
+                                end=datetime.date.fromisoformat(
+                                    "2023-01-15",
+                                ),
                             ),
                         ),
                         date_of_birth=datetime.date.fromisoformat(
@@ -671,8 +691,12 @@ class AsyncV1Client:
                         plan_type=NetworkType.SELF_PAY,
                         type=InsuranceTypeCode.C_01,
                         period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
                         ),
                         insurance_card_image_locator="string",
                     ),
@@ -787,8 +811,12 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
+                                start=datetime.date.fromisoformat(
+                                    "2023-01-15",
+                                ),
+                                end=datetime.date.fromisoformat(
+                                    "2023-01-15",
+                                ),
                             ),
                         ),
                         date_of_birth=datetime.date.fromisoformat(
@@ -807,8 +835,12 @@ class AsyncV1Client:
                         plan_type=NetworkType.SELF_PAY,
                         type=InsuranceTypeCode.C_01,
                         period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
                         ),
                         insurance_card_image_locator="string",
                     ),

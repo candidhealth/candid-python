@@ -3,21 +3,25 @@
 from .contact import Contact
 from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
+from .guarantor import Guarantor
 from .marital_status import MaritalStatus
 from .mutable_patient import MutablePatient
 from .patient import Patient
-from .patient_id import PatientId
 from .patient_page import PatientPage
 from .patient_sort_field import PatientSortField
+from .potential_duplicate_patient import PotentialDuplicatePatient
+from .potential_duplicate_patients_error_body import PotentialDuplicatePatientsErrorBody
 
 __all__ = [
     "Contact",
     "ExternalProvenance",
     "FilingOrder",
+    "Guarantor",
     "MaritalStatus",
     "MutablePatient",
     "Patient",
-    "PatientId",
     "PatientPage",
     "PatientSortField",
+    "PotentialDuplicatePatient",
+    "PotentialDuplicatePatientsErrorBody",
 ]

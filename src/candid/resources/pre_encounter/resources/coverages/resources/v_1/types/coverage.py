@@ -7,9 +7,9 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.coverage_id import CoverageId
 from .....common.types.organization_id import OrganizationId
 from .....common.types.user_id import UserId
-from .coverage_id import CoverageId
 from .mutable_coverage import MutableCoverage
 
 

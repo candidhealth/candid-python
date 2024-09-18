@@ -7,8 +7,8 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.patient_id import PatientId
 from .....common.types.relationship import Relationship
-from .....patients.resources.v_1.types.patient_id import PatientId
 from .coverage_benefits import CoverageBenefits
 from .coverage_status import CoverageStatus
 from .eligibility_check_metadata import EligibilityCheckMetadata

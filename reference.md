@@ -14026,18 +14026,8 @@ Adds an appointment. VersionConflictError is returned when the placer_appointmen
 import datetime
 
 from candid.client import CandidApiClient
-from candid.resources.pre_encounter import (
-    ContactPoint,
-    ContactPointUse,
-    ExternalProvider,
-    ExternalProviderType,
-    HumanName,
-    NameUse,
-    Period,
-)
 from candid.resources.pre_encounter.appointments.v_1 import (
-    AppointmentReason,
-    AppointmentType,
+    AppointmentStatus,
     AppointmentWorkQueue,
     MutableAppointment,
     Service,
@@ -14051,63 +14041,10 @@ client = CandidApiClient(
 client.pre_encounter.appointments.v_1.create(
     request=MutableAppointment(
         patient_id="string",
-        checked_in=True,
-        assigned_patient_location="string",
-        attending_doctor=ExternalProvider(
-            name=HumanName(
-                family="string",
-                given=["string"],
-                use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
-            ),
-            type=ExternalProviderType.PRIMARY,
-            npi="string",
-            telecoms=[
-                ContactPoint(
-                    value="string",
-                    use=ContactPointUse.HOME,
-                    period={"key": "value"},
-                )
-            ],
-            addresses=[{"key": "value"}],
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
-            canonical_id="string",
-        ),
-        referring_doctor=ExternalProvider(
-            name=HumanName(
-                family="string",
-                given=["string"],
-                use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
-            ),
-            type=ExternalProviderType.PRIMARY,
-            npi="string",
-            telecoms=[
-                ContactPoint(
-                    value="string",
-                    use=ContactPointUse.HOME,
-                    period={"key": "value"},
-                )
-            ],
-            addresses=[{"key": "value"}],
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
-            canonical_id="string",
-        ),
         start_timestamp=datetime.datetime.fromisoformat(
             "2024-01-15 09:30:00+00:00",
         ),
+        status=AppointmentStatus.PENDING,
         service_duration=1,
         services=[
             Service(
@@ -14118,9 +14055,15 @@ client.pre_encounter.appointments.v_1.create(
             )
         ],
         placer_appointment_id="string",
-        appointment_reason=AppointmentReason.CHECKUP,
-        appointment_type=AppointmentType.COMPLETE,
+        estimated_copay_cents=1,
+        estimated_patient_responsibility_cents=1,
+        patient_deposit_cents=1,
+        checked_in_timestamp=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        notes="string",
         location_resource_id="string",
+        automated_eligibility_check_complete=True,
         work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
     ),
 )
@@ -14331,18 +14274,8 @@ Updates an appointment. The path must contain the most recent version to prevent
 import datetime
 
 from candid.client import CandidApiClient
-from candid.resources.pre_encounter import (
-    ContactPoint,
-    ContactPointUse,
-    ExternalProvider,
-    ExternalProviderType,
-    HumanName,
-    NameUse,
-    Period,
-)
 from candid.resources.pre_encounter.appointments.v_1 import (
-    AppointmentReason,
-    AppointmentType,
+    AppointmentStatus,
     AppointmentWorkQueue,
     MutableAppointment,
     Service,
@@ -14358,63 +14291,10 @@ client.pre_encounter.appointments.v_1.update(
     version="string",
     request=MutableAppointment(
         patient_id="string",
-        checked_in=True,
-        assigned_patient_location="string",
-        attending_doctor=ExternalProvider(
-            name=HumanName(
-                family="string",
-                given=["string"],
-                use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
-            ),
-            type=ExternalProviderType.PRIMARY,
-            npi="string",
-            telecoms=[
-                ContactPoint(
-                    value="string",
-                    use=ContactPointUse.HOME,
-                    period={"key": "value"},
-                )
-            ],
-            addresses=[{"key": "value"}],
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
-            canonical_id="string",
-        ),
-        referring_doctor=ExternalProvider(
-            name=HumanName(
-                family="string",
-                given=["string"],
-                use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
-            ),
-            type=ExternalProviderType.PRIMARY,
-            npi="string",
-            telecoms=[
-                ContactPoint(
-                    value="string",
-                    use=ContactPointUse.HOME,
-                    period={"key": "value"},
-                )
-            ],
-            addresses=[{"key": "value"}],
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
-            canonical_id="string",
-        ),
         start_timestamp=datetime.datetime.fromisoformat(
             "2024-01-15 09:30:00+00:00",
         ),
+        status=AppointmentStatus.PENDING,
         service_duration=1,
         services=[
             Service(
@@ -14425,9 +14305,15 @@ client.pre_encounter.appointments.v_1.update(
             )
         ],
         placer_appointment_id="string",
-        appointment_reason=AppointmentReason.CHECKUP,
-        appointment_type=AppointmentType.COMPLETE,
+        estimated_copay_cents=1,
+        estimated_patient_responsibility_cents=1,
+        patient_deposit_cents=1,
+        checked_in_timestamp=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        notes="string",
         location_resource_id="string",
+        automated_eligibility_check_complete=True,
         work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
     ),
 )
@@ -14562,160 +14448,6 @@ client.pre_encounter.appointments.v_1.deactivate(
 </dl>
 </details>
 
-<details><summary><code>client.pre_encounter.appointments.v_1.<a href="src/candid/resources/pre_encounter/resources/appointments/resources/v_1/client.py">get_multi</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Searches for appointments that match the query parameters.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import datetime
-
-from candid.client import CandidApiClient
-from candid.resources.pre_encounter import SortDirection
-from candid.resources.pre_encounter.appointments.v_1 import (
-    AppointmentSortField,
-    AppointmentWorkQueue,
-)
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.pre_encounter.appointments.v_1.get_multi(
-    checked_in=True,
-    patient_id="string",
-    min_start_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    max_start_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    placer_appointment_id="string",
-    work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
-    sort_field=AppointmentSortField.START_TIMESTAMP,
-    sort_direction=SortDirection.ASC,
-    limit=1,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**checked_in:** `typing.Optional[bool]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**patient_id:** `typing.Optional[PatientId]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**min_start_timestamp:** `typing.Optional[dt.datetime]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**max_start_timestamp:** `typing.Optional[dt.datetime]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**placer_appointment_id:** `typing.Optional[str]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**work_queue:** `typing.Optional[AppointmentWorkQueue]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**sort_field:** `typing.Optional[AppointmentSortField]` — Defaults to start_timestamp.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**sort_direction:** `typing.Optional[SortDirection]` — Defaults to asc.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**limit:** `typing.Optional[int]` — Defaults to 1000.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 ## PreEncounter Coverages V1
 <details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">create</a>(...)</code></summary>
 <dl>
@@ -14780,8 +14512,12 @@ client.pre_encounter.coverages.v_1.create(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
             ),
             date_of_birth=datetime.date.fromisoformat(
@@ -14800,8 +14536,12 @@ client.pre_encounter.coverages.v_1.create(
             plan_type=NetworkType.SELF_PAY,
             type=InsuranceTypeCode.C_01,
             period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
+                start=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                end=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
             ),
             insurance_card_image_locator="string",
         ),
@@ -14926,8 +14666,12 @@ client.pre_encounter.coverages.v_1.update(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
             ),
             date_of_birth=datetime.date.fromisoformat(
@@ -14946,8 +14690,12 @@ client.pre_encounter.coverages.v_1.update(
             plan_type=NetworkType.SELF_PAY,
             type=InsuranceTypeCode.C_01,
             period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
+                start=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                end=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
             ),
             insurance_card_image_locator="string",
         ),
@@ -15506,6 +15254,223 @@ client.pre_encounter.coverages.v_1.get_eligibility(
 </dl>
 </details>
 
+## PreEncounter Lists V1
+<details><summary><code>client.pre_encounter.lists.v_1.<a href="src/candid/resources/pre_encounter/resources/lists/resources/v_1/client.py">get_patient_list</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets patients with dependent objects for patients that match the query parameters.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import SortDirection
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.lists.v_1.get_patient_list(
+    page_token="string",
+    limit=1,
+    sort_field="string",
+    sort_direction=SortDirection.ASC,
+    filters="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_field:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Defaults to ascending.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**filters:** `typing.Optional[FilterQueryString]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.lists.v_1.<a href="src/candid/resources/pre_encounter/resources/lists/resources/v_1/client.py">get_appointment_list</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Searches for appointments that match the query parameters.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import SortDirection
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.lists.v_1.get_appointment_list(
+    sort_field="string",
+    sort_direction=SortDirection.ASC,
+    limit=1,
+    page_token="string",
+    filters="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**sort_field:** `typing.Optional[str]` — The string path to the field to order by. Defaults to appointment.startTimestamp. Path values are camelCase.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Defaults to asc.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Defaults to 100.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**filters:** `typing.Optional[FilterQueryString]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## PreEncounter Patients V1
 <details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">create</a>(...)</code></summary>
 <dl>
@@ -15560,6 +15525,7 @@ from candid.resources.pre_encounter.patients.v_1 import (
     Contact,
     ExternalProvenance,
     FilingOrder,
+    Guarantor,
     MaritalStatus,
     MutablePatient,
 )
@@ -15569,14 +15535,19 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.create(
+    skip_duplicate_check=True,
     request=MutablePatient(
         name=HumanName(
             family="string",
             given=["string"],
             use=NameUse.USUAL,
             period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
+                start=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                end=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
             ),
         ),
         other_names=[
@@ -15585,8 +15556,12 @@ client.pre_encounter.patients.v_1.create(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
             )
         ],
@@ -15613,8 +15588,12 @@ client.pre_encounter.patients.v_1.create(
             postal_code="string",
             country="string",
             period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
+                start=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                end=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
             ),
         ),
         other_addresses=[
@@ -15626,21 +15605,39 @@ client.pre_encounter.patients.v_1.create(
                 postal_code="string",
                 country="string",
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
             )
         ],
         primary_telecom=ContactPoint(
             value="string",
             use=ContactPointUse.HOME,
-            period={"key": "value"},
+            period=Period(
+                start=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                end=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+            ),
         ),
         other_telecoms=[
             ContactPoint(
                 value="string",
                 use=ContactPointUse.HOME,
-                period={"key": "value"},
+                period=Period(
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                ),
             )
         ],
         email="string",
@@ -15659,15 +15656,26 @@ client.pre_encounter.patients.v_1.create(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
+                        start=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        end=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
                     ),
                 ),
                 telecoms=[
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
+                        period=Period(
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                        ),
                     )
                 ],
                 addresses=[
@@ -15679,14 +15687,22 @@ client.pre_encounter.patients.v_1.create(
                         postal_code="string",
                         country="string",
                         period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
                         ),
                     )
                 ],
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
                 hipaa_authorization=True,
             )
@@ -15698,8 +15714,12 @@ client.pre_encounter.patients.v_1.create(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
+                        start=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        end=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
                     ),
                 ),
                 type=ExternalProviderType.PRIMARY,
@@ -15708,13 +15728,24 @@ client.pre_encounter.patients.v_1.create(
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
+                        period=Period(
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                        ),
                     )
                 ],
                 addresses=[{"key": "value"}],
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
                 canonical_id="string",
             )
@@ -15726,155 +15757,38 @@ client.pre_encounter.patients.v_1.create(
                 )
             ],
         ),
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `MutablePatient` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">create_no_duplicate_check</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Adds a patient without checking for duplicates.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import datetime
-import uuid
-
-from candid.client import CandidApiClient
-from candid.resources.pre_encounter import (
-    Address,
-    AddressUse,
-    ContactPoint,
-    ContactPointUse,
-    DisabilityStatus,
-    Ethnicity,
-    ExternalProvider,
-    ExternalProviderType,
-    Gender,
-    HumanName,
-    NameUse,
-    Period,
-    Race,
-    Relationship,
-    Sex,
-    SexualOrientation,
-)
-from candid.resources.pre_encounter.patients.v_1 import (
-    Contact,
-    ExternalProvenance,
-    FilingOrder,
-    MaritalStatus,
-    MutablePatient,
-)
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.pre_encounter.patients.v_1.create_no_duplicate_check(
-    request=MutablePatient(
-        name=HumanName(
-            family="string",
-            given=["string"],
-            use=NameUse.USUAL,
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
-        ),
-        other_names=[
-            HumanName(
+        non_insurance_payers=["string"],
+        guarantor=Guarantor(
+            name=HumanName(
                 family="string",
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
-            )
-        ],
-        gender=Gender.MAN,
-        birth_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        social_security_number="string",
-        biological_sex=Sex.FEMALE,
-        sexual_orientation=SexualOrientation.HETEROSEXUAL,
-        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-        disability_status=DisabilityStatus.DISABLED,
-        marital_status=MaritalStatus.ANNULLED,
-        deceased=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
-        ),
-        multiple_birth=1,
-        primary_address=Address(
-            use=AddressUse.HOME,
-            line=["string"],
-            city="string",
-            state="string",
-            postal_code="string",
-            country="string",
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
             ),
-        ),
-        other_addresses=[
-            Address(
+            telecom=ContactPoint(
+                value="string",
+                use=ContactPointUse.HOME,
+                period=Period(
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                ),
+            ),
+            email="string",
+            birth_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            address=Address(
                 use=AddressUse.HOME,
                 line=["string"],
                 city="string",
@@ -15882,106 +15796,16 @@ client.pre_encounter.patients.v_1.create_no_duplicate_check(
                 postal_code="string",
                 country="string",
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
-            )
-        ],
-        primary_telecom=ContactPoint(
-            value="string",
-            use=ContactPointUse.HOME,
-            period={"key": "value"},
-        ),
-        other_telecoms=[
-            ContactPoint(
-                value="string",
-                use=ContactPointUse.HOME,
-                period={"key": "value"},
-            )
-        ],
-        email="string",
-        electronic_communication_opt_in=True,
-        photo="string",
-        language="string",
-        external_provenance=ExternalProvenance(
-            external_id="string",
-            system_name="string",
-        ),
-        contacts=[
-            Contact(
-                relationship=[Relationship.SELF],
-                name=HumanName(
-                    family="string",
-                    given=["string"],
-                    use=NameUse.USUAL,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
                     ),
                 ),
-                telecoms=[
-                    ContactPoint(
-                        value="string",
-                        use=ContactPointUse.HOME,
-                        period={"key": "value"},
-                    )
-                ],
-                addresses=[
-                    Address(
-                        use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
-                    )
-                ],
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
-                hipaa_authorization=True,
-            )
-        ],
-        general_practitioners=[
-            ExternalProvider(
-                name=HumanName(
-                    family="string",
-                    given=["string"],
-                    use=NameUse.USUAL,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
-                ),
-                type=ExternalProviderType.PRIMARY,
-                npi="string",
-                telecoms=[
-                    ContactPoint(
-                        value="string",
-                        use=ContactPointUse.HOME,
-                        period={"key": "value"},
-                    )
-                ],
-                addresses=[{"key": "value"}],
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
-                canonical_id="string",
-            )
-        ],
-        filing_order=FilingOrder(
-            coverages=[
-                uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
-            ],
+            ),
         ),
+        self_pay=True,
     ),
 )
 
@@ -16000,6 +15824,14 @@ client.pre_encounter.patients.v_1.create_no_duplicate_check(
 <dd>
 
 **request:** `MutablePatient` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**skip_duplicate_check:** `typing.Optional[bool]` 
     
 </dd>
 </dl>
@@ -16322,6 +16154,7 @@ from candid.resources.pre_encounter.patients.v_1 import (
     Contact,
     ExternalProvenance,
     FilingOrder,
+    Guarantor,
     MaritalStatus,
     MutablePatient,
 )
@@ -16339,8 +16172,12 @@ client.pre_encounter.patients.v_1.update(
             given=["string"],
             use=NameUse.USUAL,
             period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
+                start=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                end=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
             ),
         ),
         other_names=[
@@ -16349,8 +16186,12 @@ client.pre_encounter.patients.v_1.update(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
             )
         ],
@@ -16377,8 +16218,12 @@ client.pre_encounter.patients.v_1.update(
             postal_code="string",
             country="string",
             period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
+                start=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                end=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
             ),
         ),
         other_addresses=[
@@ -16390,21 +16235,39 @@ client.pre_encounter.patients.v_1.update(
                 postal_code="string",
                 country="string",
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
             )
         ],
         primary_telecom=ContactPoint(
             value="string",
             use=ContactPointUse.HOME,
-            period={"key": "value"},
+            period=Period(
+                start=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                end=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+            ),
         ),
         other_telecoms=[
             ContactPoint(
                 value="string",
                 use=ContactPointUse.HOME,
-                period={"key": "value"},
+                period=Period(
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                ),
             )
         ],
         email="string",
@@ -16423,15 +16286,26 @@ client.pre_encounter.patients.v_1.update(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
+                        start=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        end=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
                     ),
                 ),
                 telecoms=[
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
+                        period=Period(
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                        ),
                     )
                 ],
                 addresses=[
@@ -16443,14 +16317,22 @@ client.pre_encounter.patients.v_1.update(
                         postal_code="string",
                         country="string",
                         period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
                         ),
                     )
                 ],
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
                 hipaa_authorization=True,
             )
@@ -16462,8 +16344,12 @@ client.pre_encounter.patients.v_1.update(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
+                        start=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        end=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
                     ),
                 ),
                 type=ExternalProviderType.PRIMARY,
@@ -16472,13 +16358,24 @@ client.pre_encounter.patients.v_1.update(
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
+                        period=Period(
+                            start=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            end=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                        ),
                     )
                 ],
                 addresses=[{"key": "value"}],
                 period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
                 ),
                 canonical_id="string",
             )
@@ -16490,6 +16387,55 @@ client.pre_encounter.patients.v_1.update(
                 )
             ],
         ),
+        non_insurance_payers=["string"],
+        guarantor=Guarantor(
+            name=HumanName(
+                family="string",
+                given=["string"],
+                use=NameUse.USUAL,
+                period=Period(
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                ),
+            ),
+            telecom=ContactPoint(
+                value="string",
+                use=ContactPointUse.HOME,
+                period=Period(
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                ),
+            ),
+            email="string",
+            birth_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            address=Address(
+                use=AddressUse.HOME,
+                line=["string"],
+                city="string",
+                state="string",
+                postal_code="string",
+                country="string",
+                period=Period(
+                    start=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    end=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                ),
+            ),
+        ),
+        self_pay=True,
     ),
 )
 

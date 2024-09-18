@@ -3,6 +3,7 @@
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .resources.appointments.client import AppointmentsClient, AsyncAppointmentsClient
 from .resources.coverages.client import AsyncCoveragesClient, CoveragesClient
+from .resources.lists.client import AsyncListsClient, ListsClient
 from .resources.patients.client import AsyncPatientsClient, PatientsClient
 
 
@@ -11,6 +12,7 @@ class PreEncounterClient:
         self._client_wrapper = client_wrapper
         self.appointments = AppointmentsClient(client_wrapper=self._client_wrapper)
         self.coverages = CoveragesClient(client_wrapper=self._client_wrapper)
+        self.lists = ListsClient(client_wrapper=self._client_wrapper)
         self.patients = PatientsClient(client_wrapper=self._client_wrapper)
 
 
@@ -19,4 +21,5 @@ class AsyncPreEncounterClient:
         self._client_wrapper = client_wrapper
         self.appointments = AsyncAppointmentsClient(client_wrapper=self._client_wrapper)
         self.coverages = AsyncCoveragesClient(client_wrapper=self._client_wrapper)
+        self.lists = AsyncListsClient(client_wrapper=self._client_wrapper)
         self.patients = AsyncPatientsClient(client_wrapper=self._client_wrapper)

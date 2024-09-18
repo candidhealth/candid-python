@@ -2,10 +2,7 @@
 
 from .types import (
     Appointment,
-    AppointmentId,
-    AppointmentReason,
-    AppointmentSortField,
-    AppointmentType,
+    AppointmentStatus,
     AppointmentWorkQueue,
     MutableAppointment,
     Service,
@@ -14,10 +11,7 @@ from .types import (
 
 __all__ = [
     "Appointment",
-    "AppointmentId",
-    "AppointmentReason",
-    "AppointmentSortField",
-    "AppointmentType",
+    "AppointmentStatus",
     "AppointmentWorkQueue",
     "MutableAppointment",
     "Service",

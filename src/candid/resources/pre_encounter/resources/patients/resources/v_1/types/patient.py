@@ -8,9 +8,9 @@ import pydantic
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
 from .....common.types.organization_id import OrganizationId
+from .....common.types.patient_id import PatientId
 from .....common.types.user_id import UserId
 from .mutable_patient import MutablePatient
-from .patient_id import PatientId
 
 
 class Patient(MutablePatient):

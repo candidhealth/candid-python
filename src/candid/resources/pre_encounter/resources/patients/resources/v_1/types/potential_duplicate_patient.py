@@ -7,15 +7,12 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .....common.types.coverage_id import CoverageId
+from .....common.types.patient_id import PatientId
 
 
-class FilingOrder(pydantic.BaseModel):
-    """
-    The patient's active coverages, in order of primary, secondary, etc.
-    """
-
-    coverages: typing.List[CoverageId]
+class PotentialDuplicatePatient(pydantic.BaseModel):
+    existing_patient_id: PatientId
+    existing_patient_mrn: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -3,9 +3,12 @@
 from .types import (
     Address,
     AddressUse,
+    AppointmentId,
+    CanonicalNonInsurancePayerId,
     CanonicalProviderId,
     ContactPoint,
     ContactPointUse,
+    CoverageId,
     DisabilityStatus,
     ErrorBase,
     Ethnicity,
@@ -17,6 +20,7 @@ from .types import (
     NotFoundErrorBody,
     OrganizationId,
     PageToken,
+    PatientId,
     PayerId,
     Period,
     Race,
@@ -28,14 +32,18 @@ from .types import (
     UserId,
     VersionConflictErrorBody,
 )
-from .errors import NotFoundError, VersionConflictError
+from .errors import BadRequestError, NotFoundError, VersionConflictError
 
 __all__ = [
     "Address",
     "AddressUse",
+    "AppointmentId",
+    "BadRequestError",
+    "CanonicalNonInsurancePayerId",
     "CanonicalProviderId",
     "ContactPoint",
     "ContactPointUse",
+    "CoverageId",
     "DisabilityStatus",
     "ErrorBase",
     "Ethnicity",
@@ -48,6 +56,7 @@ __all__ = [
     "NotFoundErrorBody",
     "OrganizationId",
     "PageToken",
+    "PatientId",
     "PayerId",
     "Period",
     "Race",

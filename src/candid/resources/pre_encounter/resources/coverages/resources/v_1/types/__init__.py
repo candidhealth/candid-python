@@ -3,7 +3,6 @@
 from .coverage import Coverage
 from .coverage_benefits import CoverageBenefits
 from .coverage_eligibility_check_response import CoverageEligibilityCheckResponse
-from .coverage_id import CoverageId
 from .coverage_status import CoverageStatus
 from .coverage_value import CoverageValue
 from .eligibility_check import EligibilityCheck
@@ -16,6 +15,7 @@ from .mutable_coverage import MutableCoverage
 from .network_type import NetworkType
 from .plan_coverage import PlanCoverage
 from .plan_coverage_details import PlanCoverageDetails
+from .plan_date import PlanDate
 from .plan_metadata import PlanMetadata
 from .service_coverage import ServiceCoverage
 from .service_coverage_details import ServiceCoverageDetails
@@ -26,7 +26,6 @@ __all__ = [
     "Coverage",
     "CoverageBenefits",
     "CoverageEligibilityCheckResponse",
-    "CoverageId",
     "CoverageStatus",
     "CoverageValue",
     "EligibilityCheck",
@@ -39,6 +38,7 @@ __all__ = [
     "NetworkType",
     "PlanCoverage",
     "PlanCoverageDetails",
+    "PlanDate",
     "PlanMetadata",
     "ServiceCoverage",
     "ServiceCoverageDetails",

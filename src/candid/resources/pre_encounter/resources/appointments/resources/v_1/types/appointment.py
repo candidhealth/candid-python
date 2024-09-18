@@ -7,9 +7,9 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.appointment_id import AppointmentId
 from .....common.types.organization_id import OrganizationId
 from .....common.types.user_id import UserId
-from .appointment_id import AppointmentId
 from .mutable_appointment import MutableAppointment
 
 

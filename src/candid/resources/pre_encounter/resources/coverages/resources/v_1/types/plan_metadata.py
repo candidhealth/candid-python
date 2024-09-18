@@ -7,7 +7,7 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .eligibility_status import EligibilityStatus
+from .plan_date import PlanDate
 
 
 class PlanMetadata(pydantic.BaseModel):
@@ -18,7 +18,7 @@ class PlanMetadata(pydantic.BaseModel):
     group_number: typing.Optional[str] = None
     start_date: typing.Optional[dt.date] = None
     end_date: typing.Optional[dt.date] = None
-    eligibility_status: typing.Optional[EligibilityStatus] = None
+    plan_dates: typing.Optional[typing.List[PlanDate]] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
