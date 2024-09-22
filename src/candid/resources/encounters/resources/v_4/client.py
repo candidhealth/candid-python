@@ -38,6 +38,7 @@ from ....encounter_providers.resources.v_2.types.rendering_provider import Rende
 from ....encounter_providers.resources.v_2.types.supervising_provider import SupervisingProvider
 from ....guarantor.resources.v_1.types.guarantor_create import GuarantorCreate
 from ....individual.types.patient_create import PatientCreate
+from ....individual.types.patient_update import PatientUpdate
 from ....individual.types.subscriber_create import SubscriberCreate
 from ....service_facility.types.encounter_service_facility_base import EncounterServiceFacilityBase
 from ....service_lines.resources.v_2.types.service_line_create import ServiceLineCreate
@@ -1775,6 +1776,7 @@ class V4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        patient: typing.Optional[PatientUpdate] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         vitals: typing.Optional[VitalsUpdate] = OMIT,
@@ -1809,7 +1811,7 @@ class V4Client:
 
 
         tag_ids : typing.Optional[typing.Sequence[TagId]]
-            Names of tags that should be on the encounter.  Note all tags on encounter will be overriden with this list.
+            Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
 
         clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
             Holds a collection of clinical observations made by healthcare providers during patient encounters.
@@ -1904,6 +1906,10 @@ class V4Client:
             Code indicating the reason why a request was delayed
 
 
+        patient : typing.Optional[PatientUpdate]
+            Contains the identification information of the individual receiving medical services.
+
+
         patient_authorized_release : typing.Optional[bool]
             Whether this patient has authorized the release of medical information
             for billing purpose.
@@ -1941,6 +1947,9 @@ class V4Client:
             Gender,
             InsuranceTypeCode,
             PatientRelationshipToInsuredCodeAll,
+            PatientUpdate,
+            PhoneNumber,
+            PhoneNumberType,
             SourceOfPaymentCode,
             State,
             StreetAddressLongZip,
@@ -2091,6 +2100,37 @@ class V4Client:
                 "2023-01-15",
             ),
             delay_reason_code=DelayReasonCode.C_1,
+            patient=PatientUpdate(
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+                external_id="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+                non_insurance_payers=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ],
+            ),
             patient_authorized_release=True,
             schema_instances=[
                 SchemaInstance(
@@ -2146,6 +2186,7 @@ class V4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
+                "patient": patient,
                 "patient_authorized_release": patient_authorized_release,
                 "schema_instances": schema_instances,
                 "vitals": vitals,
@@ -3914,6 +3955,7 @@ class AsyncV4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        patient: typing.Optional[PatientUpdate] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         vitals: typing.Optional[VitalsUpdate] = OMIT,
@@ -3948,7 +3990,7 @@ class AsyncV4Client:
 
 
         tag_ids : typing.Optional[typing.Sequence[TagId]]
-            Names of tags that should be on the encounter.  Note all tags on encounter will be overriden with this list.
+            Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
 
         clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
             Holds a collection of clinical observations made by healthcare providers during patient encounters.
@@ -4043,6 +4085,10 @@ class AsyncV4Client:
             Code indicating the reason why a request was delayed
 
 
+        patient : typing.Optional[PatientUpdate]
+            Contains the identification information of the individual receiving medical services.
+
+
         patient_authorized_release : typing.Optional[bool]
             Whether this patient has authorized the release of medical information
             for billing purpose.
@@ -4081,6 +4127,9 @@ class AsyncV4Client:
             Gender,
             InsuranceTypeCode,
             PatientRelationshipToInsuredCodeAll,
+            PatientUpdate,
+            PhoneNumber,
+            PhoneNumberType,
             SourceOfPaymentCode,
             State,
             StreetAddressLongZip,
@@ -4234,6 +4283,37 @@ class AsyncV4Client:
                     "2023-01-15",
                 ),
                 delay_reason_code=DelayReasonCode.C_1,
+                patient=PatientUpdate(
+                    first_name="string",
+                    last_name="string",
+                    gender=Gender.MALE,
+                    external_id="string",
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    phone_numbers=[
+                        PhoneNumber(
+                            number="1234567890",
+                            type=PhoneNumberType.HOME,
+                        )
+                    ],
+                    phone_consent=True,
+                    email="johndoe@joincandidhealth.com",
+                    email_consent=True,
+                    non_insurance_payers=[
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ],
+                ),
                 patient_authorized_release=True,
                 schema_instances=[
                     SchemaInstance(
@@ -4292,6 +4372,7 @@ class AsyncV4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
+                "patient": patient,
                 "patient_authorized_release": patient_authorized_release,
                 "schema_instances": schema_instances,
                 "vitals": vitals,
