@@ -16,6 +16,7 @@ from .types import (
     EncounterPatientControlNumberUniquenessErrorType,
     EncounterSortOptions,
     EncounterSubmissionOriginType,
+    InsurancePayMissingPrimaryCoverageErrorType,
     IntakeFollowUp,
     IntakeFollowUpId,
     IntakeQuestion,
@@ -54,6 +55,7 @@ from .errors import (
     EncounterExternalIdUniquenessError,
     EncounterGuarantorMissingContactInfoError,
     EncounterPatientControlNumberUniquenessError,
+    InsurancePayMissingPrimaryCoverageError,
     SchemaInstanceValidationHttpFailure,
 )
 
@@ -77,6 +79,8 @@ __all__ = [
     "EncounterPatientControlNumberUniquenessErrorType",
     "EncounterSortOptions",
     "EncounterSubmissionOriginType",
+    "InsurancePayMissingPrimaryCoverageError",
+    "InsurancePayMissingPrimaryCoverageErrorType",
     "IntakeFollowUp",
     "IntakeFollowUpId",
     "IntakeQuestion",

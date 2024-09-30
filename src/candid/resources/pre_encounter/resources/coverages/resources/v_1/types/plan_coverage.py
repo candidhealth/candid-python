@@ -7,12 +7,15 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .coverage_details import CoverageDetails
 from .plan_coverage_details import PlanCoverageDetails
 
 
 class PlanCoverage(pydantic.BaseModel):
     in_network: typing.Optional[PlanCoverageDetails] = None
+    in_network_flat: typing.Optional[typing.List[CoverageDetails]] = None
     out_of_network: typing.Optional[PlanCoverageDetails] = None
+    out_of_network_flat: typing.Optional[typing.List[CoverageDetails]] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

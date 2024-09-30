@@ -18,11 +18,13 @@ from .....common.types.human_name import HumanName
 from .....common.types.race import Race
 from .....common.types.sex import Sex
 from .....common.types.sexual_orientation import SexualOrientation
+from .authorization import Authorization
 from .contact import Contact
 from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
 from .guarantor import Guarantor
 from .marital_status import MaritalStatus
+from .referral import Referral
 
 
 class MutablePatient(pydantic.BaseModel):
@@ -102,6 +104,8 @@ class MutablePatient(pydantic.BaseModel):
     non_insurance_payers: typing.Optional[typing.List[CanonicalNonInsurancePayerId]] = None
     guarantor: typing.Optional[Guarantor] = None
     self_pay: typing.Optional[bool] = None
+    authorizations: typing.Optional[typing.List[Authorization]] = None
+    referrals: typing.Optional[typing.List[Referral]] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

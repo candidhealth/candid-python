@@ -7,6 +7,7 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.additional_payer_information import AdditionalPayerInformation
 from .....common.types.payer_id import PayerId
 from .....common.types.period import Period
 from .insurance_type_code import InsuranceTypeCode
@@ -17,6 +18,7 @@ class InsurancePlan(pydantic.BaseModel):
     member_id: str
     payer_id: PayerId
     payer_name: str
+    additional_payer_information: typing.Optional[AdditionalPayerInformation] = None
     group_number: typing.Optional[str] = None
     name: typing.Optional[str] = None
     plan_type: typing.Optional[NetworkType] = None

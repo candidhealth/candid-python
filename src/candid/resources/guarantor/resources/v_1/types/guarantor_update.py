@@ -7,10 +7,29 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....commons.types.email import Email
+from .....commons.types.phone_number import PhoneNumber
+from .....commons.types.street_address_short_zip import StreetAddressShortZip
 
 
-class ToggleThirdPartyPayerEnablementRequest(pydantic.BaseModel):
-    enabled: bool
+class GuarantorUpdate(pydantic.BaseModel):
+    first_name: typing.Optional[str] = None
+    last_name: typing.Optional[str] = None
+    external_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    A unique identifier for the guarantor assigned by an external system.
+    """
+
+    date_of_birth: typing.Optional[dt.date] = pydantic.Field(default=None)
+    """
+    Date formatted as YYYY-MM-DD; eg: 2019-08-25.
+    """
+
+    address: typing.Optional[StreetAddressShortZip] = None
+    phone_numbers: typing.Optional[typing.List[PhoneNumber]] = None
+    phone_consent: typing.Optional[bool] = None
+    email: typing.Optional[Email] = None
+    email_consent: typing.Optional[bool] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

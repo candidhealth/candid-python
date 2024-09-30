@@ -80,12 +80,15 @@ class V1Client:
             SexualOrientation,
         )
         from candid.resources.pre_encounter.patients.v_1 import (
+            Authorization,
+            AuthorizationUnit,
             Contact,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
             MaritalStatus,
             MutablePatient,
+            Referral,
         )
 
         client = CandidApiClient(
@@ -100,12 +103,8 @@ class V1Client:
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(
-                        start=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
+                        start={"key": "value"},
+                        end={"key": "value"},
                     ),
                 ),
                 other_names=[
@@ -114,12 +113,8 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     )
                 ],
@@ -146,12 +141,8 @@ class V1Client:
                     postal_code="string",
                     country="string",
                     period=Period(
-                        start=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
+                        start={"key": "value"},
+                        end={"key": "value"},
                     ),
                 ),
                 other_addresses=[
@@ -163,39 +154,21 @@ class V1Client:
                         postal_code="string",
                         country="string",
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     )
                 ],
                 primary_telecom=ContactPoint(
                     value="string",
                     use=ContactPointUse.HOME,
-                    period=Period(
-                        start=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                    ),
+                    period={"key": "value"},
                 ),
                 other_telecoms=[
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                        ),
+                        period={"key": "value"},
                     )
                 ],
                 email="string",
@@ -214,26 +187,15 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                         telecoms=[
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                ),
+                                period={"key": "value"},
                             )
                         ],
                         addresses=[
@@ -245,22 +207,14 @@ class V1Client:
                                 postal_code="string",
                                 country="string",
                                 period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
+                                    start={"key": "value"},
+                                    end={"key": "value"},
                                 ),
                             )
                         ],
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                         hipaa_authorization=True,
                     )
@@ -272,12 +226,8 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                         type=ExternalProviderType.PRIMARY,
@@ -286,24 +236,13 @@ class V1Client:
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                ),
+                                period={"key": "value"},
                             )
                         ],
                         addresses=[{"key": "value"}],
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                         canonical_id="string",
                     )
@@ -322,25 +261,14 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                     telecom=ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                        ),
+                        period={"key": "value"},
                     ),
                     email="string",
                     birth_date=datetime.date.fromisoformat(
@@ -354,16 +282,58 @@ class V1Client:
                         postal_code="string",
                         country="string",
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                 ),
                 self_pay=True,
+                authorizations=[
+                    Authorization(
+                        payer_id="string",
+                        payer_name="string",
+                        additional_payer_information={"key": "value"},
+                        authorization_number="string",
+                        cpt_code="string",
+                        units=AuthorizationUnit.VISIT,
+                        quantity={"key": "value"},
+                        period={"key": "value"},
+                        notes={"key": "value"},
+                    )
+                ],
+                referrals=[
+                    Referral(
+                        provider=ExternalProvider(
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            ),
+                            type=ExternalProviderType.PRIMARY,
+                            npi="string",
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                    period={"key": "value"},
+                                )
+                            ],
+                            addresses=[{"key": "value"}],
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                            canonical_id="string",
+                        ),
+                        referral_number="string",
+                        period={"key": "value"},
+                        notes={"key": "value"},
+                    )
+                ],
             ),
         )
         """
@@ -609,12 +579,15 @@ class V1Client:
             SexualOrientation,
         )
         from candid.resources.pre_encounter.patients.v_1 import (
+            Authorization,
+            AuthorizationUnit,
             Contact,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
             MaritalStatus,
             MutablePatient,
+            Referral,
         )
 
         client = CandidApiClient(
@@ -630,12 +603,8 @@ class V1Client:
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(
-                        start=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
+                        start={"key": "value"},
+                        end={"key": "value"},
                     ),
                 ),
                 other_names=[
@@ -644,12 +613,8 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     )
                 ],
@@ -676,12 +641,8 @@ class V1Client:
                     postal_code="string",
                     country="string",
                     period=Period(
-                        start=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
+                        start={"key": "value"},
+                        end={"key": "value"},
                     ),
                 ),
                 other_addresses=[
@@ -693,39 +654,21 @@ class V1Client:
                         postal_code="string",
                         country="string",
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     )
                 ],
                 primary_telecom=ContactPoint(
                     value="string",
                     use=ContactPointUse.HOME,
-                    period=Period(
-                        start=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                    ),
+                    period={"key": "value"},
                 ),
                 other_telecoms=[
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                        ),
+                        period={"key": "value"},
                     )
                 ],
                 email="string",
@@ -744,26 +687,15 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                         telecoms=[
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                ),
+                                period={"key": "value"},
                             )
                         ],
                         addresses=[
@@ -775,22 +707,14 @@ class V1Client:
                                 postal_code="string",
                                 country="string",
                                 period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
+                                    start={"key": "value"},
+                                    end={"key": "value"},
                                 ),
                             )
                         ],
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                         hipaa_authorization=True,
                     )
@@ -802,12 +726,8 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                         type=ExternalProviderType.PRIMARY,
@@ -816,24 +736,13 @@ class V1Client:
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                ),
+                                period={"key": "value"},
                             )
                         ],
                         addresses=[{"key": "value"}],
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                         canonical_id="string",
                     )
@@ -852,25 +761,14 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                     telecom=ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                        ),
+                        period={"key": "value"},
                     ),
                     email="string",
                     birth_date=datetime.date.fromisoformat(
@@ -884,16 +782,58 @@ class V1Client:
                         postal_code="string",
                         country="string",
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                 ),
                 self_pay=True,
+                authorizations=[
+                    Authorization(
+                        payer_id="string",
+                        payer_name="string",
+                        additional_payer_information={"key": "value"},
+                        authorization_number="string",
+                        cpt_code="string",
+                        units=AuthorizationUnit.VISIT,
+                        quantity={"key": "value"},
+                        period={"key": "value"},
+                        notes={"key": "value"},
+                    )
+                ],
+                referrals=[
+                    Referral(
+                        provider=ExternalProvider(
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                            ),
+                            type=ExternalProviderType.PRIMARY,
+                            npi="string",
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                    period={"key": "value"},
+                                )
+                            ],
+                            addresses=[{"key": "value"}],
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                            canonical_id="string",
+                        ),
+                        referral_number="string",
+                        period={"key": "value"},
+                        notes={"key": "value"},
+                    )
+                ],
             ),
         )
         """
@@ -1131,12 +1071,15 @@ class AsyncV1Client:
             SexualOrientation,
         )
         from candid.resources.pre_encounter.patients.v_1 import (
+            Authorization,
+            AuthorizationUnit,
             Contact,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
             MaritalStatus,
             MutablePatient,
+            Referral,
         )
 
         client = AsyncCandidApiClient(
@@ -1154,12 +1097,8 @@ class AsyncV1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                     other_names=[
@@ -1168,12 +1107,8 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         )
                     ],
@@ -1200,12 +1135,8 @@ class AsyncV1Client:
                         postal_code="string",
                         country="string",
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                     other_addresses=[
@@ -1217,39 +1148,21 @@ class AsyncV1Client:
                             postal_code="string",
                             country="string",
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         )
                     ],
                     primary_telecom=ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                        ),
+                        period={"key": "value"},
                     ),
                     other_telecoms=[
                         ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                            ),
+                            period={"key": "value"},
                         )
                     ],
                     email="string",
@@ -1268,26 +1181,15 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
+                                    start={"key": "value"},
+                                    end={"key": "value"},
                                 ),
                             ),
                             telecoms=[
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period=Period(
-                                        start=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                        end=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                    ),
+                                    period={"key": "value"},
                                 )
                             ],
                             addresses=[
@@ -1299,22 +1201,14 @@ class AsyncV1Client:
                                     postal_code="string",
                                     country="string",
                                     period=Period(
-                                        start=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                        end=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
+                                        start={"key": "value"},
+                                        end={"key": "value"},
                                     ),
                                 )
                             ],
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                             hipaa_authorization=True,
                         )
@@ -1326,12 +1220,8 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
+                                    start={"key": "value"},
+                                    end={"key": "value"},
                                 ),
                             ),
                             type=ExternalProviderType.PRIMARY,
@@ -1340,24 +1230,13 @@ class AsyncV1Client:
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period=Period(
-                                        start=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                        end=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                    ),
+                                    period={"key": "value"},
                                 )
                             ],
                             addresses=[{"key": "value"}],
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                             canonical_id="string",
                         )
@@ -1376,25 +1255,14 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                         telecom=ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                            ),
+                            period={"key": "value"},
                         ),
                         email="string",
                         birth_date=datetime.date.fromisoformat(
@@ -1408,16 +1276,58 @@ class AsyncV1Client:
                             postal_code="string",
                             country="string",
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                     ),
                     self_pay=True,
+                    authorizations=[
+                        Authorization(
+                            payer_id="string",
+                            payer_name="string",
+                            additional_payer_information={"key": "value"},
+                            authorization_number="string",
+                            cpt_code="string",
+                            units=AuthorizationUnit.VISIT,
+                            quantity={"key": "value"},
+                            period={"key": "value"},
+                            notes={"key": "value"},
+                        )
+                    ],
+                    referrals=[
+                        Referral(
+                            provider=ExternalProvider(
+                                name=HumanName(
+                                    family="string",
+                                    given=["string"],
+                                    use=NameUse.USUAL,
+                                    period=Period(
+                                        start={"key": "value"},
+                                        end={"key": "value"},
+                                    ),
+                                ),
+                                type=ExternalProviderType.PRIMARY,
+                                npi="string",
+                                telecoms=[
+                                    ContactPoint(
+                                        value="string",
+                                        use=ContactPointUse.HOME,
+                                        period={"key": "value"},
+                                    )
+                                ],
+                                addresses=[{"key": "value"}],
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                                canonical_id="string",
+                            ),
+                            referral_number="string",
+                            period={"key": "value"},
+                            notes={"key": "value"},
+                        )
+                    ],
                 ),
             )
 
@@ -1691,12 +1601,15 @@ class AsyncV1Client:
             SexualOrientation,
         )
         from candid.resources.pre_encounter.patients.v_1 import (
+            Authorization,
+            AuthorizationUnit,
             Contact,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
             MaritalStatus,
             MutablePatient,
+            Referral,
         )
 
         client = AsyncCandidApiClient(
@@ -1715,12 +1628,8 @@ class AsyncV1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                     other_names=[
@@ -1729,12 +1638,8 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         )
                     ],
@@ -1761,12 +1666,8 @@ class AsyncV1Client:
                         postal_code="string",
                         country="string",
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                     other_addresses=[
@@ -1778,39 +1679,21 @@ class AsyncV1Client:
                             postal_code="string",
                             country="string",
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         )
                     ],
                     primary_telecom=ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                        ),
+                        period={"key": "value"},
                     ),
                     other_telecoms=[
                         ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                            ),
+                            period={"key": "value"},
                         )
                     ],
                     email="string",
@@ -1829,26 +1712,15 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
+                                    start={"key": "value"},
+                                    end={"key": "value"},
                                 ),
                             ),
                             telecoms=[
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period=Period(
-                                        start=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                        end=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                    ),
+                                    period={"key": "value"},
                                 )
                             ],
                             addresses=[
@@ -1860,22 +1732,14 @@ class AsyncV1Client:
                                     postal_code="string",
                                     country="string",
                                     period=Period(
-                                        start=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                        end=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
+                                        start={"key": "value"},
+                                        end={"key": "value"},
                                     ),
                                 )
                             ],
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                             hipaa_authorization=True,
                         )
@@ -1887,12 +1751,8 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(
-                                    start=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
-                                    end=datetime.date.fromisoformat(
-                                        "2023-01-15",
-                                    ),
+                                    start={"key": "value"},
+                                    end={"key": "value"},
                                 ),
                             ),
                             type=ExternalProviderType.PRIMARY,
@@ -1901,24 +1761,13 @@ class AsyncV1Client:
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period=Period(
-                                        start=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                        end=datetime.date.fromisoformat(
-                                            "2023-01-15",
-                                        ),
-                                    ),
+                                    period={"key": "value"},
                                 )
                             ],
                             addresses=[{"key": "value"}],
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                             canonical_id="string",
                         )
@@ -1937,25 +1786,14 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                         telecom=ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                            ),
+                            period={"key": "value"},
                         ),
                         email="string",
                         birth_date=datetime.date.fromisoformat(
@@ -1969,16 +1807,58 @@ class AsyncV1Client:
                             postal_code="string",
                             country="string",
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                     ),
                     self_pay=True,
+                    authorizations=[
+                        Authorization(
+                            payer_id="string",
+                            payer_name="string",
+                            additional_payer_information={"key": "value"},
+                            authorization_number="string",
+                            cpt_code="string",
+                            units=AuthorizationUnit.VISIT,
+                            quantity={"key": "value"},
+                            period={"key": "value"},
+                            notes={"key": "value"},
+                        )
+                    ],
+                    referrals=[
+                        Referral(
+                            provider=ExternalProvider(
+                                name=HumanName(
+                                    family="string",
+                                    given=["string"],
+                                    use=NameUse.USUAL,
+                                    period=Period(
+                                        start={"key": "value"},
+                                        end={"key": "value"},
+                                    ),
+                                ),
+                                type=ExternalProviderType.PRIMARY,
+                                npi="string",
+                                telecoms=[
+                                    ContactPoint(
+                                        value="string",
+                                        use=ContactPointUse.HOME,
+                                        period={"key": "value"},
+                                    )
+                                ],
+                                addresses=[{"key": "value"}],
+                                period=Period(
+                                    start={"key": "value"},
+                                    end={"key": "value"},
+                                ),
+                                canonical_id="string",
+                            ),
+                            referral_number="string",
+                            period={"key": "value"},
+                            notes={"key": "value"},
+                        )
+                    ],
                 ),
             )
 

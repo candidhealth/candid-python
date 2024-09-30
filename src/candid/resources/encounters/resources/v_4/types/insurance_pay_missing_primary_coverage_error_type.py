@@ -2,26 +2,16 @@
 
 import datetime as dt
 import typing
+import uuid
 
 import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .....commons.types.invoice_id import InvoiceId
-from .....financials.types.allocation import Allocation
-from .....third_party_payers.resources.v_1.types.third_party_payer import ThirdPartyPayer
-from .third_party_payer_payment_id import ThirdPartyPayerPaymentId
 
 
-class ThirdPartyPayerPayment(pydantic.BaseModel):
-    third_party_payer_payment_id: ThirdPartyPayerPaymentId
-    third_party_payer: ThirdPartyPayer
-    amount_cents: int
-    check_number: typing.Optional[str] = None
-    payment_timestamp: typing.Optional[dt.datetime] = None
-    payment_note: typing.Optional[str] = None
-    allocations: typing.List[Allocation]
-    invoice_id: typing.Optional[InvoiceId] = None
+class InsurancePayMissingPrimaryCoverageErrorType(pydantic.BaseModel):
+    patient_id: uuid.UUID
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

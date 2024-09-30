@@ -7,18 +7,19 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .third_party_payer_category_update import ThirdPartyPayerCategoryUpdate
-from .third_party_payer_description_update import ThirdPartyPayerDescriptionUpdate
+from .....commons.types.street_address_long_zip import StreetAddressLongZip
+from .encounter_provider_base import EncounterProviderBase
 
 
-class ThirdPartyPayerUpdateRequest(pydantic.BaseModel):
-    name: typing.Optional[str] = pydantic.Field(default=None)
+class RenderingProviderUpdate(EncounterProviderBase):
+    npi: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Max 50 characters allowed
+    A National Provider Identifier is a unique 10-digit identification
+    number issued to health care providers in the United States
     """
 
-    description: typing.Optional[ThirdPartyPayerDescriptionUpdate] = None
-    category: typing.Optional[ThirdPartyPayerCategoryUpdate] = None
+    taxonomy_code: typing.Optional[str] = None
+    address: typing.Optional[StreetAddressLongZip] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -35,5 +36,7 @@ class ThirdPartyPayerUpdateRequest(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
+        populate_by_name = True
         extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

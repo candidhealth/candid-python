@@ -8,8 +8,8 @@ from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.pydantic_utilities import pydantic_v1
 from ...core.request_options import RequestOptions
-from ..commons.types.street_address_long_zip import StreetAddressLongZip
 from .types.encounter_service_facility import EncounterServiceFacility
+from .types.encounter_service_facility_update import EncounterServiceFacilityUpdate
 from .types.service_facility_id import ServiceFacilityId
 
 # this is used as the default value for optional parameters
@@ -24,9 +24,7 @@ class ServiceFacilityClient:
         self,
         service_facility_id: ServiceFacilityId,
         *,
-        organization_name: typing.Optional[str] = OMIT,
-        npi: typing.Optional[str] = OMIT,
-        address: typing.Optional[StreetAddressLongZip] = OMIT,
+        request: EncounterServiceFacilityUpdate,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterServiceFacility:
         """
@@ -34,16 +32,7 @@ class ServiceFacilityClient:
         ----------
         service_facility_id : ServiceFacilityId
 
-        organization_name : typing.Optional[str]
-
-        npi : typing.Optional[str]
-            An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.
-            Box 32 section (a) of the CMS-1500 claim form.
-
-
-        address : typing.Optional[StreetAddressLongZip]
-            zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
-
+        request : EncounterServiceFacilityUpdate
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -56,7 +45,7 @@ class ServiceFacilityClient:
         --------
         import uuid
 
-        from candid import State, StreetAddressLongZip
+        from candid import EncounterServiceFacilityUpdate, State, StreetAddressLongZip
         from candid.client import CandidApiClient
 
         client = CandidApiClient(
@@ -67,15 +56,16 @@ class ServiceFacilityClient:
             service_facility_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            organization_name="string",
-            npi="string",
-            address=StreetAddressLongZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
+            request=EncounterServiceFacilityUpdate(
+                organization_name="Test Organization",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
             ),
         )
         """
@@ -83,7 +73,7 @@ class ServiceFacilityClient:
             f"api/service_facility/v2/{jsonable_encoder(service_facility_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
-            json={"organization_name": organization_name, "npi": npi, "address": address},
+            json=request,
             request_options=request_options,
             omit=OMIT,
         )
@@ -104,9 +94,7 @@ class AsyncServiceFacilityClient:
         self,
         service_facility_id: ServiceFacilityId,
         *,
-        organization_name: typing.Optional[str] = OMIT,
-        npi: typing.Optional[str] = OMIT,
-        address: typing.Optional[StreetAddressLongZip] = OMIT,
+        request: EncounterServiceFacilityUpdate,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterServiceFacility:
         """
@@ -114,16 +102,7 @@ class AsyncServiceFacilityClient:
         ----------
         service_facility_id : ServiceFacilityId
 
-        organization_name : typing.Optional[str]
-
-        npi : typing.Optional[str]
-            An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.
-            Box 32 section (a) of the CMS-1500 claim form.
-
-
-        address : typing.Optional[StreetAddressLongZip]
-            zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
-
+        request : EncounterServiceFacilityUpdate
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -137,7 +116,7 @@ class AsyncServiceFacilityClient:
         import asyncio
         import uuid
 
-        from candid import State, StreetAddressLongZip
+        from candid import EncounterServiceFacilityUpdate, State, StreetAddressLongZip
         from candid.client import AsyncCandidApiClient
 
         client = AsyncCandidApiClient(
@@ -151,15 +130,16 @@ class AsyncServiceFacilityClient:
                 service_facility_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                organization_name="string",
-                npi="string",
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
+                request=EncounterServiceFacilityUpdate(
+                    organization_name="Test Organization",
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
                 ),
             )
 
@@ -170,7 +150,7 @@ class AsyncServiceFacilityClient:
             f"api/service_facility/v2/{jsonable_encoder(service_facility_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
-            json={"organization_name": organization_name, "npi": npi, "address": address},
+            json=request,
             request_options=request_options,
             omit=OMIT,
         )

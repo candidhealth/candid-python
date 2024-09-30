@@ -44,9 +44,6 @@ from . import (
     service_lines,
     tags,
     tasks,
-    third_party_payer_payments,
-    third_party_payer_refunds,
-    third_party_payers,
     write_offs,
     x_12,
 )
@@ -195,7 +192,12 @@ from .individual import (
 )
 from .invoices import Invoice, InvoiceItem, InvoiceStatus
 from .payment_account_configs import PaymentAccountConfigId
-from .service_facility import EncounterServiceFacility, EncounterServiceFacilityBase, ServiceFacilityId
+from .service_facility import (
+    EncounterServiceFacility,
+    EncounterServiceFacilityBase,
+    EncounterServiceFacilityUpdate,
+    ServiceFacilityId,
+)
 from .tags import Tag, TagColorEnum, TagCreate, TagId
 
 __all__ = [
@@ -240,6 +242,7 @@ __all__ = [
     "EncounterId",
     "EncounterServiceFacility",
     "EncounterServiceFacilityBase",
+    "EncounterServiceFacilityUpdate",
     "EntityConflictError",
     "EntityConflictErrorMessage",
     "EntityNotFoundError",
@@ -397,9 +400,6 @@ __all__ = [
     "service_lines",
     "tags",
     "tasks",
-    "third_party_payer_payments",
-    "third_party_payer_refunds",
-    "third_party_payers",
     "write_offs",
     "x_12",
 ]

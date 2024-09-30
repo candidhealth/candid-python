@@ -15,6 +15,7 @@ from .encounter_page import EncounterPage
 from .encounter_patient_control_number_uniqueness_error_type import EncounterPatientControlNumberUniquenessErrorType
 from .encounter_sort_options import EncounterSortOptions
 from .encounter_submission_origin_type import EncounterSubmissionOriginType
+from .insurance_pay_missing_primary_coverage_error_type import InsurancePayMissingPrimaryCoverageErrorType
 from .intake_follow_up import IntakeFollowUp
 from .intake_follow_up_id import IntakeFollowUpId
 from .intake_question import IntakeQuestion
@@ -66,6 +67,7 @@ __all__ = [
     "EncounterPatientControlNumberUniquenessErrorType",
     "EncounterSortOptions",
     "EncounterSubmissionOriginType",
+    "InsurancePayMissingPrimaryCoverageErrorType",
     "IntakeFollowUp",
     "IntakeFollowUpId",
     "IntakeQuestion",

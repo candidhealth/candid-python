@@ -66,6 +66,11 @@ class EncounterBase(pydantic.BaseModel):
     Box 27 on the CMS-1500 claim form.
     """
 
+    appointment_type: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
+    """
+
     existing_medications: typing.Optional[typing.List[Medication]] = None
     vitals: typing.Optional[Vitals] = None
     interventions: typing.Optional[typing.List[Intervention]] = None

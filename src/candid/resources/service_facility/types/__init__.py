@@ -2,6 +2,12 @@
 
 from .encounter_service_facility import EncounterServiceFacility
 from .encounter_service_facility_base import EncounterServiceFacilityBase
+from .encounter_service_facility_update import EncounterServiceFacilityUpdate
 from .service_facility_id import ServiceFacilityId
 
-__all__ = ["EncounterServiceFacility", "EncounterServiceFacilityBase", "ServiceFacilityId"]
+__all__ = [
+    "EncounterServiceFacility",
+    "EncounterServiceFacilityBase",
+    "EncounterServiceFacilityUpdate",
+    "ServiceFacilityId",
+]

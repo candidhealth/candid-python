@@ -7,12 +7,13 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .....commons.types.resource_page import ResourcePage
-from .third_party_payer_payment import ThirdPartyPayerPayment
 
 
-class ThirdPartyPayerPaymentsPage(ResourcePage):
-    items: typing.List[ThirdPartyPayerPayment]
+class AdditionalPayerInformation(pydantic.BaseModel):
+    availity_eligibility_id: typing.Optional[str] = None
+    availity_payer_id: typing.Optional[str] = None
+    availity_payer_name: typing.Optional[str] = None
+    availity_remittance_payer_id: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -29,7 +30,5 @@ class ThirdPartyPayerPaymentsPage(ResourcePage):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

@@ -5,22 +5,19 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .....commons.types.invoice_id import InvoiceId
-from .....financials.types.allocation_create import AllocationCreate
-from .....financials.types.refund_reason import RefundReason
-from .....third_party_payers.resources.v_1.types.third_party_payer_id import ThirdPartyPayerId
+from ........core.datetime_utils import serialize_datetime
+from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .benefit_type import BenefitType
+from .coverage_level import CoverageLevel
+from .coverage_value_unit import CoverageValueUnit
 
 
-class ThirdPartyPayerRefundCreate(pydantic.BaseModel):
-    third_party_payer_id: ThirdPartyPayerId
-    invoice_id: typing.Optional[InvoiceId] = None
-    amount_cents: int
-    refund_timestamp: typing.Optional[dt.datetime] = None
-    refund_note: typing.Optional[str] = None
-    allocations: typing.List[AllocationCreate]
-    refund_reason: typing.Optional[RefundReason] = None
+class CoverageDetails(pydantic.BaseModel):
+    type: BenefitType
+    coverage_level: CoverageLevel = pydantic.Field(alias="coverageLevel")
+    unit: CoverageValueUnit
+    value: float
+    additional_notes: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -37,5 +34,7 @@ class ThirdPartyPayerRefundCreate(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
+        populate_by_name = True
         extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

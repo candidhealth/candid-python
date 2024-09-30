@@ -5,5 +5,13 @@ from .guarantor import Guarantor
 from .guarantor_base import GuarantorBase
 from .guarantor_create import GuarantorCreate
 from .guarantor_id import GuarantorId
+from .guarantor_update import GuarantorUpdate
 
-__all__ = ["EncounterHasExistingGuarantorErrorType", "Guarantor", "GuarantorBase", "GuarantorCreate", "GuarantorId"]
+__all__ = [
+    "EncounterHasExistingGuarantorErrorType",
+    "Guarantor",
+    "GuarantorBase",
+    "GuarantorCreate",
+    "GuarantorId",
+    "GuarantorUpdate",
+]

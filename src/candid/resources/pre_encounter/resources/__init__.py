@@ -2,6 +2,7 @@
 
 from . import appointments, common, coverages, lists, patients
 from .common import (
+    AdditionalPayerInformation,
     Address,
     AddressUse,
     AppointmentId,
@@ -38,6 +39,7 @@ from .common import (
 )
 
 __all__ = [
+    "AdditionalPayerInformation",
     "Address",
     "AddressUse",
     "AppointmentId",

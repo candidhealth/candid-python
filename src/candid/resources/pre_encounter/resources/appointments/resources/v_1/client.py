@@ -46,6 +46,15 @@ class V1Client:
         import datetime
 
         from candid.client import CandidApiClient
+        from candid.resources.pre_encounter import (
+            ContactPoint,
+            ContactPointUse,
+            ExternalProvider,
+            ExternalProviderType,
+            HumanName,
+            NameUse,
+            Period,
+        )
         from candid.resources.pre_encounter.appointments.v_1 import (
             AppointmentStatus,
             AppointmentWorkQueue,
@@ -75,6 +84,32 @@ class V1Client:
                     )
                 ],
                 placer_appointment_id="string",
+                attending_doctor=ExternalProvider(
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    type=ExternalProviderType.PRIMARY,
+                    npi="string",
+                    telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                            period={"key": "value"},
+                        )
+                    ],
+                    addresses=[{"key": "value"}],
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                    canonical_id="string",
+                ),
                 estimated_copay_cents=1,
                 estimated_patient_responsibility_cents=1,
                 patient_deposit_cents=1,
@@ -238,6 +273,15 @@ class V1Client:
         import datetime
 
         from candid.client import CandidApiClient
+        from candid.resources.pre_encounter import (
+            ContactPoint,
+            ContactPointUse,
+            ExternalProvider,
+            ExternalProviderType,
+            HumanName,
+            NameUse,
+            Period,
+        )
         from candid.resources.pre_encounter.appointments.v_1 import (
             AppointmentStatus,
             AppointmentWorkQueue,
@@ -269,6 +313,32 @@ class V1Client:
                     )
                 ],
                 placer_appointment_id="string",
+                attending_doctor=ExternalProvider(
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
+                    type=ExternalProviderType.PRIMARY,
+                    npi="string",
+                    telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                            period={"key": "value"},
+                        )
+                    ],
+                    addresses=[{"key": "value"}],
+                    period=Period(
+                        start={"key": "value"},
+                        end={"key": "value"},
+                    ),
+                    canonical_id="string",
+                ),
                 estimated_copay_cents=1,
                 estimated_patient_responsibility_cents=1,
                 patient_deposit_cents=1,
@@ -390,6 +460,15 @@ class AsyncV1Client:
         import datetime
 
         from candid.client import AsyncCandidApiClient
+        from candid.resources.pre_encounter import (
+            ContactPoint,
+            ContactPointUse,
+            ExternalProvider,
+            ExternalProviderType,
+            HumanName,
+            NameUse,
+            Period,
+        )
         from candid.resources.pre_encounter.appointments.v_1 import (
             AppointmentStatus,
             AppointmentWorkQueue,
@@ -422,6 +501,32 @@ class AsyncV1Client:
                         )
                     ],
                     placer_appointment_id="string",
+                    attending_doctor=ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[{"key": "value"}],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                        canonical_id="string",
+                    ),
                     estimated_copay_cents=1,
                     estimated_patient_responsibility_cents=1,
                     patient_deposit_cents=1,
@@ -605,6 +710,15 @@ class AsyncV1Client:
         import datetime
 
         from candid.client import AsyncCandidApiClient
+        from candid.resources.pre_encounter import (
+            ContactPoint,
+            ContactPointUse,
+            ExternalProvider,
+            ExternalProviderType,
+            HumanName,
+            NameUse,
+            Period,
+        )
         from candid.resources.pre_encounter.appointments.v_1 import (
             AppointmentStatus,
             AppointmentWorkQueue,
@@ -639,6 +753,32 @@ class AsyncV1Client:
                         )
                     ],
                     placer_appointment_id="string",
+                    attending_doctor=ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                                period={"key": "value"},
+                            )
+                        ],
+                        addresses=[{"key": "value"}],
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                        canonical_id="string",
+                    ),
                     estimated_copay_cents=1,
                     estimated_patient_responsibility_cents=1,
                     patient_deposit_cents=1,

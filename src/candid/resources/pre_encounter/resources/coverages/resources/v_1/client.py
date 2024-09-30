@@ -50,6 +50,7 @@ class V1Client:
 
         from candid.client import CandidApiClient
         from candid.resources.pre_encounter import (
+            AdditionalPayerInformation,
             HumanName,
             NameUse,
             Period,
@@ -61,8 +62,10 @@ class V1Client:
             CoverageStatus,
             EligibilityCheckMetadata,
             EligibilityCheckStatus,
+            EligibilityStatus,
             InsurancePlan,
             InsuranceTypeCode,
+            LatestEligibilityCheck,
             MutableCoverage,
             NetworkType,
             ServiceTypeCode,
@@ -82,12 +85,8 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                     date_of_birth=datetime.date.fromisoformat(
@@ -101,17 +100,19 @@ class V1Client:
                     member_id="string",
                     payer_id="string",
                     payer_name="string",
+                    additional_payer_information=AdditionalPayerInformation(
+                        availity_eligibility_id="string",
+                        availity_payer_id="string",
+                        availity_payer_name="string",
+                        availity_remittance_payer_id="string",
+                    ),
                     group_number="string",
                     name="string",
                     plan_type=NetworkType.SELF_PAY,
                     type=InsuranceTypeCode.C_01,
                     period=Period(
-                        start=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
+                        start={"key": "value"},
+                        end={"key": "value"},
                     ),
                     insurance_card_image_locator="string",
                 ),
@@ -127,6 +128,13 @@ class V1Client:
                         ),
                     )
                 ],
+                latest_eligibility_check=LatestEligibilityCheck(
+                    check_id="string",
+                    status=EligibilityStatus.ACTIVE,
+                    initiated_at=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                ),
                 benefits=CoverageBenefits(
                     plan_coverage={"key": "value"},
                     service_specific_coverage={"key": "value"},
@@ -183,6 +191,7 @@ class V1Client:
 
         from candid.client import CandidApiClient
         from candid.resources.pre_encounter import (
+            AdditionalPayerInformation,
             HumanName,
             NameUse,
             Period,
@@ -194,8 +203,10 @@ class V1Client:
             CoverageStatus,
             EligibilityCheckMetadata,
             EligibilityCheckStatus,
+            EligibilityStatus,
             InsurancePlan,
             InsuranceTypeCode,
+            LatestEligibilityCheck,
             MutableCoverage,
             NetworkType,
             ServiceTypeCode,
@@ -219,12 +230,8 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                     ),
                     date_of_birth=datetime.date.fromisoformat(
@@ -238,17 +245,19 @@ class V1Client:
                     member_id="string",
                     payer_id="string",
                     payer_name="string",
+                    additional_payer_information=AdditionalPayerInformation(
+                        availity_eligibility_id="string",
+                        availity_payer_id="string",
+                        availity_payer_name="string",
+                        availity_remittance_payer_id="string",
+                    ),
                     group_number="string",
                     name="string",
                     plan_type=NetworkType.SELF_PAY,
                     type=InsuranceTypeCode.C_01,
                     period=Period(
-                        start=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
+                        start={"key": "value"},
+                        end={"key": "value"},
                     ),
                     insurance_card_image_locator="string",
                 ),
@@ -264,6 +273,13 @@ class V1Client:
                         ),
                     )
                 ],
+                latest_eligibility_check=LatestEligibilityCheck(
+                    check_id="string",
+                    status=EligibilityStatus.ACTIVE,
+                    initiated_at=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                ),
                 benefits=CoverageBenefits(
                     plan_coverage={"key": "value"},
                     service_specific_coverage={"key": "value"},
@@ -632,6 +648,7 @@ class AsyncV1Client:
 
         from candid.client import AsyncCandidApiClient
         from candid.resources.pre_encounter import (
+            AdditionalPayerInformation,
             HumanName,
             NameUse,
             Period,
@@ -643,8 +660,10 @@ class AsyncV1Client:
             CoverageStatus,
             EligibilityCheckMetadata,
             EligibilityCheckStatus,
+            EligibilityStatus,
             InsurancePlan,
             InsuranceTypeCode,
+            LatestEligibilityCheck,
             MutableCoverage,
             NetworkType,
             ServiceTypeCode,
@@ -667,12 +686,8 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                         date_of_birth=datetime.date.fromisoformat(
@@ -686,17 +701,19 @@ class AsyncV1Client:
                         member_id="string",
                         payer_id="string",
                         payer_name="string",
+                        additional_payer_information=AdditionalPayerInformation(
+                            availity_eligibility_id="string",
+                            availity_payer_id="string",
+                            availity_payer_name="string",
+                            availity_remittance_payer_id="string",
+                        ),
                         group_number="string",
                         name="string",
                         plan_type=NetworkType.SELF_PAY,
                         type=InsuranceTypeCode.C_01,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                         insurance_card_image_locator="string",
                     ),
@@ -712,6 +729,13 @@ class AsyncV1Client:
                             ),
                         )
                     ],
+                    latest_eligibility_check=LatestEligibilityCheck(
+                        check_id="string",
+                        status=EligibilityStatus.ACTIVE,
+                        initiated_at=datetime.datetime.fromisoformat(
+                            "2024-01-15 09:30:00+00:00",
+                        ),
+                    ),
                     benefits=CoverageBenefits(
                         plan_coverage={"key": "value"},
                         service_specific_coverage={"key": "value"},
@@ -772,6 +796,7 @@ class AsyncV1Client:
 
         from candid.client import AsyncCandidApiClient
         from candid.resources.pre_encounter import (
+            AdditionalPayerInformation,
             HumanName,
             NameUse,
             Period,
@@ -783,8 +808,10 @@ class AsyncV1Client:
             CoverageStatus,
             EligibilityCheckMetadata,
             EligibilityCheckStatus,
+            EligibilityStatus,
             InsurancePlan,
             InsuranceTypeCode,
+            LatestEligibilityCheck,
             MutableCoverage,
             NetworkType,
             ServiceTypeCode,
@@ -811,12 +838,8 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(
-                                start=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
-                                end=datetime.date.fromisoformat(
-                                    "2023-01-15",
-                                ),
+                                start={"key": "value"},
+                                end={"key": "value"},
                             ),
                         ),
                         date_of_birth=datetime.date.fromisoformat(
@@ -830,17 +853,19 @@ class AsyncV1Client:
                         member_id="string",
                         payer_id="string",
                         payer_name="string",
+                        additional_payer_information=AdditionalPayerInformation(
+                            availity_eligibility_id="string",
+                            availity_payer_id="string",
+                            availity_payer_name="string",
+                            availity_remittance_payer_id="string",
+                        ),
                         group_number="string",
                         name="string",
                         plan_type=NetworkType.SELF_PAY,
                         type=InsuranceTypeCode.C_01,
                         period=Period(
-                            start=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
-                            end=datetime.date.fromisoformat(
-                                "2023-01-15",
-                            ),
+                            start={"key": "value"},
+                            end={"key": "value"},
                         ),
                         insurance_card_image_locator="string",
                     ),
@@ -856,6 +881,13 @@ class AsyncV1Client:
                             ),
                         )
                     ],
+                    latest_eligibility_check=LatestEligibilityCheck(
+                        check_id="string",
+                        status=EligibilityStatus.ACTIVE,
+                        initiated_at=datetime.datetime.fromisoformat(
+                            "2024-01-15 09:30:00+00:00",
+                        ),
+                    ),
                     benefits=CoverageBenefits(
                         plan_coverage={"key": "value"},
                         service_specific_coverage={"key": "value"},

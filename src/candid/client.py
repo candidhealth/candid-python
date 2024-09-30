@@ -48,12 +48,6 @@ from .resources.pre_encounter.client import AsyncPreEncounterClient, PreEncounte
 from .resources.service_facility.client import AsyncServiceFacilityClient, ServiceFacilityClient
 from .resources.service_lines.client import AsyncServiceLinesClient, ServiceLinesClient
 from .resources.tasks.client import AsyncTasksClient, TasksClient
-from .resources.third_party_payer_payments.client import (
-    AsyncThirdPartyPayerPaymentsClient,
-    ThirdPartyPayerPaymentsClient,
-)
-from .resources.third_party_payer_refunds.client import AsyncThirdPartyPayerRefundsClient, ThirdPartyPayerRefundsClient
-from .resources.third_party_payers.client import AsyncThirdPartyPayersClient, ThirdPartyPayersClient
 from .resources.write_offs.client import AsyncWriteOffsClient, WriteOffsClient
 
 
@@ -154,9 +148,6 @@ class CandidApiClient:
         self.payers = PayersClient(client_wrapper=self._client_wrapper)
         self.service_lines = ServiceLinesClient(client_wrapper=self._client_wrapper)
         self.tasks = TasksClient(client_wrapper=self._client_wrapper)
-        self.third_party_payer_payments = ThirdPartyPayerPaymentsClient(client_wrapper=self._client_wrapper)
-        self.third_party_payer_refunds = ThirdPartyPayerRefundsClient(client_wrapper=self._client_wrapper)
-        self.third_party_payers = ThirdPartyPayersClient(client_wrapper=self._client_wrapper)
         self.write_offs = WriteOffsClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = PreEncounterClient(client_wrapper=self._client_wrapper)
         self.service_facility = ServiceFacilityClient(client_wrapper=self._client_wrapper)
@@ -263,9 +254,6 @@ class AsyncCandidApiClient:
         self.payers = AsyncPayersClient(client_wrapper=self._client_wrapper)
         self.service_lines = AsyncServiceLinesClient(client_wrapper=self._client_wrapper)
         self.tasks = AsyncTasksClient(client_wrapper=self._client_wrapper)
-        self.third_party_payer_payments = AsyncThirdPartyPayerPaymentsClient(client_wrapper=self._client_wrapper)
-        self.third_party_payer_refunds = AsyncThirdPartyPayerRefundsClient(client_wrapper=self._client_wrapper)
-        self.third_party_payers = AsyncThirdPartyPayersClient(client_wrapper=self._client_wrapper)
         self.write_offs = AsyncWriteOffsClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = AsyncPreEncounterClient(client_wrapper=self._client_wrapper)
         self.service_facility = AsyncServiceFacilityClient(client_wrapper=self._client_wrapper)

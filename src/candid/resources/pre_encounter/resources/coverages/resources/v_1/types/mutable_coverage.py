@@ -13,6 +13,7 @@ from .coverage_benefits import CoverageBenefits
 from .coverage_status import CoverageStatus
 from .eligibility_check_metadata import EligibilityCheckMetadata
 from .insurance_plan import InsurancePlan
+from .latest_eligibility_check import LatestEligibilityCheck
 from .subscriber import Subscriber
 
 
@@ -46,6 +47,11 @@ class MutableCoverage(pydantic.BaseModel):
     eligibility_checks: typing.Optional[typing.List[EligibilityCheckMetadata]] = pydantic.Field(default=None)
     """
     A list of eligibility check metadata that have been initiated on this coverage.
+    """
+
+    latest_eligibility_check: typing.Optional[LatestEligibilityCheck] = pydantic.Field(default=None)
+    """
+    The latest eligibility check metadata that has been initiated on this coverage.
     """
 
     benefits: typing.Optional[CoverageBenefits] = pydantic.Field(default=None)

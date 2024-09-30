@@ -5,24 +5,17 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .....commons.types.invoice_id import InvoiceId
-from .....financials.types.allocation import Allocation
-from .....financials.types.refund_reason import RefundReason
-from .....third_party_payers.resources.v_1.types.third_party_payer import ThirdPartyPayer
-from .third_party_payer_refund_id import ThirdPartyPayerRefundId
+from ........core.datetime_utils import serialize_datetime
+from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.external_provider import ExternalProvider
+from .....common.types.period import Period
 
 
-class ThirdPartyPayerRefund(pydantic.BaseModel):
-    third_party_payer_refund_id: ThirdPartyPayerRefundId
-    third_party_payer: ThirdPartyPayer
-    amount_cents: int
-    refund_timestamp: typing.Optional[dt.datetime] = None
-    refund_note: typing.Optional[str] = None
-    allocations: typing.List[Allocation]
-    refund_reason: typing.Optional[RefundReason] = None
-    invoice_id: typing.Optional[InvoiceId] = None
+class Referral(pydantic.BaseModel):
+    provider: ExternalProvider
+    referral_number: str
+    period: typing.Optional[Period] = None
+    notes: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

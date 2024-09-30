@@ -16,6 +16,7 @@ from ....claims.types.claim_status import ClaimStatus
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
 from ....commons.errors.unauthorized_error import UnauthorizedError
+from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.delay_reason_code import DelayReasonCode
 from ....commons.types.encounter_external_id import EncounterExternalId
 from ....commons.types.encounter_id import EncounterId
@@ -27,26 +28,34 @@ from ....commons.types.pre_encounter_patient_id import PreEncounterPatientId
 from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.street_address_long_zip import StreetAddressLongZip
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
+from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from ....commons.types.work_queue_id import WorkQueueId
 from ....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from ....diagnoses.types.diagnosis_create import DiagnosisCreate
 from ....diagnoses.types.diagnosis_id import DiagnosisId
 from ....encounter_providers.resources.v_2.types.billing_provider import BillingProvider
 from ....encounter_providers.resources.v_2.types.initial_referring_provider import InitialReferringProvider
+from ....encounter_providers.resources.v_2.types.initial_referring_provider_update import InitialReferringProviderUpdate
 from ....encounter_providers.resources.v_2.types.referring_provider import ReferringProvider
+from ....encounter_providers.resources.v_2.types.referring_provider_update import ReferringProviderUpdate
 from ....encounter_providers.resources.v_2.types.rendering_provider import RenderingProvider
+from ....encounter_providers.resources.v_2.types.rendering_provider_update import RenderingProviderUpdate
 from ....encounter_providers.resources.v_2.types.supervising_provider import SupervisingProvider
+from ....encounter_providers.resources.v_2.types.supervising_provider_update import SupervisingProviderUpdate
 from ....guarantor.resources.v_1.types.guarantor_create import GuarantorCreate
+from ....guarantor.resources.v_1.types.guarantor_update import GuarantorUpdate
 from ....individual.types.patient_create import PatientCreate
 from ....individual.types.patient_update import PatientUpdate
 from ....individual.types.subscriber_create import SubscriberCreate
 from ....service_facility.types.encounter_service_facility_base import EncounterServiceFacilityBase
+from ....service_facility.types.encounter_service_facility_update import EncounterServiceFacilityUpdate
 from ....service_lines.resources.v_2.types.service_line_create import ServiceLineCreate
 from ....tags.types.tag_id import TagId
 from .errors.cash_pay_payer_error import CashPayPayerError
 from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
 from .errors.encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
 from .errors.encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
+from .errors.insurance_pay_missing_primary_coverage_error import InsurancePayMissingPrimaryCoverageError
 from .errors.schema_instance_validation_http_failure import SchemaInstanceValidationHttpFailure
 from .types.billable_status_type import BillableStatusType
 from .types.cash_pay_payer_error_message import CashPayPayerErrorMessage
@@ -60,6 +69,7 @@ from .types.encounter_patient_control_number_uniqueness_error_type import (
     EncounterPatientControlNumberUniquenessErrorType,
 )
 from .types.encounter_sort_options import EncounterSortOptions
+from .types.insurance_pay_missing_primary_coverage_error_type import InsurancePayMissingPrimaryCoverageErrorType
 from .types.intervention import Intervention
 from .types.medication import Medication
 from .types.patient_history_category import PatientHistoryCategory
@@ -287,7 +297,6 @@ class V4Client:
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
-        appointment_type: typing.Optional[str] = OMIT,
         clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         billing_notes: typing.Optional[typing.Sequence[BillingNoteBase]] = OMIT,
         patient_histories: typing.Optional[typing.Sequence[PatientHistoryCategory]] = OMIT,
@@ -298,6 +307,7 @@ class V4Client:
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
+        appointment_type: typing.Optional[str] = OMIT,
         existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
         vitals: typing.Optional[Vitals] = OMIT,
         interventions: typing.Optional[typing.Sequence[Intervention]] = OMIT,
@@ -400,10 +410,6 @@ class V4Client:
         prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
             Box 23 on the CMS-1500 claim form.
 
-        appointment_type : typing.Optional[str]
-            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
-
-
         clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
             Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
@@ -452,6 +458,9 @@ class V4Client:
             If omitted, the Encounter is assumed to be for a single day.
             Must not be temporally before the date_of_service field.
             If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+
+        appointment_type : typing.Optional[str]
+            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
         existing_medications : typing.Optional[typing.Sequence[Medication]]
 
@@ -637,6 +646,8 @@ class V4Client:
                 organization_name="string",
             ),
             rendering_provider=RenderingProvider(
+                npi="string",
+                taxonomy_code="string",
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -645,8 +656,6 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                npi="string",
-                taxonomy_code="string",
                 first_name="string",
                 last_name="string",
                 organization_name="string",
@@ -772,7 +781,6 @@ class V4Client:
                 gender=Gender.MALE,
             ),
             prior_authorization_number="string",
-            appointment_type="string",
             responsible_party=ResponsiblePartyType.INSURANCE_PAY,
             diagnoses=[
                 DiagnosisCreate(
@@ -940,6 +948,7 @@ class V4Client:
             patient_authorized_release=True,
             benefits_assigned_to_provider=True,
             provider_accepts_assignment=True,
+            appointment_type="string",
             existing_medications=[
                 Medication(
                     name="Lisinopril",
@@ -1023,7 +1032,6 @@ class V4Client:
                 "subscriber_primary": subscriber_primary,
                 "subscriber_secondary": subscriber_secondary,
                 "prior_authorization_number": prior_authorization_number,
-                "appointment_type": appointment_type,
                 "responsible_party": responsible_party,
                 "diagnoses": diagnoses,
                 "clinical_notes": clinical_notes,
@@ -1041,6 +1049,7 @@ class V4Client:
                 "patient_authorized_release": patient_authorized_release,
                 "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "provider_accepts_assignment": provider_accepts_assignment,
+                "appointment_type": appointment_type,
                 "existing_medications": existing_medications,
                 "vitals": vitals,
                 "interventions": interventions,
@@ -1121,6 +1130,7 @@ class V4Client:
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
+        appointment_type: typing.Optional[str] = OMIT,
         existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
         vitals: typing.Optional[Vitals] = OMIT,
         interventions: typing.Optional[typing.Sequence[Intervention]] = OMIT,
@@ -1148,7 +1158,6 @@ class V4Client:
         - Subscriber Primary
         - Subscriber Secondary
         - Prior Authorization Number
-        - Appointment Type
         - Responsible Party
         - Guarantor
 
@@ -1262,6 +1271,9 @@ class V4Client:
             If omitted, the Encounter is assumed to be for a single day.
             Must not be temporally before the date_of_service field.
             If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+
+        appointment_type : typing.Optional[str]
+            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
         existing_medications : typing.Optional[typing.Sequence[Medication]]
 
@@ -1408,6 +1420,8 @@ class V4Client:
                 organization_name="string",
             ),
             rendering_provider=RenderingProvider(
+                npi="string",
+                taxonomy_code="string",
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
@@ -1416,8 +1430,6 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                npi="string",
-                taxonomy_code="string",
                 first_name="string",
                 last_name="string",
                 organization_name="string",
@@ -1606,6 +1618,7 @@ class V4Client:
             patient_authorized_release=True,
             benefits_assigned_to_provider=True,
             provider_accepts_assignment=True,
+            appointment_type="string",
             existing_medications=[
                 Medication(
                     name="Lisinopril",
@@ -1701,6 +1714,7 @@ class V4Client:
                 "patient_authorized_release": patient_authorized_release,
                 "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "provider_accepts_assignment": provider_accepts_assignment,
+                "appointment_type": appointment_type,
                 "existing_medications": existing_medications,
                 "vitals": vitals,
                 "interventions": interventions,
@@ -1745,6 +1759,10 @@ class V4Client:
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "InsurancePayMissingPrimaryCoverageError":
+                raise InsurancePayMissingPrimaryCoverageError(
+                    pydantic_v1.parse_obj_as(InsurancePayMissingPrimaryCoverageErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -1780,6 +1798,13 @@ class V4Client:
         patient_authorized_release: typing.Optional[bool] = OMIT,
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         vitals: typing.Optional[VitalsUpdate] = OMIT,
+        existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
+        rendering_provider: typing.Optional[RenderingProviderUpdate] = OMIT,
+        service_facility: typing.Optional[EncounterServiceFacilityUpdate] = OMIT,
+        guarantor: typing.Optional[GuarantorUpdate] = OMIT,
+        supervising_provider: typing.Optional[SupervisingProviderUpdate] = OMIT,
+        referring_provider: typing.Optional[ReferringProviderUpdate] = OMIT,
+        initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -1928,6 +1953,39 @@ class V4Client:
             Otherwise, a new vitals object will be created for the encounter.
 
 
+        existing_medications : typing.Optional[typing.Sequence[Medication]]
+            Existing medications that should be on the encounter.
+            Note all current existing medications on encounter will be overridden with this list.
+
+
+        rendering_provider : typing.Optional[RenderingProviderUpdate]
+            The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
+            For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
+
+
+        service_facility : typing.Optional[EncounterServiceFacilityUpdate]
+            Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
+
+
+        guarantor : typing.Optional[GuarantorUpdate]
+            Personal and contact info for the guarantor of the patient responsibility.
+
+
+        supervising_provider : typing.Optional[SupervisingProviderUpdate]
+            Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
+
+
+        referring_provider : typing.Optional[ReferringProviderUpdate]
+            The final provider who referred the services that were rendered.
+            All physicians who order services or refer Medicare beneficiaries must
+            report this data.
+
+
+        initial_referring_provider : typing.Optional[InitialReferringProviderUpdate]
+            The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
+            indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
+
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1943,6 +2001,7 @@ class V4Client:
         from candid import (
             DelayReasonCode,
             EmrPayerCrosswalk,
+            EncounterServiceFacilityUpdate,
             FacilityTypeCode,
             Gender,
             InsuranceTypeCode,
@@ -1950,6 +2009,7 @@ class V4Client:
             PatientUpdate,
             PhoneNumber,
             PhoneNumberType,
+            QualifierCode,
             SourceOfPaymentCode,
             State,
             StreetAddressLongZip,
@@ -1958,16 +2018,24 @@ class V4Client:
         )
         from candid.client import CandidApiClient
         from candid.resources.custom_schemas.v_1 import SchemaInstance
+        from candid.resources.encounter_providers.v_2 import (
+            InitialReferringProviderUpdate,
+            ReferringProviderUpdate,
+            RenderingProviderUpdate,
+            SupervisingProviderUpdate,
+        )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
             ClinicalNote,
             ClinicalNoteCategoryCreate,
+            Medication,
             NoteCategory,
             ResponsiblePartyType,
             ServiceAuthorizationExceptionCode,
             SynchronicityType,
             VitalsUpdate,
         )
+        from candid.resources.guarantor.v_1 import GuarantorUpdate
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
         client = CandidApiClient(
@@ -2154,6 +2222,113 @@ class V4Client:
                 hemoglobin_gdl=15.1,
                 hematocrit_pct=51.2,
             ),
+            existing_medications=[
+                Medication(
+                    name="Lisinopril",
+                    rx_cui="860975",
+                    dosage="10mg",
+                    dosage_form="Tablet",
+                    frequency="Once Daily",
+                    as_needed=True,
+                )
+            ],
+            rendering_provider=RenderingProviderUpdate(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            service_facility=EncounterServiceFacilityUpdate(
+                organization_name="Test Organization",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+            ),
+            guarantor=GuarantorUpdate(
+                first_name="string",
+                last_name="string",
+                external_id="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+            ),
+            supervising_provider=SupervisingProviderUpdate(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            referring_provider=ReferringProviderUpdate(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
+            initial_referring_provider=InitialReferringProviderUpdate(
+                npi="string",
+                taxonomy_code="string",
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                qualifier=QualifierCode.DQ,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -2190,6 +2365,13 @@ class V4Client:
                 "patient_authorized_release": patient_authorized_release,
                 "schema_instances": schema_instances,
                 "vitals": vitals,
+                "existing_medications": existing_medications,
+                "rendering_provider": rendering_provider,
+                "service_facility": service_facility,
+                "guarantor": guarantor,
+                "supervising_provider": supervising_provider,
+                "referring_provider": referring_provider,
+                "initial_referring_provider": initial_referring_provider,
             },
             request_options=request_options,
             omit=OMIT,
@@ -2220,6 +2402,10 @@ class V4Client:
             if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -2452,7 +2638,6 @@ class AsyncV4Client:
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
-        appointment_type: typing.Optional[str] = OMIT,
         clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         billing_notes: typing.Optional[typing.Sequence[BillingNoteBase]] = OMIT,
         patient_histories: typing.Optional[typing.Sequence[PatientHistoryCategory]] = OMIT,
@@ -2463,6 +2648,7 @@ class AsyncV4Client:
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
+        appointment_type: typing.Optional[str] = OMIT,
         existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
         vitals: typing.Optional[Vitals] = OMIT,
         interventions: typing.Optional[typing.Sequence[Intervention]] = OMIT,
@@ -2565,10 +2751,6 @@ class AsyncV4Client:
         prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
             Box 23 on the CMS-1500 claim form.
 
-        appointment_type : typing.Optional[str]
-            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
-
-
         clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
             Holds a collection of clinical observations made by healthcare providers during patient encounters.
 
@@ -2617,6 +2799,9 @@ class AsyncV4Client:
             If omitted, the Encounter is assumed to be for a single day.
             Must not be temporally before the date_of_service field.
             If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+
+        appointment_type : typing.Optional[str]
+            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
         existing_medications : typing.Optional[typing.Sequence[Medication]]
 
@@ -2806,6 +2991,8 @@ class AsyncV4Client:
                     organization_name="string",
                 ),
                 rendering_provider=RenderingProvider(
+                    npi="string",
+                    taxonomy_code="string",
                     address=StreetAddressLongZip(
                         address_1="123 Main St",
                         address_2="Apt 1",
@@ -2814,8 +3001,6 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    npi="string",
-                    taxonomy_code="string",
                     first_name="string",
                     last_name="string",
                     organization_name="string",
@@ -2941,7 +3126,6 @@ class AsyncV4Client:
                     gender=Gender.MALE,
                 ),
                 prior_authorization_number="string",
-                appointment_type="string",
                 responsible_party=ResponsiblePartyType.INSURANCE_PAY,
                 diagnoses=[
                     DiagnosisCreate(
@@ -3109,6 +3293,7 @@ class AsyncV4Client:
                 patient_authorized_release=True,
                 benefits_assigned_to_provider=True,
                 provider_accepts_assignment=True,
+                appointment_type="string",
                 existing_medications=[
                     Medication(
                         name="Lisinopril",
@@ -3195,7 +3380,6 @@ class AsyncV4Client:
                 "subscriber_primary": subscriber_primary,
                 "subscriber_secondary": subscriber_secondary,
                 "prior_authorization_number": prior_authorization_number,
-                "appointment_type": appointment_type,
                 "responsible_party": responsible_party,
                 "diagnoses": diagnoses,
                 "clinical_notes": clinical_notes,
@@ -3213,6 +3397,7 @@ class AsyncV4Client:
                 "patient_authorized_release": patient_authorized_release,
                 "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "provider_accepts_assignment": provider_accepts_assignment,
+                "appointment_type": appointment_type,
                 "existing_medications": existing_medications,
                 "vitals": vitals,
                 "interventions": interventions,
@@ -3293,6 +3478,7 @@ class AsyncV4Client:
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
+        appointment_type: typing.Optional[str] = OMIT,
         existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
         vitals: typing.Optional[Vitals] = OMIT,
         interventions: typing.Optional[typing.Sequence[Intervention]] = OMIT,
@@ -3320,7 +3506,6 @@ class AsyncV4Client:
         - Subscriber Primary
         - Subscriber Secondary
         - Prior Authorization Number
-        - Appointment Type
         - Responsible Party
         - Guarantor
 
@@ -3434,6 +3619,9 @@ class AsyncV4Client:
             If omitted, the Encounter is assumed to be for a single day.
             Must not be temporally before the date_of_service field.
             If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
+
+        appointment_type : typing.Optional[str]
+            Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
 
         existing_medications : typing.Optional[typing.Sequence[Medication]]
 
@@ -3584,6 +3772,8 @@ class AsyncV4Client:
                     organization_name="string",
                 ),
                 rendering_provider=RenderingProvider(
+                    npi="string",
+                    taxonomy_code="string",
                     address=StreetAddressLongZip(
                         address_1="123 Main St",
                         address_2="Apt 1",
@@ -3592,8 +3782,6 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    npi="string",
-                    taxonomy_code="string",
                     first_name="string",
                     last_name="string",
                     organization_name="string",
@@ -3782,6 +3970,7 @@ class AsyncV4Client:
                 patient_authorized_release=True,
                 benefits_assigned_to_provider=True,
                 provider_accepts_assignment=True,
+                appointment_type="string",
                 existing_medications=[
                     Medication(
                         name="Lisinopril",
@@ -3880,6 +4069,7 @@ class AsyncV4Client:
                 "patient_authorized_release": patient_authorized_release,
                 "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "provider_accepts_assignment": provider_accepts_assignment,
+                "appointment_type": appointment_type,
                 "existing_medications": existing_medications,
                 "vitals": vitals,
                 "interventions": interventions,
@@ -3924,6 +4114,10 @@ class AsyncV4Client:
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "InsurancePayMissingPrimaryCoverageError":
+                raise InsurancePayMissingPrimaryCoverageError(
+                    pydantic_v1.parse_obj_as(InsurancePayMissingPrimaryCoverageErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
@@ -3959,6 +4153,13 @@ class AsyncV4Client:
         patient_authorized_release: typing.Optional[bool] = OMIT,
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         vitals: typing.Optional[VitalsUpdate] = OMIT,
+        existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
+        rendering_provider: typing.Optional[RenderingProviderUpdate] = OMIT,
+        service_facility: typing.Optional[EncounterServiceFacilityUpdate] = OMIT,
+        guarantor: typing.Optional[GuarantorUpdate] = OMIT,
+        supervising_provider: typing.Optional[SupervisingProviderUpdate] = OMIT,
+        referring_provider: typing.Optional[ReferringProviderUpdate] = OMIT,
+        initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -4107,6 +4308,39 @@ class AsyncV4Client:
             Otherwise, a new vitals object will be created for the encounter.
 
 
+        existing_medications : typing.Optional[typing.Sequence[Medication]]
+            Existing medications that should be on the encounter.
+            Note all current existing medications on encounter will be overridden with this list.
+
+
+        rendering_provider : typing.Optional[RenderingProviderUpdate]
+            The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
+            For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
+
+
+        service_facility : typing.Optional[EncounterServiceFacilityUpdate]
+            Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
+
+
+        guarantor : typing.Optional[GuarantorUpdate]
+            Personal and contact info for the guarantor of the patient responsibility.
+
+
+        supervising_provider : typing.Optional[SupervisingProviderUpdate]
+            Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
+
+
+        referring_provider : typing.Optional[ReferringProviderUpdate]
+            The final provider who referred the services that were rendered.
+            All physicians who order services or refer Medicare beneficiaries must
+            report this data.
+
+
+        initial_referring_provider : typing.Optional[InitialReferringProviderUpdate]
+            The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
+            indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
+
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -4123,6 +4357,7 @@ class AsyncV4Client:
         from candid import (
             DelayReasonCode,
             EmrPayerCrosswalk,
+            EncounterServiceFacilityUpdate,
             FacilityTypeCode,
             Gender,
             InsuranceTypeCode,
@@ -4130,6 +4365,7 @@ class AsyncV4Client:
             PatientUpdate,
             PhoneNumber,
             PhoneNumberType,
+            QualifierCode,
             SourceOfPaymentCode,
             State,
             StreetAddressLongZip,
@@ -4138,16 +4374,24 @@ class AsyncV4Client:
         )
         from candid.client import AsyncCandidApiClient
         from candid.resources.custom_schemas.v_1 import SchemaInstance
+        from candid.resources.encounter_providers.v_2 import (
+            InitialReferringProviderUpdate,
+            ReferringProviderUpdate,
+            RenderingProviderUpdate,
+            SupervisingProviderUpdate,
+        )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
             ClinicalNote,
             ClinicalNoteCategoryCreate,
+            Medication,
             NoteCategory,
             ResponsiblePartyType,
             ServiceAuthorizationExceptionCode,
             SynchronicityType,
             VitalsUpdate,
         )
+        from candid.resources.guarantor.v_1 import GuarantorUpdate
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
         client = AsyncCandidApiClient(
@@ -4337,6 +4581,113 @@ class AsyncV4Client:
                     hemoglobin_gdl=15.1,
                     hematocrit_pct=51.2,
                 ),
+                existing_medications=[
+                    Medication(
+                        name="Lisinopril",
+                        rx_cui="860975",
+                        dosage="10mg",
+                        dosage_form="Tablet",
+                        frequency="Once Daily",
+                        as_needed=True,
+                    )
+                ],
+                rendering_provider=RenderingProviderUpdate(
+                    npi="string",
+                    taxonomy_code="string",
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
+                ),
+                service_facility=EncounterServiceFacilityUpdate(
+                    organization_name="Test Organization",
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                ),
+                guarantor=GuarantorUpdate(
+                    first_name="string",
+                    last_name="string",
+                    external_id="string",
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    phone_numbers=[
+                        PhoneNumber(
+                            number="1234567890",
+                            type=PhoneNumberType.HOME,
+                        )
+                    ],
+                    phone_consent=True,
+                    email="johndoe@joincandidhealth.com",
+                    email_consent=True,
+                ),
+                supervising_provider=SupervisingProviderUpdate(
+                    npi="string",
+                    taxonomy_code="string",
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
+                ),
+                referring_provider=ReferringProviderUpdate(
+                    npi="string",
+                    taxonomy_code="string",
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
+                ),
+                initial_referring_provider=InitialReferringProviderUpdate(
+                    npi="string",
+                    taxonomy_code="string",
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    qualifier=QualifierCode.DQ,
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
+                ),
             )
 
 
@@ -4376,6 +4727,13 @@ class AsyncV4Client:
                 "patient_authorized_release": patient_authorized_release,
                 "schema_instances": schema_instances,
                 "vitals": vitals,
+                "existing_medications": existing_medications,
+                "rendering_provider": rendering_provider,
+                "service_facility": service_facility,
+                "guarantor": guarantor,
+                "supervising_provider": supervising_provider,
+                "referring_provider": referring_provider,
+                "initial_referring_provider": initial_referring_provider,
             },
             request_options=request_options,
             omit=OMIT,
@@ -4406,5 +4764,9 @@ class AsyncV4Client:
             if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

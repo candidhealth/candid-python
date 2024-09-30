@@ -707,11 +707,6 @@ class Encounter(EncounterBase):
     Box 23 on the CMS-1500 claim form.
     """
 
-    appointment_type: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
-    """
-
     responsible_party: ResponsiblePartyType = pydantic.Field()
     """
     Defines the party to be billed with the initial balance owed on the claim.

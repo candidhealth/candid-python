@@ -11,6 +11,7 @@ from .provider_id import ProviderId
 from .referring_provider import ReferringProvider
 from .referring_provider_update import ReferringProviderUpdate
 from .rendering_provider import RenderingProvider
+from .rendering_provider_update import RenderingProviderUpdate
 from .supervising_provider import SupervisingProvider
 from .supervising_provider_update import SupervisingProviderUpdate
 
@@ -26,6 +27,7 @@ __all__ = [
     "ReferringProvider",
     "ReferringProviderUpdate",
     "RenderingProvider",
+    "RenderingProviderUpdate",
     "SupervisingProvider",
     "SupervisingProviderUpdate",
 ]

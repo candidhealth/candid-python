@@ -12,6 +12,7 @@ from .types import (
     ReferringProvider,
     ReferringProviderUpdate,
     RenderingProvider,
+    RenderingProviderUpdate,
     SupervisingProvider,
     SupervisingProviderUpdate,
 )
@@ -28,6 +29,7 @@ __all__ = [
     "ReferringProvider",
     "ReferringProviderUpdate",
     "RenderingProvider",
+    "RenderingProviderUpdate",
     "SupervisingProvider",
     "SupervisingProviderUpdate",
 ]

@@ -7,6 +7,7 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.external_provider import ExternalProvider
 from .....common.types.patient_id import PatientId
 from .appointment_status import AppointmentStatus
 from .appointment_work_queue import AppointmentWorkQueue
@@ -38,6 +39,11 @@ class MutableAppointment(pydantic.BaseModel):
     placer_appointment_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     ID for the appointment/order for the event.
+    """
+
+    attending_doctor: typing.Optional[ExternalProvider] = pydantic.Field(default=None)
+    """
+    Attending physician information. The attending physician will be stored as the Current MD for the patient.
     """
 
     estimated_copay_cents: typing.Optional[int] = None

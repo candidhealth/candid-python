@@ -5,25 +5,24 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from ........core.datetime_utils import serialize_datetime
+from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .....common.types.additional_payer_information import AdditionalPayerInformation
+from .....common.types.payer_id import PayerId
+from .....common.types.period import Period
+from .authorization_unit import AuthorizationUnit
 
 
-class CreateThirdPartyPayerRequest(pydantic.BaseModel):
-    name: str = pydantic.Field()
-    """
-    Max 50 characters allowed
-    """
-
-    description: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Max 255 characters allowed
-    """
-
-    category: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Max 255 characters allowed
-    """
+class Authorization(pydantic.BaseModel):
+    payer_id: PayerId
+    payer_name: str
+    additional_payer_information: typing.Optional[AdditionalPayerInformation] = None
+    authorization_number: str
+    cpt_code: str
+    units: AuthorizationUnit
+    quantity: typing.Optional[int] = None
+    period: typing.Optional[Period] = None
+    notes: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -24,6 +24,10 @@ class Payer(pydantic.BaseModel):
         ),
         payer_id="12345",
         payer_name="Payer Name",
+        availity_payer_name="Availity Payer Name",
+        availity_claims_payer_id="54321",
+        availity_eligibility_id="54321",
+        availity_remittance_payer_id="54321",
     )
     """
 
@@ -40,6 +44,26 @@ class Payer(pydantic.BaseModel):
     payer_name: str = pydantic.Field()
     """
     The primary display name of the payer.
+    """
+
+    availity_payer_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The name of the payer as it appears in Availity.
+    """
+
+    availity_claims_payer_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The ID of the payer as it appears in Availity.
+    """
+
+    availity_eligibility_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The eligibility ID of the payer as it appears in Availity.
+    """
+
+    availity_remittance_payer_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The remittance ID of the payer as it appears in Availity.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

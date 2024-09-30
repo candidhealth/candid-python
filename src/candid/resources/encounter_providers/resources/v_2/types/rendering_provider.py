@@ -12,7 +12,6 @@ from .encounter_provider_base import EncounterProviderBase
 
 
 class RenderingProvider(EncounterProviderBase):
-    address: typing.Optional[StreetAddressLongZip] = None
     npi: str = pydantic.Field()
     """
     A National Provider Identifier is a unique 10-digit identification
@@ -20,6 +19,7 @@ class RenderingProvider(EncounterProviderBase):
     """
 
     taxonomy_code: typing.Optional[str] = None
+    address: typing.Optional[StreetAddressLongZip] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
