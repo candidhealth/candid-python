@@ -13,6 +13,7 @@ from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_units import ServiceLineUnits
 from .....encounter_providers.resources.v_2.types.ordering_provider import OrderingProvider
 from .drug_identification import DrugIdentification
+from .test_result import TestResult
 
 
 class ServiceLineCreate(pydantic.BaseModel):
@@ -51,6 +52,11 @@ class ServiceLineCreate(pydantic.BaseModel):
     """
     Required when the service or supply was ordered by a provider who is different than the rendering provider for this service line.
     If not required by this implementation guide, do not send.
+    """
+
+    test_result: typing.Optional[TestResult] = pydantic.Field(default=None)
+    """
+    Contains a single test result value. Maps to MEA-02 on the 837-P.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

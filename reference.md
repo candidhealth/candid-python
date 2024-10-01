@@ -2661,6 +2661,7 @@ from candid.resources.service_lines.v_2 import (
     MeasurementUnitCode,
     ServiceIdQualifier,
     ServiceLineCreate,
+    TestResult_Hematocrit,
 )
 
 client = CandidApiClient(
@@ -2943,6 +2944,7 @@ client.encounters.v_4.create(
                 last_name="string",
                 organization_name="string",
             ),
+            test_result=TestResult_Hematocrit(value=1.1),
         )
     ],
     guarantor=GuarantorCreate(
@@ -3656,6 +3658,7 @@ from candid.resources.service_lines.v_2 import (
     MeasurementUnitCode,
     ServiceIdQualifier,
     ServiceLineCreate,
+    TestResult_Hematocrit,
 )
 
 client = CandidApiClient(
@@ -3836,6 +3839,7 @@ client.encounters.v_4.create_from_pre_encounter_patient(
                 last_name="string",
                 organization_name="string",
             ),
+            test_result=TestResult_Hematocrit(value=1.1),
         )
     ],
     external_claim_submission=ExternalClaimSubmissionCreate(
@@ -12527,6 +12531,7 @@ from candid.resources.service_lines.v_2 import (
     ServiceIdQualifier,
     ServiceLineDenialReason,
     ServiceLineUpdate,
+    TestResult_Hematocrit,
 )
 
 client = CandidApiClient(
@@ -12576,6 +12581,7 @@ client.service_lines.v_2.update(
         end_date_of_service=datetime.date.fromisoformat(
             "2023-01-15",
         ),
+        test_result=TestResult_Hematocrit(value=1.1),
     ),
 )
 

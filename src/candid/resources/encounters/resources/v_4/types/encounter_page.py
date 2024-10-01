@@ -88,6 +88,7 @@ class EncounterPage(ResourcePage):
         ServiceLineAdjustment,
         ServiceLineDenialReason,
         ServiceLineEraData,
+        TestResult_Hemoglobin,
     )
 
     EncounterPage(
@@ -206,6 +207,7 @@ class EncounterPage(ResourcePage):
                                 end_date_of_service=datetime.date.fromisoformat(
                                     "2023-01-03",
                                 ),
+                                test_result=TestResult_Hemoglobin(value=2.4),
                             )
                         ],
                         eras=[

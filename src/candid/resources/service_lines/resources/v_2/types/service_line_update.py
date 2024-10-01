@@ -14,6 +14,7 @@ from .....commons.types.service_line_units import ServiceLineUnits
 from .....diagnoses.types.diagnosis_id import DiagnosisId
 from .drug_identification import DrugIdentification
 from .service_line_denial_reason import ServiceLineDenialReason
+from .test_result import TestResult
 
 
 class ServiceLineUpdate(pydantic.BaseModel):
@@ -47,6 +48,10 @@ class ServiceLineUpdate(pydantic.BaseModel):
     """
 
     end_date_of_service: typing.Optional[dt.date] = None
+    test_result: typing.Optional[TestResult] = pydantic.Field(default=None)
+    """
+    Contains a single test result value. Maps to MEA-02 on the 837-P.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

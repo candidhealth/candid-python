@@ -151,6 +151,7 @@ class V2Client:
             ServiceIdQualifier,
             ServiceLineDenialReason,
             ServiceLineUpdate,
+            TestResult_Hematocrit,
         )
 
         client = CandidApiClient(
@@ -200,6 +201,7 @@ class V2Client:
                 end_date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
+                test_result=TestResult_Hematocrit(value=1.1),
             ),
         )
         """
@@ -423,6 +425,7 @@ class AsyncV2Client:
             ServiceIdQualifier,
             ServiceLineDenialReason,
             ServiceLineUpdate,
+            TestResult_Hematocrit,
         )
 
         client = AsyncCandidApiClient(
@@ -475,6 +478,7 @@ class AsyncV2Client:
                     end_date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
+                    test_result=TestResult_Hematocrit(value=1.1),
                 ),
             )
 

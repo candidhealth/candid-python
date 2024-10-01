@@ -11,6 +11,7 @@ from .service_line_create_standalone import ServiceLineCreateStandalone
 from .service_line_denial_reason import ServiceLineDenialReason
 from .service_line_era_data import ServiceLineEraData
 from .service_line_update import ServiceLineUpdate
+from .test_result import TestResult, TestResult_Hematocrit, TestResult_Hemoglobin
 
 __all__ = [
     "DenialReasonContent",
@@ -24,4 +25,7 @@ __all__ = [
     "ServiceLineDenialReason",
     "ServiceLineEraData",
     "ServiceLineUpdate",
+    "TestResult",
+    "TestResult_Hematocrit",
+    "TestResult_Hemoglobin",
 ]

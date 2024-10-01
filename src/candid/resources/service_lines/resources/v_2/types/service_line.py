@@ -22,6 +22,7 @@ from .drug_identification import DrugIdentification
 from .service_line_adjustment import ServiceLineAdjustment
 from .service_line_denial_reason import ServiceLineDenialReason
 from .service_line_era_data import ServiceLineEraData
+from .test_result import TestResult
 
 
 class ServiceLine(pydantic.BaseModel):
@@ -46,6 +47,7 @@ class ServiceLine(pydantic.BaseModel):
         ServiceLineAdjustment,
         ServiceLineDenialReason,
         ServiceLineEraData,
+        TestResult_Hemoglobin,
     )
 
     ServiceLine(
@@ -148,6 +150,7 @@ class ServiceLine(pydantic.BaseModel):
         end_date_of_service=datetime.date.fromisoformat(
             "2023-01-03",
         ),
+        test_result=TestResult_Hemoglobin(value=2.4),
     )
     """
 
@@ -198,6 +201,10 @@ class ServiceLine(pydantic.BaseModel):
 
     date_of_service: dt.date
     end_date_of_service: typing.Optional[dt.date] = None
+    test_result: typing.Optional[TestResult] = pydantic.Field(default=None)
+    """
+    Contains a single test result value. Maps to MEA-02 on the 837-P.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

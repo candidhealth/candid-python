@@ -591,6 +591,7 @@ class V4Client:
             MeasurementUnitCode,
             ServiceIdQualifier,
             ServiceLineCreate,
+            TestResult_Hematocrit,
         )
 
         client = CandidApiClient(
@@ -873,6 +874,7 @@ class V4Client:
                         last_name="string",
                         organization_name="string",
                     ),
+                    test_result=TestResult_Hematocrit(value=1.1),
                 )
             ],
             guarantor=GuarantorCreate(
@@ -1390,6 +1392,7 @@ class V4Client:
             MeasurementUnitCode,
             ServiceIdQualifier,
             ServiceLineCreate,
+            TestResult_Hematocrit,
         )
 
         client = CandidApiClient(
@@ -1570,6 +1573,7 @@ class V4Client:
                         last_name="string",
                         organization_name="string",
                     ),
+                    test_result=TestResult_Hematocrit(value=1.1),
                 )
             ],
             external_claim_submission=ExternalClaimSubmissionCreate(
@@ -2935,6 +2939,7 @@ class AsyncV4Client:
             MeasurementUnitCode,
             ServiceIdQualifier,
             ServiceLineCreate,
+            TestResult_Hematocrit,
         )
 
         client = AsyncCandidApiClient(
@@ -3220,6 +3225,7 @@ class AsyncV4Client:
                             last_name="string",
                             organization_name="string",
                         ),
+                        test_result=TestResult_Hematocrit(value=1.1),
                     )
                 ],
                 guarantor=GuarantorCreate(
@@ -3741,6 +3747,7 @@ class AsyncV4Client:
             MeasurementUnitCode,
             ServiceIdQualifier,
             ServiceLineCreate,
+            TestResult_Hematocrit,
         )
 
         client = AsyncCandidApiClient(
@@ -3924,6 +3931,7 @@ class AsyncV4Client:
                             last_name="string",
                             organization_name="string",
                         ),
+                        test_result=TestResult_Hematocrit(value=1.1),
                     )
                 ],
                 external_claim_submission=ExternalClaimSubmissionCreate(
