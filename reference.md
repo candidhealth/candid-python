@@ -3666,9 +3666,11 @@ client.encounters.v_4.create_from_pre_encounter_patient(
     pre_encounter_patient_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    pre_encounter_appointment_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
+    pre_encounter_appointment_ids=[
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        )
+    ],
     billing_provider=BillingProvider(
         address=StreetAddressLongZip(
             address_1="123 Main St",
@@ -3975,7 +3977,7 @@ client.encounters.v_4.create_from_pre_encounter_patient(
 <dl>
 <dd>
 
-**pre_encounter_appointment_id:** `PreEncounterAppointmentId` 
+**pre_encounter_appointment_ids:** `typing.Sequence[PreEncounterAppointmentId]` 
     
 </dd>
 </dl>
@@ -13964,6 +13966,81 @@ client.pre_encounter.appointments.v_1.update(
 <dd>
 
 **request:** `MutableAppointment` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.appointments.v_1.<a href="src/candid/resources/pre_encounter/resources/appointments/resources/v_1/client.py">scan</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Scans up to 100 appointment updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.appointments.v_1.scan(
+    since=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**since:** `dt.datetime` 
     
 </dd>
 </dl>

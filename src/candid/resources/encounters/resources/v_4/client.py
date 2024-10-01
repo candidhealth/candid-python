@@ -1108,7 +1108,7 @@ class V4Client:
         self,
         *,
         pre_encounter_patient_id: PreEncounterPatientId,
-        pre_encounter_appointment_id: PreEncounterAppointmentId,
+        pre_encounter_appointment_ids: typing.Sequence[PreEncounterAppointmentId],
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
         diagnoses: typing.Sequence[DiagnosisCreate],
@@ -1168,7 +1168,7 @@ class V4Client:
         ----------
         pre_encounter_patient_id : PreEncounterPatientId
 
-        pre_encounter_appointment_id : PreEncounterAppointmentId
+        pre_encounter_appointment_ids : typing.Sequence[PreEncounterAppointmentId]
 
         billing_provider : BillingProvider
             The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
@@ -1400,9 +1400,11 @@ class V4Client:
             pre_encounter_patient_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            pre_encounter_appointment_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
+            pre_encounter_appointment_ids=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
             billing_provider=BillingProvider(
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
@@ -1693,7 +1695,7 @@ class V4Client:
             method="POST",
             json={
                 "pre_encounter_patient_id": pre_encounter_patient_id,
-                "pre_encounter_appointment_id": pre_encounter_appointment_id,
+                "pre_encounter_appointment_ids": pre_encounter_appointment_ids,
                 "billing_provider": billing_provider,
                 "rendering_provider": rendering_provider,
                 "initial_referring_provider": initial_referring_provider,
@@ -3456,7 +3458,7 @@ class AsyncV4Client:
         self,
         *,
         pre_encounter_patient_id: PreEncounterPatientId,
-        pre_encounter_appointment_id: PreEncounterAppointmentId,
+        pre_encounter_appointment_ids: typing.Sequence[PreEncounterAppointmentId],
         billing_provider: BillingProvider,
         rendering_provider: RenderingProvider,
         diagnoses: typing.Sequence[DiagnosisCreate],
@@ -3516,7 +3518,7 @@ class AsyncV4Client:
         ----------
         pre_encounter_patient_id : PreEncounterPatientId
 
-        pre_encounter_appointment_id : PreEncounterAppointmentId
+        pre_encounter_appointment_ids : typing.Sequence[PreEncounterAppointmentId]
 
         billing_provider : BillingProvider
             The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
@@ -3752,9 +3754,11 @@ class AsyncV4Client:
                 pre_encounter_patient_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                pre_encounter_appointment_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
+                pre_encounter_appointment_ids=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ],
                 billing_provider=BillingProvider(
                     address=StreetAddressLongZip(
                         address_1="123 Main St",
@@ -4048,7 +4052,7 @@ class AsyncV4Client:
             method="POST",
             json={
                 "pre_encounter_patient_id": pre_encounter_patient_id,
-                "pre_encounter_appointment_id": pre_encounter_appointment_id,
+                "pre_encounter_appointment_ids": pre_encounter_appointment_ids,
                 "billing_provider": billing_provider,
                 "rendering_provider": rendering_provider,
                 "initial_referring_provider": initial_referring_provider,
