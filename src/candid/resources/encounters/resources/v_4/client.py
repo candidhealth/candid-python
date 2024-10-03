@@ -34,6 +34,7 @@ from ....custom_schemas.resources.v_1.types.schema_instance import SchemaInstanc
 from ....diagnoses.types.diagnosis_create import DiagnosisCreate
 from ....diagnoses.types.diagnosis_id import DiagnosisId
 from ....encounter_providers.resources.v_2.types.billing_provider import BillingProvider
+from ....encounter_providers.resources.v_2.types.billing_provider_update import BillingProviderUpdate
 from ....encounter_providers.resources.v_2.types.initial_referring_provider import InitialReferringProvider
 from ....encounter_providers.resources.v_2.types.initial_referring_provider_update import InitialReferringProviderUpdate
 from ....encounter_providers.resources.v_2.types.referring_provider import ReferringProvider
@@ -1808,6 +1809,7 @@ class V4Client:
         rendering_provider: typing.Optional[RenderingProviderUpdate] = OMIT,
         service_facility: typing.Optional[EncounterServiceFacilityUpdate] = OMIT,
         guarantor: typing.Optional[GuarantorUpdate] = OMIT,
+        billing_provider: typing.Optional[BillingProviderUpdate] = OMIT,
         supervising_provider: typing.Optional[SupervisingProviderUpdate] = OMIT,
         referring_provider: typing.Optional[ReferringProviderUpdate] = OMIT,
         initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
@@ -1977,6 +1979,10 @@ class V4Client:
             Personal and contact info for the guarantor of the patient responsibility.
 
 
+        billing_provider : typing.Optional[BillingProviderUpdate]
+            The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
+
+
         supervising_provider : typing.Optional[SupervisingProviderUpdate]
             Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
 
@@ -2025,6 +2031,7 @@ class V4Client:
         from candid.client import CandidApiClient
         from candid.resources.custom_schemas.v_1 import SchemaInstance
         from candid.resources.encounter_providers.v_2 import (
+            BillingProviderUpdate,
             InitialReferringProviderUpdate,
             ReferringProviderUpdate,
             RenderingProviderUpdate,
@@ -2289,6 +2296,22 @@ class V4Client:
                 email="johndoe@joincandidhealth.com",
                 email_consent=True,
             ),
+            billing_provider=BillingProviderUpdate(
+                address=StreetAddressLongZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                tax_id="string",
+                npi="string",
+                taxonomy_code="string",
+                first_name="string",
+                last_name="string",
+                organization_name="string",
+            ),
             supervising_provider=SupervisingProviderUpdate(
                 npi="string",
                 taxonomy_code="string",
@@ -2375,6 +2398,7 @@ class V4Client:
                 "rendering_provider": rendering_provider,
                 "service_facility": service_facility,
                 "guarantor": guarantor,
+                "billing_provider": billing_provider,
                 "supervising_provider": supervising_provider,
                 "referring_provider": referring_provider,
                 "initial_referring_provider": initial_referring_provider,
@@ -4169,6 +4193,7 @@ class AsyncV4Client:
         rendering_provider: typing.Optional[RenderingProviderUpdate] = OMIT,
         service_facility: typing.Optional[EncounterServiceFacilityUpdate] = OMIT,
         guarantor: typing.Optional[GuarantorUpdate] = OMIT,
+        billing_provider: typing.Optional[BillingProviderUpdate] = OMIT,
         supervising_provider: typing.Optional[SupervisingProviderUpdate] = OMIT,
         referring_provider: typing.Optional[ReferringProviderUpdate] = OMIT,
         initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
@@ -4338,6 +4363,10 @@ class AsyncV4Client:
             Personal and contact info for the guarantor of the patient responsibility.
 
 
+        billing_provider : typing.Optional[BillingProviderUpdate]
+            The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
+
+
         supervising_provider : typing.Optional[SupervisingProviderUpdate]
             Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
 
@@ -4387,6 +4416,7 @@ class AsyncV4Client:
         from candid.client import AsyncCandidApiClient
         from candid.resources.custom_schemas.v_1 import SchemaInstance
         from candid.resources.encounter_providers.v_2 import (
+            BillingProviderUpdate,
             InitialReferringProviderUpdate,
             ReferringProviderUpdate,
             RenderingProviderUpdate,
@@ -4654,6 +4684,22 @@ class AsyncV4Client:
                     email="johndoe@joincandidhealth.com",
                     email_consent=True,
                 ),
+                billing_provider=BillingProviderUpdate(
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    tax_id="string",
+                    npi="string",
+                    taxonomy_code="string",
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
+                ),
                 supervising_provider=SupervisingProviderUpdate(
                     npi="string",
                     taxonomy_code="string",
@@ -4743,6 +4789,7 @@ class AsyncV4Client:
                 "rendering_provider": rendering_provider,
                 "service_facility": service_facility,
                 "guarantor": guarantor,
+                "billing_provider": billing_provider,
                 "supervising_provider": supervising_provider,
                 "referring_provider": referring_provider,
                 "initial_referring_provider": initial_referring_provider,

@@ -2,6 +2,7 @@
 
 from .types import (
     BillingProvider,
+    BillingProviderUpdate,
     EncounterProvider,
     EncounterProviderBase,
     InitialReferringProvider,
@@ -19,6 +20,7 @@ from .types import (
 
 __all__ = [
     "BillingProvider",
+    "BillingProviderUpdate",
     "EncounterProvider",
     "EncounterProviderBase",
     "InitialReferringProvider",

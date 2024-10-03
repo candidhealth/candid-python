@@ -10,10 +10,12 @@ from .....core.pydantic_utilities import pydantic_v1
 from .....core.request_options import RequestOptions
 from ....commons.errors.entity_conflict_error import EntityConflictError
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
+from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from .types.encounter_provider import EncounterProvider
@@ -103,9 +105,9 @@ class V2Client:
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(EncounterProvider, _response_json)  # type: ignore
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -185,9 +187,9 @@ class V2Client:
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(EncounterProvider, _response_json)  # type: ignore
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -264,9 +266,9 @@ class V2Client:
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(EncounterProvider, _response_json)  # type: ignore
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -343,9 +345,9 @@ class V2Client:
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(EncounterProvider, _response_json)  # type: ignore
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -426,9 +428,9 @@ class V2Client:
                 raise EntityConflictError(
                     pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -514,6 +516,10 @@ class V2Client:
                 raise UnprocessableEntityError(
                     pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
                     pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
@@ -593,9 +599,9 @@ class V2Client:
                 raise EntityConflictError(
                     pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -676,9 +682,9 @@ class V2Client:
                 raise EntityConflictError(
                     pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -971,9 +977,9 @@ class AsyncV2Client:
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(EncounterProvider, _response_json)  # type: ignore
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -1060,9 +1066,9 @@ class AsyncV2Client:
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(EncounterProvider, _response_json)  # type: ignore
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -1146,9 +1152,9 @@ class AsyncV2Client:
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(EncounterProvider, _response_json)  # type: ignore
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -1232,9 +1238,9 @@ class AsyncV2Client:
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(EncounterProvider, _response_json)  # type: ignore
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -1322,9 +1328,9 @@ class AsyncV2Client:
                 raise EntityConflictError(
                     pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -1417,6 +1423,10 @@ class AsyncV2Client:
                 raise UnprocessableEntityError(
                     pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
+                )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
                     pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
@@ -1503,9 +1513,9 @@ class AsyncV2Client:
                 raise EntityConflictError(
                     pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
@@ -1593,9 +1603,9 @@ class AsyncV2Client:
                 raise EntityConflictError(
                     pydantic_v1.parse_obj_as(EntityConflictErrorMessage, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "UnprocessableEntityError":
-                raise UnprocessableEntityError(
-                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    pydantic_v1.parse_obj_as(typing.List[RequestValidationError], _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
