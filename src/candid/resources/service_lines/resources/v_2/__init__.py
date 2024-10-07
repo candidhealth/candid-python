@@ -13,8 +13,7 @@ from .types import (
     ServiceLineEraData,
     ServiceLineUpdate,
     TestResult,
-    TestResult_Hematocrit,
-    TestResult_Hemoglobin,
+    TestResultType,
 )
 
 __all__ = [
@@ -30,6 +29,5 @@ __all__ = [
     "ServiceLineEraData",
     "ServiceLineUpdate",
     "TestResult",
-    "TestResult_Hematocrit",
-    "TestResult_Hemoglobin",
+    "TestResultType",
 ]

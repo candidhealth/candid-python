@@ -592,7 +592,8 @@ class V4Client:
             MeasurementUnitCode,
             ServiceIdQualifier,
             ServiceLineCreate,
-            TestResult_Hematocrit,
+            TestResult,
+            TestResultType,
         )
 
         client = CandidApiClient(
@@ -851,6 +852,7 @@ class V4Client:
                         link_sequence_number="string",
                         pharmacy_prescription_number="string",
                         conversion_formula="string",
+                        drug_description="string",
                     ),
                     place_of_service_code=FacilityTypeCode.PHARMACY,
                     description="string",
@@ -875,7 +877,12 @@ class V4Client:
                         last_name="string",
                         organization_name="string",
                     ),
-                    test_result=TestResult_Hematocrit(value=1.1),
+                    test_results=[
+                        TestResult(
+                            value=1.1,
+                            result_type=TestResultType.HEMATOCRIT,
+                        )
+                    ],
                 )
             ],
             guarantor=GuarantorCreate(
@@ -1393,7 +1400,8 @@ class V4Client:
             MeasurementUnitCode,
             ServiceIdQualifier,
             ServiceLineCreate,
-            TestResult_Hematocrit,
+            TestResult,
+            TestResultType,
         )
 
         client = CandidApiClient(
@@ -1550,6 +1558,7 @@ class V4Client:
                         link_sequence_number="string",
                         pharmacy_prescription_number="string",
                         conversion_formula="string",
+                        drug_description="string",
                     ),
                     place_of_service_code=FacilityTypeCode.PHARMACY,
                     description="string",
@@ -1574,7 +1583,12 @@ class V4Client:
                         last_name="string",
                         organization_name="string",
                     ),
-                    test_result=TestResult_Hematocrit(value=1.1),
+                    test_results=[
+                        TestResult(
+                            value=1.1,
+                            result_type=TestResultType.HEMATOCRIT,
+                        )
+                    ],
                 )
             ],
             external_claim_submission=ExternalClaimSubmissionCreate(
@@ -2963,7 +2977,8 @@ class AsyncV4Client:
             MeasurementUnitCode,
             ServiceIdQualifier,
             ServiceLineCreate,
-            TestResult_Hematocrit,
+            TestResult,
+            TestResultType,
         )
 
         client = AsyncCandidApiClient(
@@ -3225,6 +3240,7 @@ class AsyncV4Client:
                             link_sequence_number="string",
                             pharmacy_prescription_number="string",
                             conversion_formula="string",
+                            drug_description="string",
                         ),
                         place_of_service_code=FacilityTypeCode.PHARMACY,
                         description="string",
@@ -3249,7 +3265,12 @@ class AsyncV4Client:
                             last_name="string",
                             organization_name="string",
                         ),
-                        test_result=TestResult_Hematocrit(value=1.1),
+                        test_results=[
+                            TestResult(
+                                value=1.1,
+                                result_type=TestResultType.HEMATOCRIT,
+                            )
+                        ],
                     )
                 ],
                 guarantor=GuarantorCreate(
@@ -3771,7 +3792,8 @@ class AsyncV4Client:
             MeasurementUnitCode,
             ServiceIdQualifier,
             ServiceLineCreate,
-            TestResult_Hematocrit,
+            TestResult,
+            TestResultType,
         )
 
         client = AsyncCandidApiClient(
@@ -3931,6 +3953,7 @@ class AsyncV4Client:
                             link_sequence_number="string",
                             pharmacy_prescription_number="string",
                             conversion_formula="string",
+                            drug_description="string",
                         ),
                         place_of_service_code=FacilityTypeCode.PHARMACY,
                         description="string",
@@ -3955,7 +3978,12 @@ class AsyncV4Client:
                             last_name="string",
                             organization_name="string",
                         ),
-                        test_result=TestResult_Hematocrit(value=1.1),
+                        test_results=[
+                            TestResult(
+                                value=1.1,
+                                result_type=TestResultType.HEMATOCRIT,
+                            )
+                        ],
                     )
                 ],
                 external_claim_submission=ExternalClaimSubmissionCreate(

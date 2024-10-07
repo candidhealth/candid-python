@@ -124,7 +124,15 @@ from .commons import (
     UserId,
     WorkQueueId,
 )
-from .diagnoses import Diagnosis, DiagnosisCreate, DiagnosisId, DiagnosisTypeCode, StandaloneDiagnosisCreate
+from .diagnoses import (
+    Diagnosis,
+    DiagnosisCreate,
+    DiagnosisId,
+    DiagnosisNotFoundError,
+    DiagnosisNotFoundHttpError,
+    DiagnosisTypeCode,
+    StandaloneDiagnosisCreate,
+)
 from .era import Era, EraBase, EraId, EraNotFullyProcessedError, EraNotFullyProcessedErrorMessage
 from .era_commons import ClaimStatusCodeCreate
 from .financials import (
@@ -235,6 +243,8 @@ __all__ = [
     "Diagnosis",
     "DiagnosisCreate",
     "DiagnosisId",
+    "DiagnosisNotFoundError",
+    "DiagnosisNotFoundHttpError",
     "DiagnosisTypeCode",
     "Email",
     "EmrPayerCrosswalk",

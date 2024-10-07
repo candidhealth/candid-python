@@ -47,7 +47,8 @@ class ServiceLine(pydantic.BaseModel):
         ServiceLineAdjustment,
         ServiceLineDenialReason,
         ServiceLineEraData,
-        TestResult_Hemoglobin,
+        TestResult,
+        TestResultType,
     )
 
     ServiceLine(
@@ -150,7 +151,12 @@ class ServiceLine(pydantic.BaseModel):
         end_date_of_service=datetime.date.fromisoformat(
             "2023-01-03",
         ),
-        test_result=TestResult_Hemoglobin(value=2.4),
+        test_results=[
+            TestResult(
+                result_type=TestResultType.HEMOGLOBIN,
+                value=51.0,
+            )
+        ],
     )
     """
 
@@ -201,9 +207,9 @@ class ServiceLine(pydantic.BaseModel):
 
     date_of_service: dt.date
     end_date_of_service: typing.Optional[dt.date] = None
-    test_result: typing.Optional[TestResult] = pydantic.Field(default=None)
+    test_results: typing.Optional[typing.List[TestResult]] = pydantic.Field(default=None)
     """
-    Contains a single test result value. Maps to MEA-02 on the 837-P.
+    Maps to MEA-02 on the 837-P. No more than 5 test results may be submitted per service line.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

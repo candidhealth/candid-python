@@ -2661,7 +2661,8 @@ from candid.resources.service_lines.v_2 import (
     MeasurementUnitCode,
     ServiceIdQualifier,
     ServiceLineCreate,
-    TestResult_Hematocrit,
+    TestResult,
+    TestResultType,
 )
 
 client = CandidApiClient(
@@ -2920,6 +2921,7 @@ client.encounters.v_4.create(
                 link_sequence_number="string",
                 pharmacy_prescription_number="string",
                 conversion_formula="string",
+                drug_description="string",
             ),
             place_of_service_code=FacilityTypeCode.PHARMACY,
             description="string",
@@ -2944,7 +2946,12 @@ client.encounters.v_4.create(
                 last_name="string",
                 organization_name="string",
             ),
-            test_result=TestResult_Hematocrit(value=1.1),
+            test_results=[
+                TestResult(
+                    value=1.1,
+                    result_type=TestResultType.HEMATOCRIT,
+                )
+            ],
         )
     ],
     guarantor=GuarantorCreate(
@@ -3658,7 +3665,8 @@ from candid.resources.service_lines.v_2 import (
     MeasurementUnitCode,
     ServiceIdQualifier,
     ServiceLineCreate,
-    TestResult_Hematocrit,
+    TestResult,
+    TestResultType,
 )
 
 client = CandidApiClient(
@@ -3815,6 +3823,7 @@ client.encounters.v_4.create_from_pre_encounter_patient(
                 link_sequence_number="string",
                 pharmacy_prescription_number="string",
                 conversion_formula="string",
+                drug_description="string",
             ),
             place_of_service_code=FacilityTypeCode.PHARMACY,
             description="string",
@@ -3839,7 +3848,12 @@ client.encounters.v_4.create_from_pre_encounter_patient(
                 last_name="string",
                 organization_name="string",
             ),
-            test_result=TestResult_Hematocrit(value=1.1),
+            test_results=[
+                TestResult(
+                    value=1.1,
+                    result_type=TestResultType.HEMATOCRIT,
+                )
+            ],
         )
     ],
     external_claim_submission=ExternalClaimSubmissionCreate(
@@ -8846,6 +8860,7 @@ client.medication_dispense.v_1.create(
             link_sequence_number="string",
             pharmacy_prescription_number="string",
             conversion_formula="string",
+            drug_description="string",
         ),
         description="string",
         modifiers=[ProcedureModifier.TWENTY_TWO],
@@ -12557,7 +12572,8 @@ from candid.resources.service_lines.v_2 import (
     ServiceIdQualifier,
     ServiceLineDenialReason,
     ServiceLineUpdate,
-    TestResult_Hematocrit,
+    TestResult,
+    TestResultType,
 )
 
 client = CandidApiClient(
@@ -12592,6 +12608,7 @@ client.service_lines.v_2.update(
             link_sequence_number="string",
             pharmacy_prescription_number="string",
             conversion_formula="string",
+            drug_description="string",
         ),
         denial_reason=ServiceLineDenialReason(
             reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
@@ -12607,7 +12624,12 @@ client.service_lines.v_2.update(
         end_date_of_service=datetime.date.fromisoformat(
             "2023-01-15",
         ),
-        test_result=TestResult_Hematocrit(value=1.1),
+        test_results=[
+            TestResult(
+                value=1.1,
+                result_type=TestResultType.HEMATOCRIT,
+            )
+        ],
     ),
 )
 
@@ -16385,6 +16407,277 @@ client.pre_encounter.patients.v_1.scan(
 <dd>
 
 **since:** `dt.datetime` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Diagnoses
+<details><summary><code>client.diagnoses.<a href="src/candid/resources/diagnoses/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a new diagnosis for an encounter
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import DiagnosisTypeCode, StandaloneDiagnosisCreate
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.diagnoses.create(
+    request=StandaloneDiagnosisCreate(
+        encounter_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        name="string",
+        code_type=DiagnosisTypeCode.ABF,
+        code="string",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `StandaloneDiagnosisCreate` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.diagnoses.<a href="src/candid/resources/diagnoses/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the diagnosis record matching the provided `diagnosis_id`
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import DiagnosisTypeCode
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.diagnoses.update(
+    diagnosis_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    name="string",
+    code_type=DiagnosisTypeCode.ABF,
+    code="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**diagnosis_id:** `DiagnosisId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `typing.Optional[str]` — Empty string not allowed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**code_type:** `typing.Optional[DiagnosisTypeCode]` — Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**code:** `typing.Optional[str]` 
+
+Empty string not allowed.
+Should be of the appropriate format for the provided `code_type`.
+Must obey the ICD-10 format if an ICD-10 code_type is provided, specifically:
+  - Letter
+  - Digit
+  - Digit or the letter `A` or `B`
+  - (Optional) Period `.`
+  - Up to 4 (or as few as 0) letters and digits
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.diagnoses.<a href="src/candid/resources/diagnoses/client.py">delete</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes the diagnosis record associated with the provided `diagnosis_id`
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.diagnoses.delete(
+    diagnosis_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**diagnosis_id:** `DiagnosisId` 
     
 </dd>
 </dl>

@@ -54,9 +54,9 @@ class ServiceLineCreate(pydantic.BaseModel):
     If not required by this implementation guide, do not send.
     """
 
-    test_result: typing.Optional[TestResult] = pydantic.Field(default=None)
+    test_results: typing.Optional[typing.List[TestResult]] = pydantic.Field(default=None)
     """
-    Contains a single test result value. Maps to MEA-02 on the 837-P.
+    Maps to MEA-02 on the 837-P. No more than 5 test results may be submitted per service line.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

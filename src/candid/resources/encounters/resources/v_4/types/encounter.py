@@ -108,7 +108,8 @@ class Encounter(EncounterBase):
         ServiceLineAdjustment,
         ServiceLineDenialReason,
         ServiceLineEraData,
-        TestResult_Hemoglobin,
+        TestResult,
+        TestResultType,
     )
 
     Encounter(
@@ -225,7 +226,12 @@ class Encounter(EncounterBase):
                         end_date_of_service=datetime.date.fromisoformat(
                             "2023-01-03",
                         ),
-                        test_result=TestResult_Hemoglobin(value=2.4),
+                        test_results=[
+                            TestResult(
+                                result_type=TestResultType.HEMOGLOBIN,
+                                value=51.0,
+                            )
+                        ],
                     )
                 ],
                 eras=[

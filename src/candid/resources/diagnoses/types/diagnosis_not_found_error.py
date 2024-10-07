@@ -5,14 +5,14 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .test_result_type import TestResultType
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
+from .diagnosis_id import DiagnosisId
 
 
-class TestResult(pydantic.BaseModel):
-    value: float
-    result_type: TestResultType
+class DiagnosisNotFoundError(pydantic.BaseModel):
+    diagnosis_id: typing.Optional[DiagnosisId] = None
+    message: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

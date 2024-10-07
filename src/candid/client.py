@@ -11,6 +11,7 @@ from .resources.auth.client import AsyncAuthClient, AuthClient
 from .resources.billing_notes.client import AsyncBillingNotesClient, BillingNotesClient
 from .resources.contracts.client import AsyncContractsClient, ContractsClient
 from .resources.custom_schemas.client import AsyncCustomSchemasClient, CustomSchemasClient
+from .resources.diagnoses.client import AsyncDiagnosesClient, DiagnosesClient
 from .resources.eligibility.client import AsyncEligibilityClient, EligibilityClient
 from .resources.encounter_providers.client import AsyncEncounterProvidersClient, EncounterProvidersClient
 from .resources.encounters.client import AsyncEncountersClient, EncountersClient
@@ -150,6 +151,7 @@ class CandidApiClient:
         self.tasks = TasksClient(client_wrapper=self._client_wrapper)
         self.write_offs = WriteOffsClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = PreEncounterClient(client_wrapper=self._client_wrapper)
+        self.diagnoses = DiagnosesClient(client_wrapper=self._client_wrapper)
         self.service_facility = ServiceFacilityClient(client_wrapper=self._client_wrapper)
 
 
@@ -256,4 +258,5 @@ class AsyncCandidApiClient:
         self.tasks = AsyncTasksClient(client_wrapper=self._client_wrapper)
         self.write_offs = AsyncWriteOffsClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = AsyncPreEncounterClient(client_wrapper=self._client_wrapper)
+        self.diagnoses = AsyncDiagnosesClient(client_wrapper=self._client_wrapper)
         self.service_facility = AsyncServiceFacilityClient(client_wrapper=self._client_wrapper)
