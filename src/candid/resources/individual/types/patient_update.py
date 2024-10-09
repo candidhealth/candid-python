@@ -12,6 +12,7 @@ from ...commons.types.phone_number import PhoneNumber
 from ...commons.types.street_address_short_zip import StreetAddressShortZip
 from ...non_insurance_payers.resources.v_1.types.non_insurance_payer_id import NonInsurancePayerId
 from .gender import Gender
+from .patient_non_insurance_payer_info_create import PatientNonInsurancePayerInfoCreate
 
 
 class PatientUpdate(pydantic.BaseModel):
@@ -38,6 +39,13 @@ class PatientUpdate(pydantic.BaseModel):
     email: typing.Optional[Email] = None
     email_consent: typing.Optional[bool] = None
     non_insurance_payers: typing.Optional[typing.List[NonInsurancePayerId]] = pydantic.Field(default=None)
+    """
+    On update, we will replace the existing list of non-insurance payers with the new list if populated.
+    """
+
+    non_insurance_payers_info: typing.Optional[typing.List[PatientNonInsurancePayerInfoCreate]] = pydantic.Field(
+        default=None
+    )
     """
     On update, we will replace the existing list of non-insurance payers with the new list if populated.
     """

@@ -5,22 +5,14 @@ import typing
 
 import pydantic
 
-from ......core.datetime_utils import serialize_datetime
-from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .non_insurance_payer_address_update import NonInsurancePayerAddressUpdate
-from .non_insurance_payer_category_update import NonInsurancePayerCategoryUpdate
-from .non_insurance_payer_description_update import NonInsurancePayerDescriptionUpdate
+from ....core.datetime_utils import serialize_datetime
+from ....core.pydantic_utilities import deep_union_pydantic_dicts
+from ...non_insurance_payers.resources.v_1.types.non_insurance_payer_id import NonInsurancePayerId
 
 
-class NonInsurancePayerUpdateRequest(pydantic.BaseModel):
-    name: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Max 50 characters allowed
-    """
-
-    description: typing.Optional[NonInsurancePayerDescriptionUpdate] = None
-    category: typing.Optional[NonInsurancePayerCategoryUpdate] = None
-    address: typing.Optional[NonInsurancePayerAddressUpdate] = None
+class PatientNonInsurancePayerInfoCreate(pydantic.BaseModel):
+    non_insurance_payer_id: NonInsurancePayerId
+    member_id: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

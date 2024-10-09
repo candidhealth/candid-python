@@ -51,6 +51,8 @@ class V1Client:
         from candid.client import CandidApiClient
         from candid.resources.pre_encounter import (
             AdditionalPayerInformation,
+            Address,
+            AddressUse,
             HumanName,
             NameUse,
             Period,
@@ -93,6 +95,18 @@ class V1Client:
                         "2023-01-15",
                     ),
                     biological_sex=Sex.FEMALE,
+                    address=Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
                 ),
                 relationship=Relationship.SELF,
                 patient="string",
@@ -192,6 +206,8 @@ class V1Client:
         from candid.client import CandidApiClient
         from candid.resources.pre_encounter import (
             AdditionalPayerInformation,
+            Address,
+            AddressUse,
             HumanName,
             NameUse,
             Period,
@@ -238,6 +254,18 @@ class V1Client:
                         "2023-01-15",
                     ),
                     biological_sex=Sex.FEMALE,
+                    address=Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(
+                            start={"key": "value"},
+                            end={"key": "value"},
+                        ),
+                    ),
                 ),
                 relationship=Relationship.SELF,
                 patient="string",
@@ -649,6 +677,8 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApiClient
         from candid.resources.pre_encounter import (
             AdditionalPayerInformation,
+            Address,
+            AddressUse,
             HumanName,
             NameUse,
             Period,
@@ -694,6 +724,18 @@ class AsyncV1Client:
                             "2023-01-15",
                         ),
                         biological_sex=Sex.FEMALE,
+                        address=Address(
+                            use=AddressUse.HOME,
+                            line=["string"],
+                            city="string",
+                            state="string",
+                            postal_code="string",
+                            country="string",
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
                     ),
                     relationship=Relationship.SELF,
                     patient="string",
@@ -797,6 +839,8 @@ class AsyncV1Client:
         from candid.client import AsyncCandidApiClient
         from candid.resources.pre_encounter import (
             AdditionalPayerInformation,
+            Address,
+            AddressUse,
             HumanName,
             NameUse,
             Period,
@@ -846,6 +890,18 @@ class AsyncV1Client:
                             "2023-01-15",
                         ),
                         biological_sex=Sex.FEMALE,
+                        address=Address(
+                            use=AddressUse.HOME,
+                            line=["string"],
+                            city="string",
+                            state="string",
+                            postal_code="string",
+                            country="string",
+                            period=Period(
+                                start={"key": "value"},
+                                end={"key": "value"},
+                            ),
+                        ),
                     ),
                     relationship=Relationship.SELF,
                     patient="string",

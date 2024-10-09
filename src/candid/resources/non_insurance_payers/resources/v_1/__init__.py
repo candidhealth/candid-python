@@ -3,6 +3,9 @@
 from .types import (
     CreateNonInsurancePayerRequest,
     NonInsurancePayer,
+    NonInsurancePayerAddressUpdate,
+    NonInsurancePayerAddressUpdate_Remove,
+    NonInsurancePayerAddressUpdate_Set,
     NonInsurancePayerCategoryUpdate,
     NonInsurancePayerCategoryUpdate_Remove,
     NonInsurancePayerCategoryUpdate_Set,
@@ -19,6 +22,9 @@ from .types import (
 __all__ = [
     "CreateNonInsurancePayerRequest",
     "NonInsurancePayer",
+    "NonInsurancePayerAddressUpdate",
+    "NonInsurancePayerAddressUpdate_Remove",
+    "NonInsurancePayerAddressUpdate_Set",
     "NonInsurancePayerCategoryUpdate",
     "NonInsurancePayerCategoryUpdate_Remove",
     "NonInsurancePayerCategoryUpdate_Set",

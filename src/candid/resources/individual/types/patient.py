@@ -12,6 +12,7 @@ from ...commons.types.phone_number import PhoneNumber
 from ...non_insurance_payers.resources.v_1.types.non_insurance_payer import NonInsurancePayer
 from .individual_id import IndividualId
 from .patient_base import PatientBase
+from .patient_non_insurance_payer_info import PatientNonInsurancePayerInfo
 
 
 class Patient(PatientBase):
@@ -24,6 +25,7 @@ class Patient(PatientBase):
     from candid import (
         Gender,
         Patient,
+        PatientNonInsurancePayerInfo,
         PhoneNumber,
         PhoneNumberType,
         State,
@@ -50,6 +52,20 @@ class Patient(PatientBase):
                 category="Foundation",
                 description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
                 enabled=True,
+            )
+        ],
+        non_insurance_payers_info=[
+            PatientNonInsurancePayerInfo(
+                non_insurance_payer=NonInsurancePayer(
+                    non_insurance_payer_id=uuid.UUID(
+                        "eb7623ab-d5bc-4b25-b257-2b8fcec578de",
+                    ),
+                    name="Sunrise Foundation",
+                    category="Foundation",
+                    description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
+                    enabled=True,
+                ),
+                member_id="123456789",
             )
         ],
         phone_consent=True,
@@ -79,6 +95,7 @@ class Patient(PatientBase):
     email: typing.Optional[Email] = None
     email_consent: bool
     non_insurance_payers: typing.List[NonInsurancePayer]
+    non_insurance_payers_info: typing.List[PatientNonInsurancePayerInfo]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

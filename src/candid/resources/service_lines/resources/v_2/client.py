@@ -51,8 +51,13 @@ class V2Client:
         from candid.client import CandidApiClient
         from candid.resources.service_lines.v_2 import (
             DenialReasonContent,
+            DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
             ServiceLineCreateStandalone,
             ServiceLineDenialReason,
+            TestResult,
+            TestResultType,
         )
 
         client = CandidApiClient(
@@ -92,6 +97,22 @@ class V2Client:
                 end_date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
+                drug_identification=DrugIdentification(
+                    service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
+                    national_drug_code="string",
+                    national_drug_unit_count="string",
+                    measurement_unit_code=MeasurementUnitCode.MILLILITERS,
+                    link_sequence_number="string",
+                    pharmacy_prescription_number="string",
+                    conversion_formula="string",
+                    drug_description="string",
+                ),
+                test_results=[
+                    TestResult(
+                        value=1.1,
+                        result_type=TestResultType.HEMATOCRIT,
+                    )
+                ],
             ),
         )
         """
@@ -325,8 +346,13 @@ class AsyncV2Client:
         from candid.client import AsyncCandidApiClient
         from candid.resources.service_lines.v_2 import (
             DenialReasonContent,
+            DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
             ServiceLineCreateStandalone,
             ServiceLineDenialReason,
+            TestResult,
+            TestResultType,
         )
 
         client = AsyncCandidApiClient(
@@ -369,6 +395,22 @@ class AsyncV2Client:
                     end_date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
+                    drug_identification=DrugIdentification(
+                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
+                        national_drug_code="string",
+                        national_drug_unit_count="string",
+                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
+                        link_sequence_number="string",
+                        pharmacy_prescription_number="string",
+                        conversion_formula="string",
+                        drug_description="string",
+                    ),
+                    test_results=[
+                        TestResult(
+                            value=1.1,
+                            result_type=TestResultType.HEMATOCRIT,
+                        )
+                    ],
                 ),
             )
 

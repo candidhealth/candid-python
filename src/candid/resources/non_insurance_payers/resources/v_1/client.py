@@ -49,6 +49,7 @@ class V1Client:
 
         Examples
         --------
+        from candid import State, StreetAddressShortZip
         from candid.client import CandidApiClient
         from candid.resources.non_insurance_payers.v_1 import (
             CreateNonInsurancePayerRequest,
@@ -63,6 +64,14 @@ class V1Client:
                 name="string",
                 description="string",
                 category="string",
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
             ),
         )
         """
@@ -317,6 +326,7 @@ class V1Client:
 
         from candid.client import CandidApiClient
         from candid.resources.non_insurance_payers.v_1 import (
+            NonInsurancePayerAddressUpdate,
             NonInsurancePayerCategoryUpdate,
             NonInsurancePayerDescriptionUpdate,
             NonInsurancePayerUpdateRequest,
@@ -334,6 +344,7 @@ class V1Client:
                 name="string",
                 description=NonInsurancePayerDescriptionUpdate(),
                 category=NonInsurancePayerCategoryUpdate(),
+                address=NonInsurancePayerAddressUpdate(),
             ),
         )
         """
@@ -436,6 +447,7 @@ class AsyncV1Client:
         --------
         import asyncio
 
+        from candid import State, StreetAddressShortZip
         from candid.client import AsyncCandidApiClient
         from candid.resources.non_insurance_payers.v_1 import (
             CreateNonInsurancePayerRequest,
@@ -453,6 +465,14 @@ class AsyncV1Client:
                     name="string",
                     description="string",
                     category="string",
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
                 ),
             )
 
@@ -733,6 +753,7 @@ class AsyncV1Client:
 
         from candid.client import AsyncCandidApiClient
         from candid.resources.non_insurance_payers.v_1 import (
+            NonInsurancePayerAddressUpdate,
             NonInsurancePayerCategoryUpdate,
             NonInsurancePayerDescriptionUpdate,
             NonInsurancePayerUpdateRequest,
@@ -753,6 +774,7 @@ class AsyncV1Client:
                     name="string",
                     description=NonInsurancePayerDescriptionUpdate(),
                     category=NonInsurancePayerCategoryUpdate(),
+                    address=NonInsurancePayerAddressUpdate(),
                 ),
             )
 

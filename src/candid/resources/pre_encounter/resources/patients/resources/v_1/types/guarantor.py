@@ -14,7 +14,7 @@ from .....common.types.human_name import HumanName
 
 class Guarantor(pydantic.BaseModel):
     name: HumanName
-    telecom: ContactPoint
+    telecom: typing.Optional[ContactPoint] = None
     email: typing.Optional[str] = None
     birth_date: dt.date
     address: Address

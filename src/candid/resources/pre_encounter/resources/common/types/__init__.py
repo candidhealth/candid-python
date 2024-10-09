@@ -4,6 +4,7 @@ from .additional_payer_information import AdditionalPayerInformation
 from .address import Address
 from .address_use import AddressUse
 from .appointment_id import AppointmentId
+from .canonical_non_insurance_payer_association import CanonicalNonInsurancePayerAssociation
 from .canonical_non_insurance_payer_id import CanonicalNonInsurancePayerId
 from .canonical_provider_id import CanonicalProviderId
 from .contact_point import ContactPoint
@@ -37,6 +38,7 @@ __all__ = [
     "Address",
     "AddressUse",
     "AppointmentId",
+    "CanonicalNonInsurancePayerAssociation",
     "CanonicalNonInsurancePayerId",
     "CanonicalProviderId",
     "ContactPoint",

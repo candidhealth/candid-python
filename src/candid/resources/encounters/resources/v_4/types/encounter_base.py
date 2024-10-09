@@ -145,6 +145,11 @@ class EncounterBase(pydantic.BaseModel):
     Code indicating the reason why a request was delayed
     """
 
+    referral_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+    """
+
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)

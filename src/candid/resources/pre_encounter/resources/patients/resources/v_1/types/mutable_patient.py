@@ -8,6 +8,7 @@ import pydantic
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
 from .....common.types.address import Address
+from .....common.types.canonical_non_insurance_payer_association import CanonicalNonInsurancePayerAssociation
 from .....common.types.canonical_non_insurance_payer_id import CanonicalNonInsurancePayerId
 from .....common.types.contact_point import ContactPoint
 from .....common.types.disability_status import DisabilityStatus
@@ -102,10 +103,12 @@ class MutablePatient(pydantic.BaseModel):
     general_practitioners: typing.List[ExternalProvider]
     filing_order: FilingOrder
     non_insurance_payers: typing.Optional[typing.List[CanonicalNonInsurancePayerId]] = None
+    non_insurance_payer_associations: typing.Optional[typing.List[CanonicalNonInsurancePayerAssociation]] = None
     guarantor: typing.Optional[Guarantor] = None
     self_pay: typing.Optional[bool] = None
     authorizations: typing.Optional[typing.List[Authorization]] = None
     referrals: typing.Optional[typing.List[Referral]] = None
+    primary_service_facility_id: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -2,6 +2,11 @@
 
 from .create_non_insurance_payer_request import CreateNonInsurancePayerRequest
 from .non_insurance_payer import NonInsurancePayer
+from .non_insurance_payer_address_update import (
+    NonInsurancePayerAddressUpdate,
+    NonInsurancePayerAddressUpdate_Remove,
+    NonInsurancePayerAddressUpdate_Set,
+)
 from .non_insurance_payer_category_update import (
     NonInsurancePayerCategoryUpdate,
     NonInsurancePayerCategoryUpdate_Remove,
@@ -21,6 +26,9 @@ from .toggle_non_insurance_payer_enablement_request import ToggleNonInsurancePay
 __all__ = [
     "CreateNonInsurancePayerRequest",
     "NonInsurancePayer",
+    "NonInsurancePayerAddressUpdate",
+    "NonInsurancePayerAddressUpdate_Remove",
+    "NonInsurancePayerAddressUpdate_Set",
     "NonInsurancePayerCategoryUpdate",
     "NonInsurancePayerCategoryUpdate_Remove",
     "NonInsurancePayerCategoryUpdate_Set",

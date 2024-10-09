@@ -321,6 +321,7 @@ class V4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -513,6 +514,9 @@ class V4Client:
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
 
+        referral_number : typing.Optional[str]
+            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -537,6 +541,7 @@ class V4Client:
             InsuranceTypeCode,
             IntendedSubmissionMedium,
             PatientCreate,
+            PatientNonInsurancePayerInfoCreate,
             PatientRelationshipToInsuredCodeAll,
             PhoneNumber,
             PhoneNumberType,
@@ -613,6 +618,14 @@ class V4Client:
                 non_insurance_payers=[
                     uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ],
+                non_insurance_payers_info=[
+                    PatientNonInsurancePayerInfoCreate(
+                        non_insurance_payer_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        member_id="string",
                     )
                 ],
                 email_consent=True,
@@ -1025,6 +1038,7 @@ class V4Client:
                 "2023-01-15",
             ),
             delay_reason_code=DelayReasonCode.C_1,
+            referral_number="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1073,6 +1087,7 @@ class V4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
+                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1153,6 +1168,7 @@ class V4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -1334,6 +1350,9 @@ class V4Client:
         delay_reason_code : typing.Optional[DelayReasonCode]
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
+
+        referral_number : typing.Optional[str]
+            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1706,6 +1725,7 @@ class V4Client:
                 "2023-01-15",
             ),
             delay_reason_code=DelayReasonCode.C_1,
+            referral_number="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1749,6 +1769,7 @@ class V4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
+                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1827,6 +1848,7 @@ class V4Client:
         supervising_provider: typing.Optional[SupervisingProviderUpdate] = OMIT,
         referring_provider: typing.Optional[ReferringProviderUpdate] = OMIT,
         initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
+        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -2012,6 +2034,10 @@ class V4Client:
             indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
 
 
+        referral_number : typing.Optional[str]
+            Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
+
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2031,6 +2057,7 @@ class V4Client:
             FacilityTypeCode,
             Gender,
             InsuranceTypeCode,
+            PatientNonInsurancePayerInfoCreate,
             PatientRelationshipToInsuredCodeAll,
             PatientUpdate,
             PhoneNumber,
@@ -2225,6 +2252,14 @@ class V4Client:
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     )
                 ],
+                non_insurance_payers_info=[
+                    PatientNonInsurancePayerInfoCreate(
+                        non_insurance_payer_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        member_id="string",
+                    )
+                ],
             ),
             patient_authorized_release=True,
             schema_instances=[
@@ -2372,6 +2407,7 @@ class V4Client:
                 last_name="string",
                 organization_name="string",
             ),
+            referral_number="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -2416,6 +2452,7 @@ class V4Client:
                 "supervising_provider": supervising_provider,
                 "referring_provider": referring_provider,
                 "initial_referring_provider": initial_referring_provider,
+                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,
@@ -2705,6 +2742,7 @@ class AsyncV4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -2897,6 +2935,9 @@ class AsyncV4Client:
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
 
+        referral_number : typing.Optional[str]
+            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2922,6 +2963,7 @@ class AsyncV4Client:
             InsuranceTypeCode,
             IntendedSubmissionMedium,
             PatientCreate,
+            PatientNonInsurancePayerInfoCreate,
             PatientRelationshipToInsuredCodeAll,
             PhoneNumber,
             PhoneNumberType,
@@ -3001,6 +3043,14 @@ class AsyncV4Client:
                     non_insurance_payers=[
                         uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ],
+                    non_insurance_payers_info=[
+                        PatientNonInsurancePayerInfoCreate(
+                            non_insurance_payer_id=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            ),
+                            member_id="string",
                         )
                     ],
                     email_consent=True,
@@ -3413,6 +3463,7 @@ class AsyncV4Client:
                     "2023-01-15",
                 ),
                 delay_reason_code=DelayReasonCode.C_1,
+                referral_number="string",
             )
 
 
@@ -3464,6 +3515,7 @@ class AsyncV4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
+                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,
@@ -3544,6 +3596,7 @@ class AsyncV4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
+        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -3725,6 +3778,9 @@ class AsyncV4Client:
         delay_reason_code : typing.Optional[DelayReasonCode]
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
+
+        referral_number : typing.Optional[str]
+            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -4101,6 +4157,7 @@ class AsyncV4Client:
                     "2023-01-15",
                 ),
                 delay_reason_code=DelayReasonCode.C_1,
+                referral_number="string",
             )
 
 
@@ -4147,6 +4204,7 @@ class AsyncV4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
+                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,
@@ -4225,6 +4283,7 @@ class AsyncV4Client:
         supervising_provider: typing.Optional[SupervisingProviderUpdate] = OMIT,
         referring_provider: typing.Optional[ReferringProviderUpdate] = OMIT,
         initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
+        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -4410,6 +4469,10 @@ class AsyncV4Client:
             indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
 
 
+        referral_number : typing.Optional[str]
+            Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
+
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -4430,6 +4493,7 @@ class AsyncV4Client:
             FacilityTypeCode,
             Gender,
             InsuranceTypeCode,
+            PatientNonInsurancePayerInfoCreate,
             PatientRelationshipToInsuredCodeAll,
             PatientUpdate,
             PhoneNumber,
@@ -4627,6 +4691,14 @@ class AsyncV4Client:
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         )
                     ],
+                    non_insurance_payers_info=[
+                        PatientNonInsurancePayerInfoCreate(
+                            non_insurance_payer_id=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            ),
+                            member_id="string",
+                        )
+                    ],
                 ),
                 patient_authorized_release=True,
                 schema_instances=[
@@ -4774,6 +4846,7 @@ class AsyncV4Client:
                     last_name="string",
                     organization_name="string",
                 ),
+                referral_number="string",
             )
 
 
@@ -4821,6 +4894,7 @@ class AsyncV4Client:
                 "supervising_provider": supervising_provider,
                 "referring_provider": referring_provider,
                 "initial_referring_provider": initial_referring_provider,
+                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,

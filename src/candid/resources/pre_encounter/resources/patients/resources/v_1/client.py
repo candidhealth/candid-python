@@ -64,6 +64,7 @@ class V1Client:
         from candid.resources.pre_encounter import (
             Address,
             AddressUse,
+            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
             DisabilityStatus,
@@ -255,6 +256,12 @@ class V1Client:
                     ],
                 ),
                 non_insurance_payers=["string"],
+                non_insurance_payer_associations=[
+                    CanonicalNonInsurancePayerAssociation(
+                        id="string",
+                        member_id={"key": "value"},
+                    )
+                ],
                 guarantor=Guarantor(
                     name=HumanName(
                         family="string",
@@ -334,6 +341,7 @@ class V1Client:
                         notes={"key": "value"},
                     )
                 ],
+                primary_service_facility_id="string",
             ),
         )
         """
@@ -563,6 +571,7 @@ class V1Client:
         from candid.resources.pre_encounter import (
             Address,
             AddressUse,
+            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
             DisabilityStatus,
@@ -755,6 +764,12 @@ class V1Client:
                     ],
                 ),
                 non_insurance_payers=["string"],
+                non_insurance_payer_associations=[
+                    CanonicalNonInsurancePayerAssociation(
+                        id="string",
+                        member_id={"key": "value"},
+                    )
+                ],
                 guarantor=Guarantor(
                     name=HumanName(
                         family="string",
@@ -834,6 +849,7 @@ class V1Client:
                         notes={"key": "value"},
                     )
                 ],
+                primary_service_facility_id="string",
             ),
         )
         """
@@ -1055,6 +1071,7 @@ class AsyncV1Client:
         from candid.resources.pre_encounter import (
             Address,
             AddressUse,
+            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
             DisabilityStatus,
@@ -1249,6 +1266,12 @@ class AsyncV1Client:
                         ],
                     ),
                     non_insurance_payers=["string"],
+                    non_insurance_payer_associations=[
+                        CanonicalNonInsurancePayerAssociation(
+                            id="string",
+                            member_id={"key": "value"},
+                        )
+                    ],
                     guarantor=Guarantor(
                         name=HumanName(
                             family="string",
@@ -1328,6 +1351,7 @@ class AsyncV1Client:
                             notes={"key": "value"},
                         )
                     ],
+                    primary_service_facility_id="string",
                 ),
             )
 
@@ -1585,6 +1609,7 @@ class AsyncV1Client:
         from candid.resources.pre_encounter import (
             Address,
             AddressUse,
+            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
             DisabilityStatus,
@@ -1780,6 +1805,12 @@ class AsyncV1Client:
                         ],
                     ),
                     non_insurance_payers=["string"],
+                    non_insurance_payer_associations=[
+                        CanonicalNonInsurancePayerAssociation(
+                            id="string",
+                            member_id={"key": "value"},
+                        )
+                    ],
                     guarantor=Guarantor(
                         name=HumanName(
                             family="string",
@@ -1859,6 +1890,7 @@ class AsyncV1Client:
                             notes={"key": "value"},
                         )
                     ],
+                    primary_service_facility_id="string",
                 ),
             )
 

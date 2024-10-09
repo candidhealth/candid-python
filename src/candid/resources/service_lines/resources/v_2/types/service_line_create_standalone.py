@@ -13,7 +13,9 @@ from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_units import ServiceLineUnits
 from .....diagnoses.types.diagnosis_id import DiagnosisId
+from .drug_identification import DrugIdentification
 from .service_line_denial_reason import ServiceLineDenialReason
+from .test_result import TestResult
 
 
 class ServiceLineCreateStandalone(pydantic.BaseModel):
@@ -42,6 +44,11 @@ class ServiceLineCreateStandalone(pydantic.BaseModel):
 
     date_of_service: typing.Optional[dt.date] = None
     end_date_of_service: typing.Optional[dt.date] = None
+    drug_identification: typing.Optional[DrugIdentification] = None
+    test_results: typing.Optional[typing.List[TestResult]] = pydantic.Field(default=None)
+    """
+    Maps to MEA-02 on the 837-P. No more than 5 test results may be submitted per service line.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

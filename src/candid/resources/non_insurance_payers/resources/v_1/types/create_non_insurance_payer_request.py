@@ -7,6 +7,7 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....commons.types.street_address_short_zip import StreetAddressShortZip
 
 
 class CreateNonInsurancePayerRequest(pydantic.BaseModel):
@@ -24,6 +25,8 @@ class CreateNonInsurancePayerRequest(pydantic.BaseModel):
     """
     Max 255 characters allowed
     """
+
+    address: typing.Optional[StreetAddressShortZip] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

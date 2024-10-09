@@ -2606,6 +2606,7 @@ from candid import (
     InsuranceTypeCode,
     IntendedSubmissionMedium,
     PatientCreate,
+    PatientNonInsurancePayerInfoCreate,
     PatientRelationshipToInsuredCodeAll,
     PhoneNumber,
     PhoneNumberType,
@@ -2682,6 +2683,14 @@ client.encounters.v_4.create(
         non_insurance_payers=[
             uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            )
+        ],
+        non_insurance_payers_info=[
+            PatientNonInsurancePayerInfoCreate(
+                non_insurance_payer_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                member_id="string",
             )
         ],
         email_consent=True,
@@ -3094,6 +3103,7 @@ client.encounters.v_4.create(
         "2023-01-15",
     ),
     delay_reason_code=DelayReasonCode.C_1,
+    referral_number="string",
 )
 
 ```
@@ -3554,6 +3564,14 @@ Code indicating the reason why a request was delayed
 <dl>
 <dd>
 
+**referral_number:** `typing.Optional[str]` — Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -3971,6 +3989,7 @@ client.encounters.v_4.create_from_pre_encounter_patient(
         "2023-01-15",
     ),
     delay_reason_code=DelayReasonCode.C_1,
+    referral_number="string",
 )
 
 ```
@@ -4376,6 +4395,14 @@ Code indicating the reason why a request was delayed
 <dl>
 <dd>
 
+**referral_number:** `typing.Optional[str]` — Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -4411,6 +4438,7 @@ from candid import (
     FacilityTypeCode,
     Gender,
     InsuranceTypeCode,
+    PatientNonInsurancePayerInfoCreate,
     PatientRelationshipToInsuredCodeAll,
     PatientUpdate,
     PhoneNumber,
@@ -4605,6 +4633,14 @@ client.encounters.v_4.update(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             )
         ],
+        non_insurance_payers_info=[
+            PatientNonInsurancePayerInfoCreate(
+                non_insurance_payer_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                member_id="string",
+            )
+        ],
     ),
     patient_authorized_release=True,
     schema_instances=[
@@ -4752,6 +4788,7 @@ client.encounters.v_4.update(
         last_name="string",
         organization_name="string",
     ),
+    referral_number="string",
 )
 
 ```
@@ -5167,6 +5204,15 @@ report this data.
 
 The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
 indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**referral_number:** `typing.Optional[str]` — Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
 
     
 </dd>
@@ -9902,6 +9948,7 @@ client.non_insurance_payer_refunds.v_1.delete(
 <dd>
 
 ```python
+from candid import State, StreetAddressShortZip
 from candid.client import CandidApiClient
 from candid.resources.non_insurance_payers.v_1 import (
     CreateNonInsurancePayerRequest,
@@ -9916,6 +9963,14 @@ client.non_insurance_payers.v_1.create(
         name="string",
         description="string",
         category="string",
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
     ),
 )
 
@@ -10219,6 +10274,7 @@ import uuid
 
 from candid.client import CandidApiClient
 from candid.resources.non_insurance_payers.v_1 import (
+    NonInsurancePayerAddressUpdate,
     NonInsurancePayerCategoryUpdate,
     NonInsurancePayerDescriptionUpdate,
     NonInsurancePayerUpdateRequest,
@@ -10236,6 +10292,7 @@ client.non_insurance_payers.v_1.update(
         name="string",
         description=NonInsurancePayerDescriptionUpdate(),
         category=NonInsurancePayerCategoryUpdate(),
+        address=NonInsurancePayerAddressUpdate(),
     ),
 )
 
@@ -12469,8 +12526,13 @@ from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
 from candid.client import CandidApiClient
 from candid.resources.service_lines.v_2 import (
     DenialReasonContent,
+    DrugIdentification,
+    MeasurementUnitCode,
+    ServiceIdQualifier,
     ServiceLineCreateStandalone,
     ServiceLineDenialReason,
+    TestResult,
+    TestResultType,
 )
 
 client = CandidApiClient(
@@ -12510,6 +12572,22 @@ client.service_lines.v_2.create(
         end_date_of_service=datetime.date.fromisoformat(
             "2023-01-15",
         ),
+        drug_identification=DrugIdentification(
+            service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
+            national_drug_code="string",
+            national_drug_unit_count="string",
+            measurement_unit_code=MeasurementUnitCode.MILLILITERS,
+            link_sequence_number="string",
+            pharmacy_prescription_number="string",
+            conversion_formula="string",
+            drug_description="string",
+        ),
+        test_results=[
+            TestResult(
+                value=1.1,
+                result_type=TestResultType.HEMATOCRIT,
+            )
+        ],
     ),
 )
 
@@ -14227,6 +14305,8 @@ import datetime
 from candid.client import CandidApiClient
 from candid.resources.pre_encounter import (
     AdditionalPayerInformation,
+    Address,
+    AddressUse,
     HumanName,
     NameUse,
     Period,
@@ -14269,6 +14349,18 @@ client.pre_encounter.coverages.v_1.create(
                 "2023-01-15",
             ),
             biological_sex=Sex.FEMALE,
+            address=Address(
+                use=AddressUse.HOME,
+                line=["string"],
+                city="string",
+                state="string",
+                postal_code="string",
+                country="string",
+                period=Period(
+                    start={"key": "value"},
+                    end={"key": "value"},
+                ),
+            ),
         ),
         relationship=Relationship.SELF,
         patient="string",
@@ -14385,6 +14477,8 @@ import uuid
 from candid.client import CandidApiClient
 from candid.resources.pre_encounter import (
     AdditionalPayerInformation,
+    Address,
+    AddressUse,
     HumanName,
     NameUse,
     Period,
@@ -14431,6 +14525,18 @@ client.pre_encounter.coverages.v_1.update(
                 "2023-01-15",
             ),
             biological_sex=Sex.FEMALE,
+            address=Address(
+                use=AddressUse.HOME,
+                line=["string"],
+                city="string",
+                state="string",
+                postal_code="string",
+                country="string",
+                period=Period(
+                    start={"key": "value"},
+                    end={"key": "value"},
+                ),
+            ),
         ),
         relationship=Relationship.SELF,
         patient="string",
@@ -15268,6 +15374,7 @@ from candid.client import CandidApiClient
 from candid.resources.pre_encounter import (
     Address,
     AddressUse,
+    CanonicalNonInsurancePayerAssociation,
     ContactPoint,
     ContactPointUse,
     DisabilityStatus,
@@ -15459,6 +15566,12 @@ client.pre_encounter.patients.v_1.create(
             ],
         ),
         non_insurance_payers=["string"],
+        non_insurance_payer_associations=[
+            CanonicalNonInsurancePayerAssociation(
+                id="string",
+                member_id={"key": "value"},
+            )
+        ],
         guarantor=Guarantor(
             name=HumanName(
                 family="string",
@@ -15538,6 +15651,7 @@ client.pre_encounter.patients.v_1.create(
                 notes={"key": "value"},
             )
         ],
+        primary_service_facility_id="string",
     ),
 )
 
@@ -15867,6 +15981,7 @@ from candid.client import CandidApiClient
 from candid.resources.pre_encounter import (
     Address,
     AddressUse,
+    CanonicalNonInsurancePayerAssociation,
     ContactPoint,
     ContactPointUse,
     DisabilityStatus,
@@ -16059,6 +16174,12 @@ client.pre_encounter.patients.v_1.update(
             ],
         ),
         non_insurance_payers=["string"],
+        non_insurance_payer_associations=[
+            CanonicalNonInsurancePayerAssociation(
+                id="string",
+                member_id={"key": "value"},
+            )
+        ],
         guarantor=Guarantor(
             name=HumanName(
                 family="string",
@@ -16138,6 +16259,7 @@ client.pre_encounter.patients.v_1.update(
                 notes={"key": "value"},
             )
         ],
+        primary_service_facility_id="string",
     ),
 )
 
