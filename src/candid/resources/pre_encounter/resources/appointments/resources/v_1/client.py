@@ -91,10 +91,7 @@ class V1Client:
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     type=ExternalProviderType.PRIMARY,
                     npi="string",
@@ -102,14 +99,10 @@ class V1Client:
                         ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period={"key": "value"},
                         )
                     ],
-                    addresses=[{"key": "value"}],
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    addresses=[],
+                    period=Period(),
                     canonical_id="string",
                 ),
                 estimated_copay_cents=1,
@@ -320,10 +313,7 @@ class V1Client:
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     type=ExternalProviderType.PRIMARY,
                     npi="string",
@@ -331,14 +321,10 @@ class V1Client:
                         ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period={"key": "value"},
                         )
                     ],
-                    addresses=[{"key": "value"}],
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    addresses=[],
+                    period=Period(),
                     canonical_id="string",
                 ),
                 estimated_copay_cents=1,
@@ -556,10 +542,7 @@ class AsyncV1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         type=ExternalProviderType.PRIMARY,
                         npi="string",
@@ -567,14 +550,10 @@ class AsyncV1Client:
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period={"key": "value"},
                             )
                         ],
-                        addresses=[{"key": "value"}],
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        addresses=[],
+                        period=Period(),
                         canonical_id="string",
                     ),
                     estimated_copay_cents=1,
@@ -808,10 +787,7 @@ class AsyncV1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         type=ExternalProviderType.PRIMARY,
                         npi="string",
@@ -819,14 +795,10 @@ class AsyncV1Client:
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period={"key": "value"},
                             )
                         ],
-                        addresses=[{"key": "value"}],
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        addresses=[],
+                        period=Period(),
                         canonical_id="string",
                     ),
                     estimated_copay_cents=1,

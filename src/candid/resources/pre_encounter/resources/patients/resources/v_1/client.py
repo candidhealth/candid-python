@@ -103,20 +103,14 @@ class V1Client:
                     family="string",
                     given=["string"],
                     use=NameUse.USUAL,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                 ),
                 other_names=[
                     HumanName(
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     )
                 ],
                 gender=Gender.MAN,
@@ -141,10 +135,7 @@ class V1Client:
                     state="string",
                     postal_code="string",
                     country="string",
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                 ),
                 other_addresses=[
                     Address(
@@ -154,22 +145,17 @@ class V1Client:
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     )
                 ],
                 primary_telecom=ContactPoint(
                     value="string",
                     use=ContactPointUse.HOME,
-                    period={"key": "value"},
                 ),
                 other_telecoms=[
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     )
                 ],
                 email="string",
@@ -187,16 +173,12 @@ class V1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         telecoms=[
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period={"key": "value"},
                             )
                         ],
                         addresses=[
@@ -207,16 +189,10 @@ class V1Client:
                                 state="string",
                                 postal_code="string",
                                 country="string",
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                period=Period(),
                             )
                         ],
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                         hipaa_authorization=True,
                     )
                 ],
@@ -226,10 +202,7 @@ class V1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         type=ExternalProviderType.PRIMARY,
                         npi="string",
@@ -237,14 +210,10 @@ class V1Client:
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period={"key": "value"},
                             )
                         ],
-                        addresses=[{"key": "value"}],
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        addresses=[],
+                        period=Period(),
                         canonical_id="string",
                     )
                 ],
@@ -259,7 +228,6 @@ class V1Client:
                 non_insurance_payer_associations=[
                     CanonicalNonInsurancePayerAssociation(
                         id="string",
-                        member_id={"key": "value"},
                     )
                 ],
                 guarantor=Guarantor(
@@ -267,15 +235,11 @@ class V1Client:
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     telecom=ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     ),
                     email="string",
                     birth_date=datetime.date.fromisoformat(
@@ -288,10 +252,7 @@ class V1Client:
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                 ),
                 self_pay=True,
@@ -299,13 +260,9 @@ class V1Client:
                     Authorization(
                         payer_id="string",
                         payer_name="string",
-                        additional_payer_information={"key": "value"},
                         authorization_number="string",
                         cpt_code="string",
                         units=AuthorizationUnit.VISIT,
-                        quantity={"key": "value"},
-                        period={"key": "value"},
-                        notes={"key": "value"},
                     )
                 ],
                 referrals=[
@@ -315,10 +272,7 @@ class V1Client:
                                 family="string",
                                 given=["string"],
                                 use=NameUse.USUAL,
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                period=Period(),
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -326,19 +280,13 @@ class V1Client:
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period={"key": "value"},
                                 )
                             ],
-                            addresses=[{"key": "value"}],
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            addresses=[],
+                            period=Period(),
                             canonical_id="string",
                         ),
                         referral_number="string",
-                        period={"key": "value"},
-                        notes={"key": "value"},
                     )
                 ],
                 primary_service_facility_id="string",
@@ -611,20 +559,14 @@ class V1Client:
                     family="string",
                     given=["string"],
                     use=NameUse.USUAL,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                 ),
                 other_names=[
                     HumanName(
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     )
                 ],
                 gender=Gender.MAN,
@@ -649,10 +591,7 @@ class V1Client:
                     state="string",
                     postal_code="string",
                     country="string",
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                 ),
                 other_addresses=[
                     Address(
@@ -662,22 +601,17 @@ class V1Client:
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     )
                 ],
                 primary_telecom=ContactPoint(
                     value="string",
                     use=ContactPointUse.HOME,
-                    period={"key": "value"},
                 ),
                 other_telecoms=[
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     )
                 ],
                 email="string",
@@ -695,16 +629,12 @@ class V1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         telecoms=[
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period={"key": "value"},
                             )
                         ],
                         addresses=[
@@ -715,16 +645,10 @@ class V1Client:
                                 state="string",
                                 postal_code="string",
                                 country="string",
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                period=Period(),
                             )
                         ],
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                         hipaa_authorization=True,
                     )
                 ],
@@ -734,10 +658,7 @@ class V1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         type=ExternalProviderType.PRIMARY,
                         npi="string",
@@ -745,14 +666,10 @@ class V1Client:
                             ContactPoint(
                                 value="string",
                                 use=ContactPointUse.HOME,
-                                period={"key": "value"},
                             )
                         ],
-                        addresses=[{"key": "value"}],
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        addresses=[],
+                        period=Period(),
                         canonical_id="string",
                     )
                 ],
@@ -767,7 +684,6 @@ class V1Client:
                 non_insurance_payer_associations=[
                     CanonicalNonInsurancePayerAssociation(
                         id="string",
-                        member_id={"key": "value"},
                     )
                 ],
                 guarantor=Guarantor(
@@ -775,15 +691,11 @@ class V1Client:
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     telecom=ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     ),
                     email="string",
                     birth_date=datetime.date.fromisoformat(
@@ -796,10 +708,7 @@ class V1Client:
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                 ),
                 self_pay=True,
@@ -807,13 +716,9 @@ class V1Client:
                     Authorization(
                         payer_id="string",
                         payer_name="string",
-                        additional_payer_information={"key": "value"},
                         authorization_number="string",
                         cpt_code="string",
                         units=AuthorizationUnit.VISIT,
-                        quantity={"key": "value"},
-                        period={"key": "value"},
-                        notes={"key": "value"},
                     )
                 ],
                 referrals=[
@@ -823,10 +728,7 @@ class V1Client:
                                 family="string",
                                 given=["string"],
                                 use=NameUse.USUAL,
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                period=Period(),
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -834,19 +736,13 @@ class V1Client:
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period={"key": "value"},
                                 )
                             ],
-                            addresses=[{"key": "value"}],
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            addresses=[],
+                            period=Period(),
                             canonical_id="string",
                         ),
                         referral_number="string",
-                        period={"key": "value"},
-                        notes={"key": "value"},
                     )
                 ],
                 primary_service_facility_id="string",
@@ -1113,20 +1009,14 @@ class AsyncV1Client:
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     other_names=[
                         HumanName(
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         )
                     ],
                     gender=Gender.MAN,
@@ -1151,10 +1041,7 @@ class AsyncV1Client:
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     other_addresses=[
                         Address(
@@ -1164,22 +1051,17 @@ class AsyncV1Client:
                             state="string",
                             postal_code="string",
                             country="string",
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         )
                     ],
                     primary_telecom=ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     ),
                     other_telecoms=[
                         ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period={"key": "value"},
                         )
                     ],
                     email="string",
@@ -1197,16 +1079,12 @@ class AsyncV1Client:
                                 family="string",
                                 given=["string"],
                                 use=NameUse.USUAL,
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                period=Period(),
                             ),
                             telecoms=[
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period={"key": "value"},
                                 )
                             ],
                             addresses=[
@@ -1217,16 +1095,10 @@ class AsyncV1Client:
                                     state="string",
                                     postal_code="string",
                                     country="string",
-                                    period=Period(
-                                        start={"key": "value"},
-                                        end={"key": "value"},
-                                    ),
+                                    period=Period(),
                                 )
                             ],
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                             hipaa_authorization=True,
                         )
                     ],
@@ -1236,10 +1108,7 @@ class AsyncV1Client:
                                 family="string",
                                 given=["string"],
                                 use=NameUse.USUAL,
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                period=Period(),
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -1247,14 +1116,10 @@ class AsyncV1Client:
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period={"key": "value"},
                                 )
                             ],
-                            addresses=[{"key": "value"}],
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            addresses=[],
+                            period=Period(),
                             canonical_id="string",
                         )
                     ],
@@ -1269,7 +1134,6 @@ class AsyncV1Client:
                     non_insurance_payer_associations=[
                         CanonicalNonInsurancePayerAssociation(
                             id="string",
-                            member_id={"key": "value"},
                         )
                     ],
                     guarantor=Guarantor(
@@ -1277,15 +1141,11 @@ class AsyncV1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         telecom=ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period={"key": "value"},
                         ),
                         email="string",
                         birth_date=datetime.date.fromisoformat(
@@ -1298,10 +1158,7 @@ class AsyncV1Client:
                             state="string",
                             postal_code="string",
                             country="string",
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                     ),
                     self_pay=True,
@@ -1309,13 +1166,9 @@ class AsyncV1Client:
                         Authorization(
                             payer_id="string",
                             payer_name="string",
-                            additional_payer_information={"key": "value"},
                             authorization_number="string",
                             cpt_code="string",
                             units=AuthorizationUnit.VISIT,
-                            quantity={"key": "value"},
-                            period={"key": "value"},
-                            notes={"key": "value"},
                         )
                     ],
                     referrals=[
@@ -1325,10 +1178,7 @@ class AsyncV1Client:
                                     family="string",
                                     given=["string"],
                                     use=NameUse.USUAL,
-                                    period=Period(
-                                        start={"key": "value"},
-                                        end={"key": "value"},
-                                    ),
+                                    period=Period(),
                                 ),
                                 type=ExternalProviderType.PRIMARY,
                                 npi="string",
@@ -1336,19 +1186,13 @@ class AsyncV1Client:
                                     ContactPoint(
                                         value="string",
                                         use=ContactPointUse.HOME,
-                                        period={"key": "value"},
                                     )
                                 ],
-                                addresses=[{"key": "value"}],
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                addresses=[],
+                                period=Period(),
                                 canonical_id="string",
                             ),
                             referral_number="string",
-                            period={"key": "value"},
-                            notes={"key": "value"},
                         )
                     ],
                     primary_service_facility_id="string",
@@ -1652,20 +1496,14 @@ class AsyncV1Client:
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     other_names=[
                         HumanName(
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         )
                     ],
                     gender=Gender.MAN,
@@ -1690,10 +1528,7 @@ class AsyncV1Client:
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     other_addresses=[
                         Address(
@@ -1703,22 +1538,17 @@ class AsyncV1Client:
                             state="string",
                             postal_code="string",
                             country="string",
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         )
                     ],
                     primary_telecom=ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     ),
                     other_telecoms=[
                         ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period={"key": "value"},
                         )
                     ],
                     email="string",
@@ -1736,16 +1566,12 @@ class AsyncV1Client:
                                 family="string",
                                 given=["string"],
                                 use=NameUse.USUAL,
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                period=Period(),
                             ),
                             telecoms=[
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period={"key": "value"},
                                 )
                             ],
                             addresses=[
@@ -1756,16 +1582,10 @@ class AsyncV1Client:
                                     state="string",
                                     postal_code="string",
                                     country="string",
-                                    period=Period(
-                                        start={"key": "value"},
-                                        end={"key": "value"},
-                                    ),
+                                    period=Period(),
                                 )
                             ],
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                             hipaa_authorization=True,
                         )
                     ],
@@ -1775,10 +1595,7 @@ class AsyncV1Client:
                                 family="string",
                                 given=["string"],
                                 use=NameUse.USUAL,
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                period=Period(),
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -1786,14 +1603,10 @@ class AsyncV1Client:
                                 ContactPoint(
                                     value="string",
                                     use=ContactPointUse.HOME,
-                                    period={"key": "value"},
                                 )
                             ],
-                            addresses=[{"key": "value"}],
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            addresses=[],
+                            period=Period(),
                             canonical_id="string",
                         )
                     ],
@@ -1808,7 +1621,6 @@ class AsyncV1Client:
                     non_insurance_payer_associations=[
                         CanonicalNonInsurancePayerAssociation(
                             id="string",
-                            member_id={"key": "value"},
                         )
                     ],
                     guarantor=Guarantor(
@@ -1816,15 +1628,11 @@ class AsyncV1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         telecom=ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period={"key": "value"},
                         ),
                         email="string",
                         birth_date=datetime.date.fromisoformat(
@@ -1837,10 +1645,7 @@ class AsyncV1Client:
                             state="string",
                             postal_code="string",
                             country="string",
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                     ),
                     self_pay=True,
@@ -1848,13 +1653,9 @@ class AsyncV1Client:
                         Authorization(
                             payer_id="string",
                             payer_name="string",
-                            additional_payer_information={"key": "value"},
                             authorization_number="string",
                             cpt_code="string",
                             units=AuthorizationUnit.VISIT,
-                            quantity={"key": "value"},
-                            period={"key": "value"},
-                            notes={"key": "value"},
                         )
                     ],
                     referrals=[
@@ -1864,10 +1665,7 @@ class AsyncV1Client:
                                     family="string",
                                     given=["string"],
                                     use=NameUse.USUAL,
-                                    period=Period(
-                                        start={"key": "value"},
-                                        end={"key": "value"},
-                                    ),
+                                    period=Period(),
                                 ),
                                 type=ExternalProviderType.PRIMARY,
                                 npi="string",
@@ -1875,19 +1673,13 @@ class AsyncV1Client:
                                     ContactPoint(
                                         value="string",
                                         use=ContactPointUse.HOME,
-                                        period={"key": "value"},
                                     )
                                 ],
-                                addresses=[{"key": "value"}],
-                                period=Period(
-                                    start={"key": "value"},
-                                    end={"key": "value"},
-                                ),
+                                addresses=[],
+                                period=Period(),
                                 canonical_id="string",
                             ),
                             referral_number="string",
-                            period={"key": "value"},
-                            notes={"key": "value"},
                         )
                     ],
                     primary_service_facility_id="string",

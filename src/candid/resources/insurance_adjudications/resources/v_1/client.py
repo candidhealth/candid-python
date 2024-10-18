@@ -126,11 +126,8 @@ class V1Client:
                     uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",): [
                         ClaimAdjudicationCreate(
                             claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
-                            insurance_paid_amount_cents={"key": "value"},
-                            charge_amount_cents={"key": "value"},
-                            service_lines={"string": {"key": "value"}},
-                            payer_claim_number={"key": "value"},
-                            carcs=[{"key": "value"}],
+                            service_lines={},
+                            carcs=[],
                         )
                     ]
                 },
@@ -328,11 +325,8 @@ class AsyncV1Client:
                         uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",): [
                             ClaimAdjudicationCreate(
                                 claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
-                                insurance_paid_amount_cents={"key": "value"},
-                                charge_amount_cents={"key": "value"},
-                                service_lines={"string": {"key": "value"}},
-                                payer_claim_number={"key": "value"},
-                                carcs=[{"key": "value"}],
+                                service_lines={},
+                                carcs=[],
                             )
                         ]
                     },

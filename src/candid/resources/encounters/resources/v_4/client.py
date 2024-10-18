@@ -56,7 +56,6 @@ from .errors.cash_pay_payer_error import CashPayPayerError
 from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
 from .errors.encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
 from .errors.encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
-from .errors.insurance_pay_missing_primary_coverage_error import InsurancePayMissingPrimaryCoverageError
 from .errors.schema_instance_validation_http_failure import SchemaInstanceValidationHttpFailure
 from .types.billable_status_type import BillableStatusType
 from .types.cash_pay_payer_error_message import CashPayPayerErrorMessage
@@ -70,7 +69,6 @@ from .types.encounter_patient_control_number_uniqueness_error_type import (
     EncounterPatientControlNumberUniquenessErrorType,
 )
 from .types.encounter_sort_options import EncounterSortOptions
-from .types.insurance_pay_missing_primary_coverage_error_type import InsurancePayMissingPrimaryCoverageErrorType
 from .types.intervention import Intervention
 from .types.medication import Medication
 from .types.patient_history_category import PatientHistoryCategory
@@ -306,6 +304,7 @@ class V4Client:
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        referral_number: typing.Optional[str] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
@@ -321,7 +320,6 @@ class V4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
-        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -446,6 +444,10 @@ class V4Client:
             instances cannot be created for the same schema on an encounter.
 
 
+        referral_number : typing.Optional[str]
+            Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
+
+
         date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
@@ -513,9 +515,6 @@ class V4Client:
         delay_reason_code : typing.Optional[DelayReasonCode]
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
-
-        referral_number : typing.Optional[str]
-            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -961,6 +960,7 @@ class V4Client:
                     },
                 )
             ],
+            referral_number="string",
             external_id="string",
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -1038,7 +1038,6 @@ class V4Client:
                 "2023-01-15",
             ),
             delay_reason_code=DelayReasonCode.C_1,
-            referral_number="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1067,6 +1066,7 @@ class V4Client:
                 "external_claim_submission": external_claim_submission,
                 "tag_ids": tag_ids,
                 "schema_instances": schema_instances,
+                "referral_number": referral_number,
                 "external_id": external_id,
                 "date_of_service": date_of_service,
                 "end_date_of_service": end_date_of_service,
@@ -1087,7 +1087,6 @@ class V4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
-                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1168,7 +1167,6 @@ class V4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
-        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -1183,7 +1181,7 @@ class V4Client:
         - Referring Provider
         - Subscriber Primary
         - Subscriber Secondary
-        - Prior Authorization Number
+        - Referral Number
         - Responsible Party
         - Guarantor
 
@@ -1350,9 +1348,6 @@ class V4Client:
         delay_reason_code : typing.Optional[DelayReasonCode]
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
-
-        referral_number : typing.Optional[str]
-            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1725,7 +1720,6 @@ class V4Client:
                 "2023-01-15",
             ),
             delay_reason_code=DelayReasonCode.C_1,
-            referral_number="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1769,7 +1763,6 @@ class V4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
-                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1800,10 +1793,6 @@ class V4Client:
             if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
-                )
-            if _response_json["errorName"] == "InsurancePayMissingPrimaryCoverageError":
-                raise InsurancePayMissingPrimaryCoverageError(
-                    pydantic_v1.parse_obj_as(InsurancePayMissingPrimaryCoverageErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -2727,6 +2716,7 @@ class AsyncV4Client:
         external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        referral_number: typing.Optional[str] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
@@ -2742,7 +2732,6 @@ class AsyncV4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
-        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -2867,6 +2856,10 @@ class AsyncV4Client:
             instances cannot be created for the same schema on an encounter.
 
 
+        referral_number : typing.Optional[str]
+            Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
+
+
         date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
@@ -2934,9 +2927,6 @@ class AsyncV4Client:
         delay_reason_code : typing.Optional[DelayReasonCode]
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
-
-        referral_number : typing.Optional[str]
-            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -3386,6 +3376,7 @@ class AsyncV4Client:
                         },
                     )
                 ],
+                referral_number="string",
                 external_id="string",
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
@@ -3463,7 +3454,6 @@ class AsyncV4Client:
                     "2023-01-15",
                 ),
                 delay_reason_code=DelayReasonCode.C_1,
-                referral_number="string",
             )
 
 
@@ -3495,6 +3485,7 @@ class AsyncV4Client:
                 "external_claim_submission": external_claim_submission,
                 "tag_ids": tag_ids,
                 "schema_instances": schema_instances,
+                "referral_number": referral_number,
                 "external_id": external_id,
                 "date_of_service": date_of_service,
                 "end_date_of_service": end_date_of_service,
@@ -3515,7 +3506,6 @@ class AsyncV4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
-                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,
@@ -3596,7 +3586,6 @@ class AsyncV4Client:
         onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = OMIT,
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
-        referral_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -3611,7 +3600,7 @@ class AsyncV4Client:
         - Referring Provider
         - Subscriber Primary
         - Subscriber Secondary
-        - Prior Authorization Number
+        - Referral Number
         - Responsible Party
         - Guarantor
 
@@ -3778,9 +3767,6 @@ class AsyncV4Client:
         delay_reason_code : typing.Optional[DelayReasonCode]
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
-
-        referral_number : typing.Optional[str]
-            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -4157,7 +4143,6 @@ class AsyncV4Client:
                     "2023-01-15",
                 ),
                 delay_reason_code=DelayReasonCode.C_1,
-                referral_number="string",
             )
 
 
@@ -4204,7 +4189,6 @@ class AsyncV4Client:
                 "onset_of_current_illness_or_symptom_date": onset_of_current_illness_or_symptom_date,
                 "last_menstrual_period_date": last_menstrual_period_date,
                 "delay_reason_code": delay_reason_code,
-                "referral_number": referral_number,
             },
             request_options=request_options,
             omit=OMIT,
@@ -4235,10 +4219,6 @@ class AsyncV4Client:
             if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
-                )
-            if _response_json["errorName"] == "InsurancePayMissingPrimaryCoverageError":
-                raise InsurancePayMissingPrimaryCoverageError(
-                    pydantic_v1.parse_obj_as(InsurancePayMissingPrimaryCoverageErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 

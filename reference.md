@@ -777,6 +777,524 @@ value, overriding what was set before.
 </dl>
 </details>
 
+## Credentialing V2
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid import Regions_States, State
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.create(
+    rendering_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    contracting_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    start_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    end_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    regions=Regions_States(
+        states=[State.AA],
+    ),
+    submitted_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    payer_loaded_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**rendering_provider_id:** `uuid.UUID` — The ID of the rendering provider covered by the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contracting_provider_id:** `uuid.UUID` — The ID of the practice location at which the rendering provider is covered by the credentialing span.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_uuid:** `uuid.UUID` — The ID of the payer covered by the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**regions:** `Regions` — The states covered by the credentialing span. A span may be national and cover all states.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**start_date:** `typing.Optional[dt.date]` — Start date of the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**end_date:** `typing.Optional[dt.date]` — End date of the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**submitted_date:** `typing.Optional[dt.date]` — Date that the credential paperwork was submitted.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_loaded_date:** `typing.Optional[dt.date]` — Date that the payer loaded the credentialing span into their system.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.get(
+    provider_credentialing_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**provider_credentialing_id:** `ProviderCredentialingSpanId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">get_all</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.get_all(
+    limit=1,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    as_rendering_provider=True,
+    as_contracting_provider=True,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Maximum number of entities per page, defaults to 100.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_uuid:** `typing.Optional[uuid.UUID]` — Filter by payer.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**as_rendering_provider:** `typing.Optional[bool]` — Filter to credentialing spans where the provider is a rendering provider.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**as_contracting_provider:** `typing.Optional[bool]` — Filter to credentialing spans where the provider is a contracting provider.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">delete</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Soft deletes a credentialing span rate from the system.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.delete(
+    provider_credentialing_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**provider_credentialing_id:** `ProviderCredentialingSpanId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid import Regions_States, State
+from candid.client import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.update(
+    provider_credentialing_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    contracting_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    start_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    end_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    regions=Regions_States(
+        states=[State.AA],
+    ),
+    submitted_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    payer_loaded_date=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**provider_credentialing_id:** `ProviderCredentialingSpanId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contracting_provider_id:** `typing.Optional[uuid.UUID]` — The ID of the practice location at which the rendering provider is covered by the credentialing span.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_uuid:** `typing.Optional[uuid.UUID]` — The ID of the payer doing the credentialing.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**start_date:** `typing.Optional[dt.date]` — Start date of the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**end_date:** `typing.Optional[dt.date]` — End date of the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**regions:** `typing.Optional[Regions]` — The states covered by the credentialing span. A span may be national and cover all states.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**submitted_date:** `typing.Optional[dt.date]` — Date that the credential paperwork was submitted.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_loaded_date:** `typing.Optional[dt.date]` — Date that the payer loaded the credentialing span into their system.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## CustomSchemas V1
 <details><summary><code>client.custom_schemas.v_1.<a href="src/candid/resources/custom_schemas/resources/v_1/client.py">get_multi</a>()</code></summary>
 <dl>
@@ -3026,6 +3544,7 @@ client.encounters.v_4.create(
             },
         )
     ],
+    referral_number="string",
     external_id="string",
     date_of_service=datetime.date.fromisoformat(
         "2023-01-15",
@@ -3103,7 +3622,6 @@ client.encounters.v_4.create(
         "2023-01-15",
     ),
     delay_reason_code=DelayReasonCode.C_1,
-    referral_number="string",
 )
 
 ```
@@ -3398,6 +3916,15 @@ instances cannot be created for the same schema on an encounter.
 <dl>
 <dd>
 
+**referral_number:** `typing.Optional[str]` — Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **date_of_service:** `typing.Optional[dt.date]` 
 
 Date formatted as YYYY-MM-DD; eg: 2019-08-24.
@@ -3564,14 +4091,6 @@ Code indicating the reason why a request was delayed
 <dl>
 <dd>
 
-**referral_number:** `typing.Optional[str]` — Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -3607,7 +4126,7 @@ where applicable. In particular, the following fields are populated from the pat
 - Referring Provider
 - Subscriber Primary
 - Subscriber Secondary
-- Prior Authorization Number
+- Referral Number
 - Responsible Party
 - Guarantor
 
@@ -3989,7 +4508,6 @@ client.encounters.v_4.create_from_pre_encounter_patient(
         "2023-01-15",
     ),
     delay_reason_code=DelayReasonCode.C_1,
-    referral_number="string",
 )
 
 ```
@@ -4388,14 +4906,6 @@ Required when, in the judgment of the provider, the services on this claim are r
 
 837i Loop2300, CLM-1300 Box 20
 Code indicating the reason why a request was delayed
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**referral_number:** `typing.Optional[str]` — Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
     
 </dd>
 </dl>
@@ -7736,11 +8246,8 @@ client.insurance_adjudications.v_1.create(
             uuid.UUID("d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",): [
                 ClaimAdjudicationCreate(
                     claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
-                    insurance_paid_amount_cents={"key": "value"},
-                    charge_amount_cents={"key": "value"},
-                    service_lines={"string": {"key": "value"}},
-                    payer_claim_number={"key": "value"},
-                    carcs=[{"key": "value"}],
+                    service_lines={},
+                    carcs=[],
                 )
             ]
         },
@@ -11027,7 +11534,6 @@ client.organization_providers.v_3.create(
             IdentifierCreate(
                 period=DateRangeOptionalEnd(
                     start_date="string",
-                    end_date={"key": "value"},
                 ),
                 identifier_code=IdentifierCode.MCR,
                 identifier_value=IdentifierValue_MedicareProviderIdentifier(),
@@ -11142,7 +11648,6 @@ client.organization_providers.v_3.update(
             UpdatableIdentifier_Add(
                 period=DateRangeOptionalEnd(
                     start_date="string",
-                    end_date={"key": "value"},
                 ),
                 identifier_code=IdentifierCode.MCR,
                 identifier_value=IdentifierValue_MedicareProviderIdentifier(),
@@ -12522,8 +13027,15 @@ client.payers.v_3.get_all(
 import datetime
 import uuid
 
-from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
+from candid import (
+    FacilityTypeCode,
+    ProcedureModifier,
+    ServiceLineUnits,
+    State,
+    StreetAddressLongZip,
+)
 from candid.client import CandidApiClient
+from candid.resources.encounter_providers.v_2 import OrderingProvider
 from candid.resources.service_lines.v_2 import (
     DenialReasonContent,
     DrugIdentification,
@@ -12581,6 +13093,21 @@ client.service_lines.v_2.create(
             pharmacy_prescription_number="string",
             conversion_formula="string",
             drug_description="string",
+        ),
+        ordering_provider=OrderingProvider(
+            npi="string",
+            taxonomy_code="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            first_name="string",
+            last_name="string",
+            organization_name="string",
         ),
         test_results=[
             TestResult(
@@ -13748,10 +14275,7 @@ client.pre_encounter.appointments.v_1.create(
                 family="string",
                 given=["string"],
                 use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
             type=ExternalProviderType.PRIMARY,
             npi="string",
@@ -13759,14 +14283,10 @@ client.pre_encounter.appointments.v_1.create(
                 ContactPoint(
                     value="string",
                     use=ContactPointUse.HOME,
-                    period={"key": "value"},
                 )
             ],
-            addresses=[{"key": "value"}],
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
+            addresses=[],
+            period=Period(),
             canonical_id="string",
         ),
         estimated_copay_cents=1,
@@ -14033,10 +14553,7 @@ client.pre_encounter.appointments.v_1.update(
                 family="string",
                 given=["string"],
                 use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
             type=ExternalProviderType.PRIMARY,
             npi="string",
@@ -14044,14 +14561,10 @@ client.pre_encounter.appointments.v_1.update(
                 ContactPoint(
                     value="string",
                     use=ContactPointUse.HOME,
-                    period={"key": "value"},
                 )
             ],
-            addresses=[{"key": "value"}],
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
+            addresses=[],
+            period=Period(),
             canonical_id="string",
         ),
         estimated_copay_cents=1,
@@ -14340,10 +14853,7 @@ client.pre_encounter.coverages.v_1.create(
                 family="string",
                 given=["string"],
                 use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
             date_of_birth=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -14356,10 +14866,7 @@ client.pre_encounter.coverages.v_1.create(
                 state="string",
                 postal_code="string",
                 country="string",
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
         ),
         relationship=Relationship.SELF,
@@ -14378,10 +14885,7 @@ client.pre_encounter.coverages.v_1.create(
             name="string",
             plan_type=NetworkType.SELF_PAY,
             type=InsuranceTypeCode.C_01,
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
+            period=Period(),
             insurance_card_image_locator="string",
         ),
         verified=True,
@@ -14403,10 +14907,7 @@ client.pre_encounter.coverages.v_1.create(
                 "2024-01-15 09:30:00+00:00",
             ),
         ),
-        benefits=CoverageBenefits(
-            plan_coverage={"key": "value"},
-            service_specific_coverage={"key": "value"},
-        ),
+        benefits=CoverageBenefits(),
     ),
 )
 
@@ -14516,10 +15017,7 @@ client.pre_encounter.coverages.v_1.update(
                 family="string",
                 given=["string"],
                 use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
             date_of_birth=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -14532,10 +15030,7 @@ client.pre_encounter.coverages.v_1.update(
                 state="string",
                 postal_code="string",
                 country="string",
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
         ),
         relationship=Relationship.SELF,
@@ -14554,10 +15049,7 @@ client.pre_encounter.coverages.v_1.update(
             name="string",
             plan_type=NetworkType.SELF_PAY,
             type=InsuranceTypeCode.C_01,
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
+            period=Period(),
             insurance_card_image_locator="string",
         ),
         verified=True,
@@ -14579,10 +15071,7 @@ client.pre_encounter.coverages.v_1.update(
                 "2024-01-15 09:30:00+00:00",
             ),
         ),
-        benefits=CoverageBenefits(
-            plan_coverage={"key": "value"},
-            service_specific_coverage={"key": "value"},
-        ),
+        benefits=CoverageBenefits(),
     ),
 )
 
@@ -15413,20 +15902,14 @@ client.pre_encounter.patients.v_1.create(
             family="string",
             given=["string"],
             use=NameUse.USUAL,
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
+            period=Period(),
         ),
         other_names=[
             HumanName(
                 family="string",
                 given=["string"],
                 use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             )
         ],
         gender=Gender.MAN,
@@ -15451,10 +15934,7 @@ client.pre_encounter.patients.v_1.create(
             state="string",
             postal_code="string",
             country="string",
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
+            period=Period(),
         ),
         other_addresses=[
             Address(
@@ -15464,22 +15944,17 @@ client.pre_encounter.patients.v_1.create(
                 state="string",
                 postal_code="string",
                 country="string",
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             )
         ],
         primary_telecom=ContactPoint(
             value="string",
             use=ContactPointUse.HOME,
-            period={"key": "value"},
         ),
         other_telecoms=[
             ContactPoint(
                 value="string",
                 use=ContactPointUse.HOME,
-                period={"key": "value"},
             )
         ],
         email="string",
@@ -15497,16 +15972,12 @@ client.pre_encounter.patients.v_1.create(
                     family="string",
                     given=["string"],
                     use=NameUse.USUAL,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                 ),
                 telecoms=[
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     )
                 ],
                 addresses=[
@@ -15517,16 +15988,10 @@ client.pre_encounter.patients.v_1.create(
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     )
                 ],
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
                 hipaa_authorization=True,
             )
         ],
@@ -15536,10 +16001,7 @@ client.pre_encounter.patients.v_1.create(
                     family="string",
                     given=["string"],
                     use=NameUse.USUAL,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                 ),
                 type=ExternalProviderType.PRIMARY,
                 npi="string",
@@ -15547,14 +16009,10 @@ client.pre_encounter.patients.v_1.create(
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     )
                 ],
-                addresses=[{"key": "value"}],
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                addresses=[],
+                period=Period(),
                 canonical_id="string",
             )
         ],
@@ -15569,7 +16027,6 @@ client.pre_encounter.patients.v_1.create(
         non_insurance_payer_associations=[
             CanonicalNonInsurancePayerAssociation(
                 id="string",
-                member_id={"key": "value"},
             )
         ],
         guarantor=Guarantor(
@@ -15577,15 +16034,11 @@ client.pre_encounter.patients.v_1.create(
                 family="string",
                 given=["string"],
                 use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
             telecom=ContactPoint(
                 value="string",
                 use=ContactPointUse.HOME,
-                period={"key": "value"},
             ),
             email="string",
             birth_date=datetime.date.fromisoformat(
@@ -15598,10 +16051,7 @@ client.pre_encounter.patients.v_1.create(
                 state="string",
                 postal_code="string",
                 country="string",
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
         ),
         self_pay=True,
@@ -15609,13 +16059,9 @@ client.pre_encounter.patients.v_1.create(
             Authorization(
                 payer_id="string",
                 payer_name="string",
-                additional_payer_information={"key": "value"},
                 authorization_number="string",
                 cpt_code="string",
                 units=AuthorizationUnit.VISIT,
-                quantity={"key": "value"},
-                period={"key": "value"},
-                notes={"key": "value"},
             )
         ],
         referrals=[
@@ -15625,10 +16071,7 @@ client.pre_encounter.patients.v_1.create(
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     type=ExternalProviderType.PRIMARY,
                     npi="string",
@@ -15636,19 +16079,13 @@ client.pre_encounter.patients.v_1.create(
                         ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period={"key": "value"},
                         )
                     ],
-                    addresses=[{"key": "value"}],
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    addresses=[],
+                    period=Period(),
                     canonical_id="string",
                 ),
                 referral_number="string",
-                period={"key": "value"},
-                notes={"key": "value"},
             )
         ],
         primary_service_facility_id="string",
@@ -16021,20 +16458,14 @@ client.pre_encounter.patients.v_1.update(
             family="string",
             given=["string"],
             use=NameUse.USUAL,
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
+            period=Period(),
         ),
         other_names=[
             HumanName(
                 family="string",
                 given=["string"],
                 use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             )
         ],
         gender=Gender.MAN,
@@ -16059,10 +16490,7 @@ client.pre_encounter.patients.v_1.update(
             state="string",
             postal_code="string",
             country="string",
-            period=Period(
-                start={"key": "value"},
-                end={"key": "value"},
-            ),
+            period=Period(),
         ),
         other_addresses=[
             Address(
@@ -16072,22 +16500,17 @@ client.pre_encounter.patients.v_1.update(
                 state="string",
                 postal_code="string",
                 country="string",
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             )
         ],
         primary_telecom=ContactPoint(
             value="string",
             use=ContactPointUse.HOME,
-            period={"key": "value"},
         ),
         other_telecoms=[
             ContactPoint(
                 value="string",
                 use=ContactPointUse.HOME,
-                period={"key": "value"},
             )
         ],
         email="string",
@@ -16105,16 +16528,12 @@ client.pre_encounter.patients.v_1.update(
                     family="string",
                     given=["string"],
                     use=NameUse.USUAL,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                 ),
                 telecoms=[
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     )
                 ],
                 addresses=[
@@ -16125,16 +16544,10 @@ client.pre_encounter.patients.v_1.update(
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     )
                 ],
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
                 hipaa_authorization=True,
             )
         ],
@@ -16144,10 +16557,7 @@ client.pre_encounter.patients.v_1.update(
                     family="string",
                     given=["string"],
                     use=NameUse.USUAL,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                 ),
                 type=ExternalProviderType.PRIMARY,
                 npi="string",
@@ -16155,14 +16565,10 @@ client.pre_encounter.patients.v_1.update(
                     ContactPoint(
                         value="string",
                         use=ContactPointUse.HOME,
-                        period={"key": "value"},
                     )
                 ],
-                addresses=[{"key": "value"}],
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                addresses=[],
+                period=Period(),
                 canonical_id="string",
             )
         ],
@@ -16177,7 +16583,6 @@ client.pre_encounter.patients.v_1.update(
         non_insurance_payer_associations=[
             CanonicalNonInsurancePayerAssociation(
                 id="string",
-                member_id={"key": "value"},
             )
         ],
         guarantor=Guarantor(
@@ -16185,15 +16590,11 @@ client.pre_encounter.patients.v_1.update(
                 family="string",
                 given=["string"],
                 use=NameUse.USUAL,
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
             telecom=ContactPoint(
                 value="string",
                 use=ContactPointUse.HOME,
-                period={"key": "value"},
             ),
             email="string",
             birth_date=datetime.date.fromisoformat(
@@ -16206,10 +16607,7 @@ client.pre_encounter.patients.v_1.update(
                 state="string",
                 postal_code="string",
                 country="string",
-                period=Period(
-                    start={"key": "value"},
-                    end={"key": "value"},
-                ),
+                period=Period(),
             ),
         ),
         self_pay=True,
@@ -16217,13 +16615,9 @@ client.pre_encounter.patients.v_1.update(
             Authorization(
                 payer_id="string",
                 payer_name="string",
-                additional_payer_information={"key": "value"},
                 authorization_number="string",
                 cpt_code="string",
                 units=AuthorizationUnit.VISIT,
-                quantity={"key": "value"},
-                period={"key": "value"},
-                notes={"key": "value"},
             )
         ],
         referrals=[
@@ -16233,10 +16627,7 @@ client.pre_encounter.patients.v_1.update(
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     type=ExternalProviderType.PRIMARY,
                     npi="string",
@@ -16244,19 +16635,13 @@ client.pre_encounter.patients.v_1.update(
                         ContactPoint(
                             value="string",
                             use=ContactPointUse.HOME,
-                            period={"key": "value"},
                         )
                     ],
-                    addresses=[{"key": "value"}],
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    addresses=[],
+                    period=Period(),
                     canonical_id="string",
                 ),
                 referral_number="string",
-                period={"key": "value"},
-                notes={"key": "value"},
             )
         ],
         primary_service_facility_id="string",

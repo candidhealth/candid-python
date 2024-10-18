@@ -47,8 +47,15 @@ class V2Client:
         import datetime
         import uuid
 
-        from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
+        from candid import (
+            FacilityTypeCode,
+            ProcedureModifier,
+            ServiceLineUnits,
+            State,
+            StreetAddressLongZip,
+        )
         from candid.client import CandidApiClient
+        from candid.resources.encounter_providers.v_2 import OrderingProvider
         from candid.resources.service_lines.v_2 import (
             DenialReasonContent,
             DrugIdentification,
@@ -106,6 +113,21 @@ class V2Client:
                     pharmacy_prescription_number="string",
                     conversion_formula="string",
                     drug_description="string",
+                ),
+                ordering_provider=OrderingProvider(
+                    npi="string",
+                    taxonomy_code="string",
+                    address=StreetAddressLongZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 test_results=[
                     TestResult(
@@ -342,8 +364,15 @@ class AsyncV2Client:
         import datetime
         import uuid
 
-        from candid import FacilityTypeCode, ProcedureModifier, ServiceLineUnits
+        from candid import (
+            FacilityTypeCode,
+            ProcedureModifier,
+            ServiceLineUnits,
+            State,
+            StreetAddressLongZip,
+        )
         from candid.client import AsyncCandidApiClient
+        from candid.resources.encounter_providers.v_2 import OrderingProvider
         from candid.resources.service_lines.v_2 import (
             DenialReasonContent,
             DrugIdentification,
@@ -404,6 +433,21 @@ class AsyncV2Client:
                         pharmacy_prescription_number="string",
                         conversion_formula="string",
                         drug_description="string",
+                    ),
+                    ordering_provider=OrderingProvider(
+                        npi="string",
+                        taxonomy_code="string",
+                        address=StreetAddressLongZip(
+                            address_1="123 Main St",
+                            address_2="Apt 1",
+                            city="New York",
+                            state=State.NY,
+                            zip_code="10001",
+                            zip_plus_four_code="1234",
+                        ),
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
                     ),
                     test_results=[
                         TestResult(

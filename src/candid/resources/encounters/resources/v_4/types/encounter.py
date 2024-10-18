@@ -265,6 +265,12 @@ class Encounter(EncounterBase):
                     category="Foundation",
                     description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
                     enabled=True,
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        city="San Francisco",
+                        state=State.CA,
+                        zip_code="94105",
+                    ),
                 )
             ],
             non_insurance_payers_info=[
@@ -277,6 +283,12 @@ class Encounter(EncounterBase):
                         category="Foundation",
                         description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
                         enabled=True,
+                        address=StreetAddressShortZip(
+                            address_1="123 Main St",
+                            city="San Francisco",
+                            state=State.CA,
+                            zip_code="94105",
+                        ),
                     ),
                     member_id="123456789",
                 )
@@ -792,6 +804,11 @@ class Encounter(EncounterBase):
     """
     Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
     instances cannot be created for the same schema on an encounter.
+    """
+
+    referral_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

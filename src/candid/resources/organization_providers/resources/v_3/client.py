@@ -251,7 +251,6 @@ class V3Client:
                     IdentifierCreate(
                         period=DateRangeOptionalEnd(
                             start_date="string",
-                            end_date={"key": "value"},
                         ),
                         identifier_code=IdentifierCode.MCR,
                         identifier_value=IdentifierValue_MedicareProviderIdentifier(),
@@ -367,7 +366,6 @@ class V3Client:
                     UpdatableIdentifier_Add(
                         period=DateRangeOptionalEnd(
                             start_date="string",
-                            end_date={"key": "value"},
                         ),
                         identifier_code=IdentifierCode.MCR,
                         identifier_value=IdentifierValue_MedicareProviderIdentifier(),
@@ -646,7 +644,6 @@ class AsyncV3Client:
                         IdentifierCreate(
                             period=DateRangeOptionalEnd(
                                 start_date="string",
-                                end_date={"key": "value"},
                             ),
                             identifier_code=IdentifierCode.MCR,
                             identifier_value=IdentifierValue_MedicareProviderIdentifier(),
@@ -769,7 +766,6 @@ class AsyncV3Client:
                         UpdatableIdentifier_Add(
                             period=DateRangeOptionalEnd(
                                 start_date="string",
-                                end_date={"key": "value"},
                             ),
                             identifier_code=IdentifierCode.MCR,
                             identifier_value=IdentifierValue_MedicareProviderIdentifier(),

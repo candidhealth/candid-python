@@ -34,6 +34,7 @@ from .pre_encounter_appointment_id import PreEncounterAppointmentId
 from .pre_encounter_patient_id import PreEncounterPatientId
 from .primitive import Primitive
 from .procedure_modifier import ProcedureModifier
+from .provider_credentialing_span_id import ProviderCredentialingSpanId
 from .provider_id import ProviderId
 from .qualifier_code import QualifierCode
 from .rate_id import RateId
@@ -103,6 +104,7 @@ __all__ = [
     "PreEncounterPatientId",
     "Primitive",
     "ProcedureModifier",
+    "ProviderCredentialingSpanId",
     "ProviderId",
     "QualifierCode",
     "RateId",

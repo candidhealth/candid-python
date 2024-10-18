@@ -16,7 +16,7 @@ class PatientNonInsurancePayerInfo(pydantic.BaseModel):
     --------
     import uuid
 
-    from candid import PatientNonInsurancePayerInfo
+    from candid import PatientNonInsurancePayerInfo, State, StreetAddressShortZip
     from candid.resources.non_insurance_payers.v_1 import NonInsurancePayer
 
     PatientNonInsurancePayerInfo(
@@ -28,6 +28,12 @@ class PatientNonInsurancePayerInfo(pydantic.BaseModel):
             category="Foundation",
             description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
             enabled=True,
+            address=StreetAddressShortZip(
+                address_1="123 Main St",
+                city="San Francisco",
+                state=State.CA,
+                zip_code="94105",
+            ),
         ),
         member_id="123456789",
     )

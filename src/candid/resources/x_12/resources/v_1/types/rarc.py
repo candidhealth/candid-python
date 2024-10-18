@@ -327,6 +327,7 @@ class Rarc(str, enum.Enum):
     N_97 = "N97"
     N_98 = "N98"
     N_99 = "N99"
+    N_102 = "N102"
     N_103 = "N103"
     N_104 = "N104"
     N_105 = "N105"
@@ -1390,6 +1391,7 @@ class Rarc(str, enum.Enum):
         n_97: typing.Callable[[], T_Result],
         n_98: typing.Callable[[], T_Result],
         n_99: typing.Callable[[], T_Result],
+        n_102: typing.Callable[[], T_Result],
         n_103: typing.Callable[[], T_Result],
         n_104: typing.Callable[[], T_Result],
         n_105: typing.Callable[[], T_Result],
@@ -2771,6 +2773,8 @@ class Rarc(str, enum.Enum):
             return n_98()
         if self is Rarc.N_99:
             return n_99()
+        if self is Rarc.N_102:
+            return n_102()
         if self is Rarc.N_103:
             return n_103()
         if self is Rarc.N_104:

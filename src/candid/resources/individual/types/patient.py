@@ -52,6 +52,12 @@ class Patient(PatientBase):
                 category="Foundation",
                 description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
                 enabled=True,
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    city="San Francisco",
+                    state=State.CA,
+                    zip_code="94105",
+                ),
             )
         ],
         non_insurance_payers_info=[
@@ -64,6 +70,12 @@ class Patient(PatientBase):
                     category="Foundation",
                     description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
                     enabled=True,
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        city="San Francisco",
+                        state=State.CA,
+                        zip_code="94105",
+                    ),
                 ),
                 member_id="123456789",
             )

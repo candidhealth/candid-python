@@ -86,10 +86,7 @@ class V1Client:
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
@@ -102,10 +99,7 @@ class V1Client:
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                 ),
                 relationship=Relationship.SELF,
@@ -124,10 +118,7 @@ class V1Client:
                     name="string",
                     plan_type=NetworkType.SELF_PAY,
                     type=InsuranceTypeCode.C_01,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                     insurance_card_image_locator="string",
                 ),
                 verified=True,
@@ -149,10 +140,7 @@ class V1Client:
                         "2024-01-15 09:30:00+00:00",
                     ),
                 ),
-                benefits=CoverageBenefits(
-                    plan_coverage={"key": "value"},
-                    service_specific_coverage={"key": "value"},
-                ),
+                benefits=CoverageBenefits(),
             ),
         )
         """
@@ -245,10 +233,7 @@ class V1Client:
                         family="string",
                         given=["string"],
                         use=NameUse.USUAL,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
@@ -261,10 +246,7 @@ class V1Client:
                         state="string",
                         postal_code="string",
                         country="string",
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                     ),
                 ),
                 relationship=Relationship.SELF,
@@ -283,10 +265,7 @@ class V1Client:
                     name="string",
                     plan_type=NetworkType.SELF_PAY,
                     type=InsuranceTypeCode.C_01,
-                    period=Period(
-                        start={"key": "value"},
-                        end={"key": "value"},
-                    ),
+                    period=Period(),
                     insurance_card_image_locator="string",
                 ),
                 verified=True,
@@ -308,10 +287,7 @@ class V1Client:
                         "2024-01-15 09:30:00+00:00",
                     ),
                 ),
-                benefits=CoverageBenefits(
-                    plan_coverage={"key": "value"},
-                    service_specific_coverage={"key": "value"},
-                ),
+                benefits=CoverageBenefits(),
             ),
         )
         """
@@ -715,10 +691,7 @@ class AsyncV1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",
@@ -731,10 +704,7 @@ class AsyncV1Client:
                             state="string",
                             postal_code="string",
                             country="string",
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                     ),
                     relationship=Relationship.SELF,
@@ -753,10 +723,7 @@ class AsyncV1Client:
                         name="string",
                         plan_type=NetworkType.SELF_PAY,
                         type=InsuranceTypeCode.C_01,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                         insurance_card_image_locator="string",
                     ),
                     verified=True,
@@ -778,10 +745,7 @@ class AsyncV1Client:
                             "2024-01-15 09:30:00+00:00",
                         ),
                     ),
-                    benefits=CoverageBenefits(
-                        plan_coverage={"key": "value"},
-                        service_specific_coverage={"key": "value"},
-                    ),
+                    benefits=CoverageBenefits(),
                 ),
             )
 
@@ -881,10 +845,7 @@ class AsyncV1Client:
                             family="string",
                             given=["string"],
                             use=NameUse.USUAL,
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",
@@ -897,10 +858,7 @@ class AsyncV1Client:
                             state="string",
                             postal_code="string",
                             country="string",
-                            period=Period(
-                                start={"key": "value"},
-                                end={"key": "value"},
-                            ),
+                            period=Period(),
                         ),
                     ),
                     relationship=Relationship.SELF,
@@ -919,10 +877,7 @@ class AsyncV1Client:
                         name="string",
                         plan_type=NetworkType.SELF_PAY,
                         type=InsuranceTypeCode.C_01,
-                        period=Period(
-                            start={"key": "value"},
-                            end={"key": "value"},
-                        ),
+                        period=Period(),
                         insurance_card_image_locator="string",
                     ),
                     verified=True,
@@ -944,10 +899,7 @@ class AsyncV1Client:
                             "2024-01-15 09:30:00+00:00",
                         ),
                     ),
-                    benefits=CoverageBenefits(
-                        plan_coverage={"key": "value"},
-                        service_specific_coverage={"key": "value"},
-                    ),
+                    benefits=CoverageBenefits(),
                 ),
             )
 

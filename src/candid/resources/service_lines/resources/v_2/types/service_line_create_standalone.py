@@ -13,6 +13,7 @@ from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_units import ServiceLineUnits
 from .....diagnoses.types.diagnosis_id import DiagnosisId
+from .....encounter_providers.resources.v_2.types.ordering_provider import OrderingProvider
 from .drug_identification import DrugIdentification
 from .service_line_denial_reason import ServiceLineDenialReason
 from .test_result import TestResult
@@ -45,6 +46,12 @@ class ServiceLineCreateStandalone(pydantic.BaseModel):
     date_of_service: typing.Optional[dt.date] = None
     end_date_of_service: typing.Optional[dt.date] = None
     drug_identification: typing.Optional[DrugIdentification] = None
+    ordering_provider: typing.Optional[OrderingProvider] = pydantic.Field(default=None)
+    """
+    Required when the service or supply was ordered by a provider who is different than the rendering provider for this service line.
+    If not required by this implementation guide, do not send.
+    """
+
     test_results: typing.Optional[typing.List[TestResult]] = pydantic.Field(default=None)
     """
     Maps to MEA-02 on the 837-P. No more than 5 test results may be submitted per service line.

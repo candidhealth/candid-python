@@ -7,6 +7,7 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....commons.types.street_address_short_zip import StreetAddressShortZip
 from .non_insurance_payer_id import NonInsurancePayerId
 
 
@@ -16,6 +17,7 @@ class NonInsurancePayer(pydantic.BaseModel):
     --------
     import uuid
 
+    from candid import State, StreetAddressShortZip
     from candid.resources.non_insurance_payers.v_1 import NonInsurancePayer
 
     NonInsurancePayer(
@@ -26,6 +28,12 @@ class NonInsurancePayer(pydantic.BaseModel):
         category="Foundation",
         description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
         enabled=True,
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            city="San Francisco",
+            state=State.CA,
+            zip_code="94105",
+        ),
     )
     """
 
@@ -34,6 +42,7 @@ class NonInsurancePayer(pydantic.BaseModel):
     description: typing.Optional[str] = None
     category: typing.Optional[str] = None
     enabled: bool
+    address: typing.Optional[StreetAddressShortZip] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -10,6 +10,7 @@ from .environment import CandidApiClientEnvironment
 from .resources.auth.client import AsyncAuthClient, AuthClient
 from .resources.billing_notes.client import AsyncBillingNotesClient, BillingNotesClient
 from .resources.contracts.client import AsyncContractsClient, ContractsClient
+from .resources.credentialing.client import AsyncCredentialingClient, CredentialingClient
 from .resources.custom_schemas.client import AsyncCustomSchemasClient, CustomSchemasClient
 from .resources.diagnoses.client import AsyncDiagnosesClient, DiagnosesClient
 from .resources.eligibility.client import AsyncEligibilityClient, EligibilityClient
@@ -125,6 +126,7 @@ class CandidApiClient:
         self.auth = AuthClient(client_wrapper=self._client_wrapper)
         self.billing_notes = BillingNotesClient(client_wrapper=self._client_wrapper)
         self.contracts = ContractsClient(client_wrapper=self._client_wrapper)
+        self.credentialing = CredentialingClient(client_wrapper=self._client_wrapper)
         self.custom_schemas = CustomSchemasClient(client_wrapper=self._client_wrapper)
         self.eligibility = EligibilityClient(client_wrapper=self._client_wrapper)
         self.encounter_providers = EncounterProvidersClient(client_wrapper=self._client_wrapper)
@@ -228,6 +230,7 @@ class AsyncCandidApiClient:
         self.auth = AsyncAuthClient(client_wrapper=self._client_wrapper)
         self.billing_notes = AsyncBillingNotesClient(client_wrapper=self._client_wrapper)
         self.contracts = AsyncContractsClient(client_wrapper=self._client_wrapper)
+        self.credentialing = AsyncCredentialingClient(client_wrapper=self._client_wrapper)
         self.custom_schemas = AsyncCustomSchemasClient(client_wrapper=self._client_wrapper)
         self.eligibility = AsyncEligibilityClient(client_wrapper=self._client_wrapper)
         self.encounter_providers = AsyncEncounterProvidersClient(client_wrapper=self._client_wrapper)
