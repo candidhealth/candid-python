@@ -15,7 +15,7 @@ class GuarantorBase(pydantic.BaseModel):
     last_name: str
     external_id: str
     date_of_birth: typing.Optional[dt.date] = None
-    address: typing.Optional[StreetAddressShortZip] = None
+    address: StreetAddressShortZip
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

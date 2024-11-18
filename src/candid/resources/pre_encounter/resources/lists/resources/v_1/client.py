@@ -14,6 +14,7 @@ from ....common.types.sort_direction import SortDirection
 from .types.appointment_list_page import AppointmentListPage
 from .types.filter_query_string import FilterQueryString
 from .types.patient_list_page import PatientListPage
+from .types.sort_field_string import SortFieldString
 
 
 class V1Client:
@@ -25,7 +26,7 @@ class V1Client:
         *,
         page_token: typing.Optional[PageToken] = None,
         limit: typing.Optional[int] = None,
-        sort_field: typing.Optional[str] = None,
+        sort_field: typing.Optional[SortFieldString] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         filters: typing.Optional[FilterQueryString] = None,
         request_options: typing.Optional[RequestOptions] = None
@@ -39,7 +40,8 @@ class V1Client:
 
         limit : typing.Optional[int]
 
-        sort_field : typing.Optional[str]
+        sort_field : typing.Optional[SortFieldString]
+            Defaults to patient.updatedAt.
 
         sort_direction : typing.Optional[SortDirection]
             Defaults to ascending.
@@ -97,7 +99,7 @@ class V1Client:
     def get_appointment_list(
         self,
         *,
-        sort_field: typing.Optional[str] = None,
+        sort_field: typing.Optional[SortFieldString] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
@@ -109,8 +111,8 @@ class V1Client:
 
         Parameters
         ----------
-        sort_field : typing.Optional[str]
-            The string path to the field to order by. Defaults to appointment.startTimestamp. Path values are camelCase.
+        sort_field : typing.Optional[SortFieldString]
+            Defaults to appointment.startTimestamp.
 
         sort_direction : typing.Optional[SortDirection]
             Defaults to asc.
@@ -177,7 +179,7 @@ class AsyncV1Client:
         *,
         page_token: typing.Optional[PageToken] = None,
         limit: typing.Optional[int] = None,
-        sort_field: typing.Optional[str] = None,
+        sort_field: typing.Optional[SortFieldString] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         filters: typing.Optional[FilterQueryString] = None,
         request_options: typing.Optional[RequestOptions] = None
@@ -191,7 +193,8 @@ class AsyncV1Client:
 
         limit : typing.Optional[int]
 
-        sort_field : typing.Optional[str]
+        sort_field : typing.Optional[SortFieldString]
+            Defaults to patient.updatedAt.
 
         sort_direction : typing.Optional[SortDirection]
             Defaults to ascending.
@@ -257,7 +260,7 @@ class AsyncV1Client:
     async def get_appointment_list(
         self,
         *,
-        sort_field: typing.Optional[str] = None,
+        sort_field: typing.Optional[SortFieldString] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
@@ -269,8 +272,8 @@ class AsyncV1Client:
 
         Parameters
         ----------
-        sort_field : typing.Optional[str]
-            The string path to the field to order by. Defaults to appointment.startTimestamp. Path values are camelCase.
+        sort_field : typing.Optional[SortFieldString]
+            Defaults to appointment.startTimestamp.
 
         sort_direction : typing.Optional[SortDirection]
             Defaults to asc.

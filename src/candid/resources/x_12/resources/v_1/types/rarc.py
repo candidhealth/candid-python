@@ -106,6 +106,7 @@ class Rarc(str, enum.Enum):
     M_115 = "M115"
     M_116 = "M116"
     M_117 = "M117"
+    M_119 = "M119"
     M_121 = "M121"
     M_122 = "M122"
     M_123 = "M123"
@@ -212,6 +213,7 @@ class Rarc(str, enum.Enum):
     MA_97 = "MA97"
     MA_99 = "MA99"
     MA_100 = "MA100"
+    MA_102 = "MA102"
     MA_103 = "MA103"
     MA_106 = "MA106"
     MA_107 = "MA107"
@@ -251,6 +253,7 @@ class Rarc(str, enum.Enum):
     N_11 = "N11"
     N_12 = "N12"
     N_13 = "N13"
+    N_14 = "N14"
     N_15 = "N15"
     N_16 = "N16"
     N_19 = "N19"
@@ -581,6 +584,7 @@ class Rarc(str, enum.Enum):
     N_362 = "N362"
     N_363 = "N363"
     N_364 = "N364"
+    N_365 = "N365"
     N_366 = "N366"
     N_367 = "N367"
     N_368 = "N368"
@@ -1068,6 +1072,8 @@ class Rarc(str, enum.Enum):
     N_858 = "N858"
     N_859 = "N859"
     N_860 = "N860"
+    N_880 = "N880"
+    N_887 = "N887"
 
     def visit(
         self,
@@ -1170,6 +1176,7 @@ class Rarc(str, enum.Enum):
         m_115: typing.Callable[[], T_Result],
         m_116: typing.Callable[[], T_Result],
         m_117: typing.Callable[[], T_Result],
+        m_119: typing.Callable[[], T_Result],
         m_121: typing.Callable[[], T_Result],
         m_122: typing.Callable[[], T_Result],
         m_123: typing.Callable[[], T_Result],
@@ -1276,6 +1283,7 @@ class Rarc(str, enum.Enum):
         ma_97: typing.Callable[[], T_Result],
         ma_99: typing.Callable[[], T_Result],
         ma_100: typing.Callable[[], T_Result],
+        ma_102: typing.Callable[[], T_Result],
         ma_103: typing.Callable[[], T_Result],
         ma_106: typing.Callable[[], T_Result],
         ma_107: typing.Callable[[], T_Result],
@@ -1315,6 +1323,7 @@ class Rarc(str, enum.Enum):
         n_11: typing.Callable[[], T_Result],
         n_12: typing.Callable[[], T_Result],
         n_13: typing.Callable[[], T_Result],
+        n_14: typing.Callable[[], T_Result],
         n_15: typing.Callable[[], T_Result],
         n_16: typing.Callable[[], T_Result],
         n_19: typing.Callable[[], T_Result],
@@ -1645,6 +1654,7 @@ class Rarc(str, enum.Enum):
         n_362: typing.Callable[[], T_Result],
         n_363: typing.Callable[[], T_Result],
         n_364: typing.Callable[[], T_Result],
+        n_365: typing.Callable[[], T_Result],
         n_366: typing.Callable[[], T_Result],
         n_367: typing.Callable[[], T_Result],
         n_368: typing.Callable[[], T_Result],
@@ -2132,6 +2142,8 @@ class Rarc(str, enum.Enum):
         n_858: typing.Callable[[], T_Result],
         n_859: typing.Callable[[], T_Result],
         n_860: typing.Callable[[], T_Result],
+        n_880: typing.Callable[[], T_Result],
+        n_887: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is Rarc.M_1:
             return m_1()
@@ -2331,6 +2343,8 @@ class Rarc(str, enum.Enum):
             return m_116()
         if self is Rarc.M_117:
             return m_117()
+        if self is Rarc.M_119:
+            return m_119()
         if self is Rarc.M_121:
             return m_121()
         if self is Rarc.M_122:
@@ -2543,6 +2557,8 @@ class Rarc(str, enum.Enum):
             return ma_99()
         if self is Rarc.MA_100:
             return ma_100()
+        if self is Rarc.MA_102:
+            return ma_102()
         if self is Rarc.MA_103:
             return ma_103()
         if self is Rarc.MA_106:
@@ -2621,6 +2637,8 @@ class Rarc(str, enum.Enum):
             return n_12()
         if self is Rarc.N_13:
             return n_13()
+        if self is Rarc.N_14:
+            return n_14()
         if self is Rarc.N_15:
             return n_15()
         if self is Rarc.N_16:
@@ -3281,6 +3299,8 @@ class Rarc(str, enum.Enum):
             return n_363()
         if self is Rarc.N_364:
             return n_364()
+        if self is Rarc.N_365:
+            return n_365()
         if self is Rarc.N_366:
             return n_366()
         if self is Rarc.N_367:
@@ -4255,3 +4275,7 @@ class Rarc(str, enum.Enum):
             return n_859()
         if self is Rarc.N_860:
             return n_860()
+        if self is Rarc.N_880:
+            return n_880()
+        if self is Rarc.N_887:
+            return n_887()

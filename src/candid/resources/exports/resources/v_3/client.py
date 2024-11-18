@@ -36,8 +36,9 @@ class V3Client:
 
         **SLA guarantees:** Files for a given date are guaranteed to be available after 3 business days. For example, Friday's file will be
         available by Wednesday at the latest. If file generation is still in progress upon request before 3 business days have passed, the
-        caller will receive a 422 response. If the file has already been generated, it will be served. Please email
-        our [Support team](mailto:support@joincandidhealth.com) with any data requests outside of these stated guarantees.
+        caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
+        up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
+        outside of these stated guarantees.
 
         Parameters
         ----------
@@ -130,8 +131,9 @@ class AsyncV3Client:
 
         **SLA guarantees:** Files for a given date are guaranteed to be available after 3 business days. For example, Friday's file will be
         available by Wednesday at the latest. If file generation is still in progress upon request before 3 business days have passed, the
-        caller will receive a 422 response. If the file has already been generated, it will be served. Please email
-        our [Support team](mailto:support@joincandidhealth.com) with any data requests outside of these stated guarantees.
+        caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
+        up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
+        outside of these stated guarantees.
 
         Parameters
         ----------

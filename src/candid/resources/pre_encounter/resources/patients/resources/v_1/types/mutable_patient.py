@@ -21,6 +21,7 @@ from .....common.types.sex import Sex
 from .....common.types.sexual_orientation import SexualOrientation
 from .authorization import Authorization
 from .contact import Contact
+from .do_not_invoice_reason import DoNotInvoiceReason
 from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
 from .guarantor import Guarantor
@@ -109,6 +110,10 @@ class MutablePatient(pydantic.BaseModel):
     authorizations: typing.Optional[typing.List[Authorization]] = None
     referrals: typing.Optional[typing.List[Referral]] = None
     primary_service_facility_id: typing.Optional[str] = None
+    do_not_invoice_reason: typing.Optional[DoNotInvoiceReason] = pydantic.Field(default=None)
+    """
+    If this value is defined, the customer will not be invoiced.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

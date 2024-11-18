@@ -10,12 +10,14 @@ class AppointmentWorkQueue(str, enum.Enum):
     EMERGENT_ISSUE = "EMERGENT_ISSUE"
     NEW_PATIENT = "NEW_PATIENT"
     RETURNING_PATIENT = "RETURNING_PATIENT"
+    MANUAL_ESCALATION = "MANUAL_ESCALATION"
 
     def visit(
         self,
         emergent_issue: typing.Callable[[], T_Result],
         new_patient: typing.Callable[[], T_Result],
         returning_patient: typing.Callable[[], T_Result],
+        manual_escalation: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is AppointmentWorkQueue.EMERGENT_ISSUE:
             return emergent_issue()
@@ -23,3 +25,5 @@ class AppointmentWorkQueue(str, enum.Enum):
             return new_patient()
         if self is AppointmentWorkQueue.RETURNING_PATIENT:
             return returning_patient()
+        if self is AppointmentWorkQueue.MANUAL_ESCALATION:
+            return manual_escalation()

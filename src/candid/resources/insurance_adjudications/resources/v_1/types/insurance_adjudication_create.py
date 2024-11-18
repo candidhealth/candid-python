@@ -9,6 +9,7 @@ from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.claim_id import ClaimId
 from .....payers.resources.v_3.types.payer_identifier import PayerIdentifier
+from .....remit_drafts.resources.v_1.types.remit_draft_id import RemitDraftId
 from .....remits.resources.v_1.types.payee import Payee
 from .claim_adjudication_create import ClaimAdjudicationCreate
 
@@ -21,6 +22,7 @@ class InsuranceAdjudicationCreate(pydantic.BaseModel):
     check_date: dt.date
     note: typing.Optional[str] = None
     claims: typing.Dict[ClaimId, typing.List[ClaimAdjudicationCreate]]
+    remit_draft_id: typing.Optional[RemitDraftId] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

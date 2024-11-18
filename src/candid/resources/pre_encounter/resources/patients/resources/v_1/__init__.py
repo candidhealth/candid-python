@@ -4,11 +4,14 @@ from .types import (
     Authorization,
     AuthorizationUnit,
     Contact,
+    DoNotInvoiceReason,
     ExternalProvenance,
     FilingOrder,
     Guarantor,
+    InvalidMrnErrorBody,
     MaritalStatus,
     MutablePatient,
+    MutablePatientWithMrn,
     Patient,
     PatientPage,
     PatientSortField,
@@ -16,17 +19,21 @@ from .types import (
     PotentialDuplicatePatientsErrorBody,
     Referral,
 )
-from .errors import PotentialDuplicatePatients
+from .errors import InvalidMrnError, PotentialDuplicatePatients
 
 __all__ = [
     "Authorization",
     "AuthorizationUnit",
     "Contact",
+    "DoNotInvoiceReason",
     "ExternalProvenance",
     "FilingOrder",
     "Guarantor",
+    "InvalidMrnError",
+    "InvalidMrnErrorBody",
     "MaritalStatus",
     "MutablePatient",
+    "MutablePatientWithMrn",
     "Patient",
     "PatientPage",
     "PatientSortField",

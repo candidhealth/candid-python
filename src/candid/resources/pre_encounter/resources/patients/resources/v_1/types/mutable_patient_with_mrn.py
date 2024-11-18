@@ -7,14 +7,14 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .plan_coverage import PlanCoverage
-from .service_coverage import ServiceCoverage
+from .mutable_patient import MutablePatient
 
 
-class CoverageBenefits(pydantic.BaseModel):
-    plan_coverage: typing.Optional[PlanCoverage] = None
-    service_specific_coverage: typing.Optional[typing.List[ServiceCoverage]] = None
-    notes: typing.Optional[str] = None
+class MutablePatientWithMrn(MutablePatient):
+    mrn: str = pydantic.Field()
+    """
+    The medical record number for the patient.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -31,5 +31,7 @@ class CoverageBenefits(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
+        populate_by_name = True
         extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

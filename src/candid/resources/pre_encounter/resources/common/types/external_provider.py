@@ -17,7 +17,11 @@ from .period import Period
 
 class ExternalProvider(pydantic.BaseModel):
     name: HumanName
-    type: typing.Optional[ExternalProviderType] = None
+    type: typing.Optional[ExternalProviderType] = pydantic.Field(default=None)
+    """
+    Defaults to ATTENDING.
+    """
+
     npi: typing.Optional[str] = None
     telecoms: typing.List[ContactPoint]
     addresses: typing.Optional[typing.List[Address]] = None

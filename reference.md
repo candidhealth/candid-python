@@ -6177,8 +6177,9 @@ of Candid Health's export files be resilient to the addition of new columns at t
 
 **SLA guarantees:** Files for a given date are guaranteed to be available after 3 business days. For example, Friday's file will be
 available by Wednesday at the latest. If file generation is still in progress upon request before 3 business days have passed, the
-caller will receive a 422 response. If the file has already been generated, it will be served. Please email
-our [Support team](mailto:support@joincandidhealth.com) with any data requests outside of these stated guarantees.
+caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
+up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
+outside of these stated guarantees.
 </dd>
 </dl>
 </dd>
@@ -8251,6 +8252,9 @@ client.insurance_adjudications.v_1.create(
                 )
             ]
         },
+        remit_draft_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
     ),
 )
 
@@ -15684,7 +15688,7 @@ client.pre_encounter.lists.v_1.get_patient_list(
 <dl>
 <dd>
 
-**sort_field:** `typing.Optional[str]` 
+**sort_field:** `typing.Optional[SortFieldString]` — Defaults to patient.updatedAt.
     
 </dd>
 </dl>
@@ -15776,7 +15780,7 @@ client.pre_encounter.lists.v_1.get_appointment_list(
 <dl>
 <dd>
 
-**sort_field:** `typing.Optional[str]` — The string path to the field to order by. Defaults to appointment.startTimestamp. Path values are camelCase.
+**sort_field:** `typing.Optional[SortFieldString]` — Defaults to appointment.startTimestamp.
     
 </dd>
 </dl>
@@ -15883,6 +15887,7 @@ from candid.resources.pre_encounter.patients.v_1 import (
     Authorization,
     AuthorizationUnit,
     Contact,
+    DoNotInvoiceReason,
     ExternalProvenance,
     FilingOrder,
     Guarantor,
@@ -16089,6 +16094,7 @@ client.pre_encounter.patients.v_1.create(
             )
         ],
         primary_service_facility_id="string",
+        do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
     ),
 )
 
@@ -16107,6 +16113,314 @@ client.pre_encounter.patients.v_1.create(
 <dd>
 
 **request:** `MutablePatient` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**skip_duplicate_check:** `typing.Optional[bool]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">create_with_mrn</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. InvalidMRNError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid.client import CandidApiClient
+from candid.resources.pre_encounter import (
+    Address,
+    AddressUse,
+    CanonicalNonInsurancePayerAssociation,
+    ContactPoint,
+    ContactPointUse,
+    DisabilityStatus,
+    Ethnicity,
+    ExternalProvider,
+    ExternalProviderType,
+    Gender,
+    HumanName,
+    NameUse,
+    Period,
+    Race,
+    Relationship,
+    Sex,
+    SexualOrientation,
+)
+from candid.resources.pre_encounter.patients.v_1 import (
+    Authorization,
+    AuthorizationUnit,
+    Contact,
+    DoNotInvoiceReason,
+    ExternalProvenance,
+    FilingOrder,
+    Guarantor,
+    MaritalStatus,
+    MutablePatientWithMrn,
+    Referral,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.create_with_mrn(
+    skip_duplicate_check=True,
+    request=MutablePatientWithMrn(
+        mrn="string",
+        name=HumanName(
+            family="string",
+            given=["string"],
+            use=NameUse.USUAL,
+            period=Period(),
+        ),
+        other_names=[
+            HumanName(
+                family="string",
+                given=["string"],
+                use=NameUse.USUAL,
+                period=Period(),
+            )
+        ],
+        gender=Gender.MAN,
+        birth_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        social_security_number="string",
+        biological_sex=Sex.FEMALE,
+        sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+        disability_status=DisabilityStatus.DISABLED,
+        marital_status=MaritalStatus.ANNULLED,
+        deceased=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        multiple_birth=1,
+        primary_address=Address(
+            use=AddressUse.HOME,
+            line=["string"],
+            city="string",
+            state="string",
+            postal_code="string",
+            country="string",
+            period=Period(),
+        ),
+        other_addresses=[
+            Address(
+                use=AddressUse.HOME,
+                line=["string"],
+                city="string",
+                state="string",
+                postal_code="string",
+                country="string",
+                period=Period(),
+            )
+        ],
+        primary_telecom=ContactPoint(
+            value="string",
+            use=ContactPointUse.HOME,
+        ),
+        other_telecoms=[
+            ContactPoint(
+                value="string",
+                use=ContactPointUse.HOME,
+            )
+        ],
+        email="string",
+        electronic_communication_opt_in=True,
+        photo="string",
+        language="string",
+        external_provenance=ExternalProvenance(
+            external_id="string",
+            system_name="string",
+        ),
+        contacts=[
+            Contact(
+                relationship=[Relationship.SELF],
+                name=HumanName(
+                    family="string",
+                    given=["string"],
+                    use=NameUse.USUAL,
+                    period=Period(),
+                ),
+                telecoms=[
+                    ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                    )
+                ],
+                addresses=[
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(),
+                    )
+                ],
+                period=Period(),
+                hipaa_authorization=True,
+            )
+        ],
+        general_practitioners=[
+            ExternalProvider(
+                name=HumanName(
+                    family="string",
+                    given=["string"],
+                    use=NameUse.USUAL,
+                    period=Period(),
+                ),
+                type=ExternalProviderType.PRIMARY,
+                npi="string",
+                telecoms=[
+                    ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                    )
+                ],
+                addresses=[],
+                period=Period(),
+                canonical_id="string",
+            )
+        ],
+        filing_order=FilingOrder(
+            coverages=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+        ),
+        non_insurance_payers=["string"],
+        non_insurance_payer_associations=[
+            CanonicalNonInsurancePayerAssociation(
+                id="string",
+            )
+        ],
+        guarantor=Guarantor(
+            name=HumanName(
+                family="string",
+                given=["string"],
+                use=NameUse.USUAL,
+                period=Period(),
+            ),
+            telecom=ContactPoint(
+                value="string",
+                use=ContactPointUse.HOME,
+            ),
+            email="string",
+            birth_date=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            address=Address(
+                use=AddressUse.HOME,
+                line=["string"],
+                city="string",
+                state="string",
+                postal_code="string",
+                country="string",
+                period=Period(),
+            ),
+        ),
+        self_pay=True,
+        authorizations=[
+            Authorization(
+                payer_id="string",
+                payer_name="string",
+                authorization_number="string",
+                cpt_code="string",
+                units=AuthorizationUnit.VISIT,
+            )
+        ],
+        referrals=[
+            Referral(
+                provider=ExternalProvider(
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(),
+                    ),
+                    type=ExternalProviderType.PRIMARY,
+                    npi="string",
+                    telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                        )
+                    ],
+                    addresses=[],
+                    period=Period(),
+                    canonical_id="string",
+                ),
+                referral_number="string",
+            )
+        ],
+        primary_service_facility_id="string",
+        do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MutablePatientWithMrn` 
     
 </dd>
 </dl>
@@ -16438,6 +16752,7 @@ from candid.resources.pre_encounter.patients.v_1 import (
     Authorization,
     AuthorizationUnit,
     Contact,
+    DoNotInvoiceReason,
     ExternalProvenance,
     FilingOrder,
     Guarantor,
@@ -16645,6 +16960,7 @@ client.pre_encounter.patients.v_1.update(
             )
         ],
         primary_service_facility_id="string",
+        do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
     ),
 )
 

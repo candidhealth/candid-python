@@ -17,8 +17,11 @@ from ....common.types.page_token import PageToken
 from ....common.types.patient_id import PatientId
 from ....common.types.sort_direction import SortDirection
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
+from .errors.invalid_mrn_error import InvalidMrnError
 from .errors.potential_duplicate_patients import PotentialDuplicatePatients
+from .types.invalid_mrn_error_body import InvalidMrnErrorBody
 from .types.mutable_patient import MutablePatient
+from .types.mutable_patient_with_mrn import MutablePatientWithMrn
 from .types.patient import Patient
 from .types.patient_page import PatientPage
 from .types.patient_sort_field import PatientSortField
@@ -84,6 +87,7 @@ class V1Client:
             Authorization,
             AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
@@ -290,6 +294,7 @@ class V1Client:
                     )
                 ],
                 primary_service_facility_id="string",
+                do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
             ),
         )
         """
@@ -316,6 +321,300 @@ class V1Client:
             if _response_json["errorName"] == "PotentialDuplicatePatients":
                 raise PotentialDuplicatePatients(
                     pydantic_v1.parse_obj_as(PotentialDuplicatePatientsErrorBody, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def create_with_mrn(
+        self,
+        *,
+        request: MutablePatientWithMrn,
+        skip_duplicate_check: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Patient:
+        """
+        Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. InvalidMRNError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+
+        Parameters
+        ----------
+        request : MutablePatientWithMrn
+
+        skip_duplicate_check : typing.Optional[bool]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Patient
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid.client import CandidApiClient
+        from candid.resources.pre_encounter import (
+            Address,
+            AddressUse,
+            CanonicalNonInsurancePayerAssociation,
+            ContactPoint,
+            ContactPointUse,
+            DisabilityStatus,
+            Ethnicity,
+            ExternalProvider,
+            ExternalProviderType,
+            Gender,
+            HumanName,
+            NameUse,
+            Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
+        )
+        from candid.resources.pre_encounter.patients.v_1 import (
+            Authorization,
+            AuthorizationUnit,
+            Contact,
+            DoNotInvoiceReason,
+            ExternalProvenance,
+            FilingOrder,
+            Guarantor,
+            MaritalStatus,
+            MutablePatientWithMrn,
+            Referral,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.patients.v_1.create_with_mrn(
+            skip_duplicate_check=True,
+            request=MutablePatientWithMrn(
+                mrn="string",
+                name=HumanName(
+                    family="string",
+                    given=["string"],
+                    use=NameUse.USUAL,
+                    period=Period(),
+                ),
+                other_names=[
+                    HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(),
+                    )
+                ],
+                gender=Gender.MAN,
+                birth_date=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                social_security_number="string",
+                biological_sex=Sex.FEMALE,
+                sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                disability_status=DisabilityStatus.DISABLED,
+                marital_status=MaritalStatus.ANNULLED,
+                deceased=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                multiple_birth=1,
+                primary_address=Address(
+                    use=AddressUse.HOME,
+                    line=["string"],
+                    city="string",
+                    state="string",
+                    postal_code="string",
+                    country="string",
+                    period=Period(),
+                ),
+                other_addresses=[
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(),
+                    )
+                ],
+                primary_telecom=ContactPoint(
+                    value="string",
+                    use=ContactPointUse.HOME,
+                ),
+                other_telecoms=[
+                    ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                    )
+                ],
+                email="string",
+                electronic_communication_opt_in=True,
+                photo="string",
+                language="string",
+                external_provenance=ExternalProvenance(
+                    external_id="string",
+                    system_name="string",
+                ),
+                contacts=[
+                    Contact(
+                        relationship=[Relationship.SELF],
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(),
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                            )
+                        ],
+                        addresses=[
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["string"],
+                                city="string",
+                                state="string",
+                                postal_code="string",
+                                country="string",
+                                period=Period(),
+                            )
+                        ],
+                        period=Period(),
+                        hipaa_authorization=True,
+                    )
+                ],
+                general_practitioners=[
+                    ExternalProvider(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(),
+                        ),
+                        type=ExternalProviderType.PRIMARY,
+                        npi="string",
+                        telecoms=[
+                            ContactPoint(
+                                value="string",
+                                use=ContactPointUse.HOME,
+                            )
+                        ],
+                        addresses=[],
+                        period=Period(),
+                        canonical_id="string",
+                    )
+                ],
+                filing_order=FilingOrder(
+                    coverages=[
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ],
+                ),
+                non_insurance_payers=["string"],
+                non_insurance_payer_associations=[
+                    CanonicalNonInsurancePayerAssociation(
+                        id="string",
+                    )
+                ],
+                guarantor=Guarantor(
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(),
+                    ),
+                    telecom=ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                    ),
+                    email="string",
+                    birth_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    address=Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(),
+                    ),
+                ),
+                self_pay=True,
+                authorizations=[
+                    Authorization(
+                        payer_id="string",
+                        payer_name="string",
+                        authorization_number="string",
+                        cpt_code="string",
+                        units=AuthorizationUnit.VISIT,
+                    )
+                ],
+                referrals=[
+                    Referral(
+                        provider=ExternalProvider(
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(),
+                            ),
+                            type=ExternalProviderType.PRIMARY,
+                            npi="string",
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                )
+                            ],
+                            addresses=[],
+                            period=Period(),
+                            canonical_id="string",
+                        ),
+                        referral_number="string",
+                    )
+                ],
+                primary_service_facility_id="string",
+                do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
+            ),
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "patients/v1/with_mrn",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            params={"skip_duplicate_check": skip_duplicate_check},
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(Patient, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "VersionConflictError":
+                raise VersionConflictError(
+                    pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "PotentialDuplicatePatients":
+                raise PotentialDuplicatePatients(
+                    pydantic_v1.parse_obj_as(PotentialDuplicatePatientsErrorBody, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "InvalidMRNError":
+                raise InvalidMrnError(
+                    pydantic_v1.parse_obj_as(InvalidMrnErrorBody, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -539,6 +838,7 @@ class V1Client:
             Authorization,
             AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
@@ -746,6 +1046,7 @@ class V1Client:
                     )
                 ],
                 primary_service_facility_id="string",
+                do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
             ),
         )
         """
@@ -987,6 +1288,7 @@ class AsyncV1Client:
             Authorization,
             AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
@@ -1196,6 +1498,7 @@ class AsyncV1Client:
                         )
                     ],
                     primary_service_facility_id="string",
+                    do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
                 ),
             )
 
@@ -1225,6 +1528,307 @@ class AsyncV1Client:
             if _response_json["errorName"] == "PotentialDuplicatePatients":
                 raise PotentialDuplicatePatients(
                     pydantic_v1.parse_obj_as(PotentialDuplicatePatientsErrorBody, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def create_with_mrn(
+        self,
+        *,
+        request: MutablePatientWithMrn,
+        skip_duplicate_check: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Patient:
+        """
+        Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. InvalidMRNError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+
+        Parameters
+        ----------
+        request : MutablePatientWithMrn
+
+        skip_duplicate_check : typing.Optional[bool]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Patient
+
+        Examples
+        --------
+        import asyncio
+        import datetime
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+        from candid.resources.pre_encounter import (
+            Address,
+            AddressUse,
+            CanonicalNonInsurancePayerAssociation,
+            ContactPoint,
+            ContactPointUse,
+            DisabilityStatus,
+            Ethnicity,
+            ExternalProvider,
+            ExternalProviderType,
+            Gender,
+            HumanName,
+            NameUse,
+            Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
+        )
+        from candid.resources.pre_encounter.patients.v_1 import (
+            Authorization,
+            AuthorizationUnit,
+            Contact,
+            DoNotInvoiceReason,
+            ExternalProvenance,
+            FilingOrder,
+            Guarantor,
+            MaritalStatus,
+            MutablePatientWithMrn,
+            Referral,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.patients.v_1.create_with_mrn(
+                skip_duplicate_check=True,
+                request=MutablePatientWithMrn(
+                    mrn="string",
+                    name=HumanName(
+                        family="string",
+                        given=["string"],
+                        use=NameUse.USUAL,
+                        period=Period(),
+                    ),
+                    other_names=[
+                        HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(),
+                        )
+                    ],
+                    gender=Gender.MAN,
+                    birth_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    social_security_number="string",
+                    biological_sex=Sex.FEMALE,
+                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                    disability_status=DisabilityStatus.DISABLED,
+                    marital_status=MaritalStatus.ANNULLED,
+                    deceased=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                    multiple_birth=1,
+                    primary_address=Address(
+                        use=AddressUse.HOME,
+                        line=["string"],
+                        city="string",
+                        state="string",
+                        postal_code="string",
+                        country="string",
+                        period=Period(),
+                    ),
+                    other_addresses=[
+                        Address(
+                            use=AddressUse.HOME,
+                            line=["string"],
+                            city="string",
+                            state="string",
+                            postal_code="string",
+                            country="string",
+                            period=Period(),
+                        )
+                    ],
+                    primary_telecom=ContactPoint(
+                        value="string",
+                        use=ContactPointUse.HOME,
+                    ),
+                    other_telecoms=[
+                        ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                        )
+                    ],
+                    email="string",
+                    electronic_communication_opt_in=True,
+                    photo="string",
+                    language="string",
+                    external_provenance=ExternalProvenance(
+                        external_id="string",
+                        system_name="string",
+                    ),
+                    contacts=[
+                        Contact(
+                            relationship=[Relationship.SELF],
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(),
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                )
+                            ],
+                            addresses=[
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["string"],
+                                    city="string",
+                                    state="string",
+                                    postal_code="string",
+                                    country="string",
+                                    period=Period(),
+                                )
+                            ],
+                            period=Period(),
+                            hipaa_authorization=True,
+                        )
+                    ],
+                    general_practitioners=[
+                        ExternalProvider(
+                            name=HumanName(
+                                family="string",
+                                given=["string"],
+                                use=NameUse.USUAL,
+                                period=Period(),
+                            ),
+                            type=ExternalProviderType.PRIMARY,
+                            npi="string",
+                            telecoms=[
+                                ContactPoint(
+                                    value="string",
+                                    use=ContactPointUse.HOME,
+                                )
+                            ],
+                            addresses=[],
+                            period=Period(),
+                            canonical_id="string",
+                        )
+                    ],
+                    filing_order=FilingOrder(
+                        coverages=[
+                            uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ],
+                    ),
+                    non_insurance_payers=["string"],
+                    non_insurance_payer_associations=[
+                        CanonicalNonInsurancePayerAssociation(
+                            id="string",
+                        )
+                    ],
+                    guarantor=Guarantor(
+                        name=HumanName(
+                            family="string",
+                            given=["string"],
+                            use=NameUse.USUAL,
+                            period=Period(),
+                        ),
+                        telecom=ContactPoint(
+                            value="string",
+                            use=ContactPointUse.HOME,
+                        ),
+                        email="string",
+                        birth_date=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        address=Address(
+                            use=AddressUse.HOME,
+                            line=["string"],
+                            city="string",
+                            state="string",
+                            postal_code="string",
+                            country="string",
+                            period=Period(),
+                        ),
+                    ),
+                    self_pay=True,
+                    authorizations=[
+                        Authorization(
+                            payer_id="string",
+                            payer_name="string",
+                            authorization_number="string",
+                            cpt_code="string",
+                            units=AuthorizationUnit.VISIT,
+                        )
+                    ],
+                    referrals=[
+                        Referral(
+                            provider=ExternalProvider(
+                                name=HumanName(
+                                    family="string",
+                                    given=["string"],
+                                    use=NameUse.USUAL,
+                                    period=Period(),
+                                ),
+                                type=ExternalProviderType.PRIMARY,
+                                npi="string",
+                                telecoms=[
+                                    ContactPoint(
+                                        value="string",
+                                        use=ContactPointUse.HOME,
+                                    )
+                                ],
+                                addresses=[],
+                                period=Period(),
+                                canonical_id="string",
+                            ),
+                            referral_number="string",
+                        )
+                    ],
+                    primary_service_facility_id="string",
+                    do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "patients/v1/with_mrn",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            params={"skip_duplicate_check": skip_duplicate_check},
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(Patient, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "VersionConflictError":
+                raise VersionConflictError(
+                    pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "PotentialDuplicatePatients":
+                raise PotentialDuplicatePatients(
+                    pydantic_v1.parse_obj_as(PotentialDuplicatePatientsErrorBody, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "InvalidMRNError":
+                raise InvalidMrnError(
+                    pydantic_v1.parse_obj_as(InvalidMrnErrorBody, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -1473,6 +2077,7 @@ class AsyncV1Client:
             Authorization,
             AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
@@ -1683,6 +2288,7 @@ class AsyncV1Client:
                         )
                     ],
                     primary_service_facility_id="string",
+                    do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
                 ),
             )
 
