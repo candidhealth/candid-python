@@ -7,15 +7,12 @@ from .do_not_invoice_reason import DoNotInvoiceReason
 from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
 from .guarantor import Guarantor
-from .invalid_mrn_error_body import InvalidMrnErrorBody
 from .marital_status import MaritalStatus
 from .mutable_patient import MutablePatient
 from .mutable_patient_with_mrn import MutablePatientWithMrn
 from .patient import Patient
 from .patient_page import PatientPage
 from .patient_sort_field import PatientSortField
-from .potential_duplicate_patient import PotentialDuplicatePatient
-from .potential_duplicate_patients_error_body import PotentialDuplicatePatientsErrorBody
 from .referral import Referral
 
 __all__ = [
@@ -26,14 +23,11 @@ __all__ = [
     "ExternalProvenance",
     "FilingOrder",
     "Guarantor",
-    "InvalidMrnErrorBody",
     "MaritalStatus",
     "MutablePatient",
     "MutablePatientWithMrn",
     "Patient",
     "PatientPage",
     "PatientSortField",
-    "PotentialDuplicatePatient",
-    "PotentialDuplicatePatientsErrorBody",
     "Referral",
 ]

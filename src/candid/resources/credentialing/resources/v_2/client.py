@@ -217,6 +217,7 @@ class V2Client:
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
         payer_uuid: typing.Optional[uuid.UUID] = None,
+        provider_id: typing.Optional[uuid.UUID] = None,
         as_rendering_provider: typing.Optional[bool] = None,
         as_contracting_provider: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -232,11 +233,14 @@ class V2Client:
         payer_uuid : typing.Optional[uuid.UUID]
             Filter by payer.
 
+        provider_id : typing.Optional[uuid.UUID]
+            Filter to a particular provider. Use in conjunction as_rendering_provider and as_contracting_provider.
+
         as_rendering_provider : typing.Optional[bool]
-            Filter to credentialing spans where the provider is a rendering provider.
+            Filter to credentialing spans where the provider is a rendering provider. To use this filter provider_id is required.
 
         as_contracting_provider : typing.Optional[bool]
-            Filter to credentialing spans where the provider is a contracting provider.
+            Filter to credentialing spans where the provider is a contracting provider. To use this filter provider_id is required.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -261,6 +265,9 @@ class V2Client:
             payer_uuid=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
+            provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
             as_rendering_provider=True,
             as_contracting_provider=True,
         )
@@ -273,6 +280,7 @@ class V2Client:
                 "limit": limit,
                 "page_token": page_token,
                 "payer_uuid": jsonable_encoder(payer_uuid),
+                "provider_id": jsonable_encoder(provider_id),
                 "as_rendering_provider": as_rendering_provider,
                 "as_contracting_provider": as_contracting_provider,
             },
@@ -288,6 +296,10 @@ class V2Client:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
                     pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -682,6 +694,7 @@ class AsyncV2Client:
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
         payer_uuid: typing.Optional[uuid.UUID] = None,
+        provider_id: typing.Optional[uuid.UUID] = None,
         as_rendering_provider: typing.Optional[bool] = None,
         as_contracting_provider: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -697,11 +710,14 @@ class AsyncV2Client:
         payer_uuid : typing.Optional[uuid.UUID]
             Filter by payer.
 
+        provider_id : typing.Optional[uuid.UUID]
+            Filter to a particular provider. Use in conjunction as_rendering_provider and as_contracting_provider.
+
         as_rendering_provider : typing.Optional[bool]
-            Filter to credentialing spans where the provider is a rendering provider.
+            Filter to credentialing spans where the provider is a rendering provider. To use this filter provider_id is required.
 
         as_contracting_provider : typing.Optional[bool]
-            Filter to credentialing spans where the provider is a contracting provider.
+            Filter to credentialing spans where the provider is a contracting provider. To use this filter provider_id is required.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -730,6 +746,9 @@ class AsyncV2Client:
                 payer_uuid=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
+                provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
                 as_rendering_provider=True,
                 as_contracting_provider=True,
             )
@@ -745,6 +764,7 @@ class AsyncV2Client:
                 "limit": limit,
                 "page_token": page_token,
                 "payer_uuid": jsonable_encoder(payer_uuid),
+                "provider_id": jsonable_encoder(provider_id),
                 "as_rendering_provider": as_rendering_provider,
                 "as_contracting_provider": as_contracting_provider,
             },
@@ -760,6 +780,10 @@ class AsyncV2Client:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
                     pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 

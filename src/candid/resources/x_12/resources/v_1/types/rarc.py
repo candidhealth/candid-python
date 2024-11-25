@@ -1074,6 +1074,7 @@ class Rarc(str, enum.Enum):
     N_860 = "N860"
     N_880 = "N880"
     N_887 = "N887"
+    N_891 = "N891"
 
     def visit(
         self,
@@ -2144,6 +2145,7 @@ class Rarc(str, enum.Enum):
         n_860: typing.Callable[[], T_Result],
         n_880: typing.Callable[[], T_Result],
         n_887: typing.Callable[[], T_Result],
+        n_891: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is Rarc.M_1:
             return m_1()
@@ -4279,3 +4281,5 @@ class Rarc(str, enum.Enum):
             return n_880()
         if self is Rarc.N_887:
             return n_887()
+        if self is Rarc.N_891:
+            return n_891()

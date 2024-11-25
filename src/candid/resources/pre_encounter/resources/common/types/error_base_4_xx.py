@@ -5,15 +5,13 @@ import typing
 
 import pydantic
 
-from ........core.datetime_utils import serialize_datetime
-from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .....common.types.error_base import ErrorBase
-from .potential_duplicate_patient import PotentialDuplicatePatient
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 
 
-class PotentialDuplicatePatientsErrorBody(ErrorBase):
-    code: typing.Literal["DUPLICATE_PATIENT"] = "DUPLICATE_PATIENT"
-    potential_duplicates: typing.List[PotentialDuplicatePatient]
+class ErrorBase4Xx(pydantic.BaseModel):
+    message: str
+    data: typing.Optional[typing.Any] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -30,7 +28,5 @@ class PotentialDuplicatePatientsErrorBody(ErrorBase):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

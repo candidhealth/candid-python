@@ -7,12 +7,11 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
-from .error_base import ErrorBase
+from .error_base_4_xx import ErrorBase4Xx
 
 
-class VersionConflictErrorBody(ErrorBase):
-    code: typing.Literal["VERSION_CONFLICT"] = "VERSION_CONFLICT"
-    latest_version: int
+class VersionConflictErrorBody(ErrorBase4Xx):
+    latest_version: typing.Optional[int] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -8,18 +8,14 @@ from .types import (
     ExternalProvenance,
     FilingOrder,
     Guarantor,
-    InvalidMrnErrorBody,
     MaritalStatus,
     MutablePatient,
     MutablePatientWithMrn,
     Patient,
     PatientPage,
     PatientSortField,
-    PotentialDuplicatePatient,
-    PotentialDuplicatePatientsErrorBody,
     Referral,
 )
-from .errors import InvalidMrnError, PotentialDuplicatePatients
 
 __all__ = [
     "Authorization",
@@ -29,16 +25,11 @@ __all__ = [
     "ExternalProvenance",
     "FilingOrder",
     "Guarantor",
-    "InvalidMrnError",
-    "InvalidMrnErrorBody",
     "MaritalStatus",
     "MutablePatient",
     "MutablePatientWithMrn",
     "Patient",
     "PatientPage",
     "PatientSortField",
-    "PotentialDuplicatePatient",
-    "PotentialDuplicatePatients",
-    "PotentialDuplicatePatientsErrorBody",
     "Referral",
 ]

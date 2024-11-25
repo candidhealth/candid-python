@@ -13,7 +13,7 @@ from .......core.request_options import RequestOptions
 from ....common.errors.not_found_error import NotFoundError
 from ....common.errors.version_conflict_error import VersionConflictError
 from ....common.types.appointment_id import AppointmentId
-from ....common.types.not_found_error_body import NotFoundErrorBody
+from ....common.types.error_base_4_xx import ErrorBase4Xx
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from .types.appointment import Appointment
 from .types.mutable_appointment import MutableAppointment
@@ -138,9 +138,7 @@ class V1Client:
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get(self, id: AppointmentId, *, request_options: typing.Optional[RequestOptions] = None) -> Appointment:
@@ -184,9 +182,7 @@ class V1Client:
             return pydantic_v1.parse_obj_as(Appointment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_history(
@@ -232,9 +228,7 @@ class V1Client:
             return pydantic_v1.parse_obj_as(typing.List[Appointment], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -356,9 +350,7 @@ class V1Client:
             return pydantic_v1.parse_obj_as(Appointment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
             if _response_json["errorName"] == "VersionConflictError":
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
@@ -459,9 +451,7 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
             if _response_json["errorName"] == "VersionConflictError":
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
@@ -592,9 +582,7 @@ class AsyncV1Client:
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
                 )
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get(self, id: AppointmentId, *, request_options: typing.Optional[RequestOptions] = None) -> Appointment:
@@ -646,9 +634,7 @@ class AsyncV1Client:
             return pydantic_v1.parse_obj_as(Appointment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_history(
@@ -702,9 +688,7 @@ class AsyncV1Client:
             return pydantic_v1.parse_obj_as(typing.List[Appointment], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
@@ -833,9 +817,7 @@ class AsyncV1Client:
             return pydantic_v1.parse_obj_as(Appointment, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
             if _response_json["errorName"] == "VersionConflictError":
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
@@ -951,9 +933,7 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
             if _response_json["errorName"] == "VersionConflictError":
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore

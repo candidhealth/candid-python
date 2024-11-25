@@ -10,22 +10,19 @@ from .......core.datetime_utils import serialize_datetime
 from .......core.jsonable_encoder import jsonable_encoder
 from .......core.pydantic_utilities import pydantic_v1
 from .......core.request_options import RequestOptions
+from ....common.errors.bad_request_error import BadRequestError
 from ....common.errors.not_found_error import NotFoundError
 from ....common.errors.version_conflict_error import VersionConflictError
-from ....common.types.not_found_error_body import NotFoundErrorBody
+from ....common.types.error_base_4_xx import ErrorBase4Xx
 from ....common.types.page_token import PageToken
 from ....common.types.patient_id import PatientId
 from ....common.types.sort_direction import SortDirection
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
-from .errors.invalid_mrn_error import InvalidMrnError
-from .errors.potential_duplicate_patients import PotentialDuplicatePatients
-from .types.invalid_mrn_error_body import InvalidMrnErrorBody
 from .types.mutable_patient import MutablePatient
 from .types.mutable_patient_with_mrn import MutablePatientWithMrn
 from .types.patient import Patient
 from .types.patient_page import PatientPage
 from .types.patient_sort_field import PatientSortField
-from .types.potential_duplicate_patients_error_body import PotentialDuplicatePatientsErrorBody
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -318,10 +315,6 @@ class V1Client:
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "PotentialDuplicatePatients":
-                raise PotentialDuplicatePatients(
-                    pydantic_v1.parse_obj_as(PotentialDuplicatePatientsErrorBody, _response_json["content"])  # type: ignore
-                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def create_with_mrn(
@@ -332,7 +325,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. InvalidMRNError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+        Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
 
         Parameters
         ----------
@@ -608,14 +601,8 @@ class V1Client:
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "PotentialDuplicatePatients":
-                raise PotentialDuplicatePatients(
-                    pydantic_v1.parse_obj_as(PotentialDuplicatePatientsErrorBody, _response_json["content"])  # type: ignore
-                )
-            if _response_json["errorName"] == "InvalidMRNError":
-                raise InvalidMrnError(
-                    pydantic_v1.parse_obj_as(InvalidMrnErrorBody, _response_json["content"])  # type: ignore
-                )
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_multi(
@@ -730,9 +717,7 @@ class V1Client:
             return pydantic_v1.parse_obj_as(Patient, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_history(
@@ -778,9 +763,7 @@ class V1Client:
             return pydantic_v1.parse_obj_as(typing.List[Patient], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def update(
@@ -1066,9 +1049,7 @@ class V1Client:
             return pydantic_v1.parse_obj_as(Patient, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
             if _response_json["errorName"] == "VersionConflictError":
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
@@ -1121,9 +1102,7 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
             if _response_json["errorName"] == "VersionConflictError":
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
@@ -1525,10 +1504,6 @@ class AsyncV1Client:
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "PotentialDuplicatePatients":
-                raise PotentialDuplicatePatients(
-                    pydantic_v1.parse_obj_as(PotentialDuplicatePatientsErrorBody, _response_json["content"])  # type: ignore
-                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def create_with_mrn(
@@ -1539,7 +1514,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. InvalidMRNError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+        Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
 
         Parameters
         ----------
@@ -1822,14 +1797,8 @@ class AsyncV1Client:
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
                 )
-            if _response_json["errorName"] == "PotentialDuplicatePatients":
-                raise PotentialDuplicatePatients(
-                    pydantic_v1.parse_obj_as(PotentialDuplicatePatientsErrorBody, _response_json["content"])  # type: ignore
-                )
-            if _response_json["errorName"] == "InvalidMRNError":
-                raise InvalidMrnError(
-                    pydantic_v1.parse_obj_as(InvalidMrnErrorBody, _response_json["content"])  # type: ignore
-                )
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_multi(
@@ -1960,9 +1929,7 @@ class AsyncV1Client:
             return pydantic_v1.parse_obj_as(Patient, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_history(
@@ -2016,9 +1983,7 @@ class AsyncV1Client:
             return pydantic_v1.parse_obj_as(typing.List[Patient], _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def update(
@@ -2311,9 +2276,7 @@ class AsyncV1Client:
             return pydantic_v1.parse_obj_as(Patient, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
             if _response_json["errorName"] == "VersionConflictError":
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore
@@ -2374,9 +2337,7 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if "errorName" in _response_json:
             if _response_json["errorName"] == "NotFoundError":
-                raise NotFoundError(
-                    pydantic_v1.parse_obj_as(NotFoundErrorBody, _response_json["content"])  # type: ignore
-                )
+                raise NotFoundError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
             if _response_json["errorName"] == "VersionConflictError":
                 raise VersionConflictError(
                     pydantic_v1.parse_obj_as(VersionConflictErrorBody, _response_json["content"])  # type: ignore

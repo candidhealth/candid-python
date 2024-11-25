@@ -8,7 +8,7 @@ from .......core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .......core.pydantic_utilities import pydantic_v1
 from .......core.request_options import RequestOptions
 from ....common.errors.bad_request_error import BadRequestError
-from ....common.types.error_base import ErrorBase
+from ....common.types.error_base_4_xx import ErrorBase4Xx
 from ....common.types.page_token import PageToken
 from ....common.types.sort_direction import SortDirection
 from .types.appointment_list_page import AppointmentListPage
@@ -93,7 +93,7 @@ class V1Client:
             return pydantic_v1.parse_obj_as(PatientListPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "BadRequestError":
-                raise BadRequestError(pydantic_v1.parse_obj_as(ErrorBase, _response_json["content"]))  # type: ignore
+                raise BadRequestError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_appointment_list(
@@ -254,7 +254,7 @@ class AsyncV1Client:
             return pydantic_v1.parse_obj_as(PatientListPage, _response_json)  # type: ignore
         if "errorName" in _response_json:
             if _response_json["errorName"] == "BadRequestError":
-                raise BadRequestError(pydantic_v1.parse_obj_as(ErrorBase, _response_json["content"]))  # type: ignore
+                raise BadRequestError(pydantic_v1.parse_obj_as(ErrorBase4Xx, _response_json["content"]))  # type: ignore
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_appointment_list(

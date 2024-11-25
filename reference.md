@@ -1008,6 +1008,9 @@ client.credentialing.v_2.get_all(
     payer_uuid=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
+    provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
     as_rendering_provider=True,
     as_contracting_provider=True,
 )
@@ -1050,7 +1053,7 @@ client.credentialing.v_2.get_all(
 <dl>
 <dd>
 
-**as_rendering_provider:** `typing.Optional[bool]` — Filter to credentialing spans where the provider is a rendering provider.
+**provider_id:** `typing.Optional[uuid.UUID]` — Filter to a particular provider. Use in conjunction as_rendering_provider and as_contracting_provider.
     
 </dd>
 </dl>
@@ -1058,7 +1061,15 @@ client.credentialing.v_2.get_all(
 <dl>
 <dd>
 
-**as_contracting_provider:** `typing.Optional[bool]` — Filter to credentialing spans where the provider is a contracting provider.
+**as_rendering_provider:** `typing.Optional[bool]` — Filter to credentialing spans where the provider is a rendering provider. To use this filter provider_id is required.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**as_contracting_provider:** `typing.Optional[bool]` — Filter to credentialing spans where the provider is a contracting provider. To use this filter provider_id is required.
     
 </dd>
 </dl>
@@ -16152,7 +16163,7 @@ client.pre_encounter.patients.v_1.create(
 <dl>
 <dd>
 
-Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. InvalidMRNError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
 </dd>
 </dl>
 </dd>
