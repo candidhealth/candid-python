@@ -292,6 +292,8 @@ class V1Client:
                 ],
                 primary_service_facility_id="string",
                 do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
+                note_ids=["string"],
+                tag_ids=["string"],
             ),
         )
         """
@@ -578,6 +580,8 @@ class V1Client:
                 ],
                 primary_service_facility_id="string",
                 do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
+                note_ids=["string"],
+                tag_ids=["string"],
             ),
         )
         """
@@ -1030,6 +1034,8 @@ class V1Client:
                 ],
                 primary_service_facility_id="string",
                 do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
+                note_ids=["string"],
+                tag_ids=["string"],
             ),
         )
         """
@@ -1478,6 +1484,8 @@ class AsyncV1Client:
                     ],
                     primary_service_facility_id="string",
                     do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
+                    note_ids=["string"],
+                    tag_ids=["string"],
                 ),
             )
 
@@ -1771,6 +1779,8 @@ class AsyncV1Client:
                     ],
                     primary_service_facility_id="string",
                     do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
+                    note_ids=["string"],
+                    tag_ids=["string"],
                 ),
             )
 
@@ -2254,6 +2264,8 @@ class AsyncV1Client:
                     ],
                     primary_service_facility_id="string",
                     do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
+                    note_ids=["string"],
+                    tag_ids=["string"],
                 ),
             )
 

@@ -16,9 +16,11 @@ from .....common.types.ethnicity import Ethnicity
 from .....common.types.external_provider import ExternalProvider
 from .....common.types.gender import Gender
 from .....common.types.human_name import HumanName
+from .....common.types.note_id import NoteId
 from .....common.types.race import Race
 from .....common.types.sex import Sex
 from .....common.types.sexual_orientation import SexualOrientation
+from .....common.types.tag_id import TagId
 from .authorization import Authorization
 from .contact import Contact
 from .do_not_invoice_reason import DoNotInvoiceReason
@@ -114,6 +116,9 @@ class MutablePatient(pydantic.BaseModel):
     """
     If this value is defined, the customer will not be invoiced.
     """
+
+    note_ids: typing.Optional[typing.List[NoteId]] = None
+    tag_ids: typing.Optional[typing.List[TagId]] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

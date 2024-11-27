@@ -5,19 +5,33 @@ import typing
 
 import pydantic
 
-from ........core.datetime_utils import serialize_datetime
-from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .....common.types.base_model import BaseModel
-from .....common.types.coverage_id import CoverageId
-from .mutable_coverage import MutableCoverage
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .organization_id import OrganizationId
+from .user_id import UserId
 
 
-class Coverage(BaseModel, MutableCoverage):
+class BaseModel(pydantic.BaseModel):
+    organization_id: OrganizationId = pydantic.Field()
     """
-    A coverage object with immutable server-owned properties.
+    The organization that owns this object.
     """
 
-    id: CoverageId
+    deactivated: bool = pydantic.Field()
+    """
+    True if the object is deactivated. Deactivated objects are not returned in search results but are returned in all other endpoints including scan.
+    """
+
+    version: int = pydantic.Field()
+    """
+    The version of the object. Any update to any property of an object object will create a new version.
+    """
+
+    updated_at: dt.datetime
+    updating_user_id: UserId = pydantic.Field()
+    """
+    The user ID of the user who last updated the object.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -34,7 +48,5 @@ class Coverage(BaseModel, MutableCoverage):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

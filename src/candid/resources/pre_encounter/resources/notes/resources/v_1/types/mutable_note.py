@@ -7,17 +7,16 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .....common.types.base_model import BaseModel
-from .....common.types.coverage_id import CoverageId
-from .mutable_coverage import MutableCoverage
 
 
-class Coverage(BaseModel, MutableCoverage):
+class MutableNote(pydantic.BaseModel):
     """
-    A coverage object with immutable server-owned properties.
+    An object representing a Note.
     """
 
-    id: CoverageId
+    value: str
+    author_email: typing.Optional[str] = None
+    author_name: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -34,7 +33,5 @@ class Coverage(BaseModel, MutableCoverage):
     class Config:
         frozen = True
         smart_union = True
-        allow_population_by_field_name = True
-        populate_by_name = True
         extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

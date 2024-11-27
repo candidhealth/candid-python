@@ -8,16 +8,17 @@ import pydantic
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
 from .....common.types.base_model import BaseModel
-from .....common.types.coverage_id import CoverageId
-from .mutable_coverage import MutableCoverage
+from .....common.types.note_id import NoteId
+from .mutable_note import MutableNote
 
 
-class Coverage(BaseModel, MutableCoverage):
+class Note(BaseModel, MutableNote):
     """
-    A coverage object with immutable server-owned properties.
+    A Note object with immutable server-owned properties.
     """
 
-    id: CoverageId
+    id: NoteId
+    created_at: dt.datetime
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
