@@ -5,10 +5,20 @@ from json.decoder import JSONDecodeError
 
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import pydantic_v1
 from .....core.request_options import RequestOptions
+from ....commons.errors.entity_not_found_error import EntityNotFoundError
+from ....commons.errors.http_request_validation_error import HttpRequestValidationError
+from ....commons.errors.organization_not_authorized_error import OrganizationNotAuthorizedError
+from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.types.encounter_id import EncounterId
+from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.organization_not_authorized_error_message import OrganizationNotAuthorizedErrorMessage
+from ....commons.types.request_validation_error import RequestValidationError
+from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from .types.billing_note import BillingNote
+from .types.billing_note_id import BillingNoteId
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -67,6 +77,132 @@ class V2Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(BillingNote, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def delete(
+        self, billing_note_id: BillingNoteId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        billing_note_id : BillingNoteId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.billing_notes.v_2.delete(
+            billing_note_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/billing_notes/v2/{jsonable_encoder(billing_note_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    pydantic_v1.parse_obj_as(OrganizationNotAuthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def update(
+        self, billing_note_id: BillingNoteId, *, text: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> BillingNote:
+        """
+        Parameters
+        ----------
+        billing_note_id : BillingNoteId
+
+        text : str
+            Empty string not allowed.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        BillingNote
+
+        Examples
+        --------
+        import uuid
+
+        from candid.client import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.billing_notes.v_2.update(
+            billing_note_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            text="string",
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/billing_notes/v2/{jsonable_encoder(billing_note_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={"text": text},
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(BillingNote, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    pydantic_v1.parse_obj_as(OrganizationNotAuthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -130,4 +266,144 @@ class AsyncV2Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(BillingNote, _response_json)  # type: ignore
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def delete(
+        self, billing_note_id: BillingNoteId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        billing_note_id : BillingNoteId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.billing_notes.v_2.delete(
+                billing_note_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/billing_notes/v2/{jsonable_encoder(billing_note_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    pydantic_v1.parse_obj_as(OrganizationNotAuthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def update(
+        self, billing_note_id: BillingNoteId, *, text: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> BillingNote:
+        """
+        Parameters
+        ----------
+        billing_note_id : BillingNoteId
+
+        text : str
+            Empty string not allowed.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        BillingNote
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid.client import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.billing_notes.v_2.update(
+                billing_note_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                text="string",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/billing_notes/v2/{jsonable_encoder(billing_note_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={"text": text},
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return pydantic_v1.parse_obj_as(BillingNote, _response_json)  # type: ignore
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    pydantic_v1.parse_obj_as(EntityNotFoundErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    pydantic_v1.parse_obj_as(OrganizationNotAuthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    pydantic_v1.parse_obj_as(RequestValidationError, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)

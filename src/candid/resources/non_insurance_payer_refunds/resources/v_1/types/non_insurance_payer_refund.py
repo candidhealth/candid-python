@@ -20,6 +20,7 @@ class NonInsurancePayerRefund(pydantic.BaseModel):
     amount_cents: int
     refund_timestamp: typing.Optional[dt.datetime] = None
     refund_note: typing.Optional[str] = None
+    check_number: typing.Optional[str] = None
     allocations: typing.List[Allocation]
     refund_reason: typing.Optional[RefundReason] = None
     invoice_id: typing.Optional[InvoiceId] = None

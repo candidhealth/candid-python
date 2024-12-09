@@ -180,8 +180,16 @@ class ServiceLine(pydantic.BaseModel):
     related_invoices: typing.Optional[typing.List[Invoice]] = None
     related_invoice_info: typing.Optional[typing.List[InvoiceInfo]] = None
     denial_reason: typing.Optional[ServiceLineDenialReason] = None
-    place_of_service_code: typing.Optional[FacilityTypeCode] = None
-    place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = None
+    place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
+    """
+    837p Loop2300, SV105. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+    """
+
+    place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
+    """
+    837p Loop2300, SV105. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+    """
+
     service_line_id: ServiceLineId
     procedure_code: str
     ordering_provider: typing.Optional[EncounterProvider] = None

@@ -40,7 +40,11 @@ class ServiceLineCreate(pydantic.BaseModel):
     """
 
     drug_identification: typing.Optional[DrugIdentification] = None
-    place_of_service_code: typing.Optional[FacilityTypeCode] = None
+    place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
+    """
+    837p Loop2300, SV105. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+    """
+
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
     A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on the 837-P.

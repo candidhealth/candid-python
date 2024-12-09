@@ -27,7 +27,11 @@ class ServiceLineCreateStandalone(pydantic.BaseModel):
     diagnosis_id_two: typing.Optional[DiagnosisId] = None
     diagnosis_id_three: typing.Optional[DiagnosisId] = None
     denial_reason: typing.Optional[ServiceLineDenialReason] = None
-    place_of_service_code: typing.Optional[FacilityTypeCode] = None
+    place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
+    """
+    837p Loop2300, SV105. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+    """
+
     procedure_code: str
     quantity: Decimal = pydantic.Field()
     """

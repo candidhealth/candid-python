@@ -273,7 +273,7 @@ class V2Client:
         )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/provider-credentialing-span/v2/",
+            "api/provider-credentialing-span/v2",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
@@ -757,7 +757,7 @@ class AsyncV2Client:
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/provider-credentialing-span/v2/",
+            "api/provider-credentialing-span/v2",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={

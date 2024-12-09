@@ -237,6 +237,7 @@ class V1Client:
                     "2024-01-15 09:30:00+00:00",
                 ),
                 refund_note="string",
+                check_number="string",
                 allocations=[
                     AllocationCreate(
                         amount_cents=1,
@@ -657,6 +658,7 @@ class AsyncV1Client:
                         "2024-01-15 09:30:00+00:00",
                     ),
                     refund_note="string",
+                    check_number="string",
                     allocations=[
                         AllocationCreate(
                             amount_cents=1,
