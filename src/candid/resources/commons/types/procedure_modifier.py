@@ -1947,6 +1947,11 @@ class ProcedureModifier(str, enum.Enum):
     Two or more separate patient visits on the same date of service
     """
 
+    XS = "XS"
+    """
+    A service that is distinct because it was performed on a separate organ/structure
+    """
+
     def visit(
         self,
         twenty_two: typing.Callable[[], T_Result],
@@ -2337,6 +2342,7 @@ class ProcedureModifier(str, enum.Enum):
         v_2: typing.Callable[[], T_Result],
         v_3: typing.Callable[[], T_Result],
         xe: typing.Callable[[], T_Result],
+        xs: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is ProcedureModifier.TWENTY_TWO:
             return twenty_two()
@@ -3114,3 +3120,5 @@ class ProcedureModifier(str, enum.Enum):
             return v_3()
         if self is ProcedureModifier.XE:
             return xe()
+        if self is ProcedureModifier.XS:
+            return xs()

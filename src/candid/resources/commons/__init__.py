@@ -2,6 +2,7 @@
 
 from .types import (
     AppointmentId,
+    BillingProviderCommercialLicenseType,
     ClaimAdjustmentGroupCodes,
     ClaimId,
     ClaimSubmissionPayerResponsibilityType,
@@ -82,6 +83,7 @@ from .errors import (
 
 __all__ = [
     "AppointmentId",
+    "BillingProviderCommercialLicenseType",
     "ClaimAdjustmentGroupCodes",
     "ClaimId",
     "ClaimSubmissionPayerResponsibilityType",

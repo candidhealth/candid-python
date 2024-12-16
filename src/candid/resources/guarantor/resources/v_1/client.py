@@ -191,7 +191,7 @@ class V1Client:
         import datetime
         import uuid
 
-        from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
+        from candid import State, StreetAddressShortZip
         from candid.client import CandidApiClient
         from candid.resources.guarantor.v_1 import GuarantorUpdate
 
@@ -218,12 +218,7 @@ class V1Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                phone_numbers=[
-                    PhoneNumber(
-                        number="1234567890",
-                        type=PhoneNumberType.HOME,
-                    )
-                ],
+                phone_numbers=[],
                 phone_consent=True,
                 email="johndoe@joincandidhealth.com",
                 email_consent=True,
@@ -433,7 +428,7 @@ class AsyncV1Client:
         import datetime
         import uuid
 
-        from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
+        from candid import State, StreetAddressShortZip
         from candid.client import AsyncCandidApiClient
         from candid.resources.guarantor.v_1 import GuarantorUpdate
 
@@ -463,12 +458,7 @@ class AsyncV1Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    phone_numbers=[
-                        PhoneNumber(
-                            number="1234567890",
-                            type=PhoneNumberType.HOME,
-                        )
-                    ],
+                    phone_numbers=[],
                     phone_consent=True,
                     email="johndoe@joincandidhealth.com",
                     email_consent=True,

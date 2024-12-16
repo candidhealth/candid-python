@@ -52,6 +52,7 @@ from . import (
 from .claims import Claim, ClaimStatus
 from .commons import (
     AppointmentId,
+    BillingProviderCommercialLicenseType,
     ClaimAdjustmentGroupCodes,
     ClaimId,
     ClaimSubmissionPayerResponsibilityType,
@@ -234,6 +235,7 @@ __all__ = [
     "AppointmentByIdAndPatientExternalId",
     "AppointmentId",
     "BillingProviderAllocationTarget",
+    "BillingProviderCommercialLicenseType",
     "Claim",
     "ClaimAdjustmentGroupCodes",
     "ClaimAllocationTarget",

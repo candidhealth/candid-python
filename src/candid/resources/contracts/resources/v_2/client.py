@@ -17,10 +17,12 @@ from ....commons.types.page_token import PageToken
 from ....commons.types.regions import Regions
 from ....commons.types.state import State
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
+from .errors.contract_invalid_expiration_date_http_error import ContractInvalidExpirationDateHttpError
 from .errors.contract_is_linked_to_fee_schedule_http_error import ContractIsLinkedToFeeScheduleHttpError
 from .types.authorized_signatory import AuthorizedSignatory
 from .types.authorized_signatory_update import AuthorizedSignatoryUpdate
 from .types.contract_id import ContractId
+from .types.contract_invalid_expiration_date_error import ContractInvalidExpirationDateError
 from .types.contract_is_linked_to_fee_schedule_error import ContractIsLinkedToFeeScheduleError
 from .types.contract_status import ContractStatus
 from .types.contract_with_providers import ContractWithProviders
@@ -493,6 +495,10 @@ class V2Client:
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
                     pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "ContractInvalidExpirationDateHttpError":
+                raise ContractInvalidExpirationDateHttpError(
+                    pydantic_v1.parse_obj_as(ContractInvalidExpirationDateError, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -990,5 +996,9 @@ class AsyncV2Client:
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
                     pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "ContractInvalidExpirationDateHttpError":
+                raise ContractInvalidExpirationDateHttpError(
+                    pydantic_v1.parse_obj_as(ContractInvalidExpirationDateError, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

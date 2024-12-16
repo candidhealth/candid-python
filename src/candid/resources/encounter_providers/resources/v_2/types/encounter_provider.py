@@ -7,6 +7,7 @@ import pydantic
 
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
+from .....commons.types.billing_provider_commercial_license_type import BillingProviderCommercialLicenseType
 from .....commons.types.qualifier_code import QualifierCode
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .encounter_provider_base import EncounterProviderBase
@@ -49,6 +50,13 @@ class EncounterProvider(EncounterProviderBase):
     npi: str
     taxonomy_code: typing.Optional[str] = None
     qualifier: typing.Optional[QualifierCode] = None
+    provider_commercial_license_type: typing.Optional[BillingProviderCommercialLicenseType] = pydantic.Field(
+        default=None
+    )
+    """
+    837i Loop2010BB G2
+    Provider Commercial Number
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

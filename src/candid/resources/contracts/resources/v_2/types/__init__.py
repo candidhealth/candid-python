@@ -9,6 +9,7 @@ from .authorized_signatory_update import (
 from .contract import Contract
 from .contract_base import ContractBase
 from .contract_id import ContractId
+from .contract_invalid_expiration_date_error import ContractInvalidExpirationDateError
 from .contract_is_linked_to_fee_schedule_error import ContractIsLinkedToFeeScheduleError
 from .contract_status import ContractStatus
 from .contract_with_providers import ContractWithProviders
@@ -32,6 +33,7 @@ __all__ = [
     "Contract",
     "ContractBase",
     "ContractId",
+    "ContractInvalidExpirationDateError",
     "ContractIsLinkedToFeeScheduleError",
     "ContractStatus",
     "ContractWithProviders",

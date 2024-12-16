@@ -529,6 +529,7 @@ class V4Client:
         import uuid
 
         from candid import (
+            BillingProviderCommercialLicenseType,
             ClaimSubmissionPayerResponsibilityType,
             DelayReasonCode,
             DiagnosisCreate,
@@ -544,7 +545,6 @@ class V4Client:
             PatientRelationshipToInsuredCodeAll,
             PhoneNumber,
             PhoneNumberType,
-            ProcedureModifier,
             QualifierCode,
             ServiceLineUnits,
             SourceOfPaymentCode,
@@ -564,14 +564,12 @@ class V4Client:
         from candid.resources.encounter_providers.v_2 import (
             BillingProvider,
             InitialReferringProvider,
-            OrderingProvider,
             ReferringProvider,
             RenderingProvider,
             SupervisingProvider,
         )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
-            ClinicalNote,
             ClinicalNoteCategoryCreate,
             IntakeFollowUp,
             IntakeQuestion,
@@ -591,14 +589,7 @@ class V4Client:
         )
         from candid.resources.guarantor.v_1 import GuarantorCreate
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
-        from candid.resources.service_lines.v_2 import (
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
-            ServiceLineCreate,
-            TestResult,
-            TestResultType,
-        )
+        from candid.resources.service_lines.v_2 import ServiceLineCreate
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -656,6 +647,7 @@ class V4Client:
                 tax_id="string",
                 npi="string",
                 taxonomy_code="string",
+                provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
                 first_name="string",
                 last_name="string",
                 organization_name="string",
@@ -799,7 +791,6 @@ class V4Client:
             responsible_party=ResponsiblePartyType.INSURANCE_PAY,
             diagnoses=[
                 DiagnosisCreate(
-                    name="string",
                     code_type=DiagnosisTypeCode.ABF,
                     code="string",
                 )
@@ -807,16 +798,7 @@ class V4Client:
             clinical_notes=[
                 ClinicalNoteCategoryCreate(
                     category=NoteCategory.CLINICAL,
-                    notes=[
-                        ClinicalNote(
-                            text="string",
-                            author_name="string",
-                            author_npi="string",
-                            timestamp=datetime.datetime.fromisoformat(
-                                "2024-01-15 09:30:00+00:00",
-                            ),
-                        )
-                    ],
+                    notes=[],
                 )
             ],
             billing_notes=[
@@ -850,51 +832,10 @@ class V4Client:
             ],
             service_lines=[
                 ServiceLineCreate(
-                    modifiers=[ProcedureModifier.TWENTY_TWO],
                     procedure_code="string",
                     quantity="string",
                     units=ServiceLineUnits.MJ,
-                    charge_amount_cents=1,
-                    diagnosis_pointers=[1],
-                    drug_identification=DrugIdentification(
-                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                        national_drug_code="string",
-                        national_drug_unit_count="string",
-                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                        link_sequence_number="string",
-                        pharmacy_prescription_number="string",
-                        conversion_formula="string",
-                        drug_description="string",
-                    ),
-                    place_of_service_code=FacilityTypeCode.PHARMACY,
-                    description="string",
-                    date_of_service=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    end_date_of_service=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    ordering_provider=OrderingProvider(
-                        npi="string",
-                        taxonomy_code="string",
-                        address=StreetAddressLongZip(
-                            address_1="123 Main St",
-                            address_2="Apt 1",
-                            city="New York",
-                            state=State.NY,
-                            zip_code="10001",
-                            zip_plus_four_code="1234",
-                        ),
-                        first_name="string",
-                        last_name="string",
-                        organization_name="string",
-                    ),
-                    test_results=[
-                        TestResult(
-                            value=1.1,
-                            result_type=TestResultType.HEMATOCRIT,
-                        )
-                    ],
+                    diagnosis_pointers=[],
                 )
             ],
             guarantor=GuarantorCreate(
@@ -1362,6 +1303,7 @@ class V4Client:
         import uuid
 
         from candid import (
+            BillingProviderCommercialLicenseType,
             ClaimSubmissionPayerResponsibilityType,
             DelayReasonCode,
             DiagnosisCreate,
@@ -1369,7 +1311,6 @@ class V4Client:
             EncounterServiceFacilityBase,
             FacilityTypeCode,
             IntendedSubmissionMedium,
-            ProcedureModifier,
             QualifierCode,
             ServiceLineUnits,
             State,
@@ -1386,13 +1327,11 @@ class V4Client:
         from candid.resources.encounter_providers.v_2 import (
             BillingProvider,
             InitialReferringProvider,
-            OrderingProvider,
             RenderingProvider,
             SupervisingProvider,
         )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
-            ClinicalNote,
             ClinicalNoteCategoryCreate,
             IntakeFollowUp,
             IntakeQuestion,
@@ -1409,14 +1348,7 @@ class V4Client:
             SynchronicityType,
             Vitals,
         )
-        from candid.resources.service_lines.v_2 import (
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
-            ServiceLineCreate,
-            TestResult,
-            TestResultType,
-        )
+        from candid.resources.service_lines.v_2 import ServiceLineCreate
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1443,6 +1375,7 @@ class V4Client:
                 tax_id="string",
                 npi="string",
                 taxonomy_code="string",
+                provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
                 first_name="string",
                 last_name="string",
                 organization_name="string",
@@ -1507,7 +1440,6 @@ class V4Client:
             ),
             diagnoses=[
                 DiagnosisCreate(
-                    name="string",
                     code_type=DiagnosisTypeCode.ABF,
                     code="string",
                 )
@@ -1515,16 +1447,7 @@ class V4Client:
             clinical_notes=[
                 ClinicalNoteCategoryCreate(
                     category=NoteCategory.CLINICAL,
-                    notes=[
-                        ClinicalNote(
-                            text="string",
-                            author_name="string",
-                            author_npi="string",
-                            timestamp=datetime.datetime.fromisoformat(
-                                "2024-01-15 09:30:00+00:00",
-                            ),
-                        )
-                    ],
+                    notes=[],
                 )
             ],
             billing_notes=[
@@ -1558,51 +1481,10 @@ class V4Client:
             ],
             service_lines=[
                 ServiceLineCreate(
-                    modifiers=[ProcedureModifier.TWENTY_TWO],
                     procedure_code="string",
                     quantity="string",
                     units=ServiceLineUnits.MJ,
-                    charge_amount_cents=1,
-                    diagnosis_pointers=[1],
-                    drug_identification=DrugIdentification(
-                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                        national_drug_code="string",
-                        national_drug_unit_count="string",
-                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                        link_sequence_number="string",
-                        pharmacy_prescription_number="string",
-                        conversion_formula="string",
-                        drug_description="string",
-                    ),
-                    place_of_service_code=FacilityTypeCode.PHARMACY,
-                    description="string",
-                    date_of_service=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    end_date_of_service=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    ordering_provider=OrderingProvider(
-                        npi="string",
-                        taxonomy_code="string",
-                        address=StreetAddressLongZip(
-                            address_1="123 Main St",
-                            address_2="Apt 1",
-                            city="New York",
-                            state=State.NY,
-                            zip_code="10001",
-                            zip_plus_four_code="1234",
-                        ),
-                        first_name="string",
-                        last_name="string",
-                        organization_name="string",
-                    ),
-                    test_results=[
-                        TestResult(
-                            value=1.1,
-                            result_type=TestResultType.HEMATOCRIT,
-                        )
-                    ],
+                    diagnosis_pointers=[],
                 )
             ],
             external_claim_submission=ExternalClaimSubmissionCreate(
@@ -1800,20 +1682,20 @@ class V4Client:
         self,
         encounter_id: EncounterId,
         *,
+        diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
+        place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = OMIT,
+        benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         external_id: typing.Optional[EncounterExternalId] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
-        diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
         clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         billable_status: typing.Optional[BillableStatusType] = OMIT,
         responsible_party: typing.Optional[ResponsiblePartyType] = OMIT,
         provider_accepts_assignment: typing.Optional[bool] = OMIT,
-        benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
-        place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
@@ -1845,6 +1727,19 @@ class V4Client:
         ----------
         encounter_id : EncounterId
 
+        diagnosis_ids : typing.Optional[typing.Sequence[DiagnosisId]]
+            Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+            may be submitted at this time, and coders will later prioritize the 12 that will be
+            submitted to the payor.
+
+
+        place_of_service_code_as_submitted : typing.Optional[FacilityTypeCode]
+            Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+
+
+        benefits_assigned_to_provider : typing.Optional[bool]
+            Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
+
         prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
             Box 23 on the CMS-1500 claim form.
 
@@ -1853,7 +1748,6 @@ class V4Client:
             for example, your internal encounter ID or a Dr. Chrono encounter ID.
             This field should not contain PHI.
 
-
         date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
@@ -1861,15 +1755,8 @@ class V4Client:
             If service occurred over a range of dates, this should be the start date.
             If service lines have distinct date_of_service values, updating the encounter's date_of_service will fail. If all service line date_of_service values are the same, updating the encounter's date_of_service will update all service line date_of_service values.
 
-
-        diagnosis_ids : typing.Optional[typing.Sequence[DiagnosisId]]
-            Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
-            may be submitted at this time, and coders will later prioritize the 12 that will be
-            submitted to the payor.
-
-
         tag_ids : typing.Optional[typing.Sequence[TagId]]
-            Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
+            Names of tags that should be on the encounter. Note all tags on encounter will be overridden with this list.
 
         clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
             Holds a collection of clinical observations made by healthcare providers during patient encounters.
@@ -1880,34 +1767,20 @@ class V4Client:
         billable_status : typing.Optional[BillableStatusType]
             Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-
         responsible_party : typing.Optional[ResponsiblePartyType]
             Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
-
 
         provider_accepts_assignment : typing.Optional[bool]
             Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form.
 
-
-        benefits_assigned_to_provider : typing.Optional[bool]
-            Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
-
-
         synchronicity : typing.Optional[SynchronicityType]
             Whether or not this was a synchronous or asynchronous encounter. Asynchronous encounters occur when providers and patients communicate online using forms, instant messaging, or other pre-recorded digital mediums. Synchronous encounters occur in live, real-time settings where the patient interacts directly with the provider, such as over video or a phone call.
-
 
         place_of_service_code : typing.Optional[FacilityTypeCode]
             Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
-
-        place_of_service_code_as_submitted : typing.Optional[FacilityTypeCode]
-            Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
-
-
         appointment_type : typing.Optional[str]
             Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
-
 
         end_date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
@@ -1915,7 +1788,6 @@ class V4Client:
             If omitted, the Encounter is assumed to be for a single day.
             Must not be temporally before the date_of_service field.
             If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
-
 
         subscriber_primary : typing.Optional[SubscriberCreate]
             Contains details of the primary insurance subscriber.
@@ -1927,52 +1799,43 @@ class V4Client:
             Defines additional information on the claim needed by the payer.
             Box 19 on the CMS-1500 claim form.
 
-
         service_authorization_exception_code : typing.Optional[ServiceAuthorizationExceptionCode]
-            837p Loop2300 REF*4N
+            837p Loop2300 REF\*4N
             Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
             reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
             obtaining the authorization.
 
-
         admission_date : typing.Optional[dt.date]
-            837p Loop2300 DTP*435, CMS-1500 Box 18
+            837p Loop2300 DTP\*435, CMS-1500 Box 18
             Required on all ambulance claims when the patient was known to be admitted to the hospital.
             OR
             Required on all claims involving inpatient medical visits.
 
-
         discharge_date : typing.Optional[dt.date]
-            837p Loop2300 DTP*096, CMS-1500 Box 18
+            837p Loop2300 DTP\*096, CMS-1500 Box 18
             Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
 
-
         onset_of_current_illness_or_symptom_date : typing.Optional[dt.date]
-            837p Loop2300 DTP*431, CMS-1500 Box 14
+            837p Loop2300 DTP\*431, CMS-1500 Box 14
             Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
             OR
             This date is the onset of acute symptoms for the current illness or condition.
 
-
         last_menstrual_period_date : typing.Optional[dt.date]
-            837p Loop2300 DTP*484, CMS-1500 Box 14
-            Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
-
+            837p Loop2300 DTP\*484, CMS-1500 Box 14
+            Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.de
 
         delay_reason_code : typing.Optional[DelayReasonCode]
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
 
-
         patient : typing.Optional[PatientUpdate]
             Contains the identification information of the individual receiving medical services.
-
 
         patient_authorized_release : typing.Optional[bool]
             Whether this patient has authorized the release of medical information
             for billing purpose.
             Box 12 on the CMS-1500 claim form.
-
 
         schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
             Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
@@ -1980,52 +1843,41 @@ class V4Client:
             semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
             is provided as an input, then the encounter's schema instances will be cleared.
 
-
         vitals : typing.Optional[VitalsUpdate]
             If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
             Otherwise, a new vitals object will be created for the encounter.
-
 
         existing_medications : typing.Optional[typing.Sequence[Medication]]
             Existing medications that should be on the encounter.
             Note all current existing medications on encounter will be overridden with this list.
 
-
         rendering_provider : typing.Optional[RenderingProviderUpdate]
             The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
             For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
 
-
         service_facility : typing.Optional[EncounterServiceFacilityUpdate]
             Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
-
 
         guarantor : typing.Optional[GuarantorUpdate]
             Personal and contact info for the guarantor of the patient responsibility.
 
-
         billing_provider : typing.Optional[BillingProviderUpdate]
             The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
 
-
         supervising_provider : typing.Optional[SupervisingProviderUpdate]
             Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-
 
         referring_provider : typing.Optional[ReferringProviderUpdate]
             The final provider who referred the services that were rendered.
             All physicians who order services or refer Medicare beneficiaries must
             report this data.
 
-
         initial_referring_provider : typing.Optional[InitialReferringProviderUpdate]
             The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
             indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
 
-
         referral_number : typing.Optional[str]
-            Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
-
+            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2040,17 +1892,15 @@ class V4Client:
         import uuid
 
         from candid import (
+            BillingProviderCommercialLicenseType,
             DelayReasonCode,
             EmrPayerCrosswalk,
             EncounterServiceFacilityUpdate,
             FacilityTypeCode,
             Gender,
             InsuranceTypeCode,
-            PatientNonInsurancePayerInfoCreate,
             PatientRelationshipToInsuredCodeAll,
             PatientUpdate,
-            PhoneNumber,
-            PhoneNumberType,
             QualifierCode,
             SourceOfPaymentCode,
             State,
@@ -2069,7 +1919,6 @@ class V4Client:
         )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
-            ClinicalNote,
             ClinicalNoteCategoryCreate,
             Medication,
             NoteCategory,
@@ -2089,30 +1938,23 @@ class V4Client:
             encounter_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            prior_authorization_number="string",
-            external_id="string",
-            date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
             diagnosis_ids=[
                 uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 )
             ],
+            place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
+            benefits_assigned_to_provider=True,
+            prior_authorization_number="string",
+            external_id="string",
+            date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
             tag_ids=["string"],
             clinical_notes=[
                 ClinicalNoteCategoryCreate(
                     category=NoteCategory.CLINICAL,
-                    notes=[
-                        ClinicalNote(
-                            text="string",
-                            author_name="string",
-                            author_npi="string",
-                            timestamp=datetime.datetime.fromisoformat(
-                                "2024-01-15 09:30:00+00:00",
-                            ),
-                        )
-                    ],
+                    notes=[],
                 )
             ],
             pay_to_address=StreetAddressLongZip(
@@ -2126,10 +1968,8 @@ class V4Client:
             billable_status=BillableStatusType.BILLABLE,
             responsible_party=ResponsiblePartyType.INSURANCE_PAY,
             provider_accepts_assignment=True,
-            benefits_assigned_to_provider=True,
             synchronicity=SynchronicityType.SYNCHRONOUS,
             place_of_service_code=FacilityTypeCode.PHARMACY,
-            place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
             appointment_type="string",
             end_date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -2227,28 +2067,12 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                phone_numbers=[
-                    PhoneNumber(
-                        number="1234567890",
-                        type=PhoneNumberType.HOME,
-                    )
-                ],
+                phone_numbers=[],
                 phone_consent=True,
                 email="johndoe@joincandidhealth.com",
                 email_consent=True,
-                non_insurance_payers=[
-                    uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    )
-                ],
-                non_insurance_payers_info=[
-                    PatientNonInsurancePayerInfoCreate(
-                        non_insurance_payer_id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                        member_id="string",
-                    )
-                ],
+                non_insurance_payers=[],
+                non_insurance_payers_info=[],
             ),
             patient_authorized_release=True,
             schema_instances=[
@@ -2324,12 +2148,7 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                phone_numbers=[
-                    PhoneNumber(
-                        number="1234567890",
-                        type=PhoneNumberType.HOME,
-                    )
-                ],
+                phone_numbers=[],
                 phone_consent=True,
                 email="johndoe@joincandidhealth.com",
                 email_consent=True,
@@ -2346,6 +2165,7 @@ class V4Client:
                 tax_id="string",
                 npi="string",
                 taxonomy_code="string",
+                provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
                 first_name="string",
                 last_name="string",
                 organization_name="string",
@@ -2404,20 +2224,20 @@ class V4Client:
             base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={
+                "diagnosis_ids": diagnosis_ids,
+                "place_of_service_code_as_submitted": place_of_service_code_as_submitted,
+                "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "prior_authorization_number": prior_authorization_number,
                 "external_id": external_id,
                 "date_of_service": date_of_service,
-                "diagnosis_ids": diagnosis_ids,
                 "tag_ids": tag_ids,
                 "clinical_notes": clinical_notes,
                 "pay_to_address": pay_to_address,
                 "billable_status": billable_status,
                 "responsible_party": responsible_party,
                 "provider_accepts_assignment": provider_accepts_assignment,
-                "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "synchronicity": synchronicity,
                 "place_of_service_code": place_of_service_code,
-                "place_of_service_code_as_submitted": place_of_service_code_as_submitted,
                 "appointment_type": appointment_type,
                 "end_date_of_service": end_date_of_service,
                 "subscriber_primary": subscriber_primary,
@@ -2942,6 +2762,7 @@ class AsyncV4Client:
         import uuid
 
         from candid import (
+            BillingProviderCommercialLicenseType,
             ClaimSubmissionPayerResponsibilityType,
             DelayReasonCode,
             DiagnosisCreate,
@@ -2957,7 +2778,6 @@ class AsyncV4Client:
             PatientRelationshipToInsuredCodeAll,
             PhoneNumber,
             PhoneNumberType,
-            ProcedureModifier,
             QualifierCode,
             ServiceLineUnits,
             SourceOfPaymentCode,
@@ -2977,14 +2797,12 @@ class AsyncV4Client:
         from candid.resources.encounter_providers.v_2 import (
             BillingProvider,
             InitialReferringProvider,
-            OrderingProvider,
             ReferringProvider,
             RenderingProvider,
             SupervisingProvider,
         )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
-            ClinicalNote,
             ClinicalNoteCategoryCreate,
             IntakeFollowUp,
             IntakeQuestion,
@@ -3004,14 +2822,7 @@ class AsyncV4Client:
         )
         from candid.resources.guarantor.v_1 import GuarantorCreate
         from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
-        from candid.resources.service_lines.v_2 import (
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
-            ServiceLineCreate,
-            TestResult,
-            TestResultType,
-        )
+        from candid.resources.service_lines.v_2 import ServiceLineCreate
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -3072,6 +2883,7 @@ class AsyncV4Client:
                     tax_id="string",
                     npi="string",
                     taxonomy_code="string",
+                    provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
                     first_name="string",
                     last_name="string",
                     organization_name="string",
@@ -3215,7 +3027,6 @@ class AsyncV4Client:
                 responsible_party=ResponsiblePartyType.INSURANCE_PAY,
                 diagnoses=[
                     DiagnosisCreate(
-                        name="string",
                         code_type=DiagnosisTypeCode.ABF,
                         code="string",
                     )
@@ -3223,16 +3034,7 @@ class AsyncV4Client:
                 clinical_notes=[
                     ClinicalNoteCategoryCreate(
                         category=NoteCategory.CLINICAL,
-                        notes=[
-                            ClinicalNote(
-                                text="string",
-                                author_name="string",
-                                author_npi="string",
-                                timestamp=datetime.datetime.fromisoformat(
-                                    "2024-01-15 09:30:00+00:00",
-                                ),
-                            )
-                        ],
+                        notes=[],
                     )
                 ],
                 billing_notes=[
@@ -3266,51 +3068,10 @@ class AsyncV4Client:
                 ],
                 service_lines=[
                     ServiceLineCreate(
-                        modifiers=[ProcedureModifier.TWENTY_TWO],
                         procedure_code="string",
                         quantity="string",
                         units=ServiceLineUnits.MJ,
-                        charge_amount_cents=1,
-                        diagnosis_pointers=[1],
-                        drug_identification=DrugIdentification(
-                            service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                            national_drug_code="string",
-                            national_drug_unit_count="string",
-                            measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                            link_sequence_number="string",
-                            pharmacy_prescription_number="string",
-                            conversion_formula="string",
-                            drug_description="string",
-                        ),
-                        place_of_service_code=FacilityTypeCode.PHARMACY,
-                        description="string",
-                        date_of_service=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end_date_of_service=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        ordering_provider=OrderingProvider(
-                            npi="string",
-                            taxonomy_code="string",
-                            address=StreetAddressLongZip(
-                                address_1="123 Main St",
-                                address_2="Apt 1",
-                                city="New York",
-                                state=State.NY,
-                                zip_code="10001",
-                                zip_plus_four_code="1234",
-                            ),
-                            first_name="string",
-                            last_name="string",
-                            organization_name="string",
-                        ),
-                        test_results=[
-                            TestResult(
-                                value=1.1,
-                                result_type=TestResultType.HEMATOCRIT,
-                            )
-                        ],
+                        diagnosis_pointers=[],
                     )
                 ],
                 guarantor=GuarantorCreate(
@@ -3782,6 +3543,7 @@ class AsyncV4Client:
         import uuid
 
         from candid import (
+            BillingProviderCommercialLicenseType,
             ClaimSubmissionPayerResponsibilityType,
             DelayReasonCode,
             DiagnosisCreate,
@@ -3789,7 +3551,6 @@ class AsyncV4Client:
             EncounterServiceFacilityBase,
             FacilityTypeCode,
             IntendedSubmissionMedium,
-            ProcedureModifier,
             QualifierCode,
             ServiceLineUnits,
             State,
@@ -3806,13 +3567,11 @@ class AsyncV4Client:
         from candid.resources.encounter_providers.v_2 import (
             BillingProvider,
             InitialReferringProvider,
-            OrderingProvider,
             RenderingProvider,
             SupervisingProvider,
         )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
-            ClinicalNote,
             ClinicalNoteCategoryCreate,
             IntakeFollowUp,
             IntakeQuestion,
@@ -3829,14 +3588,7 @@ class AsyncV4Client:
             SynchronicityType,
             Vitals,
         )
-        from candid.resources.service_lines.v_2 import (
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
-            ServiceLineCreate,
-            TestResult,
-            TestResultType,
-        )
+        from candid.resources.service_lines.v_2 import ServiceLineCreate
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -3866,6 +3618,7 @@ class AsyncV4Client:
                     tax_id="string",
                     npi="string",
                     taxonomy_code="string",
+                    provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
                     first_name="string",
                     last_name="string",
                     organization_name="string",
@@ -3930,7 +3683,6 @@ class AsyncV4Client:
                 ),
                 diagnoses=[
                     DiagnosisCreate(
-                        name="string",
                         code_type=DiagnosisTypeCode.ABF,
                         code="string",
                     )
@@ -3938,16 +3690,7 @@ class AsyncV4Client:
                 clinical_notes=[
                     ClinicalNoteCategoryCreate(
                         category=NoteCategory.CLINICAL,
-                        notes=[
-                            ClinicalNote(
-                                text="string",
-                                author_name="string",
-                                author_npi="string",
-                                timestamp=datetime.datetime.fromisoformat(
-                                    "2024-01-15 09:30:00+00:00",
-                                ),
-                            )
-                        ],
+                        notes=[],
                     )
                 ],
                 billing_notes=[
@@ -3981,51 +3724,10 @@ class AsyncV4Client:
                 ],
                 service_lines=[
                     ServiceLineCreate(
-                        modifiers=[ProcedureModifier.TWENTY_TWO],
                         procedure_code="string",
                         quantity="string",
                         units=ServiceLineUnits.MJ,
-                        charge_amount_cents=1,
-                        diagnosis_pointers=[1],
-                        drug_identification=DrugIdentification(
-                            service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                            national_drug_code="string",
-                            national_drug_unit_count="string",
-                            measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                            link_sequence_number="string",
-                            pharmacy_prescription_number="string",
-                            conversion_formula="string",
-                            drug_description="string",
-                        ),
-                        place_of_service_code=FacilityTypeCode.PHARMACY,
-                        description="string",
-                        date_of_service=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        end_date_of_service=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        ordering_provider=OrderingProvider(
-                            npi="string",
-                            taxonomy_code="string",
-                            address=StreetAddressLongZip(
-                                address_1="123 Main St",
-                                address_2="Apt 1",
-                                city="New York",
-                                state=State.NY,
-                                zip_code="10001",
-                                zip_plus_four_code="1234",
-                            ),
-                            first_name="string",
-                            last_name="string",
-                            organization_name="string",
-                        ),
-                        test_results=[
-                            TestResult(
-                                value=1.1,
-                                result_type=TestResultType.HEMATOCRIT,
-                            )
-                        ],
+                        diagnosis_pointers=[],
                     )
                 ],
                 external_claim_submission=ExternalClaimSubmissionCreate(
@@ -4226,20 +3928,20 @@ class AsyncV4Client:
         self,
         encounter_id: EncounterId,
         *,
+        diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
+        place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = OMIT,
+        benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         external_id: typing.Optional[EncounterExternalId] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
-        diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
         clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         billable_status: typing.Optional[BillableStatusType] = OMIT,
         responsible_party: typing.Optional[ResponsiblePartyType] = OMIT,
         provider_accepts_assignment: typing.Optional[bool] = OMIT,
-        benefits_assigned_to_provider: typing.Optional[bool] = OMIT,
         synchronicity: typing.Optional[SynchronicityType] = OMIT,
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
-        place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
@@ -4271,6 +3973,19 @@ class AsyncV4Client:
         ----------
         encounter_id : EncounterId
 
+        diagnosis_ids : typing.Optional[typing.Sequence[DiagnosisId]]
+            Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
+            may be submitted at this time, and coders will later prioritize the 12 that will be
+            submitted to the payor.
+
+
+        place_of_service_code_as_submitted : typing.Optional[FacilityTypeCode]
+            Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+
+
+        benefits_assigned_to_provider : typing.Optional[bool]
+            Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
+
         prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
             Box 23 on the CMS-1500 claim form.
 
@@ -4279,7 +3994,6 @@ class AsyncV4Client:
             for example, your internal encounter ID or a Dr. Chrono encounter ID.
             This field should not contain PHI.
 
-
         date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
@@ -4287,15 +4001,8 @@ class AsyncV4Client:
             If service occurred over a range of dates, this should be the start date.
             If service lines have distinct date_of_service values, updating the encounter's date_of_service will fail. If all service line date_of_service values are the same, updating the encounter's date_of_service will update all service line date_of_service values.
 
-
-        diagnosis_ids : typing.Optional[typing.Sequence[DiagnosisId]]
-            Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
-            may be submitted at this time, and coders will later prioritize the 12 that will be
-            submitted to the payor.
-
-
         tag_ids : typing.Optional[typing.Sequence[TagId]]
-            Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
+            Names of tags that should be on the encounter. Note all tags on encounter will be overridden with this list.
 
         clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
             Holds a collection of clinical observations made by healthcare providers during patient encounters.
@@ -4306,34 +4013,20 @@ class AsyncV4Client:
         billable_status : typing.Optional[BillableStatusType]
             Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
-
         responsible_party : typing.Optional[ResponsiblePartyType]
             Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
-
 
         provider_accepts_assignment : typing.Optional[bool]
             Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form.
 
-
-        benefits_assigned_to_provider : typing.Optional[bool]
-            Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
-
-
         synchronicity : typing.Optional[SynchronicityType]
             Whether or not this was a synchronous or asynchronous encounter. Asynchronous encounters occur when providers and patients communicate online using forms, instant messaging, or other pre-recorded digital mediums. Synchronous encounters occur in live, real-time settings where the patient interacts directly with the provider, such as over video or a phone call.
-
 
         place_of_service_code : typing.Optional[FacilityTypeCode]
             Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
 
-
-        place_of_service_code_as_submitted : typing.Optional[FacilityTypeCode]
-            Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
-
-
         appointment_type : typing.Optional[str]
             Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
-
 
         end_date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
@@ -4341,7 +4034,6 @@ class AsyncV4Client:
             If omitted, the Encounter is assumed to be for a single day.
             Must not be temporally before the date_of_service field.
             If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
-
 
         subscriber_primary : typing.Optional[SubscriberCreate]
             Contains details of the primary insurance subscriber.
@@ -4353,52 +4045,43 @@ class AsyncV4Client:
             Defines additional information on the claim needed by the payer.
             Box 19 on the CMS-1500 claim form.
 
-
         service_authorization_exception_code : typing.Optional[ServiceAuthorizationExceptionCode]
-            837p Loop2300 REF*4N
+            837p Loop2300 REF\*4N
             Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
             reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
             obtaining the authorization.
 
-
         admission_date : typing.Optional[dt.date]
-            837p Loop2300 DTP*435, CMS-1500 Box 18
+            837p Loop2300 DTP\*435, CMS-1500 Box 18
             Required on all ambulance claims when the patient was known to be admitted to the hospital.
             OR
             Required on all claims involving inpatient medical visits.
 
-
         discharge_date : typing.Optional[dt.date]
-            837p Loop2300 DTP*096, CMS-1500 Box 18
+            837p Loop2300 DTP\*096, CMS-1500 Box 18
             Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
 
-
         onset_of_current_illness_or_symptom_date : typing.Optional[dt.date]
-            837p Loop2300 DTP*431, CMS-1500 Box 14
+            837p Loop2300 DTP\*431, CMS-1500 Box 14
             Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
             OR
             This date is the onset of acute symptoms for the current illness or condition.
 
-
         last_menstrual_period_date : typing.Optional[dt.date]
-            837p Loop2300 DTP*484, CMS-1500 Box 14
-            Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
-
+            837p Loop2300 DTP\*484, CMS-1500 Box 14
+            Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.de
 
         delay_reason_code : typing.Optional[DelayReasonCode]
             837i Loop2300, CLM-1300 Box 20
             Code indicating the reason why a request was delayed
 
-
         patient : typing.Optional[PatientUpdate]
             Contains the identification information of the individual receiving medical services.
-
 
         patient_authorized_release : typing.Optional[bool]
             Whether this patient has authorized the release of medical information
             for billing purpose.
             Box 12 on the CMS-1500 claim form.
-
 
         schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
             Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
@@ -4406,52 +4089,41 @@ class AsyncV4Client:
             semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
             is provided as an input, then the encounter's schema instances will be cleared.
 
-
         vitals : typing.Optional[VitalsUpdate]
             If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
             Otherwise, a new vitals object will be created for the encounter.
-
 
         existing_medications : typing.Optional[typing.Sequence[Medication]]
             Existing medications that should be on the encounter.
             Note all current existing medications on encounter will be overridden with this list.
 
-
         rendering_provider : typing.Optional[RenderingProviderUpdate]
             The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
             For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
 
-
         service_facility : typing.Optional[EncounterServiceFacilityUpdate]
             Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
-
 
         guarantor : typing.Optional[GuarantorUpdate]
             Personal and contact info for the guarantor of the patient responsibility.
 
-
         billing_provider : typing.Optional[BillingProviderUpdate]
             The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
 
-
         supervising_provider : typing.Optional[SupervisingProviderUpdate]
             Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-
 
         referring_provider : typing.Optional[ReferringProviderUpdate]
             The final provider who referred the services that were rendered.
             All physicians who order services or refer Medicare beneficiaries must
             report this data.
 
-
         initial_referring_provider : typing.Optional[InitialReferringProviderUpdate]
             The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
             indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
 
-
         referral_number : typing.Optional[str]
-            Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
-
+            Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -4467,17 +4139,15 @@ class AsyncV4Client:
         import uuid
 
         from candid import (
+            BillingProviderCommercialLicenseType,
             DelayReasonCode,
             EmrPayerCrosswalk,
             EncounterServiceFacilityUpdate,
             FacilityTypeCode,
             Gender,
             InsuranceTypeCode,
-            PatientNonInsurancePayerInfoCreate,
             PatientRelationshipToInsuredCodeAll,
             PatientUpdate,
-            PhoneNumber,
-            PhoneNumberType,
             QualifierCode,
             SourceOfPaymentCode,
             State,
@@ -4496,7 +4166,6 @@ class AsyncV4Client:
         )
         from candid.resources.encounters.v_4 import (
             BillableStatusType,
-            ClinicalNote,
             ClinicalNoteCategoryCreate,
             Medication,
             NoteCategory,
@@ -4519,30 +4188,23 @@ class AsyncV4Client:
                 encounter_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                prior_authorization_number="string",
-                external_id="string",
-                date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
                 diagnosis_ids=[
                     uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     )
                 ],
+                place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
+                benefits_assigned_to_provider=True,
+                prior_authorization_number="string",
+                external_id="string",
+                date_of_service=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
                 tag_ids=["string"],
                 clinical_notes=[
                     ClinicalNoteCategoryCreate(
                         category=NoteCategory.CLINICAL,
-                        notes=[
-                            ClinicalNote(
-                                text="string",
-                                author_name="string",
-                                author_npi="string",
-                                timestamp=datetime.datetime.fromisoformat(
-                                    "2024-01-15 09:30:00+00:00",
-                                ),
-                            )
-                        ],
+                        notes=[],
                     )
                 ],
                 pay_to_address=StreetAddressLongZip(
@@ -4556,10 +4218,8 @@ class AsyncV4Client:
                 billable_status=BillableStatusType.BILLABLE,
                 responsible_party=ResponsiblePartyType.INSURANCE_PAY,
                 provider_accepts_assignment=True,
-                benefits_assigned_to_provider=True,
                 synchronicity=SynchronicityType.SYNCHRONOUS,
                 place_of_service_code=FacilityTypeCode.PHARMACY,
-                place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
                 appointment_type="string",
                 end_date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
@@ -4657,28 +4317,12 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    phone_numbers=[
-                        PhoneNumber(
-                            number="1234567890",
-                            type=PhoneNumberType.HOME,
-                        )
-                    ],
+                    phone_numbers=[],
                     phone_consent=True,
                     email="johndoe@joincandidhealth.com",
                     email_consent=True,
-                    non_insurance_payers=[
-                        uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        )
-                    ],
-                    non_insurance_payers_info=[
-                        PatientNonInsurancePayerInfoCreate(
-                            non_insurance_payer_id=uuid.UUID(
-                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                            ),
-                            member_id="string",
-                        )
-                    ],
+                    non_insurance_payers=[],
+                    non_insurance_payers_info=[],
                 ),
                 patient_authorized_release=True,
                 schema_instances=[
@@ -4754,12 +4398,7 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    phone_numbers=[
-                        PhoneNumber(
-                            number="1234567890",
-                            type=PhoneNumberType.HOME,
-                        )
-                    ],
+                    phone_numbers=[],
                     phone_consent=True,
                     email="johndoe@joincandidhealth.com",
                     email_consent=True,
@@ -4776,6 +4415,7 @@ class AsyncV4Client:
                     tax_id="string",
                     npi="string",
                     taxonomy_code="string",
+                    provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
                     first_name="string",
                     last_name="string",
                     organization_name="string",
@@ -4837,20 +4477,20 @@ class AsyncV4Client:
             base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
             json={
+                "diagnosis_ids": diagnosis_ids,
+                "place_of_service_code_as_submitted": place_of_service_code_as_submitted,
+                "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "prior_authorization_number": prior_authorization_number,
                 "external_id": external_id,
                 "date_of_service": date_of_service,
-                "diagnosis_ids": diagnosis_ids,
                 "tag_ids": tag_ids,
                 "clinical_notes": clinical_notes,
                 "pay_to_address": pay_to_address,
                 "billable_status": billable_status,
                 "responsible_party": responsible_party,
                 "provider_accepts_assignment": provider_accepts_assignment,
-                "benefits_assigned_to_provider": benefits_assigned_to_provider,
                 "synchronicity": synchronicity,
                 "place_of_service_code": place_of_service_code,
-                "place_of_service_code_as_submitted": place_of_service_code_as_submitted,
                 "appointment_type": appointment_type,
                 "end_date_of_service": end_date_of_service,
                 "subscriber_primary": subscriber_primary,
