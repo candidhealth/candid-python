@@ -56,6 +56,7 @@ class DiagnosesClient:
                 encounter_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
+                name="string",
                 code_type=DiagnosisTypeCode.ABF,
                 code="string",
             ),
@@ -251,6 +252,7 @@ class AsyncDiagnosesClient:
                     encounter_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
+                    name="string",
                     code_type=DiagnosisTypeCode.ABF,
                     code="string",
                 ),
