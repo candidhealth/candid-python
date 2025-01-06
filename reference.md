@@ -4138,6 +4138,7 @@ client.encounters.v_4.create(
             zip_code="10001",
             zip_plus_four_code="1234",
         ),
+        secondary_identification="string",
     ),
     subscriber_primary=SubscriberCreate(
         insurance_card=InsuranceCardCreate(
@@ -5061,6 +5062,7 @@ client.encounters.v_4.create_from_pre_encounter_patient(
             zip_code="10001",
             zip_plus_four_code="1234",
         ),
+        secondary_identification="string",
     ),
     diagnoses=[
         DiagnosisCreate(

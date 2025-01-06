@@ -24,7 +24,6 @@ from .intended_submission_medium import IntendedSubmissionMedium
 from .invoice_id import InvoiceId
 from .link_url import LinkUrl
 from .network_type import NetworkType
-from .not_implemented_error_message import NotImplementedErrorMessage
 from .npi import Npi
 from .organization_id import OrganizationId
 from .organization_not_authorized_error_message import OrganizationNotAuthorizedErrorMessage
@@ -97,7 +96,6 @@ __all__ = [
     "InvoiceId",
     "LinkUrl",
     "NetworkType",
-    "NotImplementedErrorMessage",
     "Npi",
     "OrganizationId",
     "OrganizationNotAuthorizedErrorMessage",

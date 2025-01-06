@@ -41,6 +41,13 @@ class EncounterServiceFacilityUpdate(pydantic.BaseModel):
     zip_plus_four_code is required for service facility address. When the zip_plus_four_code is not available use "9998" as per CMS documentation.
     """
 
+    secondary_identification: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    An additional identifier for the service facility other than the facility's NPI. Some payers may require this field.
+    Potential examples: state license number, provider commercial number, or location number.
+    Box 32 section (b) of the CMS-1500 claim form.
+    """
+
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)

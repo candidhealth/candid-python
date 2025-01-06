@@ -10,13 +10,11 @@ from .....core.pydantic_utilities import pydantic_v1
 from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
-from ....commons.errors.not_implemented_error import NotImplementedError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.charge_capture_id import ChargeCaptureId
 from ....commons.types.encounter_external_id import EncounterExternalId
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
-from ....commons.types.not_implemented_error_message import NotImplementedErrorMessage
 from ....commons.types.page_token import PageToken
 from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
@@ -349,10 +347,6 @@ class V1Client:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
                     pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
-                )
-            if _response_json["errorName"] == "NotImplementedError":
-                raise NotImplementedError(
-                    pydantic_v1.parse_obj_as(NotImplementedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -741,11 +735,6 @@ class V1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(ChargeCapturePage, _response_json)  # type: ignore
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "NotImplementedError":
-                raise NotImplementedError(
-                    pydantic_v1.parse_obj_as(NotImplementedErrorMessage, _response_json["content"])  # type: ignore
-                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -1078,10 +1067,6 @@ class AsyncV1Client:
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
                     pydantic_v1.parse_obj_as(UnauthorizedErrorMessage, _response_json["content"])  # type: ignore
-                )
-            if _response_json["errorName"] == "NotImplementedError":
-                raise NotImplementedError(
-                    pydantic_v1.parse_obj_as(NotImplementedErrorMessage, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -1492,9 +1477,4 @@ class AsyncV1Client:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         if 200 <= _response.status_code < 300:
             return pydantic_v1.parse_obj_as(ChargeCapturePage, _response_json)  # type: ignore
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "NotImplementedError":
-                raise NotImplementedError(
-                    pydantic_v1.parse_obj_as(NotImplementedErrorMessage, _response_json["content"])  # type: ignore
-                )
         raise ApiError(status_code=_response.status_code, body=_response_json)

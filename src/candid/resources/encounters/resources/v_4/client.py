@@ -716,6 +716,7 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
+                secondary_identification="string",
             ),
             subscriber_primary=SubscriberCreate(
                 insurance_card=InsuranceCardCreate(
@@ -1435,6 +1436,7 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
+                secondary_identification="string",
             ),
             diagnoses=[
                 DiagnosisCreate(
@@ -2808,6 +2810,7 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
+                    secondary_identification="string",
                 ),
                 subscriber_primary=SubscriberCreate(
                     insurance_card=InsuranceCardCreate(
@@ -3534,6 +3537,7 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
+                    secondary_identification="string",
                 ),
                 diagnoses=[
                     DiagnosisCreate(
