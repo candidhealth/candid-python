@@ -56,6 +56,7 @@ from .errors.cash_pay_payer_error import CashPayPayerError
 from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
 from .errors.encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
 from .errors.encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
+from .errors.invalid_tag_names_error import InvalidTagNamesError
 from .errors.schema_instance_validation_http_failure import SchemaInstanceValidationHttpFailure
 from .types.billable_status_type import BillableStatusType
 from .types.cash_pay_payer_error_message import CashPayPayerErrorMessage
@@ -70,6 +71,7 @@ from .types.encounter_patient_control_number_uniqueness_error_type import (
 )
 from .types.encounter_sort_options import EncounterSortOptions
 from .types.intervention import Intervention
+from .types.invalid_tag_names_error_type import InvalidTagNamesErrorType
 from .types.medication import Medication
 from .types.patient_history_category import PatientHistoryCategory
 from .types.prior_authorization_number import PriorAuthorizationNumber
@@ -1067,6 +1069,10 @@ class V4Client:
             if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    pydantic_v1.parse_obj_as(InvalidTagNamesErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -2155,6 +2161,10 @@ class V4Client:
                 raise UnprocessableEntityError(
                     pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
                 )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    pydantic_v1.parse_obj_as(InvalidTagNamesErrorType, _response_json["content"])  # type: ignore
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -3164,6 +3174,10 @@ class AsyncV4Client:
             if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    pydantic_v1.parse_obj_as(InvalidTagNamesErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -4265,5 +4279,9 @@ class AsyncV4Client:
             if _response_json["errorName"] == "UnprocessableEntityError":
                 raise UnprocessableEntityError(
                     pydantic_v1.parse_obj_as(UnprocessableEntityErrorMessage, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    pydantic_v1.parse_obj_as(InvalidTagNamesErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)

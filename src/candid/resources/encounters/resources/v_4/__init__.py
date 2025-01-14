@@ -24,6 +24,7 @@ from .types import (
     IntakeResponseAndFollowUps,
     Intervention,
     InterventionCategory,
+    InvalidTagNamesErrorType,
     KeyDoesNotExistError,
     Lab,
     LabCodeType,
@@ -55,6 +56,7 @@ from .errors import (
     EncounterExternalIdUniquenessError,
     EncounterGuarantorMissingContactInfoError,
     EncounterPatientControlNumberUniquenessError,
+    InvalidTagNamesError,
     SchemaInstanceValidationHttpFailure,
 )
 
@@ -86,6 +88,8 @@ __all__ = [
     "IntakeResponseAndFollowUps",
     "Intervention",
     "InterventionCategory",
+    "InvalidTagNamesError",
+    "InvalidTagNamesErrorType",
     "KeyDoesNotExistError",
     "Lab",
     "LabCodeType",

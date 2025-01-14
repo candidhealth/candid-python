@@ -39,6 +39,7 @@ class Rarc(str, enum.Enum):
     M_30 = "M30"
     M_31 = "M31"
     M_32 = "M32"
+    M_34 = "M34"
     M_36 = "M36"
     M_37 = "M37"
     M_38 = "M38"
@@ -266,6 +267,7 @@ class Rarc(str, enum.Enum):
     N_26 = "N26"
     N_27 = "N27"
     N_28 = "N28"
+    N_29 = "N29"
     N_30 = "N30"
     N_31 = "N31"
     N_32 = "N32"
@@ -1074,6 +1076,7 @@ class Rarc(str, enum.Enum):
     N_860 = "N860"
     N_880 = "N880"
     N_887 = "N887"
+    N_888 = "N888"
     N_891 = "N891"
 
     def visit(
@@ -1110,6 +1113,7 @@ class Rarc(str, enum.Enum):
         m_30: typing.Callable[[], T_Result],
         m_31: typing.Callable[[], T_Result],
         m_32: typing.Callable[[], T_Result],
+        m_34: typing.Callable[[], T_Result],
         m_36: typing.Callable[[], T_Result],
         m_37: typing.Callable[[], T_Result],
         m_38: typing.Callable[[], T_Result],
@@ -1337,6 +1341,7 @@ class Rarc(str, enum.Enum):
         n_26: typing.Callable[[], T_Result],
         n_27: typing.Callable[[], T_Result],
         n_28: typing.Callable[[], T_Result],
+        n_29: typing.Callable[[], T_Result],
         n_30: typing.Callable[[], T_Result],
         n_31: typing.Callable[[], T_Result],
         n_32: typing.Callable[[], T_Result],
@@ -2145,6 +2150,7 @@ class Rarc(str, enum.Enum):
         n_860: typing.Callable[[], T_Result],
         n_880: typing.Callable[[], T_Result],
         n_887: typing.Callable[[], T_Result],
+        n_888: typing.Callable[[], T_Result],
         n_891: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is Rarc.M_1:
@@ -2211,6 +2217,8 @@ class Rarc(str, enum.Enum):
             return m_31()
         if self is Rarc.M_32:
             return m_32()
+        if self is Rarc.M_34:
+            return m_34()
         if self is Rarc.M_36:
             return m_36()
         if self is Rarc.M_37:
@@ -2665,6 +2673,8 @@ class Rarc(str, enum.Enum):
             return n_27()
         if self is Rarc.N_28:
             return n_28()
+        if self is Rarc.N_29:
+            return n_29()
         if self is Rarc.N_30:
             return n_30()
         if self is Rarc.N_31:
@@ -4281,5 +4291,7 @@ class Rarc(str, enum.Enum):
             return n_880()
         if self is Rarc.N_887:
             return n_887()
+        if self is Rarc.N_888:
+            return n_888()
         if self is Rarc.N_891:
             return n_891()

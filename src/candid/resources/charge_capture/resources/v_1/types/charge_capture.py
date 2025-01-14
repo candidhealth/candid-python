@@ -8,7 +8,6 @@ import pydantic
 from ......core.datetime_utils import serialize_datetime
 from ......core.pydantic_utilities import deep_union_pydantic_dicts
 from .....commons.types.charge_capture_id import ChargeCaptureId
-from .....commons.types.encounter_external_id import EncounterExternalId
 from .....commons.types.patient_external_id import PatientExternalId
 from .charge_capture_data import ChargeCaptureData
 from .charge_capture_status import ChargeCaptureStatus
@@ -19,8 +18,13 @@ class ChargeCapture(pydantic.BaseModel):
     status: ChargeCaptureStatus
     charge_capture_data: ChargeCaptureData
     patient_external_id: PatientExternalId
-    encounter_external_id: EncounterExternalId
+    charge_external_id: str
     ehr_source_url: typing.Optional[str] = None
+    date_of_service: typing.Optional[dt.date] = pydantic.Field(default=None)
+    """
+    Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+    This date must be the local date in the timezone where the service occurred.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

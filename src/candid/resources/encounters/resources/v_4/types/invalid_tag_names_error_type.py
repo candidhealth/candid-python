@@ -5,19 +5,12 @@ import typing
 
 import pydantic
 
-from ........core.datetime_utils import serialize_datetime
-from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .coverage_value import CoverageValue
+from ......core.datetime_utils import serialize_datetime
+from ......core.pydantic_utilities import deep_union_pydantic_dicts
 
 
-class PlanCoverageDetails(pydantic.BaseModel):
-    deductible: typing.Optional[CoverageValue] = None
-    deductible_remaining: typing.Optional[CoverageValue] = None
-    deductible_year_to_date: typing.Optional[CoverageValue] = None
-    oop_max: typing.Optional[CoverageValue] = None
-    oop_max_remaining: typing.Optional[CoverageValue] = None
-    oop_year_to_date: typing.Optional[CoverageValue] = None
-    additional_notes: typing.Optional[str] = None
+class InvalidTagNamesErrorType(pydantic.BaseModel):
+    invalid_tag_names: typing.List[str]
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

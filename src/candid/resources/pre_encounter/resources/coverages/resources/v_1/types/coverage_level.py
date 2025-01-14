@@ -10,12 +10,14 @@ class CoverageLevel(str, enum.Enum):
     INDIVIDUAL = "INDIVIDUAL"
     FAMILY = "FAMILY"
     EMPLOYEE_ONLY = "EMPLOYEE_ONLY"
+    EMPLOYEE_AND_SPOUSE = "EMPLOYEE_AND_SPOUSE"
 
     def visit(
         self,
         individual: typing.Callable[[], T_Result],
         family: typing.Callable[[], T_Result],
         employee_only: typing.Callable[[], T_Result],
+        employee_and_spouse: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is CoverageLevel.INDIVIDUAL:
             return individual()
@@ -23,3 +25,5 @@ class CoverageLevel(str, enum.Enum):
             return family()
         if self is CoverageLevel.EMPLOYEE_ONLY:
             return employee_only()
+        if self is CoverageLevel.EMPLOYEE_AND_SPOUSE:
+            return employee_and_spouse()

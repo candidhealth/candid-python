@@ -4,6 +4,7 @@ from .cash_pay_payer_error import CashPayPayerError
 from .encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
 from .encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
 from .encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
+from .invalid_tag_names_error import InvalidTagNamesError
 from .schema_instance_validation_http_failure import SchemaInstanceValidationHttpFailure
 
 __all__ = [
@@ -11,5 +12,6 @@ __all__ = [
     "EncounterExternalIdUniquenessError",
     "EncounterGuarantorMissingContactInfoError",
     "EncounterPatientControlNumberUniquenessError",
+    "InvalidTagNamesError",
     "SchemaInstanceValidationHttpFailure",
 ]

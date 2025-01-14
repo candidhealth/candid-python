@@ -12,6 +12,7 @@ from ........core.pydantic_utilities import deep_union_pydantic_dicts
 class CoverageValue(pydantic.BaseModel):
     family: typing.Optional[float] = None
     individual: typing.Optional[float] = None
+    employee_and_spouse: typing.Optional[float] = pydantic.Field(alias="employeeAndSpouse", default=None)
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -28,5 +29,7 @@ class CoverageValue(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
+        populate_by_name = True
         extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

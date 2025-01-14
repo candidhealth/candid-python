@@ -13,6 +13,7 @@ from .page_token import PageToken
 class ResourcePage(pydantic.BaseModel):
     next_page_token: typing.Optional[PageToken] = None
     prev_page_token: typing.Optional[PageToken] = None
+    total: int
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

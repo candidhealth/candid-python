@@ -23,6 +23,7 @@ from .intake_question_id import IntakeQuestionId
 from .intake_response_and_follow_ups import IntakeResponseAndFollowUps
 from .intervention import Intervention
 from .intervention_category import InterventionCategory
+from .invalid_tag_names_error_type import InvalidTagNamesErrorType
 from .key_does_not_exist_error import KeyDoesNotExistError
 from .lab import Lab
 from .lab_code_type import LabCodeType
@@ -75,6 +76,7 @@ __all__ = [
     "IntakeResponseAndFollowUps",
     "Intervention",
     "InterventionCategory",
+    "InvalidTagNamesErrorType",
     "KeyDoesNotExistError",
     "Lab",
     "LabCodeType",

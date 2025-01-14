@@ -17,6 +17,7 @@ from ....encounters.resources.v_4.errors.encounter_external_id_uniqueness_error 
 from ....encounters.resources.v_4.errors.encounter_patient_control_number_uniqueness_error import (
     EncounterPatientControlNumberUniquenessError,
 )
+from ....encounters.resources.v_4.errors.invalid_tag_names_error import InvalidTagNamesError
 from ....encounters.resources.v_4.errors.schema_instance_validation_http_failure import (
     SchemaInstanceValidationHttpFailure,
 )
@@ -27,6 +28,7 @@ from ....encounters.resources.v_4.types.encounter_external_id_uniqueness_error_t
 from ....encounters.resources.v_4.types.encounter_patient_control_number_uniqueness_error_type import (
     EncounterPatientControlNumberUniquenessErrorType,
 )
+from ....encounters.resources.v_4.types.invalid_tag_names_error_type import InvalidTagNamesErrorType
 from ....encounters.resources.v_4.types.schema_instance_validation_failure import SchemaInstanceValidationFailure
 from .types.medication_dispense_create import MedicationDispenseCreate
 
@@ -129,6 +131,10 @@ class V1Client:
             if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    pydantic_v1.parse_obj_as(InvalidTagNamesErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
@@ -235,5 +241,9 @@ class AsyncV1Client:
             if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
                 raise SchemaInstanceValidationHttpFailure(
                     pydantic_v1.parse_obj_as(SchemaInstanceValidationFailure, _response_json["content"])  # type: ignore
+                )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    pydantic_v1.parse_obj_as(InvalidTagNamesErrorType, _response_json["content"])  # type: ignore
                 )
         raise ApiError(status_code=_response.status_code, body=_response_json)
