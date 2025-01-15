@@ -811,6 +811,11 @@ class Encounter(EncounterBase):
     Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
     """
 
+    last_submitted_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
+    """
+    The date and time the encounter was last submitted to a payer.
+    """
+
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
         return super().json(**kwargs_with_defaults)
