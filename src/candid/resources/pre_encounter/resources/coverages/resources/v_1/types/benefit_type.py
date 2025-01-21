@@ -8,37 +8,45 @@ T_Result = typing.TypeVar("T_Result")
 
 class BenefitType(str, enum.Enum):
     DEDUCTIBLE = "DEDUCTIBLE"
+    DEDUCTIBLE_CONTRACT = "DEDUCTIBLE_CONTRACT"
     DEDUCTIBLE_REMAINING = "DEDUCTIBLE_REMAINING"
     DEDUCTIBLE_YEAR_TO_DATE = "DEDUCTIBLE_YEAR_TO_DATE"
     OOP_MAX = "OOP_MAX"
+    OOP_MAX_CONTRACT = "OOP_MAX_CONTRACT"
     OOP_MAX_REMAINING = "OOP_MAX_REMAINING"
-    OOP_YEAR_TO_DATE = "OOP_YEAR_TO_DATE"
+    OOP_MAX_YEAR_TO_DATE = "OOP_MAX_YEAR_TO_DATE"
     COPAY = "COPAY"
     COINSURANCE = "COINSURANCE"
 
     def visit(
         self,
         deductible: typing.Callable[[], T_Result],
+        deductible_contract: typing.Callable[[], T_Result],
         deductible_remaining: typing.Callable[[], T_Result],
         deductible_year_to_date: typing.Callable[[], T_Result],
         oop_max: typing.Callable[[], T_Result],
+        oop_max_contract: typing.Callable[[], T_Result],
         oop_max_remaining: typing.Callable[[], T_Result],
-        oop_year_to_date: typing.Callable[[], T_Result],
+        oop_max_year_to_date: typing.Callable[[], T_Result],
         copay: typing.Callable[[], T_Result],
         coinsurance: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is BenefitType.DEDUCTIBLE:
             return deductible()
+        if self is BenefitType.DEDUCTIBLE_CONTRACT:
+            return deductible_contract()
         if self is BenefitType.DEDUCTIBLE_REMAINING:
             return deductible_remaining()
         if self is BenefitType.DEDUCTIBLE_YEAR_TO_DATE:
             return deductible_year_to_date()
         if self is BenefitType.OOP_MAX:
             return oop_max()
+        if self is BenefitType.OOP_MAX_CONTRACT:
+            return oop_max_contract()
         if self is BenefitType.OOP_MAX_REMAINING:
             return oop_max_remaining()
-        if self is BenefitType.OOP_YEAR_TO_DATE:
-            return oop_year_to_date()
+        if self is BenefitType.OOP_MAX_YEAR_TO_DATE:
+            return oop_max_year_to_date()
         if self is BenefitType.COPAY:
             return copay()
         if self is BenefitType.COINSURANCE:

@@ -11,20 +11,16 @@ class EligibilityCheckStatus(str, enum.Enum):
     enum to represent the statuses of eligibility checks
     """
 
-    CREATED = "CREATED"
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
     PENDING = "PENDING"
 
     def visit(
         self,
-        created: typing.Callable[[], T_Result],
         completed: typing.Callable[[], T_Result],
         failed: typing.Callable[[], T_Result],
         pending: typing.Callable[[], T_Result],
     ) -> T_Result:
-        if self is EligibilityCheckStatus.CREATED:
-            return created()
         if self is EligibilityCheckStatus.COMPLETED:
             return completed()
         if self is EligibilityCheckStatus.FAILED:

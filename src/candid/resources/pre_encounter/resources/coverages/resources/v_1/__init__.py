@@ -2,6 +2,7 @@
 
 from .types import (
     BenefitType,
+    BenefitsRelatedEntity,
     Coverage,
     CoverageBenefits,
     CoverageDetails,
@@ -23,6 +24,7 @@ from .types import (
     PlanCoverageDetails,
     PlanDate,
     PlanMetadata,
+    RelatedEntityContact,
     ServiceCoverage,
     ServiceCoverageDetails,
     ServiceTypeCode,
@@ -31,6 +33,7 @@ from .types import (
 
 __all__ = [
     "BenefitType",
+    "BenefitsRelatedEntity",
     "Coverage",
     "CoverageBenefits",
     "CoverageDetails",
@@ -52,6 +55,7 @@ __all__ = [
     "PlanCoverageDetails",
     "PlanDate",
     "PlanMetadata",
+    "RelatedEntityContact",
     "ServiceCoverage",
     "ServiceCoverageDetails",
     "ServiceTypeCode",

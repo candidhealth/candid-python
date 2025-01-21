@@ -7,19 +7,16 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .coverage_value import CoverageValue
+from .related_entity_contact import RelatedEntityContact
 
 
-class PlanCoverageDetails(pydantic.BaseModel):
-    deductible: typing.Optional[CoverageValue] = None
-    deductible_contract: typing.Optional[CoverageValue] = None
-    deductible_remaining: typing.Optional[CoverageValue] = None
-    deductible_year_to_date: typing.Optional[CoverageValue] = None
-    oop_max: typing.Optional[CoverageValue] = None
-    oop_max_contract: typing.Optional[CoverageValue] = None
-    oop_max_remaining: typing.Optional[CoverageValue] = None
-    oop_max_year_to_date: typing.Optional[CoverageValue] = None
-    additional_notes: typing.Optional[str] = None
+class BenefitsRelatedEntity(pydantic.BaseModel):
+    entity_identifier: typing.Optional[str] = pydantic.Field(alias="entityIdentifier", default=None)
+    entity_type: typing.Optional[str] = pydantic.Field(alias="entityType", default=None)
+    entity_name: typing.Optional[str] = pydantic.Field(alias="entityName", default=None)
+    contact_information: typing.Optional[typing.List[RelatedEntityContact]] = pydantic.Field(
+        alias="contactInformation", default=None
+    )
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
@@ -36,5 +33,7 @@ class PlanCoverageDetails(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
+        allow_population_by_field_name = True
+        populate_by_name = True
         extra = pydantic.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

@@ -102,6 +102,16 @@ class NetworkType(str, enum.Enum):
     Mutually Defined
     """
 
+    COMMERCIAL_INSURANCE_CO = "CI"
+    """
+    Commercial Insurance
+    """
+
+    BLUE_CROSS_BLUE_SHIELD = "BL"
+    """
+    Blue Cross Blue Shield
+    """
+
     def visit(
         self,
         ppo: typing.Callable[[], T_Result],
@@ -123,6 +133,8 @@ class NetworkType(str, enum.Enum):
         veterans_affairs_plan: typing.Callable[[], T_Result],
         workers_comp_health_claim: typing.Callable[[], T_Result],
         mutually_defined: typing.Callable[[], T_Result],
+        commercial_insurance_co: typing.Callable[[], T_Result],
+        blue_cross_blue_shield: typing.Callable[[], T_Result],
     ) -> T_Result:
         if self is NetworkType.PPO:
             return ppo()
@@ -162,3 +174,7 @@ class NetworkType(str, enum.Enum):
             return workers_comp_health_claim()
         if self is NetworkType.MUTUALLY_DEFINED:
             return mutually_defined()
+        if self is NetworkType.COMMERCIAL_INSURANCE_CO:
+            return commercial_insurance_co()
+        if self is NetworkType.BLUE_CROSS_BLUE_SHIELD:
+            return blue_cross_blue_shield()

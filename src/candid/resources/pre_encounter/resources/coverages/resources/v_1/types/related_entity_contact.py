@@ -7,19 +7,11 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
-from .coverage_value import CoverageValue
 
 
-class PlanCoverageDetails(pydantic.BaseModel):
-    deductible: typing.Optional[CoverageValue] = None
-    deductible_contract: typing.Optional[CoverageValue] = None
-    deductible_remaining: typing.Optional[CoverageValue] = None
-    deductible_year_to_date: typing.Optional[CoverageValue] = None
-    oop_max: typing.Optional[CoverageValue] = None
-    oop_max_contract: typing.Optional[CoverageValue] = None
-    oop_max_remaining: typing.Optional[CoverageValue] = None
-    oop_max_year_to_date: typing.Optional[CoverageValue] = None
-    additional_notes: typing.Optional[str] = None
+class RelatedEntityContact(pydantic.BaseModel):
+    mode: typing.Optional[str] = None
+    value: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

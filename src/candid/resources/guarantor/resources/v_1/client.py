@@ -188,8 +188,10 @@ class V1Client:
 
         Examples
         --------
+        import datetime
         import uuid
 
+        from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
         from candid.client import CandidApiClient
         from candid.resources.guarantor.v_1 import GuarantorUpdate
 
@@ -201,7 +203,31 @@ class V1Client:
             guarantor_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            request=GuarantorUpdate(),
+            request=GuarantorUpdate(
+                first_name="string",
+                last_name="string",
+                external_id="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                phone_numbers=[
+                    PhoneNumber(
+                        number="1234567890",
+                        type=PhoneNumberType.HOME,
+                    )
+                ],
+                phone_consent=True,
+                email="johndoe@joincandidhealth.com",
+                email_consent=True,
+            ),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -404,8 +430,10 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
+        import datetime
         import uuid
 
+        from candid import PhoneNumber, PhoneNumberType, State, StreetAddressShortZip
         from candid.client import AsyncCandidApiClient
         from candid.resources.guarantor.v_1 import GuarantorUpdate
 
@@ -420,7 +448,31 @@ class AsyncV1Client:
                 guarantor_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                request=GuarantorUpdate(),
+                request=GuarantorUpdate(
+                    first_name="string",
+                    last_name="string",
+                    external_id="string",
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    phone_numbers=[
+                        PhoneNumber(
+                            number="1234567890",
+                            type=PhoneNumberType.HOME,
+                        )
+                    ],
+                    phone_consent=True,
+                    email="johndoe@joincandidhealth.com",
+                    email_consent=True,
+                ),
             )
 
 

@@ -10,6 +10,7 @@ from .environment import CandidApiClientEnvironment
 from .resources.auth.client import AsyncAuthClient, AuthClient
 from .resources.billing_notes.client import AsyncBillingNotesClient, BillingNotesClient
 from .resources.charge_capture.client import AsyncChargeCaptureClient, ChargeCaptureClient
+from .resources.charge_capture_bundles.client import AsyncChargeCaptureBundlesClient, ChargeCaptureBundlesClient
 from .resources.contracts.client import AsyncContractsClient, ContractsClient
 from .resources.credentialing.client import AsyncCredentialingClient, CredentialingClient
 from .resources.custom_schemas.client import AsyncCustomSchemasClient, CustomSchemasClient
@@ -126,6 +127,7 @@ class CandidApiClient:
         )
         self.auth = AuthClient(client_wrapper=self._client_wrapper)
         self.billing_notes = BillingNotesClient(client_wrapper=self._client_wrapper)
+        self.charge_capture_bundles = ChargeCaptureBundlesClient(client_wrapper=self._client_wrapper)
         self.charge_capture = ChargeCaptureClient(client_wrapper=self._client_wrapper)
         self.contracts = ContractsClient(client_wrapper=self._client_wrapper)
         self.credentialing = CredentialingClient(client_wrapper=self._client_wrapper)
@@ -231,6 +233,7 @@ class AsyncCandidApiClient:
         )
         self.auth = AsyncAuthClient(client_wrapper=self._client_wrapper)
         self.billing_notes = AsyncBillingNotesClient(client_wrapper=self._client_wrapper)
+        self.charge_capture_bundles = AsyncChargeCaptureBundlesClient(client_wrapper=self._client_wrapper)
         self.charge_capture = AsyncChargeCaptureClient(client_wrapper=self._client_wrapper)
         self.contracts = AsyncContractsClient(client_wrapper=self._client_wrapper)
         self.credentialing = AsyncCredentialingClient(client_wrapper=self._client_wrapper)

@@ -126,7 +126,7 @@ class V1Client:
                     EligibilityCheckMetadata(
                         check_id="string",
                         service_code=ServiceTypeCode.MEDICAL_CARE,
-                        status=EligibilityCheckStatus.CREATED,
+                        status=EligibilityCheckStatus.COMPLETED,
                         initiated_by="string",
                         initiated_at=datetime.datetime.fromisoformat(
                             "2024-01-15 09:30:00+00:00",
@@ -273,7 +273,7 @@ class V1Client:
                     EligibilityCheckMetadata(
                         check_id="string",
                         service_code=ServiceTypeCode.MEDICAL_CARE,
-                        status=EligibilityCheckStatus.CREATED,
+                        status=EligibilityCheckStatus.COMPLETED,
                         initiated_by="string",
                         initiated_at=datetime.datetime.fromisoformat(
                             "2024-01-15 09:30:00+00:00",
@@ -727,7 +727,7 @@ class AsyncV1Client:
                         EligibilityCheckMetadata(
                             check_id="string",
                             service_code=ServiceTypeCode.MEDICAL_CARE,
-                            status=EligibilityCheckStatus.CREATED,
+                            status=EligibilityCheckStatus.COMPLETED,
                             initiated_by="string",
                             initiated_at=datetime.datetime.fromisoformat(
                                 "2024-01-15 09:30:00+00:00",
@@ -881,7 +881,7 @@ class AsyncV1Client:
                         EligibilityCheckMetadata(
                             check_id="string",
                             service_code=ServiceTypeCode.MEDICAL_CARE,
-                            status=EligibilityCheckStatus.CREATED,
+                            status=EligibilityCheckStatus.COMPLETED,
                             initiated_by="string",
                             initiated_at=datetime.datetime.fromisoformat(
                                 "2024-01-15 09:30:00+00:00",

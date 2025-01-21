@@ -7,6 +7,7 @@ import pydantic
 
 from ........core.datetime_utils import serialize_datetime
 from ........core.pydantic_utilities import deep_union_pydantic_dicts
+from .benefits_related_entity import BenefitsRelatedEntity
 from .plan_coverage import PlanCoverage
 from .service_coverage import ServiceCoverage
 
@@ -14,6 +15,7 @@ from .service_coverage import ServiceCoverage
 class CoverageBenefits(pydantic.BaseModel):
     plan_coverage: typing.Optional[PlanCoverage] = None
     service_specific_coverage: typing.Optional[typing.List[ServiceCoverage]] = None
+    benefits_related_entities: typing.Optional[typing.List[BenefitsRelatedEntity]] = None
     notes: typing.Optional[str] = None
 
     def json(self, **kwargs: typing.Any) -> str:

@@ -536,9 +536,11 @@ class V4Client:
             DelayReasonCode,
             DiagnosisCreate,
             DiagnosisTypeCode,
+            EmrPayerCrosswalk,
             EncounterServiceFacilityBase,
             FacilityTypeCode,
             Gender,
+            InsuranceTypeCode,
             IntendedSubmissionMedium,
             PatientCreate,
             PatientNonInsurancePayerInfoCreate,
@@ -548,6 +550,7 @@ class V4Client:
             ProcedureModifier,
             QualifierCode,
             ServiceLineUnits,
+            SourceOfPaymentCode,
             State,
             StreetAddressLongZip,
             StreetAddressShortZip,
@@ -657,6 +660,9 @@ class V4Client:
                 npi="string",
                 taxonomy_code="string",
                 provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
             ),
             rendering_provider=RenderingProvider(
                 npi="string",
@@ -669,6 +675,9 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
             ),
             referring_provider=ReferringProvider(
                 npi="string",
@@ -681,6 +690,9 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
             ),
             initial_referring_provider=InitialReferringProvider(
                 npi="string",
@@ -694,6 +706,9 @@ class V4Client:
                     zip_plus_four_code="1234",
                 ),
                 qualifier=QualifierCode.DQ,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
             ),
             supervising_provider=SupervisingProvider(
                 npi="string",
@@ -706,6 +721,9 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
             ),
             service_facility=EncounterServiceFacilityBase(
                 organization_name="string",
@@ -725,8 +743,28 @@ class V4Client:
                     member_id="string",
                     payer_name="string",
                     payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
                 first_name="string",
                 last_name="string",
                 gender=Gender.MALE,
@@ -736,8 +774,28 @@ class V4Client:
                     member_id="string",
                     payer_name="string",
                     payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
                 first_name="string",
                 last_name="string",
                 gender=Gender.MALE,
@@ -832,6 +890,9 @@ class V4Client:
                             zip_code="10001",
                             zip_plus_four_code="1234",
                         ),
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
                     ),
                     test_results=[
                         TestResult(
@@ -1393,6 +1454,9 @@ class V4Client:
                 npi="string",
                 taxonomy_code="string",
                 provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
             ),
             rendering_provider=RenderingProvider(
                 npi="string",
@@ -1405,6 +1469,9 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
             ),
             initial_referring_provider=InitialReferringProvider(
                 npi="string",
@@ -1418,6 +1485,9 @@ class V4Client:
                     zip_plus_four_code="1234",
                 ),
                 qualifier=QualifierCode.DQ,
+                first_name="string",
+                last_name="string",
+                organization_name="string",
             ),
             supervising_provider=SupervisingProvider(
                 npi="string",
@@ -1430,6 +1500,9 @@ class V4Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
+                first_name="string",
+                last_name="string",
+                organization_name="string",
             ),
             service_facility=EncounterServiceFacilityBase(
                 organization_name="string",
@@ -1532,6 +1605,9 @@ class V4Client:
                             zip_code="10001",
                             zip_plus_four_code="1234",
                         ),
+                        first_name="string",
+                        last_name="string",
+                        organization_name="string",
                     ),
                     test_results=[
                         TestResult(
@@ -1942,37 +2018,10 @@ class V4Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
-        from candid import (
-            DelayReasonCode,
-            EncounterServiceFacilityUpdate,
-            FacilityTypeCode,
-            Gender,
-            PatientRelationshipToInsuredCodeAll,
-            PatientUpdate,
-            State,
-            StreetAddressLongZip,
-            SubscriberCreate,
-        )
+        from candid import FacilityTypeCode
         from candid.client import CandidApiClient
-        from candid.resources.encounter_providers.v_2 import (
-            BillingProviderUpdate,
-            InitialReferringProviderUpdate,
-            ReferringProviderUpdate,
-            RenderingProviderUpdate,
-            SupervisingProviderUpdate,
-        )
-        from candid.resources.encounters.v_4 import (
-            BillableStatusType,
-            ResponsiblePartyType,
-            ServiceAuthorizationExceptionCode,
-            SynchronicityType,
-            VitalsUpdate,
-        )
-        from candid.resources.guarantor.v_1 import GuarantorUpdate
-        from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1988,99 +2037,6 @@ class V4Client:
                 )
             ],
             place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
-            benefits_assigned_to_provider=True,
-            prior_authorization_number="string",
-            external_id="string",
-            date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            tag_ids=[],
-            clinical_notes=[],
-            pay_to_address=StreetAddressLongZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
-            ),
-            billable_status=BillableStatusType.BILLABLE,
-            responsible_party=ResponsiblePartyType.INSURANCE_PAY,
-            provider_accepts_assignment=True,
-            synchronicity=SynchronicityType.SYNCHRONOUS,
-            place_of_service_code=FacilityTypeCode.PHARMACY,
-            appointment_type="string",
-            end_date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            subscriber_primary=SubscriberCreate(
-                insurance_card=InsuranceCardCreate(
-                    member_id="string",
-                    payer_name="string",
-                    payer_id="string",
-                ),
-                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                first_name="string",
-                last_name="string",
-                gender=Gender.MALE,
-            ),
-            subscriber_secondary=SubscriberCreate(
-                insurance_card=InsuranceCardCreate(
-                    member_id="string",
-                    payer_name="string",
-                    payer_id="string",
-                ),
-                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                first_name="string",
-                last_name="string",
-                gender=Gender.MALE,
-            ),
-            additional_information="string",
-            service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-            admission_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            discharge_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            last_menstrual_period_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            delay_reason_code=DelayReasonCode.C_1,
-            patient=PatientUpdate(),
-            patient_authorized_release=True,
-            schema_instances=[],
-            vitals=VitalsUpdate(
-                height_in=70,
-                weight_lbs=165,
-                blood_pressure_systolic_mmhg=115,
-                blood_pressure_diastolic_mmhg=85,
-                body_temperature_f=98.0,
-                hemoglobin_gdl=15.1,
-                hematocrit_pct=51.2,
-            ),
-            existing_medications=[],
-            rendering_provider=RenderingProviderUpdate(),
-            service_facility=EncounterServiceFacilityUpdate(
-                organization_name="Test Organization",
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-            ),
-            guarantor=GuarantorUpdate(),
-            billing_provider=BillingProviderUpdate(),
-            supervising_provider=SupervisingProviderUpdate(),
-            referring_provider=ReferringProviderUpdate(),
-            initial_referring_provider=InitialReferringProviderUpdate(),
-            referral_number="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -2635,9 +2591,11 @@ class AsyncV4Client:
             DelayReasonCode,
             DiagnosisCreate,
             DiagnosisTypeCode,
+            EmrPayerCrosswalk,
             EncounterServiceFacilityBase,
             FacilityTypeCode,
             Gender,
+            InsuranceTypeCode,
             IntendedSubmissionMedium,
             PatientCreate,
             PatientNonInsurancePayerInfoCreate,
@@ -2647,6 +2605,7 @@ class AsyncV4Client:
             ProcedureModifier,
             QualifierCode,
             ServiceLineUnits,
+            SourceOfPaymentCode,
             State,
             StreetAddressLongZip,
             StreetAddressShortZip,
@@ -2759,6 +2718,9 @@ class AsyncV4Client:
                     npi="string",
                     taxonomy_code="string",
                     provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 rendering_provider=RenderingProvider(
                     npi="string",
@@ -2771,6 +2733,9 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 referring_provider=ReferringProvider(
                     npi="string",
@@ -2783,6 +2748,9 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 initial_referring_provider=InitialReferringProvider(
                     npi="string",
@@ -2796,6 +2764,9 @@ class AsyncV4Client:
                         zip_plus_four_code="1234",
                     ),
                     qualifier=QualifierCode.DQ,
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 supervising_provider=SupervisingProvider(
                     npi="string",
@@ -2808,6 +2779,9 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 service_facility=EncounterServiceFacilityBase(
                     organization_name="string",
@@ -2827,8 +2801,28 @@ class AsyncV4Client:
                         member_id="string",
                         payer_name="string",
                         payer_id="string",
+                        rx_bin="string",
+                        rx_pcn="string",
+                        image_url_front="string",
+                        image_url_back="string",
+                        emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                        group_number="string",
+                        plan_name="string",
+                        plan_type=SourceOfPaymentCode.SELF_PAY,
+                        insurance_type=InsuranceTypeCode.C_01,
                     ),
                     patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
                     first_name="string",
                     last_name="string",
                     gender=Gender.MALE,
@@ -2838,8 +2832,28 @@ class AsyncV4Client:
                         member_id="string",
                         payer_name="string",
                         payer_id="string",
+                        rx_bin="string",
+                        rx_pcn="string",
+                        image_url_front="string",
+                        image_url_back="string",
+                        emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                        group_number="string",
+                        plan_name="string",
+                        plan_type=SourceOfPaymentCode.SELF_PAY,
+                        insurance_type=InsuranceTypeCode.C_01,
                     ),
                     patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
                     first_name="string",
                     last_name="string",
                     gender=Gender.MALE,
@@ -2934,6 +2948,9 @@ class AsyncV4Client:
                                 zip_code="10001",
                                 zip_plus_four_code="1234",
                             ),
+                            first_name="string",
+                            last_name="string",
+                            organization_name="string",
                         ),
                         test_results=[
                             TestResult(
@@ -3502,6 +3519,9 @@ class AsyncV4Client:
                     npi="string",
                     taxonomy_code="string",
                     provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 rendering_provider=RenderingProvider(
                     npi="string",
@@ -3514,6 +3534,9 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 initial_referring_provider=InitialReferringProvider(
                     npi="string",
@@ -3527,6 +3550,9 @@ class AsyncV4Client:
                         zip_plus_four_code="1234",
                     ),
                     qualifier=QualifierCode.DQ,
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 supervising_provider=SupervisingProvider(
                     npi="string",
@@ -3539,6 +3565,9 @@ class AsyncV4Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
+                    first_name="string",
+                    last_name="string",
+                    organization_name="string",
                 ),
                 service_facility=EncounterServiceFacilityBase(
                     organization_name="string",
@@ -3641,6 +3670,9 @@ class AsyncV4Client:
                                 zip_code="10001",
                                 zip_plus_four_code="1234",
                             ),
+                            first_name="string",
+                            last_name="string",
+                            organization_name="string",
                         ),
                         test_results=[
                             TestResult(
@@ -4055,37 +4087,10 @@ class AsyncV4Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
-        from candid import (
-            DelayReasonCode,
-            EncounterServiceFacilityUpdate,
-            FacilityTypeCode,
-            Gender,
-            PatientRelationshipToInsuredCodeAll,
-            PatientUpdate,
-            State,
-            StreetAddressLongZip,
-            SubscriberCreate,
-        )
+        from candid import FacilityTypeCode
         from candid.client import AsyncCandidApiClient
-        from candid.resources.encounter_providers.v_2 import (
-            BillingProviderUpdate,
-            InitialReferringProviderUpdate,
-            ReferringProviderUpdate,
-            RenderingProviderUpdate,
-            SupervisingProviderUpdate,
-        )
-        from candid.resources.encounters.v_4 import (
-            BillableStatusType,
-            ResponsiblePartyType,
-            ServiceAuthorizationExceptionCode,
-            SynchronicityType,
-            VitalsUpdate,
-        )
-        from candid.resources.guarantor.v_1 import GuarantorUpdate
-        from candid.resources.insurance_cards.v_2 import InsuranceCardCreate
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -4104,99 +4109,6 @@ class AsyncV4Client:
                     )
                 ],
                 place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
-                benefits_assigned_to_provider=True,
-                prior_authorization_number="string",
-                external_id="string",
-                date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                tag_ids=[],
-                clinical_notes=[],
-                pay_to_address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-                billable_status=BillableStatusType.BILLABLE,
-                responsible_party=ResponsiblePartyType.INSURANCE_PAY,
-                provider_accepts_assignment=True,
-                synchronicity=SynchronicityType.SYNCHRONOUS,
-                place_of_service_code=FacilityTypeCode.PHARMACY,
-                appointment_type="string",
-                end_date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                subscriber_primary=SubscriberCreate(
-                    insurance_card=InsuranceCardCreate(
-                        member_id="string",
-                        payer_name="string",
-                        payer_id="string",
-                    ),
-                    patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                    first_name="string",
-                    last_name="string",
-                    gender=Gender.MALE,
-                ),
-                subscriber_secondary=SubscriberCreate(
-                    insurance_card=InsuranceCardCreate(
-                        member_id="string",
-                        payer_name="string",
-                        payer_id="string",
-                    ),
-                    patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-                    first_name="string",
-                    last_name="string",
-                    gender=Gender.MALE,
-                ),
-                additional_information="string",
-                service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-                admission_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                discharge_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                last_menstrual_period_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                delay_reason_code=DelayReasonCode.C_1,
-                patient=PatientUpdate(),
-                patient_authorized_release=True,
-                schema_instances=[],
-                vitals=VitalsUpdate(
-                    height_in=70,
-                    weight_lbs=165,
-                    blood_pressure_systolic_mmhg=115,
-                    blood_pressure_diastolic_mmhg=85,
-                    body_temperature_f=98.0,
-                    hemoglobin_gdl=15.1,
-                    hematocrit_pct=51.2,
-                ),
-                existing_medications=[],
-                rendering_provider=RenderingProviderUpdate(),
-                service_facility=EncounterServiceFacilityUpdate(
-                    organization_name="Test Organization",
-                    address=StreetAddressLongZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
-                    ),
-                ),
-                guarantor=GuarantorUpdate(),
-                billing_provider=BillingProviderUpdate(),
-                supervising_provider=SupervisingProviderUpdate(),
-                referring_provider=ReferringProviderUpdate(),
-                initial_referring_provider=InitialReferringProviderUpdate(),
-                referral_number="string",
             )
 
 
