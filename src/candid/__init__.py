@@ -217,6 +217,7 @@ from .resources import (
     write_offs,
     x_12,
 )
+from .client import AsyncCandidApiClient, CandidApiClient
 from .environment import CandidApiClientEnvironment
 from .version import __version__
 
@@ -240,8 +241,10 @@ __all__ = [
     "AppointmentAllocationTarget",
     "AppointmentByIdAndPatientExternalId",
     "AppointmentId",
+    "AsyncCandidApiClient",
     "BillingProviderAllocationTarget",
     "BillingProviderCommercialLicenseType",
+    "CandidApiClient",
     "CandidApiClientEnvironment",
     "ChargeCaptureBundleId",
     "ChargeCaptureId",
