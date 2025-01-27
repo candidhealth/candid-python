@@ -55,7 +55,12 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import PhoneNumber, StreetAddressShortZip
+        from candid.resources.commons import (
+            PhoneNumber,
+            PhoneNumberType,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.resources.guarantor.resources.v_1 import GuarantorCreate
 
         client = CandidApiClient(
@@ -70,7 +75,7 @@ class V1Client:
                 phone_numbers=[
                     PhoneNumber(
                         number="1234567890",
-                        type="Home",
+                        type=PhoneNumberType.HOME,
                     )
                 ],
                 phone_consent=True,
@@ -86,7 +91,7 @@ class V1Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -216,7 +221,12 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import PhoneNumber, StreetAddressShortZip
+        from candid.resources.commons import (
+            PhoneNumber,
+            PhoneNumberType,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.resources.guarantor.resources.v_1 import GuarantorUpdate
 
         client = CandidApiClient(
@@ -238,14 +248,14 @@ class V1Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
                 phone_numbers=[
                     PhoneNumber(
                         number="1234567890",
-                        type="Home",
+                        type=PhoneNumberType.HOME,
                     )
                 ],
                 phone_consent=True,
@@ -311,7 +321,12 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import PhoneNumber, StreetAddressShortZip
+        from candid.resources.commons import (
+            PhoneNumber,
+            PhoneNumberType,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.resources.guarantor.resources.v_1 import GuarantorCreate
 
         client = AsyncCandidApiClient(
@@ -329,7 +344,7 @@ class AsyncV1Client:
                     phone_numbers=[
                         PhoneNumber(
                             number="1234567890",
-                            type="Home",
+                            type=PhoneNumberType.HOME,
                         )
                     ],
                     phone_consent=True,
@@ -345,7 +360,7 @@ class AsyncV1Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
@@ -488,7 +503,12 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import PhoneNumber, StreetAddressShortZip
+        from candid.resources.commons import (
+            PhoneNumber,
+            PhoneNumberType,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.resources.guarantor.resources.v_1 import GuarantorUpdate
 
         client = AsyncCandidApiClient(
@@ -513,14 +533,14 @@ class AsyncV1Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
                     phone_numbers=[
                         PhoneNumber(
                             number="1234567890",
-                            type="Home",
+                            type=PhoneNumberType.HOME,
                         )
                     ],
                     phone_consent=True,

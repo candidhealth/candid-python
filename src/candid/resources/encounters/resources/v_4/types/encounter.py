@@ -37,51 +37,77 @@ class Encounter(EncounterBase):
     import uuid
 
     from candid.resources.billing_notes.resources.v_2 import BillingNote
-    from candid.resources.claims import Claim
+    from candid.resources.claims import Claim, ClaimStatus
     from candid.resources.commons import (
         DateRangeOptionalEnd,
+        FacilityTypeCode,
+        InsuranceTypeCode,
+        PatientRelationshipToInsuredCodeAll,
         PhoneNumber,
+        PhoneNumberType,
+        ProcedureModifier,
+        ServiceLineUnits,
+        SourceOfPaymentCode,
+        State,
         StreetAddressLongZip,
         StreetAddressShortZip,
     )
     from candid.resources.custom_schemas.resources.v_1 import SchemaInstance
-    from candid.resources.diagnoses import Diagnosis
+    from candid.resources.diagnoses import Diagnosis, DiagnosisTypeCode
     from candid.resources.encounter_providers.resources.v_2 import EncounterProvider
     from candid.resources.encounters.resources.v_4 import (
+        BillableStatusType,
         ClinicalNote,
         ClinicalNoteCategory,
+        CodingAttributionType,
         Encounter,
+        EncounterOwnerOfNextActionType,
+        EncounterSubmissionOriginType,
         IntakeFollowUp,
         IntakeQuestion,
         IntakeResponseAndFollowUps,
         Intervention,
+        InterventionCategory,
         Lab,
+        LabCodeType,
         Medication,
+        NoteCategory,
         PatientHistoryCategory,
+        PatientHistoryCategoryEnum,
+        ResponsiblePartyType,
+        ServiceAuthorizationExceptionCode,
+        SynchronicityType,
         Vitals,
     )
     from candid.resources.era import Era
     from candid.resources.guarantor.resources.v_1 import Guarantor
     from candid.resources.individual import (
+        Gender,
         Patient,
         PatientNonInsurancePayerInfo,
         Subscriber,
     )
     from candid.resources.insurance_cards.resources.v_2 import InsuranceCard
-    from candid.resources.invoices import Invoice, InvoiceItem
+    from candid.resources.invoices import Invoice, InvoiceItem, InvoiceStatus
     from candid.resources.non_insurance_payers.resources.v_1 import (
         NonInsurancePayer,
     )
-    from candid.resources.patient_payments.resources.v_3 import PatientPayment
+    from candid.resources.patient_payments.resources.v_3 import (
+        PatientPayment,
+        PatientPaymentSource,
+        PatientPaymentStatus,
+    )
     from candid.resources.service_facility import EncounterServiceFacility
     from candid.resources.service_lines.resources.v_2 import (
+        DenialReasonContent,
         ServiceLine,
         ServiceLineAdjustment,
         ServiceLineDenialReason,
         ServiceLineEraData,
         TestResult,
+        TestResultType,
     )
-    from candid.resources.tags import Tag
+    from candid.resources.tags import Tag, TagColorEnum
 
     Encounter(
         encounter_id=uuid.UUID(
@@ -92,13 +118,13 @@ class Encounter(EncounterBase):
                 claim_id=uuid.UUID(
                     "dd9d7f82-37b5-449d-aa63-26925398335b",
                 ),
-                status="biller_received",
+                status=ClaimStatus.BILLER_RECEIVED,
                 clearinghouse="Change Healthcare",
                 clearinghouse_claim_id="5BA7C3AB-2BC2-496C-8B10-6CAC73D0729D",
                 payer_claim_id="9BB9F259-9756-4F16-8F53-9DBB9F7EB1BB",
                 service_lines=[
                     ServiceLine(
-                        modifiers=["22"],
+                        modifiers=[ProcedureModifier.TWENTY_TWO],
                         charge_amount_cents=10000,
                         allowed_amount_cents=8000,
                         insurance_balance_cents=0,
@@ -161,7 +187,7 @@ class Encounter(EncounterBase):
                                 patient_external_id="10FED4D6-4C5A-48DF-838A-EEF45A74788D",
                                 note="test_note",
                                 due_date="2023-10-10",
-                                status="draft",
+                                status=InvoiceStatus.DRAFT,
                                 url="https://example.com",
                                 customer_invoice_url="https://example.com",
                                 items=[
@@ -175,15 +201,15 @@ class Encounter(EncounterBase):
                             )
                         ],
                         denial_reason=ServiceLineDenialReason(
-                            reason="Authorization Required",
+                            reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
                         ),
-                        place_of_service_code="01",
+                        place_of_service_code=FacilityTypeCode.PHARMACY,
                         service_line_id=uuid.UUID(
                             "ced00f23-6e68-4678-9dbc-f5aa2969a565",
                         ),
                         procedure_code="99213",
                         quantity="1",
-                        units="MJ",
+                        units=ServiceLineUnits.MJ,
                         claim_id=uuid.UUID(
                             "026a1fb8-748e-4859-a2d7-3ea9e07d25ae",
                         ),
@@ -199,7 +225,7 @@ class Encounter(EncounterBase):
                         ),
                         test_results=[
                             TestResult(
-                                result_type="HEMOGLOBIN",
+                                result_type=TestResultType.HEMOGLOBIN,
                                 value=51.0,
                             )
                         ],
@@ -223,7 +249,7 @@ class Encounter(EncounterBase):
             phone_numbers=[
                 PhoneNumber(
                     number="1234567890",
-                    type="Home",
+                    type=PhoneNumberType.HOME,
                 )
             ],
             non_insurance_payers=[
@@ -238,7 +264,7 @@ class Encounter(EncounterBase):
                     address=StreetAddressShortZip(
                         address_1="123 Main St",
                         city="San Francisco",
-                        state="CA",
+                        state=State.CA,
                         zip_code="94105",
                     ),
                 )
@@ -256,7 +282,7 @@ class Encounter(EncounterBase):
                         address=StreetAddressShortZip(
                             address_1="123 Main St",
                             city="San Francisco",
-                            state="CA",
+                            state=State.CA,
                             zip_code="94105",
                         ),
                     ),
@@ -274,13 +300,13 @@ class Encounter(EncounterBase):
                 address_1="123 Main St",
                 address_2="Apt 1",
                 city="New York",
-                state="NY",
+                state=State.NY,
                 zip_code="10001",
                 zip_plus_four_code="1234",
             ),
             first_name="John",
             last_name="Doe",
-            gender="male",
+            gender=Gender.MALE,
         ),
         guarantor=Guarantor(
             guarantor_id=uuid.UUID(
@@ -289,7 +315,7 @@ class Encounter(EncounterBase):
             phone_numbers=[
                 PhoneNumber(
                     number="1234567890",
-                    type="Home",
+                    type=PhoneNumberType.HOME,
                 )
             ],
             phone_consent=True,
@@ -305,7 +331,7 @@ class Encounter(EncounterBase):
                 address_1="123 Main St",
                 address_2="Apt 1",
                 city="New York",
-                state="NY",
+                state=State.NY,
                 zip_code="10001",
                 zip_plus_four_code="1234",
             ),
@@ -318,7 +344,7 @@ class Encounter(EncounterBase):
                 address_1="123 Main St",
                 address_2="Apt 1",
                 city="New York",
-                state="NY",
+                state=State.NY,
                 zip_code="10001",
                 zip_plus_four_code="1234",
             ),
@@ -337,7 +363,7 @@ class Encounter(EncounterBase):
                 address_1="123 Main St",
                 address_2="Apt 1",
                 city="New York",
-                state="NY",
+                state=State.NY,
                 zip_code="10001",
                 zip_plus_four_code="1234",
             ),
@@ -356,7 +382,7 @@ class Encounter(EncounterBase):
                 address_1="123 Main St",
                 address_2="Apt 1",
                 city="New York",
-                state="NY",
+                state=State.NY,
                 zip_code="10001",
                 zip_plus_four_code="1234",
             ),
@@ -376,7 +402,7 @@ class Encounter(EncounterBase):
                 address_1="123 Main St",
                 address_2="Apt 1",
                 city="New York",
-                state="NY",
+                state=State.NY,
                 zip_code="10001",
                 zip_plus_four_code="1234",
             ),
@@ -398,10 +424,10 @@ class Encounter(EncounterBase):
                 image_url_back="https://s3.amazonaws.com/back.jpg",
                 group_number="ABC12345",
                 plan_name="Silver PPO Plan",
-                plan_type="09",
-                insurance_type="12",
+                plan_type=SourceOfPaymentCode.SELF_PAY,
+                insurance_type=InsuranceTypeCode.C_12,
             ),
-            patient_relationship_to_subscriber_code="01",
+            patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
             date_of_birth=datetime.date.fromisoformat(
                 "2000-01-01",
             ),
@@ -409,13 +435,13 @@ class Encounter(EncounterBase):
                 address_1="123 Main St",
                 address_2="Apt 1",
                 city="New York",
-                state="NY",
+                state=State.NY,
                 zip_code="10001",
                 zip_plus_four_code="1234",
             ),
             first_name="John",
             last_name="Doe",
-            gender="male",
+            gender=Gender.MALE,
         ),
         subscriber_secondary=Subscriber(
             individual_id=uuid.UUID(
@@ -434,10 +460,10 @@ class Encounter(EncounterBase):
                 image_url_back="https://s3.amazonaws.com/back.jpg",
                 group_number="ABC12345",
                 plan_name="Silver PPO Plan",
-                plan_type="09",
-                insurance_type="12",
+                plan_type=SourceOfPaymentCode.SELF_PAY,
+                insurance_type=InsuranceTypeCode.C_12,
             ),
-            patient_relationship_to_subscriber_code="01",
+            patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
             date_of_birth=datetime.date.fromisoformat(
                 "2000-01-01",
             ),
@@ -445,13 +471,13 @@ class Encounter(EncounterBase):
                 address_1="123 Main St",
                 address_2="Apt 1",
                 city="New York",
-                state="NY",
+                state=State.NY,
                 zip_code="10001",
                 zip_plus_four_code="1234",
             ),
             first_name="John",
             last_name="Doe",
-            gender="male",
+            gender=Gender.MALE,
         ),
         url="https://example.com",
         diagnoses=[
@@ -469,13 +495,13 @@ class Encounter(EncounterBase):
                     "3f63985b-51a4-4dd4-9418-7d50b2520792",
                 ),
                 name="John Doe",
-                code_type="ABF",
+                code_type=DiagnosisTypeCode.ABF,
                 code="I10",
             )
         ],
         clinical_notes=[
             ClinicalNoteCategory(
-                category="clinical",
+                category=NoteCategory.CLINICAL,
                 notes=["Patient complained of mild chest pain."],
                 notes_structured=[
                     ClinicalNote(
@@ -505,11 +531,11 @@ class Encounter(EncounterBase):
                 text="Patient was billed for an MRI.",
             )
         ],
-        place_of_service_code="01",
-        place_of_service_code_as_submitted="01",
+        place_of_service_code=FacilityTypeCode.PHARMACY,
+        place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
         patient_histories=[
             PatientHistoryCategory(
-                category="present_illness",
+                category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
                 questions=[
                     IntakeQuestion(
                         id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
@@ -537,12 +563,12 @@ class Encounter(EncounterBase):
                     "0788ca2a-b20d-4b8e-b8d4-07fa0b3b4907",
                 ),
                 source_internal_id="D1A76039-D5C5-4323-A2FC-B7C8B6AEF6A4",
-                source="MANUAL_ENTRY",
+                source=PatientPaymentSource.MANUAL_ENTRY,
                 amount_cents=2000,
                 payment_timestamp=datetime.datetime.fromisoformat(
                     "2023-01-01 00:00:00+00:00",
                 ),
-                status="PENDING",
+                status=PatientPaymentStatus.PENDING,
                 payment_name="John Doe",
                 payment_note="test payment note",
                 patient_external_id="B7437260-D6B4-48CF-B9D7-753C09F34E76",
@@ -557,16 +583,16 @@ class Encounter(EncounterBase):
                 creator_id="00EB5A46-35C6-441B-9751-AF307AEF5888",
                 tag_id="void-claim-submitted",
                 description="to indicate claims where a void claim has been submitted",
-                color="black",
+                color=TagColorEnum.BLACK,
             )
         ],
-        coding_attribution="CANDID",
+        coding_attribution=CodingAttributionType.CANDID,
         work_queue_id="000856FE-1024-418F-BF96-2E7347AB4520",
         work_queue_membership_activated_at=datetime.datetime.fromisoformat(
             "2023-01-01 00:00:00+00:00",
         ),
-        owner_of_next_action="CANDID",
-        submission_origin="CANDID",
+        owner_of_next_action=EncounterOwnerOfNextActionType.CANDID,
+        submission_origin=EncounterSubmissionOriginType.CANDID,
         external_id="5C21490F-A9C0-45F4-B5DB-136E3AEC617A",
         date_of_service=datetime.date.fromisoformat(
             "2023-01-01",
@@ -601,7 +627,7 @@ class Encounter(EncounterBase):
         interventions=[
             Intervention(
                 name="Physical Therapy Session",
-                category="lifestyle",
+                category=InterventionCategory.LIFESTYLE,
                 description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
                 medication=Medication(
                     name="Lisinopril",
@@ -615,7 +641,7 @@ class Encounter(EncounterBase):
                     Lab(
                         name="Genetic Health Labs",
                         code="GH12345",
-                        code_type="quest",
+                        code_type=LabCodeType.QUEST,
                     )
                 ],
             )
@@ -624,14 +650,14 @@ class Encounter(EncounterBase):
             address_1="123 Main St",
             address_2="Apt 1",
             city="New York",
-            state="NY",
+            state=State.NY,
             zip_code="10001",
             zip_plus_four_code="1234",
         ),
-        synchronicity="Synchronous",
-        billable_status="BILLABLE",
-        responsible_party="INSURANCE_PAY",
-        service_authorization_exception_code="1",
+        synchronicity=SynchronicityType.SYNCHRONOUS,
+        billable_status=BillableStatusType.BILLABLE,
+        responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+        service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
         admission_date=datetime.date.fromisoformat(
             "2023-01-01",
         ),

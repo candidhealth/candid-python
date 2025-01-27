@@ -16,7 +16,7 @@ class EncounterProvider(EncounterProviderBase):
     --------
     import uuid
 
-    from candid.resources.commons import StreetAddressLongZip
+    from candid.resources.commons import State, StreetAddressLongZip
     from candid.resources.encounter_providers.resources.v_2 import EncounterProvider
 
     EncounterProvider(
@@ -27,7 +27,7 @@ class EncounterProvider(EncounterProviderBase):
             address_1="123 Main St",
             address_2="Apt 1",
             city="New York",
-            state="NY",
+            state=State.NY,
             zip_code="10001",
             zip_plus_four_code="1234",
         ),

@@ -11,11 +11,12 @@ class SchemaField(UniversalBaseModel):
     """
     Examples
     --------
+    from candid.resources.commons import Primitive
     from candid.resources.custom_schemas.resources.v_1 import SchemaField
 
     SchemaField(
         key="provider_category",
-        type="STRING",
+        type=Primitive.STRING,
     )
     """
 

@@ -87,7 +87,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import Regions_States
+        from candid.resources.commons import Regions_States, State
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -110,7 +110,7 @@ class V2Client:
                 "2023-01-15",
             ),
             regions=Regions_States(
-                states=["AA"],
+                states=[State.AA],
             ),
             submitted_date=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -482,7 +482,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import Regions_States
+        from candid.resources.commons import Regions_States, State
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -505,7 +505,7 @@ class V2Client:
                 "2023-01-15",
             ),
             regions=Regions_States(
-                states=["AA"],
+                states=[State.AA],
             ),
             submitted_date=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -647,7 +647,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import Regions_States
+        from candid.resources.commons import Regions_States, State
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -673,7 +673,7 @@ class AsyncV2Client:
                     "2023-01-15",
                 ),
                 regions=Regions_States(
-                    states=["AA"],
+                    states=[State.AA],
                 ),
                 submitted_date=datetime.date.fromisoformat(
                     "2023-01-15",
@@ -1070,7 +1070,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import Regions_States
+        from candid.resources.commons import Regions_States, State
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1096,7 +1096,7 @@ class AsyncV2Client:
                     "2023-01-15",
                 ),
                 regions=Regions_States(
-                    states=["AA"],
+                    states=[State.AA],
                 ),
                 submitted_date=datetime.date.fromisoformat(
                     "2023-01-15",

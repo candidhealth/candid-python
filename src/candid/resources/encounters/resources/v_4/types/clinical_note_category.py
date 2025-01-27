@@ -17,10 +17,11 @@ class ClinicalNoteCategory(UniversalBaseModel):
     from candid.resources.encounters.resources.v_4 import (
         ClinicalNote,
         ClinicalNoteCategory,
+        NoteCategory,
     )
 
     ClinicalNoteCategory(
-        category="clinical",
+        category=NoteCategory.CLINICAL,
         notes=["Patient complained of mild chest pain."],
         notes_structured=[
             ClinicalNote(

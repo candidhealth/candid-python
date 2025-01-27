@@ -62,7 +62,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             ReferringProviderUpdate,
         )
@@ -82,7 +82,7 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -161,7 +161,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import QualifierCode, State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             InitialReferringProviderUpdate,
         )
@@ -181,11 +181,11 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                qualifier="DQ",
+                qualifier=QualifierCode.DQ,
                 first_name="string",
                 last_name="string",
                 organization_name="string",
@@ -261,7 +261,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             SupervisingProviderUpdate,
         )
@@ -281,7 +281,7 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -360,7 +360,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             OrderingProviderUpdate,
         )
@@ -380,7 +380,7 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -459,7 +459,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import ReferringProvider
 
         client = CandidApiClient(
@@ -477,7 +477,7 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -566,7 +566,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import QualifierCode, State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             InitialReferringProvider,
         )
@@ -586,11 +586,11 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                qualifier="DQ",
+                qualifier=QualifierCode.DQ,
                 first_name="string",
                 last_name="string",
                 organization_name="string",
@@ -686,7 +686,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             SupervisingProvider,
         )
@@ -706,7 +706,7 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -795,7 +795,7 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import OrderingProvider
 
         client = CandidApiClient(
@@ -813,7 +813,7 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -1142,7 +1142,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             ReferringProviderUpdate,
         )
@@ -1165,7 +1165,7 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
@@ -1248,7 +1248,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import QualifierCode, State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             InitialReferringProviderUpdate,
         )
@@ -1271,11 +1271,11 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    qualifier="DQ",
+                    qualifier=QualifierCode.DQ,
                     first_name="string",
                     last_name="string",
                     organization_name="string",
@@ -1355,7 +1355,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             SupervisingProviderUpdate,
         )
@@ -1378,7 +1378,7 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
@@ -1461,7 +1461,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             OrderingProviderUpdate,
         )
@@ -1484,7 +1484,7 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
@@ -1567,7 +1567,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import ReferringProvider
 
         client = AsyncCandidApiClient(
@@ -1588,7 +1588,7 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
@@ -1681,7 +1681,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import QualifierCode, State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             InitialReferringProvider,
         )
@@ -1704,11 +1704,11 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    qualifier="DQ",
+                    qualifier=QualifierCode.DQ,
                     first_name="string",
                     last_name="string",
                     organization_name="string",
@@ -1808,7 +1808,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             SupervisingProvider,
         )
@@ -1831,7 +1831,7 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
@@ -1924,7 +1924,7 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import OrderingProvider
 
         client = AsyncCandidApiClient(
@@ -1945,7 +1945,7 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),

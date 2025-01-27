@@ -17,10 +17,11 @@ class PatientHistoryCategory(UniversalBaseModel):
         IntakeQuestion,
         IntakeResponseAndFollowUps,
         PatientHistoryCategory,
+        PatientHistoryCategoryEnum,
     )
 
     PatientHistoryCategory(
-        category="present_illness",
+        category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
         questions=[
             IntakeQuestion(
                 id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",

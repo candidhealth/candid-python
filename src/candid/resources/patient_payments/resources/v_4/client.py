@@ -101,6 +101,11 @@ class V4Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.financials import PatientTransactionSource
+        from candid.resources.patient_payments.resources.v_4 import (
+            PatientPaymentSortField,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -122,9 +127,9 @@ class V4Client:
             invoice_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            sources="MANUAL_ENTRY",
-            sort="payment_source",
-            sort_direction="asc",
+            sources=PatientTransactionSource.MANUAL_ENTRY,
+            sort=PatientPaymentSortField.PAYMENT_SOURCE,
+            sort_direction=SortDirection.ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
         )
         """
@@ -649,6 +654,11 @@ class AsyncV4Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.financials import PatientTransactionSource
+        from candid.resources.patient_payments.resources.v_4 import (
+            PatientPaymentSortField,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -673,9 +683,9 @@ class AsyncV4Client:
                 invoice_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                sources="MANUAL_ENTRY",
-                sort="payment_source",
-                sort_direction="asc",
+                sources=PatientTransactionSource.MANUAL_ENTRY,
+                sort=PatientPaymentSortField.PAYMENT_SOURCE,
+                sort_direction=SortDirection.ASC,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             )
 

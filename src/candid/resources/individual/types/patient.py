@@ -18,8 +18,17 @@ class Patient(PatientBase):
     import datetime
     import uuid
 
-    from candid.resources.commons import PhoneNumber, StreetAddressShortZip
-    from candid.resources.individual import Patient, PatientNonInsurancePayerInfo
+    from candid.resources.commons import (
+        PhoneNumber,
+        PhoneNumberType,
+        State,
+        StreetAddressShortZip,
+    )
+    from candid.resources.individual import (
+        Gender,
+        Patient,
+        PatientNonInsurancePayerInfo,
+    )
     from candid.resources.non_insurance_payers.resources.v_1 import (
         NonInsurancePayer,
     )
@@ -31,7 +40,7 @@ class Patient(PatientBase):
         phone_numbers=[
             PhoneNumber(
                 number="1234567890",
-                type="Home",
+                type=PhoneNumberType.HOME,
             )
         ],
         non_insurance_payers=[
@@ -46,7 +55,7 @@ class Patient(PatientBase):
                 address=StreetAddressShortZip(
                     address_1="123 Main St",
                     city="San Francisco",
-                    state="CA",
+                    state=State.CA,
                     zip_code="94105",
                 ),
             )
@@ -64,7 +73,7 @@ class Patient(PatientBase):
                     address=StreetAddressShortZip(
                         address_1="123 Main St",
                         city="San Francisco",
-                        state="CA",
+                        state=State.CA,
                         zip_code="94105",
                     ),
                 ),
@@ -82,13 +91,13 @@ class Patient(PatientBase):
             address_1="123 Main St",
             address_2="Apt 1",
             city="New York",
-            state="NY",
+            state=State.NY,
             zip_code="10001",
             zip_plus_four_code="1234",
         ),
         first_name="John",
         last_name="Doe",
-        gender="male",
+        gender=Gender.MALE,
     )
     """
 

@@ -10,13 +10,13 @@ class StreetAddressShortZip(StreetAddressBase):
     """
     Examples
     --------
-    from candid.resources.commons import StreetAddressShortZip
+    from candid.resources.commons import State, StreetAddressShortZip
 
     StreetAddressShortZip(
         address_1="123 Main St",
         address_2="Apt 1",
         city="New York",
-        state="NY",
+        state=State.NY,
         zip_code="10001",
         zip_plus_four_code="1234",
     )

@@ -145,6 +145,9 @@ class V3Client:
         Examples
         --------
         from candid import CandidApiClient
+        from candid.resources.organization_providers.resources.v_2 import (
+            OrganizationProviderSortOptions,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -157,7 +160,7 @@ class V3Client:
             is_rendering=True,
             is_billing=True,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            sort="provider_name:asc",
+            sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -209,13 +212,21 @@ class V3Client:
         import datetime
 
         from candid import CandidApiClient
-        from candid.resources.commons import DateRangeOptionalEnd, StreetAddressLongZip
+        from candid.resources.commons import (
+            DateRangeOptionalEnd,
+            State,
+            StreetAddressLongZip,
+        )
         from candid.resources.identifiers import (
+            IdentifierCode,
             IdentifierCreate,
             IdentifierValue_MedicareProviderIdentifier,
         )
         from candid.resources.organization_providers.resources.v_2 import (
+            AddressType,
+            LicenseType,
             OrganizationProviderAddress,
+            ProviderType,
         )
         from candid.resources.organization_providers.resources.v_3 import (
             OrganizationProviderCreateV2,
@@ -233,21 +244,21 @@ class V3Client:
                 first_name="string",
                 last_name="string",
                 organization_name="string",
-                provider_type="INDIVIDUAL",
+                provider_type=ProviderType.INDIVIDUAL,
                 tax_id="string",
                 taxonomy_code="string",
-                license_type="MD",
+                license_type=LicenseType.MD,
                 addresses=[
                     OrganizationProviderAddress(
                         address=StreetAddressLongZip(
                             address_1="123 Main St",
                             address_2="Apt 1",
                             city="New York",
-                            state="NY",
+                            state=State.NY,
                             zip_code="10001",
                             zip_plus_four_code="1234",
                         ),
-                        address_type="DEFAULT",
+                        address_type=AddressType.DEFAULT,
                     )
                 ],
                 employment_start_date=datetime.date.fromisoformat(
@@ -261,7 +272,7 @@ class V3Client:
                         period=DateRangeOptionalEnd(
                             start_date="string",
                         ),
-                        identifier_code="MCR",
+                        identifier_code=IdentifierCode.MCR,
                         identifier_value=IdentifierValue_MedicareProviderIdentifier(),
                     )
                 ],
@@ -337,13 +348,21 @@ class V3Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import DateRangeOptionalEnd, StreetAddressLongZip
+        from candid.resources.commons import (
+            DateRangeOptionalEnd,
+            State,
+            StreetAddressLongZip,
+        )
         from candid.resources.identifiers import (
+            IdentifierCode,
             IdentifierValue_MedicareProviderIdentifier,
             UpdatableIdentifier_Add,
         )
         from candid.resources.organization_providers.resources.v_2 import (
+            AddressType,
+            LicenseType,
             OrganizationProviderAddress,
+            ProviderType,
         )
         from candid.resources.organization_providers.resources.v_3 import (
             OrganizationProviderUpdateV2,
@@ -364,21 +383,21 @@ class V3Client:
                 first_name="string",
                 last_name="string",
                 organization_name="string",
-                provider_type="INDIVIDUAL",
+                provider_type=ProviderType.INDIVIDUAL,
                 tax_id="string",
                 taxonomy_code="string",
-                license_type="MD",
+                license_type=LicenseType.MD,
                 addresses=[
                     OrganizationProviderAddress(
                         address=StreetAddressLongZip(
                             address_1="123 Main St",
                             address_2="Apt 1",
                             city="New York",
-                            state="NY",
+                            state=State.NY,
                             zip_code="10001",
                             zip_plus_four_code="1234",
                         ),
-                        address_type="DEFAULT",
+                        address_type=AddressType.DEFAULT,
                     )
                 ],
                 employment_start_date="string",
@@ -388,7 +407,7 @@ class V3Client:
                         period=DateRangeOptionalEnd(
                             start_date="string",
                         ),
-                        identifier_code="MCR",
+                        identifier_code=IdentifierCode.MCR,
                         identifier_value=IdentifierValue_MedicareProviderIdentifier(),
                     )
                 ],
@@ -573,6 +592,9 @@ class AsyncV3Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
+        from candid.resources.organization_providers.resources.v_2 import (
+            OrganizationProviderSortOptions,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -588,7 +610,7 @@ class AsyncV3Client:
                 is_rendering=True,
                 is_billing=True,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                sort="provider_name:asc",
+                sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
             )
 
 
@@ -644,13 +666,21 @@ class AsyncV3Client:
         import datetime
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import DateRangeOptionalEnd, StreetAddressLongZip
+        from candid.resources.commons import (
+            DateRangeOptionalEnd,
+            State,
+            StreetAddressLongZip,
+        )
         from candid.resources.identifiers import (
+            IdentifierCode,
             IdentifierCreate,
             IdentifierValue_MedicareProviderIdentifier,
         )
         from candid.resources.organization_providers.resources.v_2 import (
+            AddressType,
+            LicenseType,
             OrganizationProviderAddress,
+            ProviderType,
         )
         from candid.resources.organization_providers.resources.v_3 import (
             OrganizationProviderCreateV2,
@@ -671,21 +701,21 @@ class AsyncV3Client:
                     first_name="string",
                     last_name="string",
                     organization_name="string",
-                    provider_type="INDIVIDUAL",
+                    provider_type=ProviderType.INDIVIDUAL,
                     tax_id="string",
                     taxonomy_code="string",
-                    license_type="MD",
+                    license_type=LicenseType.MD,
                     addresses=[
                         OrganizationProviderAddress(
                             address=StreetAddressLongZip(
                                 address_1="123 Main St",
                                 address_2="Apt 1",
                                 city="New York",
-                                state="NY",
+                                state=State.NY,
                                 zip_code="10001",
                                 zip_plus_four_code="1234",
                             ),
-                            address_type="DEFAULT",
+                            address_type=AddressType.DEFAULT,
                         )
                     ],
                     employment_start_date=datetime.date.fromisoformat(
@@ -699,7 +729,7 @@ class AsyncV3Client:
                             period=DateRangeOptionalEnd(
                                 start_date="string",
                             ),
-                            identifier_code="MCR",
+                            identifier_code=IdentifierCode.MCR,
                             identifier_value=IdentifierValue_MedicareProviderIdentifier(),
                         )
                     ],
@@ -779,13 +809,21 @@ class AsyncV3Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import DateRangeOptionalEnd, StreetAddressLongZip
+        from candid.resources.commons import (
+            DateRangeOptionalEnd,
+            State,
+            StreetAddressLongZip,
+        )
         from candid.resources.identifiers import (
+            IdentifierCode,
             IdentifierValue_MedicareProviderIdentifier,
             UpdatableIdentifier_Add,
         )
         from candid.resources.organization_providers.resources.v_2 import (
+            AddressType,
+            LicenseType,
             OrganizationProviderAddress,
+            ProviderType,
         )
         from candid.resources.organization_providers.resources.v_3 import (
             OrganizationProviderUpdateV2,
@@ -809,21 +847,21 @@ class AsyncV3Client:
                     first_name="string",
                     last_name="string",
                     organization_name="string",
-                    provider_type="INDIVIDUAL",
+                    provider_type=ProviderType.INDIVIDUAL,
                     tax_id="string",
                     taxonomy_code="string",
-                    license_type="MD",
+                    license_type=LicenseType.MD,
                     addresses=[
                         OrganizationProviderAddress(
                             address=StreetAddressLongZip(
                                 address_1="123 Main St",
                                 address_2="Apt 1",
                                 city="New York",
-                                state="NY",
+                                state=State.NY,
                                 zip_code="10001",
                                 zip_plus_four_code="1234",
                             ),
-                            address_type="DEFAULT",
+                            address_type=AddressType.DEFAULT,
                         )
                     ],
                     employment_start_date="string",
@@ -833,7 +871,7 @@ class AsyncV3Client:
                             period=DateRangeOptionalEnd(
                                 start_date="string",
                             ),
-                            identifier_code="MCR",
+                            identifier_code=IdentifierCode.MCR,
                             identifier_value=IdentifierValue_MedicareProviderIdentifier(),
                         )
                     ],

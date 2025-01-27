@@ -50,7 +50,7 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressShortZip
+        from candid.resources.commons import State, StreetAddressShortZip
         from candid.resources.non_insurance_payers.resources.v_1 import (
             CreateNonInsurancePayerRequest,
         )
@@ -68,7 +68,7 @@ class V1Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -234,6 +234,10 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.non_insurance_payers.resources.v_1 import (
+            NonInsurancePayerSortField,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -243,8 +247,8 @@ class V1Client:
             name="string",
             category="string",
             enabled=True,
-            sort="NAME",
-            sort_direction="asc",
+            sort=NonInsurancePayerSortField.NAME,
+            sort_direction=SortDirection.ASC,
             limit=1,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
         )
@@ -524,7 +528,7 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressShortZip
+        from candid.resources.commons import State, StreetAddressShortZip
         from candid.resources.non_insurance_payers.resources.v_1 import (
             CreateNonInsurancePayerRequest,
         )
@@ -545,7 +549,7 @@ class AsyncV1Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
@@ -723,6 +727,10 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.non_insurance_payers.resources.v_1 import (
+            NonInsurancePayerSortField,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -735,8 +743,8 @@ class AsyncV1Client:
                 name="string",
                 category="string",
                 enabled=True,
-                sort="NAME",
-                sort_direction="asc",
+                sort=NonInsurancePayerSortField.NAME,
+                sort_direction=SortDirection.ASC,
                 limit=1,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             )

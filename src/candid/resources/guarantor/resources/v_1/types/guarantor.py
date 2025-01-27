@@ -16,7 +16,12 @@ class Guarantor(GuarantorBase):
     import datetime
     import uuid
 
-    from candid.resources.commons import PhoneNumber, StreetAddressShortZip
+    from candid.resources.commons import (
+        PhoneNumber,
+        PhoneNumberType,
+        State,
+        StreetAddressShortZip,
+    )
     from candid.resources.guarantor.resources.v_1 import Guarantor
 
     Guarantor(
@@ -26,7 +31,7 @@ class Guarantor(GuarantorBase):
         phone_numbers=[
             PhoneNumber(
                 number="1234567890",
-                type="Home",
+                type=PhoneNumberType.HOME,
             )
         ],
         phone_consent=True,
@@ -42,7 +47,7 @@ class Guarantor(GuarantorBase):
             address_1="123 Main St",
             address_2="Apt 1",
             city="New York",
-            state="NY",
+            state=State.NY,
             zip_code="10001",
             zip_plus_four_code="1234",
         ),

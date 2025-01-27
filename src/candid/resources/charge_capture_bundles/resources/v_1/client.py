@@ -203,6 +203,10 @@ class V1Client:
         import datetime
 
         from candid import CandidApiClient
+        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
+        from candid.resources.charge_capture_bundles.resources.v_1 import (
+            ChargeCaptureBundleStatus,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -212,8 +216,8 @@ class V1Client:
             limit=1,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             patient_external_id="string",
-            bundle_status="in-progress",
-            charge_status="planned",
+            bundle_status=ChargeCaptureBundleStatus.IN_PROGRESS,
+            charge_status=ChargeCaptureStatus.PLANNED,
             charge_external_id="string",
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -460,6 +464,10 @@ class AsyncV1Client:
         import datetime
 
         from candid import AsyncCandidApiClient
+        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
+        from candid.resources.charge_capture_bundles.resources.v_1 import (
+            ChargeCaptureBundleStatus,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -472,8 +480,8 @@ class AsyncV1Client:
                 limit=1,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
                 patient_external_id="string",
-                bundle_status="in-progress",
-                charge_status="planned",
+                bundle_status=ChargeCaptureBundleStatus.IN_PROGRESS,
+                charge_status=ChargeCaptureStatus.PLANNED,
                 charge_external_id="string",
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",

@@ -60,10 +60,15 @@ class V1Client:
         import datetime
 
         from candid import CandidApiClient
+        from candid.resources.commons import ProcedureModifier, ServiceLineUnits
         from candid.resources.medication_dispense.resources.v_1 import (
             MedicationDispenseCreate,
         )
-        from candid.resources.service_lines.resources.v_2 import DrugIdentification
+        from candid.resources.service_lines.resources.v_2 import (
+            DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -75,22 +80,22 @@ class V1Client:
                 patient_external_id="string",
                 procedure_code="string",
                 quantity="string",
-                units="MJ",
+                units=ServiceLineUnits.MJ,
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
                 drug_identification=DrugIdentification(
-                    service_id_qualifier="EN",
+                    service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
                     national_drug_code="string",
                     national_drug_unit_count="string",
-                    measurement_unit_code="ML",
+                    measurement_unit_code=MeasurementUnitCode.MILLILITERS,
                     link_sequence_number="string",
                     pharmacy_prescription_number="string",
                     conversion_formula="string",
                     drug_description="string",
                 ),
                 description="string",
-                modifiers=["22"],
+                modifiers=[ProcedureModifier.TWENTY_TWO],
             ),
         )
         """
@@ -203,10 +208,15 @@ class AsyncV1Client:
         import datetime
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import ProcedureModifier, ServiceLineUnits
         from candid.resources.medication_dispense.resources.v_1 import (
             MedicationDispenseCreate,
         )
-        from candid.resources.service_lines.resources.v_2 import DrugIdentification
+        from candid.resources.service_lines.resources.v_2 import (
+            DrugIdentification,
+            MeasurementUnitCode,
+            ServiceIdQualifier,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -221,22 +231,22 @@ class AsyncV1Client:
                     patient_external_id="string",
                     procedure_code="string",
                     quantity="string",
-                    units="MJ",
+                    units=ServiceLineUnits.MJ,
                     date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     drug_identification=DrugIdentification(
-                        service_id_qualifier="EN",
+                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
                         national_drug_code="string",
                         national_drug_unit_count="string",
-                        measurement_unit_code="ML",
+                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
                         link_sequence_number="string",
                         pharmacy_prescription_number="string",
                         conversion_formula="string",
                         drug_description="string",
                     ),
                     description="string",
-                    modifiers=["22"],
+                    modifiers=[ProcedureModifier.TWENTY_TWO],
                 ),
             )
 

@@ -57,12 +57,19 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressShortZip
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            InsuranceTypeCode,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.resources.expected_network_status.resources.v_2 import (
             ExpectedNetworkStatusRequestV2,
             ExpectedNetworkStatusSubscriberInformation,
             InsuranceType,
             InsuranceTypeCodes_InsuranceTypeCode,
+            LineOfBusiness,
+            ServiceType,
         )
 
         client = CandidApiClient(
@@ -74,17 +81,17 @@ class V2Client:
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             request=ExpectedNetworkStatusRequestV2(
-                service_type="new_patient_video_appt",
-                place_of_service_code="01",
+                service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
+                place_of_service_code=FacilityTypeCode.PHARMACY,
                 subscriber_information=ExpectedNetworkStatusSubscriberInformation(
                     payer_uuid=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
                     member_id="string",
                     insurance_type=InsuranceType(
-                        line_of_business="medicare",
+                        line_of_business=LineOfBusiness.MEDICARE,
                         insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
-                            value="01"
+                            value=InsuranceTypeCode.C_01
                         ),
                     ),
                 ),
@@ -92,7 +99,7 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -176,12 +183,19 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressShortZip
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            InsuranceTypeCode,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.resources.expected_network_status.resources.v_2 import (
             ComputeAllInNetworkProvidersRequest,
             ExpectedNetworkStatusSubscriberInformation,
             InsuranceType,
             InsuranceTypeCodes_InsuranceTypeCode,
+            LineOfBusiness,
+            ServiceType,
         )
 
         client = CandidApiClient(
@@ -190,17 +204,17 @@ class V2Client:
         )
         client.expected_network_status.v_2.compute_all_in_network_providers(
             request=ComputeAllInNetworkProvidersRequest(
-                service_type="new_patient_video_appt",
-                place_of_service_code="01",
+                service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
+                place_of_service_code=FacilityTypeCode.PHARMACY,
                 subscriber_information=ExpectedNetworkStatusSubscriberInformation(
                     payer_uuid=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
                     member_id="string",
                     insurance_type=InsuranceType(
-                        line_of_business="medicare",
+                        line_of_business=LineOfBusiness.MEDICARE,
                         insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
-                            value="01"
+                            value=InsuranceTypeCode.C_01
                         ),
                     ),
                 ),
@@ -208,7 +222,7 @@ class V2Client:
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -304,12 +318,19 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressShortZip
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            InsuranceTypeCode,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.resources.expected_network_status.resources.v_2 import (
             ExpectedNetworkStatusRequestV2,
             ExpectedNetworkStatusSubscriberInformation,
             InsuranceType,
             InsuranceTypeCodes_InsuranceTypeCode,
+            LineOfBusiness,
+            ServiceType,
         )
 
         client = AsyncCandidApiClient(
@@ -324,17 +345,17 @@ class AsyncV2Client:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 request=ExpectedNetworkStatusRequestV2(
-                    service_type="new_patient_video_appt",
-                    place_of_service_code="01",
+                    service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
+                    place_of_service_code=FacilityTypeCode.PHARMACY,
                     subscriber_information=ExpectedNetworkStatusSubscriberInformation(
                         payer_uuid=uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ),
                         member_id="string",
                         insurance_type=InsuranceType(
-                            line_of_business="medicare",
+                            line_of_business=LineOfBusiness.MEDICARE,
                             insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
-                                value="01"
+                                value=InsuranceTypeCode.C_01
                             ),
                         ),
                     ),
@@ -342,7 +363,7 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
@@ -430,12 +451,19 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressShortZip
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            InsuranceTypeCode,
+            State,
+            StreetAddressShortZip,
+        )
         from candid.resources.expected_network_status.resources.v_2 import (
             ComputeAllInNetworkProvidersRequest,
             ExpectedNetworkStatusSubscriberInformation,
             InsuranceType,
             InsuranceTypeCodes_InsuranceTypeCode,
+            LineOfBusiness,
+            ServiceType,
         )
 
         client = AsyncCandidApiClient(
@@ -447,17 +475,17 @@ class AsyncV2Client:
         async def main() -> None:
             await client.expected_network_status.v_2.compute_all_in_network_providers(
                 request=ComputeAllInNetworkProvidersRequest(
-                    service_type="new_patient_video_appt",
-                    place_of_service_code="01",
+                    service_type=ServiceType.NEW_PATIENT_VIDEO_APPT,
+                    place_of_service_code=FacilityTypeCode.PHARMACY,
                     subscriber_information=ExpectedNetworkStatusSubscriberInformation(
                         payer_uuid=uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ),
                         member_id="string",
                         insurance_type=InsuranceType(
-                            line_of_business="medicare",
+                            line_of_business=LineOfBusiness.MEDICARE,
                             insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
-                                value="01"
+                                value=InsuranceTypeCode.C_01
                             ),
                         ),
                     ),
@@ -465,7 +493,7 @@ class AsyncV2Client:
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),

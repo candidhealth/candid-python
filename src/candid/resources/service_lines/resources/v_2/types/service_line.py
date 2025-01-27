@@ -30,18 +30,25 @@ class ServiceLine(UniversalBaseModel):
     import datetime
     import uuid
 
-    from candid.resources.commons import DateRangeOptionalEnd
-    from candid.resources.invoices import Invoice, InvoiceItem
+    from candid.resources.commons import (
+        DateRangeOptionalEnd,
+        FacilityTypeCode,
+        ProcedureModifier,
+        ServiceLineUnits,
+    )
+    from candid.resources.invoices import Invoice, InvoiceItem, InvoiceStatus
     from candid.resources.service_lines.resources.v_2 import (
+        DenialReasonContent,
         ServiceLine,
         ServiceLineAdjustment,
         ServiceLineDenialReason,
         ServiceLineEraData,
         TestResult,
+        TestResultType,
     )
 
     ServiceLine(
-        modifiers=["22"],
+        modifiers=[ProcedureModifier.TWENTY_TWO],
         charge_amount_cents=10000,
         allowed_amount_cents=8000,
         insurance_balance_cents=0,
@@ -104,7 +111,7 @@ class ServiceLine(UniversalBaseModel):
                 patient_external_id="10FED4D6-4C5A-48DF-838A-EEF45A74788D",
                 note="test_note",
                 due_date="2023-10-10",
-                status="draft",
+                status=InvoiceStatus.DRAFT,
                 url="https://example.com",
                 customer_invoice_url="https://example.com",
                 items=[
@@ -118,15 +125,15 @@ class ServiceLine(UniversalBaseModel):
             )
         ],
         denial_reason=ServiceLineDenialReason(
-            reason="Authorization Required",
+            reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
         ),
-        place_of_service_code="01",
+        place_of_service_code=FacilityTypeCode.PHARMACY,
         service_line_id=uuid.UUID(
             "ced00f23-6e68-4678-9dbc-f5aa2969a565",
         ),
         procedure_code="99213",
         quantity="1",
-        units="MJ",
+        units=ServiceLineUnits.MJ,
         claim_id=uuid.UUID(
             "026a1fb8-748e-4859-a2d7-3ea9e07d25ae",
         ),
@@ -142,7 +149,7 @@ class ServiceLine(UniversalBaseModel):
         ),
         test_results=[
             TestResult(
-                result_type="HEMOGLOBIN",
+                result_type=TestResultType.HEMOGLOBIN,
                 value=51.0,
             )
         ],

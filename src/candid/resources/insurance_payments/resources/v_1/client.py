@@ -85,6 +85,10 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.insurance_payments.resources.v_1 import (
+            InsurancePaymentSortField,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -104,8 +108,8 @@ class V1Client:
             billing_provider_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            sort="amount_cents",
-            sort_direction="asc",
+            sort=InsurancePaymentSortField.AMOUNT_CENTS,
+            sort_direction=SortDirection.ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
         )
         """
@@ -587,6 +591,10 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.insurance_payments.resources.v_1 import (
+            InsurancePaymentSortField,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -609,8 +617,8 @@ class AsyncV1Client:
                 billing_provider_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                sort="amount_cents",
-                sort_direction="asc",
+                sort=InsurancePaymentSortField.AMOUNT_CENTS,
+                sort_direction=SortDirection.ASC,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             )
 

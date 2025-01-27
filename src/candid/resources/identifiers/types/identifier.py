@@ -13,8 +13,10 @@ class Identifier(IdentifierBase):
     --------
     import uuid
 
+    from candid.resources.commons import State
     from candid.resources.identifiers import (
         Identifier,
+        IdentifierCode,
         IdentifierValue_MedicareProviderIdentifier,
     )
 
@@ -22,9 +24,9 @@ class Identifier(IdentifierBase):
         identifier_id=uuid.UUID(
             "123e4567-e89b-12d3-a456-426614174000",
         ),
-        identifier_code="MCR",
+        identifier_code=IdentifierCode.MCR,
         identifier_value=IdentifierValue_MedicareProviderIdentifier(
-            state="CA",
+            state=State.CA,
             provider_number="1234567890",
         ),
     )

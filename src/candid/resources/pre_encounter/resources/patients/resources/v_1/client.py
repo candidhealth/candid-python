@@ -63,18 +63,32 @@ class V1Client:
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
             Address,
+            AddressUse,
             CanonicalNonInsurancePayerAssociation,
             ContactPoint,
+            ContactPointUse,
+            DisabilityStatus,
+            Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
+            Gender,
             HumanName,
+            NameUse,
             Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
             Authorization,
+            AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
+            MaritalStatus,
             MutablePatient,
             Referral,
         )
@@ -89,34 +103,34 @@ class V1Client:
                 name=HumanName(
                     family="string",
                     given=["string"],
-                    use="USUAL",
+                    use=NameUse.USUAL,
                     period=Period(),
                 ),
                 other_names=[
                     HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     )
                 ],
-                gender="MAN",
+                gender=Gender.MAN,
                 birth_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
                 social_security_number="string",
-                biological_sex="FEMALE",
-                sexual_orientation="HETEROSEXUAL",
-                race="AMERICAN_INDIAN_OR_ALASKA_NATIVE",
-                ethnicity="HISPANIC_OR_LATINO",
-                disability_status="DISABLED",
-                marital_status="ANNULLED",
+                biological_sex=Sex.FEMALE,
+                sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                disability_status=DisabilityStatus.DISABLED,
+                marital_status=MaritalStatus.ANNULLED,
                 deceased=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
                 ),
                 multiple_birth=1,
                 primary_address=Address(
-                    use="HOME",
+                    use=AddressUse.HOME,
                     line=["string"],
                     city="string",
                     state="string",
@@ -126,7 +140,7 @@ class V1Client:
                 ),
                 other_addresses=[
                     Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -137,12 +151,12 @@ class V1Client:
                 ],
                 primary_telecom=ContactPoint(
                     value="string",
-                    use="HOME",
+                    use=ContactPointUse.HOME,
                 ),
                 other_telecoms=[
                     ContactPoint(
                         value="string",
-                        use="HOME",
+                        use=ContactPointUse.HOME,
                     )
                 ],
                 email="string",
@@ -155,22 +169,22 @@ class V1Client:
                 ),
                 contacts=[
                     Contact(
-                        relationship=["SELF"],
+                        relationship=[Relationship.SELF],
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
                         telecoms=[
                             ContactPoint(
                                 value="string",
-                                use="HOME",
+                                use=ContactPointUse.HOME,
                             )
                         ],
                         addresses=[
                             Address(
-                                use="HOME",
+                                use=AddressUse.HOME,
                                 line=["string"],
                                 city="string",
                                 state="string",
@@ -188,15 +202,15 @@ class V1Client:
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
-                        type="PRIMARY",
+                        type=ExternalProviderType.PRIMARY,
                         npi="string",
                         telecoms=[
                             ContactPoint(
                                 value="string",
-                                use="HOME",
+                                use=ContactPointUse.HOME,
                             )
                         ],
                         addresses=[],
@@ -221,19 +235,19 @@ class V1Client:
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
                     telecom=ContactPoint(
                         value="string",
-                        use="HOME",
+                        use=ContactPointUse.HOME,
                     ),
                     email="string",
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     address=Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -249,7 +263,7 @@ class V1Client:
                         payer_name="string",
                         authorization_number="string",
                         cpt_code="string",
-                        units="VISIT",
+                        units=AuthorizationUnit.VISIT,
                     )
                 ],
                 referrals=[
@@ -258,15 +272,15 @@ class V1Client:
                             name=HumanName(
                                 family="string",
                                 given=["string"],
-                                use="USUAL",
+                                use=NameUse.USUAL,
                                 period=Period(),
                             ),
-                            type="PRIMARY",
+                            type=ExternalProviderType.PRIMARY,
                             npi="string",
                             telecoms=[
                                 ContactPoint(
                                     value="string",
-                                    use="HOME",
+                                    use=ContactPointUse.HOME,
                                 )
                             ],
                             addresses=[],
@@ -277,7 +291,7 @@ class V1Client:
                     )
                 ],
                 primary_service_facility_id="string",
-                do_not_invoice_reason="BANKRUPTCY",
+                do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
                 note_ids=["string"],
                 tag_ids=["string"],
             ),
@@ -350,18 +364,32 @@ class V1Client:
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
             Address,
+            AddressUse,
             CanonicalNonInsurancePayerAssociation,
             ContactPoint,
+            ContactPointUse,
+            DisabilityStatus,
+            Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
+            Gender,
             HumanName,
+            NameUse,
             Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
             Authorization,
+            AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
+            MaritalStatus,
             MutablePatientWithMrn,
             Referral,
         )
@@ -377,34 +405,34 @@ class V1Client:
                 name=HumanName(
                     family="string",
                     given=["string"],
-                    use="USUAL",
+                    use=NameUse.USUAL,
                     period=Period(),
                 ),
                 other_names=[
                     HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     )
                 ],
-                gender="MAN",
+                gender=Gender.MAN,
                 birth_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
                 social_security_number="string",
-                biological_sex="FEMALE",
-                sexual_orientation="HETEROSEXUAL",
-                race="AMERICAN_INDIAN_OR_ALASKA_NATIVE",
-                ethnicity="HISPANIC_OR_LATINO",
-                disability_status="DISABLED",
-                marital_status="ANNULLED",
+                biological_sex=Sex.FEMALE,
+                sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                disability_status=DisabilityStatus.DISABLED,
+                marital_status=MaritalStatus.ANNULLED,
                 deceased=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
                 ),
                 multiple_birth=1,
                 primary_address=Address(
-                    use="HOME",
+                    use=AddressUse.HOME,
                     line=["string"],
                     city="string",
                     state="string",
@@ -414,7 +442,7 @@ class V1Client:
                 ),
                 other_addresses=[
                     Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -425,12 +453,12 @@ class V1Client:
                 ],
                 primary_telecom=ContactPoint(
                     value="string",
-                    use="HOME",
+                    use=ContactPointUse.HOME,
                 ),
                 other_telecoms=[
                     ContactPoint(
                         value="string",
-                        use="HOME",
+                        use=ContactPointUse.HOME,
                     )
                 ],
                 email="string",
@@ -443,22 +471,22 @@ class V1Client:
                 ),
                 contacts=[
                     Contact(
-                        relationship=["SELF"],
+                        relationship=[Relationship.SELF],
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
                         telecoms=[
                             ContactPoint(
                                 value="string",
-                                use="HOME",
+                                use=ContactPointUse.HOME,
                             )
                         ],
                         addresses=[
                             Address(
-                                use="HOME",
+                                use=AddressUse.HOME,
                                 line=["string"],
                                 city="string",
                                 state="string",
@@ -476,15 +504,15 @@ class V1Client:
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
-                        type="PRIMARY",
+                        type=ExternalProviderType.PRIMARY,
                         npi="string",
                         telecoms=[
                             ContactPoint(
                                 value="string",
-                                use="HOME",
+                                use=ContactPointUse.HOME,
                             )
                         ],
                         addresses=[],
@@ -509,19 +537,19 @@ class V1Client:
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
                     telecom=ContactPoint(
                         value="string",
-                        use="HOME",
+                        use=ContactPointUse.HOME,
                     ),
                     email="string",
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     address=Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -537,7 +565,7 @@ class V1Client:
                         payer_name="string",
                         authorization_number="string",
                         cpt_code="string",
-                        units="VISIT",
+                        units=AuthorizationUnit.VISIT,
                     )
                 ],
                 referrals=[
@@ -546,15 +574,15 @@ class V1Client:
                             name=HumanName(
                                 family="string",
                                 given=["string"],
-                                use="USUAL",
+                                use=NameUse.USUAL,
                                 period=Period(),
                             ),
-                            type="PRIMARY",
+                            type=ExternalProviderType.PRIMARY,
                             npi="string",
                             telecoms=[
                                 ContactPoint(
                                     value="string",
-                                    use="HOME",
+                                    use=ContactPointUse.HOME,
                                 )
                             ],
                             addresses=[],
@@ -565,7 +593,7 @@ class V1Client:
                     )
                 ],
                 primary_service_facility_id="string",
-                do_not_invoice_reason="BANKRUPTCY",
+                do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
                 note_ids=["string"],
                 tag_ids=["string"],
             ),
@@ -653,6 +681,7 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -663,7 +692,7 @@ class V1Client:
             mrn="string",
             page_token="string",
             sort_field="string",
-            sort_direction="asc",
+            sort_direction=SortDirection.ASC,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -845,18 +874,32 @@ class V1Client:
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
             Address,
+            AddressUse,
             CanonicalNonInsurancePayerAssociation,
             ContactPoint,
+            ContactPointUse,
+            DisabilityStatus,
+            Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
+            Gender,
             HumanName,
+            NameUse,
             Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
             Authorization,
+            AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
+            MaritalStatus,
             MutablePatient,
             Referral,
         )
@@ -872,34 +915,34 @@ class V1Client:
                 name=HumanName(
                     family="string",
                     given=["string"],
-                    use="USUAL",
+                    use=NameUse.USUAL,
                     period=Period(),
                 ),
                 other_names=[
                     HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     )
                 ],
-                gender="MAN",
+                gender=Gender.MAN,
                 birth_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
                 social_security_number="string",
-                biological_sex="FEMALE",
-                sexual_orientation="HETEROSEXUAL",
-                race="AMERICAN_INDIAN_OR_ALASKA_NATIVE",
-                ethnicity="HISPANIC_OR_LATINO",
-                disability_status="DISABLED",
-                marital_status="ANNULLED",
+                biological_sex=Sex.FEMALE,
+                sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                disability_status=DisabilityStatus.DISABLED,
+                marital_status=MaritalStatus.ANNULLED,
                 deceased=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
                 ),
                 multiple_birth=1,
                 primary_address=Address(
-                    use="HOME",
+                    use=AddressUse.HOME,
                     line=["string"],
                     city="string",
                     state="string",
@@ -909,7 +952,7 @@ class V1Client:
                 ),
                 other_addresses=[
                     Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -920,12 +963,12 @@ class V1Client:
                 ],
                 primary_telecom=ContactPoint(
                     value="string",
-                    use="HOME",
+                    use=ContactPointUse.HOME,
                 ),
                 other_telecoms=[
                     ContactPoint(
                         value="string",
-                        use="HOME",
+                        use=ContactPointUse.HOME,
                     )
                 ],
                 email="string",
@@ -938,22 +981,22 @@ class V1Client:
                 ),
                 contacts=[
                     Contact(
-                        relationship=["SELF"],
+                        relationship=[Relationship.SELF],
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
                         telecoms=[
                             ContactPoint(
                                 value="string",
-                                use="HOME",
+                                use=ContactPointUse.HOME,
                             )
                         ],
                         addresses=[
                             Address(
-                                use="HOME",
+                                use=AddressUse.HOME,
                                 line=["string"],
                                 city="string",
                                 state="string",
@@ -971,15 +1014,15 @@ class V1Client:
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
-                        type="PRIMARY",
+                        type=ExternalProviderType.PRIMARY,
                         npi="string",
                         telecoms=[
                             ContactPoint(
                                 value="string",
-                                use="HOME",
+                                use=ContactPointUse.HOME,
                             )
                         ],
                         addresses=[],
@@ -1004,19 +1047,19 @@ class V1Client:
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
                     telecom=ContactPoint(
                         value="string",
-                        use="HOME",
+                        use=ContactPointUse.HOME,
                     ),
                     email="string",
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     address=Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -1032,7 +1075,7 @@ class V1Client:
                         payer_name="string",
                         authorization_number="string",
                         cpt_code="string",
-                        units="VISIT",
+                        units=AuthorizationUnit.VISIT,
                     )
                 ],
                 referrals=[
@@ -1041,15 +1084,15 @@ class V1Client:
                             name=HumanName(
                                 family="string",
                                 given=["string"],
-                                use="USUAL",
+                                use=NameUse.USUAL,
                                 period=Period(),
                             ),
-                            type="PRIMARY",
+                            type=ExternalProviderType.PRIMARY,
                             npi="string",
                             telecoms=[
                                 ContactPoint(
                                     value="string",
-                                    use="HOME",
+                                    use=ContactPointUse.HOME,
                                 )
                             ],
                             addresses=[],
@@ -1060,7 +1103,7 @@ class V1Client:
                     )
                 ],
                 primary_service_facility_id="string",
-                do_not_invoice_reason="BANKRUPTCY",
+                do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
                 note_ids=["string"],
                 tag_ids=["string"],
             ),
@@ -1330,18 +1373,32 @@ class AsyncV1Client:
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
             Address,
+            AddressUse,
             CanonicalNonInsurancePayerAssociation,
             ContactPoint,
+            ContactPointUse,
+            DisabilityStatus,
+            Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
+            Gender,
             HumanName,
+            NameUse,
             Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
             Authorization,
+            AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
+            MaritalStatus,
             MutablePatient,
             Referral,
         )
@@ -1359,34 +1416,34 @@ class AsyncV1Client:
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
                     other_names=[
                         HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         )
                     ],
-                    gender="MAN",
+                    gender=Gender.MAN,
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     social_security_number="string",
-                    biological_sex="FEMALE",
-                    sexual_orientation="HETEROSEXUAL",
-                    race="AMERICAN_INDIAN_OR_ALASKA_NATIVE",
-                    ethnicity="HISPANIC_OR_LATINO",
-                    disability_status="DISABLED",
-                    marital_status="ANNULLED",
+                    biological_sex=Sex.FEMALE,
+                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                    disability_status=DisabilityStatus.DISABLED,
+                    marital_status=MaritalStatus.ANNULLED,
                     deceased=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
                     multiple_birth=1,
                     primary_address=Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -1396,7 +1453,7 @@ class AsyncV1Client:
                     ),
                     other_addresses=[
                         Address(
-                            use="HOME",
+                            use=AddressUse.HOME,
                             line=["string"],
                             city="string",
                             state="string",
@@ -1407,12 +1464,12 @@ class AsyncV1Client:
                     ],
                     primary_telecom=ContactPoint(
                         value="string",
-                        use="HOME",
+                        use=ContactPointUse.HOME,
                     ),
                     other_telecoms=[
                         ContactPoint(
                             value="string",
-                            use="HOME",
+                            use=ContactPointUse.HOME,
                         )
                     ],
                     email="string",
@@ -1425,22 +1482,22 @@ class AsyncV1Client:
                     ),
                     contacts=[
                         Contact(
-                            relationship=["SELF"],
+                            relationship=[Relationship.SELF],
                             name=HumanName(
                                 family="string",
                                 given=["string"],
-                                use="USUAL",
+                                use=NameUse.USUAL,
                                 period=Period(),
                             ),
                             telecoms=[
                                 ContactPoint(
                                     value="string",
-                                    use="HOME",
+                                    use=ContactPointUse.HOME,
                                 )
                             ],
                             addresses=[
                                 Address(
-                                    use="HOME",
+                                    use=AddressUse.HOME,
                                     line=["string"],
                                     city="string",
                                     state="string",
@@ -1458,15 +1515,15 @@ class AsyncV1Client:
                             name=HumanName(
                                 family="string",
                                 given=["string"],
-                                use="USUAL",
+                                use=NameUse.USUAL,
                                 period=Period(),
                             ),
-                            type="PRIMARY",
+                            type=ExternalProviderType.PRIMARY,
                             npi="string",
                             telecoms=[
                                 ContactPoint(
                                     value="string",
-                                    use="HOME",
+                                    use=ContactPointUse.HOME,
                                 )
                             ],
                             addresses=[],
@@ -1491,19 +1548,19 @@ class AsyncV1Client:
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
                         telecom=ContactPoint(
                             value="string",
-                            use="HOME",
+                            use=ContactPointUse.HOME,
                         ),
                         email="string",
                         birth_date=datetime.date.fromisoformat(
                             "2023-01-15",
                         ),
                         address=Address(
-                            use="HOME",
+                            use=AddressUse.HOME,
                             line=["string"],
                             city="string",
                             state="string",
@@ -1519,7 +1576,7 @@ class AsyncV1Client:
                             payer_name="string",
                             authorization_number="string",
                             cpt_code="string",
-                            units="VISIT",
+                            units=AuthorizationUnit.VISIT,
                         )
                     ],
                     referrals=[
@@ -1528,15 +1585,15 @@ class AsyncV1Client:
                                 name=HumanName(
                                     family="string",
                                     given=["string"],
-                                    use="USUAL",
+                                    use=NameUse.USUAL,
                                     period=Period(),
                                 ),
-                                type="PRIMARY",
+                                type=ExternalProviderType.PRIMARY,
                                 npi="string",
                                 telecoms=[
                                     ContactPoint(
                                         value="string",
-                                        use="HOME",
+                                        use=ContactPointUse.HOME,
                                     )
                                 ],
                                 addresses=[],
@@ -1547,7 +1604,7 @@ class AsyncV1Client:
                         )
                     ],
                     primary_service_facility_id="string",
-                    do_not_invoice_reason="BANKRUPTCY",
+                    do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
                     note_ids=["string"],
                     tag_ids=["string"],
                 ),
@@ -1624,18 +1681,32 @@ class AsyncV1Client:
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
             Address,
+            AddressUse,
             CanonicalNonInsurancePayerAssociation,
             ContactPoint,
+            ContactPointUse,
+            DisabilityStatus,
+            Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
+            Gender,
             HumanName,
+            NameUse,
             Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
             Authorization,
+            AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
+            MaritalStatus,
             MutablePatientWithMrn,
             Referral,
         )
@@ -1654,34 +1725,34 @@ class AsyncV1Client:
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
                     other_names=[
                         HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         )
                     ],
-                    gender="MAN",
+                    gender=Gender.MAN,
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     social_security_number="string",
-                    biological_sex="FEMALE",
-                    sexual_orientation="HETEROSEXUAL",
-                    race="AMERICAN_INDIAN_OR_ALASKA_NATIVE",
-                    ethnicity="HISPANIC_OR_LATINO",
-                    disability_status="DISABLED",
-                    marital_status="ANNULLED",
+                    biological_sex=Sex.FEMALE,
+                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                    disability_status=DisabilityStatus.DISABLED,
+                    marital_status=MaritalStatus.ANNULLED,
                     deceased=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
                     multiple_birth=1,
                     primary_address=Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -1691,7 +1762,7 @@ class AsyncV1Client:
                     ),
                     other_addresses=[
                         Address(
-                            use="HOME",
+                            use=AddressUse.HOME,
                             line=["string"],
                             city="string",
                             state="string",
@@ -1702,12 +1773,12 @@ class AsyncV1Client:
                     ],
                     primary_telecom=ContactPoint(
                         value="string",
-                        use="HOME",
+                        use=ContactPointUse.HOME,
                     ),
                     other_telecoms=[
                         ContactPoint(
                             value="string",
-                            use="HOME",
+                            use=ContactPointUse.HOME,
                         )
                     ],
                     email="string",
@@ -1720,22 +1791,22 @@ class AsyncV1Client:
                     ),
                     contacts=[
                         Contact(
-                            relationship=["SELF"],
+                            relationship=[Relationship.SELF],
                             name=HumanName(
                                 family="string",
                                 given=["string"],
-                                use="USUAL",
+                                use=NameUse.USUAL,
                                 period=Period(),
                             ),
                             telecoms=[
                                 ContactPoint(
                                     value="string",
-                                    use="HOME",
+                                    use=ContactPointUse.HOME,
                                 )
                             ],
                             addresses=[
                                 Address(
-                                    use="HOME",
+                                    use=AddressUse.HOME,
                                     line=["string"],
                                     city="string",
                                     state="string",
@@ -1753,15 +1824,15 @@ class AsyncV1Client:
                             name=HumanName(
                                 family="string",
                                 given=["string"],
-                                use="USUAL",
+                                use=NameUse.USUAL,
                                 period=Period(),
                             ),
-                            type="PRIMARY",
+                            type=ExternalProviderType.PRIMARY,
                             npi="string",
                             telecoms=[
                                 ContactPoint(
                                     value="string",
-                                    use="HOME",
+                                    use=ContactPointUse.HOME,
                                 )
                             ],
                             addresses=[],
@@ -1786,19 +1857,19 @@ class AsyncV1Client:
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
                         telecom=ContactPoint(
                             value="string",
-                            use="HOME",
+                            use=ContactPointUse.HOME,
                         ),
                         email="string",
                         birth_date=datetime.date.fromisoformat(
                             "2023-01-15",
                         ),
                         address=Address(
-                            use="HOME",
+                            use=AddressUse.HOME,
                             line=["string"],
                             city="string",
                             state="string",
@@ -1814,7 +1885,7 @@ class AsyncV1Client:
                             payer_name="string",
                             authorization_number="string",
                             cpt_code="string",
-                            units="VISIT",
+                            units=AuthorizationUnit.VISIT,
                         )
                     ],
                     referrals=[
@@ -1823,15 +1894,15 @@ class AsyncV1Client:
                                 name=HumanName(
                                     family="string",
                                     given=["string"],
-                                    use="USUAL",
+                                    use=NameUse.USUAL,
                                     period=Period(),
                                 ),
-                                type="PRIMARY",
+                                type=ExternalProviderType.PRIMARY,
                                 npi="string",
                                 telecoms=[
                                     ContactPoint(
                                         value="string",
-                                        use="HOME",
+                                        use=ContactPointUse.HOME,
                                     )
                                 ],
                                 addresses=[],
@@ -1842,7 +1913,7 @@ class AsyncV1Client:
                         )
                     ],
                     primary_service_facility_id="string",
-                    do_not_invoice_reason="BANKRUPTCY",
+                    do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
                     note_ids=["string"],
                     tag_ids=["string"],
                 ),
@@ -1935,6 +2006,7 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1948,7 +2020,7 @@ class AsyncV1Client:
                 mrn="string",
                 page_token="string",
                 sort_field="string",
-                sort_direction="asc",
+                sort_direction=SortDirection.ASC,
             )
 
 
@@ -2150,18 +2222,32 @@ class AsyncV1Client:
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
             Address,
+            AddressUse,
             CanonicalNonInsurancePayerAssociation,
             ContactPoint,
+            ContactPointUse,
+            DisabilityStatus,
+            Ethnicity,
             ExternalProvider,
+            ExternalProviderType,
+            Gender,
             HumanName,
+            NameUse,
             Period,
+            Race,
+            Relationship,
+            Sex,
+            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
             Authorization,
+            AuthorizationUnit,
             Contact,
+            DoNotInvoiceReason,
             ExternalProvenance,
             FilingOrder,
             Guarantor,
+            MaritalStatus,
             MutablePatient,
             Referral,
         )
@@ -2180,34 +2266,34 @@ class AsyncV1Client:
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
                     other_names=[
                         HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         )
                     ],
-                    gender="MAN",
+                    gender=Gender.MAN,
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     social_security_number="string",
-                    biological_sex="FEMALE",
-                    sexual_orientation="HETEROSEXUAL",
-                    race="AMERICAN_INDIAN_OR_ALASKA_NATIVE",
-                    ethnicity="HISPANIC_OR_LATINO",
-                    disability_status="DISABLED",
-                    marital_status="ANNULLED",
+                    biological_sex=Sex.FEMALE,
+                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
+                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
+                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
+                    disability_status=DisabilityStatus.DISABLED,
+                    marital_status=MaritalStatus.ANNULLED,
                     deceased=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
                     multiple_birth=1,
                     primary_address=Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -2217,7 +2303,7 @@ class AsyncV1Client:
                     ),
                     other_addresses=[
                         Address(
-                            use="HOME",
+                            use=AddressUse.HOME,
                             line=["string"],
                             city="string",
                             state="string",
@@ -2228,12 +2314,12 @@ class AsyncV1Client:
                     ],
                     primary_telecom=ContactPoint(
                         value="string",
-                        use="HOME",
+                        use=ContactPointUse.HOME,
                     ),
                     other_telecoms=[
                         ContactPoint(
                             value="string",
-                            use="HOME",
+                            use=ContactPointUse.HOME,
                         )
                     ],
                     email="string",
@@ -2246,22 +2332,22 @@ class AsyncV1Client:
                     ),
                     contacts=[
                         Contact(
-                            relationship=["SELF"],
+                            relationship=[Relationship.SELF],
                             name=HumanName(
                                 family="string",
                                 given=["string"],
-                                use="USUAL",
+                                use=NameUse.USUAL,
                                 period=Period(),
                             ),
                             telecoms=[
                                 ContactPoint(
                                     value="string",
-                                    use="HOME",
+                                    use=ContactPointUse.HOME,
                                 )
                             ],
                             addresses=[
                                 Address(
-                                    use="HOME",
+                                    use=AddressUse.HOME,
                                     line=["string"],
                                     city="string",
                                     state="string",
@@ -2279,15 +2365,15 @@ class AsyncV1Client:
                             name=HumanName(
                                 family="string",
                                 given=["string"],
-                                use="USUAL",
+                                use=NameUse.USUAL,
                                 period=Period(),
                             ),
-                            type="PRIMARY",
+                            type=ExternalProviderType.PRIMARY,
                             npi="string",
                             telecoms=[
                                 ContactPoint(
                                     value="string",
-                                    use="HOME",
+                                    use=ContactPointUse.HOME,
                                 )
                             ],
                             addresses=[],
@@ -2312,19 +2398,19 @@ class AsyncV1Client:
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
                         telecom=ContactPoint(
                             value="string",
-                            use="HOME",
+                            use=ContactPointUse.HOME,
                         ),
                         email="string",
                         birth_date=datetime.date.fromisoformat(
                             "2023-01-15",
                         ),
                         address=Address(
-                            use="HOME",
+                            use=AddressUse.HOME,
                             line=["string"],
                             city="string",
                             state="string",
@@ -2340,7 +2426,7 @@ class AsyncV1Client:
                             payer_name="string",
                             authorization_number="string",
                             cpt_code="string",
-                            units="VISIT",
+                            units=AuthorizationUnit.VISIT,
                         )
                     ],
                     referrals=[
@@ -2349,15 +2435,15 @@ class AsyncV1Client:
                                 name=HumanName(
                                     family="string",
                                     given=["string"],
-                                    use="USUAL",
+                                    use=NameUse.USUAL,
                                     period=Period(),
                                 ),
-                                type="PRIMARY",
+                                type=ExternalProviderType.PRIMARY,
                                 npi="string",
                                 telecoms=[
                                     ContactPoint(
                                         value="string",
-                                        use="HOME",
+                                        use=ContactPointUse.HOME,
                                     )
                                 ],
                                 addresses=[],
@@ -2368,7 +2454,7 @@ class AsyncV1Client:
                         )
                     ],
                     primary_service_facility_id="string",
-                    do_not_invoice_reason="BANKRUPTCY",
+                    do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
                     note_ids=["string"],
                     tag_ids=["string"],
                 ),

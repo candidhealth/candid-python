@@ -149,6 +149,8 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import State
+        from candid.resources.contracts.resources.v_2 import ContractStatus
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -164,8 +166,8 @@ class V2Client:
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             payer_names="string",
-            states="AA",
-            contract_status="pending",
+            states=State.AA,
+            contract_status=ContractStatus.PENDING,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -268,6 +270,7 @@ class V2Client:
         from candid.resources.commons import Regions_States
         from candid.resources.contracts.resources.v_2 import (
             AuthorizedSignatory,
+            ContractStatus,
             InsuranceTypes,
         )
 
@@ -290,7 +293,7 @@ class V2Client:
             effective_date="string",
             expiration_date="string",
             regions=Regions_States(),
-            contract_status="pending",
+            contract_status=ContractStatus.PENDING,
             authorized_signatory=AuthorizedSignatory(
                 first_name="string",
                 last_name="string",
@@ -451,9 +454,10 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import Regions_States
+        from candid.resources.commons import Regions_States, State
         from candid.resources.contracts.resources.v_2 import (
             AuthorizedSignatoryUpdate_Set,
+            ContractStatus,
             DateUpdate_Set,
             InsuranceTypes,
             RegionsUpdate_Set,
@@ -476,10 +480,10 @@ class V2Client:
             expiration_date=DateUpdate_Set(value="string"),
             regions=RegionsUpdate_Set(
                 value=Regions_States(
-                    states=["AA"],
+                    states=[State.AA],
                 )
             ),
-            contract_status="pending",
+            contract_status=ContractStatus.PENDING,
             authorized_signatory=AuthorizedSignatoryUpdate_Set(
                 first_name="string",
                 last_name="string",
@@ -667,6 +671,8 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import State
+        from candid.resources.contracts.resources.v_2 import ContractStatus
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -685,8 +691,8 @@ class AsyncV2Client:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 payer_names="string",
-                states="AA",
-                contract_status="pending",
+                states=State.AA,
+                contract_status=ContractStatus.PENDING,
             )
 
 
@@ -793,6 +799,7 @@ class AsyncV2Client:
         from candid.resources.commons import Regions_States
         from candid.resources.contracts.resources.v_2 import (
             AuthorizedSignatory,
+            ContractStatus,
             InsuranceTypes,
         )
 
@@ -818,7 +825,7 @@ class AsyncV2Client:
                 effective_date="string",
                 expiration_date="string",
                 regions=Regions_States(),
-                contract_status="pending",
+                contract_status=ContractStatus.PENDING,
                 authorized_signatory=AuthorizedSignatory(
                     first_name="string",
                     last_name="string",
@@ -990,9 +997,10 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import Regions_States
+        from candid.resources.commons import Regions_States, State
         from candid.resources.contracts.resources.v_2 import (
             AuthorizedSignatoryUpdate_Set,
+            ContractStatus,
             DateUpdate_Set,
             InsuranceTypes,
             RegionsUpdate_Set,
@@ -1018,10 +1026,10 @@ class AsyncV2Client:
                 expiration_date=DateUpdate_Set(value="string"),
                 regions=RegionsUpdate_Set(
                     value=Regions_States(
-                        states=["AA"],
+                        states=[State.AA],
                     )
                 ),
-                contract_status="pending",
+                contract_status=ContractStatus.PENDING,
                 authorized_signatory=AuthorizedSignatoryUpdate_Set(
                     first_name="string",
                     last_name="string",

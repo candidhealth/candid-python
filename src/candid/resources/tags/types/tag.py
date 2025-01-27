@@ -10,13 +10,13 @@ class Tag(TagCreate):
     """
     Examples
     --------
-    from candid.resources.tags import Tag
+    from candid.resources.tags import Tag, TagColorEnum
 
     Tag(
         creator_id="00EB5A46-35C6-441B-9751-AF307AEF5888",
         tag_id="void-claim-submitted",
         description="to indicate claims where a void claim has been submitted",
-        color="black",
+        color=TagColorEnum.BLACK,
     )
     """
 

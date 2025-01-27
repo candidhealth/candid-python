@@ -11,11 +11,11 @@ class PhoneNumber(UniversalBaseModel):
     """
     Examples
     --------
-    from candid.resources.commons import PhoneNumber
+    from candid.resources.commons import PhoneNumber, PhoneNumberType
 
     PhoneNumber(
         number="1234567890",
-        type="Home",
+        type=PhoneNumberType.HOME,
     )
     """
 

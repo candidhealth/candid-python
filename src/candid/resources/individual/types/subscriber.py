@@ -15,8 +15,14 @@ class Subscriber(SubscriberBase):
     import datetime
     import uuid
 
-    from candid.resources.commons import StreetAddressShortZip
-    from candid.resources.individual import Subscriber
+    from candid.resources.commons import (
+        InsuranceTypeCode,
+        PatientRelationshipToInsuredCodeAll,
+        SourceOfPaymentCode,
+        State,
+        StreetAddressShortZip,
+    )
+    from candid.resources.individual import Gender, Subscriber
     from candid.resources.insurance_cards.resources.v_2 import InsuranceCard
 
     Subscriber(
@@ -36,10 +42,10 @@ class Subscriber(SubscriberBase):
             image_url_back="https://s3.amazonaws.com/back.jpg",
             group_number="ABC12345",
             plan_name="Silver PPO Plan",
-            plan_type="09",
-            insurance_type="12",
+            plan_type=SourceOfPaymentCode.SELF_PAY,
+            insurance_type=InsuranceTypeCode.C_12,
         ),
-        patient_relationship_to_subscriber_code="01",
+        patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
         date_of_birth=datetime.date.fromisoformat(
             "2000-01-01",
         ),
@@ -47,13 +53,13 @@ class Subscriber(SubscriberBase):
             address_1="123 Main St",
             address_2="Apt 1",
             city="New York",
-            state="NY",
+            state=State.NY,
             zip_code="10001",
             zip_plus_four_code="1234",
         ),
         first_name="John",
         last_name="Doe",
-        gender="male",
+        gender=Gender.MALE,
     )
     """
 

@@ -87,6 +87,9 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.financials import AccountType
+        from candid.resources.write_offs.resources.v_1 import WriteOffSortField
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -107,10 +110,10 @@ class V1Client:
             billing_provider_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            sort="amount_cents",
-            sort_direction="asc",
+            sort=WriteOffSortField.AMOUNT_CENTS,
+            sort_direction=SortDirection.ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            account_types="PATIENT",
+            account_types=AccountType.PATIENT,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -220,7 +223,10 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.write_offs.resources.v_1 import WriteOffCreate_Patient
+        from candid.resources.write_offs.resources.v_1 import (
+            PatientWriteOffReason,
+            WriteOffCreate_Patient,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -233,7 +239,7 @@ class V1Client:
                         "2024-01-15 09:30:00+00:00",
                     ),
                     write_off_note="string",
-                    write_off_reason="SMALL_BALANCE",
+                    write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
                     service_line_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
@@ -379,6 +385,9 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.financials import AccountType
+        from candid.resources.write_offs.resources.v_1 import WriteOffSortField
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -402,10 +411,10 @@ class AsyncV1Client:
                 billing_provider_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                sort="amount_cents",
-                sort_direction="asc",
+                sort=WriteOffSortField.AMOUNT_CENTS,
+                sort_direction=SortDirection.ASC,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                account_types="PATIENT",
+                account_types=AccountType.PATIENT,
             )
 
 
@@ -528,7 +537,10 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.write_offs.resources.v_1 import WriteOffCreate_Patient
+        from candid.resources.write_offs.resources.v_1 import (
+            PatientWriteOffReason,
+            WriteOffCreate_Patient,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -544,7 +556,7 @@ class AsyncV1Client:
                             "2024-01-15 09:30:00+00:00",
                         ),
                         write_off_note="string",
-                        write_off_reason="SMALL_BALANCE",
+                        write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
                         service_line_id=uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ),

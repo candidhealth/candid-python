@@ -85,7 +85,10 @@ class V1Client:
         import datetime
 
         from candid import CandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureData
+        from candid.resources.charge_capture.resources.v_1 import (
+            ChargeCaptureData,
+            ChargeCaptureStatus,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -99,7 +102,7 @@ class V1Client:
                 "2023-01-15",
             ),
             patient_external_id="string",
-            status="planned",
+            status=ChargeCaptureStatus.PLANNED,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -302,7 +305,10 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureData
+        from candid.resources.charge_capture.resources.v_1 import (
+            ChargeCaptureData,
+            ChargeCaptureStatus,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -316,7 +322,7 @@ class V1Client:
             charge_external_id="string",
             ehr_source_url="string",
             patient_external_id="string",
-            status="planned",
+            status=ChargeCaptureStatus.PLANNED,
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
@@ -499,6 +505,7 @@ class V1Client:
         import datetime
 
         from candid import CandidApiClient
+        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -508,7 +515,7 @@ class V1Client:
             limit=1,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             patient_external_id="string",
-            status="planned",
+            status=ChargeCaptureStatus.PLANNED,
             charge_external_id="string",
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -598,7 +605,10 @@ class AsyncV1Client:
         import datetime
 
         from candid import AsyncCandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureData
+        from candid.resources.charge_capture.resources.v_1 import (
+            ChargeCaptureData,
+            ChargeCaptureStatus,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -615,7 +625,7 @@ class AsyncV1Client:
                     "2023-01-15",
                 ),
                 patient_external_id="string",
-                status="planned",
+                status=ChargeCaptureStatus.PLANNED,
             )
 
 
@@ -829,7 +839,10 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureData
+        from candid.resources.charge_capture.resources.v_1 import (
+            ChargeCaptureData,
+            ChargeCaptureStatus,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -846,7 +859,7 @@ class AsyncV1Client:
                 charge_external_id="string",
                 ehr_source_url="string",
                 patient_external_id="string",
-                status="planned",
+                status=ChargeCaptureStatus.PLANNED,
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
@@ -1040,6 +1053,7 @@ class AsyncV1Client:
         import datetime
 
         from candid import AsyncCandidApiClient
+        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1052,7 +1066,7 @@ class AsyncV1Client:
                 limit=1,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
                 patient_external_id="string",
-                status="planned",
+                status=ChargeCaptureStatus.PLANNED,
                 charge_external_id="string",
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",

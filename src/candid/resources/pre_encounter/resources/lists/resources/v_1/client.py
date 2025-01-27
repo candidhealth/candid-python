@@ -58,6 +58,7 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -67,7 +68,7 @@ class V1Client:
             page_token="string",
             limit=1,
             sort_field="string",
-            sort_direction="asc",
+            sort_direction=SortDirection.ASC,
             filters="string",
         )
         """
@@ -147,6 +148,7 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -154,7 +156,7 @@ class V1Client:
         )
         client.pre_encounter.lists.v_1.get_appointment_list(
             sort_field="string",
-            sort_direction="asc",
+            sort_direction=SortDirection.ASC,
             limit=1,
             page_token="string",
             filters="string",
@@ -231,6 +233,7 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -243,7 +246,7 @@ class AsyncV1Client:
                 page_token="string",
                 limit=1,
                 sort_field="string",
-                sort_direction="asc",
+                sort_direction=SortDirection.ASC,
                 filters="string",
             )
 
@@ -328,6 +331,7 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -338,7 +342,7 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.lists.v_1.get_appointment_list(
                 sort_field="string",
-                sort_direction="asc",
+                sort_direction=SortDirection.ASC,
                 limit=1,
                 page_token="string",
                 filters="string",

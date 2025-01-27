@@ -15,13 +15,15 @@ class Intervention(UniversalBaseModel):
     --------
     from candid.resources.encounters.resources.v_4 import (
         Intervention,
+        InterventionCategory,
         Lab,
+        LabCodeType,
         Medication,
     )
 
     Intervention(
         name="Physical Therapy Session",
-        category="lifestyle",
+        category=InterventionCategory.LIFESTYLE,
         description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
         medication=Medication(
             name="Lisinopril",
@@ -35,7 +37,7 @@ class Intervention(UniversalBaseModel):
             Lab(
                 name="Genetic Health Labs",
                 code="GH12345",
-                code_type="quest",
+                code_type=LabCodeType.QUEST,
             )
         ],
     )

@@ -79,6 +79,10 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.non_insurance_payer_payments.resources.v_1 import (
+            NonInsurancePayerPaymentSortField,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -93,8 +97,8 @@ class V1Client:
             invoice_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            sort="amount_cents",
-            sort_direction="asc",
+            sort=NonInsurancePayerPaymentSortField.AMOUNT_CENTS,
+            sort_direction=SortDirection.ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
         )
         """
@@ -532,6 +536,10 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.non_insurance_payer_payments.resources.v_1 import (
+            NonInsurancePayerPaymentSortField,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -549,8 +557,8 @@ class AsyncV1Client:
                 invoice_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                sort="amount_cents",
-                sort_direction="asc",
+                sort=NonInsurancePayerPaymentSortField.AMOUNT_CENTS,
+                sort_direction=SortDirection.ASC,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             )
 

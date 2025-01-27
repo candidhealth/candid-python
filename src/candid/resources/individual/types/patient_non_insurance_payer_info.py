@@ -13,7 +13,7 @@ class PatientNonInsurancePayerInfo(UniversalBaseModel):
     --------
     import uuid
 
-    from candid.resources.commons import StreetAddressShortZip
+    from candid.resources.commons import State, StreetAddressShortZip
     from candid.resources.individual import PatientNonInsurancePayerInfo
     from candid.resources.non_insurance_payers.resources.v_1 import (
         NonInsurancePayer,
@@ -31,7 +31,7 @@ class PatientNonInsurancePayerInfo(UniversalBaseModel):
             address=StreetAddressShortZip(
                 address_1="123 Main St",
                 city="San Francisco",
-                state="CA",
+                state=State.CA,
                 zip_code="94105",
             ),
         ),

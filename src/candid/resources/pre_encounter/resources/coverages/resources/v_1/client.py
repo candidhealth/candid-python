@@ -52,15 +52,25 @@ class V1Client:
         from candid.resources.pre_encounter.resources.common import (
             AdditionalPayerInformation,
             Address,
+            AddressUse,
             HumanName,
+            NameUse,
             Period,
+            Relationship,
+            Sex,
         )
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
             CoverageBenefits,
+            CoverageStatus,
             EligibilityCheckMetadata,
+            EligibilityCheckStatus,
+            EligibilityStatus,
             InsurancePlan,
+            InsuranceTypeCode,
             LatestEligibilityCheck,
             MutableCoverage,
+            NetworkType,
+            ServiceTypeCode,
             Subscriber,
         )
 
@@ -70,20 +80,20 @@ class V1Client:
         )
         client.pre_encounter.coverages.v_1.create(
             request=MutableCoverage(
-                status="ACTIVE",
+                status=CoverageStatus.ACTIVE,
                 subscriber=Subscriber(
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    biological_sex="FEMALE",
+                    biological_sex=Sex.FEMALE,
                     address=Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -92,7 +102,7 @@ class V1Client:
                         period=Period(),
                     ),
                 ),
-                relationship="SELF",
+                relationship=Relationship.SELF,
                 patient="string",
                 insurance_plan=InsurancePlan(
                     member_id="string",
@@ -106,8 +116,8 @@ class V1Client:
                     ),
                     group_number="string",
                     name="string",
-                    plan_type="09",
-                    type="01",
+                    plan_type=NetworkType.SELF_PAY,
+                    type=InsuranceTypeCode.C_01,
                     period=Period(),
                     insurance_card_image_locator="string",
                 ),
@@ -115,8 +125,8 @@ class V1Client:
                 eligibility_checks=[
                     EligibilityCheckMetadata(
                         check_id="string",
-                        service_code="1",
-                        status="COMPLETED",
+                        service_code=ServiceTypeCode.MEDICAL_CARE,
+                        status=EligibilityCheckStatus.COMPLETED,
                         initiated_by="string",
                         initiated_at=datetime.datetime.fromisoformat(
                             "2024-01-15 09:30:00+00:00",
@@ -125,7 +135,7 @@ class V1Client:
                 ],
                 latest_eligibility_check=LatestEligibilityCheck(
                     check_id="string",
-                    status="ACTIVE",
+                    status=EligibilityStatus.ACTIVE,
                     initiated_at=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
@@ -191,15 +201,25 @@ class V1Client:
         from candid.resources.pre_encounter.resources.common import (
             AdditionalPayerInformation,
             Address,
+            AddressUse,
             HumanName,
+            NameUse,
             Period,
+            Relationship,
+            Sex,
         )
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
             CoverageBenefits,
+            CoverageStatus,
             EligibilityCheckMetadata,
+            EligibilityCheckStatus,
+            EligibilityStatus,
             InsurancePlan,
+            InsuranceTypeCode,
             LatestEligibilityCheck,
             MutableCoverage,
+            NetworkType,
+            ServiceTypeCode,
             Subscriber,
         )
 
@@ -213,20 +233,20 @@ class V1Client:
             ),
             version="string",
             request=MutableCoverage(
-                status="ACTIVE",
+                status=CoverageStatus.ACTIVE,
                 subscriber=Subscriber(
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    biological_sex="FEMALE",
+                    biological_sex=Sex.FEMALE,
                     address=Address(
-                        use="HOME",
+                        use=AddressUse.HOME,
                         line=["string"],
                         city="string",
                         state="string",
@@ -235,7 +255,7 @@ class V1Client:
                         period=Period(),
                     ),
                 ),
-                relationship="SELF",
+                relationship=Relationship.SELF,
                 patient="string",
                 insurance_plan=InsurancePlan(
                     member_id="string",
@@ -249,8 +269,8 @@ class V1Client:
                     ),
                     group_number="string",
                     name="string",
-                    plan_type="09",
-                    type="01",
+                    plan_type=NetworkType.SELF_PAY,
+                    type=InsuranceTypeCode.C_01,
                     period=Period(),
                     insurance_card_image_locator="string",
                 ),
@@ -258,8 +278,8 @@ class V1Client:
                 eligibility_checks=[
                     EligibilityCheckMetadata(
                         check_id="string",
-                        service_code="1",
-                        status="COMPLETED",
+                        service_code=ServiceTypeCode.MEDICAL_CARE,
+                        status=EligibilityCheckStatus.COMPLETED,
                         initiated_by="string",
                         initiated_at=datetime.datetime.fromisoformat(
                             "2024-01-15 09:30:00+00:00",
@@ -268,7 +288,7 @@ class V1Client:
                 ],
                 latest_eligibility_check=LatestEligibilityCheck(
                     check_id="string",
-                    status="ACTIVE",
+                    status=EligibilityStatus.ACTIVE,
                     initiated_at=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
@@ -578,6 +598,9 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
+            ServiceTypeCode,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -587,7 +610,7 @@ class V1Client:
             id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            service_code="1",
+            service_code=ServiceTypeCode.MEDICAL_CARE,
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
@@ -707,15 +730,25 @@ class AsyncV1Client:
         from candid.resources.pre_encounter.resources.common import (
             AdditionalPayerInformation,
             Address,
+            AddressUse,
             HumanName,
+            NameUse,
             Period,
+            Relationship,
+            Sex,
         )
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
             CoverageBenefits,
+            CoverageStatus,
             EligibilityCheckMetadata,
+            EligibilityCheckStatus,
+            EligibilityStatus,
             InsurancePlan,
+            InsuranceTypeCode,
             LatestEligibilityCheck,
             MutableCoverage,
+            NetworkType,
+            ServiceTypeCode,
             Subscriber,
         )
 
@@ -728,20 +761,20 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.coverages.v_1.create(
                 request=MutableCoverage(
-                    status="ACTIVE",
+                    status=CoverageStatus.ACTIVE,
                     subscriber=Subscriber(
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",
                         ),
-                        biological_sex="FEMALE",
+                        biological_sex=Sex.FEMALE,
                         address=Address(
-                            use="HOME",
+                            use=AddressUse.HOME,
                             line=["string"],
                             city="string",
                             state="string",
@@ -750,7 +783,7 @@ class AsyncV1Client:
                             period=Period(),
                         ),
                     ),
-                    relationship="SELF",
+                    relationship=Relationship.SELF,
                     patient="string",
                     insurance_plan=InsurancePlan(
                         member_id="string",
@@ -764,8 +797,8 @@ class AsyncV1Client:
                         ),
                         group_number="string",
                         name="string",
-                        plan_type="09",
-                        type="01",
+                        plan_type=NetworkType.SELF_PAY,
+                        type=InsuranceTypeCode.C_01,
                         period=Period(),
                         insurance_card_image_locator="string",
                     ),
@@ -773,8 +806,8 @@ class AsyncV1Client:
                     eligibility_checks=[
                         EligibilityCheckMetadata(
                             check_id="string",
-                            service_code="1",
-                            status="COMPLETED",
+                            service_code=ServiceTypeCode.MEDICAL_CARE,
+                            status=EligibilityCheckStatus.COMPLETED,
                             initiated_by="string",
                             initiated_at=datetime.datetime.fromisoformat(
                                 "2024-01-15 09:30:00+00:00",
@@ -783,7 +816,7 @@ class AsyncV1Client:
                     ],
                     latest_eligibility_check=LatestEligibilityCheck(
                         check_id="string",
-                        status="ACTIVE",
+                        status=EligibilityStatus.ACTIVE,
                         initiated_at=datetime.datetime.fromisoformat(
                             "2024-01-15 09:30:00+00:00",
                         ),
@@ -853,15 +886,25 @@ class AsyncV1Client:
         from candid.resources.pre_encounter.resources.common import (
             AdditionalPayerInformation,
             Address,
+            AddressUse,
             HumanName,
+            NameUse,
             Period,
+            Relationship,
+            Sex,
         )
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
             CoverageBenefits,
+            CoverageStatus,
             EligibilityCheckMetadata,
+            EligibilityCheckStatus,
+            EligibilityStatus,
             InsurancePlan,
+            InsuranceTypeCode,
             LatestEligibilityCheck,
             MutableCoverage,
+            NetworkType,
+            ServiceTypeCode,
             Subscriber,
         )
 
@@ -878,20 +921,20 @@ class AsyncV1Client:
                 ),
                 version="string",
                 request=MutableCoverage(
-                    status="ACTIVE",
+                    status=CoverageStatus.ACTIVE,
                     subscriber=Subscriber(
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",
                         ),
-                        biological_sex="FEMALE",
+                        biological_sex=Sex.FEMALE,
                         address=Address(
-                            use="HOME",
+                            use=AddressUse.HOME,
                             line=["string"],
                             city="string",
                             state="string",
@@ -900,7 +943,7 @@ class AsyncV1Client:
                             period=Period(),
                         ),
                     ),
-                    relationship="SELF",
+                    relationship=Relationship.SELF,
                     patient="string",
                     insurance_plan=InsurancePlan(
                         member_id="string",
@@ -914,8 +957,8 @@ class AsyncV1Client:
                         ),
                         group_number="string",
                         name="string",
-                        plan_type="09",
-                        type="01",
+                        plan_type=NetworkType.SELF_PAY,
+                        type=InsuranceTypeCode.C_01,
                         period=Period(),
                         insurance_card_image_locator="string",
                     ),
@@ -923,8 +966,8 @@ class AsyncV1Client:
                     eligibility_checks=[
                         EligibilityCheckMetadata(
                             check_id="string",
-                            service_code="1",
-                            status="COMPLETED",
+                            service_code=ServiceTypeCode.MEDICAL_CARE,
+                            status=EligibilityCheckStatus.COMPLETED,
                             initiated_by="string",
                             initiated_at=datetime.datetime.fromisoformat(
                                 "2024-01-15 09:30:00+00:00",
@@ -933,7 +976,7 @@ class AsyncV1Client:
                     ],
                     latest_eligibility_check=LatestEligibilityCheck(
                         check_id="string",
-                        status="ACTIVE",
+                        status=EligibilityStatus.ACTIVE,
                         initiated_at=datetime.datetime.fromisoformat(
                             "2024-01-15 09:30:00+00:00",
                         ),
@@ -1276,6 +1319,9 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
+            ServiceTypeCode,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1288,7 +1334,7 @@ class AsyncV1Client:
                 id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                service_code="1",
+                service_code=ServiceTypeCode.MEDICAL_CARE,
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),

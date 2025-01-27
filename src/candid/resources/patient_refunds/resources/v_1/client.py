@@ -103,6 +103,11 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.financials import PatientTransactionSource
+        from candid.resources.patient_refunds.resources.v_1 import (
+            PatientRefundSortField,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -124,9 +129,9 @@ class V1Client:
             invoice_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            sources="MANUAL_ENTRY",
-            sort="refund_source",
-            sort_direction="asc",
+            sources=PatientTransactionSource.MANUAL_ENTRY,
+            sort=PatientRefundSortField.REFUND_SOURCE,
+            sort_direction=SortDirection.ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
         )
         """
@@ -307,6 +312,7 @@ class V1Client:
         from candid.resources.financials import (
             AllocationCreate,
             AllocationTargetCreate_ServiceLineById,
+            RefundReason,
         )
 
         client = CandidApiClient(
@@ -333,7 +339,7 @@ class V1Client:
             invoice=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            refund_reason="OVERCHARGED",
+            refund_reason=RefundReason.OVERCHARGED,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -438,6 +444,7 @@ class V1Client:
         from candid.resources.financials import (
             InvoiceUpdate_Set,
             NoteUpdate_Set,
+            RefundReason,
             RefundReasonUpdate_Set,
         )
 
@@ -458,7 +465,7 @@ class V1Client:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 )
             ),
-            refund_reason=RefundReasonUpdate_Set(value="OVERCHARGED"),
+            refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -665,6 +672,11 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.financials import PatientTransactionSource
+        from candid.resources.patient_refunds.resources.v_1 import (
+            PatientRefundSortField,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -689,9 +701,9 @@ class AsyncV1Client:
                 invoice_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                sources="MANUAL_ENTRY",
-                sort="refund_source",
-                sort_direction="asc",
+                sources=PatientTransactionSource.MANUAL_ENTRY,
+                sort=PatientRefundSortField.REFUND_SOURCE,
+                sort_direction=SortDirection.ASC,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             )
 
@@ -883,6 +895,7 @@ class AsyncV1Client:
         from candid.resources.financials import (
             AllocationCreate,
             AllocationTargetCreate_ServiceLineById,
+            RefundReason,
         )
 
         client = AsyncCandidApiClient(
@@ -912,7 +925,7 @@ class AsyncV1Client:
                 invoice=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                refund_reason="OVERCHARGED",
+                refund_reason=RefundReason.OVERCHARGED,
             )
 
 
@@ -1021,6 +1034,7 @@ class AsyncV1Client:
         from candid.resources.financials import (
             InvoiceUpdate_Set,
             NoteUpdate_Set,
+            RefundReason,
             RefundReasonUpdate_Set,
         )
 
@@ -1044,7 +1058,7 @@ class AsyncV1Client:
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     )
                 ),
-                refund_reason=RefundReasonUpdate_Set(value="OVERCHARGED"),
+                refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
             )
 
 

@@ -176,9 +176,14 @@ class V2Client:
         Examples
         --------
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.organization_service_facilities.resources.v_2 import (
             OrganizationServiceFacilityCreate,
+            ServiceFacilityMode,
+            ServiceFacilityOperationalStatus,
+            ServiceFacilityPhysicalType,
+            ServiceFacilityStatus,
+            ServiceFacilityType,
         )
 
         client = CandidApiClient(
@@ -190,17 +195,17 @@ class V2Client:
                 name="Test Service Facility",
                 aliases=["Test Service Facility Alias"],
                 description="Test Service Facility Description",
-                status="active",
-                operational_status="C",
-                mode="instance",
-                type="DX",
-                physical_type="si",
+                status=ServiceFacilityStatus.ACTIVE,
+                operational_status=ServiceFacilityOperationalStatus.CLOSED,
+                mode=ServiceFacilityMode.INSTANCE,
+                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                physical_type=ServiceFacilityPhysicalType.SITE,
                 telecoms=["555-555-5555"],
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -266,9 +271,14 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.organization_service_facilities.resources.v_2 import (
             OrganizationServiceFacilityUpdate,
+            ServiceFacilityMode,
+            ServiceFacilityOperationalStatus,
+            ServiceFacilityPhysicalType,
+            ServiceFacilityStatus,
+            ServiceFacilityType,
         )
 
         client = CandidApiClient(
@@ -283,17 +293,17 @@ class V2Client:
                 name="Test Service Facility",
                 aliases=["Test Service Facility Alias"],
                 description="Test Service Facility Description",
-                status="active",
-                operational_status="C",
-                mode="instance",
-                type="DX",
-                physical_type="si",
+                status=ServiceFacilityStatus.ACTIVE,
+                operational_status=ServiceFacilityOperationalStatus.CLOSED,
+                mode=ServiceFacilityMode.INSTANCE,
+                type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                physical_type=ServiceFacilityPhysicalType.SITE,
                 telecoms=["555-555-5555"],
                 address=StreetAddressLongZip(
                     address_1="123 Main St",
                     address_2="Apt 1",
                     city="New York",
-                    state="NY",
+                    state=State.NY,
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
@@ -573,9 +583,14 @@ class AsyncV2Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.organization_service_facilities.resources.v_2 import (
             OrganizationServiceFacilityCreate,
+            ServiceFacilityMode,
+            ServiceFacilityOperationalStatus,
+            ServiceFacilityPhysicalType,
+            ServiceFacilityStatus,
+            ServiceFacilityType,
         )
 
         client = AsyncCandidApiClient(
@@ -590,17 +605,17 @@ class AsyncV2Client:
                     name="Test Service Facility",
                     aliases=["Test Service Facility Alias"],
                     description="Test Service Facility Description",
-                    status="active",
-                    operational_status="C",
-                    mode="instance",
-                    type="DX",
-                    physical_type="si",
+                    status=ServiceFacilityStatus.ACTIVE,
+                    operational_status=ServiceFacilityOperationalStatus.CLOSED,
+                    mode=ServiceFacilityMode.INSTANCE,
+                    type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                    physical_type=ServiceFacilityPhysicalType.SITE,
                     telecoms=["555-555-5555"],
                     address=StreetAddressLongZip(
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
@@ -670,9 +685,14 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import StreetAddressLongZip
+        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.organization_service_facilities.resources.v_2 import (
             OrganizationServiceFacilityUpdate,
+            ServiceFacilityMode,
+            ServiceFacilityOperationalStatus,
+            ServiceFacilityPhysicalType,
+            ServiceFacilityStatus,
+            ServiceFacilityType,
         )
 
         client = AsyncCandidApiClient(
@@ -690,17 +710,17 @@ class AsyncV2Client:
                     name="Test Service Facility",
                     aliases=["Test Service Facility Alias"],
                     description="Test Service Facility Description",
-                    status="active",
-                    operational_status="C",
-                    mode="instance",
-                    type="DX",
-                    physical_type="si",
+                    status=ServiceFacilityStatus.ACTIVE,
+                    operational_status=ServiceFacilityOperationalStatus.CLOSED,
+                    mode=ServiceFacilityMode.INSTANCE,
+                    type=ServiceFacilityType.DIAGNOSTICS_OR_THERAPEUTICS_UNIT,
+                    physical_type=ServiceFacilityPhysicalType.SITE,
                     telecoms=["555-555-5555"],
                     address=StreetAddressLongZip(
                         address_1="123 Main St",
                         address_2="Apt 1",
                         city="New York",
-                        state="NY",
+                        state=State.NY,
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),

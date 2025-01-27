@@ -14,9 +14,15 @@ class OrganizationProviderPageV2(ResourcePage):
     import datetime
     import uuid
 
+    from candid.resources.commons import State
     from candid.resources.identifiers import (
         Identifier,
+        IdentifierCode,
         IdentifierValue_MedicareProviderIdentifier,
+    )
+    from candid.resources.organization_providers.resources.v_2 import (
+        LicenseType,
+        ProviderType,
     )
     from candid.resources.organization_providers.resources.v_3 import (
         OrganizationProviderPageV2,
@@ -32,10 +38,10 @@ class OrganizationProviderPageV2(ResourcePage):
                 first_name="John",
                 last_name="Doe",
                 organization_name="Acme Medical",
-                provider_type="INDIVIDUAL",
+                provider_type=ProviderType.INDIVIDUAL,
                 tax_id="123456789",
                 taxonomy_code="1234567890",
-                license_type="MD",
+                license_type=LicenseType.MD,
                 employment_start_date=datetime.date.fromisoformat(
                     "2020-10-07",
                 ),
@@ -50,9 +56,9 @@ class OrganizationProviderPageV2(ResourcePage):
                         identifier_id=uuid.UUID(
                             "123e4567-e89b-12d3-a456-426614174000",
                         ),
-                        identifier_code="MCR",
+                        identifier_code=IdentifierCode.MCR,
                         identifier_value=IdentifierValue_MedicareProviderIdentifier(
-                            state="CA",
+                            state=State.CA,
                             provider_number="1234567890",
                         ),
                     )

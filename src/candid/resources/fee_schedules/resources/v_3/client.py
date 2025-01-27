@@ -262,6 +262,13 @@ class V3Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            NetworkType,
+            ProcedureModifier,
+            State,
+        )
+        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -279,13 +286,13 @@ class V3Client:
             organization_billing_provider_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            states="AA",
+            states=State.AA,
             zip_codes="string",
-            license_types="MD",
-            facility_type_codes="01",
-            network_types="12",
+            license_types=LicenseType.MD,
+            facility_type_codes=FacilityTypeCode.PHARMACY,
+            network_types=NetworkType.PPO,
             cpt_code="string",
-            modifiers="22",
+            modifiers=ProcedureModifier.TWENTY_TWO,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -382,6 +389,14 @@ class V3Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            NetworkType,
+            ProcedureModifier,
+            State,
+        )
+        from candid.resources.fee_schedules.resources.v_3 import DimensionName
+        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -390,20 +405,20 @@ class V3Client:
         client.fee_schedules.v_3.get_unique_values_for_dimension(
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             limit=1,
-            pivot_dimension="payer_uuid",
+            pivot_dimension=DimensionName.PAYER_UUID,
             payer_uuid=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             organization_billing_provider_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            states="AA",
+            states=State.AA,
             zip_codes="string",
-            license_types="MD",
-            facility_type_codes="01",
-            network_types="12",
+            license_types=LicenseType.MD,
+            facility_type_codes=FacilityTypeCode.PHARMACY,
+            network_types=NetworkType.PPO,
             cpt_code="string",
-            modifiers="22",
+            modifiers=ProcedureModifier.TWENTY_TWO,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -533,11 +548,18 @@ class V3Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            NetworkType,
+            ProcedureModifier,
+            State,
+        )
         from candid.resources.fee_schedules.resources.v_3 import (
             Dimensions,
             RateEntry,
             RateUpload_NewRate,
         )
+        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -554,13 +576,13 @@ class V3Client:
                         organization_billing_provider_id=uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ),
-                        states=["AA"],
+                        states=[State.AA],
                         zip_codes={"string"},
-                        license_types=["MD"],
-                        facility_type_codes=["01"],
-                        network_types=["12"],
+                        license_types=[LicenseType.MD],
+                        facility_type_codes=[FacilityTypeCode.PHARMACY],
+                        network_types=[NetworkType.PPO],
                         cpt_code="string",
-                        modifiers=["22"],
+                        modifiers=[ProcedureModifier.TWENTY_TWO],
                     ),
                     entries=[
                         RateEntry(
@@ -1097,6 +1119,13 @@ class AsyncV3Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            NetworkType,
+            ProcedureModifier,
+            State,
+        )
+        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1117,13 +1146,13 @@ class AsyncV3Client:
                 organization_billing_provider_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                states="AA",
+                states=State.AA,
                 zip_codes="string",
-                license_types="MD",
-                facility_type_codes="01",
-                network_types="12",
+                license_types=LicenseType.MD,
+                facility_type_codes=FacilityTypeCode.PHARMACY,
+                network_types=NetworkType.PPO,
                 cpt_code="string",
-                modifiers="22",
+                modifiers=ProcedureModifier.TWENTY_TWO,
             )
 
 
@@ -1224,6 +1253,14 @@ class AsyncV3Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            NetworkType,
+            ProcedureModifier,
+            State,
+        )
+        from candid.resources.fee_schedules.resources.v_3 import DimensionName
+        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1235,20 +1272,20 @@ class AsyncV3Client:
             await client.fee_schedules.v_3.get_unique_values_for_dimension(
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
                 limit=1,
-                pivot_dimension="payer_uuid",
+                pivot_dimension=DimensionName.PAYER_UUID,
                 payer_uuid=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 organization_billing_provider_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                states="AA",
+                states=State.AA,
                 zip_codes="string",
-                license_types="MD",
-                facility_type_codes="01",
-                network_types="12",
+                license_types=LicenseType.MD,
+                facility_type_codes=FacilityTypeCode.PHARMACY,
+                network_types=NetworkType.PPO,
                 cpt_code="string",
-                modifiers="22",
+                modifiers=ProcedureModifier.TWENTY_TWO,
             )
 
 
@@ -1389,11 +1426,18 @@ class AsyncV3Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            NetworkType,
+            ProcedureModifier,
+            State,
+        )
         from candid.resources.fee_schedules.resources.v_3 import (
             Dimensions,
             RateEntry,
             RateUpload_NewRate,
         )
+        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1413,13 +1457,13 @@ class AsyncV3Client:
                             organization_billing_provider_id=uuid.UUID(
                                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                             ),
-                            states=["AA"],
+                            states=[State.AA],
                             zip_codes={"string"},
-                            license_types=["MD"],
-                            facility_type_codes=["01"],
-                            network_types=["12"],
+                            license_types=[LicenseType.MD],
+                            facility_type_codes=[FacilityTypeCode.PHARMACY],
+                            network_types=[NetworkType.PPO],
                             cpt_code="string",
-                            modifiers=["22"],
+                            modifiers=[ProcedureModifier.TWENTY_TWO],
                         ),
                         entries=[
                             RateEntry(

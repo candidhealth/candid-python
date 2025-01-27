@@ -183,6 +183,7 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
+        from candid.resources.commons import Primitive
         from candid.resources.custom_schemas.resources.v_1 import SchemaField
 
         client = CandidApiClient(
@@ -195,19 +196,19 @@ class V1Client:
             fields=[
                 SchemaField(
                     key="provider_category",
-                    type="STRING",
+                    type=Primitive.STRING,
                 ),
                 SchemaField(
                     key="is_urgent_care",
-                    type="BOOLEAN",
+                    type=Primitive.BOOLEAN,
                 ),
                 SchemaField(
                     key="bmi",
-                    type="DOUBLE",
+                    type=Primitive.DOUBLE,
                 ),
                 SchemaField(
                     key="age",
-                    type="INTEGER",
+                    type=Primitive.INTEGER,
                 ),
             ],
         )
@@ -284,6 +285,7 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import Primitive
         from candid.resources.custom_schemas.resources.v_1 import SchemaField
 
         client = CandidApiClient(
@@ -299,7 +301,7 @@ class V1Client:
             fields_to_add=[
                 SchemaField(
                     key="visit_type",
-                    type="STRING",
+                    type=Primitive.STRING,
                 )
             ],
         )
@@ -539,6 +541,7 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import Primitive
         from candid.resources.custom_schemas.resources.v_1 import SchemaField
 
         client = AsyncCandidApiClient(
@@ -554,19 +557,19 @@ class AsyncV1Client:
                 fields=[
                     SchemaField(
                         key="provider_category",
-                        type="STRING",
+                        type=Primitive.STRING,
                     ),
                     SchemaField(
                         key="is_urgent_care",
-                        type="BOOLEAN",
+                        type=Primitive.BOOLEAN,
                     ),
                     SchemaField(
                         key="bmi",
-                        type="DOUBLE",
+                        type=Primitive.DOUBLE,
                     ),
                     SchemaField(
                         key="age",
-                        type="INTEGER",
+                        type=Primitive.INTEGER,
                     ),
                 ],
             )
@@ -647,6 +650,7 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import Primitive
         from candid.resources.custom_schemas.resources.v_1 import SchemaField
 
         client = AsyncCandidApiClient(
@@ -665,7 +669,7 @@ class AsyncV1Client:
                 fields_to_add=[
                     SchemaField(
                         key="visit_type",
-                        type="STRING",
+                        type=Primitive.STRING,
                     )
                 ],
             )

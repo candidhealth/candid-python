@@ -13,6 +13,7 @@ class InsuranceCard(InsuranceCardBase):
     --------
     import uuid
 
+    from candid.resources.commons import InsuranceTypeCode, SourceOfPaymentCode
     from candid.resources.insurance_cards.resources.v_2 import InsuranceCard
 
     InsuranceCard(
@@ -28,8 +29,8 @@ class InsuranceCard(InsuranceCardBase):
         image_url_back="https://s3.amazonaws.com/back.jpg",
         group_number="ABC12345",
         plan_name="Silver PPO Plan",
-        plan_type="09",
-        insurance_type="12",
+        plan_type=SourceOfPaymentCode.SELF_PAY,
+        insurance_type=InsuranceTypeCode.C_12,
     )
     """
 

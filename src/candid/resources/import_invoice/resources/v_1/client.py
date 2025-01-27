@@ -64,6 +64,7 @@ class V1Client:
         from candid.resources.invoices.resources.v_2 import (
             InvoiceItemAttributionCreate_ServiceLineId,
             InvoiceItemCreate,
+            InvoiceStatus,
         )
 
         client = CandidApiClient(
@@ -91,7 +92,7 @@ class V1Client:
                         amount_cents=1,
                     )
                 ],
-                status="DRAFT",
+                status=InvoiceStatus.DRAFT,
                 external_identifier="string",
                 customer_invoice_url="string",
             ),
@@ -199,6 +200,11 @@ class V1Client:
         import datetime
 
         from candid import CandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.invoices.resources.v_2 import (
+            InvoiceSortField,
+            InvoiceStatus,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -214,10 +220,10 @@ class V1Client:
             due_date_after=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
-            status="DRAFT",
+            status=InvoiceStatus.DRAFT,
             limit=1,
-            sort="CREATED_AT",
-            sort_direction="asc",
+            sort=InvoiceSortField.CREATED_AT,
+            sort_direction=SortDirection.ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
         )
         """
@@ -348,10 +354,12 @@ class V1Client:
         from candid.resources.import_invoice.resources.v_1 import (
             ImportInvoiceUpdateRequest,
             InvoiceItemInfoUpdate,
+            InvoiceItemUpdateType,
         )
         from candid.resources.invoices.resources.v_2 import (
             InvoiceItemAttributionCreate_ServiceLineId,
             InvoiceItemCreate,
+            InvoiceStatus,
         )
 
         client = CandidApiClient(
@@ -364,13 +372,13 @@ class V1Client:
             ),
             request=ImportInvoiceUpdateRequest(
                 customer_invoice_url="string",
-                status="DRAFT",
+                status=InvoiceStatus.DRAFT,
                 note="string",
                 due_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
                 items=InvoiceItemInfoUpdate(
-                    update_type="APPEND",
+                    update_type=InvoiceItemUpdateType.APPEND,
                     items=[
                         InvoiceItemCreate(
                             attribution=InvoiceItemAttributionCreate_ServiceLineId(
@@ -453,6 +461,7 @@ class AsyncV1Client:
         from candid.resources.invoices.resources.v_2 import (
             InvoiceItemAttributionCreate_ServiceLineId,
             InvoiceItemCreate,
+            InvoiceStatus,
         )
 
         client = AsyncCandidApiClient(
@@ -483,7 +492,7 @@ class AsyncV1Client:
                             amount_cents=1,
                         )
                     ],
-                    status="DRAFT",
+                    status=InvoiceStatus.DRAFT,
                     external_identifier="string",
                     customer_invoice_url="string",
                 ),
@@ -595,6 +604,11 @@ class AsyncV1Client:
         import datetime
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import SortDirection
+        from candid.resources.invoices.resources.v_2 import (
+            InvoiceSortField,
+            InvoiceStatus,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -613,10 +627,10 @@ class AsyncV1Client:
                 due_date_after=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                status="DRAFT",
+                status=InvoiceStatus.DRAFT,
                 limit=1,
-                sort="CREATED_AT",
-                sort_direction="asc",
+                sort=InvoiceSortField.CREATED_AT,
+                sort_direction=SortDirection.ASC,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             )
 
@@ -760,10 +774,12 @@ class AsyncV1Client:
         from candid.resources.import_invoice.resources.v_1 import (
             ImportInvoiceUpdateRequest,
             InvoiceItemInfoUpdate,
+            InvoiceItemUpdateType,
         )
         from candid.resources.invoices.resources.v_2 import (
             InvoiceItemAttributionCreate_ServiceLineId,
             InvoiceItemCreate,
+            InvoiceStatus,
         )
 
         client = AsyncCandidApiClient(
@@ -779,13 +795,13 @@ class AsyncV1Client:
                 ),
                 request=ImportInvoiceUpdateRequest(
                     customer_invoice_url="string",
-                    status="DRAFT",
+                    status=InvoiceStatus.DRAFT,
                     note="string",
                     due_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     items=InvoiceItemInfoUpdate(
-                        update_type="APPEND",
+                        update_type=InvoiceItemUpdateType.APPEND,
                         items=[
                             InvoiceItemCreate(
                                 attribution=InvoiceItemAttributionCreate_ServiceLineId(

@@ -21,7 +21,11 @@ class PatientPayment(UniversalBaseModel):
     import datetime
     import uuid
 
-    from candid.resources.patient_payments.resources.v_3 import PatientPayment
+    from candid.resources.patient_payments.resources.v_3 import (
+        PatientPayment,
+        PatientPaymentSource,
+        PatientPaymentStatus,
+    )
 
     PatientPayment(
         patient_payment_id="CF237BE1-E793-4BBF-8958-61D5179D1D0D",
@@ -29,12 +33,12 @@ class PatientPayment(UniversalBaseModel):
             "0788ca2a-b20d-4b8e-b8d4-07fa0b3b4907",
         ),
         source_internal_id="D1A76039-D5C5-4323-A2FC-B7C8B6AEF6A4",
-        source="MANUAL_ENTRY",
+        source=PatientPaymentSource.MANUAL_ENTRY,
         amount_cents=2000,
         payment_timestamp=datetime.datetime.fromisoformat(
             "2023-01-01 00:00:00+00:00",
         ),
-        status="PENDING",
+        status=PatientPaymentStatus.PENDING,
         payment_name="John Doe",
         payment_note="test payment note",
         patient_external_id="B7437260-D6B4-48CF-B9D7-753C09F34E76",

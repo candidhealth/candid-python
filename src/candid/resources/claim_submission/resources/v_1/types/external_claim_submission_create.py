@@ -15,8 +15,13 @@ class ExternalClaimSubmissionCreate(UniversalBaseModel):
     import datetime
 
     from candid.resources.claim_submission.resources.v_1 import (
+        ClaimFrequencyTypeCode,
         ClaimSubmissionRecordCreate,
         ExternalClaimSubmissionCreate,
+    )
+    from candid.resources.commons import (
+        ClaimSubmissionPayerResponsibilityType,
+        IntendedSubmissionMedium,
     )
 
     ExternalClaimSubmissionCreate(
@@ -29,17 +34,17 @@ class ExternalClaimSubmissionCreate(UniversalBaseModel):
                 submitted_at=datetime.datetime.fromisoformat(
                     "2023-01-01 13:00:00+00:00",
                 ),
-                claim_frequency_code="1",
-                payer_responsibility="primary",
-                intended_submission_medium="electronic",
+                claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
+                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
             ),
             ClaimSubmissionRecordCreate(
                 submitted_at=datetime.datetime.fromisoformat(
                     "2023-01-04 12:00:00+00:00",
                 ),
-                claim_frequency_code="7",
-                payer_responsibility="primary",
-                intended_submission_medium="paper",
+                claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
+                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                intended_submission_medium=IntendedSubmissionMedium.PAPER,
             ),
         ],
     )

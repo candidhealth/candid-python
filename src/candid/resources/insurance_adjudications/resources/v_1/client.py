@@ -101,6 +101,7 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.era_commons import ClaimStatusCodeCreate
         from candid.resources.insurance_adjudications.resources.v_1 import (
             ClaimAdjudicationCreate,
             InsuranceAdjudicationCreate,
@@ -132,7 +133,7 @@ class V1Client:
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ): [
                         ClaimAdjudicationCreate(
-                            claim_status_code="1",
+                            claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
                             service_lines={},
                             carcs=[],
                         )
@@ -319,6 +320,7 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.era_commons import ClaimStatusCodeCreate
         from candid.resources.insurance_adjudications.resources.v_1 import (
             ClaimAdjudicationCreate,
             InsuranceAdjudicationCreate,
@@ -353,7 +355,7 @@ class AsyncV1Client:
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ): [
                             ClaimAdjudicationCreate(
-                                claim_status_code="1",
+                                claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
                                 service_lines={},
                                 carcs=[],
                             )

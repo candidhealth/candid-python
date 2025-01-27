@@ -14,7 +14,7 @@ class EncounterServiceFacility(UniversalBaseModel):
     --------
     import uuid
 
-    from candid.resources.commons import StreetAddressLongZip
+    from candid.resources.commons import State, StreetAddressLongZip
     from candid.resources.service_facility import EncounterServiceFacility
 
     EncounterServiceFacility(
@@ -26,7 +26,7 @@ class EncounterServiceFacility(UniversalBaseModel):
             address_1="123 Main St",
             address_2="Apt 1",
             city="New York",
-            state="NY",
+            state=State.NY,
             zip_code="10001",
             zip_plus_four_code="1234",
         ),

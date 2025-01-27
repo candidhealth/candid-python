@@ -77,6 +77,7 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
+        from candid.resources.commons import InsuranceTypeCode, State
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -86,12 +87,12 @@ class V1Client:
             external_patient_id="string",
             subscriber_payer_id="string",
             subscriber_payer_name="string",
-            subscriber_insurance_type="01",
+            subscriber_insurance_type=InsuranceTypeCode.C_01,
             subscriber_plan_name="string",
             billing_provider_npi="string",
             billing_provider_tin="string",
             rendering_provider_npi="string",
-            contracted_state="AA",
+            contracted_state=State.AA,
             date_of_service="string",
         )
         """
@@ -192,6 +193,7 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import InsuranceTypeCode, State
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -204,12 +206,12 @@ class AsyncV1Client:
                 external_patient_id="string",
                 subscriber_payer_id="string",
                 subscriber_payer_name="string",
-                subscriber_insurance_type="01",
+                subscriber_insurance_type=InsuranceTypeCode.C_01,
                 subscriber_plan_name="string",
                 billing_provider_npi="string",
                 billing_provider_tin="string",
                 rendering_provider_npi="string",
-                contracted_state="AA",
+                contracted_state=State.AA,
                 date_of_service="string",
             )
 

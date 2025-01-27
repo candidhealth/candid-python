@@ -11,12 +11,12 @@ class Lab(UniversalBaseModel):
     """
     Examples
     --------
-    from candid.resources.encounters.resources.v_4 import Lab
+    from candid.resources.encounters.resources.v_4 import Lab, LabCodeType
 
     Lab(
         name="Genetic Health Labs",
         code="GH12345",
-        code_type="quest",
+        code_type=LabCodeType.QUEST,
     )
     """
 

@@ -14,6 +14,7 @@ class Schema(UniversalBaseModel):
     --------
     import uuid
 
+    from candid.resources.commons import Primitive
     from candid.resources.custom_schemas.resources.v_1 import Schema, SchemaField
 
     Schema(
@@ -25,19 +26,19 @@ class Schema(UniversalBaseModel):
         fields=[
             SchemaField(
                 key="provider_category",
-                type="STRING",
+                type=Primitive.STRING,
             ),
             SchemaField(
                 key="is_urgent_care",
-                type="BOOLEAN",
+                type=Primitive.BOOLEAN,
             ),
             SchemaField(
                 key="bmi",
-                type="DOUBLE",
+                type=Primitive.DOUBLE,
             ),
             SchemaField(
                 key="age",
-                type="INTEGER",
+                type=Primitive.INTEGER,
             ),
         ],
     )

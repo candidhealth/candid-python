@@ -158,6 +158,8 @@ class V3Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.tasks.resources.commons import TaskStatus, TaskType
+        from candid.resources.tasks.resources.v_3 import TaskSortOptions
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -166,8 +168,8 @@ class V3Client:
         client.tasks.v_3.get_multi(
             limit=1,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            status="finished",
-            task_type="CUSTOMER_DATA_REQUEST",
+            status=TaskStatus.FINISHED,
+            task_type=TaskType.CUSTOMER_DATA_REQUEST,
             categories="string",
             updated_since=datetime.datetime.fromisoformat(
                 "2024-01-15 09:30:00+00:00",
@@ -186,7 +188,7 @@ class V3Client:
                 "2023-01-15",
             ),
             billing_provider_npi="string",
-            sort="updated_at:asc",
+            sort=TaskSortOptions.UPDATED_AT_ASC,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -323,6 +325,7 @@ class V3Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.tasks.resources.commons import TaskCategory, TaskType
         from candid.resources.tasks.resources.v_3 import TaskCreateV3
 
         client = CandidApiClient(
@@ -334,13 +337,13 @@ class V3Client:
                 encounter_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                task_type="CUSTOMER_DATA_REQUEST",
+                task_type=TaskType.CUSTOMER_DATA_REQUEST,
                 description="string",
                 blocks_claim_submission=True,
                 assignee_user_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                category="other",
+                category=TaskCategory.OTHER,
                 work_queue_id="string",
             ),
         )
@@ -389,6 +392,7 @@ class V3Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.tasks.resources.commons import TaskStatus
         from candid.resources.tasks.resources.v_3 import TaskUpdateV3
 
         client = CandidApiClient(
@@ -400,7 +404,7 @@ class V3Client:
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             request=TaskUpdateV3(
-                status="finished",
+                status=TaskStatus.FINISHED,
                 assignee_user_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
@@ -595,6 +599,8 @@ class AsyncV3Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.tasks.resources.commons import TaskStatus, TaskType
+        from candid.resources.tasks.resources.v_3 import TaskSortOptions
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -606,8 +612,8 @@ class AsyncV3Client:
             await client.tasks.v_3.get_multi(
                 limit=1,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                status="finished",
-                task_type="CUSTOMER_DATA_REQUEST",
+                status=TaskStatus.FINISHED,
+                task_type=TaskType.CUSTOMER_DATA_REQUEST,
                 categories="string",
                 updated_since=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
@@ -626,7 +632,7 @@ class AsyncV3Client:
                     "2023-01-15",
                 ),
                 billing_provider_npi="string",
-                sort="updated_at:asc",
+                sort=TaskSortOptions.UPDATED_AT_ASC,
             )
 
 
@@ -774,6 +780,7 @@ class AsyncV3Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.tasks.resources.commons import TaskCategory, TaskType
         from candid.resources.tasks.resources.v_3 import TaskCreateV3
 
         client = AsyncCandidApiClient(
@@ -788,13 +795,13 @@ class AsyncV3Client:
                     encounter_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    task_type="CUSTOMER_DATA_REQUEST",
+                    task_type=TaskType.CUSTOMER_DATA_REQUEST,
                     description="string",
                     blocks_claim_submission=True,
                     assignee_user_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    category="other",
+                    category=TaskCategory.OTHER,
                     work_queue_id="string",
                 ),
             )
@@ -847,6 +854,7 @@ class AsyncV3Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.tasks.resources.commons import TaskStatus
         from candid.resources.tasks.resources.v_3 import TaskUpdateV3
 
         client = AsyncCandidApiClient(
@@ -861,7 +869,7 @@ class AsyncV3Client:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 request=TaskUpdateV3(
-                    status="finished",
+                    status=TaskStatus.FINISHED,
                     assignee_user_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),

@@ -45,7 +45,10 @@ class DiagnosesClient:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.diagnoses import StandaloneDiagnosisCreate
+        from candid.resources.diagnoses import (
+            DiagnosisTypeCode,
+            StandaloneDiagnosisCreate,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -57,7 +60,7 @@ class DiagnosesClient:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 name="string",
-                code_type="ABF",
+                code_type=DiagnosisTypeCode.ABF,
                 code="string",
             ),
         )
@@ -130,6 +133,7 @@ class DiagnosesClient:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.diagnoses import DiagnosisTypeCode
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -140,7 +144,7 @@ class DiagnosesClient:
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             name="string",
-            code_type="ABF",
+            code_type=DiagnosisTypeCode.ABF,
             code="string",
         )
         """
@@ -265,7 +269,10 @@ class AsyncDiagnosesClient:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.diagnoses import StandaloneDiagnosisCreate
+        from candid.resources.diagnoses import (
+            DiagnosisTypeCode,
+            StandaloneDiagnosisCreate,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -280,7 +287,7 @@ class AsyncDiagnosesClient:
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
                     name="string",
-                    code_type="ABF",
+                    code_type=DiagnosisTypeCode.ABF,
                     code="string",
                 ),
             )
@@ -357,6 +364,7 @@ class AsyncDiagnosesClient:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.diagnoses import DiagnosisTypeCode
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -370,7 +378,7 @@ class AsyncDiagnosesClient:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 name="string",
-                code_type="ABF",
+                code_type=DiagnosisTypeCode.ABF,
                 code="string",
             )
 

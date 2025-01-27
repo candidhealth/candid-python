@@ -15,7 +15,7 @@ class Diagnosis(StandaloneDiagnosisCreate):
     import datetime
     import uuid
 
-    from candid.resources.diagnoses import Diagnosis
+    from candid.resources.diagnoses import Diagnosis, DiagnosisTypeCode
 
     Diagnosis(
         diagnosis_id=uuid.UUID(
@@ -31,7 +31,7 @@ class Diagnosis(StandaloneDiagnosisCreate):
             "3f63985b-51a4-4dd4-9418-7d50b2520792",
         ),
         name="John Doe",
-        code_type="ABF",
+        code_type=DiagnosisTypeCode.ABF,
         code="I10",
     )
     """

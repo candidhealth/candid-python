@@ -49,13 +49,19 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
+            AppointmentStatus,
+            AppointmentWorkQueue,
             MutableAppointment,
             Service,
+            UniversalServiceIdentifier,
         )
         from candid.resources.pre_encounter.resources.common import (
             ContactPoint,
+            ContactPointUse,
             ExternalProvider,
+            ExternalProviderType,
             HumanName,
+            NameUse,
             Period,
         )
 
@@ -69,11 +75,11 @@ class V1Client:
                 start_timestamp=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
                 ),
-                status="PENDING",
+                status=AppointmentStatus.PENDING,
                 service_duration=1,
                 services=[
                     Service(
-                        universal_service_identifier="MD_Visit",
+                        universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
                         start_timestamp=datetime.datetime.fromisoformat(
                             "2024-01-15 09:30:00+00:00",
                         ),
@@ -84,15 +90,15 @@ class V1Client:
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
-                    type="PRIMARY",
+                    type=ExternalProviderType.PRIMARY,
                     npi="string",
                     telecoms=[
                         ContactPoint(
                             value="string",
-                            use="HOME",
+                            use=ContactPointUse.HOME,
                         )
                     ],
                     addresses=[],
@@ -108,7 +114,7 @@ class V1Client:
                 notes="string",
                 location_resource_id="string",
                 automated_eligibility_check_complete=True,
-                work_queue="EMERGENT_ISSUE",
+                work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
             ),
         )
         """
@@ -305,13 +311,19 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
+            AppointmentStatus,
+            AppointmentWorkQueue,
             MutableAppointment,
             Service,
+            UniversalServiceIdentifier,
         )
         from candid.resources.pre_encounter.resources.common import (
             ContactPoint,
+            ContactPointUse,
             ExternalProvider,
+            ExternalProviderType,
             HumanName,
+            NameUse,
             Period,
         )
 
@@ -327,11 +339,11 @@ class V1Client:
                 start_timestamp=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
                 ),
-                status="PENDING",
+                status=AppointmentStatus.PENDING,
                 service_duration=1,
                 services=[
                     Service(
-                        universal_service_identifier="MD_Visit",
+                        universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
                         start_timestamp=datetime.datetime.fromisoformat(
                             "2024-01-15 09:30:00+00:00",
                         ),
@@ -342,15 +354,15 @@ class V1Client:
                     name=HumanName(
                         family="string",
                         given=["string"],
-                        use="USUAL",
+                        use=NameUse.USUAL,
                         period=Period(),
                     ),
-                    type="PRIMARY",
+                    type=ExternalProviderType.PRIMARY,
                     npi="string",
                     telecoms=[
                         ContactPoint(
                             value="string",
-                            use="HOME",
+                            use=ContactPointUse.HOME,
                         )
                     ],
                     addresses=[],
@@ -366,7 +378,7 @@ class V1Client:
                 notes="string",
                 location_resource_id="string",
                 automated_eligibility_check_complete=True,
-                work_queue="EMERGENT_ISSUE",
+                work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
             ),
         )
         """
@@ -565,13 +577,19 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
+            AppointmentStatus,
+            AppointmentWorkQueue,
             MutableAppointment,
             Service,
+            UniversalServiceIdentifier,
         )
         from candid.resources.pre_encounter.resources.common import (
             ContactPoint,
+            ContactPointUse,
             ExternalProvider,
+            ExternalProviderType,
             HumanName,
+            NameUse,
             Period,
         )
 
@@ -588,11 +606,11 @@ class AsyncV1Client:
                     start_timestamp=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
-                    status="PENDING",
+                    status=AppointmentStatus.PENDING,
                     service_duration=1,
                     services=[
                         Service(
-                            universal_service_identifier="MD_Visit",
+                            universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
                             start_timestamp=datetime.datetime.fromisoformat(
                                 "2024-01-15 09:30:00+00:00",
                             ),
@@ -603,15 +621,15 @@ class AsyncV1Client:
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
-                        type="PRIMARY",
+                        type=ExternalProviderType.PRIMARY,
                         npi="string",
                         telecoms=[
                             ContactPoint(
                                 value="string",
-                                use="HOME",
+                                use=ContactPointUse.HOME,
                             )
                         ],
                         addresses=[],
@@ -627,7 +645,7 @@ class AsyncV1Client:
                     notes="string",
                     location_resource_id="string",
                     automated_eligibility_check_complete=True,
-                    work_queue="EMERGENT_ISSUE",
+                    work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
                 ),
             )
 
@@ -844,13 +862,19 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
+            AppointmentStatus,
+            AppointmentWorkQueue,
             MutableAppointment,
             Service,
+            UniversalServiceIdentifier,
         )
         from candid.resources.pre_encounter.resources.common import (
             ContactPoint,
+            ContactPointUse,
             ExternalProvider,
+            ExternalProviderType,
             HumanName,
+            NameUse,
             Period,
         )
 
@@ -869,11 +893,11 @@ class AsyncV1Client:
                     start_timestamp=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
-                    status="PENDING",
+                    status=AppointmentStatus.PENDING,
                     service_duration=1,
                     services=[
                         Service(
-                            universal_service_identifier="MD_Visit",
+                            universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
                             start_timestamp=datetime.datetime.fromisoformat(
                                 "2024-01-15 09:30:00+00:00",
                             ),
@@ -884,15 +908,15 @@ class AsyncV1Client:
                         name=HumanName(
                             family="string",
                             given=["string"],
-                            use="USUAL",
+                            use=NameUse.USUAL,
                             period=Period(),
                         ),
-                        type="PRIMARY",
+                        type=ExternalProviderType.PRIMARY,
                         npi="string",
                         telecoms=[
                             ContactPoint(
                                 value="string",
-                                use="HOME",
+                                use=ContactPointUse.HOME,
                             )
                         ],
                         addresses=[],
@@ -908,7 +932,7 @@ class AsyncV1Client:
                     notes="string",
                     location_resource_id="string",
                     automated_eligibility_check_complete=True,
-                    work_queue="EMERGENT_ISSUE",
+                    work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
                 ),
             )
 
