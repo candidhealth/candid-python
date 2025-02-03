@@ -135,6 +135,8 @@ class V2Client:
                         result_type=TestResultType.HEMATOCRIT,
                     )
                 ],
+                has_epsdt_indicator=True,
+                has_family_planning_indicator=True,
             ),
         )
         """
@@ -268,6 +270,8 @@ class V2Client:
                         result_type=TestResultType.HEMATOCRIT,
                     )
                 ],
+                has_epsdt_indicator=True,
+                has_family_planning_indicator=True,
             ),
         )
         """
@@ -507,6 +511,8 @@ class AsyncV2Client:
                             result_type=TestResultType.HEMATOCRIT,
                         )
                     ],
+                    has_epsdt_indicator=True,
+                    has_family_planning_indicator=True,
                 ),
             )
 
@@ -647,6 +653,8 @@ class AsyncV2Client:
                             result_type=TestResultType.HEMATOCRIT,
                         )
                     ],
+                    has_epsdt_indicator=True,
+                    has_family_planning_indicator=True,
                 ),
             )
 

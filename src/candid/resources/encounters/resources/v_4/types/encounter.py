@@ -26,6 +26,7 @@ import datetime as dt
 from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .encounter_submission_origin_type import EncounterSubmissionOriginType
 from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
+from .epsdt_referral import EpsdtReferral
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -805,6 +806,11 @@ class Encounter(EncounterBase):
     referral_number: typing.Optional[str] = pydantic.Field(default=None)
     """
     Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+    """
+
+    epsdt_referral: typing.Optional[EpsdtReferral] = pydantic.Field(default=None)
+    """
+    Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
     """
 
     last_submitted_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)

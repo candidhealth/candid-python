@@ -8,6 +8,7 @@ from .clinical_note_category_create import ClinicalNoteCategoryCreate
 from .coding_attribution_type import CodingAttributionType
 from .encounter import Encounter
 from .encounter_base import EncounterBase
+from .encounter_create_from_pre_encounter import EncounterCreateFromPreEncounter
 from .encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
 from .encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
 from .encounter_optional import EncounterOptional
@@ -16,6 +17,7 @@ from .encounter_page import EncounterPage
 from .encounter_patient_control_number_uniqueness_error_type import EncounterPatientControlNumberUniquenessErrorType
 from .encounter_sort_options import EncounterSortOptions
 from .encounter_submission_origin_type import EncounterSubmissionOriginType
+from .epsdt_referral import EpsdtReferral
 from .intake_follow_up import IntakeFollowUp
 from .intake_follow_up_id import IntakeFollowUpId
 from .intake_question import IntakeQuestion
@@ -61,6 +63,7 @@ __all__ = [
     "CodingAttributionType",
     "Encounter",
     "EncounterBase",
+    "EncounterCreateFromPreEncounter",
     "EncounterExternalIdUniquenessErrorType",
     "EncounterGuarantorMissingContactInfoErrorType",
     "EncounterOptional",
@@ -69,6 +72,7 @@ __all__ = [
     "EncounterPatientControlNumberUniquenessErrorType",
     "EncounterSortOptions",
     "EncounterSubmissionOriginType",
+    "EpsdtReferral",
     "IntakeFollowUp",
     "IntakeFollowUpId",
     "IntakeQuestion",

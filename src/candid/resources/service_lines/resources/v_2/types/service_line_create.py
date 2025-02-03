@@ -3,8 +3,8 @@
 from ......core.pydantic_utilities import UniversalBaseModel
 import typing
 from .....commons.types.procedure_modifier import ProcedureModifier
-from .....commons.types.decimal import Decimal
 import pydantic
+from .....commons.types.decimal import Decimal
 from .....commons.types.service_line_units import ServiceLineUnits
 from .drug_identification import DrugIdentification
 from .....commons.types.facility_type_code import FacilityTypeCode
@@ -16,6 +16,18 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 class ServiceLineCreate(UniversalBaseModel):
     modifiers: typing.Optional[typing.List[ProcedureModifier]] = None
+    has_epsdt_indicator: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Maps to SV1-11 on the 837-P and Box 24H on the CMS-1500.
+    If the value is true, the box will be populated with "Y". Otherwise, the box will not be populated.
+    """
+
+    has_family_planning_indicator: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Maps to SV1-12 on the 837-P and Box 24I on the CMS-1500.
+    If the value is true, the box will be populated with "Y". Otherwise, the box will not be populated.
+    """
+
     procedure_code: str
     quantity: Decimal = pydantic.Field()
     """

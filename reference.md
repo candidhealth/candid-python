@@ -4014,13 +4014,13 @@ from candid.resources.commons import (
     ClaimSubmissionPayerResponsibilityType,
     DelayReasonCode,
     EmrPayerCrosswalk,
+    EpsdtReferralConditionIndicatorCode,
     FacilityTypeCode,
     InsuranceTypeCode,
     IntendedSubmissionMedium,
     PatientRelationshipToInsuredCodeAll,
     PhoneNumber,
     PhoneNumberType,
-    ProcedureModifier,
     QualifierCode,
     ServiceLineUnits,
     SourceOfPaymentCode,
@@ -4033,15 +4033,14 @@ from candid.resources.diagnoses import DiagnosisCreate, DiagnosisTypeCode
 from candid.resources.encounter_providers.resources.v_2 import (
     BillingProvider,
     InitialReferringProvider,
-    OrderingProvider,
     ReferringProvider,
     RenderingProvider,
     SupervisingProvider,
 )
 from candid.resources.encounters.resources.v_4 import (
     BillableStatusType,
-    ClinicalNote,
     ClinicalNoteCategoryCreate,
+    EpsdtReferral,
     IntakeFollowUp,
     IntakeQuestion,
     IntakeResponseAndFollowUps,
@@ -4067,14 +4066,7 @@ from candid.resources.individual import (
 )
 from candid.resources.insurance_cards.resources.v_2 import InsuranceCardCreate
 from candid.resources.service_facility import EncounterServiceFacilityBase
-from candid.resources.service_lines.resources.v_2 import (
-    DrugIdentification,
-    MeasurementUnitCode,
-    ServiceIdQualifier,
-    ServiceLineCreate,
-    TestResult,
-    TestResultType,
-)
+from candid.resources.service_lines.resources.v_2 import ServiceLineCreate
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -4285,16 +4277,7 @@ client.encounters.v_4.create(
     clinical_notes=[
         ClinicalNoteCategoryCreate(
             category=NoteCategory.CLINICAL,
-            notes=[
-                ClinicalNote(
-                    text="string",
-                    author_name="string",
-                    author_npi="string",
-                    timestamp=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                )
-            ],
+            notes=[],
         )
     ],
     billing_notes=[
@@ -4328,51 +4311,10 @@ client.encounters.v_4.create(
     ],
     service_lines=[
         ServiceLineCreate(
-            modifiers=[ProcedureModifier.TWENTY_TWO],
             procedure_code="string",
             quantity="string",
             units=ServiceLineUnits.MJ,
-            charge_amount_cents=1,
-            diagnosis_pointers=[1],
-            drug_identification=DrugIdentification(
-                service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                national_drug_code="string",
-                national_drug_unit_count="string",
-                measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                link_sequence_number="string",
-                pharmacy_prescription_number="string",
-                conversion_formula="string",
-                drug_description="string",
-            ),
-            place_of_service_code=FacilityTypeCode.PHARMACY,
-            description="string",
-            date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            end_date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            ordering_provider=OrderingProvider(
-                npi="string",
-                taxonomy_code="string",
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-                first_name="string",
-                last_name="string",
-                organization_name="string",
-            ),
-            test_results=[
-                TestResult(
-                    value=1.1,
-                    result_type=TestResultType.HEMATOCRIT,
-                )
-            ],
+            diagnosis_pointers=[],
         )
     ],
     guarantor=GuarantorCreate(
@@ -4439,6 +4381,11 @@ client.encounters.v_4.create(
         )
     ],
     referral_number="string",
+    epsdt_referral=EpsdtReferral(
+        condition_indicator_1=EpsdtReferralConditionIndicatorCode.AV,
+        condition_indicator_2=EpsdtReferralConditionIndicatorCode.AV,
+        condition_indicator_3=EpsdtReferralConditionIndicatorCode.AV,
+    ),
     external_id="string",
     date_of_service=datetime.date.fromisoformat(
         "2023-01-15",
@@ -4779,7 +4726,6 @@ in bounds of the diagnoses list field.
 
 **external_claim_submission:** `typing.Optional[ExternalClaimSubmissionCreate]` 
 
-***This field is in beta.***
 To be included for claims that have been submitted outside of Candid.
 Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
 
@@ -4811,6 +4757,15 @@ instances cannot be created for the same schema on an encounter.
 <dd>
 
 **referral_number:** `typing.Optional[str]` — Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**epsdt_referral:** `typing.Optional[EpsdtReferral]` — Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
 
     
 </dd>
@@ -5056,7 +5011,6 @@ from candid.resources.commons import (
     DelayReasonCode,
     FacilityTypeCode,
     IntendedSubmissionMedium,
-    ProcedureModifier,
     QualifierCode,
     ServiceLineUnits,
     State,
@@ -5067,14 +5021,13 @@ from candid.resources.diagnoses import DiagnosisCreate, DiagnosisTypeCode
 from candid.resources.encounter_providers.resources.v_2 import (
     BillingProvider,
     InitialReferringProvider,
-    OrderingProvider,
     RenderingProvider,
     SupervisingProvider,
 )
 from candid.resources.encounters.resources.v_4 import (
     BillableStatusType,
-    ClinicalNote,
     ClinicalNoteCategoryCreate,
+    EncounterCreateFromPreEncounter,
     IntakeFollowUp,
     IntakeQuestion,
     IntakeResponseAndFollowUps,
@@ -5091,319 +5044,264 @@ from candid.resources.encounters.resources.v_4 import (
     Vitals,
 )
 from candid.resources.service_facility import EncounterServiceFacilityBase
-from candid.resources.service_lines.resources.v_2 import (
-    DrugIdentification,
-    MeasurementUnitCode,
-    ServiceIdQualifier,
-    ServiceLineCreate,
-    TestResult,
-    TestResultType,
-)
+from candid.resources.service_lines.resources.v_2 import ServiceLineCreate
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.encounters.v_4.create_from_pre_encounter_patient(
-    pre_encounter_patient_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    pre_encounter_appointment_ids=[
-        uuid.UUID(
+    request=EncounterCreateFromPreEncounter(
+        pre_encounter_patient_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        )
-    ],
-    billing_provider=BillingProvider(
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
         ),
-        tax_id="string",
-        npi="string",
-        taxonomy_code="string",
-        provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    rendering_provider=RenderingProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    initial_referring_provider=InitialReferringProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        qualifier=QualifierCode.DQ,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    supervising_provider=SupervisingProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    service_facility=EncounterServiceFacilityBase(
-        organization_name="string",
-        npi="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        secondary_identification="string",
-    ),
-    diagnoses=[
-        DiagnosisCreate(
-            name="string",
-            code_type=DiagnosisTypeCode.ABF,
-            code="string",
-        )
-    ],
-    clinical_notes=[
-        ClinicalNoteCategoryCreate(
-            category=NoteCategory.CLINICAL,
-            notes=[
-                ClinicalNote(
-                    text="string",
-                    author_name="string",
-                    author_npi="string",
-                    timestamp=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                )
-            ],
-        )
-    ],
-    billing_notes=[
-        BillingNoteBase(
-            text="string",
-        )
-    ],
-    place_of_service_code=FacilityTypeCode.PHARMACY,
-    patient_histories=[
-        PatientHistoryCategory(
-            category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
-            questions=[
-                IntakeQuestion(
-                    id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
-                    text="Do you have any allergies?",
-                    responses=[
-                        IntakeResponseAndFollowUps(
-                            response="No allergies",
-                            follow_ups=[
-                                IntakeFollowUp(
-                                    id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
-                                    text="Do you have any allergies?",
-                                    response="No allergies",
-                                )
-                            ],
-                        )
-                    ],
-                )
-            ],
-        )
-    ],
-    service_lines=[
-        ServiceLineCreate(
-            modifiers=[ProcedureModifier.TWENTY_TWO],
-            procedure_code="string",
-            quantity="string",
-            units=ServiceLineUnits.MJ,
-            charge_amount_cents=1,
-            diagnosis_pointers=[1],
-            drug_identification=DrugIdentification(
-                service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                national_drug_code="string",
-                national_drug_unit_count="string",
-                measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                link_sequence_number="string",
-                pharmacy_prescription_number="string",
-                conversion_formula="string",
-                drug_description="string",
-            ),
-            place_of_service_code=FacilityTypeCode.PHARMACY,
-            description="string",
-            date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            end_date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            ordering_provider=OrderingProvider(
-                npi="string",
-                taxonomy_code="string",
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-                first_name="string",
-                last_name="string",
-                organization_name="string",
-            ),
-            test_results=[
-                TestResult(
-                    value=1.1,
-                    result_type=TestResultType.HEMATOCRIT,
-                )
-            ],
-        )
-    ],
-    external_claim_submission=ExternalClaimSubmissionCreate(
-        claim_created_at=datetime.datetime.fromisoformat(
-            "2023-01-01 12:00:00+00:00",
-        ),
-        patient_control_number="PATIENT_CONTROL_NUMBER",
-        submission_records=[
-            ClaimSubmissionRecordCreate(
-                submitted_at=datetime.datetime.fromisoformat(
-                    "2023-01-01 13:00:00+00:00",
-                ),
-                claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
-                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
-                intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
-            ),
-            ClaimSubmissionRecordCreate(
-                submitted_at=datetime.datetime.fromisoformat(
-                    "2023-01-04 12:00:00+00:00",
-                ),
-                claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
-                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
-                intended_submission_medium=IntendedSubmissionMedium.PAPER,
-            ),
+        pre_encounter_appointment_ids=[
+            uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            )
         ],
-    ),
-    tag_ids=["string"],
-    schema_instances=[
-        SchemaInstance(
-            schema_id=uuid.UUID(
-                "ec096b13-f80a-471d-aaeb-54b021c9d582",
+        billing_provider=BillingProvider(
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
             ),
-            content={
-                "provider_category": "internist",
-                "is_urgent_care": True,
-                "bmi": 24.2,
-                "age": 38,
-            },
-        )
-    ],
-    external_id="string",
-    date_of_service=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    end_date_of_service=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    patient_authorized_release=True,
-    benefits_assigned_to_provider=True,
-    provider_accepts_assignment=True,
-    appointment_type="string",
-    existing_medications=[
-        Medication(
-            name="Lisinopril",
-            rx_cui="860975",
-            dosage="10mg",
-            dosage_form="Tablet",
-            frequency="Once Daily",
-            as_needed=True,
-        )
-    ],
-    vitals=Vitals(
-        height_in=70,
-        weight_lbs=165,
-        blood_pressure_systolic_mmhg=115,
-        blood_pressure_diastolic_mmhg=85,
-        body_temperature_f=98.0,
-        hemoglobin_gdl=15.1,
-        hematocrit_pct=51.2,
-    ),
-    interventions=[
-        Intervention(
-            name="Physical Therapy Session",
-            category=InterventionCategory.LIFESTYLE,
-            description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
-            medication=Medication(
+            tax_id="string",
+            npi="string",
+            taxonomy_code="string",
+            provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
+            first_name="string",
+            last_name="string",
+            organization_name="string",
+        ),
+        rendering_provider=RenderingProvider(
+            npi="string",
+            taxonomy_code="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            first_name="string",
+            last_name="string",
+            organization_name="string",
+        ),
+        initial_referring_provider=InitialReferringProvider(
+            npi="string",
+            taxonomy_code="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            qualifier=QualifierCode.DQ,
+            first_name="string",
+            last_name="string",
+            organization_name="string",
+        ),
+        supervising_provider=SupervisingProvider(
+            npi="string",
+            taxonomy_code="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            first_name="string",
+            last_name="string",
+            organization_name="string",
+        ),
+        service_facility=EncounterServiceFacilityBase(
+            organization_name="string",
+            npi="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            secondary_identification="string",
+        ),
+        diagnoses=[
+            DiagnosisCreate(
+                name="string",
+                code_type=DiagnosisTypeCode.ABF,
+                code="string",
+            )
+        ],
+        clinical_notes=[
+            ClinicalNoteCategoryCreate(
+                category=NoteCategory.CLINICAL,
+                notes=[],
+            )
+        ],
+        billing_notes=[
+            BillingNoteBase(
+                text="string",
+            )
+        ],
+        place_of_service_code=FacilityTypeCode.PHARMACY,
+        patient_histories=[
+            PatientHistoryCategory(
+                category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
+                questions=[
+                    IntakeQuestion(
+                        id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
+                        text="Do you have any allergies?",
+                        responses=[
+                            IntakeResponseAndFollowUps(
+                                response="No allergies",
+                                follow_ups=[
+                                    IntakeFollowUp(
+                                        id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
+                                        text="Do you have any allergies?",
+                                        response="No allergies",
+                                    )
+                                ],
+                            )
+                        ],
+                    )
+                ],
+            )
+        ],
+        service_lines=[
+            ServiceLineCreate(
+                procedure_code="string",
+                quantity="string",
+                units=ServiceLineUnits.MJ,
+                diagnosis_pointers=[],
+            )
+        ],
+        external_claim_submission=ExternalClaimSubmissionCreate(
+            claim_created_at=datetime.datetime.fromisoformat(
+                "2023-01-01 12:00:00+00:00",
+            ),
+            patient_control_number="PATIENT_CONTROL_NUMBER",
+            submission_records=[
+                ClaimSubmissionRecordCreate(
+                    submitted_at=datetime.datetime.fromisoformat(
+                        "2023-01-01 13:00:00+00:00",
+                    ),
+                    claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
+                    payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                    intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
+                ),
+                ClaimSubmissionRecordCreate(
+                    submitted_at=datetime.datetime.fromisoformat(
+                        "2023-01-04 12:00:00+00:00",
+                    ),
+                    claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
+                    payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                    intended_submission_medium=IntendedSubmissionMedium.PAPER,
+                ),
+            ],
+        ),
+        tag_ids=["string"],
+        schema_instances=[
+            SchemaInstance(
+                schema_id=uuid.UUID(
+                    "ec096b13-f80a-471d-aaeb-54b021c9d582",
+                ),
+                content={
+                    "provider_category": "internist",
+                    "is_urgent_care": True,
+                    "bmi": 24.2,
+                    "age": 38,
+                },
+            )
+        ],
+        external_id="string",
+        date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        end_date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        patient_authorized_release=True,
+        benefits_assigned_to_provider=True,
+        provider_accepts_assignment=True,
+        appointment_type="string",
+        existing_medications=[
+            Medication(
                 name="Lisinopril",
                 rx_cui="860975",
                 dosage="10mg",
                 dosage_form="Tablet",
                 frequency="Once Daily",
                 as_needed=True,
-            ),
-            labs=[
-                Lab(
-                    name="Genetic Health Labs",
-                    code="GH12345",
-                    code_type=LabCodeType.QUEST,
-                )
-            ],
-        )
-    ],
-    pay_to_address=StreetAddressLongZip(
-        address_1="123 Main St",
-        address_2="Apt 1",
-        city="New York",
-        state=State.NY,
-        zip_code="10001",
-        zip_plus_four_code="1234",
+            )
+        ],
+        vitals=Vitals(
+            height_in=70,
+            weight_lbs=165,
+            blood_pressure_systolic_mmhg=115,
+            blood_pressure_diastolic_mmhg=85,
+            body_temperature_f=98.0,
+            hemoglobin_gdl=15.1,
+            hematocrit_pct=51.2,
+        ),
+        interventions=[
+            Intervention(
+                name="Physical Therapy Session",
+                category=InterventionCategory.LIFESTYLE,
+                description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
+                medication=Medication(
+                    name="Lisinopril",
+                    rx_cui="860975",
+                    dosage="10mg",
+                    dosage_form="Tablet",
+                    frequency="Once Daily",
+                    as_needed=True,
+                ),
+                labs=[
+                    Lab(
+                        name="Genetic Health Labs",
+                        code="GH12345",
+                        code_type=LabCodeType.QUEST,
+                    )
+                ],
+            )
+        ],
+        pay_to_address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        synchronicity=SynchronicityType.SYNCHRONOUS,
+        billable_status=BillableStatusType.BILLABLE,
+        additional_information="string",
+        service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
+        admission_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        discharge_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        last_menstrual_period_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        delay_reason_code=DelayReasonCode.C_1,
     ),
-    synchronicity=SynchronicityType.SYNCHRONOUS,
-    billable_status=BillableStatusType.BILLABLE,
-    additional_information="string",
-    service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-    admission_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    discharge_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    last_menstrual_period_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    delay_reason_code=DelayReasonCode.C_1,
 )
 
 ```
@@ -5420,7 +5318,7 @@ client.encounters.v_4.create_from_pre_encounter_patient(
 <dl>
 <dd>
 
-**pre_encounter_patient_id:** `PreEncounterPatientId` 
+**request:** `EncounterCreateFromPreEncounter` 
     
 </dd>
 </dl>
@@ -5428,380 +5326,385 @@ client.encounters.v_4.create_from_pre_encounter_patient(
 <dl>
 <dd>
 
-**pre_encounter_appointment_ids:** `typing.Sequence[PreEncounterAppointmentId]` 
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
 </dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounters.v_4.<a href="src/candid/resources/encounters/resources/v_4/client.py">create_from_pre_encounter_patient_internal</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
 
 <dl>
 <dd>
 
-**billing_provider:** `BillingProvider` — The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
+<dl>
+<dd>
 
-    
+Create an encounter from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+of the pre-encounter service should use the standard create endpoint.
+
+The endpoint will create an encounter from the provided fields, pulling information from the provided patient and appointment objects
+where applicable. In particular, the following fields are populated from the patient and appointment objects:
+
+- Patient
+- Referring Provider
+- Subscriber Primary
+- Subscriber Secondary
+- Referral Number
+- Responsible Party
+- Guarantor
+
+Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+encounter has not already been submitted or adjudicated.
 </dd>
 </dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
 
 <dl>
 <dd>
 
-**rendering_provider:** `RenderingProvider` 
+<dl>
+<dd>
 
-The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
-For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
+```python
+import datetime
+import uuid
 
-    
+from candid import CandidApiClient
+from candid.resources.billing_notes.resources.v_2 import BillingNoteBase
+from candid.resources.claim_submission.resources.v_1 import (
+    ClaimFrequencyTypeCode,
+    ClaimSubmissionRecordCreate,
+    ExternalClaimSubmissionCreate,
+)
+from candid.resources.commons import (
+    BillingProviderCommercialLicenseType,
+    ClaimSubmissionPayerResponsibilityType,
+    DelayReasonCode,
+    FacilityTypeCode,
+    IntendedSubmissionMedium,
+    QualifierCode,
+    ServiceLineUnits,
+    State,
+    StreetAddressLongZip,
+)
+from candid.resources.custom_schemas.resources.v_1 import SchemaInstance
+from candid.resources.diagnoses import DiagnosisCreate, DiagnosisTypeCode
+from candid.resources.encounter_providers.resources.v_2 import (
+    BillingProvider,
+    InitialReferringProvider,
+    RenderingProvider,
+    SupervisingProvider,
+)
+from candid.resources.encounters.resources.v_4 import (
+    BillableStatusType,
+    ClinicalNoteCategoryCreate,
+    EncounterCreateFromPreEncounter,
+    IntakeFollowUp,
+    IntakeQuestion,
+    IntakeResponseAndFollowUps,
+    Intervention,
+    InterventionCategory,
+    Lab,
+    LabCodeType,
+    Medication,
+    NoteCategory,
+    PatientHistoryCategory,
+    PatientHistoryCategoryEnum,
+    ServiceAuthorizationExceptionCode,
+    SynchronicityType,
+    Vitals,
+)
+from candid.resources.service_facility import EncounterServiceFacilityBase
+from candid.resources.service_lines.resources.v_2 import ServiceLineCreate
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounters.v_4.create_from_pre_encounter_patient_internal(
+    request=EncounterCreateFromPreEncounter(
+        pre_encounter_patient_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        pre_encounter_appointment_ids=[
+            uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            )
+        ],
+        billing_provider=BillingProvider(
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            tax_id="string",
+            npi="string",
+            taxonomy_code="string",
+            provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
+            first_name="string",
+            last_name="string",
+            organization_name="string",
+        ),
+        rendering_provider=RenderingProvider(
+            npi="string",
+            taxonomy_code="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            first_name="string",
+            last_name="string",
+            organization_name="string",
+        ),
+        initial_referring_provider=InitialReferringProvider(
+            npi="string",
+            taxonomy_code="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            qualifier=QualifierCode.DQ,
+            first_name="string",
+            last_name="string",
+            organization_name="string",
+        ),
+        supervising_provider=SupervisingProvider(
+            npi="string",
+            taxonomy_code="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            first_name="string",
+            last_name="string",
+            organization_name="string",
+        ),
+        service_facility=EncounterServiceFacilityBase(
+            organization_name="string",
+            npi="string",
+            address=StreetAddressLongZip(
+                address_1="123 Main St",
+                address_2="Apt 1",
+                city="New York",
+                state=State.NY,
+                zip_code="10001",
+                zip_plus_four_code="1234",
+            ),
+            secondary_identification="string",
+        ),
+        diagnoses=[
+            DiagnosisCreate(
+                name="string",
+                code_type=DiagnosisTypeCode.ABF,
+                code="string",
+            )
+        ],
+        clinical_notes=[
+            ClinicalNoteCategoryCreate(
+                category=NoteCategory.CLINICAL,
+                notes=[],
+            )
+        ],
+        billing_notes=[
+            BillingNoteBase(
+                text="string",
+            )
+        ],
+        place_of_service_code=FacilityTypeCode.PHARMACY,
+        patient_histories=[
+            PatientHistoryCategory(
+                category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
+                questions=[
+                    IntakeQuestion(
+                        id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
+                        text="Do you have any allergies?",
+                        responses=[
+                            IntakeResponseAndFollowUps(
+                                response="No allergies",
+                                follow_ups=[
+                                    IntakeFollowUp(
+                                        id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
+                                        text="Do you have any allergies?",
+                                        response="No allergies",
+                                    )
+                                ],
+                            )
+                        ],
+                    )
+                ],
+            )
+        ],
+        service_lines=[
+            ServiceLineCreate(
+                procedure_code="string",
+                quantity="string",
+                units=ServiceLineUnits.MJ,
+                diagnosis_pointers=[],
+            )
+        ],
+        external_claim_submission=ExternalClaimSubmissionCreate(
+            claim_created_at=datetime.datetime.fromisoformat(
+                "2023-01-01 12:00:00+00:00",
+            ),
+            patient_control_number="PATIENT_CONTROL_NUMBER",
+            submission_records=[
+                ClaimSubmissionRecordCreate(
+                    submitted_at=datetime.datetime.fromisoformat(
+                        "2023-01-01 13:00:00+00:00",
+                    ),
+                    claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
+                    payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                    intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
+                ),
+                ClaimSubmissionRecordCreate(
+                    submitted_at=datetime.datetime.fromisoformat(
+                        "2023-01-04 12:00:00+00:00",
+                    ),
+                    claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
+                    payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
+                    intended_submission_medium=IntendedSubmissionMedium.PAPER,
+                ),
+            ],
+        ),
+        tag_ids=["string"],
+        schema_instances=[
+            SchemaInstance(
+                schema_id=uuid.UUID(
+                    "ec096b13-f80a-471d-aaeb-54b021c9d582",
+                ),
+                content={
+                    "provider_category": "internist",
+                    "is_urgent_care": True,
+                    "bmi": 24.2,
+                    "age": 38,
+                },
+            )
+        ],
+        external_id="string",
+        date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        end_date_of_service=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        patient_authorized_release=True,
+        benefits_assigned_to_provider=True,
+        provider_accepts_assignment=True,
+        appointment_type="string",
+        existing_medications=[
+            Medication(
+                name="Lisinopril",
+                rx_cui="860975",
+                dosage="10mg",
+                dosage_form="Tablet",
+                frequency="Once Daily",
+                as_needed=True,
+            )
+        ],
+        vitals=Vitals(
+            height_in=70,
+            weight_lbs=165,
+            blood_pressure_systolic_mmhg=115,
+            blood_pressure_diastolic_mmhg=85,
+            body_temperature_f=98.0,
+            hemoglobin_gdl=15.1,
+            hematocrit_pct=51.2,
+        ),
+        interventions=[
+            Intervention(
+                name="Physical Therapy Session",
+                category=InterventionCategory.LIFESTYLE,
+                description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
+                medication=Medication(
+                    name="Lisinopril",
+                    rx_cui="860975",
+                    dosage="10mg",
+                    dosage_form="Tablet",
+                    frequency="Once Daily",
+                    as_needed=True,
+                ),
+                labs=[
+                    Lab(
+                        name="Genetic Health Labs",
+                        code="GH12345",
+                        code_type=LabCodeType.QUEST,
+                    )
+                ],
+            )
+        ],
+        pay_to_address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        synchronicity=SynchronicityType.SYNCHRONOUS,
+        billable_status=BillableStatusType.BILLABLE,
+        additional_information="string",
+        service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
+        admission_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        discharge_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        last_menstrual_period_date=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        delay_reason_code=DelayReasonCode.C_1,
+    ),
+)
+
+```
 </dd>
 </dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
 
 <dl>
 <dd>
 
-**diagnoses:** `typing.Sequence[DiagnosisCreate]` 
-
-Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
-may be submitted at this time, and coders will later prioritize the 12 that will be
-submitted to the payor.
-
-    
-</dd>
-</dl>
-
 <dl>
 <dd>
 
-**place_of_service_code:** `FacilityTypeCode` — Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms .gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
-
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**external_id:** `EncounterExternalId` 
-
-A client-specified unique ID to associate with this encounter;
-for example, your internal encounter ID or a Dr. Chrono encounter ID.
-This field should not contain PHI.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**patient_authorized_release:** `bool` 
-
-Whether this patient has authorized the release of medical information
-for billing purpose.
-Box 12 on the CMS-1500 claim form.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**benefits_assigned_to_provider:** `bool` 
-
-Whether this patient has authorized insurance payments to be made to you,
-not them. If false, patient may receive reimbursement.
-Box 13 on the CMS-1500 claim form.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider_accepts_assignment:** `bool` 
-
-Whether you have accepted the patient's authorization for insurance payments
-to be made to you, not them.
-Box 27 on the CMS-1500 claim form.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**billable_status:** `BillableStatusType` 
-
-Defines if the Encounter is to be billed by Candid to the responsible_party.
-Examples for when this should be set to NOT_BILLABLE include
-if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**initial_referring_provider:** `typing.Optional[InitialReferringProvider]` 
-
-The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
-indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
-
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**supervising_provider:** `typing.Optional[SupervisingProvider]` — Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**service_facility:** `typing.Optional[EncounterServiceFacilityBase]` — Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
-
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**clinical_notes:** `typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]` — Holds a collection of clinical observations made by healthcare providers during patient encounters.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**billing_notes:** `typing.Optional[typing.Sequence[BillingNoteBase]]` 
-
-Spot to store misc, human-readable, notes about this encounter to be used
-in the billing process.
-
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**patient_histories:** `typing.Optional[typing.Sequence[PatientHistoryCategory]]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**service_lines:** `typing.Optional[typing.Sequence[ServiceLineCreate]]` 
-
-Each service line must be linked to a diagnosis. Concretely,
-`service_line.diagnosis_pointers`must contain at least one entry which should be
-in bounds of the diagnoses list field.
-
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**external_claim_submission:** `typing.Optional[ExternalClaimSubmissionCreate]` 
-
-***This field is in beta.***
-To be included for claims that have been submitted outside of Candid.
-Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
-
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**tag_ids:** `typing.Optional[typing.Sequence[TagId]]` — Names of tags that should be on the encounter.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**schema_instances:** `typing.Optional[typing.Sequence[SchemaInstance]]` 
-
-Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
-instances cannot be created for the same schema on an encounter.
-
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**date_of_service:** `typing.Optional[dt.date]` 
-
-Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-This date must be the local date in the timezone where the service occurred.
-Box 24a on the CMS-1500 claim form.
-If service occurred over a range of dates, this should be the start date.
-date_of_service must be defined on either the encounter or the service lines but not both.
-If there are greater than zero service lines, it is recommended to specify date_of_service on the service_line instead of on the encounter to prepare for future API versions.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**end_date_of_service:** `typing.Optional[dt.date]` 
-
-Date formatted as YYYY-MM-DD; eg: 2019-08-25.
-This date must be the local date in the timezone where the service occurred.
-If omitted, the Encounter is assumed to be for a single day.
-Must not be temporally before the date_of_service field.
-If there are greater than zero service lines, it is recommended to specify end_date_of_service on the service_line instead of on the encounter to prepare for future API versions.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**appointment_type:** `typing.Optional[str]` — Human-readable description of the appointment type (ex: "Acupuncture - Headaches").
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**existing_medications:** `typing.Optional[typing.Sequence[Medication]]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**vitals:** `typing.Optional[Vitals]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**interventions:** `typing.Optional[typing.Sequence[Intervention]]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**pay_to_address:** `typing.Optional[StreetAddressLongZip]` — Specifies the address to which payments for the claim should be sent.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**synchronicity:** `typing.Optional[SynchronicityType]` 
-
-Whether or not this was a synchronous or asynchronous encounter.
-Asynchronous encounters occur when providers and patients communicate online using
-forms, instant messaging, or other pre-recorded digital mediums.
-Synchronous encounters occur in live, real-time settings where the patient interacts
-directly with the provider, such as over video or a phone call.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**additional_information:** `typing.Optional[str]` 
-
-Defines additional information on the claim needed by the payer.
-Box 19 on the CMS-1500 claim form.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**service_authorization_exception_code:** `typing.Optional[ServiceAuthorizationExceptionCode]` 
-
-837p Loop2300 REF\*4N
-Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
-reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
-obtaining the authorization.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**admission_date:** `typing.Optional[dt.date]` 
-
-837p Loop2300 DTP\*435, CMS-1500 Box 18
-Required on all ambulance claims when the patient was known to be admitted to the hospital.
-OR
-Required on all claims involving inpatient medical visits.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**discharge_date:** `typing.Optional[dt.date]` 
-
-837p Loop2300 DTP\*096, CMS-1500 Box 18
-Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**onset_of_current_illness_or_symptom_date:** `typing.Optional[dt.date]` 
-
-837p Loop2300 DTP\*431, CMS-1500 Box 14
-Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
-OR
-This date is the onset of acute symptoms for the current illness or condition.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**last_menstrual_period_date:** `typing.Optional[dt.date]` 
-
-837p Loop2300 DTP\*484, CMS-1500 Box 14
-Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**delay_reason_code:** `typing.Optional[DelayReasonCode]` 
-
-837i Loop2300, CLM-1300 Box 20
-Code indicating the reason why a request was delayed
+**request:** `EncounterCreateFromPreEncounter` 
     
 </dd>
 </dl>
@@ -6248,6 +6151,14 @@ indicate the initial referral from the primary care provider or whatever provide
 <dd>
 
 **referral_number:** `typing.Optional[str]` — Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**epsdt_referral:** `typing.Optional[EpsdtReferral]` — Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
     
 </dd>
 </dl>
@@ -13711,6 +13622,8 @@ client.service_lines.v_2.create(
                 result_type=TestResultType.HEMATOCRIT,
             )
         ],
+        has_epsdt_indicator=True,
+        has_family_planning_indicator=True,
     ),
 )
 
@@ -13835,6 +13748,8 @@ client.service_lines.v_2.update(
                 result_type=TestResultType.HEMATOCRIT,
             )
         ],
+        has_epsdt_indicator=True,
+        has_family_planning_indicator=True,
     ),
 )
 

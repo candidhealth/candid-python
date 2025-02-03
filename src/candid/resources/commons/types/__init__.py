@@ -17,6 +17,7 @@ from .encounter_external_id import EncounterExternalId
 from .encounter_id import EncounterId
 from .entity_conflict_error_message import EntityConflictErrorMessage
 from .entity_not_found_error_message import EntityNotFoundErrorMessage
+from .epsdt_referral_condition_indicator_code import EpsdtReferralConditionIndicatorCode
 from .error_message import ErrorMessage
 from .facility_type_code import FacilityTypeCode
 from .http_service_unavailable_error_message import HttpServiceUnavailableErrorMessage
@@ -91,6 +92,7 @@ __all__ = [
     "EncounterId",
     "EntityConflictErrorMessage",
     "EntityNotFoundErrorMessage",
+    "EpsdtReferralConditionIndicatorCode",
     "ErrorMessage",
     "FacilityTypeCode",
     "HttpServiceUnavailableErrorMessage",
