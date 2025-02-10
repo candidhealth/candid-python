@@ -62,6 +62,7 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
+            AdditionalPayerInformation,
             Address,
             AddressUse,
             CanonicalNonInsurancePayerAssociation,
@@ -261,9 +262,13 @@ class V1Client:
                     Authorization(
                         payer_id="string",
                         payer_name="string",
+                        additional_payer_information=AdditionalPayerInformation(),
                         authorization_number="string",
                         cpt_code="string",
                         units=AuthorizationUnit.VISIT,
+                        quantity=1,
+                        period=Period(),
+                        notes="string",
                     )
                 ],
                 referrals=[
@@ -363,6 +368,7 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
+            AdditionalPayerInformation,
             Address,
             AddressUse,
             CanonicalNonInsurancePayerAssociation,
@@ -563,9 +569,13 @@ class V1Client:
                     Authorization(
                         payer_id="string",
                         payer_name="string",
+                        additional_payer_information=AdditionalPayerInformation(),
                         authorization_number="string",
                         cpt_code="string",
                         units=AuthorizationUnit.VISIT,
+                        quantity=1,
+                        period=Period(),
+                        notes="string",
                     )
                 ],
                 referrals=[
@@ -873,6 +883,7 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
+            AdditionalPayerInformation,
             Address,
             AddressUse,
             CanonicalNonInsurancePayerAssociation,
@@ -1073,9 +1084,13 @@ class V1Client:
                     Authorization(
                         payer_id="string",
                         payer_name="string",
+                        additional_payer_information=AdditionalPayerInformation(),
                         authorization_number="string",
                         cpt_code="string",
                         units=AuthorizationUnit.VISIT,
+                        quantity=1,
+                        period=Period(),
+                        notes="string",
                     )
                 ],
                 referrals=[
@@ -1372,6 +1387,7 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
+            AdditionalPayerInformation,
             Address,
             AddressUse,
             CanonicalNonInsurancePayerAssociation,
@@ -1574,9 +1590,13 @@ class AsyncV1Client:
                         Authorization(
                             payer_id="string",
                             payer_name="string",
+                            additional_payer_information=AdditionalPayerInformation(),
                             authorization_number="string",
                             cpt_code="string",
                             units=AuthorizationUnit.VISIT,
+                            quantity=1,
+                            period=Period(),
+                            notes="string",
                         )
                     ],
                     referrals=[
@@ -1680,6 +1700,7 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
+            AdditionalPayerInformation,
             Address,
             AddressUse,
             CanonicalNonInsurancePayerAssociation,
@@ -1883,9 +1904,13 @@ class AsyncV1Client:
                         Authorization(
                             payer_id="string",
                             payer_name="string",
+                            additional_payer_information=AdditionalPayerInformation(),
                             authorization_number="string",
                             cpt_code="string",
                             units=AuthorizationUnit.VISIT,
+                            quantity=1,
+                            period=Period(),
+                            notes="string",
                         )
                     ],
                     referrals=[
@@ -2221,6 +2246,7 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
+            AdditionalPayerInformation,
             Address,
             AddressUse,
             CanonicalNonInsurancePayerAssociation,
@@ -2424,9 +2450,13 @@ class AsyncV1Client:
                         Authorization(
                             payer_id="string",
                             payer_name="string",
+                            additional_payer_information=AdditionalPayerInformation(),
                             authorization_number="string",
                             cpt_code="string",
                             units=AuthorizationUnit.VISIT,
+                            quantity=1,
+                            period=Period(),
+                            notes="string",
                         )
                     ],
                     referrals=[

@@ -15391,12 +15391,7 @@ client.pre_encounter.coverages.v_1.create(
             member_id="string",
             payer_id="string",
             payer_name="string",
-            additional_payer_information=AdditionalPayerInformation(
-                availity_eligibility_id="string",
-                availity_payer_id="string",
-                availity_payer_name="string",
-                availity_remittance_payer_id="string",
-            ),
+            additional_payer_information=AdditionalPayerInformation(),
             group_number="string",
             name="string",
             plan_type=NetworkType.SELF_PAY,
@@ -15555,12 +15550,7 @@ client.pre_encounter.coverages.v_1.update(
             member_id="string",
             payer_id="string",
             payer_name="string",
-            additional_payer_information=AdditionalPayerInformation(
-                availity_eligibility_id="string",
-                availity_payer_id="string",
-                availity_payer_name="string",
-                availity_remittance_payer_id="string",
-            ),
+            additional_payer_information=AdditionalPayerInformation(),
             group_number="string",
             name="string",
             plan_type=NetworkType.SELF_PAY,
@@ -16705,6 +16695,7 @@ import uuid
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.common import (
+    AdditionalPayerInformation,
     Address,
     AddressUse,
     CanonicalNonInsurancePayerAssociation,
@@ -16904,9 +16895,13 @@ client.pre_encounter.patients.v_1.create(
             Authorization(
                 payer_id="string",
                 payer_name="string",
+                additional_payer_information=AdditionalPayerInformation(),
                 authorization_number="string",
                 cpt_code="string",
                 units=AuthorizationUnit.VISIT,
+                quantity=1,
+                period=Period(),
+                notes="string",
             )
         ],
         referrals=[
@@ -17014,6 +17009,7 @@ import uuid
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.common import (
+    AdditionalPayerInformation,
     Address,
     AddressUse,
     CanonicalNonInsurancePayerAssociation,
@@ -17214,9 +17210,13 @@ client.pre_encounter.patients.v_1.create_with_mrn(
             Authorization(
                 payer_id="string",
                 payer_name="string",
+                additional_payer_information=AdditionalPayerInformation(),
                 authorization_number="string",
                 cpt_code="string",
                 units=AuthorizationUnit.VISIT,
+                quantity=1,
+                period=Period(),
+                notes="string",
             )
         ],
         referrals=[
@@ -17574,6 +17574,7 @@ import uuid
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.common import (
+    AdditionalPayerInformation,
     Address,
     AddressUse,
     CanonicalNonInsurancePayerAssociation,
@@ -17774,9 +17775,13 @@ client.pre_encounter.patients.v_1.update(
             Authorization(
                 payer_id="string",
                 payer_name="string",
+                additional_payer_information=AdditionalPayerInformation(),
                 authorization_number="string",
                 cpt_code="string",
                 units=AuthorizationUnit.VISIT,
+                quantity=1,
+                period=Period(),
+                notes="string",
             )
         ],
         referrals=[
