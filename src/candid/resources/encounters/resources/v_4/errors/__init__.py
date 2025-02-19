@@ -5,6 +5,9 @@ from .encounter_external_id_uniqueness_error import EncounterExternalIdUniquenes
 from .encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
 from .encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
 from .invalid_tag_names_error import InvalidTagNamesError
+from .payer_plan_group_payer_does_not_match_insurance_card_http_error import (
+    PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError,
+)
 from .schema_instance_validation_http_failure import SchemaInstanceValidationHttpFailure
 
 __all__ = [
@@ -13,5 +16,6 @@ __all__ = [
     "EncounterGuarantorMissingContactInfoError",
     "EncounterPatientControlNumberUniquenessError",
     "InvalidTagNamesError",
+    "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError",
     "SchemaInstanceValidationHttpFailure",
 ]

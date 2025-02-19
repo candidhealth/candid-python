@@ -4217,6 +4217,9 @@ client.encounters.v_4.create(
             plan_name="string",
             plan_type=SourceOfPaymentCode.SELF_PAY,
             insurance_type=InsuranceTypeCode.C_01,
+            payer_plan_group_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
         ),
         patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
         date_of_birth=datetime.date.fromisoformat(
@@ -4248,6 +4251,9 @@ client.encounters.v_4.create(
             plan_name="string",
             plan_type=SourceOfPaymentCode.SELF_PAY,
             insurance_type=InsuranceTypeCode.C_01,
+            payer_plan_group_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
         ),
         patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
         date_of_birth=datetime.date.fromisoformat(

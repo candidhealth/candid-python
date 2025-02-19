@@ -34,6 +34,9 @@ from .multiple_instances_for_schema_error import MultipleInstancesForSchemaError
 from .note_category import NoteCategory
 from .patient_history_category import PatientHistoryCategory
 from .patient_history_category_enum import PatientHistoryCategoryEnum
+from .payer_plan_group_payer_does_not_match_insurance_card_error import (
+    PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+)
 from .prior_authorization_number import PriorAuthorizationNumber
 from .responsible_party_type import ResponsiblePartyType
 from .rx_cui import RxCui
@@ -89,6 +92,7 @@ __all__ = [
     "NoteCategory",
     "PatientHistoryCategory",
     "PatientHistoryCategoryEnum",
+    "PayerPlanGroupPayerDoesNotMatchInsuranceCardError",
     "PriorAuthorizationNumber",
     "ResponsiblePartyType",
     "RxCui",

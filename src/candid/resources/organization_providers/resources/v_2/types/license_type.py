@@ -75,6 +75,29 @@ class LicenseType(str, enum.Enum):
     MFTA = "MFTA"
     APCC = "APCC"
     DNP = "DNP"
+    AGNPBC = "AGNPBC"
+    ANP = "ANP"
+    FNPPP = "FNPPP"
+    LCSWR = "LCSWR"
+    ALC = "ALC"
+    RMFTI = "RMFTI"
+    LAMFT = "LAMFT"
+    LPCA = "LPCA"
+    LSWI = "LSWI"
+    CSW = "CSW"
+    CPC = "CPC"
+    LGMFT = "LGMFT"
+    LLPC = "LLPC"
+    PLPC = "PLPC"
+    PLMFT = "PLMFT"
+    LMHCA = "LMHCA"
+    CIT = "CIT"
+    CT = "CT"
+    MFT = "MFT"
+    LSW = "LSW"
+    PLMHP = "PLMHP"
+    PCMSW = "PCMSW"
+    LMHP = "LMHP"
     _UNKNOWN = "__LICENSETYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -156,6 +179,29 @@ class LicenseType(str, enum.Enum):
         mfta: typing.Callable[[], T_Result],
         apcc: typing.Callable[[], T_Result],
         dnp: typing.Callable[[], T_Result],
+        agnpbc: typing.Callable[[], T_Result],
+        anp: typing.Callable[[], T_Result],
+        fnppp: typing.Callable[[], T_Result],
+        lcswr: typing.Callable[[], T_Result],
+        alc: typing.Callable[[], T_Result],
+        rmfti: typing.Callable[[], T_Result],
+        lamft: typing.Callable[[], T_Result],
+        lpca: typing.Callable[[], T_Result],
+        lswi: typing.Callable[[], T_Result],
+        csw: typing.Callable[[], T_Result],
+        cpc: typing.Callable[[], T_Result],
+        lgmft: typing.Callable[[], T_Result],
+        llpc: typing.Callable[[], T_Result],
+        plpc: typing.Callable[[], T_Result],
+        plmft: typing.Callable[[], T_Result],
+        lmhca: typing.Callable[[], T_Result],
+        cit: typing.Callable[[], T_Result],
+        ct: typing.Callable[[], T_Result],
+        mft: typing.Callable[[], T_Result],
+        lsw: typing.Callable[[], T_Result],
+        plmhp: typing.Callable[[], T_Result],
+        pcmsw: typing.Callable[[], T_Result],
+        lmhp: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is LicenseType.MD:
@@ -294,4 +340,50 @@ class LicenseType(str, enum.Enum):
             return apcc()
         if self is LicenseType.DNP:
             return dnp()
+        if self is LicenseType.AGNPBC:
+            return agnpbc()
+        if self is LicenseType.ANP:
+            return anp()
+        if self is LicenseType.FNPPP:
+            return fnppp()
+        if self is LicenseType.LCSWR:
+            return lcswr()
+        if self is LicenseType.ALC:
+            return alc()
+        if self is LicenseType.RMFTI:
+            return rmfti()
+        if self is LicenseType.LAMFT:
+            return lamft()
+        if self is LicenseType.LPCA:
+            return lpca()
+        if self is LicenseType.LSWI:
+            return lswi()
+        if self is LicenseType.CSW:
+            return csw()
+        if self is LicenseType.CPC:
+            return cpc()
+        if self is LicenseType.LGMFT:
+            return lgmft()
+        if self is LicenseType.LLPC:
+            return llpc()
+        if self is LicenseType.PLPC:
+            return plpc()
+        if self is LicenseType.PLMFT:
+            return plmft()
+        if self is LicenseType.LMHCA:
+            return lmhca()
+        if self is LicenseType.CIT:
+            return cit()
+        if self is LicenseType.CT:
+            return ct()
+        if self is LicenseType.MFT:
+            return mft()
+        if self is LicenseType.LSW:
+            return lsw()
+        if self is LicenseType.PLMHP:
+            return plmhp()
+        if self is LicenseType.PCMSW:
+            return pcmsw()
+        if self is LicenseType.LMHP:
+            return lmhp()
         return _unknown_member(self._value_)

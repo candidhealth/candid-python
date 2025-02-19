@@ -55,6 +55,8 @@ from .types.encounter_patient_control_number_uniqueness_error_type import (
 )
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.errors.unauthorized_error import UnauthorizedError
+from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from .errors.encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
 from .types.encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
 from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
@@ -66,6 +68,12 @@ from .types.schema_instance_validation_failure import SchemaInstanceValidationFa
 from .errors.invalid_tag_names_error import InvalidTagNamesError
 from .types.invalid_tag_names_error_type import InvalidTagNamesErrorType
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
+from .errors.payer_plan_group_payer_does_not_match_insurance_card_http_error import (
+    PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError,
+)
+from .types.payer_plan_group_payer_does_not_match_insurance_card_error import (
+    PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+)
 from .types.encounter_create_from_pre_encounter import EncounterCreateFromPreEncounter
 from ....diagnoses.types.diagnosis_id import DiagnosisId
 from ....individual.types.patient_update import PatientUpdate
@@ -77,8 +85,6 @@ from ....encounter_providers.resources.v_2.types.billing_provider_update import 
 from ....encounter_providers.resources.v_2.types.supervising_provider_update import SupervisingProviderUpdate
 from ....encounter_providers.resources.v_2.types.referring_provider_update import ReferringProviderUpdate
 from ....encounter_providers.resources.v_2.types.initial_referring_provider_update import InitialReferringProviderUpdate
-from ....commons.errors.unauthorized_error import UnauthorizedError
-from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from .....core.client_wrapper import AsyncClientWrapper
@@ -762,6 +768,9 @@ class V4Client:
                     plan_name="string",
                     plan_type=SourceOfPaymentCode.SELF_PAY,
                     insurance_type=InsuranceTypeCode.C_01,
+                    payer_plan_group_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
                 date_of_birth=datetime.date.fromisoformat(
@@ -793,6 +802,9 @@ class V4Client:
                     plan_name="string",
                     plan_type=SourceOfPaymentCode.SELF_PAY,
                     insurance_type=InsuranceTypeCode.C_01,
+                    payer_plan_group_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
                 ),
                 patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
                 date_of_birth=datetime.date.fromisoformat(
@@ -1105,6 +1117,16 @@ class V4Client:
                         ),
                     )
                 )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
             if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
                 raise EncounterGuarantorMissingContactInfoError(
                     typing.cast(
@@ -1161,6 +1183,16 @@ class V4Client:
                         RequestValidationError,
                         parse_obj_as(
                             type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     )
@@ -1562,6 +1594,16 @@ class V4Client:
                         ),
                     )
                 )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
                     typing.cast(
@@ -1588,6 +1630,16 @@ class V4Client:
                         RequestValidationError,
                         parse_obj_as(
                             type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     )
@@ -1956,6 +2008,16 @@ class V4Client:
                         InvalidTagNamesErrorType,
                         parse_obj_as(
                             type_=InvalidTagNamesErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     )
@@ -2658,6 +2720,9 @@ class AsyncV4Client:
                         plan_name="string",
                         plan_type=SourceOfPaymentCode.SELF_PAY,
                         insurance_type=InsuranceTypeCode.C_01,
+                        payer_plan_group_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
                     ),
                     patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
                     date_of_birth=datetime.date.fromisoformat(
@@ -2689,6 +2754,9 @@ class AsyncV4Client:
                         plan_name="string",
                         plan_type=SourceOfPaymentCode.SELF_PAY,
                         insurance_type=InsuranceTypeCode.C_01,
+                        payer_plan_group_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
                     ),
                     patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
                     date_of_birth=datetime.date.fromisoformat(
@@ -3004,6 +3072,16 @@ class AsyncV4Client:
                         ),
                     )
                 )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
             if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
                 raise EncounterGuarantorMissingContactInfoError(
                     typing.cast(
@@ -3060,6 +3138,16 @@ class AsyncV4Client:
                         RequestValidationError,
                         parse_obj_as(
                             type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     )
@@ -3468,6 +3556,16 @@ class AsyncV4Client:
                         ),
                     )
                 )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
             if _response_json["errorName"] == "HttpRequestValidationsError":
                 raise HttpRequestValidationsError(
                     typing.cast(
@@ -3494,6 +3592,16 @@ class AsyncV4Client:
                         RequestValidationError,
                         parse_obj_as(
                             type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     )
@@ -3869,6 +3977,16 @@ class AsyncV4Client:
                         InvalidTagNamesErrorType,
                         parse_obj_as(
                             type_=InvalidTagNamesErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     )

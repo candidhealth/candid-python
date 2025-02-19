@@ -5,6 +5,7 @@ import typing
 import pydantic
 from .....commons.types.source_of_payment_code import SourceOfPaymentCode
 from .....commons.types.insurance_type_code import InsuranceTypeCode
+from .....commons.types.payer_plan_group_id import PayerPlanGroupId
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -21,6 +22,7 @@ class InsuranceCardBase(UniversalBaseModel):
 
     plan_type: typing.Optional[SourceOfPaymentCode] = None
     insurance_type: typing.Optional[InsuranceTypeCode] = None
+    payer_plan_group_id: typing.Optional[PayerPlanGroupId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

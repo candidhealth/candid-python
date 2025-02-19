@@ -35,6 +35,7 @@ from .types import (
     NoteCategory,
     PatientHistoryCategory,
     PatientHistoryCategoryEnum,
+    PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
     PriorAuthorizationNumber,
     ResponsiblePartyType,
     RxCui,
@@ -59,6 +60,7 @@ from .errors import (
     EncounterGuarantorMissingContactInfoError,
     EncounterPatientControlNumberUniquenessError,
     InvalidTagNamesError,
+    PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError,
     SchemaInstanceValidationHttpFailure,
 )
 
@@ -102,6 +104,8 @@ __all__ = [
     "NoteCategory",
     "PatientHistoryCategory",
     "PatientHistoryCategoryEnum",
+    "PayerPlanGroupPayerDoesNotMatchInsuranceCardError",
+    "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError",
     "PriorAuthorizationNumber",
     "ResponsiblePartyType",
     "RxCui",

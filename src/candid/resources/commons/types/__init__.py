@@ -33,6 +33,7 @@ from .organization_not_authorized_error_message import OrganizationNotAuthorized
 from .page_token import PageToken
 from .patient_external_id import PatientExternalId
 from .patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
+from .payer_plan_group_id import PayerPlanGroupId
 from .phone_number import PhoneNumber
 from .phone_number_type import PhoneNumberType
 from .pre_encounter_appointment_id import PreEncounterAppointmentId
@@ -108,6 +109,7 @@ __all__ = [
     "PageToken",
     "PatientExternalId",
     "PatientRelationshipToInsuredCodeAll",
+    "PayerPlanGroupId",
     "PhoneNumber",
     "PhoneNumberType",
     "PreEncounterAppointmentId",
