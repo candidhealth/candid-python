@@ -7,8 +7,9 @@ from .....common.types.additional_payer_information import AdditionalPayerInform
 from .network_type import NetworkType
 from .insurance_type_code import InsuranceTypeCode
 from .....common.types.period import Period
-from ........core.pydantic_utilities import IS_PYDANTIC_V2
+from .....common.types.payer_plan_group_id import PayerPlanGroupId
 import pydantic
+from ........core.pydantic_utilities import IS_PYDANTIC_V2
 
 
 class InsurancePlan(UniversalBaseModel):
@@ -22,6 +23,10 @@ class InsurancePlan(UniversalBaseModel):
     type: typing.Optional[InsuranceTypeCode] = None
     period: typing.Optional[Period] = None
     insurance_card_image_locator: typing.Optional[str] = None
+    payer_plan_group_id: typing.Optional[PayerPlanGroupId] = pydantic.Field(default=None)
+    """
+    The ID of the Candid configured payer plan group associated with this coverage
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

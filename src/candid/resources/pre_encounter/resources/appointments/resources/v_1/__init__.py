@@ -7,6 +7,8 @@ from .types import (
     MutableAppointment,
     Service,
     UniversalServiceIdentifier,
+    Visit,
+    VisitsPage,
 )
 
 __all__ = [
@@ -16,4 +18,6 @@ __all__ = [
     "MutableAppointment",
     "Service",
     "UniversalServiceIdentifier",
+    "Visit",
+    "VisitsPage",
 ]

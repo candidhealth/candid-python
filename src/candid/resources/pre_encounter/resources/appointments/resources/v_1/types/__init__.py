@@ -6,6 +6,8 @@ from .appointment_work_queue import AppointmentWorkQueue
 from .mutable_appointment import MutableAppointment
 from .service import Service
 from .universal_service_identifier import UniversalServiceIdentifier
+from .visit import Visit
+from .visits_page import VisitsPage
 
 __all__ = [
     "Appointment",
@@ -14,4 +16,6 @@ __all__ = [
     "MutableAppointment",
     "Service",
     "UniversalServiceIdentifier",
+    "Visit",
+    "VisitsPage",
 ]

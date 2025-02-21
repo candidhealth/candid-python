@@ -10,6 +10,7 @@ from .match_modifiers import MatchModifiers
 from .match_license_type import MatchLicenseType
 from .match_facility_type_code import MatchFacilityTypeCode
 from .match_network_types import MatchNetworkTypes
+from .match_payer_plan_groups import MatchPayerPlanGroups
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 import typing
 import pydantic
@@ -29,6 +30,7 @@ class DimensionMatch(UniversalBaseModel):
     license_type: MatchLicenseType
     facility_type_code: MatchFacilityTypeCode
     network_types: MatchNetworkTypes
+    payer_plan_groups: MatchPayerPlanGroups
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

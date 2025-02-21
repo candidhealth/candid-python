@@ -14,6 +14,9 @@ from ....common.errors.not_found_error import NotFoundError
 from ....common.types.error_base_4_xx import ErrorBase4Xx
 from ....common.errors.version_conflict_error import VersionConflictError
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
+from ....common.types.page_token import PageToken
+from .types.coverages_page import CoveragesPage
+from ....common.errors.bad_request_error import BadRequestError
 import datetime as dt
 from .......core.datetime_utils import serialize_datetime
 from .types.service_type_code import ServiceTypeCode
@@ -47,6 +50,7 @@ class V1Client:
         Examples
         --------
         import datetime
+        import uuid
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
@@ -62,15 +66,12 @@ class V1Client:
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
             CoverageBenefits,
             CoverageStatus,
-            EligibilityCheckMetadata,
-            EligibilityCheckStatus,
             EligibilityStatus,
             InsurancePlan,
             InsuranceTypeCode,
             LatestEligibilityCheck,
             MutableCoverage,
             NetworkType,
-            ServiceTypeCode,
             Subscriber,
         )
 
@@ -115,19 +116,12 @@ class V1Client:
                     type=InsuranceTypeCode.C_01,
                     period=Period(),
                     insurance_card_image_locator="string",
+                    payer_plan_group_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
                 ),
                 verified=True,
-                eligibility_checks=[
-                    EligibilityCheckMetadata(
-                        check_id="string",
-                        service_code=ServiceTypeCode.MEDICAL_CARE,
-                        status=EligibilityCheckStatus.COMPLETED,
-                        initiated_by="string",
-                        initiated_at=datetime.datetime.fromisoformat(
-                            "2024-01-15 09:30:00+00:00",
-                        ),
-                    )
-                ],
+                eligibility_checks=[],
                 latest_eligibility_check=LatestEligibilityCheck(
                     check_id="string",
                     status=EligibilityStatus.ACTIVE,
@@ -206,15 +200,12 @@ class V1Client:
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
             CoverageBenefits,
             CoverageStatus,
-            EligibilityCheckMetadata,
-            EligibilityCheckStatus,
             EligibilityStatus,
             InsurancePlan,
             InsuranceTypeCode,
             LatestEligibilityCheck,
             MutableCoverage,
             NetworkType,
-            ServiceTypeCode,
             Subscriber,
         )
 
@@ -263,19 +254,12 @@ class V1Client:
                     type=InsuranceTypeCode.C_01,
                     period=Period(),
                     insurance_card_image_locator="string",
+                    payer_plan_group_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
                 ),
                 verified=True,
-                eligibility_checks=[
-                    EligibilityCheckMetadata(
-                        check_id="string",
-                        service_code=ServiceTypeCode.MEDICAL_CARE,
-                        status=EligibilityCheckStatus.COMPLETED,
-                        initiated_by="string",
-                        initiated_at=datetime.datetime.fromisoformat(
-                            "2024-01-15 09:30:00+00:00",
-                        ),
-                    )
-                ],
+                eligibility_checks=[],
                 latest_eligibility_check=LatestEligibilityCheck(
                     check_id="string",
                     status=EligibilityStatus.ACTIVE,
@@ -324,6 +308,88 @@ class V1Client:
                         VersionConflictErrorBody,
                         parse_obj_as(
                             type_=VersionConflictErrorBody,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def get_multi_paginated(
+        self,
+        *,
+        patient_id: typing.Optional[str] = None,
+        payer_plan_group_id: typing.Optional[str] = None,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> CoveragesPage:
+        """
+        Returns a page of Coverages based on the search criteria.
+
+        Parameters
+        ----------
+        patient_id : typing.Optional[str]
+
+        payer_plan_group_id : typing.Optional[str]
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+            Must be between 0 and 1000. Defaults to 100
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CoveragesPage
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.get_multi_paginated(
+            patient_id="string",
+            payer_plan_group_id="string",
+            page_token="string",
+            limit=1,
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "coverages/v1/get-multi-paginated",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "patient_id": patient_id,
+                "payer_plan_group_id": payer_plan_group_id,
+                "page_token": page_token,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                CoveragesPage,
+                parse_obj_as(
+                    type_=CoveragesPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     )
@@ -715,6 +781,7 @@ class AsyncV1Client:
         --------
         import asyncio
         import datetime
+        import uuid
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
@@ -730,15 +797,12 @@ class AsyncV1Client:
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
             CoverageBenefits,
             CoverageStatus,
-            EligibilityCheckMetadata,
-            EligibilityCheckStatus,
             EligibilityStatus,
             InsurancePlan,
             InsuranceTypeCode,
             LatestEligibilityCheck,
             MutableCoverage,
             NetworkType,
-            ServiceTypeCode,
             Subscriber,
         )
 
@@ -786,19 +850,12 @@ class AsyncV1Client:
                         type=InsuranceTypeCode.C_01,
                         period=Period(),
                         insurance_card_image_locator="string",
+                        payer_plan_group_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
                     ),
                     verified=True,
-                    eligibility_checks=[
-                        EligibilityCheckMetadata(
-                            check_id="string",
-                            service_code=ServiceTypeCode.MEDICAL_CARE,
-                            status=EligibilityCheckStatus.COMPLETED,
-                            initiated_by="string",
-                            initiated_at=datetime.datetime.fromisoformat(
-                                "2024-01-15 09:30:00+00:00",
-                            ),
-                        )
-                    ],
+                    eligibility_checks=[],
                     latest_eligibility_check=LatestEligibilityCheck(
                         check_id="string",
                         status=EligibilityStatus.ACTIVE,
@@ -881,15 +938,12 @@ class AsyncV1Client:
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
             CoverageBenefits,
             CoverageStatus,
-            EligibilityCheckMetadata,
-            EligibilityCheckStatus,
             EligibilityStatus,
             InsurancePlan,
             InsuranceTypeCode,
             LatestEligibilityCheck,
             MutableCoverage,
             NetworkType,
-            ServiceTypeCode,
             Subscriber,
         )
 
@@ -941,19 +995,12 @@ class AsyncV1Client:
                         type=InsuranceTypeCode.C_01,
                         period=Period(),
                         insurance_card_image_locator="string",
+                        payer_plan_group_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
                     ),
                     verified=True,
-                    eligibility_checks=[
-                        EligibilityCheckMetadata(
-                            check_id="string",
-                            service_code=ServiceTypeCode.MEDICAL_CARE,
-                            status=EligibilityCheckStatus.COMPLETED,
-                            initiated_by="string",
-                            initiated_at=datetime.datetime.fromisoformat(
-                                "2024-01-15 09:30:00+00:00",
-                            ),
-                        )
-                    ],
+                    eligibility_checks=[],
                     latest_eligibility_check=LatestEligibilityCheck(
                         check_id="string",
                         status=EligibilityStatus.ACTIVE,
@@ -1005,6 +1052,96 @@ class AsyncV1Client:
                         VersionConflictErrorBody,
                         parse_obj_as(
                             type_=VersionConflictErrorBody,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def get_multi_paginated(
+        self,
+        *,
+        patient_id: typing.Optional[str] = None,
+        payer_plan_group_id: typing.Optional[str] = None,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> CoveragesPage:
+        """
+        Returns a page of Coverages based on the search criteria.
+
+        Parameters
+        ----------
+        patient_id : typing.Optional[str]
+
+        payer_plan_group_id : typing.Optional[str]
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+            Must be between 0 and 1000. Defaults to 100
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CoveragesPage
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.coverages.v_1.get_multi_paginated(
+                patient_id="string",
+                payer_plan_group_id="string",
+                page_token="string",
+                limit=1,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "coverages/v1/get-multi-paginated",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "patient_id": patient_id,
+                "payer_plan_group_id": payer_plan_group_id,
+                "page_token": page_token,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                CoveragesPage,
+                parse_obj_as(
+                    type_=CoveragesPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     )

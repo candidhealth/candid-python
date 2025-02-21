@@ -1952,6 +1952,11 @@ class ProcedureModifier(str, enum.Enum):
     A service that is distinct because it was performed on a separate organ/structure
     """
 
+    XU = "XU"
+    """
+    The use of a service that is distinct because it does not overlap usual components of the main service
+    """
+
     _UNKNOWN = "__PROCEDUREMODIFIER_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -2354,6 +2359,7 @@ class ProcedureModifier(str, enum.Enum):
         v_3: typing.Callable[[], T_Result],
         xe: typing.Callable[[], T_Result],
         xs: typing.Callable[[], T_Result],
+        xu: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is ProcedureModifier.TWENTY_TWO:
@@ -3134,4 +3140,6 @@ class ProcedureModifier(str, enum.Enum):
             return xe()
         if self is ProcedureModifier.XS:
             return xs()
+        if self is ProcedureModifier.XU:
+            return xu()
         return _unknown_member(self._value_)

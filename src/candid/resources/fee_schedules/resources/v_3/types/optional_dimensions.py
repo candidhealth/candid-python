@@ -8,6 +8,7 @@ from .....commons.types.state import State
 from .....organization_providers.resources.v_2.types.license_type import LicenseType
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.network_type import NetworkType
+from .....commons.types.payer_plan_group_id import PayerPlanGroupId
 from .....commons.types.procedure_modifier import ProcedureModifier
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
@@ -25,6 +26,7 @@ class OptionalDimensions(UniversalBaseModel):
     license_types: typing.Set[LicenseType]
     facility_type_codes: typing.Set[FacilityTypeCode]
     network_types: typing.Set[NetworkType]
+    payer_plan_group_ids: typing.Set[PayerPlanGroupId]
     cpt_code: typing.Optional[str] = None
     modifiers: typing.Set[ProcedureModifier]
 

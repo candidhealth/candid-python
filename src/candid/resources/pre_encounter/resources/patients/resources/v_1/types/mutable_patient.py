@@ -4,6 +4,7 @@ from ........core.pydantic_utilities import UniversalBaseModel
 from .....common.types.human_name import HumanName
 import typing
 import pydantic
+from .....common.types.external_identifier import ExternalIdentifier
 from .....common.types.gender import Gender
 import datetime as dt
 from .....common.types.sex import Sex
@@ -38,6 +39,11 @@ class MutablePatient(UniversalBaseModel):
     other_names: typing.List[HumanName] = pydantic.Field()
     """
     Other names for the patient.
+    """
+
+    other_identifiers: typing.Optional[typing.List[ExternalIdentifier]] = pydantic.Field(default=None)
+    """
+    Other identifiers for the patient.
     """
 
     gender: typing.Optional[Gender] = None

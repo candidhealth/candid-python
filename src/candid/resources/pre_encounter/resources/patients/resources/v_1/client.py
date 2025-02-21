@@ -70,6 +70,7 @@ class V1Client:
             ContactPointUse,
             DisabilityStatus,
             Ethnicity,
+            ExternalIdentifier,
             ExternalProvider,
             ExternalProviderType,
             Gender,
@@ -113,6 +114,12 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                    )
+                ],
+                other_identifiers=[
+                    ExternalIdentifier(
+                        value="string",
+                        system="string",
                     )
                 ],
                 gender=Gender.MAN,
@@ -217,6 +224,7 @@ class V1Client:
                         addresses=[],
                         period=Period(),
                         canonical_id="string",
+                        fax="string",
                     )
                 ],
                 filing_order=FilingOrder(
@@ -291,6 +299,7 @@ class V1Client:
                             addresses=[],
                             period=Period(),
                             canonical_id="string",
+                            fax="string",
                         ),
                         referral_number="string",
                     )
@@ -376,6 +385,7 @@ class V1Client:
             ContactPointUse,
             DisabilityStatus,
             Ethnicity,
+            ExternalIdentifier,
             ExternalProvider,
             ExternalProviderType,
             Gender,
@@ -420,6 +430,12 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                    )
+                ],
+                other_identifiers=[
+                    ExternalIdentifier(
+                        value="string",
+                        system="string",
                     )
                 ],
                 gender=Gender.MAN,
@@ -524,6 +540,7 @@ class V1Client:
                         addresses=[],
                         period=Period(),
                         canonical_id="string",
+                        fax="string",
                     )
                 ],
                 filing_order=FilingOrder(
@@ -598,6 +615,7 @@ class V1Client:
                             addresses=[],
                             period=Period(),
                             canonical_id="string",
+                            fax="string",
                         ),
                         referral_number="string",
                     )
@@ -891,6 +909,7 @@ class V1Client:
             ContactPointUse,
             DisabilityStatus,
             Ethnicity,
+            ExternalIdentifier,
             ExternalProvider,
             ExternalProviderType,
             Gender,
@@ -935,6 +954,12 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                    )
+                ],
+                other_identifiers=[
+                    ExternalIdentifier(
+                        value="string",
+                        system="string",
                     )
                 ],
                 gender=Gender.MAN,
@@ -1039,6 +1064,7 @@ class V1Client:
                         addresses=[],
                         period=Period(),
                         canonical_id="string",
+                        fax="string",
                     )
                 ],
                 filing_order=FilingOrder(
@@ -1113,6 +1139,7 @@ class V1Client:
                             addresses=[],
                             period=Period(),
                             canonical_id="string",
+                            fax="string",
                         ),
                         referral_number="string",
                     )
@@ -1171,7 +1198,7 @@ class V1Client:
         self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets a patient as deactivated. The path must contain the most recent version to prevent race conditions. Deactivating historic versions is not supported. Subsequent updates via PUT to the patient will "reactivate" the patient and set the deactivated flag to false.
+        Sets a patient as deactivated. The path must contain the most recent version plus 1 to prevent race conditions. Deactivating historic versions is not supported.
 
         Parameters
         ----------
@@ -1203,6 +1230,73 @@ class V1Client:
             f"patients/v1/{jsonable_encoder(id)}/{jsonable_encoder(version)}",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "NotFoundError":
+                raise NotFoundError(
+                    typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "VersionConflictError":
+                raise VersionConflictError(
+                    typing.cast(
+                        VersionConflictErrorBody,
+                        parse_obj_as(
+                            type_=VersionConflictErrorBody,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def reactivate(
+        self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Removes the deactivated flag for a patient. The path must contain the most recent version plus 1 to prevent race conditions. Reactivating historic versions is not supported.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        version : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.patients.v_1.reactivate(
+            id="string",
+            version="string",
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"patients/v1/{jsonable_encoder(id)}/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="PATCH",
             request_options=request_options,
         )
         if 200 <= _response.status_code < 300:
@@ -1395,6 +1489,7 @@ class AsyncV1Client:
             ContactPointUse,
             DisabilityStatus,
             Ethnicity,
+            ExternalIdentifier,
             ExternalProvider,
             ExternalProviderType,
             Gender,
@@ -1441,6 +1536,12 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                        )
+                    ],
+                    other_identifiers=[
+                        ExternalIdentifier(
+                            value="string",
+                            system="string",
                         )
                     ],
                     gender=Gender.MAN,
@@ -1545,6 +1646,7 @@ class AsyncV1Client:
                             addresses=[],
                             period=Period(),
                             canonical_id="string",
+                            fax="string",
                         )
                     ],
                     filing_order=FilingOrder(
@@ -1619,6 +1721,7 @@ class AsyncV1Client:
                                 addresses=[],
                                 period=Period(),
                                 canonical_id="string",
+                                fax="string",
                             ),
                             referral_number="string",
                         )
@@ -1708,6 +1811,7 @@ class AsyncV1Client:
             ContactPointUse,
             DisabilityStatus,
             Ethnicity,
+            ExternalIdentifier,
             ExternalProvider,
             ExternalProviderType,
             Gender,
@@ -1755,6 +1859,12 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                        )
+                    ],
+                    other_identifiers=[
+                        ExternalIdentifier(
+                            value="string",
+                            system="string",
                         )
                     ],
                     gender=Gender.MAN,
@@ -1859,6 +1969,7 @@ class AsyncV1Client:
                             addresses=[],
                             period=Period(),
                             canonical_id="string",
+                            fax="string",
                         )
                     ],
                     filing_order=FilingOrder(
@@ -1933,6 +2044,7 @@ class AsyncV1Client:
                                 addresses=[],
                                 period=Period(),
                                 canonical_id="string",
+                                fax="string",
                             ),
                             referral_number="string",
                         )
@@ -2254,6 +2366,7 @@ class AsyncV1Client:
             ContactPointUse,
             DisabilityStatus,
             Ethnicity,
+            ExternalIdentifier,
             ExternalProvider,
             ExternalProviderType,
             Gender,
@@ -2301,6 +2414,12 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                        )
+                    ],
+                    other_identifiers=[
+                        ExternalIdentifier(
+                            value="string",
+                            system="string",
                         )
                     ],
                     gender=Gender.MAN,
@@ -2405,6 +2524,7 @@ class AsyncV1Client:
                             addresses=[],
                             period=Period(),
                             canonical_id="string",
+                            fax="string",
                         )
                     ],
                     filing_order=FilingOrder(
@@ -2479,6 +2599,7 @@ class AsyncV1Client:
                                 addresses=[],
                                 period=Period(),
                                 canonical_id="string",
+                                fax="string",
                             ),
                             referral_number="string",
                         )
@@ -2540,7 +2661,7 @@ class AsyncV1Client:
         self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets a patient as deactivated. The path must contain the most recent version to prevent race conditions. Deactivating historic versions is not supported. Subsequent updates via PUT to the patient will "reactivate" the patient and set the deactivated flag to false.
+        Sets a patient as deactivated. The path must contain the most recent version plus 1 to prevent race conditions. Deactivating historic versions is not supported.
 
         Parameters
         ----------
@@ -2580,6 +2701,81 @@ class AsyncV1Client:
             f"patients/v1/{jsonable_encoder(id)}/{jsonable_encoder(version)}",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "NotFoundError":
+                raise NotFoundError(
+                    typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "VersionConflictError":
+                raise VersionConflictError(
+                    typing.cast(
+                        VersionConflictErrorBody,
+                        parse_obj_as(
+                            type_=VersionConflictErrorBody,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def reactivate(
+        self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Removes the deactivated flag for a patient. The path must contain the most recent version plus 1 to prevent race conditions. Reactivating historic versions is not supported.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        version : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.patients.v_1.reactivate(
+                id="string",
+                version="string",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"patients/v1/{jsonable_encoder(id)}/{jsonable_encoder(version)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="PATCH",
             request_options=request_options,
         )
         if 200 <= _response.status_code < 300:

@@ -3,6 +3,7 @@
 from ...core.client_wrapper import SyncClientWrapper
 from .resources.appointments.client import AppointmentsClient
 from .resources.coverages.client import CoveragesClient
+from .resources.eligibility_checks.client import EligibilityChecksClient
 from .resources.lists.client import ListsClient
 from .resources.notes.client import NotesClient
 from .resources.patients.client import PatientsClient
@@ -10,6 +11,7 @@ from .resources.tags.client import TagsClient
 from ...core.client_wrapper import AsyncClientWrapper
 from .resources.appointments.client import AsyncAppointmentsClient
 from .resources.coverages.client import AsyncCoveragesClient
+from .resources.eligibility_checks.client import AsyncEligibilityChecksClient
 from .resources.lists.client import AsyncListsClient
 from .resources.notes.client import AsyncNotesClient
 from .resources.patients.client import AsyncPatientsClient
@@ -21,6 +23,7 @@ class PreEncounterClient:
         self._client_wrapper = client_wrapper
         self.appointments = AppointmentsClient(client_wrapper=self._client_wrapper)
         self.coverages = CoveragesClient(client_wrapper=self._client_wrapper)
+        self.eligibility_checks = EligibilityChecksClient(client_wrapper=self._client_wrapper)
         self.lists = ListsClient(client_wrapper=self._client_wrapper)
         self.notes = NotesClient(client_wrapper=self._client_wrapper)
         self.patients = PatientsClient(client_wrapper=self._client_wrapper)
@@ -32,6 +35,7 @@ class AsyncPreEncounterClient:
         self._client_wrapper = client_wrapper
         self.appointments = AsyncAppointmentsClient(client_wrapper=self._client_wrapper)
         self.coverages = AsyncCoveragesClient(client_wrapper=self._client_wrapper)
+        self.eligibility_checks = AsyncEligibilityChecksClient(client_wrapper=self._client_wrapper)
         self.lists = AsyncListsClient(client_wrapper=self._client_wrapper)
         self.notes = AsyncNotesClient(client_wrapper=self._client_wrapper)
         self.patients = AsyncPatientsClient(client_wrapper=self._client_wrapper)

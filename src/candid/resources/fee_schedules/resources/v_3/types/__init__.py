@@ -12,6 +12,7 @@ from .match_license_type import MatchLicenseType
 from .match_modifiers import MatchModifiers
 from .match_network_types import MatchNetworkTypes
 from .match_payer import MatchPayer
+from .match_payer_plan_groups import MatchPayerPlanGroups
 from .match_provider import MatchProvider
 from .match_result import MatchResult
 from .match_test_result import MatchTestResult
@@ -19,6 +20,7 @@ from .new_rate import NewRate
 from .new_rate_version import NewRateVersion
 from .optional_dimensions import OptionalDimensions
 from .overlapping_rate_entries_error import OverlappingRateEntriesError
+from .payer_plan_group_does_not_match_rate_payer_error import PayerPlanGroupDoesNotMatchRatePayerError
 from .payer_threshold import PayerThreshold
 from .payer_thresholds_page import PayerThresholdsPage
 from .rate import Rate
@@ -33,6 +35,8 @@ from .validation_error import (
     ValidationError_EmptyEntries,
     ValidationError_OrganizationProviderNotFound,
     ValidationError_OverlappingRateEntries,
+    ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
+    ValidationError_PayerPlanGroupNotFound,
     ValidationError_VersionConflict,
 )
 
@@ -49,6 +53,7 @@ __all__ = [
     "MatchModifiers",
     "MatchNetworkTypes",
     "MatchPayer",
+    "MatchPayerPlanGroups",
     "MatchProvider",
     "MatchResult",
     "MatchTestResult",
@@ -56,6 +61,7 @@ __all__ = [
     "NewRateVersion",
     "OptionalDimensions",
     "OverlappingRateEntriesError",
+    "PayerPlanGroupDoesNotMatchRatePayerError",
     "PayerThreshold",
     "PayerThresholdsPage",
     "Rate",
@@ -71,5 +77,7 @@ __all__ = [
     "ValidationError_EmptyEntries",
     "ValidationError_OrganizationProviderNotFound",
     "ValidationError_OverlappingRateEntries",
+    "ValidationError_PayerPlanGroupDoesNotMatchRatePayer",
+    "ValidationError_PayerPlanGroupNotFound",
     "ValidationError_VersionConflict",
 ]

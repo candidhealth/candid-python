@@ -6,6 +6,7 @@ import typing
 from .rate_entry import RateEntry
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
+from .....payers.resources.v_3.types.payer_uuid import PayerUuid
 
 
 class ValidationError_OverlappingRateEntries(UniversalBaseModel):
@@ -78,10 +79,41 @@ class ValidationError_EmptyEntries(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
+class ValidationError_PayerPlanGroupNotFound(UniversalBaseModel):
+    type: typing.Literal["payer_plan_group_not_found"] = "payer_plan_group_not_found"
+    id: str
+
+    if IS_PYDANTIC_V2:
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
+    else:
+
+        class Config:
+            frozen = True
+            smart_union = True
+            extra = pydantic.Extra.allow
+
+
+class ValidationError_PayerPlanGroupDoesNotMatchRatePayer(UniversalBaseModel):
+    type: typing.Literal["payer_plan_group_does_not_match_rate_payer"] = "payer_plan_group_does_not_match_rate_payer"
+    rate_payer_uuid: PayerUuid
+    payer_plan_group_payer_uuid: PayerUuid
+
+    if IS_PYDANTIC_V2:
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
+    else:
+
+        class Config:
+            frozen = True
+            smart_union = True
+            extra = pydantic.Extra.allow
+
+
 ValidationError = typing.Union[
     ValidationError_OverlappingRateEntries,
     ValidationError_VersionConflict,
     ValidationError_OrganizationProviderNotFound,
     ValidationError_DuplicateRate,
     ValidationError_EmptyEntries,
+    ValidationError_PayerPlanGroupNotFound,
+    ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
 ]

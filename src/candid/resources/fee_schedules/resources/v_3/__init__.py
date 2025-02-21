@@ -13,6 +13,7 @@ from .types import (
     MatchModifiers,
     MatchNetworkTypes,
     MatchPayer,
+    MatchPayerPlanGroups,
     MatchProvider,
     MatchResult,
     MatchTestResult,
@@ -20,6 +21,7 @@ from .types import (
     NewRateVersion,
     OptionalDimensions,
     OverlappingRateEntriesError,
+    PayerPlanGroupDoesNotMatchRatePayerError,
     PayerThreshold,
     PayerThresholdsPage,
     Rate,
@@ -35,6 +37,8 @@ from .types import (
     ValidationError_EmptyEntries,
     ValidationError_OrganizationProviderNotFound,
     ValidationError_OverlappingRateEntries,
+    ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
+    ValidationError_PayerPlanGroupNotFound,
     ValidationError_VersionConflict,
 )
 from .errors import FailedToBuildServiceLineDimensions, FeeScheduleValidationHttpError
@@ -54,6 +58,7 @@ __all__ = [
     "MatchModifiers",
     "MatchNetworkTypes",
     "MatchPayer",
+    "MatchPayerPlanGroups",
     "MatchProvider",
     "MatchResult",
     "MatchTestResult",
@@ -61,6 +66,7 @@ __all__ = [
     "NewRateVersion",
     "OptionalDimensions",
     "OverlappingRateEntriesError",
+    "PayerPlanGroupDoesNotMatchRatePayerError",
     "PayerThreshold",
     "PayerThresholdsPage",
     "Rate",
@@ -76,5 +82,7 @@ __all__ = [
     "ValidationError_EmptyEntries",
     "ValidationError_OrganizationProviderNotFound",
     "ValidationError_OverlappingRateEntries",
+    "ValidationError_PayerPlanGroupDoesNotMatchRatePayer",
+    "ValidationError_PayerPlanGroupNotFound",
     "ValidationError_VersionConflict",
 ]

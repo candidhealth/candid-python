@@ -4,6 +4,7 @@ from ........core.pydantic_utilities import UniversalBaseModel
 import typing
 import pydantic
 from .related_entity_contact import RelatedEntityContact
+from .service_type_code import ServiceTypeCode
 from ........core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -13,6 +14,9 @@ class BenefitsRelatedEntity(UniversalBaseModel):
     entity_name: typing.Optional[str] = pydantic.Field(alias="entityName", default=None)
     contact_information: typing.Optional[typing.List[RelatedEntityContact]] = pydantic.Field(
         alias="contactInformation", default=None
+    )
+    service_type_codes: typing.Optional[typing.List[ServiceTypeCode]] = pydantic.Field(
+        alias="serviceTypeCodes", default=None
     )
 
     if IS_PYDANTIC_V2:

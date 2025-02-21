@@ -14,6 +14,7 @@ from .coverage_id import CoverageId
 from .disability_status import DisabilityStatus
 from .error_base_4_xx import ErrorBase4Xx
 from .ethnicity import Ethnicity
+from .external_identifier import ExternalIdentifier
 from .external_provider import ExternalProvider
 from .external_provider_type import ExternalProviderType
 from .gender import Gender
@@ -24,6 +25,7 @@ from .organization_id import OrganizationId
 from .page_token import PageToken
 from .patient_id import PatientId
 from .payer_id import PayerId
+from .payer_plan_group_id import PayerPlanGroupId
 from .period import Period
 from .race import Race
 from .relationship import Relationship
@@ -50,6 +52,7 @@ __all__ = [
     "DisabilityStatus",
     "ErrorBase4Xx",
     "Ethnicity",
+    "ExternalIdentifier",
     "ExternalProvider",
     "ExternalProviderType",
     "Gender",
@@ -60,6 +63,7 @@ __all__ = [
     "PageToken",
     "PatientId",
     "PayerId",
+    "PayerPlanGroupId",
     "Period",
     "Race",
     "Relationship",

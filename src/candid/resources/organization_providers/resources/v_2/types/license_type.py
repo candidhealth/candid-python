@@ -98,6 +98,10 @@ class LicenseType(str, enum.Enum):
     PLMHP = "PLMHP"
     PCMSW = "PCMSW"
     LMHP = "LMHP"
+    OTRL = "OTR/L"
+    RPA = "RPA"
+    COTA = "COTA"
+    CRNP = "CRNP"
     _UNKNOWN = "__LICENSETYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -202,6 +206,10 @@ class LicenseType(str, enum.Enum):
         plmhp: typing.Callable[[], T_Result],
         pcmsw: typing.Callable[[], T_Result],
         lmhp: typing.Callable[[], T_Result],
+        otrl: typing.Callable[[], T_Result],
+        rpa: typing.Callable[[], T_Result],
+        cota: typing.Callable[[], T_Result],
+        crnp: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is LicenseType.MD:
@@ -386,4 +394,12 @@ class LicenseType(str, enum.Enum):
             return pcmsw()
         if self is LicenseType.LMHP:
             return lmhp()
+        if self is LicenseType.OTRL:
+            return otrl()
+        if self is LicenseType.RPA:
+            return rpa()
+        if self is LicenseType.COTA:
+            return cota()
+        if self is LicenseType.CRNP:
+            return crnp()
         return _unknown_member(self._value_)

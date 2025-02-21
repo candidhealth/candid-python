@@ -23,6 +23,7 @@ from ....commons.types.state import State
 from ....organization_providers.resources.v_2.types.license_type import LicenseType
 from ....commons.types.facility_type_code import FacilityTypeCode
 from ....commons.types.network_type import NetworkType
+from ....commons.types.payer_plan_group_id import PayerPlanGroupId
 from ....commons.types.procedure_modifier import ProcedureModifier
 from .types.rates_page import RatesPage
 from .types.dimension_name import DimensionName
@@ -215,6 +216,7 @@ class V3Client:
         license_types: typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]] = None,
         facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]] = None,
         network_types: typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]] = None,
+        payer_plan_group_ids: typing.Optional[typing.Union[PayerPlanGroupId, typing.Sequence[PayerPlanGroupId]]] = None,
         cpt_code: typing.Optional[str] = None,
         modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -244,6 +246,8 @@ class V3Client:
         facility_type_codes : typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]]
 
         network_types : typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]]
+
+        payer_plan_group_ids : typing.Optional[typing.Union[PayerPlanGroupId, typing.Sequence[PayerPlanGroupId]]]
 
         cpt_code : typing.Optional[str]
 
@@ -291,6 +295,9 @@ class V3Client:
             license_types=LicenseType.MD,
             facility_type_codes=FacilityTypeCode.PHARMACY,
             network_types=NetworkType.PPO,
+            payer_plan_group_ids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
             cpt_code="string",
             modifiers=ProcedureModifier.TWENTY_TWO,
         )
@@ -310,6 +317,7 @@ class V3Client:
                 "license_types": license_types,
                 "facility_type_codes": facility_type_codes,
                 "network_types": network_types,
+                "payer_plan_group_ids": payer_plan_group_ids,
                 "cpt_code": cpt_code,
                 "modifiers": modifiers,
             },
@@ -342,6 +350,7 @@ class V3Client:
         license_types: typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]] = None,
         facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]] = None,
         network_types: typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]] = None,
+        payer_plan_group_ids: typing.Optional[typing.Union[PayerPlanGroupId, typing.Sequence[PayerPlanGroupId]]] = None,
         cpt_code: typing.Optional[str] = None,
         modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -372,6 +381,8 @@ class V3Client:
         facility_type_codes : typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]]
 
         network_types : typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]]
+
+        payer_plan_group_ids : typing.Optional[typing.Union[PayerPlanGroupId, typing.Sequence[PayerPlanGroupId]]]
 
         cpt_code : typing.Optional[str]
 
@@ -417,6 +428,9 @@ class V3Client:
             license_types=LicenseType.MD,
             facility_type_codes=FacilityTypeCode.PHARMACY,
             network_types=NetworkType.PPO,
+            payer_plan_group_ids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
             cpt_code="string",
             modifiers=ProcedureModifier.TWENTY_TWO,
         )
@@ -436,6 +450,7 @@ class V3Client:
                 "license_types": license_types,
                 "facility_type_codes": facility_type_codes,
                 "network_types": network_types,
+                "payer_plan_group_ids": payer_plan_group_ids,
                 "cpt_code": cpt_code,
                 "modifiers": modifiers,
             },
@@ -581,6 +596,11 @@ class V3Client:
                         license_types=[LicenseType.MD],
                         facility_type_codes=[FacilityTypeCode.PHARMACY],
                         network_types=[NetworkType.PPO],
+                        payer_plan_group_ids=[
+                            uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ],
                         cpt_code="string",
                         modifiers=[ProcedureModifier.TWENTY_TWO],
                     ),
@@ -1071,6 +1091,7 @@ class AsyncV3Client:
         license_types: typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]] = None,
         facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]] = None,
         network_types: typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]] = None,
+        payer_plan_group_ids: typing.Optional[typing.Union[PayerPlanGroupId, typing.Sequence[PayerPlanGroupId]]] = None,
         cpt_code: typing.Optional[str] = None,
         modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1100,6 +1121,8 @@ class AsyncV3Client:
         facility_type_codes : typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]]
 
         network_types : typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]]
+
+        payer_plan_group_ids : typing.Optional[typing.Union[PayerPlanGroupId, typing.Sequence[PayerPlanGroupId]]]
 
         cpt_code : typing.Optional[str]
 
@@ -1151,6 +1174,9 @@ class AsyncV3Client:
                 license_types=LicenseType.MD,
                 facility_type_codes=FacilityTypeCode.PHARMACY,
                 network_types=NetworkType.PPO,
+                payer_plan_group_ids=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
                 cpt_code="string",
                 modifiers=ProcedureModifier.TWENTY_TWO,
             )
@@ -1173,6 +1199,7 @@ class AsyncV3Client:
                 "license_types": license_types,
                 "facility_type_codes": facility_type_codes,
                 "network_types": network_types,
+                "payer_plan_group_ids": payer_plan_group_ids,
                 "cpt_code": cpt_code,
                 "modifiers": modifiers,
             },
@@ -1205,6 +1232,7 @@ class AsyncV3Client:
         license_types: typing.Optional[typing.Union[LicenseType, typing.Sequence[LicenseType]]] = None,
         facility_type_codes: typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]] = None,
         network_types: typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]] = None,
+        payer_plan_group_ids: typing.Optional[typing.Union[PayerPlanGroupId, typing.Sequence[PayerPlanGroupId]]] = None,
         cpt_code: typing.Optional[str] = None,
         modifiers: typing.Optional[typing.Union[ProcedureModifier, typing.Sequence[ProcedureModifier]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1235,6 +1263,8 @@ class AsyncV3Client:
         facility_type_codes : typing.Optional[typing.Union[FacilityTypeCode, typing.Sequence[FacilityTypeCode]]]
 
         network_types : typing.Optional[typing.Union[NetworkType, typing.Sequence[NetworkType]]]
+
+        payer_plan_group_ids : typing.Optional[typing.Union[PayerPlanGroupId, typing.Sequence[PayerPlanGroupId]]]
 
         cpt_code : typing.Optional[str]
 
@@ -1284,6 +1314,9 @@ class AsyncV3Client:
                 license_types=LicenseType.MD,
                 facility_type_codes=FacilityTypeCode.PHARMACY,
                 network_types=NetworkType.PPO,
+                payer_plan_group_ids=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
                 cpt_code="string",
                 modifiers=ProcedureModifier.TWENTY_TWO,
             )
@@ -1306,6 +1339,7 @@ class AsyncV3Client:
                 "license_types": license_types,
                 "facility_type_codes": facility_type_codes,
                 "network_types": network_types,
+                "payer_plan_group_ids": payer_plan_group_ids,
                 "cpt_code": cpt_code,
                 "modifiers": modifiers,
             },
@@ -1462,6 +1496,11 @@ class AsyncV3Client:
                             license_types=[LicenseType.MD],
                             facility_type_codes=[FacilityTypeCode.PHARMACY],
                             network_types=[NetworkType.PPO],
+                            payer_plan_group_ids=[
+                                uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                )
+                            ],
                             cpt_code="string",
                             modifiers=[ProcedureModifier.TWENTY_TWO],
                         ),

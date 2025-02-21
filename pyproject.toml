@@ -3,7 +3,7 @@ name = "candidhealth"
 
 [tool.poetry]
 name = "candidhealth"
-version = "0.39.6"
+version = "0.39.7"
 description = ""
 readme = "README.md"
 authors = []

@@ -12,6 +12,12 @@ from ....common.errors.version_conflict_error import VersionConflictError
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from ....common.errors.not_found_error import NotFoundError
 from ....common.types.error_base_4_xx import ErrorBase4Xx
+from ....common.types.page_token import PageToken
+from ....lists.resources.v_1.types.sort_field_string import SortFieldString
+from ....common.types.sort_direction import SortDirection
+from ....lists.resources.v_1.types.filter_query_string import FilterQueryString
+from .types.visits_page import VisitsPage
+from ....common.errors.bad_request_error import BadRequestError
 from ....common.types.appointment_id import AppointmentId
 from .......core.jsonable_encoder import jsonable_encoder
 import datetime as dt
@@ -104,6 +110,7 @@ class V1Client:
                     addresses=[],
                     period=Period(),
                     canonical_id="string",
+                    fax="string",
                 ),
                 estimated_copay_cents=1,
                 estimated_patient_responsibility_cents=1,
@@ -151,6 +158,95 @@ class V1Client:
                 )
             if _response_json["errorName"] == "NotFoundError":
                 raise NotFoundError(
+                    typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def get_visits(
+        self,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        sort_field: typing.Optional[SortFieldString] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> VisitsPage:
+        """
+        Gets all Visits within a given time range. The return list is ordered by start_time ascending.
+
+        Parameters
+        ----------
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+
+        sort_field : typing.Optional[SortFieldString]
+            Defaults to appointment.start_time.
+
+        sort_direction : typing.Optional[SortDirection]
+            Defaults to ascending.
+
+        filters : typing.Optional[FilterQueryString]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        VisitsPage
+
+        Examples
+        --------
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.common import SortDirection
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.appointments.v_1.get_visits(
+            page_token="string",
+            limit=1,
+            sort_field="string",
+            sort_direction=SortDirection.ASC,
+            filters="string",
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "appointments/v1/visits",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "page_token": page_token,
+                "limit": limit,
+                "sort_field": sort_field,
+                "sort_direction": sort_direction,
+                "filters": filters,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                VisitsPage,
+                parse_obj_as(
+                    type_=VisitsPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
                     typing.cast(
                         ErrorBase4Xx,
                         parse_obj_as(
@@ -368,6 +464,7 @@ class V1Client:
                     addresses=[],
                     period=Period(),
                     canonical_id="string",
+                    fax="string",
                 ),
                 estimated_copay_cents=1,
                 estimated_patient_responsibility_cents=1,
@@ -635,6 +732,7 @@ class AsyncV1Client:
                         addresses=[],
                         period=Period(),
                         canonical_id="string",
+                        fax="string",
                     ),
                     estimated_copay_cents=1,
                     estimated_patient_responsibility_cents=1,
@@ -685,6 +783,103 @@ class AsyncV1Client:
                 )
             if _response_json["errorName"] == "NotFoundError":
                 raise NotFoundError(
+                    typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def get_visits(
+        self,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        sort_field: typing.Optional[SortFieldString] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> VisitsPage:
+        """
+        Gets all Visits within a given time range. The return list is ordered by start_time ascending.
+
+        Parameters
+        ----------
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+
+        sort_field : typing.Optional[SortFieldString]
+            Defaults to appointment.start_time.
+
+        sort_direction : typing.Optional[SortDirection]
+            Defaults to ascending.
+
+        filters : typing.Optional[FilterQueryString]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        VisitsPage
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.common import SortDirection
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.appointments.v_1.get_visits(
+                page_token="string",
+                limit=1,
+                sort_field="string",
+                sort_direction=SortDirection.ASC,
+                filters="string",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "appointments/v1/visits",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "page_token": page_token,
+                "limit": limit,
+                "sort_field": sort_field,
+                "sort_direction": sort_direction,
+                "filters": filters,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                VisitsPage,
+                parse_obj_as(
+                    type_=VisitsPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
                     typing.cast(
                         ErrorBase4Xx,
                         parse_obj_as(
@@ -922,6 +1117,7 @@ class AsyncV1Client:
                         addresses=[],
                         period=Period(),
                         canonical_id="string",
+                        fax="string",
                     ),
                     estimated_copay_cents=1,
                     estimated_patient_responsibility_cents=1,

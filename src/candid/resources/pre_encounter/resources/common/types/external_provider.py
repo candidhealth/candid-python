@@ -24,6 +24,7 @@ class ExternalProvider(UniversalBaseModel):
     addresses: typing.Optional[typing.List[Address]] = None
     period: typing.Optional[Period] = None
     canonical_id: typing.Optional[CanonicalProviderId] = None
+    fax: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
