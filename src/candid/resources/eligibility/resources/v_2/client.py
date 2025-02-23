@@ -24,6 +24,9 @@ class V2Client:
         self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[typing.Any]:
         """
+        <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/eligibility-checks/v-1/post).
+        For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
+
         This API is a wrapper around Change Healthcare's eligibility API. Below are some helpful documentation links:
 
         - [Change Healthcare - Guides: Contents of the Eligibility Request Body](https://developers.changehealthcare.com/eligibilityandclaims/docs/contents-of-the-eligibility-request-body)
@@ -99,6 +102,9 @@ class V2Client:
         self, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[typing.Any]:
         """
+        <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/eligibility-checks/v-1/post).
+        For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
+
         **Availity has transitioned their GET endpoint to a POST endpoint. Candid has updated their pass-through integration to enable backwards compatibility for the GET endpoint so that customers do not have to immediately update their integrations.**
 
         **Candid recommends integrations with the [POST endpoint](https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check-availity-post) to ensure the best possible integration experience. Given the transition, Availity’s documentation will be out of sync with this endpoint.**
@@ -172,6 +178,9 @@ class V2Client:
         self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[typing.Any]:
         """
+        <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/eligibility-checks/v-1/post).
+        For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
+
         If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
 
         This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:
@@ -252,6 +261,9 @@ class AsyncV2Client:
         self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[typing.Any]:
         """
+        <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/eligibility-checks/v-1/post).
+        For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
+
         This API is a wrapper around Change Healthcare's eligibility API. Below are some helpful documentation links:
 
         - [Change Healthcare - Guides: Contents of the Eligibility Request Body](https://developers.changehealthcare.com/eligibilityandclaims/docs/contents-of-the-eligibility-request-body)
@@ -335,6 +347,9 @@ class AsyncV2Client:
         self, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[typing.Any]:
         """
+        <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/eligibility-checks/v-1/post).
+        For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
+
         **Availity has transitioned their GET endpoint to a POST endpoint. Candid has updated their pass-through integration to enable backwards compatibility for the GET endpoint so that customers do not have to immediately update their integrations.**
 
         **Candid recommends integrations with the [POST endpoint](https://docs.joincandidhealth.com/api-reference/eligibility/v-2/submit-eligibility-check-availity-post) to ensure the best possible integration experience. Given the transition, Availity’s documentation will be out of sync with this endpoint.**
@@ -416,6 +431,9 @@ class AsyncV2Client:
         self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[typing.Any]:
         """
+        <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/eligibility-checks/v-1/post).
+        For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
+
         If you'd like access to this endpoint, please reach out to support@joincandidhealth.com with the subject line "Action: Activate Availity Eligibility API Endpoint
 
         This API is a wrapper around Availity's coverages API. Below are some helpful documentation links:

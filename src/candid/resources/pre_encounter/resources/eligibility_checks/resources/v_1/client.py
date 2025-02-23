@@ -23,6 +23,7 @@ class V1Client:
     ) -> EligibilityResponse:
         """
         Sends real-time eligibility checks to payers through Stedi.
+        <Warning>Please only send one concurrent request to this endpoint. Batch requests must be made in succession, otherwise, it will cause this service to fail. A batch endpoint is in development - please reach out to the Candid team for more information.</Warning>
 
         Parameters
         ----------
@@ -118,6 +119,7 @@ class AsyncV1Client:
     ) -> EligibilityResponse:
         """
         Sends real-time eligibility checks to payers through Stedi.
+        <Warning>Please only send one concurrent request to this endpoint. Batch requests must be made in succession, otherwise, it will cause this service to fail. A batch endpoint is in development - please reach out to the Candid team for more information.</Warning>
 
         Parameters
         ----------
