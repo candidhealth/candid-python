@@ -4,6 +4,7 @@ from ......core.pydantic_utilities import UniversalBaseModel
 from .payer_uuid import PayerUuid
 import pydantic
 import typing
+from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -62,6 +63,8 @@ class Payer(UniversalBaseModel):
     """
     The remittance ID of the payer as it appears in Availity.
     """
+
+    street_address: typing.Optional[StreetAddressLongZip] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -3,11 +3,11 @@
 from ......core.pydantic_utilities import UniversalBaseModel
 import typing
 from .....commons.types.procedure_modifier import ProcedureModifier
+import pydantic
 from .....diagnoses.types.diagnosis_id import DiagnosisId
 from .drug_identification import DrugIdentification
 from .service_line_denial_reason import ServiceLineDenialReason
 from .....commons.types.facility_type_code import FacilityTypeCode
-import pydantic
 from .....commons.types.service_line_units import ServiceLineUnits
 from .....commons.types.decimal import Decimal
 import datetime as dt
@@ -18,7 +18,13 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2
 class ServiceLineUpdate(UniversalBaseModel):
     edit_reason: typing.Optional[str] = None
     modifiers: typing.Optional[typing.List[ProcedureModifier]] = None
-    charge_amount_cents: typing.Optional[int] = None
+    charge_amount_cents: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The total amount charged for this service line, factoring in quantity. If `procedure_code` is updated and this is not, the system will attempt
+    to set it based on chargemasters entries and the service line's quantity. For example, if a single unit has an entry of 100 cents and 2
+    units were rendered, the `charge_amount_cents` will be set to 200, if this field is unfilled.
+    """
+
     diagnosis_id_zero: typing.Optional[DiagnosisId] = None
     diagnosis_id_one: typing.Optional[DiagnosisId] = None
     diagnosis_id_two: typing.Optional[DiagnosisId] = None
@@ -31,7 +37,11 @@ class ServiceLineUpdate(UniversalBaseModel):
     """
 
     units: typing.Optional[ServiceLineUnits] = None
-    procedure_code: typing.Optional[str] = None
+    procedure_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    If `procedure_code` is updated, and `charge_amount_cents` is not, then `charge_amount_cents` will be set by the system.
+    """
+
     quantity: typing.Optional[Decimal] = pydantic.Field(default=None)
     """
     String representation of a Decimal that can be parsed by most libraries.

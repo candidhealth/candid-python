@@ -46,6 +46,9 @@ class Claim(UniversalBaseModel):
         payer_claim_id="9BB9F259-9756-4F16-8F53-9DBB9F7EB1BB",
         service_lines=[
             ServiceLine(
+                created_at=datetime.datetime.fromisoformat(
+                    "2023-01-01 00:00:00+00:00",
+                ),
                 modifiers=[ProcedureModifier.TWENTY_TWO],
                 charge_amount_cents=10000,
                 allowed_amount_cents=8000,

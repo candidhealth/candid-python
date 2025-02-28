@@ -20,15 +20,53 @@ A full reference for this library is available [here](./reference.md).
 Instantiate and use the client with the following:
 
 ```python
+import datetime
+
 from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
+    MemberInfo,
+)
+from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+    EligibilityRequest,
+    Encounter,
+    IndividualProvider,
+)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.auth.v_2.get_token(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
+client.pre_encounter.eligibility_checks.v_1.post(
+    request=EligibilityRequest(
+        payer_id="string",
+        provider=IndividualProvider(
+            first_name="string",
+            last_name="string",
+            npi="string",
+        ),
+        subscriber=MemberInfo(
+            member_id="string",
+            first_name="string",
+            last_name="string",
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+        ),
+        dependent=MemberInfo(
+            member_id="string",
+            first_name="string",
+            last_name="string",
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+        ),
+        encounter=Encounter(
+            date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            service_type_codes=["string"],
+        ),
+    ),
 )
 ```
 
@@ -38,8 +76,17 @@ The SDK also exports an `async` client so that you can make non-blocking calls t
 
 ```python
 import asyncio
+import datetime
 
 from candid import AsyncCandidApiClient
+from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
+    MemberInfo,
+)
+from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+    EligibilityRequest,
+    Encounter,
+    IndividualProvider,
+)
 
 client = AsyncCandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -48,9 +95,37 @@ client = AsyncCandidApiClient(
 
 
 async def main() -> None:
-    await client.auth.v_2.get_token(
-        client_id="YOUR_CLIENT_ID",
-        client_secret="YOUR_CLIENT_SECRET",
+    await client.pre_encounter.eligibility_checks.v_1.post(
+        request=EligibilityRequest(
+            payer_id="string",
+            provider=IndividualProvider(
+                first_name="string",
+                last_name="string",
+                npi="string",
+            ),
+            subscriber=MemberInfo(
+                member_id="string",
+                first_name="string",
+                last_name="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+            ),
+            dependent=MemberInfo(
+                member_id="string",
+                first_name="string",
+                last_name="string",
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+            ),
+            encounter=Encounter(
+                date_of_service=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                service_type_codes=["string"],
+            ),
+        ),
     )
 
 
@@ -66,7 +141,7 @@ will be thrown.
 from candid.core.api_error import ApiError
 
 try:
-    client.auth.v_2.get_token(...)
+    client.pre_encounter.eligibility_checks.v_1.post(...)
 except ApiError as e:
     print(e.status_code)
     print(e.body)
@@ -89,7 +164,7 @@ A request is deemed retriable when any of the following HTTP status codes is ret
 Use the `max_retries` request option to configure this behavior.
 
 ```python
-client.auth.v_2.get_token(..., request_options={
+client.pre_encounter.eligibility_checks.v_1.post(..., request_options={
     "max_retries": 1
 })
 ```
@@ -109,7 +184,7 @@ client = CandidApiClient(
 
 
 # Override timeout for a specific method
-client.auth.v_2.get_token(..., request_options={
+client.pre_encounter.eligibility_checks.v_1.post(..., request_options={
     "timeout_in_seconds": 1
 })
 ```
