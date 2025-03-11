@@ -5,6 +5,8 @@ from .address import Address
 from .address_use import AddressUse
 from .appointment_id import AppointmentId
 from .base_model import BaseModel
+from .canonical_clinical_trial_association import CanonicalClinicalTrialAssociation
+from .canonical_clinical_trial_id import CanonicalClinicalTrialId
 from .canonical_non_insurance_payer_association import CanonicalNonInsurancePayerAssociation
 from .canonical_non_insurance_payer_id import CanonicalNonInsurancePayerId
 from .canonical_provider_id import CanonicalProviderId
@@ -43,6 +45,8 @@ __all__ = [
     "AddressUse",
     "AppointmentId",
     "BaseModel",
+    "CanonicalClinicalTrialAssociation",
+    "CanonicalClinicalTrialId",
     "CanonicalNonInsurancePayerAssociation",
     "CanonicalNonInsurancePayerId",
     "CanonicalProviderId",

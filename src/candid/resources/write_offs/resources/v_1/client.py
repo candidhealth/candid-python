@@ -21,6 +21,7 @@ from .types.write_off import WriteOff
 from .....core.jsonable_encoder import jsonable_encoder
 from .types.write_off_create import WriteOffCreate
 from .types.create_write_offs_response import CreateWriteOffsResponse
+from ....commons.types.adjustment_id import AdjustmentId
 from .....core.client_wrapper import AsyncClientWrapper
 
 # this is used as the default value for optional parameters
@@ -318,6 +319,112 @@ class V1Client:
                 WriteOff,
                 parse_obj_as(
                     type_=WriteOff,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def revert_insurance_balance_adjustment(
+        self, adjustment_id: AdjustmentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> WriteOff:
+        """
+        Reverts an Insurance Balance Adjustment given an `adjustment_id`
+
+        Parameters
+        ----------
+        adjustment_id : AdjustmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WriteOff
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.write_offs.v_1.revert_insurance_balance_adjustment(
+            adjustment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/write-offs/v1/{jsonable_encoder(adjustment_id)}/revert",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                WriteOff,
+                parse_obj_as(
+                    type_=WriteOff,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def revert_era_originated_insurance_balance_adjustment(
+        self, adjustment_id: AdjustmentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AdjustmentId:
+        """
+        Reverts an ERA-originated Insurance Balance Adjustment given an `adjustment_id`
+
+        Parameters
+        ----------
+        adjustment_id : AdjustmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AdjustmentId
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.write_offs.v_1.revert_era_originated_insurance_balance_adjustment(
+            adjustment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/write-offs/v1/{jsonable_encoder(adjustment_id)}/revert-era-originated",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                AdjustmentId,
+                parse_obj_as(
+                    type_=AdjustmentId,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -647,6 +754,126 @@ class AsyncV1Client:
                 WriteOff,
                 parse_obj_as(
                     type_=WriteOff,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def revert_insurance_balance_adjustment(
+        self, adjustment_id: AdjustmentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> WriteOff:
+        """
+        Reverts an Insurance Balance Adjustment given an `adjustment_id`
+
+        Parameters
+        ----------
+        adjustment_id : AdjustmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WriteOff
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.write_offs.v_1.revert_insurance_balance_adjustment(
+                adjustment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/write-offs/v1/{jsonable_encoder(adjustment_id)}/revert",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                WriteOff,
+                parse_obj_as(
+                    type_=WriteOff,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def revert_era_originated_insurance_balance_adjustment(
+        self, adjustment_id: AdjustmentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AdjustmentId:
+        """
+        Reverts an ERA-originated Insurance Balance Adjustment given an `adjustment_id`
+
+        Parameters
+        ----------
+        adjustment_id : AdjustmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AdjustmentId
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.write_offs.v_1.revert_era_originated_insurance_balance_adjustment(
+                adjustment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/write-offs/v1/{jsonable_encoder(adjustment_id)}/revert-era-originated",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                AdjustmentId,
+                parse_obj_as(
+                    type_=AdjustmentId,  # type: ignore
                     object_=_response_json,
                 ),
             )

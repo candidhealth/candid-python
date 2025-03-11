@@ -251,6 +251,7 @@ class EncounterPage(ResourcePage):
                                 state=State.CA,
                                 zip_code="94105",
                             ),
+                            clinical_trials=[],
                         )
                     ],
                     non_insurance_payers_info=[
@@ -269,8 +270,10 @@ class EncounterPage(ResourcePage):
                                     state=State.CA,
                                     zip_code="94105",
                                 ),
+                                clinical_trials=[],
                             ),
                             member_id="123456789",
+                            clinical_trial_info=[],
                         )
                     ],
                     phone_consent=True,
@@ -664,6 +667,9 @@ class EncounterPage(ResourcePage):
                         },
                     )
                 ],
+                created_at=datetime.datetime.fromisoformat(
+                    "2023-01-01 00:00:00+00:00",
+                ),
             )
         ],
     )

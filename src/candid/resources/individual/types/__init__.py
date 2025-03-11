@@ -5,6 +5,8 @@ from .individual_base import IndividualBase
 from .individual_id import IndividualId
 from .patient import Patient
 from .patient_base import PatientBase
+from .patient_clinical_trial_info import PatientClinicalTrialInfo
+from .patient_clinical_trial_info_create import PatientClinicalTrialInfoCreate
 from .patient_create import PatientCreate
 from .patient_non_insurance_payer_info import PatientNonInsurancePayerInfo
 from .patient_non_insurance_payer_info_create import PatientNonInsurancePayerInfoCreate
@@ -19,6 +21,8 @@ __all__ = [
     "IndividualId",
     "Patient",
     "PatientBase",
+    "PatientClinicalTrialInfo",
+    "PatientClinicalTrialInfoCreate",
     "PatientCreate",
     "PatientNonInsurancePayerInfo",
     "PatientNonInsurancePayerInfoCreate",

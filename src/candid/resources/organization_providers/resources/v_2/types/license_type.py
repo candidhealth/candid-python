@@ -102,6 +102,9 @@ class LicenseType(str, enum.Enum):
     RPA = "RPA"
     COTA = "COTA"
     CRNP = "CRNP"
+    SLP_CF = "SLP-CF"
+    NP_C = "NP-C"
+    PA_C = "PA-C"
     _UNKNOWN = "__LICENSETYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -210,6 +213,9 @@ class LicenseType(str, enum.Enum):
         rpa: typing.Callable[[], T_Result],
         cota: typing.Callable[[], T_Result],
         crnp: typing.Callable[[], T_Result],
+        slp_cf: typing.Callable[[], T_Result],
+        np_c: typing.Callable[[], T_Result],
+        pa_c: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is LicenseType.MD:
@@ -402,4 +408,10 @@ class LicenseType(str, enum.Enum):
             return cota()
         if self is LicenseType.CRNP:
             return crnp()
+        if self is LicenseType.SLP_CF:
+            return slp_cf()
+        if self is LicenseType.NP_C:
+            return np_c()
+        if self is LicenseType.PA_C:
+            return pa_c()
         return _unknown_member(self._value_)

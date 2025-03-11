@@ -7,6 +7,7 @@ from . import (
     charge_capture_bundles,
     claim_submission,
     claims,
+    clinical_trials,
     commons,
     contracts,
     credentialing,
@@ -53,6 +54,7 @@ from . import (
 )
 from .claims import Claim, ClaimStatus
 from .commons import (
+    AdjustmentId,
     AppointmentId,
     BillingProviderCommercialLicenseType,
     ChargeCaptureBundleId,
@@ -60,6 +62,7 @@ from .commons import (
     ClaimAdjustmentGroupCodes,
     ClaimId,
     ClaimSubmissionPayerResponsibilityType,
+    ClinicalTrialId,
     Date,
     DateRangeOptionalEnd,
     Decimal,
@@ -204,6 +207,8 @@ from .individual import (
     IndividualId,
     Patient,
     PatientBase,
+    PatientClinicalTrialInfo,
+    PatientClinicalTrialInfoCreate,
     PatientCreate,
     PatientNonInsurancePayerInfo,
     PatientNonInsurancePayerInfoCreate,
@@ -224,6 +229,7 @@ from .tags import Tag, TagColorEnum, TagCreate, TagId
 
 __all__ = [
     "AccountType",
+    "AdjustmentId",
     "Allocation",
     "AllocationCreate",
     "AllocationTarget",
@@ -253,6 +259,7 @@ __all__ = [
     "ClaimStatus",
     "ClaimStatusCodeCreate",
     "ClaimSubmissionPayerResponsibilityType",
+    "ClinicalTrialId",
     "Date",
     "DateRangeOptionalEnd",
     "Decimal",
@@ -323,6 +330,8 @@ __all__ = [
     "PageToken",
     "Patient",
     "PatientBase",
+    "PatientClinicalTrialInfo",
+    "PatientClinicalTrialInfoCreate",
     "PatientCreate",
     "PatientExternalId",
     "PatientNonInsurancePayerInfo",
@@ -397,6 +406,7 @@ __all__ = [
     "charge_capture_bundles",
     "claim_submission",
     "claims",
+    "clinical_trials",
     "commons",
     "contracts",
     "credentialing",

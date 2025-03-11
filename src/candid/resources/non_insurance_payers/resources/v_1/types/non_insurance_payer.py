@@ -4,6 +4,7 @@ from ......core.pydantic_utilities import UniversalBaseModel
 from .non_insurance_payer_id import NonInsurancePayerId
 import typing
 from .....commons.types.street_address_short_zip import StreetAddressShortZip
+from .....clinical_trials.resources.v_1.types.clinical_trial import ClinicalTrial
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
 
@@ -33,6 +34,7 @@ class NonInsurancePayer(UniversalBaseModel):
             state=State.CA,
             zip_code="94105",
         ),
+        clinical_trials=[],
     )
     """
 
@@ -42,6 +44,7 @@ class NonInsurancePayer(UniversalBaseModel):
     category: typing.Optional[str] = None
     enabled: bool
     address: typing.Optional[StreetAddressShortZip] = None
+    clinical_trials: typing.List[ClinicalTrial]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

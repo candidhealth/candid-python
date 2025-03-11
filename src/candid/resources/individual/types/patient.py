@@ -58,6 +58,7 @@ class Patient(PatientBase):
                     state=State.CA,
                     zip_code="94105",
                 ),
+                clinical_trials=[],
             )
         ],
         non_insurance_payers_info=[
@@ -76,8 +77,10 @@ class Patient(PatientBase):
                         state=State.CA,
                         zip_code="94105",
                     ),
+                    clinical_trials=[],
                 ),
                 member_id="123456789",
+                clinical_trial_info=[],
             )
         ],
         phone_consent=True,

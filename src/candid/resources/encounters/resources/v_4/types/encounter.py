@@ -271,6 +271,7 @@ class Encounter(EncounterBase):
                         state=State.CA,
                         zip_code="94105",
                     ),
+                    clinical_trials=[],
                 )
             ],
             non_insurance_payers_info=[
@@ -289,8 +290,10 @@ class Encounter(EncounterBase):
                             state=State.CA,
                             zip_code="94105",
                         ),
+                        clinical_trials=[],
                     ),
                     member_id="123456789",
+                    clinical_trial_info=[],
                 )
             ],
             phone_consent=True,
@@ -684,6 +687,9 @@ class Encounter(EncounterBase):
                 },
             )
         ],
+        created_at=datetime.datetime.fromisoformat(
+            "2023-01-01 00:00:00+00:00",
+        ),
     )
     """
 
@@ -819,6 +825,11 @@ class Encounter(EncounterBase):
     last_submitted_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     The date and time the encounter was last submitted to a payer.
+    """
+
+    created_at: dt.datetime = pydantic.Field()
+    """
+    The date and time the encounter was created.
     """
 
     if IS_PYDANTIC_V2:

@@ -40,6 +40,9 @@ class V3Client:
         up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
         outside of these stated guarantees.
 
+        **New Customers:** This endpoint is not enabled by default for new Candid customers. To have this endpoint enabled for your organization,
+        please email our [Support team](mailto:support@joincandidhealth.com) with the request.
+
         Parameters
         ----------
         start_date : dt.date
@@ -173,6 +176,9 @@ class AsyncV3Client:
         caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
         up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
         outside of these stated guarantees.
+
+        **New Customers:** This endpoint is not enabled by default for new Candid customers. To have this endpoint enabled for your organization,
+        please email our [Support team](mailto:support@joincandidhealth.com) with the request.
 
         Parameters
         ----------

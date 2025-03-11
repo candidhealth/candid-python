@@ -1942,9 +1942,29 @@ class ProcedureModifier(str, enum.Enum):
     Three patient visits in a month
     """
 
+    W_1 = "W1"
+    """
+    Indicates that the service was provided under a state-mandated reimbursement rate for workers' compensation claims
+    """
+
+    W_2 = "W2"
+    """
+    Used when a Medicare Set-Aside (MSA) account is used to pay for services related to a workers' compensation settlement
+    """
+
+    W_3 = "W3"
+    """
+    The treatment was approved under the workers’ compensation plan
+    """
+
     XE = "XE"
     """
     Two or more separate patient visits on the same date of service
+    """
+
+    XP = "XP"
+    """
+    A service that is distinct because it was performed by a different practitioner
     """
 
     XS = "XS"
@@ -2357,7 +2377,11 @@ class ProcedureModifier(str, enum.Enum):
         v_1: typing.Callable[[], T_Result],
         v_2: typing.Callable[[], T_Result],
         v_3: typing.Callable[[], T_Result],
+        w_1: typing.Callable[[], T_Result],
+        w_2: typing.Callable[[], T_Result],
+        w_3: typing.Callable[[], T_Result],
         xe: typing.Callable[[], T_Result],
+        xp: typing.Callable[[], T_Result],
         xs: typing.Callable[[], T_Result],
         xu: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
@@ -3136,8 +3160,16 @@ class ProcedureModifier(str, enum.Enum):
             return v_2()
         if self is ProcedureModifier.V_3:
             return v_3()
+        if self is ProcedureModifier.W_1:
+            return w_1()
+        if self is ProcedureModifier.W_2:
+            return w_2()
+        if self is ProcedureModifier.W_3:
+            return w_3()
         if self is ProcedureModifier.XE:
             return xe()
+        if self is ProcedureModifier.XP:
+            return xp()
         if self is ProcedureModifier.XS:
             return xs()
         if self is ProcedureModifier.XU:

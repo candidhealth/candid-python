@@ -4069,6 +4069,7 @@ from candid.resources.encounters.resources.v_4 import (
 from candid.resources.guarantor.resources.v_1 import GuarantorCreate
 from candid.resources.individual import (
     Gender,
+    PatientClinicalTrialInfoCreate,
     PatientCreate,
     PatientNonInsurancePayerInfoCreate,
     SubscriberCreate,
@@ -4102,6 +4103,13 @@ client.encounters.v_4.create(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 member_id="string",
+                clinical_trial_info=[
+                    PatientClinicalTrialInfoCreate(
+                        clinical_trial_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                    )
+                ],
             )
         ],
         email_consent=True,
@@ -6244,6 +6252,9 @@ available by Wednesday at the latest. If file generation is still in progress up
 caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
 up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
 outside of these stated guarantees.
+
+**New Customers:** This endpoint is not enabled by default for new Candid customers. To have this endpoint enabled for your organization,
+please email our [Support team](mailto:support@joincandidhealth.com) with the request.
 </dd>
 </dl>
 </dd>
@@ -14358,6 +14369,156 @@ client.write_offs.v_1.revert(
 <dd>
 
 **write_off_id:** `WriteOffId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.write_offs.v_1.<a href="src/candid/resources/write_offs/resources/v_1/client.py">revert_insurance_balance_adjustment</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Reverts an Insurance Balance Adjustment given an `adjustment_id`
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.revert_insurance_balance_adjustment(
+    adjustment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**adjustment_id:** `AdjustmentId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.write_offs.v_1.<a href="src/candid/resources/write_offs/resources/v_1/client.py">revert_era_originated_insurance_balance_adjustment</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Reverts an ERA-originated Insurance Balance Adjustment given an `adjustment_id`
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.write_offs.v_1.revert_era_originated_insurance_balance_adjustment(
+    adjustment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**adjustment_id:** `AdjustmentId` 
     
 </dd>
 </dl>

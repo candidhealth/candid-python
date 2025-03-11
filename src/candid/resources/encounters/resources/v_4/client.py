@@ -611,6 +611,7 @@ class V4Client:
         from candid.resources.guarantor.resources.v_1 import GuarantorCreate
         from candid.resources.individual import (
             Gender,
+            PatientClinicalTrialInfoCreate,
             PatientCreate,
             PatientNonInsurancePayerInfoCreate,
             SubscriberCreate,
@@ -644,6 +645,13 @@ class V4Client:
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ),
                         member_id="string",
+                        clinical_trial_info=[
+                            PatientClinicalTrialInfoCreate(
+                                clinical_trial_id=uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                ),
+                            )
+                        ],
                     )
                 ],
                 email_consent=True,
@@ -2560,6 +2568,7 @@ class AsyncV4Client:
         from candid.resources.guarantor.resources.v_1 import GuarantorCreate
         from candid.resources.individual import (
             Gender,
+            PatientClinicalTrialInfoCreate,
             PatientCreate,
             PatientNonInsurancePayerInfoCreate,
             SubscriberCreate,
@@ -2596,6 +2605,13 @@ class AsyncV4Client:
                                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                             ),
                             member_id="string",
+                            clinical_trial_info=[
+                                PatientClinicalTrialInfoCreate(
+                                    clinical_trial_id=uuid.UUID(
+                                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                    ),
+                                )
+                            ],
                         )
                     ],
                     email_consent=True,

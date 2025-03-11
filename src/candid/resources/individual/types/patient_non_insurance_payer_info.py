@@ -3,8 +3,9 @@
 from ....core.pydantic_utilities import UniversalBaseModel
 from ...non_insurance_payers.resources.v_1.types.non_insurance_payer import NonInsurancePayer
 import typing
-from ....core.pydantic_utilities import IS_PYDANTIC_V2
+from .patient_clinical_trial_info import PatientClinicalTrialInfo
 import pydantic
+from ....core.pydantic_utilities import IS_PYDANTIC_V2
 
 
 class PatientNonInsurancePayerInfo(UniversalBaseModel):
@@ -34,13 +35,19 @@ class PatientNonInsurancePayerInfo(UniversalBaseModel):
                 state=State.CA,
                 zip_code="94105",
             ),
+            clinical_trials=[],
         ),
         member_id="123456789",
+        clinical_trial_info=[],
     )
     """
 
     non_insurance_payer: NonInsurancePayer
     member_id: typing.Optional[str] = None
+    clinical_trial_info: typing.List[PatientClinicalTrialInfo] = pydantic.Field()
+    """
+    A patient cannot be associated with a given trial more than once
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
