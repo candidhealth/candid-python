@@ -88,6 +88,7 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
@@ -226,6 +227,7 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
@@ -822,6 +824,7 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",
@@ -967,6 +970,7 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",

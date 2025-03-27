@@ -62,7 +62,8 @@ class ServiceLineCreateStandalone(UniversalBaseModel):
 
     test_results: typing.Optional[typing.List[TestResult]] = pydantic.Field(default=None)
     """
-    Maps to MEA-02 on the 837-P. No more than 5 test results may be submitted per service line.
+    Contains a list of test results. Test result types may map to MEA-02 on the 837-P (ex: Hemoglobin, Hematocrit).
+    No more than 5 MEA-02 test results may be submitted per service line.
     """
 
     has_epsdt_indicator: typing.Optional[bool] = pydantic.Field(default=None)

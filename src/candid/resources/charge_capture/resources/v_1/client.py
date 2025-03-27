@@ -468,6 +468,7 @@ class V1Client:
         status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
         date_of_service: typing.Optional[dt.date] = None,
+        exclude_bundled: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
         """
@@ -492,6 +493,9 @@ class V1Client:
         date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
+
+        exclude_bundled : typing.Optional[bool]
+            Whether to exclude charge captures which are associated with a charge capture bundle.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -520,6 +524,7 @@ class V1Client:
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
+            exclude_bundled=True,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -533,6 +538,7 @@ class V1Client:
                 "status": status,
                 "charge_external_id": charge_external_id,
                 "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "exclude_bundled": exclude_bundled,
             },
             request_options=request_options,
         )
@@ -1015,6 +1021,7 @@ class AsyncV1Client:
         status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
         date_of_service: typing.Optional[dt.date] = None,
+        exclude_bundled: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
         """
@@ -1039,6 +1046,9 @@ class AsyncV1Client:
         date_of_service : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
+
+        exclude_bundled : typing.Optional[bool]
+            Whether to exclude charge captures which are associated with a charge capture bundle.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1071,6 +1081,7 @@ class AsyncV1Client:
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
+                exclude_bundled=True,
             )
 
 
@@ -1087,6 +1098,7 @@ class AsyncV1Client:
                 "status": status,
                 "charge_external_id": charge_external_id,
                 "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "exclude_bundled": exclude_bundled,
             },
             request_options=request_options,
         )

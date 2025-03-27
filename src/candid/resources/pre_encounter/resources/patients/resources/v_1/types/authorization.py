@@ -4,10 +4,10 @@ from ........core.pydantic_utilities import UniversalBaseModel
 from .....common.types.payer_id import PayerId
 import typing
 from .....common.types.additional_payer_information import AdditionalPayerInformation
+import pydantic
 from .authorization_unit import AuthorizationUnit
 from .....common.types.period import Period
 from ........core.pydantic_utilities import IS_PYDANTIC_V2
-import pydantic
 
 
 class Authorization(UniversalBaseModel):
@@ -16,6 +16,11 @@ class Authorization(UniversalBaseModel):
     additional_payer_information: typing.Optional[AdditionalPayerInformation] = None
     authorization_number: str
     cpt_code: str
+    apply_for_all_cpt_codes: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    If true, then the authorization will apply for all claims for the payer that fall in range the `period`.
+    """
+
     units: AuthorizationUnit
     quantity: typing.Optional[int] = None
     period: typing.Optional[Period] = None

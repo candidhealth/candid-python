@@ -27,6 +27,7 @@ from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .encounter_submission_origin_type import EncounterSubmissionOriginType
 from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from .epsdt_referral import EpsdtReferral
+from .claim_supplemental_information import ClaimSupplementalInformation
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -231,7 +232,11 @@ class Encounter(EncounterBase):
                             TestResult(
                                 result_type=TestResultType.HEMOGLOBIN,
                                 value=51.0,
-                            )
+                            ),
+                            TestResult(
+                                result_type=TestResultType.LDL,
+                                value=110.0,
+                            ),
                         ],
                     )
                 ],
@@ -743,6 +748,11 @@ class Encounter(EncounterBase):
     Contains details of the secondary insurance subscriber.
     """
 
+    subscriber_tertiary: typing.Optional[Subscriber] = pydantic.Field(default=None)
+    """
+    Contains details of the tertiary insurance subscriber.
+    """
+
     prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = pydantic.Field(default=None)
     """
     Box 23 on the CMS-1500 claim form.
@@ -820,6 +830,13 @@ class Encounter(EncounterBase):
     epsdt_referral: typing.Optional[EpsdtReferral] = pydantic.Field(default=None)
     """
     Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+    """
+
+    claim_supplemental_information: typing.Optional[typing.List[ClaimSupplementalInformation]] = pydantic.Field(
+        default=None
+    )
+    """
+    Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
     """
 
     last_submitted_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)

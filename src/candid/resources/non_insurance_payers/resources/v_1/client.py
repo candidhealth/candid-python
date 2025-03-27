@@ -50,6 +50,10 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
+        from candid.resources.clinical_trials.resources.v_1 import (
+            ClinicalTrialPhase,
+            MutableClinicalTrial,
+        )
         from candid.resources.commons import State, StreetAddressShortZip
         from candid.resources.non_insurance_payers.resources.v_1 import (
             CreateNonInsurancePayerRequest,
@@ -72,6 +76,13 @@ class V1Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
+                clinical_trials=[
+                    MutableClinicalTrial(
+                        name="string",
+                        clinical_trial_number="string",
+                        clinical_trial_phase=ClinicalTrialPhase.PHASE_ONE,
+                    )
+                ],
             ),
         )
         """
@@ -528,6 +539,10 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
+        from candid.resources.clinical_trials.resources.v_1 import (
+            ClinicalTrialPhase,
+            MutableClinicalTrial,
+        )
         from candid.resources.commons import State, StreetAddressShortZip
         from candid.resources.non_insurance_payers.resources.v_1 import (
             CreateNonInsurancePayerRequest,
@@ -553,6 +568,13 @@ class AsyncV1Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
+                    clinical_trials=[
+                        MutableClinicalTrial(
+                            name="string",
+                            clinical_trial_number="string",
+                            clinical_trial_phase=ClinicalTrialPhase.PHASE_ONE,
+                        )
+                    ],
                 ),
             )
 

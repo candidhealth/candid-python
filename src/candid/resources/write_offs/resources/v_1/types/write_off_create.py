@@ -11,6 +11,7 @@ import pydantic
 from .....payers.resources.v_3.types.payer_identifier import PayerIdentifier
 from .insurance_write_off_target import InsuranceWriteOffTarget
 from .insurance_write_off_reason import InsuranceWriteOffReason
+from .....non_insurance_payers.resources.v_1.types.non_insurance_payer_id import NonInsurancePayerId
 
 
 class WriteOffCreate_Patient(UniversalBaseModel):
@@ -50,4 +51,23 @@ class WriteOffCreate_Insurance(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-WriteOffCreate = typing.Union[WriteOffCreate_Patient, WriteOffCreate_Insurance]
+class WriteOffCreate_NonInsurancePayer(UniversalBaseModel):
+    type: typing.Literal["non_insurance_payer"] = "non_insurance_payer"
+    non_insurance_payer_id: NonInsurancePayerId
+    service_line_id: ServiceLineId
+    write_off_timestamp: dt.datetime
+    write_off_note: typing.Optional[str] = None
+    write_off_reason: InsuranceWriteOffReason
+    amount_cents: int
+
+    if IS_PYDANTIC_V2:
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
+    else:
+
+        class Config:
+            frozen = True
+            smart_union = True
+            extra = pydantic.Extra.allow
+
+
+WriteOffCreate = typing.Union[WriteOffCreate_Patient, WriteOffCreate_Insurance, WriteOffCreate_NonInsurancePayer]

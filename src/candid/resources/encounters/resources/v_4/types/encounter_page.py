@@ -211,7 +211,11 @@ class EncounterPage(ResourcePage):
                                     TestResult(
                                         result_type=TestResultType.HEMOGLOBIN,
                                         value=51.0,
-                                    )
+                                    ),
+                                    TestResult(
+                                        result_type=TestResultType.LDL,
+                                        value=110.0,
+                                    ),
                                 ],
                             )
                         ],

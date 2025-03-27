@@ -9,6 +9,7 @@ T_Result = typing.TypeVar("T_Result")
 class TestResultType(str, enum.Enum):
     HEMATOCRIT = "HEMATOCRIT"
     HEMOGLOBIN = "HEMOGLOBIN"
+    LDL = "LDL"
     _UNKNOWN = "__TESTRESULTTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -24,10 +25,13 @@ class TestResultType(str, enum.Enum):
         self,
         hematocrit: typing.Callable[[], T_Result],
         hemoglobin: typing.Callable[[], T_Result],
+        ldl: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is TestResultType.HEMATOCRIT:
             return hematocrit()
         if self is TestResultType.HEMOGLOBIN:
             return hemoglobin()
+        if self is TestResultType.LDL:
+            return ldl()
         return _unknown_member(self._value_)

@@ -40,6 +40,7 @@ from ....guarantor.resources.v_1.types.guarantor_create import GuarantorCreate
 from ....claim_submission.resources.v_1.types.external_claim_submission_create import ExternalClaimSubmissionCreate
 from ....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from .types.epsdt_referral import EpsdtReferral
+from .types.claim_supplemental_information import ClaimSupplementalInformation
 from .types.medication import Medication
 from .types.vitals import Vitals
 from .types.intervention import Intervention
@@ -316,6 +317,7 @@ class V4Client:
         service_facility: typing.Optional[EncounterServiceFacilityBase] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
+        subscriber_tertiary: typing.Optional[SubscriberCreate] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         billing_notes: typing.Optional[typing.Sequence[BillingNoteBase]] = OMIT,
@@ -327,6 +329,7 @@ class V4Client:
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         referral_number: typing.Optional[str] = OMIT,
         epsdt_referral: typing.Optional[EpsdtReferral] = OMIT,
+        claim_supplemental_information: typing.Optional[typing.Sequence[ClaimSupplementalInformation]] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
@@ -429,6 +432,10 @@ class V4Client:
             Please always include this when you have it, even for self-pay claims.
 
 
+        subscriber_tertiary : typing.Optional[SubscriberCreate]
+            Please always include this when you have it, even for self-pay claims.
+
+
         prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
             Box 23 on the CMS-1500 claim form.
 
@@ -471,6 +478,10 @@ class V4Client:
 
         epsdt_referral : typing.Optional[EpsdtReferral]
             Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+
+
+        claim_supplemental_information : typing.Optional[typing.Sequence[ClaimSupplementalInformation]]
+            Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
 
 
         date_of_service : typing.Optional[dt.date]
@@ -590,6 +601,7 @@ class V4Client:
         )
         from candid.resources.encounters.resources.v_4 import (
             BillableStatusType,
+            ClaimSupplementalInformation,
             ClinicalNoteCategoryCreate,
             EpsdtReferral,
             IntakeFollowUp,
@@ -603,6 +615,8 @@ class V4Client:
             NoteCategory,
             PatientHistoryCategory,
             PatientHistoryCategoryEnum,
+            ReportTransmissionCode,
+            ReportTypeCode,
             ResponsiblePartyType,
             ServiceAuthorizationExceptionCode,
             SynchronicityType,
@@ -830,6 +844,40 @@ class V4Client:
                 last_name="string",
                 gender=Gender.MALE,
             ),
+            subscriber_tertiary=SubscriberCreate(
+                insurance_card=InsuranceCardCreate(
+                    member_id="string",
+                    payer_name="string",
+                    payer_id="string",
+                    rx_bin="string",
+                    rx_pcn="string",
+                    image_url_front="string",
+                    image_url_back="string",
+                    emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                    group_number="string",
+                    plan_name="string",
+                    plan_type=SourceOfPaymentCode.SELF_PAY,
+                    insurance_type=InsuranceTypeCode.C_01,
+                    payer_plan_group_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                ),
+                patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                date_of_birth=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                address=StreetAddressShortZip(
+                    address_1="123 Main St",
+                    address_2="Apt 1",
+                    city="New York",
+                    state=State.NY,
+                    zip_code="10001",
+                    zip_plus_four_code="1234",
+                ),
+                first_name="string",
+                last_name="string",
+                gender=Gender.MALE,
+            ),
             prior_authorization_number="string",
             responsible_party=ResponsiblePartyType.INSURANCE_PAY,
             diagnoses=[
@@ -951,6 +999,12 @@ class V4Client:
                 condition_indicator_2=EpsdtReferralConditionIndicatorCode.AV,
                 condition_indicator_3=EpsdtReferralConditionIndicatorCode.AV,
             ),
+            claim_supplemental_information=[
+                ClaimSupplementalInformation(
+                    attachment_report_type_code=ReportTypeCode.C_03,
+                    attachment_transmission_code=ReportTransmissionCode.CBM,
+                )
+            ],
             external_id="string",
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -1044,6 +1098,7 @@ class V4Client:
                 "service_facility": service_facility,
                 "subscriber_primary": subscriber_primary,
                 "subscriber_secondary": subscriber_secondary,
+                "subscriber_tertiary": subscriber_tertiary,
                 "prior_authorization_number": prior_authorization_number,
                 "responsible_party": responsible_party,
                 "diagnoses": diagnoses,
@@ -1058,6 +1113,7 @@ class V4Client:
                 "schema_instances": schema_instances,
                 "referral_number": referral_number,
                 "epsdt_referral": epsdt_referral,
+                "claim_supplemental_information": claim_supplemental_information,
                 "external_id": external_id,
                 "date_of_service": date_of_service,
                 "end_date_of_service": end_date_of_service,
@@ -1676,6 +1732,7 @@ class V4Client:
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
+        subscriber_tertiary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
         admission_date: typing.Optional[dt.date] = OMIT,
@@ -1697,6 +1754,7 @@ class V4Client:
         initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
         referral_number: typing.Optional[str] = OMIT,
         epsdt_referral: typing.Optional[EpsdtReferral] = OMIT,
+        claim_supplemental_information: typing.Optional[typing.Sequence[ClaimSupplementalInformation]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -1771,6 +1829,9 @@ class V4Client:
 
         subscriber_secondary : typing.Optional[SubscriberCreate]
             Contains details of the secondary insurance subscriber.
+
+        subscriber_tertiary : typing.Optional[SubscriberCreate]
+            Contains details of the tertiary insurance subscriber.
 
         additional_information : typing.Optional[str]
             Defines additional information on the claim needed by the payer.
@@ -1859,6 +1920,9 @@ class V4Client:
         epsdt_referral : typing.Optional[EpsdtReferral]
             Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
 
+        claim_supplemental_information : typing.Optional[typing.Sequence[ClaimSupplementalInformation]]
+            Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1912,6 +1976,7 @@ class V4Client:
                 "end_date_of_service": end_date_of_service,
                 "subscriber_primary": subscriber_primary,
                 "subscriber_secondary": subscriber_secondary,
+                "subscriber_tertiary": subscriber_tertiary,
                 "additional_information": additional_information,
                 "service_authorization_exception_code": service_authorization_exception_code,
                 "admission_date": admission_date,
@@ -1933,6 +1998,7 @@ class V4Client:
                 "initial_referring_provider": initial_referring_provider,
                 "referral_number": referral_number,
                 "epsdt_referral": epsdt_referral,
+                "claim_supplemental_information": claim_supplemental_information,
             },
             request_options=request_options,
             omit=OMIT,
@@ -2272,6 +2338,7 @@ class AsyncV4Client:
         service_facility: typing.Optional[EncounterServiceFacilityBase] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
+        subscriber_tertiary: typing.Optional[SubscriberCreate] = OMIT,
         prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = OMIT,
         clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         billing_notes: typing.Optional[typing.Sequence[BillingNoteBase]] = OMIT,
@@ -2283,6 +2350,7 @@ class AsyncV4Client:
         schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         referral_number: typing.Optional[str] = OMIT,
         epsdt_referral: typing.Optional[EpsdtReferral] = OMIT,
+        claim_supplemental_information: typing.Optional[typing.Sequence[ClaimSupplementalInformation]] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
@@ -2385,6 +2453,10 @@ class AsyncV4Client:
             Please always include this when you have it, even for self-pay claims.
 
 
+        subscriber_tertiary : typing.Optional[SubscriberCreate]
+            Please always include this when you have it, even for self-pay claims.
+
+
         prior_authorization_number : typing.Optional[PriorAuthorizationNumber]
             Box 23 on the CMS-1500 claim form.
 
@@ -2427,6 +2499,10 @@ class AsyncV4Client:
 
         epsdt_referral : typing.Optional[EpsdtReferral]
             Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+
+
+        claim_supplemental_information : typing.Optional[typing.Sequence[ClaimSupplementalInformation]]
+            Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
 
 
         date_of_service : typing.Optional[dt.date]
@@ -2547,6 +2623,7 @@ class AsyncV4Client:
         )
         from candid.resources.encounters.resources.v_4 import (
             BillableStatusType,
+            ClaimSupplementalInformation,
             ClinicalNoteCategoryCreate,
             EpsdtReferral,
             IntakeFollowUp,
@@ -2560,6 +2637,8 @@ class AsyncV4Client:
             NoteCategory,
             PatientHistoryCategory,
             PatientHistoryCategoryEnum,
+            ReportTransmissionCode,
+            ReportTypeCode,
             ResponsiblePartyType,
             ServiceAuthorizationExceptionCode,
             SynchronicityType,
@@ -2790,6 +2869,40 @@ class AsyncV4Client:
                     last_name="string",
                     gender=Gender.MALE,
                 ),
+                subscriber_tertiary=SubscriberCreate(
+                    insurance_card=InsuranceCardCreate(
+                        member_id="string",
+                        payer_name="string",
+                        payer_id="string",
+                        rx_bin="string",
+                        rx_pcn="string",
+                        image_url_front="string",
+                        image_url_back="string",
+                        emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+                        group_number="string",
+                        plan_name="string",
+                        plan_type=SourceOfPaymentCode.SELF_PAY,
+                        insurance_type=InsuranceTypeCode.C_01,
+                        payer_plan_group_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                    ),
+                    patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    address=StreetAddressShortZip(
+                        address_1="123 Main St",
+                        address_2="Apt 1",
+                        city="New York",
+                        state=State.NY,
+                        zip_code="10001",
+                        zip_plus_four_code="1234",
+                    ),
+                    first_name="string",
+                    last_name="string",
+                    gender=Gender.MALE,
+                ),
                 prior_authorization_number="string",
                 responsible_party=ResponsiblePartyType.INSURANCE_PAY,
                 diagnoses=[
@@ -2911,6 +3024,12 @@ class AsyncV4Client:
                     condition_indicator_2=EpsdtReferralConditionIndicatorCode.AV,
                     condition_indicator_3=EpsdtReferralConditionIndicatorCode.AV,
                 ),
+                claim_supplemental_information=[
+                    ClaimSupplementalInformation(
+                        attachment_report_type_code=ReportTypeCode.C_03,
+                        attachment_transmission_code=ReportTransmissionCode.CBM,
+                    )
+                ],
                 external_id="string",
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
@@ -3007,6 +3126,7 @@ class AsyncV4Client:
                 "service_facility": service_facility,
                 "subscriber_primary": subscriber_primary,
                 "subscriber_secondary": subscriber_secondary,
+                "subscriber_tertiary": subscriber_tertiary,
                 "prior_authorization_number": prior_authorization_number,
                 "responsible_party": responsible_party,
                 "diagnoses": diagnoses,
@@ -3021,6 +3141,7 @@ class AsyncV4Client:
                 "schema_instances": schema_instances,
                 "referral_number": referral_number,
                 "epsdt_referral": epsdt_referral,
+                "claim_supplemental_information": claim_supplemental_information,
                 "external_id": external_id,
                 "date_of_service": date_of_service,
                 "end_date_of_service": end_date_of_service,
@@ -3646,6 +3767,7 @@ class AsyncV4Client:
         end_date_of_service: typing.Optional[dt.date] = OMIT,
         subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
         subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
+        subscriber_tertiary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
         admission_date: typing.Optional[dt.date] = OMIT,
@@ -3667,6 +3789,7 @@ class AsyncV4Client:
         initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
         referral_number: typing.Optional[str] = OMIT,
         epsdt_referral: typing.Optional[EpsdtReferral] = OMIT,
+        claim_supplemental_information: typing.Optional[typing.Sequence[ClaimSupplementalInformation]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
@@ -3741,6 +3864,9 @@ class AsyncV4Client:
 
         subscriber_secondary : typing.Optional[SubscriberCreate]
             Contains details of the secondary insurance subscriber.
+
+        subscriber_tertiary : typing.Optional[SubscriberCreate]
+            Contains details of the tertiary insurance subscriber.
 
         additional_information : typing.Optional[str]
             Defines additional information on the claim needed by the payer.
@@ -3829,6 +3955,9 @@ class AsyncV4Client:
         epsdt_referral : typing.Optional[EpsdtReferral]
             Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
 
+        claim_supplemental_information : typing.Optional[typing.Sequence[ClaimSupplementalInformation]]
+            Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -3889,6 +4018,7 @@ class AsyncV4Client:
                 "end_date_of_service": end_date_of_service,
                 "subscriber_primary": subscriber_primary,
                 "subscriber_secondary": subscriber_secondary,
+                "subscriber_tertiary": subscriber_tertiary,
                 "additional_information": additional_information,
                 "service_authorization_exception_code": service_authorization_exception_code,
                 "admission_date": admission_date,
@@ -3910,6 +4040,7 @@ class AsyncV4Client:
                 "initial_referring_provider": initial_referring_provider,
                 "referral_number": referral_number,
                 "epsdt_referral": epsdt_referral,
+                "claim_supplemental_information": claim_supplemental_information,
             },
             request_options=request_options,
             omit=OMIT,

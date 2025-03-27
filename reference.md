@@ -953,6 +953,7 @@ client.charge_capture.v_1.get_all(
     date_of_service=datetime.date.fromisoformat(
         "2023-01-15",
     ),
+    exclude_bundled=True,
 )
 
 ```
@@ -1017,6 +1018,14 @@ This field should not contain PHI.
 
 Date formatted as YYYY-MM-DD; eg: 2019-08-24.
 This date must be the local date in the timezone where the service occurred.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**exclude_bundled:** `typing.Optional[bool]` — Whether to exclude charge captures which are associated with a charge capture bundle.
     
 </dd>
 </dl>
@@ -4048,6 +4057,7 @@ from candid.resources.encounter_providers.resources.v_2 import (
 )
 from candid.resources.encounters.resources.v_4 import (
     BillableStatusType,
+    ClaimSupplementalInformation,
     ClinicalNoteCategoryCreate,
     EpsdtReferral,
     IntakeFollowUp,
@@ -4061,6 +4071,8 @@ from candid.resources.encounters.resources.v_4 import (
     NoteCategory,
     PatientHistoryCategory,
     PatientHistoryCategoryEnum,
+    ReportTransmissionCode,
+    ReportTypeCode,
     ResponsiblePartyType,
     ServiceAuthorizationExceptionCode,
     SynchronicityType,
@@ -4288,6 +4300,40 @@ client.encounters.v_4.create(
         last_name="string",
         gender=Gender.MALE,
     ),
+    subscriber_tertiary=SubscriberCreate(
+        insurance_card=InsuranceCardCreate(
+            member_id="string",
+            payer_name="string",
+            payer_id="string",
+            rx_bin="string",
+            rx_pcn="string",
+            image_url_front="string",
+            image_url_back="string",
+            emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
+            group_number="string",
+            plan_name="string",
+            plan_type=SourceOfPaymentCode.SELF_PAY,
+            insurance_type=InsuranceTypeCode.C_01,
+            payer_plan_group_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        ),
+        patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
+        date_of_birth=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        gender=Gender.MALE,
+    ),
     prior_authorization_number="string",
     responsible_party=ResponsiblePartyType.INSURANCE_PAY,
     diagnoses=[
@@ -4409,6 +4455,12 @@ client.encounters.v_4.create(
         condition_indicator_2=EpsdtReferralConditionIndicatorCode.AV,
         condition_indicator_3=EpsdtReferralConditionIndicatorCode.AV,
     ),
+    claim_supplemental_information=[
+        ClaimSupplementalInformation(
+            attachment_report_type_code=ReportTypeCode.C_03,
+            attachment_transmission_code=ReportTransmissionCode.CBM,
+        )
+    ],
     external_id="string",
     date_of_service=datetime.date.fromisoformat(
         "2023-01-15",
@@ -4689,6 +4741,15 @@ Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party
 <dl>
 <dd>
 
+**subscriber_tertiary:** `typing.Optional[SubscriberCreate]` — Please always include this when you have it, even for self-pay claims.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **prior_authorization_number:** `typing.Optional[PriorAuthorizationNumber]` — Box 23 on the CMS-1500 claim form.
     
 </dd>
@@ -4789,6 +4850,15 @@ instances cannot be created for the same schema on an encounter.
 <dd>
 
 **epsdt_referral:** `typing.Optional[EpsdtReferral]` — Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_supplemental_information:** `typing.Optional[typing.Sequence[ClaimSupplementalInformation]]` — Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
 
     
 </dd>
@@ -5583,6 +5653,14 @@ If service lines have distinct end_date_of_service values, updating the encounte
 <dl>
 <dd>
 
+**subscriber_tertiary:** `typing.Optional[SubscriberCreate]` — Contains details of the tertiary insurance subscriber.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **additional_information:** `typing.Optional[str]` 
 
 Defines additional information on the claim needed by the payer.
@@ -5796,6 +5874,14 @@ indicate the initial referral from the primary care provider or whatever provide
 <dd>
 
 **epsdt_referral:** `typing.Optional[EpsdtReferral]` — Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_supplemental_information:** `typing.Optional[typing.Sequence[ClaimSupplementalInformation]]` — Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
     
 </dd>
 </dl>
@@ -10619,6 +10705,10 @@ client.non_insurance_payer_refunds.v_1.delete(
 
 ```python
 from candid import CandidApiClient
+from candid.resources.clinical_trials.resources.v_1 import (
+    ClinicalTrialPhase,
+    MutableClinicalTrial,
+)
 from candid.resources.commons import State, StreetAddressShortZip
 from candid.resources.non_insurance_payers.resources.v_1 import (
     CreateNonInsurancePayerRequest,
@@ -10641,6 +10731,13 @@ client.non_insurance_payers.v_1.create(
             zip_code="10001",
             zip_plus_four_code="1234",
         ),
+        clinical_trials=[
+            MutableClinicalTrial(
+                name="string",
+                clinical_trial_number="string",
+                clinical_trial_phase=ClinicalTrialPhase.PHASE_ONE,
+            )
+        ],
     ),
 )
 
@@ -14613,6 +14710,7 @@ client.pre_encounter.appointments.v_1.create(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             ),
             type=ExternalProviderType.PRIMARY,
             npi="string",
@@ -15000,6 +15098,7 @@ client.pre_encounter.appointments.v_1.update(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             ),
             type=ExternalProviderType.PRIMARY,
             npi="string",
@@ -15299,6 +15398,7 @@ client.pre_encounter.coverages.v_1.create(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             ),
             date_of_birth=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -15448,6 +15548,7 @@ client.pre_encounter.coverages.v_1.update(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             ),
             date_of_birth=datetime.date.fromisoformat(
                 "2023-01-15",
@@ -16241,6 +16342,446 @@ client.pre_encounter.eligibility_checks.v_1.post(
 </dl>
 </details>
 
+## PreEncounter Images V1
+<details><summary><code>client.pre_encounter.images.v_1.<a href="src/candid/resources/pre_encounter/resources/images/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Adds an image. VersionConflictError is returned if a front or back of this coverage already exists.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.images.resources.v_1 import (
+    CoverageAssociation,
+    CoverageImageSide,
+    ImageStatus,
+    MutableImage,
+    PatientAssociation,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.images.v_1.create(
+    request=MutableImage(
+        file_name="string",
+        display_name="string",
+        file_type="string",
+        status=ImageStatus.PENDING,
+        coverage=CoverageAssociation(
+            id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            side=CoverageImageSide.FRONT,
+        ),
+        patient=PatientAssociation(
+            id="string",
+            notes="string",
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MutableImage` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.images.v_1.<a href="src/candid/resources/pre_encounter/resources/images/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets an image by imageId.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.images.v_1.get(
+    id="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `ImageId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.images.v_1.<a href="src/candid/resources/pre_encounter/resources/images/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates an Image. The path must contain the most recent version to prevent races.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.images.resources.v_1 import (
+    CoverageAssociation,
+    CoverageImageSide,
+    ImageStatus,
+    MutableImage,
+    PatientAssociation,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.images.v_1.update(
+    id="string",
+    version="string",
+    request=MutableImage(
+        file_name="string",
+        display_name="string",
+        file_type="string",
+        status=ImageStatus.PENDING,
+        coverage=CoverageAssociation(
+            id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            side=CoverageImageSide.FRONT,
+        ),
+        patient=PatientAssociation(
+            id="string",
+            notes="string",
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `ImageId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `MutableImage` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.images.v_1.<a href="src/candid/resources/pre_encounter/resources/images/resources/v_1/client.py">deactivate</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Sets an Image as deactivated. The path must contain the most recent version to prevent races.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.images.v_1.deactivate(
+    id="string",
+    version="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `ImageId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.images.v_1.<a href="src/candid/resources/pre_encounter/resources/images/resources/v_1/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Searches for images that match the query parameters.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.images.v_1.get_multi(
+    patient_id="string",
+    coverage_id="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**patient_id:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**coverage_id:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## PreEncounter Lists V1
 <details><summary><code>client.pre_encounter.lists.v_1.<a href="src/candid/resources/pre_encounter/resources/lists/resources/v_1/client.py">get_patient_list</a>(...)</code></summary>
 <dl>
@@ -16862,6 +17403,7 @@ client.pre_encounter.patients.v_1.create(
             given=["string"],
             use=NameUse.USUAL,
             period=Period(),
+            suffix="string",
         ),
         other_names=[
             HumanName(
@@ -16869,6 +17411,7 @@ client.pre_encounter.patients.v_1.create(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             )
         ],
         other_identifiers=[
@@ -16938,6 +17481,7 @@ client.pre_encounter.patients.v_1.create(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(),
+                    suffix="string",
                 ),
                 telecoms=[
                     ContactPoint(
@@ -16967,6 +17511,7 @@ client.pre_encounter.patients.v_1.create(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(),
+                    suffix="string",
                 ),
                 type=ExternalProviderType.PRIMARY,
                 npi="string",
@@ -17001,6 +17546,7 @@ client.pre_encounter.patients.v_1.create(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             ),
             telecom=ContactPoint(
                 value="string",
@@ -17028,6 +17574,7 @@ client.pre_encounter.patients.v_1.create(
                 additional_payer_information=AdditionalPayerInformation(),
                 authorization_number="string",
                 cpt_code="string",
+                apply_for_all_cpt_codes=True,
                 units=AuthorizationUnit.VISIT,
                 quantity=1,
                 period=Period(),
@@ -17042,6 +17589,7 @@ client.pre_encounter.patients.v_1.create(
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     type=ExternalProviderType.PRIMARY,
                     npi="string",
@@ -17186,6 +17734,7 @@ client.pre_encounter.patients.v_1.create_with_mrn(
             given=["string"],
             use=NameUse.USUAL,
             period=Period(),
+            suffix="string",
         ),
         other_names=[
             HumanName(
@@ -17193,6 +17742,7 @@ client.pre_encounter.patients.v_1.create_with_mrn(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             )
         ],
         other_identifiers=[
@@ -17262,6 +17812,7 @@ client.pre_encounter.patients.v_1.create_with_mrn(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(),
+                    suffix="string",
                 ),
                 telecoms=[
                     ContactPoint(
@@ -17291,6 +17842,7 @@ client.pre_encounter.patients.v_1.create_with_mrn(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(),
+                    suffix="string",
                 ),
                 type=ExternalProviderType.PRIMARY,
                 npi="string",
@@ -17325,6 +17877,7 @@ client.pre_encounter.patients.v_1.create_with_mrn(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             ),
             telecom=ContactPoint(
                 value="string",
@@ -17352,6 +17905,7 @@ client.pre_encounter.patients.v_1.create_with_mrn(
                 additional_payer_information=AdditionalPayerInformation(),
                 authorization_number="string",
                 cpt_code="string",
+                apply_for_all_cpt_codes=True,
                 units=AuthorizationUnit.VISIT,
                 quantity=1,
                 period=Period(),
@@ -17366,6 +17920,7 @@ client.pre_encounter.patients.v_1.create_with_mrn(
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     type=ExternalProviderType.PRIMARY,
                     npi="string",
@@ -17521,6 +18076,77 @@ client.pre_encounter.patients.v_1.get_multi(
 <dd>
 
 **sort_direction:** `typing.Optional[SortDirection]` — Defaults to ascending.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">search_providers</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Searches for referring providers that match the query parameters. The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.search_providers(
+    search_criteria="string",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**search_criteria:** `str` 
     
 </dd>
 </dl>
@@ -17760,6 +18386,7 @@ client.pre_encounter.patients.v_1.update(
             given=["string"],
             use=NameUse.USUAL,
             period=Period(),
+            suffix="string",
         ),
         other_names=[
             HumanName(
@@ -17767,6 +18394,7 @@ client.pre_encounter.patients.v_1.update(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             )
         ],
         other_identifiers=[
@@ -17836,6 +18464,7 @@ client.pre_encounter.patients.v_1.update(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(),
+                    suffix="string",
                 ),
                 telecoms=[
                     ContactPoint(
@@ -17865,6 +18494,7 @@ client.pre_encounter.patients.v_1.update(
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(),
+                    suffix="string",
                 ),
                 type=ExternalProviderType.PRIMARY,
                 npi="string",
@@ -17899,6 +18529,7 @@ client.pre_encounter.patients.v_1.update(
                 given=["string"],
                 use=NameUse.USUAL,
                 period=Period(),
+                suffix="string",
             ),
             telecom=ContactPoint(
                 value="string",
@@ -17926,6 +18557,7 @@ client.pre_encounter.patients.v_1.update(
                 additional_payer_information=AdditionalPayerInformation(),
                 authorization_number="string",
                 cpt_code="string",
+                apply_for_all_cpt_codes=True,
                 units=AuthorizationUnit.VISIT,
                 quantity=1,
                 period=Period(),
@@ -17940,6 +18572,7 @@ client.pre_encounter.patients.v_1.update(
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     type=ExternalProviderType.PRIMARY,
                     npi="string",

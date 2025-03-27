@@ -4,6 +4,7 @@ from ......core.pydantic_utilities import UniversalBaseModel
 import pydantic
 import typing
 from .....commons.types.street_address_short_zip import StreetAddressShortZip
+from .....clinical_trials.resources.v_1.types.mutable_clinical_trial import MutableClinicalTrial
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -24,6 +25,10 @@ class CreateNonInsurancePayerRequest(UniversalBaseModel):
     """
 
     address: typing.Optional[StreetAddressShortZip] = None
+    clinical_trials: typing.Optional[typing.List[MutableClinicalTrial]] = pydantic.Field(default=None)
+    """
+    The same name cannot be used across several clinical trials
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

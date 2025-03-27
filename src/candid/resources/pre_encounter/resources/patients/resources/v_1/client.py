@@ -17,6 +17,7 @@ from ....common.types.page_token import PageToken
 from .types.patient_sort_field import PatientSortField
 from ....common.types.sort_direction import SortDirection
 from .types.patient_page import PatientPage
+from ....common.types.external_provider import ExternalProvider
 from ....common.types.patient_id import PatientId
 from .......core.jsonable_encoder import jsonable_encoder
 from ....common.errors.not_found_error import NotFoundError
@@ -107,6 +108,7 @@ class V1Client:
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(),
+                    suffix="string",
                 ),
                 other_names=[
                     HumanName(
@@ -114,6 +116,7 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     )
                 ],
                 other_identifiers=[
@@ -183,6 +186,7 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         telecoms=[
                             ContactPoint(
@@ -212,6 +216,7 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         type=ExternalProviderType.PRIMARY,
                         npi="string",
@@ -246,6 +251,7 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     telecom=ContactPoint(
                         value="string",
@@ -273,6 +279,7 @@ class V1Client:
                         additional_payer_information=AdditionalPayerInformation(),
                         authorization_number="string",
                         cpt_code="string",
+                        apply_for_all_cpt_codes=True,
                         units=AuthorizationUnit.VISIT,
                         quantity=1,
                         period=Period(),
@@ -287,6 +294,7 @@ class V1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(),
+                                suffix="string",
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -423,6 +431,7 @@ class V1Client:
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(),
+                    suffix="string",
                 ),
                 other_names=[
                     HumanName(
@@ -430,6 +439,7 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     )
                 ],
                 other_identifiers=[
@@ -499,6 +509,7 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         telecoms=[
                             ContactPoint(
@@ -528,6 +539,7 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         type=ExternalProviderType.PRIMARY,
                         npi="string",
@@ -562,6 +574,7 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     telecom=ContactPoint(
                         value="string",
@@ -589,6 +602,7 @@ class V1Client:
                         additional_payer_information=AdditionalPayerInformation(),
                         authorization_number="string",
                         cpt_code="string",
+                        apply_for_all_cpt_codes=True,
                         units=AuthorizationUnit.VISIT,
                         quantity=1,
                         period=Period(),
@@ -603,6 +617,7 @@ class V1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(),
+                                suffix="string",
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -745,6 +760,58 @@ class V1Client:
                 PatientPage,
                 parse_obj_as(
                     type_=PatientPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def search_providers(
+        self, *, search_criteria: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[ExternalProvider]:
+        """
+        Searches for referring providers that match the query parameters. The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
+
+        Parameters
+        ----------
+        search_criteria : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[ExternalProvider]
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.patients.v_1.search_providers(
+            search_criteria="string",
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "patients/v1/search_providers",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "search_criteria": search_criteria,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                typing.List[ExternalProvider],
+                parse_obj_as(
+                    type_=typing.List[ExternalProvider],  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -947,6 +1014,7 @@ class V1Client:
                     given=["string"],
                     use=NameUse.USUAL,
                     period=Period(),
+                    suffix="string",
                 ),
                 other_names=[
                     HumanName(
@@ -954,6 +1022,7 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     )
                 ],
                 other_identifiers=[
@@ -1023,6 +1092,7 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         telecoms=[
                             ContactPoint(
@@ -1052,6 +1122,7 @@ class V1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         type=ExternalProviderType.PRIMARY,
                         npi="string",
@@ -1086,6 +1157,7 @@ class V1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     telecom=ContactPoint(
                         value="string",
@@ -1113,6 +1185,7 @@ class V1Client:
                         additional_payer_information=AdditionalPayerInformation(),
                         authorization_number="string",
                         cpt_code="string",
+                        apply_for_all_cpt_codes=True,
                         units=AuthorizationUnit.VISIT,
                         quantity=1,
                         period=Period(),
@@ -1127,6 +1200,7 @@ class V1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(),
+                                suffix="string",
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -1529,6 +1603,7 @@ class AsyncV1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     other_names=[
                         HumanName(
@@ -1536,6 +1611,7 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         )
                     ],
                     other_identifiers=[
@@ -1605,6 +1681,7 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(),
+                                suffix="string",
                             ),
                             telecoms=[
                                 ContactPoint(
@@ -1634,6 +1711,7 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(),
+                                suffix="string",
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -1668,6 +1746,7 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         telecom=ContactPoint(
                             value="string",
@@ -1695,6 +1774,7 @@ class AsyncV1Client:
                             additional_payer_information=AdditionalPayerInformation(),
                             authorization_number="string",
                             cpt_code="string",
+                            apply_for_all_cpt_codes=True,
                             units=AuthorizationUnit.VISIT,
                             quantity=1,
                             period=Period(),
@@ -1709,6 +1789,7 @@ class AsyncV1Client:
                                     given=["string"],
                                     use=NameUse.USUAL,
                                     period=Period(),
+                                    suffix="string",
                                 ),
                                 type=ExternalProviderType.PRIMARY,
                                 npi="string",
@@ -1852,6 +1933,7 @@ class AsyncV1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     other_names=[
                         HumanName(
@@ -1859,6 +1941,7 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         )
                     ],
                     other_identifiers=[
@@ -1928,6 +2011,7 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(),
+                                suffix="string",
                             ),
                             telecoms=[
                                 ContactPoint(
@@ -1957,6 +2041,7 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(),
+                                suffix="string",
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -1991,6 +2076,7 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         telecom=ContactPoint(
                             value="string",
@@ -2018,6 +2104,7 @@ class AsyncV1Client:
                             additional_payer_information=AdditionalPayerInformation(),
                             authorization_number="string",
                             cpt_code="string",
+                            apply_for_all_cpt_codes=True,
                             units=AuthorizationUnit.VISIT,
                             quantity=1,
                             period=Period(),
@@ -2032,6 +2119,7 @@ class AsyncV1Client:
                                     given=["string"],
                                     use=NameUse.USUAL,
                                     period=Period(),
+                                    suffix="string",
                                 ),
                                 type=ExternalProviderType.PRIMARY,
                                 npi="string",
@@ -2185,6 +2273,66 @@ class AsyncV1Client:
                 PatientPage,
                 parse_obj_as(
                     type_=PatientPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def search_providers(
+        self, *, search_criteria: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[ExternalProvider]:
+        """
+        Searches for referring providers that match the query parameters. The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
+
+        Parameters
+        ----------
+        search_criteria : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[ExternalProvider]
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.patients.v_1.search_providers(
+                search_criteria="string",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "patients/v1/search_providers",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "search_criteria": search_criteria,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                typing.List[ExternalProvider],
+                parse_obj_as(
+                    type_=typing.List[ExternalProvider],  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -2407,6 +2555,7 @@ class AsyncV1Client:
                         given=["string"],
                         use=NameUse.USUAL,
                         period=Period(),
+                        suffix="string",
                     ),
                     other_names=[
                         HumanName(
@@ -2414,6 +2563,7 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         )
                     ],
                     other_identifiers=[
@@ -2483,6 +2633,7 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(),
+                                suffix="string",
                             ),
                             telecoms=[
                                 ContactPoint(
@@ -2512,6 +2663,7 @@ class AsyncV1Client:
                                 given=["string"],
                                 use=NameUse.USUAL,
                                 period=Period(),
+                                suffix="string",
                             ),
                             type=ExternalProviderType.PRIMARY,
                             npi="string",
@@ -2546,6 +2698,7 @@ class AsyncV1Client:
                             given=["string"],
                             use=NameUse.USUAL,
                             period=Period(),
+                            suffix="string",
                         ),
                         telecom=ContactPoint(
                             value="string",
@@ -2573,6 +2726,7 @@ class AsyncV1Client:
                             additional_payer_information=AdditionalPayerInformation(),
                             authorization_number="string",
                             cpt_code="string",
+                            apply_for_all_cpt_codes=True,
                             units=AuthorizationUnit.VISIT,
                             quantity=1,
                             period=Period(),
@@ -2587,6 +2741,7 @@ class AsyncV1Client:
                                     given=["string"],
                                     use=NameUse.USUAL,
                                     period=Period(),
+                                    suffix="string",
                                 ),
                                 type=ExternalProviderType.PRIMARY,
                                 npi="string",

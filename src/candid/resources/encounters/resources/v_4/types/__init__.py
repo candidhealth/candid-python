@@ -2,6 +2,7 @@
 
 from .billable_status_type import BillableStatusType
 from .cash_pay_payer_error_message import CashPayPayerErrorMessage
+from .claim_supplemental_information import ClaimSupplementalInformation
 from .clinical_note import ClinicalNote
 from .clinical_note_category import ClinicalNoteCategory
 from .clinical_note_category_create import ClinicalNoteCategoryCreate
@@ -38,6 +39,8 @@ from .payer_plan_group_payer_does_not_match_insurance_card_error import (
     PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
 )
 from .prior_authorization_number import PriorAuthorizationNumber
+from .report_transmission_code import ReportTransmissionCode
+from .report_type_code import ReportTypeCode
 from .responsible_party_type import ResponsiblePartyType
 from .rx_cui import RxCui
 from .schema_does_not_exist_error import SchemaDoesNotExistError
@@ -60,6 +63,7 @@ from .vitals_update import VitalsUpdate
 __all__ = [
     "BillableStatusType",
     "CashPayPayerErrorMessage",
+    "ClaimSupplementalInformation",
     "ClinicalNote",
     "ClinicalNoteCategory",
     "ClinicalNoteCategoryCreate",
@@ -94,6 +98,8 @@ __all__ = [
     "PatientHistoryCategoryEnum",
     "PayerPlanGroupPayerDoesNotMatchInsuranceCardError",
     "PriorAuthorizationNumber",
+    "ReportTransmissionCode",
+    "ReportTypeCode",
     "ResponsiblePartyType",
     "RxCui",
     "SchemaDoesNotExistError",

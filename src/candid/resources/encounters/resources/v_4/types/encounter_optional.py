@@ -30,6 +30,7 @@ from .....encounter_providers.resources.v_2.types.initial_referring_provider_upd
     InitialReferringProviderUpdate,
 )
 from .epsdt_referral import EpsdtReferral
+from .claim_supplemental_information import ClaimSupplementalInformation
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -122,6 +123,11 @@ class EncounterOptional(UniversalBaseModel):
     subscriber_secondary: typing.Optional[SubscriberCreate] = pydantic.Field(default=None)
     """
     Contains details of the secondary insurance subscriber.
+    """
+
+    subscriber_tertiary: typing.Optional[SubscriberCreate] = pydantic.Field(default=None)
+    """
+    Contains details of the tertiary insurance subscriber.
     """
 
     additional_information: typing.Optional[str] = pydantic.Field(default=None)
@@ -253,6 +259,13 @@ class EncounterOptional(UniversalBaseModel):
     epsdt_referral: typing.Optional[EpsdtReferral] = pydantic.Field(default=None)
     """
     Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+    """
+
+    claim_supplemental_information: typing.Optional[typing.List[ClaimSupplementalInformation]] = pydantic.Field(
+        default=None
+    )
+    """
+    Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
     """
 
     if IS_PYDANTIC_V2:
