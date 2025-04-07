@@ -5,6 +5,7 @@ from .appointment_id import AppointmentId
 from .billing_provider_commercial_license_type import BillingProviderCommercialLicenseType
 from .charge_capture_bundle_id import ChargeCaptureBundleId
 from .charge_capture_id import ChargeCaptureId
+from .charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
 from .claim_adjustment_group_codes import ClaimAdjustmentGroupCodes
 from .claim_id import ClaimId
 from .claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
@@ -83,6 +84,7 @@ __all__ = [
     "BillingProviderCommercialLicenseType",
     "ChargeCaptureBundleId",
     "ChargeCaptureId",
+    "ChargeCapturePostBilledChangeId",
     "ClaimAdjustmentGroupCodes",
     "ClaimId",
     "ClaimSubmissionPayerResponsibilityType",

@@ -24,6 +24,8 @@ from ....commons.errors.unprocessable_entity_error import UnprocessableEntityErr
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from ....commons.types.charge_capture_id import ChargeCaptureId
 from .....core.jsonable_encoder import jsonable_encoder
+from .types.charge_capture_sort_field import ChargeCaptureSortField
+from ....commons.types.sort_direction import SortDirection
 from ....commons.types.page_token import PageToken
 from .types.charge_capture_page import ChargeCapturePage
 from .....core.client_wrapper import AsyncClientWrapper
@@ -463,6 +465,8 @@ class V1Client:
         self,
         *,
         limit: typing.Optional[int] = None,
+        sort: typing.Optional[ChargeCaptureSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
         patient_external_id: typing.Optional[str] = None,
         status: typing.Optional[ChargeCaptureStatus] = None,
@@ -476,6 +480,12 @@ class V1Client:
         ----------
         limit : typing.Optional[int]
             Maximum number of entities per page, defaults to 100.
+
+        sort : typing.Optional[ChargeCaptureSortField]
+            Defaults to created_at
+
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
         page_token : typing.Optional[PageToken]
 
@@ -509,7 +519,11 @@ class V1Client:
         import datetime
 
         from candid import CandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
+        from candid.resources.charge_capture.resources.v_1 import (
+            ChargeCaptureSortField,
+            ChargeCaptureStatus,
+        )
+        from candid.resources.commons import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -517,6 +531,8 @@ class V1Client:
         )
         client.charge_capture.v_1.get_all(
             limit=1,
+            sort=ChargeCaptureSortField.CREATED_AT,
+            sort_direction=SortDirection.ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             patient_external_id="string",
             status=ChargeCaptureStatus.PLANNED,
@@ -533,6 +549,8 @@ class V1Client:
             method="GET",
             params={
                 "limit": limit,
+                "sort": sort,
+                "sort_direction": sort_direction,
                 "page_token": page_token,
                 "patient_external_id": patient_external_id,
                 "status": status,
@@ -1016,6 +1034,8 @@ class AsyncV1Client:
         self,
         *,
         limit: typing.Optional[int] = None,
+        sort: typing.Optional[ChargeCaptureSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
         patient_external_id: typing.Optional[str] = None,
         status: typing.Optional[ChargeCaptureStatus] = None,
@@ -1029,6 +1049,12 @@ class AsyncV1Client:
         ----------
         limit : typing.Optional[int]
             Maximum number of entities per page, defaults to 100.
+
+        sort : typing.Optional[ChargeCaptureSortField]
+            Defaults to created_at
+
+        sort_direction : typing.Optional[SortDirection]
+            Sort direction. Defaults to descending order if not provided.
 
         page_token : typing.Optional[PageToken]
 
@@ -1063,7 +1089,11 @@ class AsyncV1Client:
         import datetime
 
         from candid import AsyncCandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
+        from candid.resources.charge_capture.resources.v_1 import (
+            ChargeCaptureSortField,
+            ChargeCaptureStatus,
+        )
+        from candid.resources.commons import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1074,6 +1104,8 @@ class AsyncV1Client:
         async def main() -> None:
             await client.charge_capture.v_1.get_all(
                 limit=1,
+                sort=ChargeCaptureSortField.CREATED_AT,
+                sort_direction=SortDirection.ASC,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
                 patient_external_id="string",
                 status=ChargeCaptureStatus.PLANNED,
@@ -1093,6 +1125,8 @@ class AsyncV1Client:
             method="GET",
             params={
                 "limit": limit,
+                "sort": sort,
+                "sort_direction": sort_direction,
                 "page_token": page_token,
                 "patient_external_id": patient_external_id,
                 "status": status,

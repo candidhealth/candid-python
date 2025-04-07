@@ -8,6 +8,7 @@ from .....commons.types.patient_external_id import PatientExternalId
 import typing
 import datetime as dt
 import pydantic
+from .charge_capture_post_billed_change import ChargeCapturePostBilledChange
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -23,6 +24,8 @@ class ChargeCapture(UniversalBaseModel):
     Date formatted as YYYY-MM-DD; eg: 2019-08-24.
     This date must be the local date in the timezone where the service occurred.
     """
+
+    updates: typing.List[ChargeCapturePostBilledChange]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

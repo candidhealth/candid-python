@@ -3,6 +3,7 @@
 from ......core.pydantic_utilities import UniversalBaseModel
 from .canonical_non_insurance_payer_id import CanonicalNonInsurancePayerId
 import typing
+from .period import Period
 from .canonical_clinical_trial_association import CanonicalClinicalTrialAssociation
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
@@ -11,6 +12,7 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2
 class CanonicalNonInsurancePayerAssociation(UniversalBaseModel):
     id: CanonicalNonInsurancePayerId
     member_id: typing.Optional[str] = None
+    period: typing.Optional[Period] = None
     clinical_trial_info: typing.Optional[typing.List[CanonicalClinicalTrialAssociation]] = pydantic.Field(default=None)
     """
     A patient cannot be associated with a given trial more than once

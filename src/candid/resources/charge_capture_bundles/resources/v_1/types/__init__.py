@@ -3,6 +3,13 @@
 from .charge_bundle_error import ChargeBundleError
 from .charge_capture_bundle import ChargeCaptureBundle
 from .charge_capture_bundle_page import ChargeCaptureBundlePage
+from .charge_capture_bundle_sort_field import ChargeCaptureBundleSortField
 from .charge_capture_bundle_status import ChargeCaptureBundleStatus
 
-__all__ = ["ChargeBundleError", "ChargeCaptureBundle", "ChargeCaptureBundlePage", "ChargeCaptureBundleStatus"]
+__all__ = [
+    "ChargeBundleError",
+    "ChargeCaptureBundle",
+    "ChargeCaptureBundlePage",
+    "ChargeCaptureBundleSortField",
+    "ChargeCaptureBundleStatus",
+]

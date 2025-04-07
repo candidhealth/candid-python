@@ -16,6 +16,7 @@ class PatientWriteOffReason(str, enum.Enum):
     COLLECTION_AGENCY = "COLLECTION_AGENCY"
     OTHER = "OTHER"
     UNKNOWN = "UNKNOWN"
+    UNCOLLECTIBLE_OR_NON_BILLABLE = "UNCOLLECTIBLE_OR_NON_BILLABLE"
     _UNKNOWN = "__PATIENTWRITEOFFREASON_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -38,6 +39,7 @@ class PatientWriteOffReason(str, enum.Enum):
         collection_agency: typing.Callable[[], T_Result],
         other: typing.Callable[[], T_Result],
         unknown: typing.Callable[[], T_Result],
+        uncollectible_or_non_billable: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is PatientWriteOffReason.SMALL_BALANCE:
@@ -58,4 +60,6 @@ class PatientWriteOffReason(str, enum.Enum):
             return other()
         if self is PatientWriteOffReason.UNKNOWN:
             return unknown()
+        if self is PatientWriteOffReason.UNCOLLECTIBLE_OR_NON_BILLABLE:
+            return uncollectible_or_non_billable()
         return _unknown_member(self._value_)

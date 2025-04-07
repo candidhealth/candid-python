@@ -439,8 +439,10 @@ import datetime
 from candid import CandidApiClient
 from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
 from candid.resources.charge_capture_bundles.resources.v_1 import (
+    ChargeCaptureBundleSortField,
     ChargeCaptureBundleStatus,
 )
+from candid.resources.commons import SortDirection
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -448,6 +450,8 @@ client = CandidApiClient(
 )
 client.charge_capture_bundles.v_1.get_all(
     limit=1,
+    sort=ChargeCaptureBundleSortField.CREATED_AT,
+    sort_direction=SortDirection.ASC,
     page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
     patient_external_id="string",
     bundle_status=ChargeCaptureBundleStatus.IN_PROGRESS,
@@ -456,6 +460,7 @@ client.charge_capture_bundles.v_1.get_all(
     date_of_service=datetime.date.fromisoformat(
         "2023-01-15",
     ),
+    has_charge_capture_updates=True,
 )
 
 ```
@@ -473,6 +478,22 @@ client.charge_capture_bundles.v_1.get_all(
 <dd>
 
 **limit:** `typing.Optional[int]` — Maximum number of entities per page, defaults to 100.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort:** `typing.Optional[ChargeCaptureBundleSortField]` — Defaults to created_at
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Sort direction. Defaults to descending order if not provided.
     
 </dd>
 </dl>
@@ -528,6 +549,14 @@ This field should not contain PHI.
 
 Date formatted as YYYY-MM-DD; eg: 2019-08-24.
 This date must be the local date in the timezone where the service occurred.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**has_charge_capture_updates:** `typing.Optional[bool]` — If true, only return bundles that have charge captures that have been updated since the bundle has had a status of BILLED. See the updates property on ChargeCapture for more details.
     
 </dd>
 </dl>
@@ -938,7 +967,11 @@ client.charge_capture.v_1.get(
 import datetime
 
 from candid import CandidApiClient
-from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
+from candid.resources.charge_capture.resources.v_1 import (
+    ChargeCaptureSortField,
+    ChargeCaptureStatus,
+)
+from candid.resources.commons import SortDirection
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -946,6 +979,8 @@ client = CandidApiClient(
 )
 client.charge_capture.v_1.get_all(
     limit=1,
+    sort=ChargeCaptureSortField.CREATED_AT,
+    sort_direction=SortDirection.ASC,
     page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
     patient_external_id="string",
     status=ChargeCaptureStatus.PLANNED,
@@ -971,6 +1006,22 @@ client.charge_capture.v_1.get_all(
 <dd>
 
 **limit:** `typing.Optional[int]` — Maximum number of entities per page, defaults to 100.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort:** `typing.Optional[ChargeCaptureSortField]` — Defaults to created_at
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Sort direction. Defaults to descending order if not provided.
     
 </dd>
 </dl>

@@ -3,6 +3,15 @@
 from .charge_capture import ChargeCapture
 from .charge_capture_data import ChargeCaptureData
 from .charge_capture_page import ChargeCapturePage
+from .charge_capture_post_billed_change import ChargeCapturePostBilledChange
+from .charge_capture_sort_field import ChargeCaptureSortField
 from .charge_capture_status import ChargeCaptureStatus
 
-__all__ = ["ChargeCapture", "ChargeCaptureData", "ChargeCapturePage", "ChargeCaptureStatus"]
+__all__ = [
+    "ChargeCapture",
+    "ChargeCaptureData",
+    "ChargeCapturePage",
+    "ChargeCapturePostBilledChange",
+    "ChargeCaptureSortField",
+    "ChargeCaptureStatus",
+]
