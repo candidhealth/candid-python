@@ -360,6 +360,53 @@ client.charge_capture_bundles.v_1.get(
 </dl>
 </details>
 
+<details><summary><code>client.charge_capture_bundles.v_1.<a href="src/candid/resources/charge_capture_bundles/resources/v_1/client.py">get_summary</a>()</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.charge_capture_bundles.v_1.get_summary()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.charge_capture_bundles.v_1.<a href="src/candid/resources/charge_capture_bundles/resources/v_1/client.py">resubmit</a>(...)</code></summary>
 <dl>
 <dd>
@@ -454,7 +501,7 @@ client.charge_capture_bundles.v_1.get_all(
     sort_direction=SortDirection.ASC,
     page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
     patient_external_id="string",
-    bundle_status=ChargeCaptureBundleStatus.IN_PROGRESS,
+    bundle_status=ChargeCaptureBundleStatus.NOT_STARTED,
     charge_status=ChargeCaptureStatus.PLANNED,
     charge_external_id="string",
     date_of_service=datetime.date.fromisoformat(
@@ -965,6 +1012,7 @@ client.charge_capture.v_1.get(
 
 ```python
 import datetime
+import uuid
 
 from candid import CandidApiClient
 from candid.resources.charge_capture.resources.v_1 import (
@@ -987,6 +1035,9 @@ client.charge_capture.v_1.get_all(
     charge_external_id="string",
     date_of_service=datetime.date.fromisoformat(
         "2023-01-15",
+    ),
+    bundle_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     exclude_bundled=True,
 )
@@ -1069,6 +1120,14 @@ This field should not contain PHI.
 
 Date formatted as YYYY-MM-DD; eg: 2019-08-24.
 This date must be the local date in the timezone where the service occurred.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**bundle_id:** `typing.Optional[ChargeCaptureBundleId]` — The ID of the charge capture bundle to which this charge capture belongs.
     
 </dd>
 </dl>
@@ -6764,7 +6823,7 @@ client.fee_schedules.v_3.get_multi(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     cpt_code="string",
-    modifiers=ProcedureModifier.TWENTY_TWO,
+    modifiers=ProcedureModifier.AV,
 )
 
 ```
@@ -6965,7 +7024,7 @@ client.fee_schedules.v_3.get_unique_values_for_dimension(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     cpt_code="string",
-    modifiers=ProcedureModifier.TWENTY_TWO,
+    modifiers=ProcedureModifier.AV,
 )
 
 ```
@@ -7249,7 +7308,7 @@ client.fee_schedules.v_3.upload_fee_schedule(
                     )
                 ],
                 cpt_code="string",
-                modifiers=[ProcedureModifier.TWENTY_TWO],
+                modifiers=[ProcedureModifier.AV],
             ),
             entries=[
                 RateEntry(
@@ -8867,282 +8926,6 @@ client.insurance_payments.v_1.get(
 </dl>
 </details>
 
-<details><summary><code>client.insurance_payments.v_1.<a href="src/candid/resources/insurance_payments/resources/v_1/client.py">create</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Creates a new insurance payment record and returns the newly created `InsurancePayment` object. This endpoint
-should only be used for insurance payments that do not have a corresponding ERA (for example: a settlement check
-from a payer). If the payment is an ERA, then you should used the insurance-adjudications API.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import datetime
-import uuid
-
-from candid import CandidApiClient
-from candid.resources.financials import (
-    AllocationCreate,
-    AllocationTargetCreate_ServiceLineById,
-)
-from candid.resources.insurance_payments.resources.v_1 import (
-    InsurancePaymentCreate,
-)
-from candid.resources.payers.resources.v_3 import PayerIdentifier_PayerInfo
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.insurance_payments.v_1.create(
-    request=InsurancePaymentCreate(
-        payer_identifier=PayerIdentifier_PayerInfo(),
-        amount_cents=1,
-        payment_timestamp=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
-        ),
-        payment_note="string",
-        allocations=[
-            AllocationCreate(
-                amount_cents=1,
-                target=AllocationTargetCreate_ServiceLineById(
-                    value=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    )
-                ),
-            )
-        ],
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `InsurancePaymentCreate` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.insurance_payments.v_1.<a href="src/candid/resources/insurance_payments/resources/v_1/client.py">update</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Updates the patient payment record matching the provided insurance_payment_id. If updating the payment amount,
-then the allocations must be appropriately updated as well.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import datetime
-import uuid
-
-from candid import CandidApiClient
-from candid.resources.financials import NoteUpdate_Set
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.insurance_payments.v_1.update(
-    insurance_payment_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    payment_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    payment_note=NoteUpdate_Set(value="string"),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**insurance_payment_id:** `InsurancePaymentId` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**payment_timestamp:** `typing.Optional[dt.datetime]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**payment_note:** `typing.Optional[NoteUpdate]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.insurance_payments.v_1.<a href="src/candid/resources/insurance_payments/resources/v_1/client.py">delete</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Deletes the insurance payment record matching the provided `insurance_payment_id`.
-If the matching record's organization_id does not match the authenticated user's
-current organization_id, then a response code of `403` will be returned.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import uuid
-
-from candid import CandidApiClient
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.insurance_payments.v_1.delete(
-    insurance_payment_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**insurance_payment_id:** `InsurancePaymentId` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 ## InsuranceRefunds V1
 <details><summary><code>client.insurance_refunds.v_1.<a href="src/candid/resources/insurance_refunds/resources/v_1/client.py">get_multi</a>(...)</code></summary>
 <dl>
@@ -9712,7 +9495,7 @@ client.medication_dispense.v_1.create(
             drug_description="string",
         ),
         description="string",
-        modifiers=[ProcedureModifier.TWENTY_TWO],
+        modifiers=[ProcedureModifier.AV],
     ),
 )
 
@@ -13379,7 +13162,7 @@ client = CandidApiClient(
 )
 client.service_lines.v_2.create(
     request=ServiceLineCreateStandalone(
-        modifiers=[ProcedureModifier.TWENTY_TWO],
+        modifiers=[ProcedureModifier.AV],
         charge_amount_cents=1,
         diagnosis_id_zero=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
@@ -13523,7 +13306,7 @@ client.service_lines.v_2.update(
     ),
     request=ServiceLineUpdate(
         edit_reason="string",
-        modifiers=[ProcedureModifier.TWENTY_TWO],
+        modifiers=[ProcedureModifier.AV],
         charge_amount_cents=1,
         diagnosis_id_zero=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",

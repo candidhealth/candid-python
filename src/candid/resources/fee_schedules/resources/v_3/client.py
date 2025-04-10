@@ -299,7 +299,7 @@ class V3Client:
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             cpt_code="string",
-            modifiers=ProcedureModifier.TWENTY_TWO,
+            modifiers=ProcedureModifier.AV,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -432,7 +432,7 @@ class V3Client:
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             cpt_code="string",
-            modifiers=ProcedureModifier.TWENTY_TWO,
+            modifiers=ProcedureModifier.AV,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -602,7 +602,7 @@ class V3Client:
                             )
                         ],
                         cpt_code="string",
-                        modifiers=[ProcedureModifier.TWENTY_TWO],
+                        modifiers=[ProcedureModifier.AV],
                     ),
                     entries=[
                         RateEntry(
@@ -1178,7 +1178,7 @@ class AsyncV3Client:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 cpt_code="string",
-                modifiers=ProcedureModifier.TWENTY_TWO,
+                modifiers=ProcedureModifier.AV,
             )
 
 
@@ -1318,7 +1318,7 @@ class AsyncV3Client:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 cpt_code="string",
-                modifiers=ProcedureModifier.TWENTY_TWO,
+                modifiers=ProcedureModifier.AV,
             )
 
 
@@ -1502,7 +1502,7 @@ class AsyncV3Client:
                                 )
                             ],
                             cpt_code="string",
-                            modifiers=[ProcedureModifier.TWENTY_TWO],
+                            modifiers=[ProcedureModifier.AV],
                         ),
                         entries=[
                             RateEntry(

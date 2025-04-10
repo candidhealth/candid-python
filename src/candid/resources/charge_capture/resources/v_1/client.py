@@ -27,6 +27,7 @@ from .....core.jsonable_encoder import jsonable_encoder
 from .types.charge_capture_sort_field import ChargeCaptureSortField
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.page_token import PageToken
+from ....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
 from .types.charge_capture_page import ChargeCapturePage
 from .....core.client_wrapper import AsyncClientWrapper
 
@@ -472,6 +473,7 @@ class V1Client:
         status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
         date_of_service: typing.Optional[dt.date] = None,
+        bundle_id: typing.Optional[ChargeCaptureBundleId] = None,
         exclude_bundled: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
@@ -504,6 +506,9 @@ class V1Client:
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
+        bundle_id : typing.Optional[ChargeCaptureBundleId]
+            The ID of the charge capture bundle to which this charge capture belongs.
+
         exclude_bundled : typing.Optional[bool]
             Whether to exclude charge captures which are associated with a charge capture bundle.
 
@@ -517,6 +522,7 @@ class V1Client:
         Examples
         --------
         import datetime
+        import uuid
 
         from candid import CandidApiClient
         from candid.resources.charge_capture.resources.v_1 import (
@@ -540,6 +546,9 @@ class V1Client:
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
+            bundle_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
             exclude_bundled=True,
         )
         """
@@ -556,6 +565,7 @@ class V1Client:
                 "status": status,
                 "charge_external_id": charge_external_id,
                 "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "bundle_id": bundle_id,
                 "exclude_bundled": exclude_bundled,
             },
             request_options=request_options,
@@ -1041,6 +1051,7 @@ class AsyncV1Client:
         status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
         date_of_service: typing.Optional[dt.date] = None,
+        bundle_id: typing.Optional[ChargeCaptureBundleId] = None,
         exclude_bundled: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
@@ -1073,6 +1084,9 @@ class AsyncV1Client:
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
+        bundle_id : typing.Optional[ChargeCaptureBundleId]
+            The ID of the charge capture bundle to which this charge capture belongs.
+
         exclude_bundled : typing.Optional[bool]
             Whether to exclude charge captures which are associated with a charge capture bundle.
 
@@ -1087,6 +1101,7 @@ class AsyncV1Client:
         --------
         import asyncio
         import datetime
+        import uuid
 
         from candid import AsyncCandidApiClient
         from candid.resources.charge_capture.resources.v_1 import (
@@ -1113,6 +1128,9 @@ class AsyncV1Client:
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
+                bundle_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
                 exclude_bundled=True,
             )
 
@@ -1132,6 +1150,7 @@ class AsyncV1Client:
                 "status": status,
                 "charge_external_id": charge_external_id,
                 "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "bundle_id": bundle_id,
                 "exclude_bundled": exclude_bundled,
             },
             request_options=request_options,

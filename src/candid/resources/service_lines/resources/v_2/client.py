@@ -73,7 +73,7 @@ class V2Client:
         )
         client.service_lines.v_2.create(
             request=ServiceLineCreateStandalone(
-                modifiers=[ProcedureModifier.TWENTY_TWO],
+                modifiers=[ProcedureModifier.AV],
                 charge_amount_cents=1,
                 diagnosis_id_zero=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
@@ -226,7 +226,7 @@ class V2Client:
             ),
             request=ServiceLineUpdate(
                 edit_reason="string",
-                modifiers=[ProcedureModifier.TWENTY_TWO],
+                modifiers=[ProcedureModifier.AV],
                 charge_amount_cents=1,
                 diagnosis_id_zero=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
@@ -449,7 +449,7 @@ class AsyncV2Client:
         async def main() -> None:
             await client.service_lines.v_2.create(
                 request=ServiceLineCreateStandalone(
-                    modifiers=[ProcedureModifier.TWENTY_TWO],
+                    modifiers=[ProcedureModifier.AV],
                     charge_amount_cents=1,
                     diagnosis_id_zero=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
@@ -609,7 +609,7 @@ class AsyncV2Client:
                 ),
                 request=ServiceLineUpdate(
                     edit_reason="string",
-                    modifiers=[ProcedureModifier.TWENTY_TWO],
+                    modifiers=[ProcedureModifier.AV],
                     charge_amount_cents=1,
                     diagnosis_id_zero=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",

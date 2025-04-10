@@ -95,7 +95,7 @@ class V1Client:
                     drug_description="string",
                 ),
                 description="string",
-                modifiers=[ProcedureModifier.TWENTY_TWO],
+                modifiers=[ProcedureModifier.AV],
             ),
         )
         """
@@ -246,7 +246,7 @@ class AsyncV1Client:
                         drug_description="string",
                     ),
                     description="string",
-                    modifiers=[ProcedureModifier.TWENTY_TWO],
+                    modifiers=[ProcedureModifier.AV],
                 ),
             )
 

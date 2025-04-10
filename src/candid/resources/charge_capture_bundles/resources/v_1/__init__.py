@@ -6,6 +6,7 @@ from .types import (
     ChargeCaptureBundlePage,
     ChargeCaptureBundleSortField,
     ChargeCaptureBundleStatus,
+    ChargeCaptureBundleSummary,
 )
 
 __all__ = [
@@ -14,4 +15,5 @@ __all__ = [
     "ChargeCaptureBundlePage",
     "ChargeCaptureBundleSortField",
     "ChargeCaptureBundleStatus",
+    "ChargeCaptureBundleSummary",
 ]

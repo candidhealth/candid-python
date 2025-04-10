@@ -7,6 +7,21 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class ProcedureModifier(str, enum.Enum):
+    AV = "AV"
+    """
+    Ambulance service provided as a volunteer ambulance service organization as defined by the state
+    """
+
+    AU = "AU"
+    """
+    Item furnished in conjunction with a urological, ostomy, or tracheostomy supply
+    """
+
+    AW = "AW"
+    """
+    Item furnished in conjunction with dialysis services
+    """
+
     TWENTY_TWO = "22"
     """
     Increased Procedural Services
@@ -1990,6 +2005,9 @@ class ProcedureModifier(str, enum.Enum):
 
     def visit(
         self,
+        av: typing.Callable[[], T_Result],
+        au: typing.Callable[[], T_Result],
+        aw: typing.Callable[[], T_Result],
         twenty_two: typing.Callable[[], T_Result],
         twenty_three: typing.Callable[[], T_Result],
         twenty_four: typing.Callable[[], T_Result],
@@ -2386,6 +2404,12 @@ class ProcedureModifier(str, enum.Enum):
         xu: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
+        if self is ProcedureModifier.AV:
+            return av()
+        if self is ProcedureModifier.AU:
+            return au()
+        if self is ProcedureModifier.AW:
+            return aw()
         if self is ProcedureModifier.TWENTY_TWO:
             return twenty_two()
         if self is ProcedureModifier.TWENTY_THREE:

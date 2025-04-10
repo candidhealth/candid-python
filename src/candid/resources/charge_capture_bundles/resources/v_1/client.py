@@ -11,6 +11,7 @@ from .....core.api_error import ApiError
 from .....core.pydantic_utilities import parse_obj_as
 from ....commons.errors.not_implemented_error import NotImplementedError
 from ....commons.types.not_implemented_error_message import NotImplementedErrorMessage
+from .types.charge_capture_bundle_summary import ChargeCaptureBundleSummary
 from .types.charge_capture_bundle_sort_field import ChargeCaptureBundleSortField
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.page_token import PageToken
@@ -88,6 +89,47 @@ class V1Client:
                         ),
                     )
                 )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def get_summary(self, *, request_options: typing.Optional[RequestOptions] = None) -> ChargeCaptureBundleSummary:
+        """
+        Parameters
+        ----------
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ChargeCaptureBundleSummary
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.charge_capture_bundles.v_1.get_summary()
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/charge_capture_bundle/v1/summary",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                ChargeCaptureBundleSummary,
+                parse_obj_as(
+                    type_=ChargeCaptureBundleSummary,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def resubmit(
@@ -234,7 +276,7 @@ class V1Client:
             sort_direction=SortDirection.ASC,
             page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
             patient_external_id="string",
-            bundle_status=ChargeCaptureBundleStatus.IN_PROGRESS,
+            bundle_status=ChargeCaptureBundleStatus.NOT_STARTED,
             charge_status=ChargeCaptureStatus.PLANNED,
             charge_external_id="string",
             date_of_service=datetime.date.fromisoformat(
@@ -361,6 +403,57 @@ class AsyncV1Client:
                         ),
                     )
                 )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def get_summary(
+        self, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ChargeCaptureBundleSummary:
+        """
+        Parameters
+        ----------
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ChargeCaptureBundleSummary
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.charge_capture_bundles.v_1.get_summary()
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/charge_capture_bundle/v1/summary",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                ChargeCaptureBundleSummary,
+                parse_obj_as(
+                    type_=ChargeCaptureBundleSummary,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def resubmit(
@@ -518,7 +611,7 @@ class AsyncV1Client:
                 sort_direction=SortDirection.ASC,
                 page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
                 patient_external_id="string",
-                bundle_status=ChargeCaptureBundleStatus.IN_PROGRESS,
+                bundle_status=ChargeCaptureBundleStatus.NOT_STARTED,
                 charge_status=ChargeCaptureStatus.PLANNED,
                 charge_external_id="string",
                 date_of_service=datetime.date.fromisoformat(
