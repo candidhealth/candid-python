@@ -32,6 +32,7 @@ from .resources.organization_service_facilities.client import OrganizationServic
 from .resources.organization_providers.client import OrganizationProvidersClient
 from .resources.patient_payments.client import PatientPaymentsClient
 from .resources.patient_refunds.client import PatientRefundsClient
+from .resources.payer_plan_groups.client import PayerPlanGroupsClient
 from .resources.payers.client import PayersClient
 from .resources.service_lines.client import ServiceLinesClient
 from .resources.tasks.client import TasksClient
@@ -67,6 +68,7 @@ from .resources.organization_service_facilities.client import AsyncOrganizationS
 from .resources.organization_providers.client import AsyncOrganizationProvidersClient
 from .resources.patient_payments.client import AsyncPatientPaymentsClient
 from .resources.patient_refunds.client import AsyncPatientRefundsClient
+from .resources.payer_plan_groups.client import AsyncPayerPlanGroupsClient
 from .resources.payers.client import AsyncPayersClient
 from .resources.service_lines.client import AsyncServiceLinesClient
 from .resources.tasks.client import AsyncTasksClient
@@ -173,6 +175,7 @@ class CandidApiClient:
         self.organization_providers = OrganizationProvidersClient(client_wrapper=self._client_wrapper)
         self.patient_payments = PatientPaymentsClient(client_wrapper=self._client_wrapper)
         self.patient_refunds = PatientRefundsClient(client_wrapper=self._client_wrapper)
+        self.payer_plan_groups = PayerPlanGroupsClient(client_wrapper=self._client_wrapper)
         self.payers = PayersClient(client_wrapper=self._client_wrapper)
         self.service_lines = ServiceLinesClient(client_wrapper=self._client_wrapper)
         self.tasks = TasksClient(client_wrapper=self._client_wrapper)
@@ -283,6 +286,7 @@ class AsyncCandidApiClient:
         self.organization_providers = AsyncOrganizationProvidersClient(client_wrapper=self._client_wrapper)
         self.patient_payments = AsyncPatientPaymentsClient(client_wrapper=self._client_wrapper)
         self.patient_refunds = AsyncPatientRefundsClient(client_wrapper=self._client_wrapper)
+        self.payer_plan_groups = AsyncPayerPlanGroupsClient(client_wrapper=self._client_wrapper)
         self.payers = AsyncPayersClient(client_wrapper=self._client_wrapper)
         self.service_lines = AsyncServiceLinesClient(client_wrapper=self._client_wrapper)
         self.tasks = AsyncTasksClient(client_wrapper=self._client_wrapper)

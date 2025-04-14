@@ -12982,6 +12982,513 @@ client.patient_refunds.v_1.delete(
 </dl>
 </details>
 
+## PayerPlanGroups V1
+<details><summary><code>client.payer_plan_groups.v_1.<a href="src/candid/resources/payer_plan_groups/resources/v_1/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns all payer plan groups matching filter criteria.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.commons import SortDirection, SourceOfPaymentCode
+from candid.resources.payer_plan_groups.resources.v_1 import (
+    PayerPlanGroupSortField,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.payer_plan_groups.v_1.get_multi(
+    plan_group_name="string",
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    payer_id="string",
+    plan_type=SourceOfPaymentCode.SELF_PAY,
+    is_active=True,
+    payer_plan_group_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    limit=1,
+    sort_by_similarity="string",
+    sort=PayerPlanGroupSortField.PLAN_GROUP_NAME,
+    sort_direction=SortDirection.ASC,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**plan_group_name:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_uuid:** `typing.Optional[typing.Union[PayerUuid, typing.Sequence[PayerUuid]]]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_id:** `typing.Optional[typing.Union[PayerId, typing.Sequence[PayerId]]]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**plan_type:** `typing.Optional[
+    typing.Union[SourceOfPaymentCode, typing.Sequence[SourceOfPaymentCode]]
+]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**is_active:** `typing.Optional[bool]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_plan_group_id:** `typing.Optional[
+    typing.Union[PayerPlanGroupId, typing.Sequence[PayerPlanGroupId]]
+]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Defaults to 100. Cannot exc
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_by_similarity:** `typing.Optional[str]` 
+
+If this property is passed, the results will be ordered by those that contain a payer_id, payer_name, plan_group_name, or
+payer_address most similar to the value passed. This will take precedence over the sort and sort_direction properties. This
+will always sort in order of most similar to least similar.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort:** `typing.Optional[PayerPlanGroupSortField]` — Defaults to plan_group_name. If sort_by_similarity is passed, that sort will takes precedence over this property.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Sort direction. Defaults to ascending order if not provided.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.payer_plan_groups.v_1.<a href="src/candid/resources/payer_plan_groups/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Return a plan group with a given ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.payer_plan_groups.v_1.get(
+    payer_plan_group_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**payer_plan_group_id:** `PayerPlanGroupId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.payer_plan_groups.v_1.<a href="src/candid/resources/payer_plan_groups/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a payer plan group
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.commons import SourceOfPaymentCode
+from candid.resources.payer_plan_groups.resources.v_1 import (
+    MutablePayerPlanGroup,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.payer_plan_groups.v_1.create(
+    request=MutablePayerPlanGroup(
+        plan_group_name="string",
+        payer_uuid=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        plan_type=SourceOfPaymentCode.SELF_PAY,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MutablePayerPlanGroup` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.payer_plan_groups.v_1.<a href="src/candid/resources/payer_plan_groups/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Update any of the fields on a payer plan group
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.commons import SourceOfPaymentCode
+from candid.resources.payer_plan_groups.resources.v_1 import (
+    MutablePayerPlanGroup,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.payer_plan_groups.v_1.update(
+    payer_plan_group_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=MutablePayerPlanGroup(
+        plan_group_name="string",
+        payer_uuid=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        plan_type=SourceOfPaymentCode.SELF_PAY,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**payer_plan_group_id:** `PayerPlanGroupId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `MutablePayerPlanGroup` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.payer_plan_groups.v_1.<a href="src/candid/resources/payer_plan_groups/resources/v_1/client.py">deactivate</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Marks the payer plan group as deactivated
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.payer_plan_groups.v_1.deactivate(
+    payer_plan_group_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**payer_plan_group_id:** `PayerPlanGroupId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Payers V3
 <details><summary><code>client.payers.v_3.<a href="src/candid/resources/payers/resources/v_3/client.py">get</a>(...)</code></summary>
 <dl>
