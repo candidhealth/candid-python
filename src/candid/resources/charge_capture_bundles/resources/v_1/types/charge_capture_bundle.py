@@ -7,7 +7,7 @@ from .....commons.types.encounter_id import EncounterId
 from .charge_capture_bundle_status import ChargeCaptureBundleStatus
 import pydantic
 from .....charge_capture.resources.v_1.types.charge_capture import ChargeCapture
-from .charge_bundle_error import ChargeBundleError
+from .....charge_capture.resources.v_1.types.charge_capture_error import ChargeCaptureError
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -24,7 +24,7 @@ class ChargeCaptureBundle(UniversalBaseModel):
     All the underlying ChargeCaptures that are present in a ChargeCaptureBundle.
     """
 
-    errors: typing.List[ChargeBundleError] = pydantic.Field()
+    errors: typing.List[ChargeCaptureError] = pydantic.Field()
     """
     All errors that were found when the bundle was attempted to be created.
     Errors can correspond to the Bundle as a whole or specific underlying Charge Captures.

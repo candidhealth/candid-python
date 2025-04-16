@@ -29,6 +29,8 @@ from ....commons.types.sort_direction import SortDirection
 from ....commons.types.page_token import PageToken
 from ....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
 from .types.charge_capture_page import ChargeCapturePage
+from ....commons.types.charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
+from .types.charge_capture_post_billed_change import ChargeCapturePostBilledChange
 from .....core.client_wrapper import AsyncClientWrapper
 
 # this is used as the default value for optional parameters
@@ -582,6 +584,92 @@ class V1Client:
                     object_=_response_json,
                 ),
             )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def update_post_billed_change(
+        self,
+        charge_capture_change_id: ChargeCapturePostBilledChangeId,
+        *,
+        resolved: bool,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ChargeCapturePostBilledChange:
+        """
+        Parameters
+        ----------
+        charge_capture_change_id : ChargeCapturePostBilledChangeId
+
+        resolved : bool
+            Whether the change has been resolved. If true, the change will be marked as resolved.
+            If false, the change will be marked as unresolved.
+
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ChargeCapturePostBilledChange
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.charge_capture.v_1.update_post_billed_change(
+            charge_capture_change_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            resolved=True,
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/charge_captures/v1/changes/{jsonable_encoder(charge_capture_change_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "resolved": resolved,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                ChargeCapturePostBilledChange,
+                parse_obj_as(
+                    type_=ChargeCapturePostBilledChange,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -1167,4 +1255,97 @@ class AsyncV1Client:
                     object_=_response_json,
                 ),
             )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def update_post_billed_change(
+        self,
+        charge_capture_change_id: ChargeCapturePostBilledChangeId,
+        *,
+        resolved: bool,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ChargeCapturePostBilledChange:
+        """
+        Parameters
+        ----------
+        charge_capture_change_id : ChargeCapturePostBilledChangeId
+
+        resolved : bool
+            Whether the change has been resolved. If true, the change will be marked as resolved.
+            If false, the change will be marked as unresolved.
+
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ChargeCapturePostBilledChange
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.charge_capture.v_1.update_post_billed_change(
+                charge_capture_change_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                resolved=True,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/charge_captures/v1/changes/{jsonable_encoder(charge_capture_change_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "resolved": resolved,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        if 200 <= _response.status_code < 300:
+            return typing.cast(
+                ChargeCapturePostBilledChange,
+                parse_obj_as(
+                    type_=ChargeCapturePostBilledChange,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    )
+                )
         raise ApiError(status_code=_response.status_code, body=_response_json)

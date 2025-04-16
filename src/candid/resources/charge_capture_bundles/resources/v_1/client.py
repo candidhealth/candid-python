@@ -9,9 +9,9 @@ from .....core.jsonable_encoder import jsonable_encoder
 from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.pydantic_utilities import parse_obj_as
+from .types.charge_capture_bundle_summary import ChargeCaptureBundleSummary
 from ....commons.errors.not_implemented_error import NotImplementedError
 from ....commons.types.not_implemented_error_message import NotImplementedErrorMessage
-from .types.charge_capture_bundle_summary import ChargeCaptureBundleSummary
 from .types.charge_capture_bundle_sort_field import ChargeCaptureBundleSortField
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.page_token import PageToken
@@ -78,17 +78,6 @@ class V1Client:
                     object_=_response_json,
                 ),
             )
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "NotImplementedError":
-                raise NotImplementedError(
-                    typing.cast(
-                        NotImplementedErrorMessage,
-                        parse_obj_as(
-                            type_=NotImplementedErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    )
-                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def get_summary(self, *, request_options: typing.Optional[RequestOptions] = None) -> ChargeCaptureBundleSummary:
@@ -113,7 +102,7 @@ class V1Client:
         client.charge_capture_bundles.v_1.get_summary()
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/charge_capture_bundle/v1/summary",
+            "api/charge_capture_bundle/v1/all/summary",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
@@ -315,17 +304,6 @@ class V1Client:
                     object_=_response_json,
                 ),
             )
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "NotImplementedError":
-                raise NotImplementedError(
-                    typing.cast(
-                        NotImplementedErrorMessage,
-                        parse_obj_as(
-                            type_=NotImplementedErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    )
-                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
@@ -392,17 +370,6 @@ class AsyncV1Client:
                     object_=_response_json,
                 ),
             )
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "NotImplementedError":
-                raise NotImplementedError(
-                    typing.cast(
-                        NotImplementedErrorMessage,
-                        parse_obj_as(
-                            type_=NotImplementedErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    )
-                )
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def get_summary(
@@ -437,7 +404,7 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/charge_capture_bundle/v1/summary",
+            "api/charge_capture_bundle/v1/all/summary",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
@@ -653,15 +620,4 @@ class AsyncV1Client:
                     object_=_response_json,
                 ),
             )
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "NotImplementedError":
-                raise NotImplementedError(
-                    typing.cast(
-                        NotImplementedErrorMessage,
-                        parse_obj_as(
-                            type_=NotImplementedErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    )
-                )
         raise ApiError(status_code=_response.status_code, body=_response_json)

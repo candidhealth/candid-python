@@ -3,6 +3,7 @@
 from .types import (
     ChargeCapture,
     ChargeCaptureData,
+    ChargeCaptureError,
     ChargeCapturePage,
     ChargeCapturePostBilledChange,
     ChargeCaptureSortField,
@@ -12,6 +13,7 @@ from .types import (
 __all__ = [
     "ChargeCapture",
     "ChargeCaptureData",
+    "ChargeCaptureError",
     "ChargeCapturePage",
     "ChargeCapturePostBilledChange",
     "ChargeCaptureSortField",

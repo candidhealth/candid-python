@@ -8,6 +8,7 @@ from .....commons.types.patient_external_id import PatientExternalId
 import typing
 import datetime as dt
 import pydantic
+from .charge_capture_error import ChargeCaptureError
 from .charge_capture_post_billed_change import ChargeCapturePostBilledChange
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
@@ -25,6 +26,7 @@ class ChargeCapture(UniversalBaseModel):
     This date must be the local date in the timezone where the service occurred.
     """
 
+    error: typing.Optional[ChargeCaptureError] = None
     updates: typing.List[ChargeCapturePostBilledChange]
 
     if IS_PYDANTIC_V2:

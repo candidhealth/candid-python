@@ -1155,6 +1155,80 @@ This date must be the local date in the timezone where the service occurred.
 </dl>
 </details>
 
+<details><summary><code>client.charge_capture.v_1.<a href="src/candid/resources/charge_capture/resources/v_1/client.py">update_post_billed_change</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.charge_capture.v_1.update_post_billed_change(
+    charge_capture_change_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    resolved=True,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**charge_capture_change_id:** `ChargeCapturePostBilledChangeId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**resolved:** `bool` 
+
+Whether the change has been resolved. If true, the change will be marked as resolved.
+If false, the change will be marked as unresolved.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Contracts V2
 <details><summary><code>client.contracts.v_2.<a href="src/candid/resources/contracts/resources/v_2/client.py">get</a>(...)</code></summary>
 <dl>

@@ -9,7 +9,7 @@ from .....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
-class ChargeBundleError(UniversalBaseModel):
+class ChargeCaptureError(UniversalBaseModel):
     id: uuid.UUID
     charge_capture_id: typing.Optional[ChargeCaptureId] = pydantic.Field(default=None)
     """
