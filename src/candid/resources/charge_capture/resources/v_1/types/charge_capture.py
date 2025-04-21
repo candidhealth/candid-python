@@ -10,6 +10,7 @@ import datetime as dt
 import pydantic
 from .charge_capture_error import ChargeCaptureError
 from .charge_capture_post_billed_change import ChargeCapturePostBilledChange
+from .....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -28,6 +29,7 @@ class ChargeCapture(UniversalBaseModel):
 
     error: typing.Optional[ChargeCaptureError] = None
     updates: typing.List[ChargeCapturePostBilledChange]
+    bundle_id: typing.Optional[ChargeCaptureBundleId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
