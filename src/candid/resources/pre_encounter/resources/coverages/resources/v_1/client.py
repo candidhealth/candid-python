@@ -19,6 +19,8 @@ from .types.coverages_page import CoveragesPage
 from ....common.errors.bad_request_error import BadRequestError
 import datetime as dt
 from .......core.datetime_utils import serialize_datetime
+from ....common.types.payer_plan_group_id import PayerPlanGroupId
+from .types.payer_plan_group_fields import PayerPlanGroupFields
 from .types.service_type_code import ServiceTypeCode
 from .types.eligibility_check_metadata import EligibilityCheckMetadata
 from .types.coverage_eligibility_check_response import CoverageEligibilityCheckResponse
@@ -619,6 +621,73 @@ class V1Client:
                     object_=_response_json,
                 ),
             )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def batch_update_ppg(
+        self,
+        ppg_id: PayerPlanGroupId,
+        *,
+        request: PayerPlanGroupFields,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
+        """
+        Finds all coverages associated with the given ppg_id and updates the ppg_fields for each coverage.
+
+        Parameters
+        ----------
+        ppg_id : PayerPlanGroupId
+
+        request : PayerPlanGroupFields
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
+            NetworkType,
+            PayerPlanGroupFields,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.batch_update_ppg(
+            ppg_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=PayerPlanGroupFields(
+                payer_plan_group_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                payer_id="string",
+                payer_name="string",
+                plan_type=NetworkType.SELF_PAY,
+            ),
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"coverages/v1/batch-update-ppg/{jsonable_encoder(ppg_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def check_eligibility(
@@ -1402,6 +1471,80 @@ class AsyncV1Client:
                     object_=_response_json,
                 ),
             )
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def batch_update_ppg(
+        self,
+        ppg_id: PayerPlanGroupId,
+        *,
+        request: PayerPlanGroupFields,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
+        """
+        Finds all coverages associated with the given ppg_id and updates the ppg_fields for each coverage.
+
+        Parameters
+        ----------
+        ppg_id : PayerPlanGroupId
+
+        request : PayerPlanGroupFields
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
+            NetworkType,
+            PayerPlanGroupFields,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.coverages.v_1.batch_update_ppg(
+                ppg_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                request=PayerPlanGroupFields(
+                    payer_plan_group_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    payer_id="string",
+                    payer_name="string",
+                    plan_type=NetworkType.SELF_PAY,
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"coverages/v1/batch-update-ppg/{jsonable_encoder(ppg_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def check_eligibility(

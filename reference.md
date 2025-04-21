@@ -16453,6 +16453,101 @@ client.pre_encounter.coverages.v_1.scan(
 </dl>
 </details>
 
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">batch_update_ppg</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Finds all coverages associated with the given ppg_id and updates the ppg_fields for each coverage.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
+    NetworkType,
+    PayerPlanGroupFields,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.batch_update_ppg(
+    ppg_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=PayerPlanGroupFields(
+        payer_plan_group_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        payer_id="string",
+        payer_name="string",
+        plan_type=NetworkType.SELF_PAY,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**ppg_id:** `PayerPlanGroupId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `PayerPlanGroupFields` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">check_eligibility</a>(...)</code></summary>
 <dl>
 <dd>
@@ -17842,6 +17937,7 @@ client.pre_encounter.patients.v_1.create(
         social_security_number="string",
         biological_sex=Sex.FEMALE,
         sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        pronouns=["string"],
         race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
         ethnicity=Ethnicity.HISPANIC_OR_LATINO,
         disability_status=DisabilityStatus.DISABLED,
@@ -18173,6 +18269,7 @@ client.pre_encounter.patients.v_1.create_with_mrn(
         social_security_number="string",
         biological_sex=Sex.FEMALE,
         sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        pronouns=["string"],
         race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
         ethnicity=Ethnicity.HISPANIC_OR_LATINO,
         disability_status=DisabilityStatus.DISABLED,
@@ -18825,6 +18922,7 @@ client.pre_encounter.patients.v_1.update(
         social_security_number="string",
         biological_sex=Sex.FEMALE,
         sexual_orientation=SexualOrientation.HETEROSEXUAL,
+        pronouns=["string"],
         race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
         ethnicity=Ethnicity.HISPANIC_OR_LATINO,
         disability_status=DisabilityStatus.DISABLED,

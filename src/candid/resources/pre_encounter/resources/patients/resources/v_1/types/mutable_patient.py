@@ -59,6 +59,11 @@ class MutablePatient(UniversalBaseModel):
     The sexual orientation of the patient.
     """
 
+    pronouns: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    The pronouns of the patient.
+    """
+
     race: typing.Optional[Race] = None
     ethnicity: typing.Optional[Ethnicity] = None
     disability_status: typing.Optional[DisabilityStatus] = None

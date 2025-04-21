@@ -23,6 +23,7 @@ from .latest_eligibility_check import LatestEligibilityCheck
 from .member_info import MemberInfo
 from .mutable_coverage import MutableCoverage
 from .network_type import NetworkType
+from .payer_plan_group_fields import PayerPlanGroupFields
 from .plan_coverage import PlanCoverage
 from .plan_coverage_details import PlanCoverageDetails
 from .plan_date import PlanDate
@@ -57,6 +58,7 @@ __all__ = [
     "MemberInfo",
     "MutableCoverage",
     "NetworkType",
+    "PayerPlanGroupFields",
     "PlanCoverage",
     "PlanCoverageDetails",
     "PlanDate",

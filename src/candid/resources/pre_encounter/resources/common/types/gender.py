@@ -11,6 +11,8 @@ class Gender(str, enum.Enum):
     WOMAN = "WOMAN"
     NON_BINARY = "NON_BINARY"
     TWO_SPIRIT = "TWO_SPIRIT"
+    FEMALE_TO_MALE = "FEMALE_TO_MALE"
+    MALE_TO_FEMALE = "MALE_TO_FEMALE"
     OTHER = "OTHER"
     UNKNOWN = "UNKNOWN"
     REFUSED = "REFUSED"
@@ -31,6 +33,8 @@ class Gender(str, enum.Enum):
         woman: typing.Callable[[], T_Result],
         non_binary: typing.Callable[[], T_Result],
         two_spirit: typing.Callable[[], T_Result],
+        female_to_male: typing.Callable[[], T_Result],
+        male_to_female: typing.Callable[[], T_Result],
         other: typing.Callable[[], T_Result],
         unknown: typing.Callable[[], T_Result],
         refused: typing.Callable[[], T_Result],
@@ -44,6 +48,10 @@ class Gender(str, enum.Enum):
             return non_binary()
         if self is Gender.TWO_SPIRIT:
             return two_spirit()
+        if self is Gender.FEMALE_TO_MALE:
+            return female_to_male()
+        if self is Gender.MALE_TO_FEMALE:
+            return male_to_female()
         if self is Gender.OTHER:
             return other()
         if self is Gender.UNKNOWN:
