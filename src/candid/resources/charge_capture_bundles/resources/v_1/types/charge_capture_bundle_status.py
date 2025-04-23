@@ -13,6 +13,11 @@ class ChargeCaptureBundleStatus(str, enum.Enum):
     SUCCESSFUL = "successful"
     SUCCESSFUL_DRY_RUN = "successful-dry-run"
     ABORTED = "aborted"
+    HELD = "held"
+    """
+    This Bundle has potential charges that are in a planned state, the bundle will be held until those charges are converted
+    """
+
     _UNKNOWN = "__CHARGECAPTUREBUNDLESTATUS_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -32,6 +37,7 @@ class ChargeCaptureBundleStatus(str, enum.Enum):
         successful: typing.Callable[[], T_Result],
         successful_dry_run: typing.Callable[[], T_Result],
         aborted: typing.Callable[[], T_Result],
+        held: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is ChargeCaptureBundleStatus.NOT_STARTED:
@@ -46,4 +52,6 @@ class ChargeCaptureBundleStatus(str, enum.Enum):
             return successful_dry_run()
         if self is ChargeCaptureBundleStatus.ABORTED:
             return aborted()
+        if self is ChargeCaptureBundleStatus.HELD:
+            return held()
         return _unknown_member(self._value_)

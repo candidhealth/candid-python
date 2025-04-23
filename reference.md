@@ -14039,6 +14039,106 @@ client.service_lines.v_2.delete(
 </dl>
 </details>
 
+## Superbills V1
+<details><summary><code>client.superbills.v_1.<a href="src/candid/resources/superbills/resources/v_1/client.py">create_superbill</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid import CandidApiClient
+from candid.resources.commons import State, StreetAddressShortZip
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.superbills.v_1.create_superbill(
+    patient_external_id="string",
+    date_range_min=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    date_range_max=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    pay_to_address=StreetAddressShortZip(
+        address_1="123 Main St",
+        address_2="Apt 1",
+        city="New York",
+        state=State.NY,
+        zip_code="10001",
+        zip_plus_four_code="1234",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**patient_external_id:** `PatientExternalId` — Empty string not allowed
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date_range_min:** `dt.date` — Minimum (inclusive) date selected for the superbill
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date_range_max:** `dt.date` — Maximum (inclusive) date selected for the superbill
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pay_to_address:** `typing.Optional[StreetAddressShortZip]` — Address that will be displayed on the superbill as the 'Pay to' Address. If not provided this value will be set from available encounter data.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Tasks V3
 <details><summary><code>client.tasks.v_3.<a href="src/candid/resources/tasks/resources/v_3/client.py">get_actions</a>(...)</code></summary>
 <dl>

@@ -19,6 +19,12 @@ class ChargeCaptureBundle(UniversalBaseModel):
     Status of the Bundle, Successful means that the Bundle created a corresponding Claim
     """
 
+    characteristics: typing.Dict[str, str] = pydantic.Field()
+    """
+    A dictionary of characteristics that are used to group charge captures together based on the bundling configuration.
+    Example: {"service_facility.npi": "99999999", "date_of_service": "2023-01-01"}
+    """
+
     charge_captures: typing.List[ChargeCapture] = pydantic.Field()
     """
     All the underlying ChargeCaptures that are present in a ChargeCaptureBundle.

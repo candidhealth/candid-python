@@ -35,6 +35,7 @@ from .resources.patient_refunds.client import PatientRefundsClient
 from .resources.payer_plan_groups.client import PayerPlanGroupsClient
 from .resources.payers.client import PayersClient
 from .resources.service_lines.client import ServiceLinesClient
+from .resources.superbills.client import SuperbillsClient
 from .resources.tasks.client import TasksClient
 from .resources.write_offs.client import WriteOffsClient
 from .resources.pre_encounter.client import PreEncounterClient
@@ -71,6 +72,7 @@ from .resources.patient_refunds.client import AsyncPatientRefundsClient
 from .resources.payer_plan_groups.client import AsyncPayerPlanGroupsClient
 from .resources.payers.client import AsyncPayersClient
 from .resources.service_lines.client import AsyncServiceLinesClient
+from .resources.superbills.client import AsyncSuperbillsClient
 from .resources.tasks.client import AsyncTasksClient
 from .resources.write_offs.client import AsyncWriteOffsClient
 from .resources.pre_encounter.client import AsyncPreEncounterClient
@@ -178,6 +180,7 @@ class CandidApiClient:
         self.payer_plan_groups = PayerPlanGroupsClient(client_wrapper=self._client_wrapper)
         self.payers = PayersClient(client_wrapper=self._client_wrapper)
         self.service_lines = ServiceLinesClient(client_wrapper=self._client_wrapper)
+        self.superbills = SuperbillsClient(client_wrapper=self._client_wrapper)
         self.tasks = TasksClient(client_wrapper=self._client_wrapper)
         self.write_offs = WriteOffsClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = PreEncounterClient(client_wrapper=self._client_wrapper)
@@ -289,6 +292,7 @@ class AsyncCandidApiClient:
         self.payer_plan_groups = AsyncPayerPlanGroupsClient(client_wrapper=self._client_wrapper)
         self.payers = AsyncPayersClient(client_wrapper=self._client_wrapper)
         self.service_lines = AsyncServiceLinesClient(client_wrapper=self._client_wrapper)
+        self.superbills = AsyncSuperbillsClient(client_wrapper=self._client_wrapper)
         self.tasks = AsyncTasksClient(client_wrapper=self._client_wrapper)
         self.write_offs = AsyncWriteOffsClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = AsyncPreEncounterClient(client_wrapper=self._client_wrapper)
