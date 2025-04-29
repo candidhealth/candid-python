@@ -8,7 +8,6 @@ T_Result = typing.TypeVar("T_Result")
 
 class ChargeCaptureBundleStatus(str, enum.Enum):
     NOT_STARTED = "not-started"
-    IN_PROGRESS = "in-progress"
     IN_ERROR = "in-error"
     SUCCESSFUL = "successful"
     SUCCESSFUL_DRY_RUN = "successful-dry-run"
@@ -32,7 +31,6 @@ class ChargeCaptureBundleStatus(str, enum.Enum):
     def visit(
         self,
         not_started: typing.Callable[[], T_Result],
-        in_progress: typing.Callable[[], T_Result],
         in_error: typing.Callable[[], T_Result],
         successful: typing.Callable[[], T_Result],
         successful_dry_run: typing.Callable[[], T_Result],
@@ -42,8 +40,6 @@ class ChargeCaptureBundleStatus(str, enum.Enum):
     ) -> T_Result:
         if self is ChargeCaptureBundleStatus.NOT_STARTED:
             return not_started()
-        if self is ChargeCaptureBundleStatus.IN_PROGRESS:
-            return in_progress()
         if self is ChargeCaptureBundleStatus.IN_ERROR:
             return in_error()
         if self is ChargeCaptureBundleStatus.SUCCESSFUL:

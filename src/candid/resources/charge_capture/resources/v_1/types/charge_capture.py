@@ -6,12 +6,11 @@ from .charge_capture_status import ChargeCaptureStatus
 from .charge_capture_data import ChargeCaptureData
 from .....commons.types.patient_external_id import PatientExternalId
 import typing
-import datetime as dt
-import pydantic
 from .charge_capture_error import ChargeCaptureError
 from .charge_capture_post_billed_change import ChargeCapturePostBilledChange
 from .....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
+import pydantic
 
 
 class ChargeCapture(UniversalBaseModel):
@@ -21,12 +20,6 @@ class ChargeCapture(UniversalBaseModel):
     patient_external_id: PatientExternalId
     charge_external_id: str
     ehr_source_url: typing.Optional[str] = None
-    date_of_service: typing.Optional[dt.date] = pydantic.Field(default=None)
-    """
-    Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-    This date must be the local date in the timezone where the service occurred.
-    """
-
     error: typing.Optional[ChargeCaptureError] = None
     updates: typing.List[ChargeCapturePostBilledChange]
     bundle_id: typing.Optional[ChargeCaptureBundleId] = None

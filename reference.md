@@ -637,8 +637,6 @@ This date must be the local date in the timezone where the service occurred.
 <dd>
 
 ```python
-import datetime
-
 from candid import CandidApiClient
 from candid.resources.charge_capture.resources.v_1 import (
     ChargeCaptureData,
@@ -653,9 +651,6 @@ client.charge_capture.v_1.create(
     data=ChargeCaptureData(),
     charge_external_id="string",
     ehr_source_url="string",
-    date_of_service=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
     patient_external_id="string",
     status=ChargeCaptureStatus.PLANNED,
 )
@@ -709,18 +704,6 @@ client.charge_capture.v_1.create(
 <dd>
 
 **ehr_source_url:** `typing.Optional[str]` — External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
-
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**date_of_service:** `typing.Optional[dt.date]` 
-
-Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-This date must be the local date in the timezone where the service occurred.
 
     
 </dd>
@@ -815,7 +798,6 @@ client.charge_capture.v_1.delete(
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
@@ -837,9 +819,6 @@ client.charge_capture.v_1.update(
     ehr_source_url="string",
     patient_external_id="string",
     status=ChargeCaptureStatus.PLANNED,
-    date_of_service=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
 )
 
 ```
@@ -906,18 +885,6 @@ Send full URL format for the external link (e.g. https://emr_charge_capture_url.
 <dd>
 
 **status:** `typing.Optional[ChargeCaptureStatus]` — the status of the charge capture
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**date_of_service:** `typing.Optional[dt.date]` 
-
-Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-This date must be the local date in the timezone where the service occurred.
-
     
 </dd>
 </dl>

@@ -4,7 +4,6 @@ import typing
 from .....core.client_wrapper import SyncClientWrapper
 from .types.charge_capture_data import ChargeCaptureData
 from .types.charge_capture_status import ChargeCaptureStatus
-import datetime as dt
 from .....core.request_options import RequestOptions
 from .types.charge_capture import ChargeCapture
 from json.decoder import JSONDecodeError
@@ -27,6 +26,7 @@ from .....core.jsonable_encoder import jsonable_encoder
 from .types.charge_capture_sort_field import ChargeCaptureSortField
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.page_token import PageToken
+import datetime as dt
 from ....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
 from .types.charge_capture_page import ChargeCapturePage
 from ....commons.types.charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
@@ -49,7 +49,6 @@ class V1Client:
         patient_external_id: str,
         status: ChargeCaptureStatus,
         ehr_source_url: typing.Optional[str] = OMIT,
-        date_of_service: typing.Optional[dt.date] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapture:
         """
@@ -73,11 +72,6 @@ class V1Client:
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
 
 
-        date_of_service : typing.Optional[dt.date]
-            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-            This date must be the local date in the timezone where the service occurred.
-
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -87,8 +81,6 @@ class V1Client:
 
         Examples
         --------
-        import datetime
-
         from candid import CandidApiClient
         from candid.resources.charge_capture.resources.v_1 import (
             ChargeCaptureData,
@@ -103,9 +95,6 @@ class V1Client:
             data=ChargeCaptureData(),
             charge_external_id="string",
             ehr_source_url="string",
-            date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
             patient_external_id="string",
             status=ChargeCaptureStatus.PLANNED,
         )
@@ -118,7 +107,6 @@ class V1Client:
                 "data": data,
                 "charge_external_id": charge_external_id,
                 "ehr_source_url": ehr_source_url,
-                "date_of_service": date_of_service,
                 "patient_external_id": patient_external_id,
                 "status": status,
             },
@@ -265,7 +253,6 @@ class V1Client:
         ehr_source_url: typing.Optional[str] = OMIT,
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
-        date_of_service: typing.Optional[dt.date] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapture:
         """
@@ -292,11 +279,6 @@ class V1Client:
         status : typing.Optional[ChargeCaptureStatus]
             the status of the charge capture
 
-        date_of_service : typing.Optional[dt.date]
-            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-            This date must be the local date in the timezone where the service occurred.
-
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -306,7 +288,6 @@ class V1Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
@@ -328,9 +309,6 @@ class V1Client:
             ehr_source_url="string",
             patient_external_id="string",
             status=ChargeCaptureStatus.PLANNED,
-            date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -343,7 +321,6 @@ class V1Client:
                 "ehr_source_url": ehr_source_url,
                 "patient_external_id": patient_external_id,
                 "status": status,
-                "date_of_service": date_of_service,
             },
             request_options=request_options,
             omit=OMIT,
@@ -685,7 +662,6 @@ class AsyncV1Client:
         patient_external_id: str,
         status: ChargeCaptureStatus,
         ehr_source_url: typing.Optional[str] = OMIT,
-        date_of_service: typing.Optional[dt.date] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapture:
         """
@@ -709,11 +685,6 @@ class AsyncV1Client:
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
 
 
-        date_of_service : typing.Optional[dt.date]
-            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-            This date must be the local date in the timezone where the service occurred.
-
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -724,7 +695,6 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
 
         from candid import AsyncCandidApiClient
         from candid.resources.charge_capture.resources.v_1 import (
@@ -743,9 +713,6 @@ class AsyncV1Client:
                 data=ChargeCaptureData(),
                 charge_external_id="string",
                 ehr_source_url="string",
-                date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
                 patient_external_id="string",
                 status=ChargeCaptureStatus.PLANNED,
             )
@@ -761,7 +728,6 @@ class AsyncV1Client:
                 "data": data,
                 "charge_external_id": charge_external_id,
                 "ehr_source_url": ehr_source_url,
-                "date_of_service": date_of_service,
                 "patient_external_id": patient_external_id,
                 "status": status,
             },
@@ -915,7 +881,6 @@ class AsyncV1Client:
         ehr_source_url: typing.Optional[str] = OMIT,
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
-        date_of_service: typing.Optional[dt.date] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapture:
         """
@@ -942,11 +907,6 @@ class AsyncV1Client:
         status : typing.Optional[ChargeCaptureStatus]
             the status of the charge capture
 
-        date_of_service : typing.Optional[dt.date]
-            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
-            This date must be the local date in the timezone where the service occurred.
-
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -957,7 +917,6 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
@@ -982,9 +941,6 @@ class AsyncV1Client:
                 ehr_source_url="string",
                 patient_external_id="string",
                 status=ChargeCaptureStatus.PLANNED,
-                date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
             )
 
 
@@ -1000,7 +956,6 @@ class AsyncV1Client:
                 "ehr_source_url": ehr_source_url,
                 "patient_external_id": patient_external_id,
                 "status": status,
-                "date_of_service": date_of_service,
             },
             request_options=request_options,
             omit=OMIT,
