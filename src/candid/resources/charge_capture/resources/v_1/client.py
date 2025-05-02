@@ -27,6 +27,7 @@ from .types.charge_capture_sort_field import ChargeCaptureSortField
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.page_token import PageToken
 import datetime as dt
+from ....commons.types.encounter_id import EncounterId
 from ....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
 from .types.charge_capture_page import ChargeCapturePage
 from ....commons.types.charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
@@ -452,8 +453,17 @@ class V1Client:
         status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
         date_of_service: typing.Optional[dt.date] = None,
+        claim_ids: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
         bundle_id: typing.Optional[ChargeCaptureBundleId] = None,
-        exclude_bundled: typing.Optional[bool] = None,
+        bundle_ids: typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]] = None,
+        billing_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        service_facility_name: typing.Optional[str] = None,
+        primary_payer_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        exclude_charges_linked_to_claims: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
         """
@@ -485,11 +495,38 @@ class V1Client:
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
-        bundle_id : typing.Optional[ChargeCaptureBundleId]
-            The ID of the charge capture bundle to which this charge capture belongs.
+        claim_ids : typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]]
+            A list of claim IDs to filter by. This will return all charge captures that have a resulting claim with one of the IDs in this list.
 
-        exclude_bundled : typing.Optional[bool]
-            Whether to exclude charge captures which are associated with a charge capture bundle.
+        bundle_id : typing.Optional[ChargeCaptureBundleId]
+            A list of bundle IDs to filter by. Use `bundle_ids` instead.
+
+        bundle_ids : typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]]
+            A list of bundle IDs to filter by.
+
+        billing_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of billing provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list.
+
+        service_facility_name : typing.Optional[str]
+            A string to filter by. This will return all charge captures with this service facility name.
+
+        primary_payer_ids : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer IDs to filter by. This will return all charge captures with one of the primary payer IDs in this list.
+
+        rendering_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list.
+
+        rendering_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider names to filter by. This will return all charge captures with one of the names in this list.
+
+        supervising_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list.
+
+        supervising_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider names to filter by. This will return all charge captures with one of the names in this list.
+
+        exclude_charges_linked_to_claims : typing.Optional[bool]
+            Whether to exclude charge captures which are part of a bundle that has a created claim.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -525,10 +562,23 @@ class V1Client:
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
+            claim_ids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
             bundle_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            exclude_bundled=True,
+            bundle_ids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_npis="string",
+            service_facility_name="string",
+            primary_payer_ids="string",
+            rendering_provider_npis="string",
+            rendering_provider_names="string",
+            supervising_provider_npis="string",
+            supervising_provider_names="string",
+            exclude_charges_linked_to_claims=True,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -544,8 +594,17 @@ class V1Client:
                 "status": status,
                 "charge_external_id": charge_external_id,
                 "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "claim_ids": claim_ids,
                 "bundle_id": bundle_id,
-                "exclude_bundled": exclude_bundled,
+                "bundle_ids": bundle_ids,
+                "billing_provider_npis": billing_provider_npis,
+                "service_facility_name": service_facility_name,
+                "primary_payer_ids": primary_payer_ids,
+                "rendering_provider_npis": rendering_provider_npis,
+                "rendering_provider_names": rendering_provider_names,
+                "supervising_provider_npis": supervising_provider_npis,
+                "supervising_provider_names": supervising_provider_names,
+                "exclude_charges_linked_to_claims": exclude_charges_linked_to_claims,
             },
             request_options=request_options,
         )
@@ -1094,8 +1153,17 @@ class AsyncV1Client:
         status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
         date_of_service: typing.Optional[dt.date] = None,
+        claim_ids: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
         bundle_id: typing.Optional[ChargeCaptureBundleId] = None,
-        exclude_bundled: typing.Optional[bool] = None,
+        bundle_ids: typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]] = None,
+        billing_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        service_facility_name: typing.Optional[str] = None,
+        primary_payer_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        exclude_charges_linked_to_claims: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
         """
@@ -1127,11 +1195,38 @@ class AsyncV1Client:
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
-        bundle_id : typing.Optional[ChargeCaptureBundleId]
-            The ID of the charge capture bundle to which this charge capture belongs.
+        claim_ids : typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]]
+            A list of claim IDs to filter by. This will return all charge captures that have a resulting claim with one of the IDs in this list.
 
-        exclude_bundled : typing.Optional[bool]
-            Whether to exclude charge captures which are associated with a charge capture bundle.
+        bundle_id : typing.Optional[ChargeCaptureBundleId]
+            A list of bundle IDs to filter by. Use `bundle_ids` instead.
+
+        bundle_ids : typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]]
+            A list of bundle IDs to filter by.
+
+        billing_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of billing provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list.
+
+        service_facility_name : typing.Optional[str]
+            A string to filter by. This will return all charge captures with this service facility name.
+
+        primary_payer_ids : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer IDs to filter by. This will return all charge captures with one of the primary payer IDs in this list.
+
+        rendering_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list.
+
+        rendering_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider names to filter by. This will return all charge captures with one of the names in this list.
+
+        supervising_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider NPIs to filter by. This will return all charge captures with one of the NPIs in this list.
+
+        supervising_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider names to filter by. This will return all charge captures with one of the names in this list.
+
+        exclude_charges_linked_to_claims : typing.Optional[bool]
+            Whether to exclude charge captures which are part of a bundle that has a created claim.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1171,10 +1266,23 @@ class AsyncV1Client:
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
+                claim_ids=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
                 bundle_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                exclude_bundled=True,
+                bundle_ids=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                billing_provider_npis="string",
+                service_facility_name="string",
+                primary_payer_ids="string",
+                rendering_provider_npis="string",
+                rendering_provider_names="string",
+                supervising_provider_npis="string",
+                supervising_provider_names="string",
+                exclude_charges_linked_to_claims=True,
             )
 
 
@@ -1193,8 +1301,17 @@ class AsyncV1Client:
                 "status": status,
                 "charge_external_id": charge_external_id,
                 "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "claim_ids": claim_ids,
                 "bundle_id": bundle_id,
-                "exclude_bundled": exclude_bundled,
+                "bundle_ids": bundle_ids,
+                "billing_provider_npis": billing_provider_npis,
+                "service_facility_name": service_facility_name,
+                "primary_payer_ids": primary_payer_ids,
+                "rendering_provider_npis": rendering_provider_npis,
+                "rendering_provider_names": rendering_provider_names,
+                "supervising_provider_npis": supervising_provider_npis,
+                "supervising_provider_names": supervising_provider_names,
+                "exclude_charges_linked_to_claims": exclude_charges_linked_to_claims,
             },
             request_options=request_options,
         )

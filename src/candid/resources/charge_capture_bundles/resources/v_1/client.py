@@ -18,6 +18,7 @@ from ....commons.types.page_token import PageToken
 from .types.charge_capture_bundle_status import ChargeCaptureBundleStatus
 from ....charge_capture.resources.v_1.types.charge_capture_status import ChargeCaptureStatus
 import datetime as dt
+from ....commons.types.encounter_id import EncounterId
 from .types.charge_capture_bundle_page import ChargeCaptureBundlePage
 from .....core.client_wrapper import AsyncClientWrapper
 
@@ -198,6 +199,15 @@ class V1Client:
         charge_status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
         date_of_service: typing.Optional[dt.date] = None,
+        claim_ids: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
+        bundle_ids: typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]] = None,
+        billing_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        service_facility_name: typing.Optional[str] = None,
+        primary_payer_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         has_charge_capture_updates: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCaptureBundlePage:
@@ -233,6 +243,33 @@ class V1Client:
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
+        claim_ids : typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]]
+            A list of claim IDs to filter by. This will return all charge capture bundles that have a resulting claim with one of the IDs in this list.
+
+        bundle_ids : typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]]
+            A list of bundle IDs to filter by.
+
+        billing_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of billing provider NPIs to filter by. This will return all charge capture bundles which include one or more charges with one of the NPIs in this list.
+
+        service_facility_name : typing.Optional[str]
+            A string to filter by. This will return all charge capture bundles which include one or more charges with this service facility name.
+
+        primary_payer_ids : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer IDs to filter by. This will return all charge capture bundles which include one or more charges with one of the primary payer IDs in this list.
+
+        rendering_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider NPIs to filter by. This will return all charge capture bundles which include one or more charges with one of the NPIs in this list.
+
+        rendering_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider names to filter by. This will return all charge capture bundles which include one or more charges with one of the names in this list.
+
+        supervising_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider NPIs to filter by. This will return all charge capture bundles which include one or more charges with one of the NPIs in this list.
+
+        supervising_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider names to filter by. This will return all charge capture bundles which include one or more charges with one of the names in this list.
+
         has_charge_capture_updates : typing.Optional[bool]
             If true, only return bundles that have charge captures that have been updated since the bundle has had a status of BILLED. See the updates property on ChargeCapture for more details.
 
@@ -246,6 +283,7 @@ class V1Client:
         Examples
         --------
         import datetime
+        import uuid
 
         from candid import CandidApiClient
         from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
@@ -271,6 +309,19 @@ class V1Client:
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
+            claim_ids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            bundle_ids=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_npis="string",
+            service_facility_name="string",
+            primary_payer_ids="string",
+            rendering_provider_npis="string",
+            rendering_provider_names="string",
+            supervising_provider_npis="string",
+            supervising_provider_names="string",
             has_charge_capture_updates=True,
         )
         """
@@ -288,6 +339,15 @@ class V1Client:
                 "charge_status": charge_status,
                 "charge_external_id": charge_external_id,
                 "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "claim_ids": claim_ids,
+                "bundle_ids": bundle_ids,
+                "billing_provider_npis": billing_provider_npis,
+                "service_facility_name": service_facility_name,
+                "primary_payer_ids": primary_payer_ids,
+                "rendering_provider_npis": rendering_provider_npis,
+                "rendering_provider_names": rendering_provider_names,
+                "supervising_provider_npis": supervising_provider_npis,
+                "supervising_provider_names": supervising_provider_names,
                 "has_charge_capture_updates": has_charge_capture_updates,
             },
             request_options=request_options,
@@ -507,6 +567,15 @@ class AsyncV1Client:
         charge_status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
         date_of_service: typing.Optional[dt.date] = None,
+        claim_ids: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
+        bundle_ids: typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]] = None,
+        billing_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        service_facility_name: typing.Optional[str] = None,
+        primary_payer_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         has_charge_capture_updates: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCaptureBundlePage:
@@ -542,6 +611,33 @@ class AsyncV1Client:
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
+        claim_ids : typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]]
+            A list of claim IDs to filter by. This will return all charge capture bundles that have a resulting claim with one of the IDs in this list.
+
+        bundle_ids : typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]]
+            A list of bundle IDs to filter by.
+
+        billing_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of billing provider NPIs to filter by. This will return all charge capture bundles which include one or more charges with one of the NPIs in this list.
+
+        service_facility_name : typing.Optional[str]
+            A string to filter by. This will return all charge capture bundles which include one or more charges with this service facility name.
+
+        primary_payer_ids : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer IDs to filter by. This will return all charge capture bundles which include one or more charges with one of the primary payer IDs in this list.
+
+        rendering_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider NPIs to filter by. This will return all charge capture bundles which include one or more charges with one of the NPIs in this list.
+
+        rendering_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider names to filter by. This will return all charge capture bundles which include one or more charges with one of the names in this list.
+
+        supervising_provider_npis : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider NPIs to filter by. This will return all charge capture bundles which include one or more charges with one of the NPIs in this list.
+
+        supervising_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider names to filter by. This will return all charge capture bundles which include one or more charges with one of the names in this list.
+
         has_charge_capture_updates : typing.Optional[bool]
             If true, only return bundles that have charge captures that have been updated since the bundle has had a status of BILLED. See the updates property on ChargeCapture for more details.
 
@@ -556,6 +652,7 @@ class AsyncV1Client:
         --------
         import asyncio
         import datetime
+        import uuid
 
         from candid import AsyncCandidApiClient
         from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
@@ -584,6 +681,19 @@ class AsyncV1Client:
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
+                claim_ids=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                bundle_ids=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                billing_provider_npis="string",
+                service_facility_name="string",
+                primary_payer_ids="string",
+                rendering_provider_npis="string",
+                rendering_provider_names="string",
+                supervising_provider_npis="string",
+                supervising_provider_names="string",
                 has_charge_capture_updates=True,
             )
 
@@ -604,6 +714,15 @@ class AsyncV1Client:
                 "charge_status": charge_status,
                 "charge_external_id": charge_external_id,
                 "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "claim_ids": claim_ids,
+                "bundle_ids": bundle_ids,
+                "billing_provider_npis": billing_provider_npis,
+                "service_facility_name": service_facility_name,
+                "primary_payer_ids": primary_payer_ids,
+                "rendering_provider_npis": rendering_provider_npis,
+                "rendering_provider_names": rendering_provider_names,
+                "supervising_provider_npis": supervising_provider_npis,
+                "supervising_provider_names": supervising_provider_names,
                 "has_charge_capture_updates": has_charge_capture_updates,
             },
             request_options=request_options,

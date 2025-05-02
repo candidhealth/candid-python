@@ -7,14 +7,19 @@ import typing
 
 
 class ChargeCaptureBundleSummary(UniversalBaseModel):
-    charge_capture_unbundled_count: int = pydantic.Field()
+    charge_capture_charges_not_linked_to_claims_count: int = pydantic.Field()
     """
-    The count of charge captures which are not in a bundle or in a bundle with a status other than SUCCESSFUL.
+    The count of charge captures which are not part of a bundle with a created claim.
     """
 
     charge_capture_bundles_not_started_count: int = pydantic.Field()
     """
     The count of charge capture bundles that have a bundle status of NOT_STARTED.
+    """
+
+    charge_capture_held_bundles_count: int = pydantic.Field()
+    """
+    The count of charge capture bundles that have a bundle status of HELD.
     """
 
     charge_capture_bundles_in_error_count: int = pydantic.Field()
