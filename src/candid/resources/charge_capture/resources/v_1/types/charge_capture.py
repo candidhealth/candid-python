@@ -4,8 +4,9 @@ from ......core.pydantic_utilities import UniversalBaseModel
 from .....commons.types.charge_capture_id import ChargeCaptureId
 from .charge_capture_status import ChargeCaptureStatus
 from .charge_capture_data import ChargeCaptureData
-from .....commons.types.patient_external_id import PatientExternalId
 import typing
+import datetime as dt
+from .....commons.types.patient_external_id import PatientExternalId
 from .charge_capture_error import ChargeCaptureError
 from .charge_capture_post_billed_change import ChargeCapturePostBilledChange
 from .....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
@@ -17,6 +18,7 @@ class ChargeCapture(UniversalBaseModel):
     id: ChargeCaptureId
     status: ChargeCaptureStatus
     charge_capture_data: ChargeCaptureData
+    date_of_service: typing.Optional[dt.date] = None
     patient_external_id: PatientExternalId
     charge_external_id: str
     ehr_source_url: typing.Optional[str] = None

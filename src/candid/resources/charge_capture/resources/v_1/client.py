@@ -452,7 +452,8 @@ class V1Client:
         patient_external_id: typing.Optional[str] = None,
         status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
-        date_of_service: typing.Optional[dt.date] = None,
+        date_of_service_min: typing.Optional[dt.date] = None,
+        date_of_service_max: typing.Optional[dt.date] = None,
         claim_ids: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
         bundle_id: typing.Optional[ChargeCaptureBundleId] = None,
         bundle_ids: typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]] = None,
@@ -464,6 +465,22 @@ class V1Client:
         supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         exclude_charges_linked_to_claims: typing.Optional[bool] = None,
+        patient_external_id_ranked_sort: typing.Optional[str] = None,
+        status_ranked_sort: typing.Optional[ChargeCaptureStatus] = None,
+        charge_external_id_ranked_sort: typing.Optional[str] = None,
+        date_of_service_min_ranked_sort: typing.Optional[dt.date] = None,
+        date_of_service_max_ranked_sort: typing.Optional[dt.date] = None,
+        claim_ids_ranked_sort: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
+        bundle_ids_ranked_sort: typing.Optional[
+            typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]
+        ] = None,
+        billing_provider_npis_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        service_facility_name_ranked_sort: typing.Optional[str] = None,
+        primary_payer_ids_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_npis_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_npis_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
         """
@@ -491,7 +508,11 @@ class V1Client:
             for example, your internal encounter ID or a Dr. Chrono encounter ID.
             This field should not contain PHI.
 
-        date_of_service : typing.Optional[dt.date]
+        date_of_service_min : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+
+        date_of_service_max : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
@@ -526,7 +547,53 @@ class V1Client:
             A list of supervising provider names to filter by. This will return all charge captures with one of the names in this list.
 
         exclude_charges_linked_to_claims : typing.Optional[bool]
-            Whether to exclude charge captures which are part of a bundle that has a created claim.
+            Whether to exclude charge captures which are part of a claim creation.
+
+        patient_external_id_ranked_sort : typing.Optional[str]
+            The patient ID from the external EMR platform for the patient
+
+        status_ranked_sort : typing.Optional[ChargeCaptureStatus]
+            The charge capture status to show first
+
+        charge_external_id_ranked_sort : typing.Optional[str]
+            A client-specified unique ID to associate with this encounter;
+            for example, your internal encounter ID or a Dr. Chrono encounter ID.
+            This field should not contain PHI.
+
+        date_of_service_min_ranked_sort : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+
+        date_of_service_max_ranked_sort : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+
+        claim_ids_ranked_sort : typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]]
+            A list of claim IDs to show first. This will return all charge captures that have a resulting claim with one of the IDs in this list.
+
+        bundle_ids_ranked_sort : typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]]
+            A list of bundle IDs to show first.
+
+        billing_provider_npis_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of billing provider NPIs to show first. This will return all charge captures with one of the NPIs in this list.
+
+        service_facility_name_ranked_sort : typing.Optional[str]
+            A string to show first. This will return all charge captures with this service facility name.
+
+        primary_payer_ids_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer IDs to show first. This will return all charge captures with one of the primary payer IDs in this list.
+
+        rendering_provider_npis_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider NPIs to show first. This will return all charge captures with one of the NPIs in this list.
+
+        rendering_provider_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider names to show first. This will return all charge captures with one of the names in this list.
+
+        supervising_provider_npis_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider NPIs to show first. This will return all charge captures with one of the NPIs in this list.
+
+        supervising_provider_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider names to show first. This will return all charge captures with one of the names in this list.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -559,7 +626,10 @@ class V1Client:
             patient_external_id="string",
             status=ChargeCaptureStatus.PLANNED,
             charge_external_id="string",
-            date_of_service=datetime.date.fromisoformat(
+            date_of_service_min=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            date_of_service_max=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
             claim_ids=uuid.UUID(
@@ -579,6 +649,28 @@ class V1Client:
             supervising_provider_npis="string",
             supervising_provider_names="string",
             exclude_charges_linked_to_claims=True,
+            patient_external_id_ranked_sort="string",
+            status_ranked_sort=ChargeCaptureStatus.PLANNED,
+            charge_external_id_ranked_sort="string",
+            date_of_service_min_ranked_sort=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            date_of_service_max_ranked_sort=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            claim_ids_ranked_sort=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            bundle_ids_ranked_sort=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            billing_provider_npis_ranked_sort="string",
+            service_facility_name_ranked_sort="string",
+            primary_payer_ids_ranked_sort="string",
+            rendering_provider_npis_ranked_sort="string",
+            rendering_provider_names_ranked_sort="string",
+            supervising_provider_npis_ranked_sort="string",
+            supervising_provider_names_ranked_sort="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -593,7 +685,8 @@ class V1Client:
                 "patient_external_id": patient_external_id,
                 "status": status,
                 "charge_external_id": charge_external_id,
-                "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "date_of_service_min": str(date_of_service_min) if date_of_service_min is not None else None,
+                "date_of_service_max": str(date_of_service_max) if date_of_service_max is not None else None,
                 "claim_ids": claim_ids,
                 "bundle_id": bundle_id,
                 "bundle_ids": bundle_ids,
@@ -605,6 +698,24 @@ class V1Client:
                 "supervising_provider_npis": supervising_provider_npis,
                 "supervising_provider_names": supervising_provider_names,
                 "exclude_charges_linked_to_claims": exclude_charges_linked_to_claims,
+                "patient_external_id_ranked_sort": patient_external_id_ranked_sort,
+                "status_ranked_sort": status_ranked_sort,
+                "charge_external_id_ranked_sort": charge_external_id_ranked_sort,
+                "date_of_service_min_ranked_sort": str(date_of_service_min_ranked_sort)
+                if date_of_service_min_ranked_sort is not None
+                else None,
+                "date_of_service_max_ranked_sort": str(date_of_service_max_ranked_sort)
+                if date_of_service_max_ranked_sort is not None
+                else None,
+                "claim_ids_ranked_sort": claim_ids_ranked_sort,
+                "bundle_ids_ranked_sort": bundle_ids_ranked_sort,
+                "billing_provider_npis_ranked_sort": billing_provider_npis_ranked_sort,
+                "service_facility_name_ranked_sort": service_facility_name_ranked_sort,
+                "primary_payer_ids_ranked_sort": primary_payer_ids_ranked_sort,
+                "rendering_provider_npis_ranked_sort": rendering_provider_npis_ranked_sort,
+                "rendering_provider_names_ranked_sort": rendering_provider_names_ranked_sort,
+                "supervising_provider_npis_ranked_sort": supervising_provider_npis_ranked_sort,
+                "supervising_provider_names_ranked_sort": supervising_provider_names_ranked_sort,
             },
             request_options=request_options,
         )
@@ -1152,7 +1263,8 @@ class AsyncV1Client:
         patient_external_id: typing.Optional[str] = None,
         status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
-        date_of_service: typing.Optional[dt.date] = None,
+        date_of_service_min: typing.Optional[dt.date] = None,
+        date_of_service_max: typing.Optional[dt.date] = None,
         claim_ids: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
         bundle_id: typing.Optional[ChargeCaptureBundleId] = None,
         bundle_ids: typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]] = None,
@@ -1164,6 +1276,22 @@ class AsyncV1Client:
         supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         exclude_charges_linked_to_claims: typing.Optional[bool] = None,
+        patient_external_id_ranked_sort: typing.Optional[str] = None,
+        status_ranked_sort: typing.Optional[ChargeCaptureStatus] = None,
+        charge_external_id_ranked_sort: typing.Optional[str] = None,
+        date_of_service_min_ranked_sort: typing.Optional[dt.date] = None,
+        date_of_service_max_ranked_sort: typing.Optional[dt.date] = None,
+        claim_ids_ranked_sort: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
+        bundle_ids_ranked_sort: typing.Optional[
+            typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]
+        ] = None,
+        billing_provider_npis_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        service_facility_name_ranked_sort: typing.Optional[str] = None,
+        primary_payer_ids_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_npis_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        rendering_provider_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_npis_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        supervising_provider_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
         """
@@ -1191,7 +1319,11 @@ class AsyncV1Client:
             for example, your internal encounter ID or a Dr. Chrono encounter ID.
             This field should not contain PHI.
 
-        date_of_service : typing.Optional[dt.date]
+        date_of_service_min : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+
+        date_of_service_max : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
@@ -1226,7 +1358,53 @@ class AsyncV1Client:
             A list of supervising provider names to filter by. This will return all charge captures with one of the names in this list.
 
         exclude_charges_linked_to_claims : typing.Optional[bool]
-            Whether to exclude charge captures which are part of a bundle that has a created claim.
+            Whether to exclude charge captures which are part of a claim creation.
+
+        patient_external_id_ranked_sort : typing.Optional[str]
+            The patient ID from the external EMR platform for the patient
+
+        status_ranked_sort : typing.Optional[ChargeCaptureStatus]
+            The charge capture status to show first
+
+        charge_external_id_ranked_sort : typing.Optional[str]
+            A client-specified unique ID to associate with this encounter;
+            for example, your internal encounter ID or a Dr. Chrono encounter ID.
+            This field should not contain PHI.
+
+        date_of_service_min_ranked_sort : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+
+        date_of_service_max_ranked_sort : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+
+        claim_ids_ranked_sort : typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]]
+            A list of claim IDs to show first. This will return all charge captures that have a resulting claim with one of the IDs in this list.
+
+        bundle_ids_ranked_sort : typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]]
+            A list of bundle IDs to show first.
+
+        billing_provider_npis_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of billing provider NPIs to show first. This will return all charge captures with one of the NPIs in this list.
+
+        service_facility_name_ranked_sort : typing.Optional[str]
+            A string to show first. This will return all charge captures with this service facility name.
+
+        primary_payer_ids_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer IDs to show first. This will return all charge captures with one of the primary payer IDs in this list.
+
+        rendering_provider_npis_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider NPIs to show first. This will return all charge captures with one of the NPIs in this list.
+
+        rendering_provider_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of rendering provider names to show first. This will return all charge captures with one of the names in this list.
+
+        supervising_provider_npis_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider NPIs to show first. This will return all charge captures with one of the NPIs in this list.
+
+        supervising_provider_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of supervising provider names to show first. This will return all charge captures with one of the names in this list.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1263,7 +1441,10 @@ class AsyncV1Client:
                 patient_external_id="string",
                 status=ChargeCaptureStatus.PLANNED,
                 charge_external_id="string",
-                date_of_service=datetime.date.fromisoformat(
+                date_of_service_min=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                date_of_service_max=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
                 claim_ids=uuid.UUID(
@@ -1283,6 +1464,28 @@ class AsyncV1Client:
                 supervising_provider_npis="string",
                 supervising_provider_names="string",
                 exclude_charges_linked_to_claims=True,
+                patient_external_id_ranked_sort="string",
+                status_ranked_sort=ChargeCaptureStatus.PLANNED,
+                charge_external_id_ranked_sort="string",
+                date_of_service_min_ranked_sort=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                date_of_service_max_ranked_sort=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                claim_ids_ranked_sort=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                bundle_ids_ranked_sort=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                billing_provider_npis_ranked_sort="string",
+                service_facility_name_ranked_sort="string",
+                primary_payer_ids_ranked_sort="string",
+                rendering_provider_npis_ranked_sort="string",
+                rendering_provider_names_ranked_sort="string",
+                supervising_provider_npis_ranked_sort="string",
+                supervising_provider_names_ranked_sort="string",
             )
 
 
@@ -1300,7 +1503,8 @@ class AsyncV1Client:
                 "patient_external_id": patient_external_id,
                 "status": status,
                 "charge_external_id": charge_external_id,
-                "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "date_of_service_min": str(date_of_service_min) if date_of_service_min is not None else None,
+                "date_of_service_max": str(date_of_service_max) if date_of_service_max is not None else None,
                 "claim_ids": claim_ids,
                 "bundle_id": bundle_id,
                 "bundle_ids": bundle_ids,
@@ -1312,6 +1516,24 @@ class AsyncV1Client:
                 "supervising_provider_npis": supervising_provider_npis,
                 "supervising_provider_names": supervising_provider_names,
                 "exclude_charges_linked_to_claims": exclude_charges_linked_to_claims,
+                "patient_external_id_ranked_sort": patient_external_id_ranked_sort,
+                "status_ranked_sort": status_ranked_sort,
+                "charge_external_id_ranked_sort": charge_external_id_ranked_sort,
+                "date_of_service_min_ranked_sort": str(date_of_service_min_ranked_sort)
+                if date_of_service_min_ranked_sort is not None
+                else None,
+                "date_of_service_max_ranked_sort": str(date_of_service_max_ranked_sort)
+                if date_of_service_max_ranked_sort is not None
+                else None,
+                "claim_ids_ranked_sort": claim_ids_ranked_sort,
+                "bundle_ids_ranked_sort": bundle_ids_ranked_sort,
+                "billing_provider_npis_ranked_sort": billing_provider_npis_ranked_sort,
+                "service_facility_name_ranked_sort": service_facility_name_ranked_sort,
+                "primary_payer_ids_ranked_sort": primary_payer_ids_ranked_sort,
+                "rendering_provider_npis_ranked_sort": rendering_provider_npis_ranked_sort,
+                "rendering_provider_names_ranked_sort": rendering_provider_names_ranked_sort,
+                "supervising_provider_npis_ranked_sort": supervising_provider_npis_ranked_sort,
+                "supervising_provider_names_ranked_sort": supervising_provider_names_ranked_sort,
             },
             request_options=request_options,
         )

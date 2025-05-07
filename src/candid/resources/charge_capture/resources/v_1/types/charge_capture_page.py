@@ -9,6 +9,7 @@ import pydantic
 
 class ChargeCapturePage(ResourcePage):
     items: typing.List[ChargeCapture]
+    item_count: int
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

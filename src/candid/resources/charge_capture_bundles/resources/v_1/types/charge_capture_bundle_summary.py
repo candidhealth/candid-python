@@ -9,7 +9,7 @@ import typing
 class ChargeCaptureBundleSummary(UniversalBaseModel):
     charge_capture_charges_not_linked_to_claims_count: int = pydantic.Field()
     """
-    The count of charge captures which are not part of a bundle with a created claim.
+    The count of charge captures which are not part of a claim creation.
     """
 
     charge_capture_bundles_not_started_count: int = pydantic.Field()

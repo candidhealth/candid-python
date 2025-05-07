@@ -198,7 +198,8 @@ class V1Client:
         bundle_status: typing.Optional[ChargeCaptureBundleStatus] = None,
         charge_status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
-        date_of_service: typing.Optional[dt.date] = None,
+        date_of_service_min: typing.Optional[dt.date] = None,
+        date_of_service_max: typing.Optional[dt.date] = None,
         claim_ids: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
         bundle_ids: typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]] = None,
         billing_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
@@ -239,7 +240,11 @@ class V1Client:
             for example, your internal encounter ID or a Dr. Chrono encounter ID.
             This field should not contain PHI.
 
-        date_of_service : typing.Optional[dt.date]
+        date_of_service_min : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+
+        date_of_service_max : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
@@ -306,7 +311,10 @@ class V1Client:
             bundle_status=ChargeCaptureBundleStatus.NOT_STARTED,
             charge_status=ChargeCaptureStatus.PLANNED,
             charge_external_id="string",
-            date_of_service=datetime.date.fromisoformat(
+            date_of_service_min=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            date_of_service_max=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
             claim_ids=uuid.UUID(
@@ -338,7 +346,8 @@ class V1Client:
                 "bundle_status": bundle_status,
                 "charge_status": charge_status,
                 "charge_external_id": charge_external_id,
-                "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "date_of_service_min": str(date_of_service_min) if date_of_service_min is not None else None,
+                "date_of_service_max": str(date_of_service_max) if date_of_service_max is not None else None,
                 "claim_ids": claim_ids,
                 "bundle_ids": bundle_ids,
                 "billing_provider_npis": billing_provider_npis,
@@ -566,7 +575,8 @@ class AsyncV1Client:
         bundle_status: typing.Optional[ChargeCaptureBundleStatus] = None,
         charge_status: typing.Optional[ChargeCaptureStatus] = None,
         charge_external_id: typing.Optional[str] = None,
-        date_of_service: typing.Optional[dt.date] = None,
+        date_of_service_min: typing.Optional[dt.date] = None,
+        date_of_service_max: typing.Optional[dt.date] = None,
         claim_ids: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
         bundle_ids: typing.Optional[typing.Union[ChargeCaptureBundleId, typing.Sequence[ChargeCaptureBundleId]]] = None,
         billing_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
@@ -607,7 +617,11 @@ class AsyncV1Client:
             for example, your internal encounter ID or a Dr. Chrono encounter ID.
             This field should not contain PHI.
 
-        date_of_service : typing.Optional[dt.date]
+        date_of_service_min : typing.Optional[dt.date]
+            Date formatted as YYYY-MM-DD; eg: 2019-08-24.
+            This date must be the local date in the timezone where the service occurred.
+
+        date_of_service_max : typing.Optional[dt.date]
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
@@ -678,7 +692,10 @@ class AsyncV1Client:
                 bundle_status=ChargeCaptureBundleStatus.NOT_STARTED,
                 charge_status=ChargeCaptureStatus.PLANNED,
                 charge_external_id="string",
-                date_of_service=datetime.date.fromisoformat(
+                date_of_service_min=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                date_of_service_max=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
                 claim_ids=uuid.UUID(
@@ -713,7 +730,8 @@ class AsyncV1Client:
                 "bundle_status": bundle_status,
                 "charge_status": charge_status,
                 "charge_external_id": charge_external_id,
-                "date_of_service": str(date_of_service) if date_of_service is not None else None,
+                "date_of_service_min": str(date_of_service_min) if date_of_service_min is not None else None,
+                "date_of_service_max": str(date_of_service_max) if date_of_service_max is not None else None,
                 "claim_ids": claim_ids,
                 "bundle_ids": bundle_ids,
                 "billing_provider_npis": billing_provider_npis,
