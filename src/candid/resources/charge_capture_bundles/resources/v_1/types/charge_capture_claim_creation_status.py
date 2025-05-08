@@ -6,7 +6,7 @@ import typing
 T_Result = typing.TypeVar("T_Result")
 
 
-class ChargeCaptureBundleStatus(str, enum.Enum):
+class ChargeCaptureClaimCreationStatus(str, enum.Enum):
     NOT_STARTED = "not-started"
     IN_ERROR = "in-error"
     SUCCESSFUL = "successful"
@@ -14,16 +14,16 @@ class ChargeCaptureBundleStatus(str, enum.Enum):
     ABORTED = "aborted"
     HELD = "held"
     """
-    This Bundle has potential charges that are in a planned state, the bundle will be held until those charges are converted
+    This Claim Creation has potential charges that are in a planned state, the Claim Creation will be held until those charges are converted
     """
 
-    _UNKNOWN = "__CHARGECAPTUREBUNDLESTATUS_UNKNOWN__"
+    _UNKNOWN = "__CHARGECAPTURECLAIMCREATIONSTATUS_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
     """
 
     @classmethod
-    def _missing_(cls, value: typing.Any) -> "ChargeCaptureBundleStatus":
+    def _missing_(cls, value: typing.Any) -> "ChargeCaptureClaimCreationStatus":
         unknown = cls._UNKNOWN
         unknown._value_ = value
         return unknown
@@ -38,16 +38,16 @@ class ChargeCaptureBundleStatus(str, enum.Enum):
         held: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
-        if self is ChargeCaptureBundleStatus.NOT_STARTED:
+        if self is ChargeCaptureClaimCreationStatus.NOT_STARTED:
             return not_started()
-        if self is ChargeCaptureBundleStatus.IN_ERROR:
+        if self is ChargeCaptureClaimCreationStatus.IN_ERROR:
             return in_error()
-        if self is ChargeCaptureBundleStatus.SUCCESSFUL:
+        if self is ChargeCaptureClaimCreationStatus.SUCCESSFUL:
             return successful()
-        if self is ChargeCaptureBundleStatus.SUCCESSFUL_DRY_RUN:
+        if self is ChargeCaptureClaimCreationStatus.SUCCESSFUL_DRY_RUN:
             return successful_dry_run()
-        if self is ChargeCaptureBundleStatus.ABORTED:
+        if self is ChargeCaptureClaimCreationStatus.ABORTED:
             return aborted()
-        if self is ChargeCaptureBundleStatus.HELD:
+        if self is ChargeCaptureClaimCreationStatus.HELD:
             return held()
         return _unknown_member(self._value_)

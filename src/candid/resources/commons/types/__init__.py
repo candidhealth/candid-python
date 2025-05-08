@@ -3,7 +3,7 @@
 from .adjustment_id import AdjustmentId
 from .appointment_id import AppointmentId
 from .billing_provider_commercial_license_type import BillingProviderCommercialLicenseType
-from .charge_capture_bundle_id import ChargeCaptureBundleId
+from .charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from .charge_capture_id import ChargeCaptureId
 from .charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
 from .claim_adjustment_group_codes import ClaimAdjustmentGroupCodes
@@ -29,7 +29,6 @@ from .intended_submission_medium import IntendedSubmissionMedium
 from .invoice_id import InvoiceId
 from .link_url import LinkUrl
 from .network_type import NetworkType
-from .not_implemented_error_message import NotImplementedErrorMessage
 from .npi import Npi
 from .organization_id import OrganizationId
 from .organization_not_authorized_error_message import OrganizationNotAuthorizedErrorMessage
@@ -82,7 +81,7 @@ __all__ = [
     "AdjustmentId",
     "AppointmentId",
     "BillingProviderCommercialLicenseType",
-    "ChargeCaptureBundleId",
+    "ChargeCaptureClaimCreationId",
     "ChargeCaptureId",
     "ChargeCapturePostBilledChangeId",
     "ClaimAdjustmentGroupCodes",
@@ -108,7 +107,6 @@ __all__ = [
     "InvoiceId",
     "LinkUrl",
     "NetworkType",
-    "NotImplementedErrorMessage",
     "Npi",
     "OrganizationId",
     "OrganizationNotAuthorizedErrorMessage",

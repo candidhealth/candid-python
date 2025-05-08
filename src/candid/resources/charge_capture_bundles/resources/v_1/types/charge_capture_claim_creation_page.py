@@ -2,13 +2,13 @@
 
 from .....commons.types.resource_page import ResourcePage
 import typing
-from .charge_capture_bundle import ChargeCaptureBundle
+from .charge_capture_claim_creation import ChargeCaptureClaimCreation
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
 
 
-class ChargeCaptureBundlePage(ResourcePage):
-    items: typing.List[ChargeCaptureBundle]
+class ChargeCaptureClaimCreationPage(ResourcePage):
+    items: typing.List[ChargeCaptureClaimCreation]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

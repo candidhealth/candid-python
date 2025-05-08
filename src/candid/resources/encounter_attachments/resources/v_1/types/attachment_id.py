@@ -2,4 +2,4 @@
 
 import uuid
 
-ChargeCaptureBundleId = uuid.UUID
+AttachmentId = uuid.UUID

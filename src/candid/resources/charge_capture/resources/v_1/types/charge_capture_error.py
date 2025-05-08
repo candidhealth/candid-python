@@ -5,7 +5,7 @@ import uuid
 import typing
 from .....commons.types.charge_capture_id import ChargeCaptureId
 import pydantic
-from .....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
+from .....commons.types.charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -14,13 +14,13 @@ class ChargeCaptureError(UniversalBaseModel):
     charge_capture_id: typing.Optional[ChargeCaptureId] = pydantic.Field(default=None)
     """
     The underlying Charge Capture that this error object references.
-    The Charge Capture referenced will be a part of the bundle tied to this error.
-    Errors may also refer to all charge_captures present in a bundle, in which case this field will be null.
+    The Charge Capture referenced will be a part of the Claim Creation tied to this error.
+    Errors may also refer to all charge_captures present in a Claim Creation, in which case this field will be null.
     """
 
     message: str = pydantic.Field()
     """
-    A human readable error explaining why this charge capture bundle failed to create a claim.
+    A human readable error explaining why this charge capture Claim Creation failed to create a claim.
     """
 
     field_in_error: typing.Optional[str] = pydantic.Field(default=None)
@@ -29,9 +29,9 @@ class ChargeCaptureError(UniversalBaseModel):
     is not present but marked as required, or otherwise in error.
     """
 
-    bundle_id: ChargeCaptureBundleId = pydantic.Field()
+    claim_creation_id: ChargeCaptureClaimCreationId = pydantic.Field()
     """
-    The ID of the ChargeCaptureBundle associated with this Error.
+    The ID of the ChargeCaptureClaimCreation associated with this Error.
     """
 
     if IS_PYDANTIC_V2:

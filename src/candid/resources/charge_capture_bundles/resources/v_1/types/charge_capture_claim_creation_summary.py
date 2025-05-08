@@ -6,25 +6,25 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2
 import typing
 
 
-class ChargeCaptureBundleSummary(UniversalBaseModel):
+class ChargeCaptureClaimCreationSummary(UniversalBaseModel):
     charge_capture_charges_not_linked_to_claims_count: int = pydantic.Field()
     """
-    The count of charge captures which are not part of a claim creation.
+    The count of charge captures which are not part of a Claim Creation.
     """
 
-    charge_capture_bundles_not_started_count: int = pydantic.Field()
+    charge_capture_claim_creations_not_started_count: int = pydantic.Field()
     """
-    The count of charge capture bundles that have a bundle status of NOT_STARTED.
-    """
-
-    charge_capture_held_bundles_count: int = pydantic.Field()
-    """
-    The count of charge capture bundles that have a bundle status of HELD.
+    The count of charge capture claim_creations that have a Claim Creation status of NOT_STARTED.
     """
 
-    charge_capture_bundles_in_error_count: int = pydantic.Field()
+    charge_capture_held_claim_creations_count: int = pydantic.Field()
     """
-    The count of charge capture bundles that have a bundle status of IN_ERROR.
+    The count of charge capture claim_creations that have a Claim Creation status of HELD.
+    """
+
+    charge_capture_claim_creations_in_error_count: int = pydantic.Field()
+    """
+    The count of charge capture claim_creations that have a Claim Creation status of IN_ERROR.
     """
 
     charge_capture_unresolved_change_count: int = pydantic.Field()

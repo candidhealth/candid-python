@@ -62,7 +62,6 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             ReferringProviderUpdate,
         )
@@ -75,21 +74,7 @@ class V2Client:
             encounter_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            request=ReferringProviderUpdate(
-                npi="string",
-                taxonomy_code="string",
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-                first_name="string",
-                last_name="string",
-                organization_name="string",
-            ),
+            request=ReferringProviderUpdate(),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -161,7 +146,6 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import QualifierCode, State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             InitialReferringProviderUpdate,
         )
@@ -174,22 +158,7 @@ class V2Client:
             encounter_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            request=InitialReferringProviderUpdate(
-                npi="string",
-                taxonomy_code="string",
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-                qualifier=QualifierCode.DQ,
-                first_name="string",
-                last_name="string",
-                organization_name="string",
-            ),
+            request=InitialReferringProviderUpdate(),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -261,7 +230,6 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             SupervisingProviderUpdate,
         )
@@ -274,21 +242,7 @@ class V2Client:
             encounter_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            request=SupervisingProviderUpdate(
-                npi="string",
-                taxonomy_code="string",
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-                first_name="string",
-                last_name="string",
-                organization_name="string",
-            ),
+            request=SupervisingProviderUpdate(),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -384,9 +338,6 @@ class V2Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                first_name="string",
-                last_name="string",
-                organization_name="string",
             ),
         )
         """
@@ -481,9 +432,6 @@ class V2Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                first_name="string",
-                last_name="string",
-                organization_name="string",
             ),
         )
         """
@@ -591,9 +539,6 @@ class V2Client:
                     zip_plus_four_code="1234",
                 ),
                 qualifier=QualifierCode.DQ,
-                first_name="string",
-                last_name="string",
-                organization_name="string",
             ),
         )
         """
@@ -710,9 +655,6 @@ class V2Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                first_name="string",
-                last_name="string",
-                organization_name="string",
             ),
         )
         """
@@ -817,9 +759,6 @@ class V2Client:
                     zip_code="10001",
                     zip_plus_four_code="1234",
                 ),
-                first_name="string",
-                last_name="string",
-                organization_name="string",
             ),
         )
         """
@@ -1142,7 +1081,6 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             ReferringProviderUpdate,
         )
@@ -1158,21 +1096,7 @@ class AsyncV2Client:
                 encounter_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                request=ReferringProviderUpdate(
-                    npi="string",
-                    taxonomy_code="string",
-                    address=StreetAddressLongZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
-                    ),
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
-                ),
+                request=ReferringProviderUpdate(),
             )
 
 
@@ -1248,7 +1172,6 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import QualifierCode, State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             InitialReferringProviderUpdate,
         )
@@ -1264,22 +1187,7 @@ class AsyncV2Client:
                 encounter_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                request=InitialReferringProviderUpdate(
-                    npi="string",
-                    taxonomy_code="string",
-                    address=StreetAddressLongZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
-                    ),
-                    qualifier=QualifierCode.DQ,
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
-                ),
+                request=InitialReferringProviderUpdate(),
             )
 
 
@@ -1355,7 +1263,6 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.encounter_providers.resources.v_2 import (
             SupervisingProviderUpdate,
         )
@@ -1371,21 +1278,7 @@ class AsyncV2Client:
                 encounter_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                request=SupervisingProviderUpdate(
-                    npi="string",
-                    taxonomy_code="string",
-                    address=StreetAddressLongZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
-                    ),
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
-                ),
+                request=SupervisingProviderUpdate(),
             )
 
 
@@ -1488,9 +1381,6 @@ class AsyncV2Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
                 ),
             )
 
@@ -1592,9 +1482,6 @@ class AsyncV2Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
                 ),
             )
 
@@ -1709,9 +1596,6 @@ class AsyncV2Client:
                         zip_plus_four_code="1234",
                     ),
                     qualifier=QualifierCode.DQ,
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
                 ),
             )
 
@@ -1835,9 +1719,6 @@ class AsyncV2Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
                 ),
             )
 
@@ -1949,9 +1830,6 @@ class AsyncV2Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
                 ),
             )
 

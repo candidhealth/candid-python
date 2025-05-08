@@ -125,9 +125,6 @@ class V2Client:
                         zip_code="10001",
                         zip_plus_four_code="1234",
                     ),
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
                 ),
                 test_results=[
                     TestResult(
@@ -501,9 +498,6 @@ class AsyncV2Client:
                             zip_code="10001",
                             zip_plus_four_code="1234",
                         ),
-                        first_name="string",
-                        last_name="string",
-                        organization_name="string",
                     ),
                     test_results=[
                         TestResult(

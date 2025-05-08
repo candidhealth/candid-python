@@ -9,7 +9,7 @@ import datetime as dt
 from .....commons.types.patient_external_id import PatientExternalId
 from .charge_capture_error import ChargeCaptureError
 from .charge_capture_post_billed_change import ChargeCapturePostBilledChange
-from .....commons.types.charge_capture_bundle_id import ChargeCaptureBundleId
+from .....commons.types.charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 import pydantic
 
@@ -24,7 +24,7 @@ class ChargeCapture(UniversalBaseModel):
     ehr_source_url: typing.Optional[str] = None
     error: typing.Optional[ChargeCaptureError] = None
     updates: typing.List[ChargeCapturePostBilledChange]
-    bundle_id: typing.Optional[ChargeCaptureBundleId] = None
+    claim_creation_id: typing.Optional[ChargeCaptureClaimCreationId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

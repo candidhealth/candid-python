@@ -13,6 +13,7 @@ from .resources.contracts.client import ContractsClient
 from .resources.credentialing.client import CredentialingClient
 from .resources.custom_schemas.client import CustomSchemasClient
 from .resources.eligibility.client import EligibilityClient
+from .resources.encounter_attachments.client import EncounterAttachmentsClient
 from .resources.encounter_providers.client import EncounterProvidersClient
 from .resources.encounters.client import EncountersClient
 from .resources.expected_network_status.client import ExpectedNetworkStatusClient
@@ -50,6 +51,7 @@ from .resources.contracts.client import AsyncContractsClient
 from .resources.credentialing.client import AsyncCredentialingClient
 from .resources.custom_schemas.client import AsyncCustomSchemasClient
 from .resources.eligibility.client import AsyncEligibilityClient
+from .resources.encounter_attachments.client import AsyncEncounterAttachmentsClient
 from .resources.encounter_providers.client import AsyncEncounterProvidersClient
 from .resources.encounters.client import AsyncEncountersClient
 from .resources.expected_network_status.client import AsyncExpectedNetworkStatusClient
@@ -158,6 +160,7 @@ class CandidApiClient:
         self.credentialing = CredentialingClient(client_wrapper=self._client_wrapper)
         self.custom_schemas = CustomSchemasClient(client_wrapper=self._client_wrapper)
         self.eligibility = EligibilityClient(client_wrapper=self._client_wrapper)
+        self.encounter_attachments = EncounterAttachmentsClient(client_wrapper=self._client_wrapper)
         self.encounter_providers = EncounterProvidersClient(client_wrapper=self._client_wrapper)
         self.encounters = EncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = ExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
@@ -266,6 +269,7 @@ class AsyncCandidApiClient:
         self.credentialing = AsyncCredentialingClient(client_wrapper=self._client_wrapper)
         self.custom_schemas = AsyncCustomSchemasClient(client_wrapper=self._client_wrapper)
         self.eligibility = AsyncEligibilityClient(client_wrapper=self._client_wrapper)
+        self.encounter_attachments = AsyncEncounterAttachmentsClient(client_wrapper=self._client_wrapper)
         self.encounter_providers = AsyncEncounterProvidersClient(client_wrapper=self._client_wrapper)
         self.encounters = AsyncEncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = AsyncExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)

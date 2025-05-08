@@ -6,22 +6,22 @@ import typing
 T_Result = typing.TypeVar("T_Result")
 
 
-class ChargeCaptureBundleSortField(str, enum.Enum):
-    CREATED_AT = "created_at"
-    _UNKNOWN = "__CHARGECAPTUREBUNDLESORTFIELD_UNKNOWN__"
+class EncounterAttachmentType(str, enum.Enum):
+    DOCUMENTATION = "DOCUMENTATION"
+    _UNKNOWN = "__ENCOUNTERATTACHMENTTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
     """
 
     @classmethod
-    def _missing_(cls, value: typing.Any) -> "ChargeCaptureBundleSortField":
+    def _missing_(cls, value: typing.Any) -> "EncounterAttachmentType":
         unknown = cls._UNKNOWN
         unknown._value_ = value
         return unknown
 
     def visit(
-        self, created_at: typing.Callable[[], T_Result], _unknown_member: typing.Callable[[str], T_Result]
+        self, documentation: typing.Callable[[], T_Result], _unknown_member: typing.Callable[[str], T_Result]
     ) -> T_Result:
-        if self is ChargeCaptureBundleSortField.CREATED_AT:
-            return created_at()
+        if self is EncounterAttachmentType.DOCUMENTATION:
+            return documentation()
         return _unknown_member(self._value_)
