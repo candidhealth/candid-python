@@ -8,7 +8,7 @@ from .....encounters.resources.v_4.types.intervention import Intervention
 from .....claim_submission.resources.v_1.types.external_claim_submission_create import ExternalClaimSubmissionCreate
 from .....service_lines.resources.v_2.types.service_line_create import ServiceLineCreate
 from .....encounters.resources.v_4.types.patient_history_category import PatientHistoryCategory
-from .....billing_notes.resources.v_2.types.billing_note import BillingNote
+from .....billing_notes.resources.v_2.types.billing_note_optional import BillingNoteOptional
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -36,7 +36,7 @@ class ChargeCaptureData(EncounterOptional):
     """
 
     patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = None
-    billing_notes: typing.Optional[typing.List[BillingNote]] = pydantic.Field(default=None)
+    billing_notes: typing.Optional[typing.List[BillingNoteOptional]] = pydantic.Field(default=None)
     """
     Spot to store misc, human-readable, notes about this encounter to be
     used in the billing process.
