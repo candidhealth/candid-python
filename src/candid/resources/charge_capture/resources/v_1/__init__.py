@@ -8,7 +8,9 @@ from .types import (
     ChargeCapturePostBilledChange,
     ChargeCaptureSortField,
     ChargeCaptureStatus,
+    ChargeExternalIdConflictErrorMessage,
 )
+from .errors import ChargeExternalIdConflictError
 
 __all__ = [
     "ChargeCapture",
@@ -18,4 +20,6 @@ __all__ = [
     "ChargeCapturePostBilledChange",
     "ChargeCaptureSortField",
     "ChargeCaptureStatus",
+    "ChargeExternalIdConflictError",
+    "ChargeExternalIdConflictErrorMessage",
 ]

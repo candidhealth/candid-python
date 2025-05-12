@@ -83,7 +83,7 @@ class V1Client:
     ) -> AttachmentId:
         """
         Uploads a file to the encounter. The file will be stored in the
-        encounter's attachments. The maximum file size is 25MB.
+        encounter's attachments.
 
         Parameters
         ----------
@@ -275,7 +275,7 @@ class AsyncV1Client:
     ) -> AttachmentId:
         """
         Uploads a file to the encounter. The file will be stored in the
-        encounter's attachments. The maximum file size is 25MB.
+        encounter's attachments.
 
         Parameters
         ----------

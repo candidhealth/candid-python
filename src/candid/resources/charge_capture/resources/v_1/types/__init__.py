@@ -7,6 +7,7 @@ from .charge_capture_page import ChargeCapturePage
 from .charge_capture_post_billed_change import ChargeCapturePostBilledChange
 from .charge_capture_sort_field import ChargeCaptureSortField
 from .charge_capture_status import ChargeCaptureStatus
+from .charge_external_id_conflict_error_message import ChargeExternalIdConflictErrorMessage
 
 __all__ = [
     "ChargeCapture",
@@ -16,4 +17,5 @@ __all__ = [
     "ChargeCapturePostBilledChange",
     "ChargeCaptureSortField",
     "ChargeCaptureStatus",
+    "ChargeExternalIdConflictErrorMessage",
 ]

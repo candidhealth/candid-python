@@ -8,6 +8,8 @@ T_Result = typing.TypeVar("T_Result")
 
 class EncounterAttachmentType(str, enum.Enum):
     DOCUMENTATION = "DOCUMENTATION"
+    EOB = "EOB"
+    OTHER = "OTHER"
     _UNKNOWN = "__ENCOUNTERATTACHMENTTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -20,8 +22,16 @@ class EncounterAttachmentType(str, enum.Enum):
         return unknown
 
     def visit(
-        self, documentation: typing.Callable[[], T_Result], _unknown_member: typing.Callable[[str], T_Result]
+        self,
+        documentation: typing.Callable[[], T_Result],
+        eob: typing.Callable[[], T_Result],
+        other: typing.Callable[[], T_Result],
+        _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is EncounterAttachmentType.DOCUMENTATION:
             return documentation()
+        if self is EncounterAttachmentType.EOB:
+            return eob()
+        if self is EncounterAttachmentType.OTHER:
+            return other()
         return _unknown_member(self._value_)
