@@ -8,7 +8,6 @@ from .....commons.types.encounter_external_id import EncounterExternalId
 import datetime as dt
 from .....tags.types.tag_id import TagId
 from .clinical_note_category_create import ClinicalNoteCategoryCreate
-from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .billable_status_type import BillableStatusType
 from .responsible_party_type import ResponsiblePartyType
 from .synchronicity_type import SynchronicityType
@@ -16,19 +15,10 @@ from .....commons.types.facility_type_code import FacilityTypeCode
 from .....individual.types.subscriber_create import SubscriberCreate
 from .service_authorization_exception_code import ServiceAuthorizationExceptionCode
 from .....commons.types.delay_reason_code import DelayReasonCode
-from .....individual.types.patient_update import PatientUpdate
 from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from .vitals_update import VitalsUpdate
 from .medication import Medication
-from .....encounter_providers.resources.v_2.types.rendering_provider_update import RenderingProviderUpdate
-from .....service_facility.types.encounter_service_facility_update import EncounterServiceFacilityUpdate
 from .....guarantor.resources.v_1.types.guarantor_update import GuarantorUpdate
-from .....encounter_providers.resources.v_2.types.billing_provider_update import BillingProviderUpdate
-from .....encounter_providers.resources.v_2.types.supervising_provider_update import SupervisingProviderUpdate
-from .....encounter_providers.resources.v_2.types.referring_provider_update import ReferringProviderUpdate
-from .....encounter_providers.resources.v_2.types.initial_referring_provider_update import (
-    InitialReferringProviderUpdate,
-)
 from .epsdt_referral import EpsdtReferral
 from .claim_supplemental_information import ClaimSupplementalInformation
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
@@ -69,11 +59,6 @@ class EncounterOptional(UniversalBaseModel):
     clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = pydantic.Field(default=None)
     """
     Holds a collection of clinical observations made by healthcare providers during patient encounters.
-    """
-
-    pay_to_address: typing.Optional[StreetAddressLongZip] = pydantic.Field(default=None)
-    """
-    Specifies the address to which payments for the claim should be sent.
     """
 
     billable_status: typing.Optional[BillableStatusType] = pydantic.Field(default=None)
@@ -180,11 +165,6 @@ class EncounterOptional(UniversalBaseModel):
     Code indicating the reason why a request was delayed
     """
 
-    patient: typing.Optional[PatientUpdate] = pydantic.Field(default=None)
-    """
-    Contains the identification information of the individual receiving medical services.
-    """
-
     patient_authorized_release: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether this patient has authorized the release of medical information
@@ -212,43 +192,9 @@ class EncounterOptional(UniversalBaseModel):
     Note all current existing medications on encounter will be overridden with this list.
     """
 
-    rendering_provider: typing.Optional[RenderingProviderUpdate] = pydantic.Field(default=None)
-    """
-    The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
-    For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
-    """
-
-    service_facility: typing.Optional[EncounterServiceFacilityUpdate] = pydantic.Field(default=None)
-    """
-    Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
-    """
-
     guarantor: typing.Optional[GuarantorUpdate] = pydantic.Field(default=None)
     """
     Personal and contact info for the guarantor of the patient responsibility.
-    """
-
-    billing_provider: typing.Optional[BillingProviderUpdate] = pydantic.Field(default=None)
-    """
-    The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
-    """
-
-    supervising_provider: typing.Optional[SupervisingProviderUpdate] = pydantic.Field(default=None)
-    """
-    Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-    """
-
-    referring_provider: typing.Optional[ReferringProviderUpdate] = pydantic.Field(default=None)
-    """
-    The final provider who referred the services that were rendered.
-    All physicians who order services or refer Medicare beneficiaries must
-    report this data.
-    """
-
-    initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = pydantic.Field(default=None)
-    """
-    The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
-    indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
     """
 
     referral_number: typing.Optional[str] = pydantic.Field(default=None)
@@ -266,6 +212,11 @@ class EncounterOptional(UniversalBaseModel):
     )
     """
     Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+    """
+
+    secondary_payer_carrier_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
     """
 
     if IS_PYDANTIC_V2:

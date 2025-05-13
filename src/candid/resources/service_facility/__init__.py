@@ -4,6 +4,7 @@ from .types import (
     EncounterServiceFacility,
     EncounterServiceFacilityBase,
     EncounterServiceFacilityUpdate,
+    EncounterServiceFacilityUpdateWithOptionalAddress,
     ServiceFacilityId,
 )
 
@@ -11,5 +12,6 @@ __all__ = [
     "EncounterServiceFacility",
     "EncounterServiceFacilityBase",
     "EncounterServiceFacilityUpdate",
+    "EncounterServiceFacilityUpdateWithOptionalAddress",
     "ServiceFacilityId",
 ]

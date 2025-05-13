@@ -2,34 +2,44 @@
 
 from .billing_provider import BillingProvider
 from .billing_provider_update import BillingProviderUpdate
+from .billing_provider_update_with_optional_address import BillingProviderUpdateWithOptionalAddress
 from .encounter_provider import EncounterProvider
 from .encounter_provider_base import EncounterProviderBase
 from .initial_referring_provider import InitialReferringProvider
 from .initial_referring_provider_update import InitialReferringProviderUpdate
+from .initial_referring_provider_update_with_optional_address import InitialReferringProviderUpdateWithOptionalAddress
 from .ordering_provider import OrderingProvider
 from .ordering_provider_update import OrderingProviderUpdate
 from .provider_id import ProviderId
 from .referring_provider import ReferringProvider
 from .referring_provider_update import ReferringProviderUpdate
+from .referring_provider_update_with_optional_address import ReferringProviderUpdateWithOptionalAddress
 from .rendering_provider import RenderingProvider
 from .rendering_provider_update import RenderingProviderUpdate
+from .rendering_provider_update_with_optional_address import RenderingProviderUpdateWithOptionalAddress
 from .supervising_provider import SupervisingProvider
 from .supervising_provider_update import SupervisingProviderUpdate
+from .supervising_provider_update_with_optional_address import SupervisingProviderUpdateWithOptionalAddress
 
 __all__ = [
     "BillingProvider",
     "BillingProviderUpdate",
+    "BillingProviderUpdateWithOptionalAddress",
     "EncounterProvider",
     "EncounterProviderBase",
     "InitialReferringProvider",
     "InitialReferringProviderUpdate",
+    "InitialReferringProviderUpdateWithOptionalAddress",
     "OrderingProvider",
     "OrderingProviderUpdate",
     "ProviderId",
     "ReferringProvider",
     "ReferringProviderUpdate",
+    "ReferringProviderUpdateWithOptionalAddress",
     "RenderingProvider",
     "RenderingProviderUpdate",
+    "RenderingProviderUpdateWithOptionalAddress",
     "SupervisingProvider",
     "SupervisingProviderUpdate",
+    "SupervisingProviderUpdateWithOptionalAddress",
 ]

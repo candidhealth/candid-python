@@ -8,7 +8,27 @@ from .....encounters.resources.v_4.types.intervention import Intervention
 from .....claim_submission.resources.v_1.types.external_claim_submission_create import ExternalClaimSubmissionCreate
 from .....service_lines.resources.v_2.types.service_line_create import ServiceLineCreate
 from .....encounters.resources.v_4.types.patient_history_category import PatientHistoryCategory
-from .....billing_notes.resources.v_2.types.billing_note_optional import BillingNoteOptional
+from .....billing_notes.resources.v_2.types.billing_note_base import BillingNoteBase
+from .....individual.types.patient_update_with_optional_address import PatientUpdateWithOptionalAddress
+from .....service_facility.types.encounter_service_facility_update_with_optional_address import (
+    EncounterServiceFacilityUpdateWithOptionalAddress,
+)
+from .....encounter_providers.resources.v_2.types.rendering_provider_update_with_optional_address import (
+    RenderingProviderUpdateWithOptionalAddress,
+)
+from .....encounter_providers.resources.v_2.types.initial_referring_provider_update_with_optional_address import (
+    InitialReferringProviderUpdateWithOptionalAddress,
+)
+from .....encounter_providers.resources.v_2.types.referring_provider_update_with_optional_address import (
+    ReferringProviderUpdateWithOptionalAddress,
+)
+from .....encounter_providers.resources.v_2.types.supervising_provider_update_with_optional_address import (
+    SupervisingProviderUpdateWithOptionalAddress,
+)
+from .....encounter_providers.resources.v_2.types.billing_provider_update_with_optional_address import (
+    BillingProviderUpdateWithOptionalAddress,
+)
+from .....commons.types.street_address_short_zip_optional import StreetAddressShortZipOptional
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 
@@ -36,10 +56,56 @@ class ChargeCaptureData(EncounterOptional):
     """
 
     patient_histories: typing.Optional[typing.List[PatientHistoryCategory]] = None
-    billing_notes: typing.Optional[typing.List[BillingNoteOptional]] = pydantic.Field(default=None)
+    billing_notes: typing.Optional[typing.List[BillingNoteBase]] = pydantic.Field(default=None)
     """
     Spot to store misc, human-readable, notes about this encounter to be
     used in the billing process.
+    """
+
+    patient: typing.Optional[PatientUpdateWithOptionalAddress] = pydantic.Field(default=None)
+    """
+    Contains the identification information of the individual receiving medical services.
+    """
+
+    service_facility: typing.Optional[EncounterServiceFacilityUpdateWithOptionalAddress] = pydantic.Field(default=None)
+    """
+    Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
+    """
+
+    rendering_provider: typing.Optional[RenderingProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)
+    """
+    The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
+    For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
+    """
+
+    initial_referring_provider: typing.Optional[InitialReferringProviderUpdateWithOptionalAddress] = pydantic.Field(
+        default=None
+    )
+    """
+    The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
+    indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
+    """
+
+    referring_provider: typing.Optional[ReferringProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)
+    """
+    The final provider who referred the services that were rendered.
+    All physicians who order services or refer Medicare beneficiaries must
+    report this data.
+    """
+
+    supervising_provider: typing.Optional[SupervisingProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)
+    """
+    Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
+    """
+
+    billing_provider: typing.Optional[BillingProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)
+    """
+    The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
+    """
+
+    pay_to_address: typing.Optional[StreetAddressShortZipOptional] = pydantic.Field(default=None)
+    """
+    Specifies the address to which payments for the claim should be sent.
     """
 
     if IS_PYDANTIC_V2:

@@ -839,6 +839,11 @@ class Encounter(EncounterBase):
     Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
     """
 
+    secondary_payer_carrier_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
+    """
+
     last_submitted_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     The date and time the encounter was last submitted to a payer.

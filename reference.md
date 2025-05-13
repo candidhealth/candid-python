@@ -5132,6 +5132,7 @@ client.encounters.v_4.create(
             attachment_transmission_code=ReportTransmissionCode.CBM,
         )
     ],
+    secondary_payer_carrier_code="string",
     external_id="string",
     date_of_service=datetime.date.fromisoformat(
         "2023-01-15",
@@ -5530,6 +5531,15 @@ instances cannot be created for the same schema on an encounter.
 <dd>
 
 **claim_supplemental_information:** `typing.Optional[typing.Sequence[ClaimSupplementalInformation]]` — Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**secondary_payer_carrier_code:** `typing.Optional[str]` — When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
 
     
 </dd>
@@ -6115,10 +6125,34 @@ client.encounters.v_4.create_from_pre_encounter_patient(
 <dd>
 
 ```python
+import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import FacilityTypeCode
+from candid.resources.commons import (
+    BillingProviderCommercialLicenseType,
+    FacilityTypeCode,
+    PhoneNumber,
+    PhoneNumberType,
+    QualifierCode,
+    State,
+    StreetAddressLongZip,
+    StreetAddressShortZip,
+)
+from candid.resources.encounter_providers.resources.v_2 import (
+    BillingProviderUpdate,
+    InitialReferringProviderUpdate,
+    ReferringProviderUpdate,
+    RenderingProviderUpdate,
+    SupervisingProviderUpdate,
+)
+from candid.resources.individual import (
+    Gender,
+    PatientClinicalTrialInfoCreate,
+    PatientNonInsurancePayerInfoCreate,
+    PatientUpdate,
+)
+from candid.resources.service_facility import EncounterServiceFacilityUpdate
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -6128,11 +6162,154 @@ client.encounters.v_4.update(
     encounter_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
+    pay_to_address=StreetAddressLongZip(
+        address_1="123 Main St",
+        address_2="Apt 1",
+        city="New York",
+        state=State.NY,
+        zip_code="10001",
+        zip_plus_four_code="1234",
+    ),
     diagnosis_ids=[
         uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         )
     ],
+    initial_referring_provider=InitialReferringProviderUpdate(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        qualifier=QualifierCode.DQ,
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+    referring_provider=ReferringProviderUpdate(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+    patient=PatientUpdate(
+        first_name="string",
+        last_name="string",
+        gender=Gender.MALE,
+        external_id="string",
+        date_of_birth=datetime.date.fromisoformat(
+            "2023-01-15",
+        ),
+        address=StreetAddressShortZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        phone_numbers=[
+            PhoneNumber(
+                number="1234567890",
+                type=PhoneNumberType.HOME,
+            )
+        ],
+        phone_consent=True,
+        email="johndoe@joincandidhealth.com",
+        email_consent=True,
+        non_insurance_payers=[
+            uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            )
+        ],
+        non_insurance_payers_info=[
+            PatientNonInsurancePayerInfoCreate(
+                non_insurance_payer_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                member_id="string",
+                clinical_trial_info=[
+                    PatientClinicalTrialInfoCreate(
+                        clinical_trial_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                    )
+                ],
+            )
+        ],
+    ),
+    rendering_provider=RenderingProviderUpdate(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+    service_facility=EncounterServiceFacilityUpdate(
+        organization_name="Test Organization",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+    ),
+    supervising_provider=SupervisingProviderUpdate(
+        npi="string",
+        taxonomy_code="string",
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
+    billing_provider=BillingProviderUpdate(
+        address=StreetAddressLongZip(
+            address_1="123 Main St",
+            address_2="Apt 1",
+            city="New York",
+            state=State.NY,
+            zip_code="10001",
+            zip_plus_four_code="1234",
+        ),
+        tax_id="string",
+        npi="string",
+        taxonomy_code="string",
+        provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
+        first_name="string",
+        last_name="string",
+        organization_name="string",
+    ),
     place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
 )
 
@@ -6158,11 +6335,92 @@ client.encounters.v_4.update(
 <dl>
 <dd>
 
+**pay_to_address:** `typing.Optional[StreetAddressLongZip]` — Specifies the address to which payments for the claim should be sent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **diagnosis_ids:** `typing.Optional[typing.Sequence[DiagnosisId]]` 
 
 Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
 may be submitted at this time, and coders will later prioritize the 12 that will be
 submitted to the payor.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**initial_referring_provider:** `typing.Optional[InitialReferringProviderUpdate]` 
+
+The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
+indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**referring_provider:** `typing.Optional[ReferringProviderUpdate]` 
+
+The final provider who referred the services that were rendered.
+All physicians who order services or refer Medicare beneficiaries must
+report this data.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**patient:** `typing.Optional[PatientUpdate]` — Contains the identification information of the individual receiving medical services.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rendering_provider:** `typing.Optional[RenderingProviderUpdate]` 
+
+The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
+For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**service_facility:** `typing.Optional[EncounterServiceFacilityUpdate]` — Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**supervising_provider:** `typing.Optional[SupervisingProviderUpdate]` — Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
+
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**billing_provider:** `typing.Optional[BillingProviderUpdate]` — The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
 
     
 </dd>
@@ -6231,14 +6489,6 @@ If service lines have distinct date_of_service values, updating the encounter's 
 <dd>
 
 **clinical_notes:** `typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]` — Holds a collection of clinical observations made by healthcare providers during patient encounters.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**pay_to_address:** `typing.Optional[StreetAddressLongZip]` — Specifies the address to which payments for the claim should be sent.
     
 </dd>
 </dl>
@@ -6415,14 +6665,6 @@ Code indicating the reason why a request was delayed
 <dl>
 <dd>
 
-**patient:** `typing.Optional[PatientUpdate]` — Contains the identification information of the individual receiving medical services.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **patient_authorized_release:** `typing.Optional[bool]` 
 
 Whether this patient has authorized the release of medical information
@@ -6470,65 +6712,7 @@ Note all current existing medications on encounter will be overridden with this 
 <dl>
 <dd>
 
-**rendering_provider:** `typing.Optional[RenderingProviderUpdate]` 
-
-The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
-For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**service_facility:** `typing.Optional[EncounterServiceFacilityUpdate]` — Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **guarantor:** `typing.Optional[GuarantorUpdate]` — Personal and contact info for the guarantor of the patient responsibility.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**billing_provider:** `typing.Optional[BillingProviderUpdate]` — The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**supervising_provider:** `typing.Optional[SupervisingProviderUpdate]` — Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**referring_provider:** `typing.Optional[ReferringProviderUpdate]` 
-
-The final provider who referred the services that were rendered.
-All physicians who order services or refer Medicare beneficiaries must
-report this data.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**initial_referring_provider:** `typing.Optional[InitialReferringProviderUpdate]` 
-
-The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
-indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
     
 </dd>
 </dl>
@@ -6553,6 +6737,14 @@ indicate the initial referral from the primary care provider or whatever provide
 <dd>
 
 **claim_supplemental_information:** `typing.Optional[typing.Sequence[ClaimSupplementalInformation]]` — Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**secondary_payer_carrier_code:** `typing.Optional[str]` — When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
     
 </dd>
 </dl>

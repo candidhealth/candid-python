@@ -11,6 +11,7 @@ from .patient_create import PatientCreate
 from .patient_non_insurance_payer_info import PatientNonInsurancePayerInfo
 from .patient_non_insurance_payer_info_create import PatientNonInsurancePayerInfoCreate
 from .patient_update import PatientUpdate
+from .patient_update_with_optional_address import PatientUpdateWithOptionalAddress
 from .subscriber import Subscriber
 from .subscriber_base import SubscriberBase
 from .subscriber_create import SubscriberCreate
@@ -27,6 +28,7 @@ __all__ = [
     "PatientNonInsurancePayerInfo",
     "PatientNonInsurancePayerInfoCreate",
     "PatientUpdate",
+    "PatientUpdateWithOptionalAddress",
     "Subscriber",
     "SubscriberBase",
     "SubscriberCreate",

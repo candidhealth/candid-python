@@ -3,11 +3,13 @@
 from .encounter_service_facility import EncounterServiceFacility
 from .encounter_service_facility_base import EncounterServiceFacilityBase
 from .encounter_service_facility_update import EncounterServiceFacilityUpdate
+from .encounter_service_facility_update_with_optional_address import EncounterServiceFacilityUpdateWithOptionalAddress
 from .service_facility_id import ServiceFacilityId
 
 __all__ = [
     "EncounterServiceFacility",
     "EncounterServiceFacilityBase",
     "EncounterServiceFacilityUpdate",
+    "EncounterServiceFacilityUpdateWithOptionalAddress",
     "ServiceFacilityId",
 ]
