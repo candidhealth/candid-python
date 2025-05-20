@@ -93,35 +93,13 @@ class V1Client:
 
         Examples
         --------
-        import uuid
-
         from candid import CandidApiClient
-        from candid.resources.commons import SortDirection, SourceOfPaymentCode
-        from candid.resources.payer_plan_groups.resources.v_1 import (
-            PayerPlanGroupSortField,
-        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.payer_plan_groups.v_1.get_multi(
-            plan_group_name="string",
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            payer_id="string",
-            plan_type=SourceOfPaymentCode.SELF_PAY,
-            is_active=True,
-            payer_plan_group_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            limit=1,
-            sort_by_similarity="string",
-            sort=PayerPlanGroupSortField.PLAN_GROUP_NAME,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+        client.payer_plan_groups.v_1.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/payer-plan-groups/v1",
@@ -274,7 +252,7 @@ class V1Client:
         )
         client.payer_plan_groups.v_1.create(
             request=MutablePayerPlanGroup(
-                plan_group_name="string",
+                plan_group_name="plan_group_name",
                 payer_uuid=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
@@ -367,7 +345,7 @@ class V1Client:
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             request=MutablePayerPlanGroup(
-                plan_group_name="string",
+                plan_group_name="plan_group_name",
                 payer_uuid=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
@@ -566,13 +544,8 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import SortDirection, SourceOfPaymentCode
-        from candid.resources.payer_plan_groups.resources.v_1 import (
-            PayerPlanGroupSortField,
-        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -581,23 +554,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.payer_plan_groups.v_1.get_multi(
-                plan_group_name="string",
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                payer_id="string",
-                plan_type=SourceOfPaymentCode.SELF_PAY,
-                is_active=True,
-                payer_plan_group_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                limit=1,
-                sort_by_similarity="string",
-                sort=PayerPlanGroupSortField.PLAN_GROUP_NAME,
-                sort_direction=SortDirection.ASC,
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            )
+            await client.payer_plan_groups.v_1.get_multi()
 
 
         asyncio.run(main())
@@ -764,7 +721,7 @@ class AsyncV1Client:
         async def main() -> None:
             await client.payer_plan_groups.v_1.create(
                 request=MutablePayerPlanGroup(
-                    plan_group_name="string",
+                    plan_group_name="plan_group_name",
                     payer_uuid=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
@@ -864,7 +821,7 @@ class AsyncV1Client:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 request=MutablePayerPlanGroup(
-                    plan_group_name="string",
+                    plan_group_name="plan_group_name",
                     payer_uuid=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),

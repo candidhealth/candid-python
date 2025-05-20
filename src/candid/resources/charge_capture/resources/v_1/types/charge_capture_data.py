@@ -43,7 +43,7 @@ class ChargeCaptureData(EncounterOptional):
     interventions: typing.Optional[typing.List[Intervention]] = None
     external_claim_submission: typing.Optional[ExternalClaimSubmissionCreate] = pydantic.Field(default=None)
     """
-    **_This field is in beta._**
+    ***This field is in beta.***
     To be included for claims that have been submitted outside of Candid.
     Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
     """

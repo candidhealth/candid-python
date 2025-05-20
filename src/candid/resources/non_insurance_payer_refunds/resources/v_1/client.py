@@ -77,31 +77,13 @@ class V1Client:
 
         Examples
         --------
-        import uuid
-
         from candid import CandidApiClient
-        from candid.resources.commons import SortDirection
-        from candid.resources.non_insurance_payer_refunds.resources.v_1 import (
-            NonInsurancePayerRefundSortField,
-        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.non_insurance_payer_refunds.v_1.get_multi(
-            limit=1,
-            non_insurance_payer_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            check_number="string",
-            invoice_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            sort=NonInsurancePayerRefundSortField.AMOUNT_CENTS,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+        client.non_insurance_payer_refunds.v_1.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/non-insurance-payer-refunds/v1",
@@ -231,14 +213,12 @@ class V1Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
         from candid.resources.financials import (
             AllocationCreate,
             AllocationTargetCreate_ServiceLineById,
-            RefundReason,
         )
         from candid.resources.non_insurance_payer_refunds.resources.v_1 import (
             NonInsurancePayerRefundCreate,
@@ -253,15 +233,7 @@ class V1Client:
                 non_insurance_payer_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                invoice_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
                 amount_cents=1,
-                refund_timestamp=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                refund_note="string",
-                check_number="string",
                 allocations=[
                     AllocationCreate(
                         amount_cents=1,
@@ -270,9 +242,16 @@ class V1Client:
                                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                             )
                         ),
-                    )
+                    ),
+                    AllocationCreate(
+                        amount_cents=1,
+                        target=AllocationTargetCreate_ServiceLineById(
+                            value=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ),
+                    ),
                 ],
-                refund_reason=RefundReason.OVERCHARGED,
             ),
         )
         """
@@ -354,16 +333,9 @@ class V1Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.financials import (
-            InvoiceUpdate_Set,
-            NoteUpdate_Set,
-            RefundReason,
-            RefundReasonUpdate_Set,
-        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -372,16 +344,6 @@ class V1Client:
         client.non_insurance_payer_refunds.v_1.update(
             non_insurance_payer_refund_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            refund_timestamp=datetime.datetime.fromisoformat(
-                "2024-01-15 09:30:00+00:00",
-            ),
-            refund_note=NoteUpdate_Set(value="string"),
-            refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
-            invoice_id=InvoiceUpdate_Set(
-                value=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
             ),
         )
         """
@@ -553,13 +515,8 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import SortDirection
-        from candid.resources.non_insurance_payer_refunds.resources.v_1 import (
-            NonInsurancePayerRefundSortField,
-        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -568,19 +525,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.non_insurance_payer_refunds.v_1.get_multi(
-                limit=1,
-                non_insurance_payer_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                check_number="string",
-                invoice_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                sort=NonInsurancePayerRefundSortField.AMOUNT_CENTS,
-                sort_direction=SortDirection.ASC,
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            )
+            await client.non_insurance_payer_refunds.v_1.get_multi()
 
 
         asyncio.run(main())
@@ -721,14 +666,12 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
         from candid.resources.financials import (
             AllocationCreate,
             AllocationTargetCreate_ServiceLineById,
-            RefundReason,
         )
         from candid.resources.non_insurance_payer_refunds.resources.v_1 import (
             NonInsurancePayerRefundCreate,
@@ -746,15 +689,7 @@ class AsyncV1Client:
                     non_insurance_payer_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    invoice_id=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
                     amount_cents=1,
-                    refund_timestamp=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    refund_note="string",
-                    check_number="string",
                     allocations=[
                         AllocationCreate(
                             amount_cents=1,
@@ -763,9 +698,16 @@ class AsyncV1Client:
                                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                                 )
                             ),
-                        )
+                        ),
+                        AllocationCreate(
+                            amount_cents=1,
+                            target=AllocationTargetCreate_ServiceLineById(
+                                value=uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                )
+                            ),
+                        ),
                     ],
-                    refund_reason=RefundReason.OVERCHARGED,
                 ),
             )
 
@@ -851,16 +793,9 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.financials import (
-            InvoiceUpdate_Set,
-            NoteUpdate_Set,
-            RefundReason,
-            RefundReasonUpdate_Set,
-        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -872,16 +807,6 @@ class AsyncV1Client:
             await client.non_insurance_payer_refunds.v_1.update(
                 non_insurance_payer_refund_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                refund_timestamp=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                refund_note=NoteUpdate_Set(value="string"),
-                refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
-                invoice_id=InvoiceUpdate_Set(
-                    value=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    )
                 ),
             )
 

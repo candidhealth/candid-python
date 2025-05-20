@@ -36,7 +36,7 @@ class V1Client:
         self, *, request: MutableAppointment, request_options: typing.Optional[RequestOptions] = None
     ) -> Appointment:
         """
-        Adds an appointment. VersionConflictError is returned when the placer_appointment_id is already in use.
+        Adds an appointment.  VersionConflictError is returned when the placer_appointment_id is already in use.
 
         Parameters
         ----------
@@ -55,20 +55,8 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
-            AppointmentStatus,
-            AppointmentWorkQueue,
             MutableAppointment,
             Service,
-            UniversalServiceIdentifier,
-        )
-        from candid.resources.pre_encounter.resources.common import (
-            ContactPoint,
-            ContactPointUse,
-            ExternalProvider,
-            ExternalProviderType,
-            HumanName,
-            NameUse,
-            Period,
         )
 
         client = CandidApiClient(
@@ -77,52 +65,12 @@ class V1Client:
         )
         client.pre_encounter.appointments.v_1.create(
             request=MutableAppointment(
-                patient_id="string",
+                patient_id="patient_id",
                 start_timestamp=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
                 ),
-                status=AppointmentStatus.PENDING,
                 service_duration=1,
-                services=[
-                    Service(
-                        universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
-                        start_timestamp=datetime.datetime.fromisoformat(
-                            "2024-01-15 09:30:00+00:00",
-                        ),
-                    )
-                ],
-                placer_appointment_id="string",
-                attending_doctor=ExternalProvider(
-                    name=HumanName(
-                        family="string",
-                        given=["string"],
-                        use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    ),
-                    type=ExternalProviderType.PRIMARY,
-                    npi="string",
-                    telecoms=[
-                        ContactPoint(
-                            value="string",
-                            use=ContactPointUse.HOME,
-                        )
-                    ],
-                    addresses=[],
-                    period=Period(),
-                    canonical_id="string",
-                    fax="string",
-                ),
-                estimated_copay_cents=1,
-                estimated_patient_responsibility_cents=1,
-                patient_deposit_cents=1,
-                checked_in_timestamp=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                notes="string",
-                location_resource_id="string",
-                automated_eligibility_check_complete=True,
-                work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
+                services=[Service(), Service()],
             ),
         )
         """
@@ -206,19 +154,12 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
-        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.pre_encounter.appointments.v_1.get_visits(
-            page_token="string",
-            limit=1,
-            sort_field="string",
-            sort_direction=SortDirection.ASC,
-            filters="string",
-        )
+        client.pre_encounter.appointments.v_1.get_visits()
         """
         _response = self._client_wrapper.httpx_client.request(
             "appointments/v1/visits",
@@ -282,7 +223,7 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.appointments.v_1.get(
-            id="string",
+            id="id",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -320,7 +261,7 @@ class V1Client:
         self, id: AppointmentId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Appointment]:
         """
-        Gets an appointment along with it's full history. The return list is ordered by version ascending.
+        Gets an appointment along with it's full history.  The return list is ordered by version ascending.
 
         Parameters
         ----------
@@ -342,7 +283,7 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.appointments.v_1.get_history(
-            id="string",
+            id="id",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -385,7 +326,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Appointment:
         """
-        Updates an appointment. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+        Updates an appointment.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -408,20 +349,8 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
-            AppointmentStatus,
-            AppointmentWorkQueue,
             MutableAppointment,
             Service,
-            UniversalServiceIdentifier,
-        )
-        from candid.resources.pre_encounter.resources.common import (
-            ContactPoint,
-            ContactPointUse,
-            ExternalProvider,
-            ExternalProviderType,
-            HumanName,
-            NameUse,
-            Period,
         )
 
         client = CandidApiClient(
@@ -429,55 +358,15 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.appointments.v_1.update(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
             request=MutableAppointment(
-                patient_id="string",
+                patient_id="patient_id",
                 start_timestamp=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
                 ),
-                status=AppointmentStatus.PENDING,
                 service_duration=1,
-                services=[
-                    Service(
-                        universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
-                        start_timestamp=datetime.datetime.fromisoformat(
-                            "2024-01-15 09:30:00+00:00",
-                        ),
-                    )
-                ],
-                placer_appointment_id="string",
-                attending_doctor=ExternalProvider(
-                    name=HumanName(
-                        family="string",
-                        given=["string"],
-                        use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    ),
-                    type=ExternalProviderType.PRIMARY,
-                    npi="string",
-                    telecoms=[
-                        ContactPoint(
-                            value="string",
-                            use=ContactPointUse.HOME,
-                        )
-                    ],
-                    addresses=[],
-                    period=Period(),
-                    canonical_id="string",
-                    fax="string",
-                ),
-                estimated_copay_cents=1,
-                estimated_patient_responsibility_cents=1,
-                patient_deposit_cents=1,
-                checked_in_timestamp=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                notes="string",
-                location_resource_id="string",
-                automated_eligibility_check_complete=True,
-                work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
+                services=[Service(), Service()],
             ),
         )
         """
@@ -528,7 +417,7 @@ class V1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Appointment]:
         """
-        Scans up to 100 appointment updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+        Scans up to 100 appointment updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------
@@ -584,7 +473,7 @@ class V1Client:
         self, id: AppointmentId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets an appointment as deactivated. The path must contain the most recent version to prevent race conditions. Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
 
         Parameters
         ----------
@@ -608,8 +497,8 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.appointments.v_1.deactivate(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -656,7 +545,7 @@ class AsyncV1Client:
         self, *, request: MutableAppointment, request_options: typing.Optional[RequestOptions] = None
     ) -> Appointment:
         """
-        Adds an appointment. VersionConflictError is returned when the placer_appointment_id is already in use.
+        Adds an appointment.  VersionConflictError is returned when the placer_appointment_id is already in use.
 
         Parameters
         ----------
@@ -676,20 +565,8 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
-            AppointmentStatus,
-            AppointmentWorkQueue,
             MutableAppointment,
             Service,
-            UniversalServiceIdentifier,
-        )
-        from candid.resources.pre_encounter.resources.common import (
-            ContactPoint,
-            ContactPointUse,
-            ExternalProvider,
-            ExternalProviderType,
-            HumanName,
-            NameUse,
-            Period,
         )
 
         client = AsyncCandidApiClient(
@@ -701,52 +578,12 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.appointments.v_1.create(
                 request=MutableAppointment(
-                    patient_id="string",
+                    patient_id="patient_id",
                     start_timestamp=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
-                    status=AppointmentStatus.PENDING,
                     service_duration=1,
-                    services=[
-                        Service(
-                            universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
-                            start_timestamp=datetime.datetime.fromisoformat(
-                                "2024-01-15 09:30:00+00:00",
-                            ),
-                        )
-                    ],
-                    placer_appointment_id="string",
-                    attending_doctor=ExternalProvider(
-                        name=HumanName(
-                            family="string",
-                            given=["string"],
-                            use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
-                        ),
-                        type=ExternalProviderType.PRIMARY,
-                        npi="string",
-                        telecoms=[
-                            ContactPoint(
-                                value="string",
-                                use=ContactPointUse.HOME,
-                            )
-                        ],
-                        addresses=[],
-                        period=Period(),
-                        canonical_id="string",
-                        fax="string",
-                    ),
-                    estimated_copay_cents=1,
-                    estimated_patient_responsibility_cents=1,
-                    patient_deposit_cents=1,
-                    checked_in_timestamp=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    notes="string",
-                    location_resource_id="string",
-                    automated_eligibility_check_complete=True,
-                    work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
+                    services=[Service(), Service()],
                 ),
             )
 
@@ -835,7 +672,6 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
-        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -844,13 +680,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.pre_encounter.appointments.v_1.get_visits(
-                page_token="string",
-                limit=1,
-                sort_field="string",
-                sort_direction=SortDirection.ASC,
-                filters="string",
-            )
+            await client.pre_encounter.appointments.v_1.get_visits()
 
 
         asyncio.run(main())
@@ -922,7 +752,7 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.appointments.v_1.get(
-                id="string",
+                id="id",
             )
 
 
@@ -963,7 +793,7 @@ class AsyncV1Client:
         self, id: AppointmentId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Appointment]:
         """
-        Gets an appointment along with it's full history. The return list is ordered by version ascending.
+        Gets an appointment along with it's full history.  The return list is ordered by version ascending.
 
         Parameters
         ----------
@@ -990,7 +820,7 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.appointments.v_1.get_history(
-                id="string",
+                id="id",
             )
 
 
@@ -1036,7 +866,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Appointment:
         """
-        Updates an appointment. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+        Updates an appointment.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -1060,20 +890,8 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
-            AppointmentStatus,
-            AppointmentWorkQueue,
             MutableAppointment,
             Service,
-            UniversalServiceIdentifier,
-        )
-        from candid.resources.pre_encounter.resources.common import (
-            ContactPoint,
-            ContactPointUse,
-            ExternalProvider,
-            ExternalProviderType,
-            HumanName,
-            NameUse,
-            Period,
         )
 
         client = AsyncCandidApiClient(
@@ -1084,55 +902,15 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.appointments.v_1.update(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
                 request=MutableAppointment(
-                    patient_id="string",
+                    patient_id="patient_id",
                     start_timestamp=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
-                    status=AppointmentStatus.PENDING,
                     service_duration=1,
-                    services=[
-                        Service(
-                            universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
-                            start_timestamp=datetime.datetime.fromisoformat(
-                                "2024-01-15 09:30:00+00:00",
-                            ),
-                        )
-                    ],
-                    placer_appointment_id="string",
-                    attending_doctor=ExternalProvider(
-                        name=HumanName(
-                            family="string",
-                            given=["string"],
-                            use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
-                        ),
-                        type=ExternalProviderType.PRIMARY,
-                        npi="string",
-                        telecoms=[
-                            ContactPoint(
-                                value="string",
-                                use=ContactPointUse.HOME,
-                            )
-                        ],
-                        addresses=[],
-                        period=Period(),
-                        canonical_id="string",
-                        fax="string",
-                    ),
-                    estimated_copay_cents=1,
-                    estimated_patient_responsibility_cents=1,
-                    patient_deposit_cents=1,
-                    checked_in_timestamp=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    notes="string",
-                    location_resource_id="string",
-                    automated_eligibility_check_complete=True,
-                    work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
+                    services=[Service(), Service()],
                 ),
             )
 
@@ -1186,7 +964,7 @@ class AsyncV1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Appointment]:
         """
-        Scans up to 100 appointment updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+        Scans up to 100 appointment updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------
@@ -1249,7 +1027,7 @@ class AsyncV1Client:
         self, id: AppointmentId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets an appointment as deactivated. The path must contain the most recent version to prevent race conditions. Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
 
         Parameters
         ----------
@@ -1278,8 +1056,8 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.appointments.v_1.deactivate(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
             )
 
 

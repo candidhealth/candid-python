@@ -11,7 +11,7 @@ class MemberInfo(UniversalBaseModel):
     member_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Stedi requires that you supply at least one of these fields in the request: memberId, dateOfBirth, or lastName.  
-    However, each payer has different requirements, so you should supply as many of the fields necessary for each payer
+    However, each payer has different requirements, so you should supply as many of the fields necessary for each payer 
     to identify the subscriber/dependent in their system.
     """
 
@@ -20,7 +20,7 @@ class MemberInfo(UniversalBaseModel):
     date_of_birth: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     Stedi requires that you supply at least one of these fields in the request: memberId, dateOfBirth, or lastName.  
-    However, each payer has different requirements, so you should supply as many of the fields necessary for each payer
+    However, each payer has different requirements, so you should supply as many of the fields necessary for each payer 
     to identify the subscriber/dependent in their system.
     """
 

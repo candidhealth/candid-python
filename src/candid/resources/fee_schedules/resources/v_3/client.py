@@ -50,7 +50,7 @@ class V3Client:
         self, service_line_id: ServiceLineId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[MatchResult]:
         """
-        Gets the rate that matches a service line. No result means no rate exists matching the service line's dimensions.
+        Gets the rate that matches a service line.  No result means no rate exists matching the service line's dimensions.
 
         Parameters
         ----------
@@ -262,45 +262,13 @@ class V3Client:
 
         Examples
         --------
-        import datetime
-        import uuid
-
         from candid import CandidApiClient
-        from candid.resources.commons import (
-            FacilityTypeCode,
-            NetworkType,
-            ProcedureModifier,
-            State,
-        )
-        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.fee_schedules.v_3.get_multi(
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            limit=1,
-            active_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            organization_billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            states=State.AA,
-            zip_codes="string",
-            license_types=LicenseType.MD,
-            facility_type_codes=FacilityTypeCode.PHARMACY,
-            network_types=NetworkType.PPO,
-            payer_plan_group_ids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            cpt_code="string",
-            modifiers=ProcedureModifier.AV,
-        )
+        client.fee_schedules.v_3.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/fee-schedules/v3",
@@ -397,42 +365,15 @@ class V3Client:
 
         Examples
         --------
-        import uuid
-
         from candid import CandidApiClient
-        from candid.resources.commons import (
-            FacilityTypeCode,
-            NetworkType,
-            ProcedureModifier,
-            State,
-        )
         from candid.resources.fee_schedules.resources.v_3 import DimensionName
-        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.fee_schedules.v_3.get_unique_values_for_dimension(
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            limit=1,
             pivot_dimension=DimensionName.PAYER_UUID,
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            organization_billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            states=State.AA,
-            zip_codes="string",
-            license_types=LicenseType.MD,
-            facility_type_codes=FacilityTypeCode.PHARMACY,
-            network_types=NetworkType.PPO,
-            payer_plan_group_ids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            cpt_code="string",
-            modifiers=ProcedureModifier.AV,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -542,7 +483,7 @@ class V3Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[Rate]:
         """
-        Uploads a new fee schedule.\n Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will be returned.\n Use the dry run flag to discover already existing rates and to run validations. If validations for any rate fail, no rates will be saved to the system.
+        Uploads a new fee schedule.\n Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will be returned.\n Use the dry run flag to discover already existing rates and to run validations.  If validations for any rate fail, no rates will be saved to the system.
 
         Parameters
         ----------
@@ -592,7 +533,7 @@ class V3Client:
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ),
                         states=[State.AA],
-                        zip_codes={"string"},
+                        zip_codes={"zip_codes"},
                         license_types=[LicenseType.MD],
                         facility_type_codes=[FacilityTypeCode.PHARMACY],
                         network_types=[NetworkType.PPO],
@@ -601,19 +542,64 @@ class V3Client:
                                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                             )
                         ],
-                        cpt_code="string",
+                        cpt_code="cpt_code",
                         modifiers=[ProcedureModifier.AV],
                     ),
                     entries=[
                         RateEntry(
                             start_date=datetime.date.fromisoformat(
-                                "2024-04-11",
+                                "2023-01-15",
                             ),
-                            rate_cents=33000,
-                            is_deactivated=False,
-                        )
+                            rate_cents=1,
+                            is_deactivated=True,
+                        ),
+                        RateEntry(
+                            start_date=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            rate_cents=1,
+                            is_deactivated=True,
+                        ),
                     ],
-                )
+                ),
+                RateUpload_NewRate(
+                    dimensions=Dimensions(
+                        payer_uuid=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        organization_billing_provider_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        states=[State.AA],
+                        zip_codes={"zip_codes"},
+                        license_types=[LicenseType.MD],
+                        facility_type_codes=[FacilityTypeCode.PHARMACY],
+                        network_types=[NetworkType.PPO],
+                        payer_plan_group_ids=[
+                            uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ],
+                        cpt_code="cpt_code",
+                        modifiers=[ProcedureModifier.AV],
+                    ),
+                    entries=[
+                        RateEntry(
+                            start_date=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            rate_cents=1,
+                            is_deactivated=True,
+                        ),
+                        RateEntry(
+                            start_date=datetime.date.fromisoformat(
+                                "2023-01-15",
+                            ),
+                            rate_cents=1,
+                            is_deactivated=True,
+                        ),
+                    ],
+                ),
             ],
         )
         """
@@ -657,7 +643,7 @@ class V3Client:
         self, rate_id: RateId, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Soft deletes a rate from the system. Only the most recent version of a rate can be deleted.
+        Soft deletes a rate from the system.  Only the most recent version of a rate can be deleted.
 
         Parameters
         ----------
@@ -863,8 +849,6 @@ class V3Client:
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             request=PayerThreshold(
-                upper_threshold_cents=1,
-                lower_threshold_cents=1,
                 disable_paid_incorrectly=True,
             ),
         )
@@ -911,7 +895,7 @@ class AsyncV3Client:
         self, service_line_id: ServiceLineId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Optional[MatchResult]:
         """
-        Gets the rate that matches a service line. No result means no rate exists matching the service line's dimensions.
+        Gets the rate that matches a service line.  No result means no rate exists matching the service line's dimensions.
 
         Parameters
         ----------
@@ -1138,17 +1122,8 @@ class AsyncV3Client:
         Examples
         --------
         import asyncio
-        import datetime
-        import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import (
-            FacilityTypeCode,
-            NetworkType,
-            ProcedureModifier,
-            State,
-        )
-        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1157,29 +1132,7 @@ class AsyncV3Client:
 
 
         async def main() -> None:
-            await client.fee_schedules.v_3.get_multi(
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                limit=1,
-                active_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                organization_billing_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                states=State.AA,
-                zip_codes="string",
-                license_types=LicenseType.MD,
-                facility_type_codes=FacilityTypeCode.PHARMACY,
-                network_types=NetworkType.PPO,
-                payer_plan_group_ids=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                cpt_code="string",
-                modifiers=ProcedureModifier.AV,
-            )
+            await client.fee_schedules.v_3.get_multi()
 
 
         asyncio.run(main())
@@ -1280,17 +1233,9 @@ class AsyncV3Client:
         Examples
         --------
         import asyncio
-        import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import (
-            FacilityTypeCode,
-            NetworkType,
-            ProcedureModifier,
-            State,
-        )
         from candid.resources.fee_schedules.resources.v_3 import DimensionName
-        from candid.resources.organization_providers.resources.v_2 import LicenseType
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1300,25 +1245,7 @@ class AsyncV3Client:
 
         async def main() -> None:
             await client.fee_schedules.v_3.get_unique_values_for_dimension(
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                limit=1,
                 pivot_dimension=DimensionName.PAYER_UUID,
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                organization_billing_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                states=State.AA,
-                zip_codes="string",
-                license_types=LicenseType.MD,
-                facility_type_codes=FacilityTypeCode.PHARMACY,
-                network_types=NetworkType.PPO,
-                payer_plan_group_ids=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                cpt_code="string",
-                modifiers=ProcedureModifier.AV,
             )
 
 
@@ -1438,7 +1365,7 @@ class AsyncV3Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[Rate]:
         """
-        Uploads a new fee schedule.\n Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will be returned.\n Use the dry run flag to discover already existing rates and to run validations. If validations for any rate fail, no rates will be saved to the system.
+        Uploads a new fee schedule.\n Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will be returned.\n Use the dry run flag to discover already existing rates and to run validations.  If validations for any rate fail, no rates will be saved to the system.
 
         Parameters
         ----------
@@ -1492,7 +1419,7 @@ class AsyncV3Client:
                                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                             ),
                             states=[State.AA],
-                            zip_codes={"string"},
+                            zip_codes={"zip_codes"},
                             license_types=[LicenseType.MD],
                             facility_type_codes=[FacilityTypeCode.PHARMACY],
                             network_types=[NetworkType.PPO],
@@ -1501,19 +1428,64 @@ class AsyncV3Client:
                                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                                 )
                             ],
-                            cpt_code="string",
+                            cpt_code="cpt_code",
                             modifiers=[ProcedureModifier.AV],
                         ),
                         entries=[
                             RateEntry(
                                 start_date=datetime.date.fromisoformat(
-                                    "2024-04-11",
+                                    "2023-01-15",
                                 ),
-                                rate_cents=33000,
-                                is_deactivated=False,
-                            )
+                                rate_cents=1,
+                                is_deactivated=True,
+                            ),
+                            RateEntry(
+                                start_date=datetime.date.fromisoformat(
+                                    "2023-01-15",
+                                ),
+                                rate_cents=1,
+                                is_deactivated=True,
+                            ),
                         ],
-                    )
+                    ),
+                    RateUpload_NewRate(
+                        dimensions=Dimensions(
+                            payer_uuid=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            ),
+                            organization_billing_provider_id=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            ),
+                            states=[State.AA],
+                            zip_codes={"zip_codes"},
+                            license_types=[LicenseType.MD],
+                            facility_type_codes=[FacilityTypeCode.PHARMACY],
+                            network_types=[NetworkType.PPO],
+                            payer_plan_group_ids=[
+                                uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                )
+                            ],
+                            cpt_code="cpt_code",
+                            modifiers=[ProcedureModifier.AV],
+                        ),
+                        entries=[
+                            RateEntry(
+                                start_date=datetime.date.fromisoformat(
+                                    "2023-01-15",
+                                ),
+                                rate_cents=1,
+                                is_deactivated=True,
+                            ),
+                            RateEntry(
+                                start_date=datetime.date.fromisoformat(
+                                    "2023-01-15",
+                                ),
+                                rate_cents=1,
+                                is_deactivated=True,
+                            ),
+                        ],
+                    ),
                 ],
             )
 
@@ -1560,7 +1532,7 @@ class AsyncV3Client:
         self, rate_id: RateId, version: int, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Soft deletes a rate from the system. Only the most recent version of a rate can be deleted.
+        Soft deletes a rate from the system.  Only the most recent version of a rate can be deleted.
 
         Parameters
         ----------
@@ -1792,8 +1764,6 @@ class AsyncV3Client:
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 request=PayerThreshold(
-                    upper_threshold_cents=1,
-                    lower_threshold_cents=1,
                     disable_paid_incorrectly=True,
                 ),
             )

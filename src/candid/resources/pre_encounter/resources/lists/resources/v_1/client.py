@@ -58,19 +58,12 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
-        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.pre_encounter.lists.v_1.get_patient_list(
-            page_token="string",
-            limit=1,
-            sort_field="string",
-            sort_direction=SortDirection.ASC,
-            filters="string",
-        )
+        client.pre_encounter.lists.v_1.get_patient_list()
         """
         _response = self._client_wrapper.httpx_client.request(
             "lists/v1/patient",
@@ -148,19 +141,12 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
-        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.pre_encounter.lists.v_1.get_appointment_list(
-            sort_field="string",
-            sort_direction=SortDirection.ASC,
-            limit=1,
-            page_token="string",
-            filters="string",
-        )
+        client.pre_encounter.lists.v_1.get_appointment_list()
         """
         _response = self._client_wrapper.httpx_client.request(
             "lists/v1/appointment",
@@ -233,7 +219,6 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
-        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -242,13 +227,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.pre_encounter.lists.v_1.get_patient_list(
-                page_token="string",
-                limit=1,
-                sort_field="string",
-                sort_direction=SortDirection.ASC,
-                filters="string",
-            )
+            await client.pre_encounter.lists.v_1.get_patient_list()
 
 
         asyncio.run(main())
@@ -331,7 +310,6 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
-        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -340,13 +318,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.pre_encounter.lists.v_1.get_appointment_list(
-                sort_field="string",
-                sort_direction=SortDirection.ASC,
-                limit=1,
-                page_token="string",
-                filters="string",
-            )
+            await client.pre_encounter.lists.v_1.get_appointment_list()
 
 
         asyncio.run(main())

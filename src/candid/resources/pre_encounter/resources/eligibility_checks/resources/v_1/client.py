@@ -38,15 +38,12 @@ class V1Client:
 
         Examples
         --------
-        import datetime
-
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
             MemberInfo,
         )
         from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
             EligibilityRequest,
-            Encounter,
             IndividualProvider,
         )
 
@@ -56,33 +53,13 @@ class V1Client:
         )
         client.pre_encounter.eligibility_checks.v_1.post(
             request=EligibilityRequest(
-                payer_id="string",
+                payer_id="payer_id",
                 provider=IndividualProvider(
-                    first_name="string",
-                    last_name="string",
-                    npi="string",
+                    npi="npi",
                 ),
                 subscriber=MemberInfo(
-                    member_id="string",
-                    first_name="string",
-                    last_name="string",
-                    date_of_birth=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                ),
-                dependent=MemberInfo(
-                    member_id="string",
-                    first_name="string",
-                    last_name="string",
-                    date_of_birth=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                ),
-                encounter=Encounter(
-                    date_of_service=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    service_type_codes=["string"],
+                    first_name="first_name",
+                    last_name="last_name",
                 ),
             ),
         )
@@ -135,7 +112,6 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
@@ -143,7 +119,6 @@ class AsyncV1Client:
         )
         from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
             EligibilityRequest,
-            Encounter,
             IndividualProvider,
         )
 
@@ -156,33 +131,13 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.eligibility_checks.v_1.post(
                 request=EligibilityRequest(
-                    payer_id="string",
+                    payer_id="payer_id",
                     provider=IndividualProvider(
-                        first_name="string",
-                        last_name="string",
-                        npi="string",
+                        npi="npi",
                     ),
                     subscriber=MemberInfo(
-                        member_id="string",
-                        first_name="string",
-                        last_name="string",
-                        date_of_birth=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                    ),
-                    dependent=MemberInfo(
-                        member_id="string",
-                        first_name="string",
-                        last_name="string",
-                        date_of_birth=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                    ),
-                    encounter=Encounter(
-                        date_of_service=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        service_type_codes=["string"],
+                        first_name="first_name",
+                        last_name="last_name",
                     ),
                 ),
             )

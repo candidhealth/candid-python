@@ -54,13 +54,11 @@ class V2Client:
         contracting_provider_id : uuid.UUID
             The ID of the practice location at which the rendering provider is covered by the credentialing span.
 
-
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
 
         regions : Regions
             The states covered by the credentialing span. A span may be national and cover all states.
-
 
         start_date : typing.Optional[dt.date]
             Start date of the credentialing span.
@@ -83,7 +81,6 @@ class V2Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
@@ -103,20 +100,8 @@ class V2Client:
             payer_uuid=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            start_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            end_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
             regions=Regions_States(
-                states=[State.AA],
-            ),
-            submitted_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            payer_loaded_date=datetime.date.fromisoformat(
-                "2023-01-15",
+                states=[State.AA, State.AA],
             ),
         )
         """
@@ -287,26 +272,13 @@ class V2Client:
 
         Examples
         --------
-        import uuid
-
         from candid import CandidApiClient
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.credentialing.v_2.get_all(
-            limit=1,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            as_rendering_provider=True,
-            as_contracting_provider=True,
-        )
+        client.credentialing.v_2.get_all()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/provider-credentialing-span/v2",
@@ -449,7 +421,6 @@ class V2Client:
         contracting_provider_id : typing.Optional[uuid.UUID]
             The ID of the practice location at which the rendering provider is covered by the credentialing span.
 
-
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.
 
@@ -461,7 +432,6 @@ class V2Client:
 
         regions : typing.Optional[Regions]
             The states covered by the credentialing span. A span may be national and cover all states.
-
 
         submitted_date : typing.Optional[dt.date]
             Date that the credential paperwork was submitted.
@@ -478,11 +448,9 @@ class V2Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import Regions_States, State
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -491,27 +459,6 @@ class V2Client:
         client.credentialing.v_2.update(
             provider_credentialing_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            contracting_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            start_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            end_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            regions=Regions_States(
-                states=[State.AA],
-            ),
-            submitted_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            payer_loaded_date=datetime.date.fromisoformat(
-                "2023-01-15",
             ),
         )
         """
@@ -613,13 +560,11 @@ class AsyncV2Client:
         contracting_provider_id : uuid.UUID
             The ID of the practice location at which the rendering provider is covered by the credentialing span.
 
-
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
 
         regions : Regions
             The states covered by the credentialing span. A span may be national and cover all states.
-
 
         start_date : typing.Optional[dt.date]
             Start date of the credentialing span.
@@ -643,7 +588,6 @@ class AsyncV2Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
@@ -666,20 +610,8 @@ class AsyncV2Client:
                 payer_uuid=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                start_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                end_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
                 regions=Regions_States(
-                    states=[State.AA],
-                ),
-                submitted_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                payer_loaded_date=datetime.date.fromisoformat(
-                    "2023-01-15",
+                    states=[State.AA, State.AA],
                 ),
             )
 
@@ -861,7 +793,6 @@ class AsyncV2Client:
         Examples
         --------
         import asyncio
-        import uuid
 
         from candid import AsyncCandidApiClient
 
@@ -872,18 +803,7 @@ class AsyncV2Client:
 
 
         async def main() -> None:
-            await client.credentialing.v_2.get_all(
-                limit=1,
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                as_rendering_provider=True,
-                as_contracting_provider=True,
-            )
+            await client.credentialing.v_2.get_all()
 
 
         asyncio.run(main())
@@ -1036,7 +956,6 @@ class AsyncV2Client:
         contracting_provider_id : typing.Optional[uuid.UUID]
             The ID of the practice location at which the rendering provider is covered by the credentialing span.
 
-
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.
 
@@ -1048,7 +967,6 @@ class AsyncV2Client:
 
         regions : typing.Optional[Regions]
             The states covered by the credentialing span. A span may be national and cover all states.
-
 
         submitted_date : typing.Optional[dt.date]
             Date that the credential paperwork was submitted.
@@ -1066,11 +984,9 @@ class AsyncV2Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import Regions_States, State
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1082,27 +998,6 @@ class AsyncV2Client:
             await client.credentialing.v_2.update(
                 provider_credentialing_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                contracting_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                start_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                end_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                regions=Regions_States(
-                    states=[State.AA],
-                ),
-                submitted_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                payer_loaded_date=datetime.date.fromisoformat(
-                    "2023-01-15",
                 ),
             )
 

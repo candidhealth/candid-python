@@ -69,7 +69,7 @@ class ServiceFacilityType(str, enum.Enum):
 
     CHRONIC_CARE_FACILITY = "CHR"
     """
-    (1) A hospital including a physical plant and personnel that provides multidisciplinary diagnosis and treatment for diseases that have one or more of the following characteristics: is permanent; leaves residual disability; is caused by nonreversible pathological alteration; requires special training of the patient for rehabilitation; and/or may be expected to require a long period of supervision or care. In addition, patients require the safety, security, and shelter of these specialized inpatient or partial hospitalization settings. (2) A hospital that provides medical and skilled nursing services to patients with long-term illnesses who are not in an acute phase but who require an intensity of services not available in nursing homes.
+    (1) A hospital including a physical plant and personnel that provides multidisciplinary diagnosis and treatment for diseases  that have one or more of the following characteristics: is permanent; leaves residual disability; is caused by nonreversible  pathological alteration; requires special training of the patient for rehabilitation; and/or may be expected to require a long  period of supervision or care. In addition, patients require the safety, security, and shelter of these specialized inpatient  or partial hospitalization settings. (2) A hospital that provides medical and skilled nursing services to patients with  long-term illnesses who are not in an acute phase but who require an intensity of services not available in nursing homes.
     """
 
     HOSPITALS_GENERAL_ACUTE_CARE_HOSPITAL = "GACH"
@@ -609,7 +609,7 @@ class ServiceFacilityType(str, enum.Enum):
 
     COMMUNITY_SERVICE_CENTER = "CSC"
     """
-    A location that plays the role of delivering services which may include providing front-line services to the population of a defined geographic area such as: healthcare services and social services.
+    A location that plays the role of delivering services which may include providing front-line services to the population of a  defined geographic area such as: healthcare services and social services.
     """
 
     PATIENTS_RESIDENCE = "PTRES"
@@ -624,7 +624,7 @@ class ServiceFacilityType(str, enum.Enum):
 
     UNDERAGE_PROTECTION_CENTER = "UPC"
     """
-    A location that plays the role of delivering services which may include: social emergency services required for a young person as required under any jurisdictional youth laws.
+    A location that plays the role of delivering services which may include:  social emergency services required for a young person as required under any jurisdictional youth laws.
     """
 
     WORK_SITE = "WORK"

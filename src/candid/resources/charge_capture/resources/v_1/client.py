@@ -60,10 +60,8 @@ class V1Client:
         data : ChargeCaptureData
             Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
 
-
         charge_external_id : str
             A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
-
 
         patient_external_id : str
             The patient ID from the external EMR platform for the patient
@@ -73,7 +71,6 @@ class V1Client:
 
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
-
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -96,9 +93,8 @@ class V1Client:
         )
         client.charge_capture.v_1.create(
             data=ChargeCaptureData(),
-            charge_external_id="string",
-            ehr_source_url="string",
-            patient_external_id="string",
+            charge_external_id="charge_external_id",
+            patient_external_id="patient_external_id",
             status=ChargeCaptureStatus.PLANNED,
         )
         """
@@ -280,11 +276,9 @@ class V1Client:
             for example, your internal encounter ID or a Dr. Chrono encounter ID.
             This field should not contain PHI.
 
-
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page).
             Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
-
 
         patient_external_id : typing.Optional[str]
             The patient ID from the external EMR platform for the patient
@@ -304,10 +298,6 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import (
-            ChargeCaptureData,
-            ChargeCaptureStatus,
-        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -317,11 +307,6 @@ class V1Client:
             charge_capture_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            data=ChargeCaptureData(),
-            charge_external_id="string",
-            ehr_source_url="string",
-            patient_external_id="string",
-            status=ChargeCaptureStatus.PLANNED,
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -614,71 +599,13 @@ class V1Client:
 
         Examples
         --------
-        import datetime
-        import uuid
-
         from candid import CandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import (
-            ChargeCaptureSortField,
-            ChargeCaptureStatus,
-        )
-        from candid.resources.commons import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.charge_capture.v_1.get_all(
-            limit=1,
-            sort=ChargeCaptureSortField.CREATED_AT,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            patient_external_id="string",
-            status=ChargeCaptureStatus.PLANNED,
-            charge_external_id="string",
-            date_of_service_min=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            date_of_service_max=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            claim_ids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            claim_creation_ids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            billing_provider_npis="string",
-            service_facility_name="string",
-            primary_payer_ids="string",
-            rendering_provider_npis="string",
-            rendering_provider_names="string",
-            supervising_provider_npis="string",
-            supervising_provider_names="string",
-            exclude_charges_linked_to_claims=True,
-            patient_external_id_ranked_sort="string",
-            status_ranked_sort=ChargeCaptureStatus.PLANNED,
-            charge_external_id_ranked_sort="string",
-            date_of_service_min_ranked_sort=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            date_of_service_max_ranked_sort=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            claim_ids_ranked_sort=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            claim_creation_ids_ranked_sort=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            billing_provider_npis_ranked_sort="string",
-            service_facility_name_ranked_sort="string",
-            primary_payer_ids_ranked_sort="string",
-            rendering_provider_npis_ranked_sort="string",
-            rendering_provider_names_ranked_sort="string",
-            supervising_provider_npis_ranked_sort="string",
-            supervising_provider_names_ranked_sort="string",
-        )
+        client.charge_capture.v_1.get_all()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/charge_captures/v1",
@@ -753,11 +680,9 @@ class V1Client:
             A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
             All of the charges sent will be marked as resolved
 
-
         resolved : bool
             Whether the change has been resolved. If true, the change will be marked as resolved.
             If false, the change will be marked as unresolved.
-
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -780,7 +705,10 @@ class V1Client:
             charge_capture_change_ids=[
                 uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
+                ),
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
             ],
             resolved=True,
         )
@@ -852,10 +780,8 @@ class AsyncV1Client:
         data : ChargeCaptureData
             Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
 
-
         charge_external_id : str
             A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
-
 
         patient_external_id : str
             The patient ID from the external EMR platform for the patient
@@ -865,7 +791,6 @@ class AsyncV1Client:
 
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
-
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -893,9 +818,8 @@ class AsyncV1Client:
         async def main() -> None:
             await client.charge_capture.v_1.create(
                 data=ChargeCaptureData(),
-                charge_external_id="string",
-                ehr_source_url="string",
-                patient_external_id="string",
+                charge_external_id="charge_external_id",
+                patient_external_id="patient_external_id",
                 status=ChargeCaptureStatus.PLANNED,
             )
 
@@ -1087,11 +1011,9 @@ class AsyncV1Client:
             for example, your internal encounter ID or a Dr. Chrono encounter ID.
             This field should not contain PHI.
 
-
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page).
             Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
-
 
         patient_external_id : typing.Optional[str]
             The patient ID from the external EMR platform for the patient
@@ -1112,10 +1034,6 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import (
-            ChargeCaptureData,
-            ChargeCaptureStatus,
-        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1128,11 +1046,6 @@ class AsyncV1Client:
                 charge_capture_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                data=ChargeCaptureData(),
-                charge_external_id="string",
-                ehr_source_url="string",
-                patient_external_id="string",
-                status=ChargeCaptureStatus.PLANNED,
             )
 
 
@@ -1436,15 +1349,8 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
-        import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import (
-            ChargeCaptureSortField,
-            ChargeCaptureStatus,
-        )
-        from candid.resources.commons import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1453,57 +1359,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.charge_capture.v_1.get_all(
-                limit=1,
-                sort=ChargeCaptureSortField.CREATED_AT,
-                sort_direction=SortDirection.ASC,
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                patient_external_id="string",
-                status=ChargeCaptureStatus.PLANNED,
-                charge_external_id="string",
-                date_of_service_min=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                date_of_service_max=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                claim_ids=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                claim_creation_ids=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                billing_provider_npis="string",
-                service_facility_name="string",
-                primary_payer_ids="string",
-                rendering_provider_npis="string",
-                rendering_provider_names="string",
-                supervising_provider_npis="string",
-                supervising_provider_names="string",
-                exclude_charges_linked_to_claims=True,
-                patient_external_id_ranked_sort="string",
-                status_ranked_sort=ChargeCaptureStatus.PLANNED,
-                charge_external_id_ranked_sort="string",
-                date_of_service_min_ranked_sort=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                date_of_service_max_ranked_sort=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                claim_ids_ranked_sort=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                claim_creation_ids_ranked_sort=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                billing_provider_npis_ranked_sort="string",
-                service_facility_name_ranked_sort="string",
-                primary_payer_ids_ranked_sort="string",
-                rendering_provider_npis_ranked_sort="string",
-                rendering_provider_names_ranked_sort="string",
-                supervising_provider_npis_ranked_sort="string",
-                supervising_provider_names_ranked_sort="string",
-            )
+            await client.charge_capture.v_1.get_all()
 
 
         asyncio.run(main())
@@ -1581,11 +1437,9 @@ class AsyncV1Client:
             A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
             All of the charges sent will be marked as resolved
 
-
         resolved : bool
             Whether the change has been resolved. If true, the change will be marked as resolved.
             If false, the change will be marked as unresolved.
-
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1612,7 +1466,10 @@ class AsyncV1Client:
                 charge_capture_change_ids=[
                     uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    )
+                    ),
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
                 ],
                 resolved=True,
             )

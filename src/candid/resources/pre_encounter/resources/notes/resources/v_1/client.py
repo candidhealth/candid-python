@@ -44,7 +44,7 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.notes.v_1.get(
-            id="string",
+            id="id",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -95,9 +95,7 @@ class V1Client:
         )
         client.pre_encounter.notes.v_1.create(
             request=MutableNote(
-                value="string",
-                author_email="string",
-                author_name="string",
+                value="value",
             ),
         )
         """
@@ -156,12 +154,10 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.notes.v_1.update(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
             request=MutableNote(
-                value="string",
-                author_email="string",
-                author_name="string",
+                value="value",
             ),
         )
         """
@@ -189,7 +185,7 @@ class V1Client:
 
     def deactivate(self, id: NoteId, version: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
-        Sets a note as deactivated. The path must contain the most recent version to prevent races.
+        Sets a note as deactivated.  The path must contain the most recent version to prevent races.
 
         Parameters
         ----------
@@ -213,8 +209,8 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.notes.v_1.deactivate(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -265,7 +261,7 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.notes.v_1.get(
-                id="string",
+                id="id",
             )
 
 
@@ -324,9 +320,7 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.notes.v_1.create(
                 request=MutableNote(
-                    value="string",
-                    author_email="string",
-                    author_name="string",
+                    value="value",
                 ),
             )
 
@@ -393,12 +387,10 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.notes.v_1.update(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
                 request=MutableNote(
-                    value="string",
-                    author_email="string",
-                    author_name="string",
+                    value="value",
                 ),
             )
 
@@ -431,7 +423,7 @@ class AsyncV1Client:
         self, id: NoteId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets a note as deactivated. The path must contain the most recent version to prevent races.
+        Sets a note as deactivated.  The path must contain the most recent version to prevent races.
 
         Parameters
         ----------
@@ -460,8 +452,8 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.notes.v_1.deactivate(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
             )
 
 

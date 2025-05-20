@@ -87,7 +87,7 @@ class V2Client:
                     payer_uuid=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    member_id="string",
+                    member_id="member_id",
                     insurance_type=InsuranceType(
                         line_of_business=LineOfBusiness.MEDICARE,
                         insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
@@ -96,18 +96,16 @@ class V2Client:
                     ),
                 ),
                 patient_address=StreetAddressShortZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
+                    address_1="address1",
+                    city="city",
+                    state=State.AA,
+                    zip_code="zip_code",
                 ),
                 billing_provider_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 organization_service_facility_id=uuid.UUID(
-                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
@@ -210,7 +208,7 @@ class V2Client:
                     payer_uuid=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    member_id="string",
+                    member_id="member_id",
                     insurance_type=InsuranceType(
                         line_of_business=LineOfBusiness.MEDICARE,
                         insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
@@ -219,18 +217,16 @@ class V2Client:
                     ),
                 ),
                 patient_address=StreetAddressShortZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
+                    address_1="address1",
+                    city="city",
+                    state=State.AA,
+                    zip_code="zip_code",
                 ),
                 billing_provider_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 organization_service_facility_id=uuid.UUID(
-                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
@@ -351,7 +347,7 @@ class AsyncV2Client:
                         payer_uuid=uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ),
-                        member_id="string",
+                        member_id="member_id",
                         insurance_type=InsuranceType(
                             line_of_business=LineOfBusiness.MEDICARE,
                             insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
@@ -360,18 +356,16 @@ class AsyncV2Client:
                         ),
                     ),
                     patient_address=StreetAddressShortZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
+                        address_1="address1",
+                        city="city",
+                        state=State.AA,
+                        zip_code="zip_code",
                     ),
                     billing_provider_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
                     organization_service_facility_id=uuid.UUID(
-                        "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
                     date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",
@@ -481,7 +475,7 @@ class AsyncV2Client:
                         payer_uuid=uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ),
-                        member_id="string",
+                        member_id="member_id",
                         insurance_type=InsuranceType(
                             line_of_business=LineOfBusiness.MEDICARE,
                             insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
@@ -490,18 +484,16 @@ class AsyncV2Client:
                         ),
                     ),
                     patient_address=StreetAddressShortZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
+                        address_1="address1",
+                        city="city",
+                        state=State.AA,
+                        zip_code="zip_code",
                     ),
                     billing_provider_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
                     organization_service_facility_id=uuid.UUID(
-                        "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
                     date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",

@@ -20,15 +20,12 @@ A full reference for this library is available [here](./reference.md).
 Instantiate and use the client with the following:
 
 ```python
-import datetime
-
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
     MemberInfo,
 )
 from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
     EligibilityRequest,
-    Encounter,
     IndividualProvider,
 )
 
@@ -38,33 +35,13 @@ client = CandidApiClient(
 )
 client.pre_encounter.eligibility_checks.v_1.post(
     request=EligibilityRequest(
-        payer_id="string",
+        payer_id="payer_id",
         provider=IndividualProvider(
-            first_name="string",
-            last_name="string",
-            npi="string",
+            npi="npi",
         ),
         subscriber=MemberInfo(
-            member_id="string",
-            first_name="string",
-            last_name="string",
-            date_of_birth=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-        ),
-        dependent=MemberInfo(
-            member_id="string",
-            first_name="string",
-            last_name="string",
-            date_of_birth=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-        ),
-        encounter=Encounter(
-            date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            service_type_codes=["string"],
+            first_name="first_name",
+            last_name="last_name",
         ),
     ),
 )
@@ -76,7 +53,6 @@ The SDK also exports an `async` client so that you can make non-blocking calls t
 
 ```python
 import asyncio
-import datetime
 
 from candid import AsyncCandidApiClient
 from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
@@ -84,7 +60,6 @@ from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
 )
 from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
     EligibilityRequest,
-    Encounter,
     IndividualProvider,
 )
 
@@ -97,33 +72,13 @@ client = AsyncCandidApiClient(
 async def main() -> None:
     await client.pre_encounter.eligibility_checks.v_1.post(
         request=EligibilityRequest(
-            payer_id="string",
+            payer_id="payer_id",
             provider=IndividualProvider(
-                first_name="string",
-                last_name="string",
-                npi="string",
+                npi="npi",
             ),
             subscriber=MemberInfo(
-                member_id="string",
-                first_name="string",
-                last_name="string",
-                date_of_birth=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-            ),
-            dependent=MemberInfo(
-                member_id="string",
-                first_name="string",
-                last_name="string",
-                date_of_birth=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-            ),
-            encounter=Encounter(
-                date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                service_type_codes=["string"],
+                first_name="first_name",
+                last_name="last_name",
             ),
         ),
     )

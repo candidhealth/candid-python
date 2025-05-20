@@ -60,7 +60,6 @@ class V2Client:
             encounter_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            text="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -196,7 +195,7 @@ class V2Client:
             billing_note_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            text="string",
+            text="text",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -305,7 +304,6 @@ class AsyncV2Client:
                 encounter_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                text="string",
             )
 
 
@@ -455,7 +453,7 @@ class AsyncV2Client:
                 billing_note_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                text="string",
+                text="text",
             )
 
 

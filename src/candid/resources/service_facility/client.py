@@ -46,7 +46,6 @@ class ServiceFacilityClient:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.service_facility import EncounterServiceFacilityUpdate
 
         client = CandidApiClient(
@@ -57,17 +56,7 @@ class ServiceFacilityClient:
             service_facility_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            request=EncounterServiceFacilityUpdate(
-                organization_name="Test Organization",
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-            ),
+            request=EncounterServiceFacilityUpdate(),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -124,7 +113,6 @@ class AsyncServiceFacilityClient:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import State, StreetAddressLongZip
         from candid.resources.service_facility import EncounterServiceFacilityUpdate
 
         client = AsyncCandidApiClient(
@@ -138,17 +126,7 @@ class AsyncServiceFacilityClient:
                 service_facility_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                request=EncounterServiceFacilityUpdate(
-                    organization_name="Test Organization",
-                    address=StreetAddressLongZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
-                    ),
-                ),
+                request=EncounterServiceFacilityUpdate(),
             )
 
 

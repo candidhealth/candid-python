@@ -824,7 +824,7 @@ class Encounter(EncounterBase):
 
     referral_number: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+    Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
     """
 
     epsdt_referral: typing.Optional[EpsdtReferral] = pydantic.Field(default=None)

@@ -41,7 +41,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Adds a patient. VersionConflictError is returned when the patient's external ID is already in use.
+        Adds a patient.  VersionConflictError is returned when the patient's external ID is already in use.
 
         Parameters
         ----------
@@ -63,37 +63,20 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
             Address,
             AddressUse,
-            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
-            DisabilityStatus,
-            Ethnicity,
-            ExternalIdentifier,
             ExternalProvider,
-            ExternalProviderType,
-            Gender,
             HumanName,
             NameUse,
-            Period,
-            Race,
             Relationship,
             Sex,
-            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
-            Authorization,
-            AuthorizationUnit,
             Contact,
-            DoNotInvoiceReason,
-            ExternalProvenance,
             FilingOrder,
-            Guarantor,
-            MaritalStatus,
             MutablePatient,
-            Referral,
         )
 
         client = CandidApiClient(
@@ -101,222 +84,188 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.create(
-            skip_duplicate_check=True,
             request=MutablePatient(
                 name=HumanName(
-                    family="string",
-                    given=["string"],
+                    family="family",
+                    given=["given", "given"],
                     use=NameUse.USUAL,
-                    period=Period(),
-                    suffix="string",
                 ),
                 other_names=[
                     HumanName(
-                        family="string",
-                        given=["string"],
+                        family="family",
+                        given=["given", "given"],
                         use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    )
+                    ),
+                    HumanName(
+                        family="family",
+                        given=["given", "given"],
+                        use=NameUse.USUAL,
+                    ),
                 ],
-                other_identifiers=[
-                    ExternalIdentifier(
-                        value="string",
-                        system="string",
-                    )
-                ],
-                gender=Gender.MAN,
                 birth_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                social_security_number="string",
                 biological_sex=Sex.FEMALE,
-                sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                pronouns=["string"],
-                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                disability_status=DisabilityStatus.DISABLED,
-                marital_status=MaritalStatus.ANNULLED,
-                deceased=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                multiple_birth=1,
                 primary_address=Address(
                     use=AddressUse.HOME,
-                    line=["string"],
-                    city="string",
-                    state="string",
-                    postal_code="string",
-                    country="string",
-                    period=Period(),
+                    line=["line", "line"],
+                    city="city",
+                    state="state",
+                    postal_code="postal_code",
+                    country="country",
                 ),
                 other_addresses=[
                     Address(
                         use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    )
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
                 ],
                 primary_telecom=ContactPoint(
-                    value="string",
+                    value="value",
                     use=ContactPointUse.HOME,
                 ),
                 other_telecoms=[
                     ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
-                    )
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
                 ],
-                email="string",
-                electronic_communication_opt_in=True,
-                photo="string",
-                language="string",
-                external_provenance=ExternalProvenance(
-                    external_id="string",
-                    system_name="string",
-                ),
                 contacts=[
                     Contact(
-                        relationship=[Relationship.SELF],
+                        relationship=[Relationship.SELF, Relationship.SELF],
                         name=HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
                         ),
                         telecoms=[
                             ContactPoint(
-                                value="string",
+                                value="value",
                                 use=ContactPointUse.HOME,
-                            )
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
                         ],
                         addresses=[
                             Address(
                                 use=AddressUse.HOME,
-                                line=["string"],
-                                city="string",
-                                state="string",
-                                postal_code="string",
-                                country="string",
-                                period=Period(),
-                            )
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
                         ],
-                        period=Period(),
-                        hipaa_authorization=True,
-                    )
+                    ),
+                    Contact(
+                        relationship=[Relationship.SELF, Relationship.SELF],
+                        name=HumanName(
+                            family="family",
+                            given=["given", "given"],
+                            use=NameUse.USUAL,
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                        ],
+                        addresses=[
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
+                        ],
+                    ),
                 ],
                 general_practitioners=[
                     ExternalProvider(
                         name=HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
                         ),
-                        type=ExternalProviderType.PRIMARY,
-                        npi="string",
                         telecoms=[
                             ContactPoint(
-                                value="string",
+                                value="value",
                                 use=ContactPointUse.HOME,
-                            )
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
                         ],
-                        addresses=[],
-                        period=Period(),
-                        canonical_id="string",
-                        fax="string",
-                    )
+                    ),
+                    ExternalProvider(
+                        name=HumanName(
+                            family="family",
+                            given=["given", "given"],
+                            use=NameUse.USUAL,
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                        ],
+                    ),
                 ],
                 filing_order=FilingOrder(
                     coverages=[
                         uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        )
+                        ),
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
                     ],
                 ),
-                non_insurance_payers=["string"],
-                non_insurance_payer_associations=[
-                    CanonicalNonInsurancePayerAssociation(
-                        id="string",
-                    )
-                ],
-                guarantor=Guarantor(
-                    name=HumanName(
-                        family="string",
-                        given=["string"],
-                        use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    ),
-                    telecom=ContactPoint(
-                        value="string",
-                        use=ContactPointUse.HOME,
-                    ),
-                    email="string",
-                    birth_date=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    address=Address(
-                        use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    ),
-                ),
-                self_pay=True,
-                authorizations=[
-                    Authorization(
-                        payer_id="string",
-                        payer_name="string",
-                        additional_payer_information=AdditionalPayerInformation(),
-                        authorization_number="string",
-                        cpt_code="string",
-                        apply_for_all_cpt_codes=True,
-                        units=AuthorizationUnit.VISIT,
-                        quantity=1,
-                        period=Period(),
-                        notes="string",
-                    )
-                ],
-                referrals=[
-                    Referral(
-                        provider=ExternalProvider(
-                            name=HumanName(
-                                family="string",
-                                given=["string"],
-                                use=NameUse.USUAL,
-                                period=Period(),
-                                suffix="string",
-                            ),
-                            type=ExternalProviderType.PRIMARY,
-                            npi="string",
-                            telecoms=[
-                                ContactPoint(
-                                    value="string",
-                                    use=ContactPointUse.HOME,
-                                )
-                            ],
-                            addresses=[],
-                            period=Period(),
-                            canonical_id="string",
-                            fax="string",
-                        ),
-                        referral_number="string",
-                    )
-                ],
-                primary_service_facility_id="string",
-                do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
-                note_ids=["string"],
-                tag_ids=["string"],
             ),
         )
         """
@@ -364,7 +313,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+        Adds a patient and hydrates their MRN with a pre-existing MRN.  Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
 
         Parameters
         ----------
@@ -386,37 +335,20 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
             Address,
             AddressUse,
-            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
-            DisabilityStatus,
-            Ethnicity,
-            ExternalIdentifier,
             ExternalProvider,
-            ExternalProviderType,
-            Gender,
             HumanName,
             NameUse,
-            Period,
-            Race,
             Relationship,
             Sex,
-            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
-            Authorization,
-            AuthorizationUnit,
             Contact,
-            DoNotInvoiceReason,
-            ExternalProvenance,
             FilingOrder,
-            Guarantor,
-            MaritalStatus,
             MutablePatientWithMrn,
-            Referral,
         )
 
         client = CandidApiClient(
@@ -424,223 +356,189 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.create_with_mrn(
-            skip_duplicate_check=True,
             request=MutablePatientWithMrn(
-                mrn="string",
                 name=HumanName(
-                    family="string",
-                    given=["string"],
+                    family="family",
+                    given=["given", "given"],
                     use=NameUse.USUAL,
-                    period=Period(),
-                    suffix="string",
                 ),
                 other_names=[
                     HumanName(
-                        family="string",
-                        given=["string"],
+                        family="family",
+                        given=["given", "given"],
                         use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    )
+                    ),
+                    HumanName(
+                        family="family",
+                        given=["given", "given"],
+                        use=NameUse.USUAL,
+                    ),
                 ],
-                other_identifiers=[
-                    ExternalIdentifier(
-                        value="string",
-                        system="string",
-                    )
-                ],
-                gender=Gender.MAN,
                 birth_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                social_security_number="string",
                 biological_sex=Sex.FEMALE,
-                sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                pronouns=["string"],
-                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                disability_status=DisabilityStatus.DISABLED,
-                marital_status=MaritalStatus.ANNULLED,
-                deceased=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                multiple_birth=1,
                 primary_address=Address(
                     use=AddressUse.HOME,
-                    line=["string"],
-                    city="string",
-                    state="string",
-                    postal_code="string",
-                    country="string",
-                    period=Period(),
+                    line=["line", "line"],
+                    city="city",
+                    state="state",
+                    postal_code="postal_code",
+                    country="country",
                 ),
                 other_addresses=[
                     Address(
                         use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    )
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
                 ],
                 primary_telecom=ContactPoint(
-                    value="string",
+                    value="value",
                     use=ContactPointUse.HOME,
                 ),
                 other_telecoms=[
                     ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
-                    )
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
                 ],
-                email="string",
-                electronic_communication_opt_in=True,
-                photo="string",
-                language="string",
-                external_provenance=ExternalProvenance(
-                    external_id="string",
-                    system_name="string",
-                ),
                 contacts=[
                     Contact(
-                        relationship=[Relationship.SELF],
+                        relationship=[Relationship.SELF, Relationship.SELF],
                         name=HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
                         ),
                         telecoms=[
                             ContactPoint(
-                                value="string",
+                                value="value",
                                 use=ContactPointUse.HOME,
-                            )
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
                         ],
                         addresses=[
                             Address(
                                 use=AddressUse.HOME,
-                                line=["string"],
-                                city="string",
-                                state="string",
-                                postal_code="string",
-                                country="string",
-                                period=Period(),
-                            )
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
                         ],
-                        period=Period(),
-                        hipaa_authorization=True,
-                    )
+                    ),
+                    Contact(
+                        relationship=[Relationship.SELF, Relationship.SELF],
+                        name=HumanName(
+                            family="family",
+                            given=["given", "given"],
+                            use=NameUse.USUAL,
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                        ],
+                        addresses=[
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
+                        ],
+                    ),
                 ],
                 general_practitioners=[
                     ExternalProvider(
                         name=HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
                         ),
-                        type=ExternalProviderType.PRIMARY,
-                        npi="string",
                         telecoms=[
                             ContactPoint(
-                                value="string",
+                                value="value",
                                 use=ContactPointUse.HOME,
-                            )
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
                         ],
-                        addresses=[],
-                        period=Period(),
-                        canonical_id="string",
-                        fax="string",
-                    )
+                    ),
+                    ExternalProvider(
+                        name=HumanName(
+                            family="family",
+                            given=["given", "given"],
+                            use=NameUse.USUAL,
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                        ],
+                    ),
                 ],
                 filing_order=FilingOrder(
                     coverages=[
                         uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        )
+                        ),
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
                     ],
                 ),
-                non_insurance_payers=["string"],
-                non_insurance_payer_associations=[
-                    CanonicalNonInsurancePayerAssociation(
-                        id="string",
-                    )
-                ],
-                guarantor=Guarantor(
-                    name=HumanName(
-                        family="string",
-                        given=["string"],
-                        use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    ),
-                    telecom=ContactPoint(
-                        value="string",
-                        use=ContactPointUse.HOME,
-                    ),
-                    email="string",
-                    birth_date=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    address=Address(
-                        use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    ),
-                ),
-                self_pay=True,
-                authorizations=[
-                    Authorization(
-                        payer_id="string",
-                        payer_name="string",
-                        additional_payer_information=AdditionalPayerInformation(),
-                        authorization_number="string",
-                        cpt_code="string",
-                        apply_for_all_cpt_codes=True,
-                        units=AuthorizationUnit.VISIT,
-                        quantity=1,
-                        period=Period(),
-                        notes="string",
-                    )
-                ],
-                referrals=[
-                    Referral(
-                        provider=ExternalProvider(
-                            name=HumanName(
-                                family="string",
-                                given=["string"],
-                                use=NameUse.USUAL,
-                                period=Period(),
-                                suffix="string",
-                            ),
-                            type=ExternalProviderType.PRIMARY,
-                            npi="string",
-                            telecoms=[
-                                ContactPoint(
-                                    value="string",
-                                    use=ContactPointUse.HOME,
-                                )
-                            ],
-                            addresses=[],
-                            period=Period(),
-                            canonical_id="string",
-                            fax="string",
-                        ),
-                        referral_number="string",
-                    )
-                ],
-                primary_service_facility_id="string",
-                do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
-                note_ids=["string"],
-                tag_ids=["string"],
+                mrn="mrn",
             ),
         )
         """
@@ -726,19 +624,12 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
-        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.pre_encounter.patients.v_1.get_multi(
-            limit=1,
-            mrn="string",
-            page_token="string",
-            sort_field="string",
-            sort_direction=SortDirection.ASC,
-        )
+        client.pre_encounter.patients.v_1.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "patients/v1/get_multi",
@@ -771,7 +662,7 @@ class V1Client:
         self, *, search_criteria: str, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[ExternalProvider]:
         """
-        Searches for referring providers that match the query parameters. The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
+        Searches for referring providers that match the query parameters.  The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
 
         Parameters
         ----------
@@ -793,7 +684,7 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.search_providers(
-            search_criteria="string",
+            search_criteria="search_criteria",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -843,7 +734,7 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.get(
-            id="string",
+            id="id",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -881,7 +772,7 @@ class V1Client:
         self, id: PatientId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Patient]:
         """
-        Gets a patient along with it's full history. The return list is ordered by version ascending.
+        Gets a patient along with it's full history.  The return list is ordered by version ascending.
 
         Parameters
         ----------
@@ -903,7 +794,7 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.get_history(
-            id="string",
+            id="id",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -946,7 +837,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Updates a patient. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+        Updates a patient.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -970,37 +861,20 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
             Address,
             AddressUse,
-            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
-            DisabilityStatus,
-            Ethnicity,
-            ExternalIdentifier,
             ExternalProvider,
-            ExternalProviderType,
-            Gender,
             HumanName,
             NameUse,
-            Period,
-            Race,
             Relationship,
             Sex,
-            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
-            Authorization,
-            AuthorizationUnit,
             Contact,
-            DoNotInvoiceReason,
-            ExternalProvenance,
             FilingOrder,
-            Guarantor,
-            MaritalStatus,
             MutablePatient,
-            Referral,
         )
 
         client = CandidApiClient(
@@ -1008,223 +882,190 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.update(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
             request=MutablePatient(
                 name=HumanName(
-                    family="string",
-                    given=["string"],
+                    family="family",
+                    given=["given", "given"],
                     use=NameUse.USUAL,
-                    period=Period(),
-                    suffix="string",
                 ),
                 other_names=[
                     HumanName(
-                        family="string",
-                        given=["string"],
+                        family="family",
+                        given=["given", "given"],
                         use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    )
+                    ),
+                    HumanName(
+                        family="family",
+                        given=["given", "given"],
+                        use=NameUse.USUAL,
+                    ),
                 ],
-                other_identifiers=[
-                    ExternalIdentifier(
-                        value="string",
-                        system="string",
-                    )
-                ],
-                gender=Gender.MAN,
                 birth_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                social_security_number="string",
                 biological_sex=Sex.FEMALE,
-                sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                pronouns=["string"],
-                race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                disability_status=DisabilityStatus.DISABLED,
-                marital_status=MaritalStatus.ANNULLED,
-                deceased=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                multiple_birth=1,
                 primary_address=Address(
                     use=AddressUse.HOME,
-                    line=["string"],
-                    city="string",
-                    state="string",
-                    postal_code="string",
-                    country="string",
-                    period=Period(),
+                    line=["line", "line"],
+                    city="city",
+                    state="state",
+                    postal_code="postal_code",
+                    country="country",
                 ),
                 other_addresses=[
                     Address(
                         use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    )
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
                 ],
                 primary_telecom=ContactPoint(
-                    value="string",
+                    value="value",
                     use=ContactPointUse.HOME,
                 ),
                 other_telecoms=[
                     ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
-                    )
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
                 ],
-                email="string",
-                electronic_communication_opt_in=True,
-                photo="string",
-                language="string",
-                external_provenance=ExternalProvenance(
-                    external_id="string",
-                    system_name="string",
-                ),
                 contacts=[
                     Contact(
-                        relationship=[Relationship.SELF],
+                        relationship=[Relationship.SELF, Relationship.SELF],
                         name=HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
                         ),
                         telecoms=[
                             ContactPoint(
-                                value="string",
+                                value="value",
                                 use=ContactPointUse.HOME,
-                            )
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
                         ],
                         addresses=[
                             Address(
                                 use=AddressUse.HOME,
-                                line=["string"],
-                                city="string",
-                                state="string",
-                                postal_code="string",
-                                country="string",
-                                period=Period(),
-                            )
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
                         ],
-                        period=Period(),
-                        hipaa_authorization=True,
-                    )
+                    ),
+                    Contact(
+                        relationship=[Relationship.SELF, Relationship.SELF],
+                        name=HumanName(
+                            family="family",
+                            given=["given", "given"],
+                            use=NameUse.USUAL,
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                        ],
+                        addresses=[
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
+                            Address(
+                                use=AddressUse.HOME,
+                                line=["line", "line"],
+                                city="city",
+                                state="state",
+                                postal_code="postal_code",
+                                country="country",
+                            ),
+                        ],
+                    ),
                 ],
                 general_practitioners=[
                     ExternalProvider(
                         name=HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
                         ),
-                        type=ExternalProviderType.PRIMARY,
-                        npi="string",
                         telecoms=[
                             ContactPoint(
-                                value="string",
+                                value="value",
                                 use=ContactPointUse.HOME,
-                            )
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
                         ],
-                        addresses=[],
-                        period=Period(),
-                        canonical_id="string",
-                        fax="string",
-                    )
+                    ),
+                    ExternalProvider(
+                        name=HumanName(
+                            family="family",
+                            given=["given", "given"],
+                            use=NameUse.USUAL,
+                        ),
+                        telecoms=[
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                            ContactPoint(
+                                value="value",
+                                use=ContactPointUse.HOME,
+                            ),
+                        ],
+                    ),
                 ],
                 filing_order=FilingOrder(
                     coverages=[
                         uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        )
+                        ),
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
                     ],
                 ),
-                non_insurance_payers=["string"],
-                non_insurance_payer_associations=[
-                    CanonicalNonInsurancePayerAssociation(
-                        id="string",
-                    )
-                ],
-                guarantor=Guarantor(
-                    name=HumanName(
-                        family="string",
-                        given=["string"],
-                        use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    ),
-                    telecom=ContactPoint(
-                        value="string",
-                        use=ContactPointUse.HOME,
-                    ),
-                    email="string",
-                    birth_date=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    address=Address(
-                        use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    ),
-                ),
-                self_pay=True,
-                authorizations=[
-                    Authorization(
-                        payer_id="string",
-                        payer_name="string",
-                        additional_payer_information=AdditionalPayerInformation(),
-                        authorization_number="string",
-                        cpt_code="string",
-                        apply_for_all_cpt_codes=True,
-                        units=AuthorizationUnit.VISIT,
-                        quantity=1,
-                        period=Period(),
-                        notes="string",
-                    )
-                ],
-                referrals=[
-                    Referral(
-                        provider=ExternalProvider(
-                            name=HumanName(
-                                family="string",
-                                given=["string"],
-                                use=NameUse.USUAL,
-                                period=Period(),
-                                suffix="string",
-                            ),
-                            type=ExternalProviderType.PRIMARY,
-                            npi="string",
-                            telecoms=[
-                                ContactPoint(
-                                    value="string",
-                                    use=ContactPointUse.HOME,
-                                )
-                            ],
-                            addresses=[],
-                            period=Period(),
-                            canonical_id="string",
-                            fax="string",
-                        ),
-                        referral_number="string",
-                    )
-                ],
-                primary_service_facility_id="string",
-                do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
-                note_ids=["string"],
-                tag_ids=["string"],
             ),
         )
         """
@@ -1275,7 +1116,7 @@ class V1Client:
         self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets a patient as deactivated. The path must contain the most recent version plus 1 to prevent race conditions. Deactivating historic versions is not supported.
+        Sets a patient as deactivated.  The path must contain the most recent version plus 1 to prevent race conditions.  Deactivating historic versions is not supported.
 
         Parameters
         ----------
@@ -1299,8 +1140,8 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.deactivate(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1342,7 +1183,7 @@ class V1Client:
         self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Removes the deactivated flag for a patient. The path must contain the most recent version plus 1 to prevent race conditions. Reactivating historic versions is not supported.
+        Removes the deactivated flag for a patient.  The path must contain the most recent version plus 1 to prevent race conditions.  Reactivating historic versions is not supported.
 
         Parameters
         ----------
@@ -1366,8 +1207,8 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.patients.v_1.reactivate(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -1437,10 +1278,7 @@ class V1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.pre_encounter.patients.v_1.search(
-            mrn="string",
-            similar_name_ordering="string",
-        )
+        client.pre_encounter.patients.v_1.search()
         """
         _response = self._client_wrapper.httpx_client.request(
             "patients/v1",
@@ -1470,7 +1308,7 @@ class V1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Patient]:
         """
-        Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+        Scans up to 100 patient updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------
@@ -1535,7 +1373,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Adds a patient. VersionConflictError is returned when the patient's external ID is already in use.
+        Adds a patient.  VersionConflictError is returned when the patient's external ID is already in use.
 
         Parameters
         ----------
@@ -1558,37 +1396,20 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
             Address,
             AddressUse,
-            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
-            DisabilityStatus,
-            Ethnicity,
-            ExternalIdentifier,
             ExternalProvider,
-            ExternalProviderType,
-            Gender,
             HumanName,
             NameUse,
-            Period,
-            Race,
             Relationship,
             Sex,
-            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
-            Authorization,
-            AuthorizationUnit,
             Contact,
-            DoNotInvoiceReason,
-            ExternalProvenance,
             FilingOrder,
-            Guarantor,
-            MaritalStatus,
             MutablePatient,
-            Referral,
         )
 
         client = AsyncCandidApiClient(
@@ -1599,222 +1420,188 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.create(
-                skip_duplicate_check=True,
                 request=MutablePatient(
                     name=HumanName(
-                        family="string",
-                        given=["string"],
+                        family="family",
+                        given=["given", "given"],
                         use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
                     ),
                     other_names=[
                         HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
-                        )
+                        ),
+                        HumanName(
+                            family="family",
+                            given=["given", "given"],
+                            use=NameUse.USUAL,
+                        ),
                     ],
-                    other_identifiers=[
-                        ExternalIdentifier(
-                            value="string",
-                            system="string",
-                        )
-                    ],
-                    gender=Gender.MAN,
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    social_security_number="string",
                     biological_sex=Sex.FEMALE,
-                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                    pronouns=["string"],
-                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                    disability_status=DisabilityStatus.DISABLED,
-                    marital_status=MaritalStatus.ANNULLED,
-                    deceased=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    multiple_birth=1,
                     primary_address=Address(
                         use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
                     ),
                     other_addresses=[
                         Address(
                             use=AddressUse.HOME,
-                            line=["string"],
-                            city="string",
-                            state="string",
-                            postal_code="string",
-                            country="string",
-                            period=Period(),
-                        )
+                            line=["line", "line"],
+                            city="city",
+                            state="state",
+                            postal_code="postal_code",
+                            country="country",
+                        ),
+                        Address(
+                            use=AddressUse.HOME,
+                            line=["line", "line"],
+                            city="city",
+                            state="state",
+                            postal_code="postal_code",
+                            country="country",
+                        ),
                     ],
                     primary_telecom=ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
                     ),
                     other_telecoms=[
                         ContactPoint(
-                            value="string",
+                            value="value",
                             use=ContactPointUse.HOME,
-                        )
+                        ),
+                        ContactPoint(
+                            value="value",
+                            use=ContactPointUse.HOME,
+                        ),
                     ],
-                    email="string",
-                    electronic_communication_opt_in=True,
-                    photo="string",
-                    language="string",
-                    external_provenance=ExternalProvenance(
-                        external_id="string",
-                        system_name="string",
-                    ),
                     contacts=[
                         Contact(
-                            relationship=[Relationship.SELF],
+                            relationship=[Relationship.SELF, Relationship.SELF],
                             name=HumanName(
-                                family="string",
-                                given=["string"],
+                                family="family",
+                                given=["given", "given"],
                                 use=NameUse.USUAL,
-                                period=Period(),
-                                suffix="string",
                             ),
                             telecoms=[
                                 ContactPoint(
-                                    value="string",
+                                    value="value",
                                     use=ContactPointUse.HOME,
-                                )
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
                             ],
                             addresses=[
                                 Address(
                                     use=AddressUse.HOME,
-                                    line=["string"],
-                                    city="string",
-                                    state="string",
-                                    postal_code="string",
-                                    country="string",
-                                    period=Period(),
-                                )
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
                             ],
-                            period=Period(),
-                            hipaa_authorization=True,
-                        )
+                        ),
+                        Contact(
+                            relationship=[Relationship.SELF, Relationship.SELF],
+                            name=HumanName(
+                                family="family",
+                                given=["given", "given"],
+                                use=NameUse.USUAL,
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                            ],
+                            addresses=[
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
+                            ],
+                        ),
                     ],
                     general_practitioners=[
                         ExternalProvider(
                             name=HumanName(
-                                family="string",
-                                given=["string"],
+                                family="family",
+                                given=["given", "given"],
                                 use=NameUse.USUAL,
-                                period=Period(),
-                                suffix="string",
                             ),
-                            type=ExternalProviderType.PRIMARY,
-                            npi="string",
                             telecoms=[
                                 ContactPoint(
-                                    value="string",
+                                    value="value",
                                     use=ContactPointUse.HOME,
-                                )
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
                             ],
-                            addresses=[],
-                            period=Period(),
-                            canonical_id="string",
-                            fax="string",
-                        )
+                        ),
+                        ExternalProvider(
+                            name=HumanName(
+                                family="family",
+                                given=["given", "given"],
+                                use=NameUse.USUAL,
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                            ],
+                        ),
                     ],
                     filing_order=FilingOrder(
                         coverages=[
                             uuid.UUID(
                                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                            )
+                            ),
+                            uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            ),
                         ],
                     ),
-                    non_insurance_payers=["string"],
-                    non_insurance_payer_associations=[
-                        CanonicalNonInsurancePayerAssociation(
-                            id="string",
-                        )
-                    ],
-                    guarantor=Guarantor(
-                        name=HumanName(
-                            family="string",
-                            given=["string"],
-                            use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
-                        ),
-                        telecom=ContactPoint(
-                            value="string",
-                            use=ContactPointUse.HOME,
-                        ),
-                        email="string",
-                        birth_date=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        address=Address(
-                            use=AddressUse.HOME,
-                            line=["string"],
-                            city="string",
-                            state="string",
-                            postal_code="string",
-                            country="string",
-                            period=Period(),
-                        ),
-                    ),
-                    self_pay=True,
-                    authorizations=[
-                        Authorization(
-                            payer_id="string",
-                            payer_name="string",
-                            additional_payer_information=AdditionalPayerInformation(),
-                            authorization_number="string",
-                            cpt_code="string",
-                            apply_for_all_cpt_codes=True,
-                            units=AuthorizationUnit.VISIT,
-                            quantity=1,
-                            period=Period(),
-                            notes="string",
-                        )
-                    ],
-                    referrals=[
-                        Referral(
-                            provider=ExternalProvider(
-                                name=HumanName(
-                                    family="string",
-                                    given=["string"],
-                                    use=NameUse.USUAL,
-                                    period=Period(),
-                                    suffix="string",
-                                ),
-                                type=ExternalProviderType.PRIMARY,
-                                npi="string",
-                                telecoms=[
-                                    ContactPoint(
-                                        value="string",
-                                        use=ContactPointUse.HOME,
-                                    )
-                                ],
-                                addresses=[],
-                                period=Period(),
-                                canonical_id="string",
-                                fax="string",
-                            ),
-                            referral_number="string",
-                        )
-                    ],
-                    primary_service_facility_id="string",
-                    do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
-                    note_ids=["string"],
-                    tag_ids=["string"],
                 ),
             )
 
@@ -1865,7 +1652,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+        Adds a patient and hydrates their MRN with a pre-existing MRN.  Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
 
         Parameters
         ----------
@@ -1888,37 +1675,20 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
             Address,
             AddressUse,
-            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
-            DisabilityStatus,
-            Ethnicity,
-            ExternalIdentifier,
             ExternalProvider,
-            ExternalProviderType,
-            Gender,
             HumanName,
             NameUse,
-            Period,
-            Race,
             Relationship,
             Sex,
-            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
-            Authorization,
-            AuthorizationUnit,
             Contact,
-            DoNotInvoiceReason,
-            ExternalProvenance,
             FilingOrder,
-            Guarantor,
-            MaritalStatus,
             MutablePatientWithMrn,
-            Referral,
         )
 
         client = AsyncCandidApiClient(
@@ -1929,223 +1699,189 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.create_with_mrn(
-                skip_duplicate_check=True,
                 request=MutablePatientWithMrn(
-                    mrn="string",
                     name=HumanName(
-                        family="string",
-                        given=["string"],
+                        family="family",
+                        given=["given", "given"],
                         use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
                     ),
                     other_names=[
                         HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
-                        )
+                        ),
+                        HumanName(
+                            family="family",
+                            given=["given", "given"],
+                            use=NameUse.USUAL,
+                        ),
                     ],
-                    other_identifiers=[
-                        ExternalIdentifier(
-                            value="string",
-                            system="string",
-                        )
-                    ],
-                    gender=Gender.MAN,
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    social_security_number="string",
                     biological_sex=Sex.FEMALE,
-                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                    pronouns=["string"],
-                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                    disability_status=DisabilityStatus.DISABLED,
-                    marital_status=MaritalStatus.ANNULLED,
-                    deceased=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    multiple_birth=1,
                     primary_address=Address(
                         use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
                     ),
                     other_addresses=[
                         Address(
                             use=AddressUse.HOME,
-                            line=["string"],
-                            city="string",
-                            state="string",
-                            postal_code="string",
-                            country="string",
-                            period=Period(),
-                        )
+                            line=["line", "line"],
+                            city="city",
+                            state="state",
+                            postal_code="postal_code",
+                            country="country",
+                        ),
+                        Address(
+                            use=AddressUse.HOME,
+                            line=["line", "line"],
+                            city="city",
+                            state="state",
+                            postal_code="postal_code",
+                            country="country",
+                        ),
                     ],
                     primary_telecom=ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
                     ),
                     other_telecoms=[
                         ContactPoint(
-                            value="string",
+                            value="value",
                             use=ContactPointUse.HOME,
-                        )
+                        ),
+                        ContactPoint(
+                            value="value",
+                            use=ContactPointUse.HOME,
+                        ),
                     ],
-                    email="string",
-                    electronic_communication_opt_in=True,
-                    photo="string",
-                    language="string",
-                    external_provenance=ExternalProvenance(
-                        external_id="string",
-                        system_name="string",
-                    ),
                     contacts=[
                         Contact(
-                            relationship=[Relationship.SELF],
+                            relationship=[Relationship.SELF, Relationship.SELF],
                             name=HumanName(
-                                family="string",
-                                given=["string"],
+                                family="family",
+                                given=["given", "given"],
                                 use=NameUse.USUAL,
-                                period=Period(),
-                                suffix="string",
                             ),
                             telecoms=[
                                 ContactPoint(
-                                    value="string",
+                                    value="value",
                                     use=ContactPointUse.HOME,
-                                )
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
                             ],
                             addresses=[
                                 Address(
                                     use=AddressUse.HOME,
-                                    line=["string"],
-                                    city="string",
-                                    state="string",
-                                    postal_code="string",
-                                    country="string",
-                                    period=Period(),
-                                )
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
                             ],
-                            period=Period(),
-                            hipaa_authorization=True,
-                        )
+                        ),
+                        Contact(
+                            relationship=[Relationship.SELF, Relationship.SELF],
+                            name=HumanName(
+                                family="family",
+                                given=["given", "given"],
+                                use=NameUse.USUAL,
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                            ],
+                            addresses=[
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
+                            ],
+                        ),
                     ],
                     general_practitioners=[
                         ExternalProvider(
                             name=HumanName(
-                                family="string",
-                                given=["string"],
+                                family="family",
+                                given=["given", "given"],
                                 use=NameUse.USUAL,
-                                period=Period(),
-                                suffix="string",
                             ),
-                            type=ExternalProviderType.PRIMARY,
-                            npi="string",
                             telecoms=[
                                 ContactPoint(
-                                    value="string",
+                                    value="value",
                                     use=ContactPointUse.HOME,
-                                )
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
                             ],
-                            addresses=[],
-                            period=Period(),
-                            canonical_id="string",
-                            fax="string",
-                        )
+                        ),
+                        ExternalProvider(
+                            name=HumanName(
+                                family="family",
+                                given=["given", "given"],
+                                use=NameUse.USUAL,
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                            ],
+                        ),
                     ],
                     filing_order=FilingOrder(
                         coverages=[
                             uuid.UUID(
                                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                            )
+                            ),
+                            uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            ),
                         ],
                     ),
-                    non_insurance_payers=["string"],
-                    non_insurance_payer_associations=[
-                        CanonicalNonInsurancePayerAssociation(
-                            id="string",
-                        )
-                    ],
-                    guarantor=Guarantor(
-                        name=HumanName(
-                            family="string",
-                            given=["string"],
-                            use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
-                        ),
-                        telecom=ContactPoint(
-                            value="string",
-                            use=ContactPointUse.HOME,
-                        ),
-                        email="string",
-                        birth_date=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        address=Address(
-                            use=AddressUse.HOME,
-                            line=["string"],
-                            city="string",
-                            state="string",
-                            postal_code="string",
-                            country="string",
-                            period=Period(),
-                        ),
-                    ),
-                    self_pay=True,
-                    authorizations=[
-                        Authorization(
-                            payer_id="string",
-                            payer_name="string",
-                            additional_payer_information=AdditionalPayerInformation(),
-                            authorization_number="string",
-                            cpt_code="string",
-                            apply_for_all_cpt_codes=True,
-                            units=AuthorizationUnit.VISIT,
-                            quantity=1,
-                            period=Period(),
-                            notes="string",
-                        )
-                    ],
-                    referrals=[
-                        Referral(
-                            provider=ExternalProvider(
-                                name=HumanName(
-                                    family="string",
-                                    given=["string"],
-                                    use=NameUse.USUAL,
-                                    period=Period(),
-                                    suffix="string",
-                                ),
-                                type=ExternalProviderType.PRIMARY,
-                                npi="string",
-                                telecoms=[
-                                    ContactPoint(
-                                        value="string",
-                                        use=ContactPointUse.HOME,
-                                    )
-                                ],
-                                addresses=[],
-                                period=Period(),
-                                canonical_id="string",
-                                fax="string",
-                            ),
-                            referral_number="string",
-                        )
-                    ],
-                    primary_service_facility_id="string",
-                    do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
-                    note_ids=["string"],
-                    tag_ids=["string"],
+                    mrn="mrn",
                 ),
             )
 
@@ -2236,7 +1972,6 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
-        from candid.resources.pre_encounter.resources.common import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -2245,13 +1980,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.pre_encounter.patients.v_1.get_multi(
-                limit=1,
-                mrn="string",
-                page_token="string",
-                sort_field="string",
-                sort_direction=SortDirection.ASC,
-            )
+            await client.pre_encounter.patients.v_1.get_multi()
 
 
         asyncio.run(main())
@@ -2287,7 +2016,7 @@ class AsyncV1Client:
         self, *, search_criteria: str, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[ExternalProvider]:
         """
-        Searches for referring providers that match the query parameters. The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
+        Searches for referring providers that match the query parameters.  The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
 
         Parameters
         ----------
@@ -2314,7 +2043,7 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.search_providers(
-                search_criteria="string",
+                search_criteria="search_criteria",
             )
 
 
@@ -2372,7 +2101,7 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.get(
-                id="string",
+                id="id",
             )
 
 
@@ -2413,7 +2142,7 @@ class AsyncV1Client:
         self, id: PatientId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Patient]:
         """
-        Gets a patient along with it's full history. The return list is ordered by version ascending.
+        Gets a patient along with it's full history.  The return list is ordered by version ascending.
 
         Parameters
         ----------
@@ -2440,7 +2169,7 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.get_history(
-                id="string",
+                id="id",
             )
 
 
@@ -2486,7 +2215,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Patient:
         """
-        Updates a patient. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+        Updates a patient.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -2511,37 +2240,20 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
             Address,
             AddressUse,
-            CanonicalNonInsurancePayerAssociation,
             ContactPoint,
             ContactPointUse,
-            DisabilityStatus,
-            Ethnicity,
-            ExternalIdentifier,
             ExternalProvider,
-            ExternalProviderType,
-            Gender,
             HumanName,
             NameUse,
-            Period,
-            Race,
             Relationship,
             Sex,
-            SexualOrientation,
         )
         from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
-            Authorization,
-            AuthorizationUnit,
             Contact,
-            DoNotInvoiceReason,
-            ExternalProvenance,
             FilingOrder,
-            Guarantor,
-            MaritalStatus,
             MutablePatient,
-            Referral,
         )
 
         client = AsyncCandidApiClient(
@@ -2552,223 +2264,190 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.update(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
                 request=MutablePatient(
                     name=HumanName(
-                        family="string",
-                        given=["string"],
+                        family="family",
+                        given=["given", "given"],
                         use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
                     ),
                     other_names=[
                         HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
-                        )
+                        ),
+                        HumanName(
+                            family="family",
+                            given=["given", "given"],
+                            use=NameUse.USUAL,
+                        ),
                     ],
-                    other_identifiers=[
-                        ExternalIdentifier(
-                            value="string",
-                            system="string",
-                        )
-                    ],
-                    gender=Gender.MAN,
                     birth_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    social_security_number="string",
                     biological_sex=Sex.FEMALE,
-                    sexual_orientation=SexualOrientation.HETEROSEXUAL,
-                    pronouns=["string"],
-                    race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-                    ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-                    disability_status=DisabilityStatus.DISABLED,
-                    marital_status=MaritalStatus.ANNULLED,
-                    deceased=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                    multiple_birth=1,
                     primary_address=Address(
                         use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
                     ),
                     other_addresses=[
                         Address(
                             use=AddressUse.HOME,
-                            line=["string"],
-                            city="string",
-                            state="string",
-                            postal_code="string",
-                            country="string",
-                            period=Period(),
-                        )
+                            line=["line", "line"],
+                            city="city",
+                            state="state",
+                            postal_code="postal_code",
+                            country="country",
+                        ),
+                        Address(
+                            use=AddressUse.HOME,
+                            line=["line", "line"],
+                            city="city",
+                            state="state",
+                            postal_code="postal_code",
+                            country="country",
+                        ),
                     ],
                     primary_telecom=ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
                     ),
                     other_telecoms=[
                         ContactPoint(
-                            value="string",
+                            value="value",
                             use=ContactPointUse.HOME,
-                        )
+                        ),
+                        ContactPoint(
+                            value="value",
+                            use=ContactPointUse.HOME,
+                        ),
                     ],
-                    email="string",
-                    electronic_communication_opt_in=True,
-                    photo="string",
-                    language="string",
-                    external_provenance=ExternalProvenance(
-                        external_id="string",
-                        system_name="string",
-                    ),
                     contacts=[
                         Contact(
-                            relationship=[Relationship.SELF],
+                            relationship=[Relationship.SELF, Relationship.SELF],
                             name=HumanName(
-                                family="string",
-                                given=["string"],
+                                family="family",
+                                given=["given", "given"],
                                 use=NameUse.USUAL,
-                                period=Period(),
-                                suffix="string",
                             ),
                             telecoms=[
                                 ContactPoint(
-                                    value="string",
+                                    value="value",
                                     use=ContactPointUse.HOME,
-                                )
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
                             ],
                             addresses=[
                                 Address(
                                     use=AddressUse.HOME,
-                                    line=["string"],
-                                    city="string",
-                                    state="string",
-                                    postal_code="string",
-                                    country="string",
-                                    period=Period(),
-                                )
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
                             ],
-                            period=Period(),
-                            hipaa_authorization=True,
-                        )
+                        ),
+                        Contact(
+                            relationship=[Relationship.SELF, Relationship.SELF],
+                            name=HumanName(
+                                family="family",
+                                given=["given", "given"],
+                                use=NameUse.USUAL,
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                            ],
+                            addresses=[
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
+                                Address(
+                                    use=AddressUse.HOME,
+                                    line=["line", "line"],
+                                    city="city",
+                                    state="state",
+                                    postal_code="postal_code",
+                                    country="country",
+                                ),
+                            ],
+                        ),
                     ],
                     general_practitioners=[
                         ExternalProvider(
                             name=HumanName(
-                                family="string",
-                                given=["string"],
+                                family="family",
+                                given=["given", "given"],
                                 use=NameUse.USUAL,
-                                period=Period(),
-                                suffix="string",
                             ),
-                            type=ExternalProviderType.PRIMARY,
-                            npi="string",
                             telecoms=[
                                 ContactPoint(
-                                    value="string",
+                                    value="value",
                                     use=ContactPointUse.HOME,
-                                )
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
                             ],
-                            addresses=[],
-                            period=Period(),
-                            canonical_id="string",
-                            fax="string",
-                        )
+                        ),
+                        ExternalProvider(
+                            name=HumanName(
+                                family="family",
+                                given=["given", "given"],
+                                use=NameUse.USUAL,
+                            ),
+                            telecoms=[
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                                ContactPoint(
+                                    value="value",
+                                    use=ContactPointUse.HOME,
+                                ),
+                            ],
+                        ),
                     ],
                     filing_order=FilingOrder(
                         coverages=[
                             uuid.UUID(
                                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                            )
+                            ),
+                            uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            ),
                         ],
                     ),
-                    non_insurance_payers=["string"],
-                    non_insurance_payer_associations=[
-                        CanonicalNonInsurancePayerAssociation(
-                            id="string",
-                        )
-                    ],
-                    guarantor=Guarantor(
-                        name=HumanName(
-                            family="string",
-                            given=["string"],
-                            use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
-                        ),
-                        telecom=ContactPoint(
-                            value="string",
-                            use=ContactPointUse.HOME,
-                        ),
-                        email="string",
-                        birth_date=datetime.date.fromisoformat(
-                            "2023-01-15",
-                        ),
-                        address=Address(
-                            use=AddressUse.HOME,
-                            line=["string"],
-                            city="string",
-                            state="string",
-                            postal_code="string",
-                            country="string",
-                            period=Period(),
-                        ),
-                    ),
-                    self_pay=True,
-                    authorizations=[
-                        Authorization(
-                            payer_id="string",
-                            payer_name="string",
-                            additional_payer_information=AdditionalPayerInformation(),
-                            authorization_number="string",
-                            cpt_code="string",
-                            apply_for_all_cpt_codes=True,
-                            units=AuthorizationUnit.VISIT,
-                            quantity=1,
-                            period=Period(),
-                            notes="string",
-                        )
-                    ],
-                    referrals=[
-                        Referral(
-                            provider=ExternalProvider(
-                                name=HumanName(
-                                    family="string",
-                                    given=["string"],
-                                    use=NameUse.USUAL,
-                                    period=Period(),
-                                    suffix="string",
-                                ),
-                                type=ExternalProviderType.PRIMARY,
-                                npi="string",
-                                telecoms=[
-                                    ContactPoint(
-                                        value="string",
-                                        use=ContactPointUse.HOME,
-                                    )
-                                ],
-                                addresses=[],
-                                period=Period(),
-                                canonical_id="string",
-                                fax="string",
-                            ),
-                            referral_number="string",
-                        )
-                    ],
-                    primary_service_facility_id="string",
-                    do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
-                    note_ids=["string"],
-                    tag_ids=["string"],
                 ),
             )
 
@@ -2822,7 +2501,7 @@ class AsyncV1Client:
         self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets a patient as deactivated. The path must contain the most recent version plus 1 to prevent race conditions. Deactivating historic versions is not supported.
+        Sets a patient as deactivated.  The path must contain the most recent version plus 1 to prevent race conditions.  Deactivating historic versions is not supported.
 
         Parameters
         ----------
@@ -2851,8 +2530,8 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.deactivate(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
             )
 
 
@@ -2897,7 +2576,7 @@ class AsyncV1Client:
         self, id: PatientId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Removes the deactivated flag for a patient. The path must contain the most recent version plus 1 to prevent race conditions. Reactivating historic versions is not supported.
+        Removes the deactivated flag for a patient.  The path must contain the most recent version plus 1 to prevent race conditions.  Reactivating historic versions is not supported.
 
         Parameters
         ----------
@@ -2926,8 +2605,8 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.patients.v_1.reactivate(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
             )
 
 
@@ -3005,10 +2684,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.pre_encounter.patients.v_1.search(
-                mrn="string",
-                similar_name_ordering="string",
-            )
+            await client.pre_encounter.patients.v_1.search()
 
 
         asyncio.run(main())
@@ -3041,7 +2717,7 @@ class AsyncV1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Patient]:
         """
-        Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+        Scans up to 100 patient updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------

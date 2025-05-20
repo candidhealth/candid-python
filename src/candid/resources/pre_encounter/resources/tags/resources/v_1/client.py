@@ -46,7 +46,7 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.tags.v_1.get(
-            id="string",
+            id="id",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -100,10 +100,7 @@ class V1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.pre_encounter.tags.v_1.get_all(
-            limit=1,
-            page_token="string",
-        )
+        client.pre_encounter.tags.v_1.get_all()
         """
         _response = self._client_wrapper.httpx_client.request(
             "tags/v1",
@@ -157,7 +154,7 @@ class V1Client:
         )
         client.pre_encounter.tags.v_1.create(
             request=MutableTag(
-                value="string",
+                value="value",
             ),
         )
         """
@@ -216,10 +213,10 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.tags.v_1.update(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
             request=MutableTag(
-                value="string",
+                value="value",
             ),
         )
         """
@@ -247,7 +244,7 @@ class V1Client:
 
     def deactivate(self, id: TagId, version: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
-        Sets a tag as deactivated. The path must contain the most recent version to prevent races.
+        Sets a tag as deactivated.  The path must contain the most recent version to prevent races.
 
         Parameters
         ----------
@@ -271,8 +268,8 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.tags.v_1.deactivate(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -323,7 +320,7 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.tags.v_1.get(
-                id="string",
+                id="id",
             )
 
 
@@ -385,10 +382,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.pre_encounter.tags.v_1.get_all(
-                limit=1,
-                page_token="string",
-            )
+            await client.pre_encounter.tags.v_1.get_all()
 
 
         asyncio.run(main())
@@ -450,7 +444,7 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.tags.v_1.create(
                 request=MutableTag(
-                    value="string",
+                    value="value",
                 ),
             )
 
@@ -517,10 +511,10 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.tags.v_1.update(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
                 request=MutableTag(
-                    value="string",
+                    value="value",
                 ),
             )
 
@@ -553,7 +547,7 @@ class AsyncV1Client:
         self, id: TagId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets a tag as deactivated. The path must contain the most recent version to prevent races.
+        Sets a tag as deactivated.  The path must contain the most recent version to prevent races.
 
         Parameters
         ----------
@@ -582,8 +576,8 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.tags.v_1.deactivate(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
             )
 
 

@@ -45,10 +45,7 @@ class V1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.external_payment_account_config.v_1.get_multi(
-            limit=1,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+        client.external_payment_account_config.v_1.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/external-payment-account-config/v1",
@@ -114,10 +111,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.external_payment_account_config.v_1.get_multi(
-                limit=1,
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            )
+            await client.external_payment_account_config.v_1.get_multi()
 
 
         asyncio.run(main())

@@ -70,12 +70,12 @@ class MutablePatient(UniversalBaseModel):
     marital_status: typing.Optional[MaritalStatus] = None
     deceased: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
-    Time of death for the patient. Leave unset if the patient is not deceased.
+    Time of death for the patient.  Leave unset if the patient is not deceased.
     """
 
     multiple_birth: typing.Optional[int] = pydantic.Field(default=None)
     """
-    The number of siblings the patient was born with. Leave unset if the patient was not part of a multiple birth.
+    The number of siblings the patient was born with.  Leave unset if the patient was not part of a multiple birth.
     """
 
     primary_address: Address = pydantic.Field()
@@ -104,7 +104,7 @@ class MutablePatient(UniversalBaseModel):
     language: typing.Optional[str] = None
     external_provenance: typing.Optional[ExternalProvenance] = pydantic.Field(default=None)
     """
-    Information about the upstream system that owns this patient data. Leave unset if Candid owns patient data.
+    Information about the upstream system that owns this patient data.  Leave unset if Candid owns patient data.
     """
 
     contacts: typing.List[Contact] = pydantic.Field()

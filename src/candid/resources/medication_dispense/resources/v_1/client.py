@@ -60,14 +60,9 @@ class V1Client:
         import datetime
 
         from candid import CandidApiClient
-        from candid.resources.commons import ProcedureModifier, ServiceLineUnits
+        from candid.resources.commons import ServiceLineUnits
         from candid.resources.medication_dispense.resources.v_1 import (
             MedicationDispenseCreate,
-        )
-        from candid.resources.service_lines.resources.v_2 import (
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
         )
 
         client = CandidApiClient(
@@ -76,26 +71,14 @@ class V1Client:
         )
         client.medication_dispense.v_1.create(
             request=MedicationDispenseCreate(
-                medication_dispense_external_id="string",
-                patient_external_id="string",
-                procedure_code="string",
-                quantity="string",
+                medication_dispense_external_id="medication_dispense_external_id",
+                patient_external_id="patient_external_id",
+                procedure_code="procedure_code",
+                quantity="quantity",
                 units=ServiceLineUnits.MJ,
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                drug_identification=DrugIdentification(
-                    service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                    national_drug_code="string",
-                    national_drug_unit_count="string",
-                    measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                    link_sequence_number="string",
-                    pharmacy_prescription_number="string",
-                    conversion_formula="string",
-                    drug_description="string",
-                ),
-                description="string",
-                modifiers=[ProcedureModifier.AV],
             ),
         )
         """
@@ -208,14 +191,9 @@ class AsyncV1Client:
         import datetime
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import ProcedureModifier, ServiceLineUnits
+        from candid.resources.commons import ServiceLineUnits
         from candid.resources.medication_dispense.resources.v_1 import (
             MedicationDispenseCreate,
-        )
-        from candid.resources.service_lines.resources.v_2 import (
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
         )
 
         client = AsyncCandidApiClient(
@@ -227,26 +205,14 @@ class AsyncV1Client:
         async def main() -> None:
             await client.medication_dispense.v_1.create(
                 request=MedicationDispenseCreate(
-                    medication_dispense_external_id="string",
-                    patient_external_id="string",
-                    procedure_code="string",
-                    quantity="string",
+                    medication_dispense_external_id="medication_dispense_external_id",
+                    patient_external_id="patient_external_id",
+                    procedure_code="procedure_code",
+                    quantity="quantity",
                     units=ServiceLineUnits.MJ,
                     date_of_service=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    drug_identification=DrugIdentification(
-                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                        national_drug_code="string",
-                        national_drug_unit_count="string",
-                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                        link_sequence_number="string",
-                        pharmacy_prescription_number="string",
-                        conversion_formula="string",
-                        drug_description="string",
-                    ),
-                    description="string",
-                    modifiers=[ProcedureModifier.AV],
                 ),
             )
 

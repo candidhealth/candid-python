@@ -52,28 +52,18 @@ class V1Client:
         Examples
         --------
         import datetime
-        import uuid
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
-            Address,
-            AddressUse,
             HumanName,
             NameUse,
-            Period,
             Relationship,
             Sex,
         )
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
-            CoverageBenefits,
             CoverageStatus,
-            EligibilityStatus,
             InsurancePlan,
-            InsuranceTypeCode,
-            LatestEligibilityCheck,
             MutableCoverage,
-            NetworkType,
             Subscriber,
         )
 
@@ -86,53 +76,23 @@ class V1Client:
                 status=CoverageStatus.ACTIVE,
                 subscriber=Subscriber(
                     name=HumanName(
-                        family="string",
-                        given=["string"],
+                        family="family",
+                        given=["given", "given"],
                         use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
                     ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     biological_sex=Sex.FEMALE,
-                    address=Address(
-                        use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    ),
                 ),
                 relationship=Relationship.SELF,
-                patient="string",
+                patient="patient",
                 insurance_plan=InsurancePlan(
-                    member_id="string",
-                    payer_id="string",
-                    payer_name="string",
-                    additional_payer_information=AdditionalPayerInformation(),
-                    group_number="string",
-                    name="string",
-                    plan_type=NetworkType.SELF_PAY,
-                    type=InsuranceTypeCode.C_01,
-                    period=Period(),
-                    insurance_card_image_locator="string",
-                    payer_plan_group_id=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
+                    member_id="member_id",
+                    payer_id="payer_id",
+                    payer_name="payer_name",
                 ),
                 verified=True,
-                eligibility_checks=[],
-                latest_eligibility_check=LatestEligibilityCheck(
-                    check_id="string",
-                    status=EligibilityStatus.ACTIVE,
-                    initiated_at=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                ),
-                benefits=CoverageBenefits(),
             ),
         )
         """
@@ -167,7 +127,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Coverage:
         """
-        Updates a Coverage. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+        Updates a Coverage.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -191,24 +151,15 @@ class V1Client:
 
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
-            Address,
-            AddressUse,
             HumanName,
             NameUse,
-            Period,
             Relationship,
             Sex,
         )
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
-            CoverageBenefits,
             CoverageStatus,
-            EligibilityStatus,
             InsurancePlan,
-            InsuranceTypeCode,
-            LatestEligibilityCheck,
             MutableCoverage,
-            NetworkType,
             Subscriber,
         )
 
@@ -220,58 +171,28 @@ class V1Client:
             id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            version="string",
+            version="version",
             request=MutableCoverage(
                 status=CoverageStatus.ACTIVE,
                 subscriber=Subscriber(
                     name=HumanName(
-                        family="string",
-                        given=["string"],
+                        family="family",
+                        given=["given", "given"],
                         use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
                     ),
                     date_of_birth=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
                     biological_sex=Sex.FEMALE,
-                    address=Address(
-                        use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    ),
                 ),
                 relationship=Relationship.SELF,
-                patient="string",
+                patient="patient",
                 insurance_plan=InsurancePlan(
-                    member_id="string",
-                    payer_id="string",
-                    payer_name="string",
-                    additional_payer_information=AdditionalPayerInformation(),
-                    group_number="string",
-                    name="string",
-                    plan_type=NetworkType.SELF_PAY,
-                    type=InsuranceTypeCode.C_01,
-                    period=Period(),
-                    insurance_card_image_locator="string",
-                    payer_plan_group_id=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
+                    member_id="member_id",
+                    payer_id="payer_id",
+                    payer_name="payer_name",
                 ),
                 verified=True,
-                eligibility_checks=[],
-                latest_eligibility_check=LatestEligibilityCheck(
-                    check_id="string",
-                    status=EligibilityStatus.ACTIVE,
-                    initiated_at=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
-                    ),
-                ),
-                benefits=CoverageBenefits(),
             ),
         )
         """
@@ -356,12 +277,7 @@ class V1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.pre_encounter.coverages.v_1.get_multi_paginated(
-            patient_id="string",
-            payer_plan_group_id="string",
-            page_token="string",
-            limit=1,
-        )
+        client.pre_encounter.coverages.v_1.get_multi_paginated()
         """
         _response = self._client_wrapper.httpx_client.request(
             "coverages/v1/get-multi-paginated",
@@ -455,7 +371,7 @@ class V1Client:
         self, id: CoverageId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Coverage]:
         """
-        Gets a coverage along with it's full history. The return list is ordered by version ascending.
+        Gets a coverage along with it's full history.  The return list is ordered by version ascending.
 
         Parameters
         ----------
@@ -540,9 +456,7 @@ class V1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.pre_encounter.coverages.v_1.get_multi(
-            patient_id="string",
-        )
+        client.pre_encounter.coverages.v_1.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "coverages/v1",
@@ -571,7 +485,7 @@ class V1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Coverage]:
         """
-        Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+        Scans up to 100 coverage updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------
@@ -668,8 +582,8 @@ class V1Client:
                 payer_plan_group_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                payer_id="string",
-                payer_name="string",
+                payer_id="payer_id",
+                payer_name="payer_name",
                 plan_type=NetworkType.SELF_PAY,
             ),
         )
@@ -741,7 +655,7 @@ class V1Client:
             date_of_service=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
-            npi="string",
+            npi="npi",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -803,7 +717,7 @@ class V1Client:
             id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            check_id="string",
+            check_id="check_id",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -852,28 +766,18 @@ class AsyncV1Client:
         --------
         import asyncio
         import datetime
-        import uuid
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
-            Address,
-            AddressUse,
             HumanName,
             NameUse,
-            Period,
             Relationship,
             Sex,
         )
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
-            CoverageBenefits,
             CoverageStatus,
-            EligibilityStatus,
             InsurancePlan,
-            InsuranceTypeCode,
-            LatestEligibilityCheck,
             MutableCoverage,
-            NetworkType,
             Subscriber,
         )
 
@@ -889,53 +793,23 @@ class AsyncV1Client:
                     status=CoverageStatus.ACTIVE,
                     subscriber=Subscriber(
                         name=HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
                         ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",
                         ),
                         biological_sex=Sex.FEMALE,
-                        address=Address(
-                            use=AddressUse.HOME,
-                            line=["string"],
-                            city="string",
-                            state="string",
-                            postal_code="string",
-                            country="string",
-                            period=Period(),
-                        ),
                     ),
                     relationship=Relationship.SELF,
-                    patient="string",
+                    patient="patient",
                     insurance_plan=InsurancePlan(
-                        member_id="string",
-                        payer_id="string",
-                        payer_name="string",
-                        additional_payer_information=AdditionalPayerInformation(),
-                        group_number="string",
-                        name="string",
-                        plan_type=NetworkType.SELF_PAY,
-                        type=InsuranceTypeCode.C_01,
-                        period=Period(),
-                        insurance_card_image_locator="string",
-                        payer_plan_group_id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
+                        member_id="member_id",
+                        payer_id="payer_id",
+                        payer_name="payer_name",
                     ),
                     verified=True,
-                    eligibility_checks=[],
-                    latest_eligibility_check=LatestEligibilityCheck(
-                        check_id="string",
-                        status=EligibilityStatus.ACTIVE,
-                        initiated_at=datetime.datetime.fromisoformat(
-                            "2024-01-15 09:30:00+00:00",
-                        ),
-                    ),
-                    benefits=CoverageBenefits(),
                 ),
             )
 
@@ -973,7 +847,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Coverage:
         """
-        Updates a Coverage. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+        Updates a Coverage.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
 
         Parameters
         ----------
@@ -998,24 +872,15 @@ class AsyncV1Client:
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
-            AdditionalPayerInformation,
-            Address,
-            AddressUse,
             HumanName,
             NameUse,
-            Period,
             Relationship,
             Sex,
         )
         from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
-            CoverageBenefits,
             CoverageStatus,
-            EligibilityStatus,
             InsurancePlan,
-            InsuranceTypeCode,
-            LatestEligibilityCheck,
             MutableCoverage,
-            NetworkType,
             Subscriber,
         )
 
@@ -1030,58 +895,28 @@ class AsyncV1Client:
                 id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                version="string",
+                version="version",
                 request=MutableCoverage(
                     status=CoverageStatus.ACTIVE,
                     subscriber=Subscriber(
                         name=HumanName(
-                            family="string",
-                            given=["string"],
+                            family="family",
+                            given=["given", "given"],
                             use=NameUse.USUAL,
-                            period=Period(),
-                            suffix="string",
                         ),
                         date_of_birth=datetime.date.fromisoformat(
                             "2023-01-15",
                         ),
                         biological_sex=Sex.FEMALE,
-                        address=Address(
-                            use=AddressUse.HOME,
-                            line=["string"],
-                            city="string",
-                            state="string",
-                            postal_code="string",
-                            country="string",
-                            period=Period(),
-                        ),
                     ),
                     relationship=Relationship.SELF,
-                    patient="string",
+                    patient="patient",
                     insurance_plan=InsurancePlan(
-                        member_id="string",
-                        payer_id="string",
-                        payer_name="string",
-                        additional_payer_information=AdditionalPayerInformation(),
-                        group_number="string",
-                        name="string",
-                        plan_type=NetworkType.SELF_PAY,
-                        type=InsuranceTypeCode.C_01,
-                        period=Period(),
-                        insurance_card_image_locator="string",
-                        payer_plan_group_id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
+                        member_id="member_id",
+                        payer_id="payer_id",
+                        payer_name="payer_name",
                     ),
                     verified=True,
-                    eligibility_checks=[],
-                    latest_eligibility_check=LatestEligibilityCheck(
-                        check_id="string",
-                        status=EligibilityStatus.ACTIVE,
-                        initiated_at=datetime.datetime.fromisoformat(
-                            "2024-01-15 09:30:00+00:00",
-                        ),
-                    ),
-                    benefits=CoverageBenefits(),
                 ),
             )
 
@@ -1174,12 +1009,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.pre_encounter.coverages.v_1.get_multi_paginated(
-                patient_id="string",
-                payer_plan_group_id="string",
-                page_token="string",
-                limit=1,
-            )
+            await client.pre_encounter.coverages.v_1.get_multi_paginated()
 
 
         asyncio.run(main())
@@ -1283,7 +1113,7 @@ class AsyncV1Client:
         self, id: CoverageId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Coverage]:
         """
-        Gets a coverage along with it's full history. The return list is ordered by version ascending.
+        Gets a coverage along with it's full history.  The return list is ordered by version ascending.
 
         Parameters
         ----------
@@ -1380,9 +1210,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.pre_encounter.coverages.v_1.get_multi(
-                patient_id="string",
-            )
+            await client.pre_encounter.coverages.v_1.get_multi()
 
 
         asyncio.run(main())
@@ -1414,7 +1242,7 @@ class AsyncV1Client:
         self, *, since: dt.datetime, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Coverage]:
         """
-        Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+        Scans up to 100 coverage updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
         Parameters
         ----------
@@ -1522,8 +1350,8 @@ class AsyncV1Client:
                     payer_plan_group_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    payer_id="string",
-                    payer_name="string",
+                    payer_id="payer_id",
+                    payer_name="payer_name",
                     plan_type=NetworkType.SELF_PAY,
                 ),
             )
@@ -1602,7 +1430,7 @@ class AsyncV1Client:
                 date_of_service=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                npi="string",
+                npi="npi",
             )
 
 
@@ -1671,7 +1499,7 @@ class AsyncV1Client:
                 id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                check_id="string",
+                check_id="check_id",
             )
 
 

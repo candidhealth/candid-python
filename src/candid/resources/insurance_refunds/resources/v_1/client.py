@@ -84,36 +84,13 @@ class V1Client:
 
         Examples
         --------
-        import uuid
-
         from candid import CandidApiClient
-        from candid.resources.commons import SortDirection
-        from candid.resources.insurance_refunds.resources.v_1 import (
-            InsuranceRefundSortField,
-        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.insurance_refunds.v_1.get_multi(
-            limit=1,
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            claim_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            sort=InsuranceRefundSortField.AMOUNT_CENTS,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-        )
+        client.insurance_refunds.v_1.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/insurance-refunds/v1",
@@ -262,14 +239,12 @@ class V1Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
         from candid.resources.financials import (
             AllocationCreate,
             AllocationTargetCreate_ServiceLineById,
-            RefundReason,
         )
         from candid.resources.insurance_refunds.resources.v_1 import (
             InsuranceRefundCreate,
@@ -282,12 +257,11 @@ class V1Client:
         )
         client.insurance_refunds.v_1.create(
             request=InsuranceRefundCreate(
-                payer_identifier=PayerIdentifier_PayerInfo(),
-                amount_cents=1,
-                refund_timestamp=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
+                payer_identifier=PayerIdentifier_PayerInfo(
+                    payer_id="payer_id",
+                    payer_name="payer_name",
                 ),
-                refund_note="string",
+                amount_cents=1,
                 allocations=[
                     AllocationCreate(
                         amount_cents=1,
@@ -296,9 +270,16 @@ class V1Client:
                                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                             )
                         ),
-                    )
+                    ),
+                    AllocationCreate(
+                        amount_cents=1,
+                        target=AllocationTargetCreate_ServiceLineById(
+                            value=uuid.UUID(
+                                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                            )
+                        ),
+                    ),
                 ],
-                refund_reason=RefundReason.OVERCHARGED,
             ),
         )
         """
@@ -387,15 +368,9 @@ class V1Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.financials import (
-            NoteUpdate_Set,
-            RefundReason,
-            RefundReasonUpdate_Set,
-        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -405,11 +380,6 @@ class V1Client:
             insurance_refund_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            refund_timestamp=datetime.datetime.fromisoformat(
-                "2024-01-15 09:30:00+00:00",
-            ),
-            refund_note=NoteUpdate_Set(value="string"),
-            refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -602,13 +572,8 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import SortDirection
-        from candid.resources.insurance_refunds.resources.v_1 import (
-            InsuranceRefundSortField,
-        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -617,24 +582,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.insurance_refunds.v_1.get_multi(
-                limit=1,
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                claim_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                service_line_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                billing_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                sort=InsuranceRefundSortField.AMOUNT_CENTS,
-                sort_direction=SortDirection.ASC,
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            )
+            await client.insurance_refunds.v_1.get_multi()
 
 
         asyncio.run(main())
@@ -794,14 +742,12 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
         from candid.resources.financials import (
             AllocationCreate,
             AllocationTargetCreate_ServiceLineById,
-            RefundReason,
         )
         from candid.resources.insurance_refunds.resources.v_1 import (
             InsuranceRefundCreate,
@@ -817,12 +763,11 @@ class AsyncV1Client:
         async def main() -> None:
             await client.insurance_refunds.v_1.create(
                 request=InsuranceRefundCreate(
-                    payer_identifier=PayerIdentifier_PayerInfo(),
-                    amount_cents=1,
-                    refund_timestamp=datetime.datetime.fromisoformat(
-                        "2024-01-15 09:30:00+00:00",
+                    payer_identifier=PayerIdentifier_PayerInfo(
+                        payer_id="payer_id",
+                        payer_name="payer_name",
                     ),
-                    refund_note="string",
+                    amount_cents=1,
                     allocations=[
                         AllocationCreate(
                             amount_cents=1,
@@ -831,9 +776,16 @@ class AsyncV1Client:
                                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                                 )
                             ),
-                        )
+                        ),
+                        AllocationCreate(
+                            amount_cents=1,
+                            target=AllocationTargetCreate_ServiceLineById(
+                                value=uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                )
+                            ),
+                        ),
                     ],
-                    refund_reason=RefundReason.OVERCHARGED,
                 ),
             )
 
@@ -926,15 +878,9 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.financials import (
-            NoteUpdate_Set,
-            RefundReason,
-            RefundReasonUpdate_Set,
-        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -947,11 +893,6 @@ class AsyncV1Client:
                 insurance_refund_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                refund_timestamp=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-                refund_note=NoteUpdate_Set(value="string"),
-                refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
             )
 
 

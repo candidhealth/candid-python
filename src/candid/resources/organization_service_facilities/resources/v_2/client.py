@@ -57,7 +57,7 @@ class V2Client:
         )
         client.organization_service_facilities.v_2.get(
             organization_service_facility_id=uuid.UUID(
-                "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
         )
         """
@@ -451,7 +451,7 @@ class AsyncV2Client:
         async def main() -> None:
             await client.organization_service_facilities.v_2.get(
                 organization_service_facility_id=uuid.UUID(
-                    "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
             )
 

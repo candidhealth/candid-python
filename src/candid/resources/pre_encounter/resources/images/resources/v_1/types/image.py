@@ -16,7 +16,7 @@ class Image(BaseModel, MutableImage):
     id: ImageId
     signed_url: str = pydantic.Field()
     """
-    A signed URL to the image. This url can be used to upload an image to GCP storage or to read the image contents.
+    A signed URL to the image.  This url can be used to upload an image to GCP storage or to read the image contents.
     """
 
     if IS_PYDANTIC_V2:

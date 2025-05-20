@@ -6,6 +6,7 @@ from __future__ import annotations
 class CandidApiClientEnvironment:
     PRODUCTION: CandidApiClientEnvironment
     STAGING: CandidApiClientEnvironment
+    CANDID_STAGING: CandidApiClientEnvironment
 
     def __init__(self, *, candid_api: str, pre_encounter: str):
         self.candid_api = candid_api
@@ -17,4 +18,7 @@ CandidApiClientEnvironment.PRODUCTION = CandidApiClientEnvironment(
 )
 CandidApiClientEnvironment.STAGING = CandidApiClientEnvironment(
     candid_api="https://api-staging.joincandidhealth.com", pre_encounter="https://pre-api-staging.joincandidhealth.com"
+)
+CandidApiClientEnvironment.CANDID_STAGING = CandidApiClientEnvironment(
+    candid_api="https://staging-api.joincandidhealth.com", pre_encounter="https://staging-pre-api.joincandidhealth.com"
 )

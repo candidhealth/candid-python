@@ -13,7 +13,7 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2
 
 class Rate(UniversalBaseModel):
     """
-    A comprehensive rate including the current rate value and all values for historic time ranges. The time ranges specified by each RateEntry are disjoint. A rate must always have at least one entry.
+    A comprehensive rate including the current rate value and all values for historic time ranges. The time ranges specified by each RateEntry are disjoint.  A rate must always have at least one entry.
     """
 
     rate_id: RateId

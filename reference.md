@@ -122,7 +122,6 @@ client.billing_notes.v_2.create(
     encounter_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    text="string",
 )
 
 ```
@@ -253,7 +252,7 @@ client.billing_notes.v_2.update(
     billing_note_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    text="string",
+    text="text",
 )
 
 ```
@@ -420,51 +419,13 @@ client.charge_capture_bundles.v_1.get_summary()
 <dd>
 
 ```python
-import datetime
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
-from candid.resources.charge_capture_bundles.resources.v_1 import (
-    ChargeCaptureClaimCreationSortField,
-    ChargeCaptureClaimCreationStatus,
-)
-from candid.resources.commons import SortDirection
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.charge_capture_bundles.v_1.get_all(
-    limit=1,
-    sort=ChargeCaptureClaimCreationSortField.CREATED_AT,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-    patient_external_id="string",
-    claim_creation_status=ChargeCaptureClaimCreationStatus.NOT_STARTED,
-    charge_status=ChargeCaptureStatus.PLANNED,
-    charge_external_id="string",
-    date_of_service_min=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    date_of_service_max=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    claim_ids=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    claim_creation_ids=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    billing_provider_npis="string",
-    service_facility_name="string",
-    primary_payer_ids="string",
-    rendering_provider_npis="string",
-    rendering_provider_names="string",
-    supervising_provider_npis="string",
-    supervising_provider_names="string",
-    has_charge_capture_updates=True,
-)
+client.charge_capture_bundles.v_1.get_all()
 
 ```
 </dd>
@@ -693,9 +654,8 @@ client = CandidApiClient(
 )
 client.charge_capture.v_1.create(
     data=ChargeCaptureData(),
-    charge_external_id="string",
-    ehr_source_url="string",
-    patient_external_id="string",
+    charge_external_id="charge_external_id",
+    patient_external_id="patient_external_id",
     status=ChargeCaptureStatus.PLANNED,
 )
 
@@ -714,7 +674,6 @@ client.charge_capture.v_1.create(
 <dd>
 
 **data:** `ChargeCaptureData` — Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
-
     
 </dd>
 </dl>
@@ -723,7 +682,6 @@ client.charge_capture.v_1.create(
 <dd>
 
 **charge_external_id:** `str` — A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
-
     
 </dd>
 </dl>
@@ -748,7 +706,6 @@ client.charge_capture.v_1.create(
 <dd>
 
 **ehr_source_url:** `typing.Optional[str]` — External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
-
     
 </dd>
 </dl>
@@ -845,10 +802,6 @@ client.charge_capture.v_1.delete(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.charge_capture.resources.v_1 import (
-    ChargeCaptureData,
-    ChargeCaptureStatus,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -858,11 +811,6 @@ client.charge_capture.v_1.update(
     charge_capture_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    data=ChargeCaptureData(),
-    charge_external_id="string",
-    ehr_source_url="string",
-    patient_external_id="string",
-    status=ChargeCaptureStatus.PLANNED,
 )
 
 ```
@@ -900,7 +848,6 @@ client.charge_capture.v_1.update(
 A client-specified unique ID to associate with this encounter;
 for example, your internal encounter ID or a Dr. Chrono encounter ID.
 This field should not contain PHI.
-
     
 </dd>
 </dl>
@@ -912,7 +859,6 @@ This field should not contain PHI.
 
 External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page).
 Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
-
     
 </dd>
 </dl>
@@ -1022,71 +968,13 @@ client.charge_capture.v_1.get(
 <dd>
 
 ```python
-import datetime
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.charge_capture.resources.v_1 import (
-    ChargeCaptureSortField,
-    ChargeCaptureStatus,
-)
-from candid.resources.commons import SortDirection
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.charge_capture.v_1.get_all(
-    limit=1,
-    sort=ChargeCaptureSortField.CREATED_AT,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-    patient_external_id="string",
-    status=ChargeCaptureStatus.PLANNED,
-    charge_external_id="string",
-    date_of_service_min=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    date_of_service_max=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    claim_ids=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    claim_creation_ids=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    billing_provider_npis="string",
-    service_facility_name="string",
-    primary_payer_ids="string",
-    rendering_provider_npis="string",
-    rendering_provider_names="string",
-    supervising_provider_npis="string",
-    supervising_provider_names="string",
-    exclude_charges_linked_to_claims=True,
-    patient_external_id_ranked_sort="string",
-    status_ranked_sort=ChargeCaptureStatus.PLANNED,
-    charge_external_id_ranked_sort="string",
-    date_of_service_min_ranked_sort=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    date_of_service_max_ranked_sort=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    claim_ids_ranked_sort=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    claim_creation_ids_ranked_sort=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    billing_provider_npis_ranked_sort="string",
-    service_facility_name_ranked_sort="string",
-    primary_payer_ids_ranked_sort="string",
-    rendering_provider_npis_ranked_sort="string",
-    rendering_provider_names_ranked_sort="string",
-    supervising_provider_npis_ranked_sort="string",
-    supervising_provider_names_ranked_sort="string",
-)
+client.charge_capture.v_1.get_all()
 
 ```
 </dd>
@@ -1433,7 +1321,10 @@ client.charge_capture.v_1.update_post_billed_changes(
     charge_capture_change_ids=[
         uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        )
+        ),
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
     ],
     resolved=True,
 )
@@ -1456,7 +1347,6 @@ client.charge_capture.v_1.update_post_billed_changes(
 
 A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
 All of the charges sent will be marked as resolved
-
     
 </dd>
 </dl>
@@ -1468,7 +1358,6 @@ All of the charges sent will be marked as resolved
 
 Whether the change has been resolved. If true, the change will be marked as resolved.
 If false, the change will be marked as unresolved.
-
     
 </dd>
 </dl>
@@ -1563,29 +1452,13 @@ client.contracts.v_2.get(
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import State
-from candid.resources.contracts.resources.v_2 import ContractStatus
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.contracts.v_2.get_multi(
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-    limit=1,
-    contracting_provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    rendering_provider_ids=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    payer_names="string",
-    states=State.AA,
-    contract_status=ContractStatus.PENDING,
-)
+client.contracts.v_2.get_multi()
 
 ```
 </dd>
@@ -1659,6 +1532,22 @@ client.contracts.v_2.get_multi(
 <dl>
 <dd>
 
+**sort:** `typing.Optional[ContractSortField]` — Potentially sort by a contract related attribute.  Defaults to created_at
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Direction of sort, defaulting to desc
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -1701,12 +1590,6 @@ Creates a new contract within the user's current organization
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import Regions_States
-from candid.resources.contracts.resources.v_2 import (
-    AuthorizedSignatory,
-    ContractStatus,
-    InsuranceTypes,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -1724,21 +1607,6 @@ client.contracts.v_2.create(
     payer_uuid=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    effective_date="string",
-    expiration_date="string",
-    regions=Regions_States(),
-    contract_status=ContractStatus.PENDING,
-    authorized_signatory=AuthorizedSignatory(
-        first_name="string",
-        last_name="string",
-        title="string",
-        email="string",
-        phone="string",
-        fax="string",
-    ),
-    commercial_insurance_types=InsuranceTypes(),
-    medicare_insurance_types=InsuranceTypes(),
-    medicaid_insurance_types=InsuranceTypes(),
 )
 
 ```
@@ -1768,7 +1636,6 @@ client.contracts.v_2.create(
 A rendering provider isn't contracted directly with the payer but can render
 services under the contract held by the contracting provider.
 Max items is 100.
-
     
 </dd>
 </dl>
@@ -1940,14 +1807,6 @@ client.contracts.v_2.delete(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import Regions_States, State
-from candid.resources.contracts.resources.v_2 import (
-    AuthorizedSignatoryUpdate_Set,
-    ContractStatus,
-    DateUpdate_Set,
-    InsuranceTypes,
-    RegionsUpdate_Set,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -1957,30 +1816,6 @@ client.contracts.v_2.update(
     contract_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    rendering_provider_ids=[
-        uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        )
-    ],
-    effective_date="string",
-    expiration_date=DateUpdate_Set(value="string"),
-    regions=RegionsUpdate_Set(
-        value=Regions_States(
-            states=[State.AA],
-        )
-    ),
-    contract_status=ContractStatus.PENDING,
-    authorized_signatory=AuthorizedSignatoryUpdate_Set(
-        first_name="string",
-        last_name="string",
-        title="string",
-        email="string",
-        phone="string",
-        fax="string",
-    ),
-    commercial_insurance_types=InsuranceTypes(),
-    medicare_insurance_types=InsuranceTypes(),
-    medicaid_insurance_types=InsuranceTypes(),
 )
 
 ```
@@ -2010,7 +1845,6 @@ client.contracts.v_2.update(
 A rendering provider isn't contracted directly with the payer but can render
 services under the contract held by the contracting provider.
 Max items is 100.
-
     
 </dd>
 </dl>
@@ -2038,7 +1872,6 @@ Max items is 100.
 
 If present, the contract's rendering providers will be patched to this exact
 value, overriding what was set before.
-
     
 </dd>
 </dl>
@@ -2112,7 +1945,6 @@ value, overriding what was set before.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
@@ -2132,20 +1964,8 @@ client.credentialing.v_2.create(
     payer_uuid=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    start_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    end_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
     regions=Regions_States(
-        states=[State.AA],
-    ),
-    submitted_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    payer_loaded_date=datetime.date.fromisoformat(
-        "2023-01-15",
+        states=[State.AA, State.AA],
     ),
 )
 
@@ -2172,7 +1992,6 @@ client.credentialing.v_2.create(
 <dd>
 
 **contracting_provider_id:** `uuid.UUID` — The ID of the practice location at which the rendering provider is covered by the credentialing span.
-
     
 </dd>
 </dl>
@@ -2189,7 +2008,6 @@ client.credentialing.v_2.create(
 <dd>
 
 **regions:** `Regions` — The states covered by the credentialing span. A span may be national and cover all states.
-
     
 </dd>
 </dl>
@@ -2315,26 +2133,13 @@ client.credentialing.v_2.get(
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.credentialing.v_2.get_all(
-    limit=1,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-    payer_uuid=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    as_rendering_provider=True,
-    as_contracting_provider=True,
-)
+client.credentialing.v_2.get_all()
 
 ```
 </dd>
@@ -2498,11 +2303,9 @@ client.credentialing.v_2.delete(
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import Regions_States, State
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -2511,27 +2314,6 @@ client = CandidApiClient(
 client.credentialing.v_2.update(
     provider_credentialing_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    contracting_provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    payer_uuid=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    start_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    end_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    regions=Regions_States(
-        states=[State.AA],
-    ),
-    submitted_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    payer_loaded_date=datetime.date.fromisoformat(
-        "2023-01-15",
     ),
 )
 
@@ -2558,7 +2340,6 @@ client.credentialing.v_2.update(
 <dd>
 
 **contracting_provider_id:** `typing.Optional[uuid.UUID]` — The ID of the practice location at which the rendering provider is covered by the credentialing span.
-
     
 </dd>
 </dl>
@@ -2591,7 +2372,6 @@ client.credentialing.v_2.update(
 <dd>
 
 **regions:** `typing.Optional[Regions]` — The states covered by the credentialing span. A span may be national and cover all states.
-
     
 </dd>
 </dl>
@@ -3097,11 +2877,9 @@ This API is a wrapper around Availity's coverages API. Below are some helpful do
 - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
 
 A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
-
-- Note Availity requires a free developer account to access this documentation.
+* Note Availity requires a free developer account to access this documentation.
 
 Check connection status of Availity API and partners here:
-
 - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
 </dd>
 </dl>
@@ -3174,11 +2952,9 @@ This API is a wrapper around Availity's coverages API. Below are some helpful do
 - [Candid Availity Eligibility Integration Guide](https://support.joincandidhealth.com/hc/en-us/articles/24218441631892--Availity-Eligibility-Integration-Guide)
 
 A schema of the response object can be found here: [Availity Docs](https://developer.availity.com/partner/product/191210/api/190898#/Coverages_100/operation/%2Fcoverages%2F{id}/get)
-
-- Note Availity requires a free developer account to access this documentation.
+* Note Availity requires a free developer account to access this documentation.
 
 Check connection status of Availity API and partners here:
-
 - [Availity Trading Partner Connection Status](https://www.availity.com/status/)
 </dd>
 </dl>
@@ -3300,100 +3076,6 @@ client.encounter_attachments.v_1.get(
 </dl>
 </details>
 
-<details><summary><code>client.encounter_attachments.v_1.<a href="src/candid/resources/encounter_attachments/resources/v_1/client.py">create</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Uploads a file to the encounter. The file will be stored in the
-encounter's attachments.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import uuid
-
-from candid import CandidApiClient
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.encounter_attachments.v_1.create(
-    encounter_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**encounter_id:** `EncounterId` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**attachment_file:** `from __future__ import annotations
-
-core.File` — See core.File for more documentation
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**attachment_type:** `EncounterAttachmentType` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 <details><summary><code>client.encounter_attachments.v_1.<a href="src/candid/resources/encounter_attachments/resources/v_1/client.py">delete</a>(...)</code></summary>
 <dl>
 <dd>
@@ -3483,7 +3165,6 @@ client.encounter_attachments.v_1.delete(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import State, StreetAddressLongZip
 from candid.resources.encounter_providers.resources.v_2 import (
     ReferringProviderUpdate,
 )
@@ -3496,21 +3177,7 @@ client.encounter_providers.v_2.update_referring_provider(
     encounter_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=ReferringProviderUpdate(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
+    request=ReferringProviderUpdate(),
 )
 
 ```
@@ -3571,7 +3238,6 @@ client.encounter_providers.v_2.update_referring_provider(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import QualifierCode, State, StreetAddressLongZip
 from candid.resources.encounter_providers.resources.v_2 import (
     InitialReferringProviderUpdate,
 )
@@ -3584,22 +3250,7 @@ client.encounter_providers.v_2.update_initial_referring_provider(
     encounter_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=InitialReferringProviderUpdate(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        qualifier=QualifierCode.DQ,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
+    request=InitialReferringProviderUpdate(),
 )
 
 ```
@@ -3660,7 +3311,6 @@ client.encounter_providers.v_2.update_initial_referring_provider(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import State, StreetAddressLongZip
 from candid.resources.encounter_providers.resources.v_2 import (
     SupervisingProviderUpdate,
 )
@@ -3673,21 +3323,7 @@ client.encounter_providers.v_2.update_supervising_provider(
     encounter_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=SupervisingProviderUpdate(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
+    request=SupervisingProviderUpdate(),
 )
 
 ```
@@ -3748,7 +3384,6 @@ client.encounter_providers.v_2.update_supervising_provider(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import State, StreetAddressLongZip
 from candid.resources.encounter_providers.resources.v_2 import (
     OrderingProviderUpdate,
 )
@@ -3761,21 +3396,7 @@ client.encounter_providers.v_2.update_ordering_provider(
     service_line_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=OrderingProviderUpdate(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
+    request=OrderingProviderUpdate(),
 )
 
 ```
@@ -3836,7 +3457,6 @@ client.encounter_providers.v_2.update_ordering_provider(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import State, StreetAddressLongZip
 from candid.resources.encounter_providers.resources.v_2 import ReferringProvider
 
 client = CandidApiClient(
@@ -3848,19 +3468,7 @@ client.encounter_providers.v_2.create_referring_provider(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     request=ReferringProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
+        npi="npi",
     ),
 )
 
@@ -3922,7 +3530,6 @@ client.encounter_providers.v_2.create_referring_provider(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import QualifierCode, State, StreetAddressLongZip
 from candid.resources.encounter_providers.resources.v_2 import (
     InitialReferringProvider,
 )
@@ -3936,20 +3543,7 @@ client.encounter_providers.v_2.create_initial_referring_provider(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     request=InitialReferringProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        qualifier=QualifierCode.DQ,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
+        npi="npi",
     ),
 )
 
@@ -4011,7 +3605,6 @@ client.encounter_providers.v_2.create_initial_referring_provider(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import State, StreetAddressLongZip
 from candid.resources.encounter_providers.resources.v_2 import (
     SupervisingProvider,
 )
@@ -4025,19 +3618,7 @@ client.encounter_providers.v_2.create_supervising_provider(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     request=SupervisingProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
+        npi="npi",
     ),
 )
 
@@ -4099,7 +3680,6 @@ client.encounter_providers.v_2.create_supervising_provider(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import State, StreetAddressLongZip
 from candid.resources.encounter_providers.resources.v_2 import OrderingProvider
 
 client = CandidApiClient(
@@ -4111,19 +3691,7 @@ client.encounter_providers.v_2.create_ordering_provider(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     request=OrderingProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
+        npi="npi",
     ),
 )
 
@@ -4689,77 +4257,21 @@ client.encounters.v_4.get(
 
 ```python
 import datetime
-import uuid
 
 from candid import CandidApiClient
-from candid.resources.billing_notes.resources.v_2 import BillingNoteBase
-from candid.resources.claim_submission.resources.v_1 import (
-    ClaimFrequencyTypeCode,
-    ClaimSubmissionRecordCreate,
-    ExternalClaimSubmissionCreate,
-)
 from candid.resources.commons import (
-    BillingProviderCommercialLicenseType,
-    ClaimSubmissionPayerResponsibilityType,
-    DelayReasonCode,
-    EmrPayerCrosswalk,
-    EpsdtReferralConditionIndicatorCode,
     FacilityTypeCode,
-    InsuranceTypeCode,
-    IntendedSubmissionMedium,
-    PatientRelationshipToInsuredCodeAll,
-    PhoneNumber,
-    PhoneNumberType,
-    QualifierCode,
-    ServiceLineUnits,
-    SourceOfPaymentCode,
     State,
     StreetAddressLongZip,
     StreetAddressShortZip,
 )
-from candid.resources.custom_schemas.resources.v_1 import SchemaInstance
 from candid.resources.diagnoses import DiagnosisCreate, DiagnosisTypeCode
 from candid.resources.encounter_providers.resources.v_2 import (
     BillingProvider,
-    InitialReferringProvider,
-    ReferringProvider,
     RenderingProvider,
-    SupervisingProvider,
 )
-from candid.resources.encounters.resources.v_4 import (
-    BillableStatusType,
-    ClaimSupplementalInformation,
-    ClinicalNoteCategoryCreate,
-    EpsdtReferral,
-    IntakeFollowUp,
-    IntakeQuestion,
-    IntakeResponseAndFollowUps,
-    Intervention,
-    InterventionCategory,
-    Lab,
-    LabCodeType,
-    Medication,
-    NoteCategory,
-    PatientHistoryCategory,
-    PatientHistoryCategoryEnum,
-    ReportTransmissionCode,
-    ReportTypeCode,
-    ResponsiblePartyType,
-    ServiceAuthorizationExceptionCode,
-    SynchronicityType,
-    Vitals,
-)
-from candid.resources.guarantor.resources.v_1 import GuarantorCreate
-from candid.resources.individual import (
-    Gender,
-    PatientClinicalTrialInfoCreate,
-    PatientCreate,
-    PatientNonInsurancePayerInfoCreate,
-    SubscriberCreate,
-)
-from candid.resources.insurance_cards.resources.v_2 import InsuranceCardCreate
-from candid.resources.service_facility import EncounterServiceFacilityBase
-from candid.resources.service_lines.resources.v_2 import ServiceLineCreate
+from candid.resources.encounters.resources.v_4 import ResponsiblePartyType
+from candid.resources.individual import Gender, PatientCreate
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -4767,449 +4279,46 @@ client = CandidApiClient(
 )
 client.encounters.v_4.create(
     patient=PatientCreate(
-        phone_numbers=[
-            PhoneNumber(
-                number="1234567890",
-                type=PhoneNumberType.HOME,
-            )
-        ],
-        phone_consent=True,
-        email="johndoe@joincandidhealth.com",
-        non_insurance_payers=[
-            uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            )
-        ],
-        non_insurance_payers_info=[
-            PatientNonInsurancePayerInfoCreate(
-                non_insurance_payer_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                member_id="string",
-                clinical_trial_info=[
-                    PatientClinicalTrialInfoCreate(
-                        clinical_trial_id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                    )
-                ],
-            )
-        ],
-        email_consent=True,
-        external_id="string",
+        first_name="first_name",
+        last_name="last_name",
+        gender=Gender.MALE,
+        external_id="external_id",
         date_of_birth=datetime.date.fromisoformat(
             "2023-01-15",
         ),
         address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
+            address_1="address1",
+            city="city",
+            state=State.AA,
+            zip_code="zip_code",
         ),
-        first_name="string",
-        last_name="string",
-        gender=Gender.MALE,
     ),
     billing_provider=BillingProvider(
         address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
+            address_1="address1",
+            city="city",
+            state=State.AA,
+            zip_code="zip_code",
+            zip_plus_four_code="zip_plus_four_code",
         ),
-        tax_id="string",
-        npi="string",
-        taxonomy_code="string",
-        provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
+        tax_id="tax_id",
+        npi="npi",
     ),
     rendering_provider=RenderingProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
+        npi="npi",
     ),
-    referring_provider=ReferringProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    initial_referring_provider=InitialReferringProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        qualifier=QualifierCode.DQ,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    supervising_provider=SupervisingProvider(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    service_facility=EncounterServiceFacilityBase(
-        organization_name="string",
-        npi="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        secondary_identification="string",
-    ),
-    subscriber_primary=SubscriberCreate(
-        insurance_card=InsuranceCardCreate(
-            member_id="string",
-            payer_name="string",
-            payer_id="string",
-            rx_bin="string",
-            rx_pcn="string",
-            image_url_front="string",
-            image_url_back="string",
-            emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
-            group_number="string",
-            plan_name="string",
-            plan_type=SourceOfPaymentCode.SELF_PAY,
-            insurance_type=InsuranceTypeCode.C_01,
-            payer_plan_group_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        ),
-        patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-        date_of_birth=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        gender=Gender.MALE,
-    ),
-    subscriber_secondary=SubscriberCreate(
-        insurance_card=InsuranceCardCreate(
-            member_id="string",
-            payer_name="string",
-            payer_id="string",
-            rx_bin="string",
-            rx_pcn="string",
-            image_url_front="string",
-            image_url_back="string",
-            emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
-            group_number="string",
-            plan_name="string",
-            plan_type=SourceOfPaymentCode.SELF_PAY,
-            insurance_type=InsuranceTypeCode.C_01,
-            payer_plan_group_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        ),
-        patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-        date_of_birth=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        gender=Gender.MALE,
-    ),
-    subscriber_tertiary=SubscriberCreate(
-        insurance_card=InsuranceCardCreate(
-            member_id="string",
-            payer_name="string",
-            payer_id="string",
-            rx_bin="string",
-            rx_pcn="string",
-            image_url_front="string",
-            image_url_back="string",
-            emr_payer_crosswalk=EmrPayerCrosswalk.HEALTHIE,
-            group_number="string",
-            plan_name="string",
-            plan_type=SourceOfPaymentCode.SELF_PAY,
-            insurance_type=InsuranceTypeCode.C_01,
-            payer_plan_group_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        ),
-        patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SPOUSE,
-        date_of_birth=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        gender=Gender.MALE,
-    ),
-    prior_authorization_number="string",
     responsible_party=ResponsiblePartyType.INSURANCE_PAY,
     diagnoses=[
         DiagnosisCreate(
-            name="string",
             code_type=DiagnosisTypeCode.ABF,
-            code="string",
-        )
-    ],
-    clinical_notes=[
-        ClinicalNoteCategoryCreate(
-            category=NoteCategory.CLINICAL,
-            notes=[],
-        )
-    ],
-    billing_notes=[
-        BillingNoteBase(
-            text="string",
-        )
+            code="code",
+        ),
+        DiagnosisCreate(
+            code_type=DiagnosisTypeCode.ABF,
+            code="code",
+        ),
     ],
     place_of_service_code=FacilityTypeCode.PHARMACY,
-    patient_histories=[
-        PatientHistoryCategory(
-            category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
-            questions=[
-                IntakeQuestion(
-                    id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
-                    text="Do you have any allergies?",
-                    responses=[
-                        IntakeResponseAndFollowUps(
-                            response="No allergies",
-                            follow_ups=[
-                                IntakeFollowUp(
-                                    id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
-                                    text="Do you have any allergies?",
-                                    response="No allergies",
-                                )
-                            ],
-                        )
-                    ],
-                )
-            ],
-        )
-    ],
-    service_lines=[
-        ServiceLineCreate(
-            procedure_code="string",
-            quantity="string",
-            units=ServiceLineUnits.MJ,
-            diagnosis_pointers=[],
-        )
-    ],
-    guarantor=GuarantorCreate(
-        phone_numbers=[
-            PhoneNumber(
-                number="1234567890",
-                type=PhoneNumberType.HOME,
-            )
-        ],
-        phone_consent=True,
-        email="johndoe@joincandidhealth.com",
-        email_consent=True,
-        first_name="string",
-        last_name="string",
-        external_id="string",
-        date_of_birth=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-    ),
-    external_claim_submission=ExternalClaimSubmissionCreate(
-        claim_created_at=datetime.datetime.fromisoformat(
-            "2023-01-01 12:00:00+00:00",
-        ),
-        patient_control_number="PATIENT_CONTROL_NUMBER",
-        submission_records=[
-            ClaimSubmissionRecordCreate(
-                submitted_at=datetime.datetime.fromisoformat(
-                    "2023-01-01 13:00:00+00:00",
-                ),
-                claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
-                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
-                intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
-            ),
-            ClaimSubmissionRecordCreate(
-                submitted_at=datetime.datetime.fromisoformat(
-                    "2023-01-04 12:00:00+00:00",
-                ),
-                claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
-                payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
-                intended_submission_medium=IntendedSubmissionMedium.PAPER,
-            ),
-        ],
-    ),
-    tag_ids=["string"],
-    schema_instances=[
-        SchemaInstance(
-            schema_id=uuid.UUID(
-                "ec096b13-f80a-471d-aaeb-54b021c9d582",
-            ),
-            content={
-                "provider_category": "internist",
-                "is_urgent_care": True,
-                "bmi": 24.2,
-                "age": 38,
-            },
-        )
-    ],
-    referral_number="string",
-    epsdt_referral=EpsdtReferral(
-        condition_indicator_1=EpsdtReferralConditionIndicatorCode.AV,
-        condition_indicator_2=EpsdtReferralConditionIndicatorCode.AV,
-        condition_indicator_3=EpsdtReferralConditionIndicatorCode.AV,
-    ),
-    claim_supplemental_information=[
-        ClaimSupplementalInformation(
-            attachment_report_type_code=ReportTypeCode.C_03,
-            attachment_transmission_code=ReportTransmissionCode.CBM,
-        )
-    ],
-    secondary_payer_carrier_code="string",
-    external_id="string",
-    date_of_service=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    end_date_of_service=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    patient_authorized_release=True,
-    benefits_assigned_to_provider=True,
-    provider_accepts_assignment=True,
-    appointment_type="string",
-    existing_medications=[
-        Medication(
-            name="Lisinopril",
-            rx_cui="860975",
-            dosage="10mg",
-            dosage_form="Tablet",
-            frequency="Once Daily",
-            as_needed=True,
-        )
-    ],
-    vitals=Vitals(
-        height_in=70,
-        weight_lbs=165,
-        blood_pressure_systolic_mmhg=115,
-        blood_pressure_diastolic_mmhg=85,
-        body_temperature_f=98.0,
-        hemoglobin_gdl=15.1,
-        hematocrit_pct=51.2,
-    ),
-    interventions=[
-        Intervention(
-            name="Physical Therapy Session",
-            category=InterventionCategory.LIFESTYLE,
-            description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
-            medication=Medication(
-                name="Lisinopril",
-                rx_cui="860975",
-                dosage="10mg",
-                dosage_form="Tablet",
-                frequency="Once Daily",
-                as_needed=True,
-            ),
-            labs=[
-                Lab(
-                    name="Genetic Health Labs",
-                    code="GH12345",
-                    code_type=LabCodeType.QUEST,
-                )
-            ],
-        )
-    ],
-    pay_to_address=StreetAddressLongZip(
-        address_1="123 Main St",
-        address_2="Apt 1",
-        city="New York",
-        state=State.NY,
-        zip_code="10001",
-        zip_plus_four_code="1234",
-    ),
-    synchronicity=SynchronicityType.SYNCHRONOUS,
-    billable_status=BillableStatusType.BILLABLE,
-    additional_information="string",
-    service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-    admission_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    discharge_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    last_menstrual_period_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    delay_reason_code=DelayReasonCode.C_1,
 )
 
 ```
@@ -5227,7 +4336,6 @@ client.encounters.v_4.create(
 <dd>
 
 **patient:** `PatientCreate` — Contains the identification information of the individual receiving medical services.
-
     
 </dd>
 </dl>
@@ -5236,7 +4344,6 @@ client.encounters.v_4.create(
 <dd>
 
 **billing_provider:** `BillingProvider` — The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
-
     
 </dd>
 </dl>
@@ -5248,7 +4355,6 @@ client.encounters.v_4.create(
 
 The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
 For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
-
     
 </dd>
 </dl>
@@ -5257,7 +4363,6 @@ For telehealth services, the rendering provider performs the visit, asynchronous
 <dd>
 
 **responsible_party:** `ResponsiblePartyType` — Defines the party to be billed with the initial balance owed on the claim.
-
     
 </dd>
 </dl>
@@ -5270,7 +4375,6 @@ For telehealth services, the rendering provider performs the visit, asynchronous
 Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
 may be submitted at this time, and coders will later prioritize the 12 that will be
 submitted to the payor.
-
     
 </dd>
 </dl>
@@ -5279,7 +4383,6 @@ submitted to the payor.
 <dd>
 
 **place_of_service_code:** `FacilityTypeCode` — Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
-
     
 </dd>
 </dl>
@@ -5352,7 +4455,6 @@ if the Encounter has not occurred yet or if there is no intention of ever billin
 The final provider who referred the services that were rendered.
 All physicians who order services or refer Medicare beneficiaries must
 report this data.
-
     
 </dd>
 </dl>
@@ -5364,7 +4466,6 @@ report this data.
 
 The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
 indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
-
     
 </dd>
 </dl>
@@ -5373,7 +4474,6 @@ indicate the initial referral from the primary care provider or whatever provide
 <dd>
 
 **supervising_provider:** `typing.Optional[SupervisingProvider]` — Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-
     
 </dd>
 </dl>
@@ -5382,7 +4482,6 @@ indicate the initial referral from the primary care provider or whatever provide
 <dd>
 
 **service_facility:** `typing.Optional[EncounterServiceFacilityBase]` — Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
-
     
 </dd>
 </dl>
@@ -5396,7 +4495,6 @@ Subscriber_primary is required when responsible_party is INSURANCE_PAY (i.e. whe
 These are not required fields when responsible_party is SELF_PAY (i.e. when the claim should be billed to the patient).
 However, if you collect this for patients, even self-pay, we recommend including it when sending encounters to Candid.
 Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party to define self-pay claims.
-
     
 </dd>
 </dl>
@@ -5405,7 +4503,6 @@ Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party
 <dd>
 
 **subscriber_secondary:** `typing.Optional[SubscriberCreate]` — Please always include this when you have it, even for self-pay claims.
-
     
 </dd>
 </dl>
@@ -5414,7 +4511,6 @@ Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party
 <dd>
 
 **subscriber_tertiary:** `typing.Optional[SubscriberCreate]` — Please always include this when you have it, even for self-pay claims.
-
     
 </dd>
 </dl>
@@ -5442,7 +4538,6 @@ Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party
 
 Spot to store misc, human-readable, notes about this encounter to be used
 in the billing process.
-
     
 </dd>
 </dl>
@@ -5463,7 +4558,6 @@ in the billing process.
 Each service line must be linked to a diagnosis. Concretely,
 `service_line.diagnosis_pointers`must contain at least one entry which should be
 in bounds of the diagnoses list field.
-
     
 </dd>
 </dl>
@@ -5472,7 +4566,6 @@ in bounds of the diagnoses list field.
 <dd>
 
 **guarantor:** `typing.Optional[GuarantorCreate]` — Personal and contact info for the guarantor of the patient responsibility.
-
     
 </dd>
 </dl>
@@ -5484,7 +4577,6 @@ in bounds of the diagnoses list field.
 
 To be included for claims that have been submitted outside of Candid.
 Candid supports posting remits and payments to these claims and working them in-platform (e.g. editing, resubmitting).
-
     
 </dd>
 </dl>
@@ -5504,7 +4596,6 @@ Candid supports posting remits and payments to these claims and working them in-
 
 Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
 instances cannot be created for the same schema on an encounter.
-
     
 </dd>
 </dl>
@@ -5513,7 +4604,6 @@ instances cannot be created for the same schema on an encounter.
 <dd>
 
 **referral_number:** `typing.Optional[str]` — Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
-
     
 </dd>
 </dl>
@@ -5522,7 +4612,6 @@ instances cannot be created for the same schema on an encounter.
 <dd>
 
 **epsdt_referral:** `typing.Optional[EpsdtReferral]` — Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
-
     
 </dd>
 </dl>
@@ -5531,7 +4620,6 @@ instances cannot be created for the same schema on an encounter.
 <dd>
 
 **claim_supplemental_information:** `typing.Optional[typing.Sequence[ClaimSupplementalInformation]]` — Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
-
     
 </dd>
 </dl>
@@ -5540,7 +4628,6 @@ instances cannot be created for the same schema on an encounter.
 <dd>
 
 **secondary_payer_carrier_code:** `typing.Optional[str]` — When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
-
     
 </dd>
 </dl>
@@ -5644,7 +4731,7 @@ Box 19 on the CMS-1500 claim form.
 
 **service_authorization_exception_code:** `typing.Optional[ServiceAuthorizationExceptionCode]` 
 
-837p Loop2300 REF\*4N
+837p Loop2300 REF*4N
 Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
 reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
 obtaining the authorization.
@@ -5657,7 +4744,7 @@ obtaining the authorization.
 
 **admission_date:** `typing.Optional[dt.date]` 
 
-837p Loop2300 DTP\*435, CMS-1500 Box 18
+837p Loop2300 DTP*435, CMS-1500 Box 18
 Required on all ambulance claims when the patient was known to be admitted to the hospital.
 OR
 Required on all claims involving inpatient medical visits.
@@ -5670,7 +4757,7 @@ Required on all claims involving inpatient medical visits.
 
 **discharge_date:** `typing.Optional[dt.date]` 
 
-837p Loop2300 DTP\*096, CMS-1500 Box 18
+837p Loop2300 DTP*096, CMS-1500 Box 18
 Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
     
 </dd>
@@ -5681,7 +4768,7 @@ Required for inpatient claims when the patient was discharged from the facility 
 
 **onset_of_current_illness_or_symptom_date:** `typing.Optional[dt.date]` 
 
-837p Loop2300 DTP\*431, CMS-1500 Box 14
+837p Loop2300 DTP*431, CMS-1500 Box 14
 Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
 OR
 This date is the onset of acute symptoms for the current illness or condition.
@@ -5694,7 +4781,7 @@ This date is the onset of acute symptoms for the current illness or condition.
 
 **last_menstrual_period_date:** `typing.Optional[dt.date]` 
 
-837p Loop2300 DTP\*484, CMS-1500 Box 14
+837p Loop2300 DTP*484, CMS-1500 Box 14
 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.
     
 </dd>
@@ -5744,14 +4831,13 @@ of the pre-encounter service should use the standard create endpoint.
 
 The endpoint will create an encounter from the provided fields, pulling information from the provided patient and appointment objects
 where applicable. In particular, the following fields are populated from the patient and appointment objects:
-
-- Patient
-- Referring Provider
-- Subscriber Primary
-- Subscriber Secondary
-- Referral Number
-- Responsible Party
-- Guarantor
+  - Patient
+  - Referring Provider
+  - Subscriber Primary
+  - Subscriber Secondary
+  - Referral Number
+  - Responsible Party
+  - Guarantor
 
 Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
 encounter has not already been submitted or adjudicated.
@@ -5769,56 +4855,23 @@ encounter has not already been submitted or adjudicated.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.billing_notes.resources.v_2 import BillingNoteBase
-from candid.resources.claim_submission.resources.v_1 import (
-    ClaimFrequencyTypeCode,
-    ClaimSubmissionRecordCreate,
-    ExternalClaimSubmissionCreate,
-)
 from candid.resources.commons import (
-    BillingProviderCommercialLicenseType,
-    ClaimSubmissionPayerResponsibilityType,
-    DelayReasonCode,
     FacilityTypeCode,
-    IntendedSubmissionMedium,
-    QualifierCode,
-    ServiceLineUnits,
     State,
     StreetAddressLongZip,
 )
-from candid.resources.custom_schemas.resources.v_1 import SchemaInstance
 from candid.resources.diagnoses import DiagnosisCreate, DiagnosisTypeCode
 from candid.resources.encounter_providers.resources.v_2 import (
     BillingProvider,
-    InitialReferringProvider,
     RenderingProvider,
-    SupervisingProvider,
 )
 from candid.resources.encounters.resources.v_4 import (
     BillableStatusType,
-    ClinicalNoteCategoryCreate,
     EncounterCreateFromPreEncounter,
-    IntakeFollowUp,
-    IntakeQuestion,
-    IntakeResponseAndFollowUps,
-    Intervention,
-    InterventionCategory,
-    Lab,
-    LabCodeType,
-    Medication,
-    NoteCategory,
-    PatientHistoryCategory,
-    PatientHistoryCategoryEnum,
-    ServiceAuthorizationExceptionCode,
-    SynchronicityType,
-    Vitals,
 )
-from candid.resources.service_facility import EncounterServiceFacilityBase
-from candid.resources.service_lines.resources.v_2 import ServiceLineCreate
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -5826,255 +4879,47 @@ client = CandidApiClient(
 )
 client.encounters.v_4.create_from_pre_encounter_patient(
     request=EncounterCreateFromPreEncounter(
+        external_id="external_id",
+        patient_authorized_release=True,
+        benefits_assigned_to_provider=True,
+        provider_accepts_assignment=True,
+        billable_status=BillableStatusType.BILLABLE,
         pre_encounter_patient_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
         pre_encounter_appointment_ids=[
             uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            )
+            ),
+            uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
         ],
         billing_provider=BillingProvider(
             address=StreetAddressLongZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
+                address_1="address1",
+                city="city",
+                state=State.AA,
+                zip_code="zip_code",
+                zip_plus_four_code="zip_plus_four_code",
             ),
-            tax_id="string",
-            npi="string",
-            taxonomy_code="string",
-            provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
-            first_name="string",
-            last_name="string",
-            organization_name="string",
+            tax_id="tax_id",
+            npi="npi",
         ),
         rendering_provider=RenderingProvider(
-            npi="string",
-            taxonomy_code="string",
-            address=StreetAddressLongZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
-            ),
-            first_name="string",
-            last_name="string",
-            organization_name="string",
-        ),
-        initial_referring_provider=InitialReferringProvider(
-            npi="string",
-            taxonomy_code="string",
-            address=StreetAddressLongZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
-            ),
-            qualifier=QualifierCode.DQ,
-            first_name="string",
-            last_name="string",
-            organization_name="string",
-        ),
-        supervising_provider=SupervisingProvider(
-            npi="string",
-            taxonomy_code="string",
-            address=StreetAddressLongZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
-            ),
-            first_name="string",
-            last_name="string",
-            organization_name="string",
-        ),
-        service_facility=EncounterServiceFacilityBase(
-            organization_name="string",
-            npi="string",
-            address=StreetAddressLongZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
-            ),
-            secondary_identification="string",
+            npi="npi",
         ),
         diagnoses=[
             DiagnosisCreate(
-                name="string",
                 code_type=DiagnosisTypeCode.ABF,
-                code="string",
-            )
-        ],
-        clinical_notes=[
-            ClinicalNoteCategoryCreate(
-                category=NoteCategory.CLINICAL,
-                notes=[],
-            )
-        ],
-        billing_notes=[
-            BillingNoteBase(
-                text="string",
-            )
+                code="code",
+            ),
+            DiagnosisCreate(
+                code_type=DiagnosisTypeCode.ABF,
+                code="code",
+            ),
         ],
         place_of_service_code=FacilityTypeCode.PHARMACY,
-        patient_histories=[
-            PatientHistoryCategory(
-                category=PatientHistoryCategoryEnum.PRESENT_ILLNESS,
-                questions=[
-                    IntakeQuestion(
-                        id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
-                        text="Do you have any allergies?",
-                        responses=[
-                            IntakeResponseAndFollowUps(
-                                response="No allergies",
-                                follow_ups=[
-                                    IntakeFollowUp(
-                                        id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
-                                        text="Do you have any allergies?",
-                                        response="No allergies",
-                                    )
-                                ],
-                            )
-                        ],
-                    )
-                ],
-            )
-        ],
-        service_lines=[
-            ServiceLineCreate(
-                procedure_code="string",
-                quantity="string",
-                units=ServiceLineUnits.MJ,
-                diagnosis_pointers=[],
-            )
-        ],
-        external_claim_submission=ExternalClaimSubmissionCreate(
-            claim_created_at=datetime.datetime.fromisoformat(
-                "2023-01-01 12:00:00+00:00",
-            ),
-            patient_control_number="PATIENT_CONTROL_NUMBER",
-            submission_records=[
-                ClaimSubmissionRecordCreate(
-                    submitted_at=datetime.datetime.fromisoformat(
-                        "2023-01-01 13:00:00+00:00",
-                    ),
-                    claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
-                    payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
-                    intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
-                ),
-                ClaimSubmissionRecordCreate(
-                    submitted_at=datetime.datetime.fromisoformat(
-                        "2023-01-04 12:00:00+00:00",
-                    ),
-                    claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
-                    payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
-                    intended_submission_medium=IntendedSubmissionMedium.PAPER,
-                ),
-            ],
-        ),
-        tag_ids=["string"],
-        schema_instances=[
-            SchemaInstance(
-                schema_id=uuid.UUID(
-                    "ec096b13-f80a-471d-aaeb-54b021c9d582",
-                ),
-                content={
-                    "provider_category": "internist",
-                    "is_urgent_care": True,
-                    "bmi": 24.2,
-                    "age": 38,
-                },
-            )
-        ],
-        external_id="string",
-        date_of_service=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        end_date_of_service=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        patient_authorized_release=True,
-        benefits_assigned_to_provider=True,
-        provider_accepts_assignment=True,
-        appointment_type="string",
-        existing_medications=[
-            Medication(
-                name="Lisinopril",
-                rx_cui="860975",
-                dosage="10mg",
-                dosage_form="Tablet",
-                frequency="Once Daily",
-                as_needed=True,
-            )
-        ],
-        vitals=Vitals(
-            height_in=70,
-            weight_lbs=165,
-            blood_pressure_systolic_mmhg=115,
-            blood_pressure_diastolic_mmhg=85,
-            body_temperature_f=98.0,
-            hemoglobin_gdl=15.1,
-            hematocrit_pct=51.2,
-        ),
-        interventions=[
-            Intervention(
-                name="Physical Therapy Session",
-                category=InterventionCategory.LIFESTYLE,
-                description="A session focused on improving muscular strength, flexibility, and range of motion post-injury.",
-                medication=Medication(
-                    name="Lisinopril",
-                    rx_cui="860975",
-                    dosage="10mg",
-                    dosage_form="Tablet",
-                    frequency="Once Daily",
-                    as_needed=True,
-                ),
-                labs=[
-                    Lab(
-                        name="Genetic Health Labs",
-                        code="GH12345",
-                        code_type=LabCodeType.QUEST,
-                    )
-                ],
-            )
-        ],
-        pay_to_address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        synchronicity=SynchronicityType.SYNCHRONOUS,
-        billable_status=BillableStatusType.BILLABLE,
-        additional_information="string",
-        service_authorization_exception_code=ServiceAuthorizationExceptionCode.C_1,
-        admission_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        discharge_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        onset_of_current_illness_or_symptom_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        last_menstrual_period_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        delay_reason_code=DelayReasonCode.C_1,
     ),
 )
 
@@ -6125,34 +4970,9 @@ client.encounters.v_4.create_from_pre_encounter_patient(
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import (
-    BillingProviderCommercialLicenseType,
-    FacilityTypeCode,
-    PhoneNumber,
-    PhoneNumberType,
-    QualifierCode,
-    State,
-    StreetAddressLongZip,
-    StreetAddressShortZip,
-)
-from candid.resources.encounter_providers.resources.v_2 import (
-    BillingProviderUpdate,
-    InitialReferringProviderUpdate,
-    ReferringProviderUpdate,
-    RenderingProviderUpdate,
-    SupervisingProviderUpdate,
-)
-from candid.resources.individual import (
-    Gender,
-    PatientClinicalTrialInfoCreate,
-    PatientNonInsurancePayerInfoCreate,
-    PatientUpdate,
-)
-from candid.resources.service_facility import EncounterServiceFacilityUpdate
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -6162,155 +4982,6 @@ client.encounters.v_4.update(
     encounter_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    pay_to_address=StreetAddressLongZip(
-        address_1="123 Main St",
-        address_2="Apt 1",
-        city="New York",
-        state=State.NY,
-        zip_code="10001",
-        zip_plus_four_code="1234",
-    ),
-    diagnosis_ids=[
-        uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        )
-    ],
-    initial_referring_provider=InitialReferringProviderUpdate(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        qualifier=QualifierCode.DQ,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    referring_provider=ReferringProviderUpdate(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    patient=PatientUpdate(
-        first_name="string",
-        last_name="string",
-        gender=Gender.MALE,
-        external_id="string",
-        date_of_birth=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        phone_numbers=[
-            PhoneNumber(
-                number="1234567890",
-                type=PhoneNumberType.HOME,
-            )
-        ],
-        phone_consent=True,
-        email="johndoe@joincandidhealth.com",
-        email_consent=True,
-        non_insurance_payers=[
-            uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            )
-        ],
-        non_insurance_payers_info=[
-            PatientNonInsurancePayerInfoCreate(
-                non_insurance_payer_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                member_id="string",
-                clinical_trial_info=[
-                    PatientClinicalTrialInfoCreate(
-                        clinical_trial_id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                    )
-                ],
-            )
-        ],
-    ),
-    rendering_provider=RenderingProviderUpdate(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    service_facility=EncounterServiceFacilityUpdate(
-        organization_name="Test Organization",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-    ),
-    supervising_provider=SupervisingProviderUpdate(
-        npi="string",
-        taxonomy_code="string",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    billing_provider=BillingProviderUpdate(
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        tax_id="string",
-        npi="string",
-        taxonomy_code="string",
-        provider_commercial_license_type=BillingProviderCommercialLicenseType.LICENSED_CLINICAL_SOCIAL_WORKER,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-    ),
-    place_of_service_code_as_submitted=FacilityTypeCode.PHARMACY,
 )
 
 ```
@@ -6348,7 +5019,6 @@ client.encounters.v_4.update(
 Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
 may be submitted at this time, and coders will later prioritize the 12 that will be
 submitted to the payor.
-
     
 </dd>
 </dl>
@@ -6360,7 +5030,6 @@ submitted to the payor.
 
 The second iteration of Loop ID-2310. Use code "P3 - Primary Care Provider" in this loop to
 indicate the initial referral from the primary care provider or whatever provider wrote the initial referral for this patient's episode of care being billed/reported in this transaction.
-
     
 </dd>
 </dl>
@@ -6373,7 +5042,6 @@ indicate the initial referral from the primary care provider or whatever provide
 The final provider who referred the services that were rendered.
 All physicians who order services or refer Medicare beneficiaries must
 report this data.
-
     
 </dd>
 </dl>
@@ -6382,7 +5050,6 @@ report this data.
 <dd>
 
 **patient:** `typing.Optional[PatientUpdate]` — Contains the identification information of the individual receiving medical services.
-
     
 </dd>
 </dl>
@@ -6394,7 +5061,6 @@ report this data.
 
 The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
 For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
-
     
 </dd>
 </dl>
@@ -6403,7 +5069,6 @@ For telehealth services, the rendering provider performs the visit, asynchronous
 <dd>
 
 **service_facility:** `typing.Optional[EncounterServiceFacilityUpdate]` — Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
-
     
 </dd>
 </dl>
@@ -6412,7 +5077,6 @@ For telehealth services, the rendering provider performs the visit, asynchronous
 <dd>
 
 **supervising_provider:** `typing.Optional[SupervisingProviderUpdate]` — Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
-
     
 </dd>
 </dl>
@@ -6421,7 +5085,6 @@ For telehealth services, the rendering provider performs the visit, asynchronous
 <dd>
 
 **billing_provider:** `typing.Optional[BillingProviderUpdate]` — The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
-
     
 </dd>
 </dl>
@@ -6430,7 +5093,6 @@ For telehealth services, the rendering provider performs the visit, asynchronous
 <dd>
 
 **place_of_service_code_as_submitted:** `typing.Optional[FacilityTypeCode]` — Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
-
     
 </dd>
 </dl>
@@ -6480,7 +5142,7 @@ If service lines have distinct date_of_service values, updating the encounter's 
 <dl>
 <dd>
 
-**tag_ids:** `typing.Optional[typing.Sequence[TagId]]` — Names of tags that should be on the encounter. Note all tags on encounter will be overridden with this list.
+**tag_ids:** `typing.Optional[typing.Sequence[TagId]]` — Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
     
 </dd>
 </dl>
@@ -6595,7 +5257,7 @@ Box 19 on the CMS-1500 claim form.
 
 **service_authorization_exception_code:** `typing.Optional[ServiceAuthorizationExceptionCode]` 
 
-837p Loop2300 REF\*4N
+837p Loop2300 REF*4N
 Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
 reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
 obtaining the authorization.
@@ -6608,7 +5270,7 @@ obtaining the authorization.
 
 **admission_date:** `typing.Optional[dt.date]` 
 
-837p Loop2300 DTP\*435, CMS-1500 Box 18
+837p Loop2300 DTP*435, CMS-1500 Box 18
 Required on all ambulance claims when the patient was known to be admitted to the hospital.
 OR
 Required on all claims involving inpatient medical visits.
@@ -6621,7 +5283,7 @@ Required on all claims involving inpatient medical visits.
 
 **discharge_date:** `typing.Optional[dt.date]` 
 
-837p Loop2300 DTP\*096, CMS-1500 Box 18
+837p Loop2300 DTP*096, CMS-1500 Box 18
 Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
     
 </dd>
@@ -6632,7 +5294,7 @@ Required for inpatient claims when the patient was discharged from the facility 
 
 **onset_of_current_illness_or_symptom_date:** `typing.Optional[dt.date]` 
 
-837p Loop2300 DTP\*431, CMS-1500 Box 14
+837p Loop2300 DTP*431, CMS-1500 Box 14
 Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
 OR
 This date is the onset of acute symptoms for the current illness or condition.
@@ -6645,7 +5307,7 @@ This date is the onset of acute symptoms for the current illness or condition.
 
 **last_menstrual_period_date:** `typing.Optional[dt.date]` 
 
-837p Loop2300 DTP\*484, CMS-1500 Box 14
+837p Loop2300 DTP*484, CMS-1500 Box 14
 Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.de
     
 </dd>
@@ -6720,7 +5382,7 @@ Note all current existing medications on encounter will be overridden with this 
 <dl>
 <dd>
 
-**referral_number:** `typing.Optional[str]` — Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+**referral_number:** `typing.Optional[str]` — Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
     
 </dd>
 </dl>
@@ -6793,23 +5455,20 @@ Computes the expected network status given the provided information.
 
 ```python
 from candid import CandidApiClient
-from candid.resources.commons import InsuranceTypeCode, State
+from candid.resources.commons import State
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.expected_network_status.v_1.compute(
-    external_patient_id="string",
-    subscriber_payer_id="string",
-    subscriber_payer_name="string",
-    subscriber_insurance_type=InsuranceTypeCode.C_01,
-    subscriber_plan_name="string",
-    billing_provider_npi="string",
-    billing_provider_tin="string",
-    rendering_provider_npi="string",
+    subscriber_payer_id="subscriber_payer_id",
+    subscriber_payer_name="subscriber_payer_name",
+    billing_provider_npi="billing_provider_npi",
+    billing_provider_tin="billing_provider_tin",
+    rendering_provider_npi="rendering_provider_npi",
     contracted_state=State.AA,
-    date_of_service="string",
+    date_of_service="date_of_service",
 )
 
 ```
@@ -6875,7 +5534,6 @@ client.expected_network_status.v_1.compute(
 <dd>
 
 **date_of_service:** `Date` — Date formatted as YYYY-MM-DD; eg: 2019-08-25.
-
     
 </dd>
 </dl>
@@ -6983,7 +5641,7 @@ client.expected_network_status.v_2.compute_for_rendering_provider(
             payer_uuid=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            member_id="string",
+            member_id="member_id",
             insurance_type=InsuranceType(
                 line_of_business=LineOfBusiness.MEDICARE,
                 insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
@@ -6992,18 +5650,16 @@ client.expected_network_status.v_2.compute_for_rendering_provider(
             ),
         ),
         patient_address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
+            address_1="address1",
+            city="city",
+            state=State.AA,
+            zip_code="zip_code",
         ),
         billing_provider_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
         organization_service_facility_id=uuid.UUID(
-            "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
         date_of_service=datetime.date.fromisoformat(
             "2023-01-15",
@@ -7113,7 +5769,7 @@ client.expected_network_status.v_2.compute_all_in_network_providers(
             payer_uuid=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            member_id="string",
+            member_id="member_id",
             insurance_type=InsuranceType(
                 line_of_business=LineOfBusiness.MEDICARE,
                 insurance_type_codes=InsuranceTypeCodes_InsuranceTypeCode(
@@ -7122,18 +5778,16 @@ client.expected_network_status.v_2.compute_all_in_network_providers(
             ),
         ),
         patient_address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
+            address_1="address1",
+            city="city",
+            state=State.AA,
+            zip_code="zip_code",
         ),
         billing_provider_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
         organization_service_facility_id=uuid.UUID(
-            "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
         date_of_service=datetime.date.fromisoformat(
             "2023-01-15",
@@ -7303,10 +5957,7 @@ client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.external_payment_account_config.v_1.get_multi(
-    limit=1,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.external_payment_account_config.v_1.get_multi()
 
 ```
 </dd>
@@ -7363,7 +6014,7 @@ client.external_payment_account_config.v_1.get_multi(
 <dl>
 <dd>
 
-Gets the rate that matches a service line. No result means no rate exists matching the service line's dimensions.
+Gets the rate that matches a service line.  No result means no rate exists matching the service line's dimensions.
 </dd>
 </dl>
 </dd>
@@ -7539,45 +6190,13 @@ Gets a list of dimensions with their rates. The rates returned will always be th
 <dd>
 
 ```python
-import datetime
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import (
-    FacilityTypeCode,
-    NetworkType,
-    ProcedureModifier,
-    State,
-)
-from candid.resources.organization_providers.resources.v_2 import LicenseType
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.fee_schedules.v_3.get_multi(
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-    limit=1,
-    active_date=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    payer_uuid=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    organization_billing_provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    states=State.AA,
-    zip_codes="string",
-    license_types=LicenseType.MD,
-    facility_type_codes=FacilityTypeCode.PHARMACY,
-    network_types=NetworkType.PPO,
-    payer_plan_group_ids=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    cpt_code="string",
-    modifiers=ProcedureModifier.AV,
-)
+client.fee_schedules.v_3.get_multi()
 
 ```
 </dd>
@@ -7742,42 +6361,15 @@ Gets unique values for a dimension based on other selection criteria. The respon
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import (
-    FacilityTypeCode,
-    NetworkType,
-    ProcedureModifier,
-    State,
-)
 from candid.resources.fee_schedules.resources.v_3 import DimensionName
-from candid.resources.organization_providers.resources.v_2 import LicenseType
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.fee_schedules.v_3.get_unique_values_for_dimension(
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-    limit=1,
     pivot_dimension=DimensionName.PAYER_UUID,
-    payer_uuid=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    organization_billing_provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    states=State.AA,
-    zip_codes="string",
-    license_types=LicenseType.MD,
-    facility_type_codes=FacilityTypeCode.PHARMACY,
-    network_types=NetworkType.PPO,
-    payer_plan_group_ids=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    cpt_code="string",
-    modifiers=ProcedureModifier.AV,
 )
 
 ```
@@ -8003,7 +6595,7 @@ client.fee_schedules.v_3.get_rate_history(
 <dl>
 <dd>
 
-Uploads a new fee schedule.\n Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will be returned.\n Use the dry run flag to discover already existing rates and to run validations. If validations for any rate fail, no rates will be saved to the system.
+Uploads a new fee schedule.\n Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will be returned.\n Use the dry run flag to discover already existing rates and to run validations.  If validations for any rate fail, no rates will be saved to the system.
 </dd>
 </dl>
 </dd>
@@ -8051,7 +6643,7 @@ client.fee_schedules.v_3.upload_fee_schedule(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
                 states=[State.AA],
-                zip_codes={"string"},
+                zip_codes={"zip_codes"},
                 license_types=[LicenseType.MD],
                 facility_type_codes=[FacilityTypeCode.PHARMACY],
                 network_types=[NetworkType.PPO],
@@ -8060,19 +6652,64 @@ client.fee_schedules.v_3.upload_fee_schedule(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     )
                 ],
-                cpt_code="string",
+                cpt_code="cpt_code",
                 modifiers=[ProcedureModifier.AV],
             ),
             entries=[
                 RateEntry(
                     start_date=datetime.date.fromisoformat(
-                        "2024-04-11",
+                        "2023-01-15",
                     ),
-                    rate_cents=33000,
-                    is_deactivated=False,
-                )
+                    rate_cents=1,
+                    is_deactivated=True,
+                ),
+                RateEntry(
+                    start_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    rate_cents=1,
+                    is_deactivated=True,
+                ),
             ],
-        )
+        ),
+        RateUpload_NewRate(
+            dimensions=Dimensions(
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                organization_billing_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                states=[State.AA],
+                zip_codes={"zip_codes"},
+                license_types=[LicenseType.MD],
+                facility_type_codes=[FacilityTypeCode.PHARMACY],
+                network_types=[NetworkType.PPO],
+                payer_plan_group_ids=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ],
+                cpt_code="cpt_code",
+                modifiers=[ProcedureModifier.AV],
+            ),
+            entries=[
+                RateEntry(
+                    start_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    rate_cents=1,
+                    is_deactivated=True,
+                ),
+                RateEntry(
+                    start_date=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    rate_cents=1,
+                    is_deactivated=True,
+                ),
+            ],
+        ),
     ],
 )
 
@@ -8130,7 +6767,7 @@ client.fee_schedules.v_3.upload_fee_schedule(
 <dl>
 <dd>
 
-Soft deletes a rate from the system. Only the most recent version of a rate can be deleted.
+Soft deletes a rate from the system.  Only the most recent version of a rate can be deleted.
 </dd>
 </dl>
 </dd>
@@ -8379,8 +7016,6 @@ client.fee_schedules.v_3.set_payer_threshold(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     request=PayerThreshold(
-        upper_threshold_cents=1,
-        lower_threshold_cents=1,
         disable_paid_incorrectly=True,
     ),
 )
@@ -8455,16 +7090,10 @@ Creates a new guarantor and returns the newly created Guarantor object.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import (
-    PhoneNumber,
-    PhoneNumberType,
-    State,
-    StreetAddressShortZip,
-)
+from candid.resources.commons import State, StreetAddressShortZip
 from candid.resources.guarantor.resources.v_1 import GuarantorCreate
 
 client = CandidApiClient(
@@ -8476,28 +7105,14 @@ client.guarantor.v_1.create(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     request=GuarantorCreate(
-        phone_numbers=[
-            PhoneNumber(
-                number="1234567890",
-                type=PhoneNumberType.HOME,
-            )
-        ],
-        phone_consent=True,
-        email="johndoe@joincandidhealth.com",
-        email_consent=True,
-        first_name="string",
-        last_name="string",
-        external_id="string",
-        date_of_birth=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
+        first_name="first_name",
+        last_name="last_name",
+        external_id="external_id",
         address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
+            address_1="address1",
+            city="city",
+            state=State.AA,
+            zip_code="zip_code",
         ),
     ),
 )
@@ -8646,16 +7261,9 @@ Updates a guarantor by its `guarantor_id`.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import (
-    PhoneNumber,
-    PhoneNumberType,
-    State,
-    StreetAddressShortZip,
-)
 from candid.resources.guarantor.resources.v_1 import GuarantorUpdate
 
 client = CandidApiClient(
@@ -8666,31 +7274,7 @@ client.guarantor.v_1.update(
     guarantor_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=GuarantorUpdate(
-        first_name="string",
-        last_name="string",
-        external_id="string",
-        date_of_birth=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        phone_numbers=[
-            PhoneNumber(
-                number="1234567890",
-                type=PhoneNumberType.HOME,
-            )
-        ],
-        phone_consent=True,
-        email="johndoe@joincandidhealth.com",
-        email_consent=True,
-    ),
+    request=GuarantorUpdate(),
 )
 
 ```
@@ -8763,7 +7347,6 @@ Import an existing invoice from a third party service to reflect state in Candid
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
@@ -8785,12 +7368,8 @@ client.import_invoice.v_1.import_invoice(
         external_payment_account_config_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
-        patient_external_id="string",
-        external_customer_identifier="string",
-        note="string",
-        due_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
+        patient_external_id="patient_external_id",
+        external_customer_identifier="external_customer_identifier",
         items=[
             InvoiceItemCreate(
                 attribution=InvoiceItemAttributionCreate_ServiceLineId(
@@ -8799,11 +7378,18 @@ client.import_invoice.v_1.import_invoice(
                     )
                 ),
                 amount_cents=1,
-            )
+            ),
+            InvoiceItemCreate(
+                attribution=InvoiceItemAttributionCreate_ServiceLineId(
+                    value=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ),
+                amount_cents=1,
+            ),
         ],
         status=InvoiceStatus.DRAFT,
-        external_identifier="string",
-        customer_invoice_url="string",
+        external_identifier="external_identifier",
     ),
 )
 
@@ -8868,35 +7454,13 @@ Returns all Invoices for the authenticated user's organziation with all filters 
 <dd>
 
 ```python
-import datetime
-
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection
-from candid.resources.invoices.resources.v_2 import (
-    InvoiceSortField,
-    InvoiceStatus,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.import_invoice.v_1.get_multi(
-    patient_external_id="string",
-    encounter_external_id="string",
-    note="string",
-    due_date_before=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    due_date_after=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    status=InvoiceStatus.DRAFT,
-    limit=1,
-    sort=InvoiceSortField.CREATED_AT,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.import_invoice.v_1.get_multi()
 
 ```
 </dd>
@@ -9106,19 +7670,11 @@ Update the information on the imported invoice
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
 from candid.resources.import_invoice.resources.v_1 import (
     ImportInvoiceUpdateRequest,
-    InvoiceItemInfoUpdate,
-    InvoiceItemUpdateType,
-)
-from candid.resources.invoices.resources.v_2 import (
-    InvoiceItemAttributionCreate_ServiceLineId,
-    InvoiceItemCreate,
-    InvoiceStatus,
 )
 
 client = CandidApiClient(
@@ -9129,27 +7685,7 @@ client.import_invoice.v_1.update(
     invoice_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=ImportInvoiceUpdateRequest(
-        customer_invoice_url="string",
-        status=InvoiceStatus.DRAFT,
-        note="string",
-        due_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        items=InvoiceItemInfoUpdate(
-            update_type=InvoiceItemUpdateType.APPEND,
-            items=[
-                InvoiceItemCreate(
-                    attribution=InvoiceItemAttributionCreate_ServiceLineId(
-                        value=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        )
-                    ),
-                    amount_cents=1,
-                )
-            ],
-        ),
-    ),
+    request=ImportInvoiceUpdateRequest(),
 )
 
 ```
@@ -9301,13 +7837,21 @@ import datetime
 import uuid
 
 from candid import CandidApiClient
+from candid.resources.commons import ClaimAdjustmentGroupCodes
 from candid.resources.era_commons import ClaimStatusCodeCreate
 from candid.resources.insurance_adjudications.resources.v_1 import (
     ClaimAdjudicationCreate,
     InsuranceAdjudicationCreate,
+    ServiceLineAdjudicationCreate,
 )
 from candid.resources.payers.resources.v_3 import PayerIdentifier_PayerInfo
 from candid.resources.remits.resources.v_1 import Payee, PayeeIdentifier_Npi
+from candid.resources.x_12.resources.v_1 import (
+    Carc,
+    ClaimAdjustmentReasonCode,
+    Rarc,
+    RemittanceAdviceRemarkCode,
+)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -9315,33 +7859,153 @@ client = CandidApiClient(
 )
 client.insurance_adjudications.v_1.create(
     request=InsuranceAdjudicationCreate(
-        payer_identifier=PayerIdentifier_PayerInfo(),
+        payer_identifier=PayerIdentifier_PayerInfo(
+            payer_id="payer_id",
+            payer_name="payer_name",
+        ),
         payee=Payee(
-            payee_name="string",
-            payee_identifier=PayeeIdentifier_Npi(value="string"),
+            payee_name="payee_name",
+            payee_identifier=PayeeIdentifier_Npi(value="payee_identifier"),
         ),
-        post_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        check_number="string",
         check_date=datetime.date.fromisoformat(
             "2023-01-15",
         ),
-        note="string",
         claims={
             uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ): [
                 ClaimAdjudicationCreate(
                     claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
-                    service_lines={},
-                    carcs=[],
-                )
+                    service_lines={
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ): [
+                            ServiceLineAdjudicationCreate(
+                                carcs=[
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                ],
+                                rarcs=[
+                                    RemittanceAdviceRemarkCode(
+                                        reason_code=Rarc.M_1,
+                                    ),
+                                    RemittanceAdviceRemarkCode(
+                                        reason_code=Rarc.M_1,
+                                    ),
+                                ],
+                            ),
+                            ServiceLineAdjudicationCreate(
+                                carcs=[
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                ],
+                                rarcs=[
+                                    RemittanceAdviceRemarkCode(
+                                        reason_code=Rarc.M_1,
+                                    ),
+                                    RemittanceAdviceRemarkCode(
+                                        reason_code=Rarc.M_1,
+                                    ),
+                                ],
+                            ),
+                        ]
+                    },
+                    carcs=[
+                        ClaimAdjustmentReasonCode(
+                            group_code=ClaimAdjustmentGroupCodes.CO,
+                            reason_code=Carc.CARC_1,
+                            amount_cents=1,
+                        ),
+                        ClaimAdjustmentReasonCode(
+                            group_code=ClaimAdjustmentGroupCodes.CO,
+                            reason_code=Carc.CARC_1,
+                            amount_cents=1,
+                        ),
+                    ],
+                ),
+                ClaimAdjudicationCreate(
+                    claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
+                    service_lines={
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ): [
+                            ServiceLineAdjudicationCreate(
+                                carcs=[
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                ],
+                                rarcs=[
+                                    RemittanceAdviceRemarkCode(
+                                        reason_code=Rarc.M_1,
+                                    ),
+                                    RemittanceAdviceRemarkCode(
+                                        reason_code=Rarc.M_1,
+                                    ),
+                                ],
+                            ),
+                            ServiceLineAdjudicationCreate(
+                                carcs=[
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                ],
+                                rarcs=[
+                                    RemittanceAdviceRemarkCode(
+                                        reason_code=Rarc.M_1,
+                                    ),
+                                    RemittanceAdviceRemarkCode(
+                                        reason_code=Rarc.M_1,
+                                    ),
+                                ],
+                            ),
+                        ]
+                    },
+                    carcs=[
+                        ClaimAdjustmentReasonCode(
+                            group_code=ClaimAdjustmentGroupCodes.CO,
+                            reason_code=Carc.CARC_1,
+                            amount_cents=1,
+                        ),
+                        ClaimAdjustmentReasonCode(
+                            group_code=ClaimAdjustmentGroupCodes.CO,
+                            reason_code=Carc.CARC_1,
+                            amount_cents=1,
+                        ),
+                    ],
+                ),
             ]
         },
-        remit_draft_id=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
     ),
 )
 
@@ -9482,36 +8146,13 @@ Returns all non-ERA originated insurance payments satisfying the search criteria
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection
-from candid.resources.insurance_payments.resources.v_1 import (
-    InsurancePaymentSortField,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.insurance_payments.v_1.get_multi(
-    limit=1,
-    payer_uuid=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    claim_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    service_line_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    billing_provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    sort=InsurancePaymentSortField.AMOUNT_CENTS,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.insurance_payments.v_1.get_multi()
 
 ```
 </dd>
@@ -9708,36 +8349,13 @@ the current organization_id of the authenticated user.
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection
-from candid.resources.insurance_refunds.resources.v_1 import (
-    InsuranceRefundSortField,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.insurance_refunds.v_1.get_multi(
-    limit=1,
-    payer_uuid=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    claim_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    service_line_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    billing_provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    sort=InsuranceRefundSortField.AMOUNT_CENTS,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.insurance_refunds.v_1.get_multi()
 
 ```
 </dd>
@@ -9934,14 +8552,12 @@ claim, or billing provider.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
 from candid.resources.financials import (
     AllocationCreate,
     AllocationTargetCreate_ServiceLineById,
-    RefundReason,
 )
 from candid.resources.insurance_refunds.resources.v_1 import (
     InsuranceRefundCreate,
@@ -9954,12 +8570,11 @@ client = CandidApiClient(
 )
 client.insurance_refunds.v_1.create(
     request=InsuranceRefundCreate(
-        payer_identifier=PayerIdentifier_PayerInfo(),
-        amount_cents=1,
-        refund_timestamp=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
+        payer_identifier=PayerIdentifier_PayerInfo(
+            payer_id="payer_id",
+            payer_name="payer_name",
         ),
-        refund_note="string",
+        amount_cents=1,
         allocations=[
             AllocationCreate(
                 amount_cents=1,
@@ -9968,9 +8583,16 @@ client.insurance_refunds.v_1.create(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     )
                 ),
-            )
+            ),
+            AllocationCreate(
+                amount_cents=1,
+                target=AllocationTargetCreate_ServiceLineById(
+                    value=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ),
+            ),
         ],
-        refund_reason=RefundReason.OVERCHARGED,
     ),
 )
 
@@ -10036,15 +8658,9 @@ then the allocations must be appropriately updated as well.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.financials import (
-    NoteUpdate_Set,
-    RefundReason,
-    RefundReasonUpdate_Set,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -10054,11 +8670,6 @@ client.insurance_refunds.v_1.update(
     insurance_refund_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    refund_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    refund_note=NoteUpdate_Set(value="string"),
-    refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
 )
 
 ```
@@ -10213,14 +8824,9 @@ client.insurance_refunds.v_1.delete(
 import datetime
 
 from candid import CandidApiClient
-from candid.resources.commons import ProcedureModifier, ServiceLineUnits
+from candid.resources.commons import ServiceLineUnits
 from candid.resources.medication_dispense.resources.v_1 import (
     MedicationDispenseCreate,
-)
-from candid.resources.service_lines.resources.v_2 import (
-    DrugIdentification,
-    MeasurementUnitCode,
-    ServiceIdQualifier,
 )
 
 client = CandidApiClient(
@@ -10229,26 +8835,14 @@ client = CandidApiClient(
 )
 client.medication_dispense.v_1.create(
     request=MedicationDispenseCreate(
-        medication_dispense_external_id="string",
-        patient_external_id="string",
-        procedure_code="string",
-        quantity="string",
+        medication_dispense_external_id="medication_dispense_external_id",
+        patient_external_id="patient_external_id",
+        procedure_code="procedure_code",
+        quantity="quantity",
         units=ServiceLineUnits.MJ,
         date_of_service=datetime.date.fromisoformat(
             "2023-01-15",
         ),
-        drug_identification=DrugIdentification(
-            service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-            national_drug_code="string",
-            national_drug_unit_count="string",
-            measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-            link_sequence_number="string",
-            pharmacy_prescription_number="string",
-            conversion_formula="string",
-            drug_description="string",
-        ),
-        description="string",
-        modifiers=[ProcedureModifier.AV],
     ),
 )
 
@@ -10314,31 +8908,13 @@ Returns all non-insurance payer payments
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection
-from candid.resources.non_insurance_payer_payments.resources.v_1 import (
-    NonInsurancePayerPaymentSortField,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.non_insurance_payer_payments.v_1.get_multi(
-    limit=1,
-    non_insurance_payer_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    check_number="string",
-    invoice_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    sort=NonInsurancePayerPaymentSortField.AMOUNT_CENTS,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.non_insurance_payer_payments.v_1.get_multi()
 
 ```
 </dd>
@@ -10510,7 +9086,6 @@ client.non_insurance_payer_payments.v_1.get(
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
@@ -10532,11 +9107,6 @@ client.non_insurance_payer_payments.v_1.create(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
         amount_cents=1,
-        payment_timestamp=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
-        ),
-        payment_note="string",
-        check_number="string",
         allocations=[
             AllocationCreate(
                 amount_cents=1,
@@ -10545,11 +9115,16 @@ client.non_insurance_payer_payments.v_1.create(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     )
                 ),
-            )
+            ),
+            AllocationCreate(
+                amount_cents=1,
+                target=AllocationTargetCreate_ServiceLineById(
+                    value=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ),
+            ),
         ],
-        invoice_id=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
     ),
 )
 
@@ -10600,11 +9175,9 @@ client.non_insurance_payer_payments.v_1.create(
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.financials import InvoiceUpdate_Set, NoteUpdate_Set
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -10613,15 +9186,6 @@ client = CandidApiClient(
 client.non_insurance_payer_payments.v_1.update(
     non_insurance_payer_payment_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    payment_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    payment_note=NoteUpdate_Set(value="string"),
-    invoice_id=InvoiceUpdate_Set(
-        value=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        )
     ),
 )
 
@@ -10786,31 +9350,13 @@ Returns all non-insurance payer refunds satisfying the search criteria
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection
-from candid.resources.non_insurance_payer_refunds.resources.v_1 import (
-    NonInsurancePayerRefundSortField,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.non_insurance_payer_refunds.v_1.get_multi(
-    limit=1,
-    non_insurance_payer_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    check_number="string",
-    invoice_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    sort=NonInsurancePayerRefundSortField.AMOUNT_CENTS,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.non_insurance_payer_refunds.v_1.get_multi()
 
 ```
 </dd>
@@ -10998,14 +9544,12 @@ claim, or billing provider.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
 from candid.resources.financials import (
     AllocationCreate,
     AllocationTargetCreate_ServiceLineById,
-    RefundReason,
 )
 from candid.resources.non_insurance_payer_refunds.resources.v_1 import (
     NonInsurancePayerRefundCreate,
@@ -11020,15 +9564,7 @@ client.non_insurance_payer_refunds.v_1.create(
         non_insurance_payer_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
-        invoice_id=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
         amount_cents=1,
-        refund_timestamp=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
-        ),
-        refund_note="string",
-        check_number="string",
         allocations=[
             AllocationCreate(
                 amount_cents=1,
@@ -11037,9 +9573,16 @@ client.non_insurance_payer_refunds.v_1.create(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     )
                 ),
-            )
+            ),
+            AllocationCreate(
+                amount_cents=1,
+                target=AllocationTargetCreate_ServiceLineById(
+                    value=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ),
+            ),
         ],
-        refund_reason=RefundReason.OVERCHARGED,
     ),
 )
 
@@ -11105,16 +9648,9 @@ then the allocations must be appropriately updated as well.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.financials import (
-    InvoiceUpdate_Set,
-    NoteUpdate_Set,
-    RefundReason,
-    RefundReasonUpdate_Set,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -11123,16 +9659,6 @@ client = CandidApiClient(
 client.non_insurance_payer_refunds.v_1.update(
     non_insurance_payer_refund_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    refund_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    refund_note=NoteUpdate_Set(value="string"),
-    refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
-    invoice_id=InvoiceUpdate_Set(
-        value=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        )
     ),
 )
 
@@ -11292,11 +9818,6 @@ client.non_insurance_payer_refunds.v_1.delete(
 
 ```python
 from candid import CandidApiClient
-from candid.resources.clinical_trials.resources.v_1 import (
-    ClinicalTrialPhase,
-    MutableClinicalTrial,
-)
-from candid.resources.commons import State, StreetAddressShortZip
 from candid.resources.non_insurance_payers.resources.v_1 import (
     CreateNonInsurancePayerRequest,
 )
@@ -11307,24 +9828,7 @@ client = CandidApiClient(
 )
 client.non_insurance_payers.v_1.create(
     request=CreateNonInsurancePayerRequest(
-        name="string",
-        description="string",
-        category="string",
-        address=StreetAddressShortZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-        clinical_trials=[
-            MutableClinicalTrial(
-                name="string",
-                clinical_trial_number="string",
-                clinical_trial_phase=ClinicalTrialPhase.PHASE_ONE,
-            )
-        ],
+        name="name",
     ),
 )
 
@@ -11451,24 +9955,12 @@ client.non_insurance_payers.v_1.toggle_enablement(
 
 ```python
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection
-from candid.resources.non_insurance_payers.resources.v_1 import (
-    NonInsurancePayerSortField,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.non_insurance_payers.v_1.get_multi(
-    name="string",
-    category="string",
-    enabled=True,
-    sort=NonInsurancePayerSortField.NAME,
-    sort_direction=SortDirection.ASC,
-    limit=1,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.non_insurance_payers.v_1.get_multi()
 
 ```
 </dd>
@@ -11630,9 +10122,6 @@ import uuid
 
 from candid import CandidApiClient
 from candid.resources.non_insurance_payers.resources.v_1 import (
-    NonInsurancePayerAddressUpdate,
-    NonInsurancePayerCategoryUpdate,
-    NonInsurancePayerDescriptionUpdate,
     NonInsurancePayerUpdateRequest,
 )
 
@@ -11644,12 +10133,7 @@ client.non_insurance_payers.v_1.update(
     non_insurance_payer_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=NonInsurancePayerUpdateRequest(
-        name="string",
-        description=NonInsurancePayerDescriptionUpdate(),
-        category=NonInsurancePayerCategoryUpdate(),
-        address=NonInsurancePayerAddressUpdate(),
-    ),
+    request=NonInsurancePayerUpdateRequest(),
 )
 
 ```
@@ -11779,7 +10263,7 @@ client = CandidApiClient(
 )
 client.organization_service_facilities.v_2.get(
     organization_service_facility_id=uuid.UUID(
-        "30f55ee6-8c0e-43fc-a7fc-dac00d5bf569",
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
 )
 
@@ -12323,23 +10807,15 @@ client.organization_providers.v_3.get_multi(
 <dd>
 
 ```python
-import datetime
-
 from candid import CandidApiClient
-from candid.resources.commons import (
-    DateRangeOptionalEnd,
-    State,
-    StreetAddressLongZip,
-)
+from candid.resources.commons import State
 from candid.resources.identifiers import (
     IdentifierCode,
     IdentifierCreate,
     IdentifierValue_MedicareProviderIdentifier,
 )
 from candid.resources.organization_providers.resources.v_2 import (
-    AddressType,
     LicenseType,
-    OrganizationProviderAddress,
     ProviderType,
 )
 from candid.resources.organization_providers.resources.v_3 import (
@@ -12352,43 +10828,26 @@ client = CandidApiClient(
 )
 client.organization_providers.v_3.create(
     request=OrganizationProviderCreateV2(
-        npi="string",
+        npi="npi",
         is_rendering=True,
         is_billing=True,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
         provider_type=ProviderType.INDIVIDUAL,
-        tax_id="string",
-        taxonomy_code="string",
         license_type=LicenseType.MD,
-        addresses=[
-            OrganizationProviderAddress(
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-                address_type=AddressType.DEFAULT,
-            )
-        ],
-        employment_start_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        employment_termination_date=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
         qualifications=[
             IdentifierCreate(
-                period=DateRangeOptionalEnd(
-                    start_date="string",
-                ),
                 identifier_code=IdentifierCode.MCR,
-                identifier_value=IdentifierValue_MedicareProviderIdentifier(),
-            )
+                identifier_value=IdentifierValue_MedicareProviderIdentifier(
+                    state=State.AA,
+                    provider_number="provider_number",
+                ),
+            ),
+            IdentifierCreate(
+                identifier_code=IdentifierCode.MCR,
+                identifier_value=IdentifierValue_MedicareProviderIdentifier(
+                    state=State.AA,
+                    provider_number="provider_number",
+                ),
+            ),
         ],
     ),
 )
@@ -12443,22 +10902,6 @@ client.organization_providers.v_3.create(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import (
-    DateRangeOptionalEnd,
-    State,
-    StreetAddressLongZip,
-)
-from candid.resources.identifiers import (
-    IdentifierCode,
-    IdentifierValue_MedicareProviderIdentifier,
-    UpdatableIdentifier_Add,
-)
-from candid.resources.organization_providers.resources.v_2 import (
-    AddressType,
-    LicenseType,
-    OrganizationProviderAddress,
-    ProviderType,
-)
 from candid.resources.organization_providers.resources.v_3 import (
     OrganizationProviderUpdateV2,
 )
@@ -12471,42 +10914,7 @@ client.organization_providers.v_3.update(
     organization_provider_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=OrganizationProviderUpdateV2(
-        npi="string",
-        is_rendering=True,
-        is_billing=True,
-        first_name="string",
-        last_name="string",
-        organization_name="string",
-        provider_type=ProviderType.INDIVIDUAL,
-        tax_id="string",
-        taxonomy_code="string",
-        license_type=LicenseType.MD,
-        addresses=[
-            OrganizationProviderAddress(
-                address=StreetAddressLongZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
-                ),
-                address_type=AddressType.DEFAULT,
-            )
-        ],
-        employment_start_date="string",
-        employment_termination_date="string",
-        qualifications=[
-            UpdatableIdentifier_Add(
-                period=DateRangeOptionalEnd(
-                    start_date="string",
-                ),
-                identifier_code=IdentifierCode.MCR,
-                identifier_value=IdentifierValue_MedicareProviderIdentifier(),
-            )
-        ],
-    ),
+    request=OrganizationProviderUpdateV2(),
 )
 
 ```
@@ -12580,40 +10988,13 @@ the current organization_id of the authenticated user.
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection
-from candid.resources.financials import PatientTransactionSource
-from candid.resources.patient_payments.resources.v_4 import (
-    PatientPaymentSortField,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.patient_payments.v_4.get_multi(
-    limit=1,
-    patient_external_id="string",
-    claim_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    service_line_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    billing_provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    unattributed=True,
-    invoice_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    sources=PatientTransactionSource.MANUAL_ENTRY,
-    sort=PatientPaymentSortField.PAYMENT_SOURCE,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.patient_payments.v_4.get_multi()
 
 ```
 </dd>
@@ -12837,7 +11218,6 @@ claim, or billing provider.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
@@ -12852,11 +11232,7 @@ client = CandidApiClient(
 )
 client.patient_payments.v_4.create(
     amount_cents=1,
-    payment_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    payment_note="string",
-    patient_external_id="string",
+    patient_external_id="patient_external_id",
     allocations=[
         AllocationCreate(
             amount_cents=1,
@@ -12865,11 +11241,16 @@ client.patient_payments.v_4.create(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 )
             ),
-        )
+        ),
+        AllocationCreate(
+            amount_cents=1,
+            target=AllocationTargetCreate_ServiceLineById(
+                value=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ),
+        ),
     ],
-    invoice=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
 )
 
 ```
@@ -12973,11 +11354,9 @@ Updates the patient payment record matching the provided patient_payment_id.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.financials import InvoiceUpdate_Set, NoteUpdate_Set
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -12986,15 +11365,6 @@ client = CandidApiClient(
 client.patient_payments.v_4.update(
     patient_payment_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    payment_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    payment_note=NoteUpdate_Set(value="string"),
-    invoice=InvoiceUpdate_Set(
-        value=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        )
     ),
 )
 
@@ -13160,40 +11530,13 @@ the current organization_id of the authenticated user.
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection
-from candid.resources.financials import PatientTransactionSource
-from candid.resources.patient_refunds.resources.v_1 import (
-    PatientRefundSortField,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.patient_refunds.v_1.get_multi(
-    limit=1,
-    patient_external_id="string",
-    claim_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    service_line_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    billing_provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    unattributed=True,
-    invoice_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    sources=PatientTransactionSource.MANUAL_ENTRY,
-    sort=PatientRefundSortField.REFUND_SOURCE,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.patient_refunds.v_1.get_multi()
 
 ```
 </dd>
@@ -13417,14 +11760,12 @@ claim, or billing provider.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
 from candid.resources.financials import (
     AllocationCreate,
     AllocationTargetCreate_ServiceLineById,
-    RefundReason,
 )
 
 client = CandidApiClient(
@@ -13433,11 +11774,7 @@ client = CandidApiClient(
 )
 client.patient_refunds.v_1.create(
     amount_cents=1,
-    refund_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    refund_note="string",
-    patient_external_id="string",
+    patient_external_id="patient_external_id",
     allocations=[
         AllocationCreate(
             amount_cents=1,
@@ -13446,12 +11783,16 @@ client.patient_refunds.v_1.create(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 )
             ),
-        )
+        ),
+        AllocationCreate(
+            amount_cents=1,
+            target=AllocationTargetCreate_ServiceLineById(
+                value=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ),
+        ),
     ],
-    invoice=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    refund_reason=RefundReason.OVERCHARGED,
 )
 
 ```
@@ -13563,16 +11904,9 @@ Updates the patient refund record matching the provided patient_refund_id.
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.financials import (
-    InvoiceUpdate_Set,
-    NoteUpdate_Set,
-    RefundReason,
-    RefundReasonUpdate_Set,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -13582,16 +11916,6 @@ client.patient_refunds.v_1.update(
     patient_refund_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    refund_timestamp=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    refund_note=NoteUpdate_Set(value="string"),
-    invoice=InvoiceUpdate_Set(
-        value=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        )
-    ),
-    refund_reason=RefundReasonUpdate_Set(value=RefundReason.OVERCHARGED),
 )
 
 ```
@@ -13763,35 +12087,13 @@ Returns all payer plan groups matching filter criteria.
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection, SourceOfPaymentCode
-from candid.resources.payer_plan_groups.resources.v_1 import (
-    PayerPlanGroupSortField,
-)
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.payer_plan_groups.v_1.get_multi(
-    plan_group_name="string",
-    payer_uuid=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    payer_id="string",
-    plan_type=SourceOfPaymentCode.SELF_PAY,
-    is_active=True,
-    payer_plan_group_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    limit=1,
-    sort_by_similarity="string",
-    sort=PayerPlanGroupSortField.PLAN_GROUP_NAME,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-)
+client.payer_plan_groups.v_1.get_multi()
 
 ```
 </dd>
@@ -14031,7 +12333,7 @@ client = CandidApiClient(
 )
 client.payer_plan_groups.v_1.create(
     request=MutablePayerPlanGroup(
-        plan_group_name="string",
+        plan_group_name="plan_group_name",
         payer_uuid=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
@@ -14117,7 +12419,7 @@ client.payer_plan_groups.v_1.update(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
     request=MutablePayerPlanGroup(
-        plan_group_name="string",
+        plan_group_name="plan_group_name",
         payer_uuid=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
@@ -14393,27 +12695,12 @@ client.payers.v_3.get_all(
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import (
-    FacilityTypeCode,
-    ProcedureModifier,
-    ServiceLineUnits,
-    State,
-    StreetAddressLongZip,
-)
-from candid.resources.encounter_providers.resources.v_2 import OrderingProvider
+from candid.resources.commons import ServiceLineUnits
 from candid.resources.service_lines.resources.v_2 import (
-    DenialReasonContent,
-    DrugIdentification,
-    MeasurementUnitCode,
-    ServiceIdQualifier,
     ServiceLineCreateStandalone,
-    ServiceLineDenialReason,
-    TestResult,
-    TestResultType,
 )
 
 client = CandidApiClient(
@@ -14422,70 +12709,12 @@ client = CandidApiClient(
 )
 client.service_lines.v_2.create(
     request=ServiceLineCreateStandalone(
-        modifiers=[ProcedureModifier.AV],
-        charge_amount_cents=1,
-        diagnosis_id_zero=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        diagnosis_id_one=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        diagnosis_id_two=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        diagnosis_id_three=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        denial_reason=ServiceLineDenialReason(
-            reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
-        ),
-        place_of_service_code=FacilityTypeCode.PHARMACY,
-        procedure_code="string",
-        quantity="string",
+        procedure_code="procedure_code",
+        quantity="quantity",
         units=ServiceLineUnits.MJ,
         claim_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
-        description="string",
-        date_of_service=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        end_date_of_service=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        drug_identification=DrugIdentification(
-            service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-            national_drug_code="string",
-            national_drug_unit_count="string",
-            measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-            link_sequence_number="string",
-            pharmacy_prescription_number="string",
-            conversion_formula="string",
-            drug_description="string",
-        ),
-        ordering_provider=OrderingProvider(
-            npi="string",
-            taxonomy_code="string",
-            address=StreetAddressLongZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
-            ),
-            first_name="string",
-            last_name="string",
-            organization_name="string",
-        ),
-        test_results=[
-            TestResult(
-                value=1.1,
-                result_type=TestResultType.HEMATOCRIT,
-            )
-        ],
-        has_epsdt_indicator=True,
-        has_family_planning_indicator=True,
     ),
 )
 
@@ -14536,25 +12765,10 @@ client.service_lines.v_2.create(
 <dd>
 
 ```python
-import datetime
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import (
-    FacilityTypeCode,
-    ProcedureModifier,
-    ServiceLineUnits,
-)
-from candid.resources.service_lines.resources.v_2 import (
-    DenialReasonContent,
-    DrugIdentification,
-    MeasurementUnitCode,
-    ServiceIdQualifier,
-    ServiceLineDenialReason,
-    ServiceLineUpdate,
-    TestResult,
-    TestResultType,
-)
+from candid.resources.service_lines.resources.v_2 import ServiceLineUpdate
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -14564,55 +12778,7 @@ client.service_lines.v_2.update(
     service_line_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=ServiceLineUpdate(
-        edit_reason="string",
-        modifiers=[ProcedureModifier.AV],
-        charge_amount_cents=1,
-        diagnosis_id_zero=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        diagnosis_id_one=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        diagnosis_id_two=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        diagnosis_id_three=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        drug_identification=DrugIdentification(
-            service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-            national_drug_code="string",
-            national_drug_unit_count="string",
-            measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-            link_sequence_number="string",
-            pharmacy_prescription_number="string",
-            conversion_formula="string",
-            drug_description="string",
-        ),
-        denial_reason=ServiceLineDenialReason(
-            reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
-        ),
-        place_of_service_code=FacilityTypeCode.PHARMACY,
-        units=ServiceLineUnits.MJ,
-        procedure_code="string",
-        quantity="string",
-        description="string",
-        date_of_service=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        end_date_of_service=datetime.date.fromisoformat(
-            "2023-01-15",
-        ),
-        test_results=[
-            TestResult(
-                value=1.1,
-                result_type=TestResultType.HEMATOCRIT,
-            )
-        ],
-        has_epsdt_indicator=True,
-        has_family_planning_indicator=True,
-    ),
+    request=ServiceLineUpdate(),
 )
 
 ```
@@ -14735,27 +12901,18 @@ client.service_lines.v_2.delete(
 import datetime
 
 from candid import CandidApiClient
-from candid.resources.commons import State, StreetAddressShortZip
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.superbills.v_1.create_superbill(
-    patient_external_id="string",
+    patient_external_id="patient_external_id",
     date_range_min=datetime.date.fromisoformat(
         "2023-01-15",
     ),
     date_range_max=datetime.date.fromisoformat(
         "2023-01-15",
-    ),
-    pay_to_address=StreetAddressShortZip(
-        address_1="123 Main St",
-        address_2="Apt 1",
-        city="New York",
-        state=State.NY,
-        zip_code="10001",
-        zip_plus_four_code="1234",
     ),
 )
 
@@ -14798,7 +12955,6 @@ client.superbills.v_1.create_superbill(
 <dd>
 
 **pay_to_address:** `typing.Optional[StreetAddressShortZip]` — Address that will be displayed on the superbill as the 'Pay to' Address. If not provided this value will be set from available encounter data.
-
     
 </dd>
 </dl>
@@ -14893,42 +13049,13 @@ client.tasks.v_3.get_actions(
 <dd>
 
 ```python
-import datetime
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.tasks.resources.commons import TaskStatus, TaskType
-from candid.resources.tasks.resources.v_3 import TaskSortOptions
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.tasks.v_3.get_multi(
-    limit=1,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-    status=TaskStatus.FINISHED,
-    task_type=TaskType.CUSTOMER_DATA_REQUEST,
-    categories="string",
-    updated_since=datetime.datetime.fromisoformat(
-        "2024-01-15 09:30:00+00:00",
-    ),
-    encounter_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    search_term="string",
-    assigned_to_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    date_of_service_min=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    date_of_service_max=datetime.date.fromisoformat(
-        "2023-01-15",
-    ),
-    billing_provider_npi="string",
-    sort=TaskSortOptions.UPDATED_AT_ASC,
-)
+client.tasks.v_3.get_multi()
 
 ```
 </dd>
@@ -15137,7 +13264,7 @@ client.tasks.v_3.get(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.tasks.resources.commons import TaskCategory, TaskType
+from candid.resources.tasks.resources.commons import TaskType
 from candid.resources.tasks.resources.v_3 import TaskCreateV3
 
 client = CandidApiClient(
@@ -15150,13 +13277,8 @@ client.tasks.v_3.create(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
         task_type=TaskType.CUSTOMER_DATA_REQUEST,
-        description="string",
-        blocks_claim_submission=True,
-        assignee_user_id=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        category=TaskCategory.OTHER,
-        work_queue_id="string",
+        description="description",
+        work_queue_id="work_queue_id",
     ),
 )
 
@@ -15210,7 +13332,6 @@ client.tasks.v_3.create(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.tasks.resources.commons import TaskStatus
 from candid.resources.tasks.resources.v_3 import TaskUpdateV3
 
 client = CandidApiClient(
@@ -15221,13 +13342,7 @@ client.tasks.v_3.update(
     task_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=TaskUpdateV3(
-        status=TaskStatus.FINISHED,
-        assignee_user_id=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        blocks_claim_submission=True,
-    ),
+    request=TaskUpdateV3(),
 )
 
 ```
@@ -15300,37 +13415,13 @@ Returns all write-offs satisfying the search criteria.
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
-from candid.resources.commons import SortDirection
-from candid.resources.financials import AccountType
-from candid.resources.write_offs.resources.v_1 import WriteOffSortField
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.write_offs.v_1.get_multi(
-    limit=1,
-    patient_external_id="string",
-    payer_uuid=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    service_line_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    claim_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    billing_provider_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    sort=WriteOffSortField.AMOUNT_CENTS,
-    sort_direction=SortDirection.ASC,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-    account_types=AccountType.PATIENT,
-)
+client.write_offs.v_1.get_multi()
 
 ```
 </dd>
@@ -15560,13 +13651,22 @@ client.write_offs.v_1.create(
             write_off_timestamp=datetime.datetime.fromisoformat(
                 "2024-01-15 09:30:00+00:00",
             ),
-            write_off_note="string",
             write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
             service_line_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
             amount_cents=1,
-        )
+        ),
+        WriteOffCreate_Patient(
+            write_off_timestamp=datetime.datetime.fromisoformat(
+                "2024-01-15 09:30:00+00:00",
+            ),
+            write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            amount_cents=1,
+        ),
     ],
 )
 
@@ -15842,7 +13942,7 @@ client.write_offs.v_1.revert_era_originated_insurance_balance_adjustment(
 <dl>
 <dd>
 
-Adds an appointment. VersionConflictError is returned when the placer_appointment_id is already in use.
+Adds an appointment.  VersionConflictError is returned when the placer_appointment_id is already in use.
 </dd>
 </dl>
 </dd>
@@ -15861,20 +13961,8 @@ import datetime
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
-    AppointmentStatus,
-    AppointmentWorkQueue,
     MutableAppointment,
     Service,
-    UniversalServiceIdentifier,
-)
-from candid.resources.pre_encounter.resources.common import (
-    ContactPoint,
-    ContactPointUse,
-    ExternalProvider,
-    ExternalProviderType,
-    HumanName,
-    NameUse,
-    Period,
 )
 
 client = CandidApiClient(
@@ -15883,52 +13971,12 @@ client = CandidApiClient(
 )
 client.pre_encounter.appointments.v_1.create(
     request=MutableAppointment(
-        patient_id="string",
+        patient_id="patient_id",
         start_timestamp=datetime.datetime.fromisoformat(
             "2024-01-15 09:30:00+00:00",
         ),
-        status=AppointmentStatus.PENDING,
         service_duration=1,
-        services=[
-            Service(
-                universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
-                start_timestamp=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-            )
-        ],
-        placer_appointment_id="string",
-        attending_doctor=ExternalProvider(
-            name=HumanName(
-                family="string",
-                given=["string"],
-                use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
-            ),
-            type=ExternalProviderType.PRIMARY,
-            npi="string",
-            telecoms=[
-                ContactPoint(
-                    value="string",
-                    use=ContactPointUse.HOME,
-                )
-            ],
-            addresses=[],
-            period=Period(),
-            canonical_id="string",
-            fax="string",
-        ),
-        estimated_copay_cents=1,
-        estimated_patient_responsibility_cents=1,
-        patient_deposit_cents=1,
-        checked_in_timestamp=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
-        ),
-        notes="string",
-        location_resource_id="string",
-        automated_eligibility_check_complete=True,
-        work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
+        services=[Service(), Service()],
     ),
 )
 
@@ -15994,19 +14042,12 @@ Gets all Visits within a given time range. The return list is ordered by start_t
 
 ```python
 from candid import CandidApiClient
-from candid.resources.pre_encounter.resources.common import SortDirection
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.pre_encounter.appointments.v_1.get_visits(
-    page_token="string",
-    limit=1,
-    sort_field="string",
-    sort_direction=SortDirection.ASC,
-    filters="string",
-)
+client.pre_encounter.appointments.v_1.get_visits()
 
 ```
 </dd>
@@ -16108,7 +14149,7 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.appointments.v_1.get(
-    id="string",
+    id="id",
 )
 
 ```
@@ -16157,7 +14198,7 @@ client.pre_encounter.appointments.v_1.get(
 <dl>
 <dd>
 
-Gets an appointment along with it's full history. The return list is ordered by version ascending.
+Gets an appointment along with it's full history.  The return list is ordered by version ascending.
 </dd>
 </dl>
 </dd>
@@ -16179,7 +14220,7 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.appointments.v_1.get_history(
-    id="string",
+    id="id",
 )
 
 ```
@@ -16228,7 +14269,7 @@ client.pre_encounter.appointments.v_1.get_history(
 <dl>
 <dd>
 
-Updates an appointment. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+Updates an appointment.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
 </dd>
 </dl>
 </dd>
@@ -16247,20 +14288,8 @@ import datetime
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.appointments.resources.v_1 import (
-    AppointmentStatus,
-    AppointmentWorkQueue,
     MutableAppointment,
     Service,
-    UniversalServiceIdentifier,
-)
-from candid.resources.pre_encounter.resources.common import (
-    ContactPoint,
-    ContactPointUse,
-    ExternalProvider,
-    ExternalProviderType,
-    HumanName,
-    NameUse,
-    Period,
 )
 
 client = CandidApiClient(
@@ -16268,55 +14297,15 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.appointments.v_1.update(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
     request=MutableAppointment(
-        patient_id="string",
+        patient_id="patient_id",
         start_timestamp=datetime.datetime.fromisoformat(
             "2024-01-15 09:30:00+00:00",
         ),
-        status=AppointmentStatus.PENDING,
         service_duration=1,
-        services=[
-            Service(
-                universal_service_identifier=UniversalServiceIdentifier.MD_VISIT,
-                start_timestamp=datetime.datetime.fromisoformat(
-                    "2024-01-15 09:30:00+00:00",
-                ),
-            )
-        ],
-        placer_appointment_id="string",
-        attending_doctor=ExternalProvider(
-            name=HumanName(
-                family="string",
-                given=["string"],
-                use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
-            ),
-            type=ExternalProviderType.PRIMARY,
-            npi="string",
-            telecoms=[
-                ContactPoint(
-                    value="string",
-                    use=ContactPointUse.HOME,
-                )
-            ],
-            addresses=[],
-            period=Period(),
-            canonical_id="string",
-            fax="string",
-        ),
-        estimated_copay_cents=1,
-        estimated_patient_responsibility_cents=1,
-        patient_deposit_cents=1,
-        checked_in_timestamp=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
-        ),
-        notes="string",
-        location_resource_id="string",
-        automated_eligibility_check_complete=True,
-        work_queue=AppointmentWorkQueue.EMERGENT_ISSUE,
+        services=[Service(), Service()],
     ),
 )
 
@@ -16382,7 +14371,7 @@ client.pre_encounter.appointments.v_1.update(
 <dl>
 <dd>
 
-Scans up to 100 appointment updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+Scans up to 100 appointment updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 </dd>
 </dl>
 </dd>
@@ -16457,7 +14446,7 @@ client.pre_encounter.appointments.v_1.scan(
 <dl>
 <dd>
 
-Sets an appointment as deactivated. The path must contain the most recent version to prevent race conditions. Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
 </dd>
 </dl>
 </dd>
@@ -16479,8 +14468,8 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.appointments.v_1.deactivate(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
 )
 
 ```
@@ -16554,28 +14543,18 @@ Creates a new Coverage. A Coverage provides the high-level identifiers and descr
 
 ```python
 import datetime
-import uuid
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.common import (
-    AdditionalPayerInformation,
-    Address,
-    AddressUse,
     HumanName,
     NameUse,
-    Period,
     Relationship,
     Sex,
 )
 from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
-    CoverageBenefits,
     CoverageStatus,
-    EligibilityStatus,
     InsurancePlan,
-    InsuranceTypeCode,
-    LatestEligibilityCheck,
     MutableCoverage,
-    NetworkType,
     Subscriber,
 )
 
@@ -16588,53 +14567,23 @@ client.pre_encounter.coverages.v_1.create(
         status=CoverageStatus.ACTIVE,
         subscriber=Subscriber(
             name=HumanName(
-                family="string",
-                given=["string"],
+                family="family",
+                given=["given", "given"],
                 use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
             ),
             date_of_birth=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
             biological_sex=Sex.FEMALE,
-            address=Address(
-                use=AddressUse.HOME,
-                line=["string"],
-                city="string",
-                state="string",
-                postal_code="string",
-                country="string",
-                period=Period(),
-            ),
         ),
         relationship=Relationship.SELF,
-        patient="string",
+        patient="patient",
         insurance_plan=InsurancePlan(
-            member_id="string",
-            payer_id="string",
-            payer_name="string",
-            additional_payer_information=AdditionalPayerInformation(),
-            group_number="string",
-            name="string",
-            plan_type=NetworkType.SELF_PAY,
-            type=InsuranceTypeCode.C_01,
-            period=Period(),
-            insurance_card_image_locator="string",
-            payer_plan_group_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
+            member_id="member_id",
+            payer_id="payer_id",
+            payer_name="payer_name",
         ),
         verified=True,
-        eligibility_checks=[],
-        latest_eligibility_check=LatestEligibilityCheck(
-            check_id="string",
-            status=EligibilityStatus.ACTIVE,
-            initiated_at=datetime.datetime.fromisoformat(
-                "2024-01-15 09:30:00+00:00",
-            ),
-        ),
-        benefits=CoverageBenefits(),
     ),
 )
 
@@ -16684,7 +14633,7 @@ client.pre_encounter.coverages.v_1.create(
 <dl>
 <dd>
 
-Updates a Coverage. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+Updates a Coverage.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
 </dd>
 </dl>
 </dd>
@@ -16704,24 +14653,15 @@ import uuid
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.common import (
-    AdditionalPayerInformation,
-    Address,
-    AddressUse,
     HumanName,
     NameUse,
-    Period,
     Relationship,
     Sex,
 )
 from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
-    CoverageBenefits,
     CoverageStatus,
-    EligibilityStatus,
     InsurancePlan,
-    InsuranceTypeCode,
-    LatestEligibilityCheck,
     MutableCoverage,
-    NetworkType,
     Subscriber,
 )
 
@@ -16733,58 +14673,28 @@ client.pre_encounter.coverages.v_1.update(
     id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    version="string",
+    version="version",
     request=MutableCoverage(
         status=CoverageStatus.ACTIVE,
         subscriber=Subscriber(
             name=HumanName(
-                family="string",
-                given=["string"],
+                family="family",
+                given=["given", "given"],
                 use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
             ),
             date_of_birth=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
             biological_sex=Sex.FEMALE,
-            address=Address(
-                use=AddressUse.HOME,
-                line=["string"],
-                city="string",
-                state="string",
-                postal_code="string",
-                country="string",
-                period=Period(),
-            ),
         ),
         relationship=Relationship.SELF,
-        patient="string",
+        patient="patient",
         insurance_plan=InsurancePlan(
-            member_id="string",
-            payer_id="string",
-            payer_name="string",
-            additional_payer_information=AdditionalPayerInformation(),
-            group_number="string",
-            name="string",
-            plan_type=NetworkType.SELF_PAY,
-            type=InsuranceTypeCode.C_01,
-            period=Period(),
-            insurance_card_image_locator="string",
-            payer_plan_group_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
+            member_id="member_id",
+            payer_id="payer_id",
+            payer_name="payer_name",
         ),
         verified=True,
-        eligibility_checks=[],
-        latest_eligibility_check=LatestEligibilityCheck(
-            check_id="string",
-            status=EligibilityStatus.ACTIVE,
-            initiated_at=datetime.datetime.fromisoformat(
-                "2024-01-15 09:30:00+00:00",
-            ),
-        ),
-        benefits=CoverageBenefits(),
     ),
 )
 
@@ -16871,12 +14781,7 @@ client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.pre_encounter.coverages.v_1.get_multi_paginated(
-    patient_id="string",
-    payer_plan_group_id="string",
-    page_token="string",
-    limit=1,
-)
+client.pre_encounter.coverages.v_1.get_multi_paginated()
 
 ```
 </dd>
@@ -17023,7 +14928,7 @@ client.pre_encounter.coverages.v_1.get(
 <dl>
 <dd>
 
-Gets a coverage along with it's full history. The return list is ordered by version ascending.
+Gets a coverage along with it's full history.  The return list is ordered by version ascending.
 </dd>
 </dl>
 </dd>
@@ -17119,9 +15024,7 @@ client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.pre_encounter.coverages.v_1.get_multi(
-    patient_id="string",
-)
+client.pre_encounter.coverages.v_1.get_multi()
 
 ```
 </dd>
@@ -17169,7 +15072,7 @@ client.pre_encounter.coverages.v_1.get_multi(
 <dl>
 <dd>
 
-Scans up to 100 coverage updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+Scans up to 100 coverage updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 </dd>
 </dl>
 </dd>
@@ -17279,8 +15182,8 @@ client.pre_encounter.coverages.v_1.batch_update_ppg(
         payer_plan_group_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
-        payer_id="string",
-        payer_name="string",
+        payer_id="payer_id",
+        payer_name="payer_name",
         plan_type=NetworkType.SELF_PAY,
     ),
 )
@@ -17374,7 +15277,7 @@ client.pre_encounter.coverages.v_1.check_eligibility(
     date_of_service=datetime.date.fromisoformat(
         "2023-01-15",
     ),
-    npi="string",
+    npi="npi",
 )
 
 ```
@@ -17474,7 +15377,7 @@ client.pre_encounter.coverages.v_1.get_eligibility(
     id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    check_id="string",
+    check_id="check_id",
 )
 
 ```
@@ -17548,15 +15451,12 @@ Sends real-time eligibility checks to payers through Stedi.
 <dd>
 
 ```python
-import datetime
-
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
     MemberInfo,
 )
 from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
     EligibilityRequest,
-    Encounter,
     IndividualProvider,
 )
 
@@ -17566,33 +15466,13 @@ client = CandidApiClient(
 )
 client.pre_encounter.eligibility_checks.v_1.post(
     request=EligibilityRequest(
-        payer_id="string",
+        payer_id="payer_id",
         provider=IndividualProvider(
-            first_name="string",
-            last_name="string",
-            npi="string",
+            npi="npi",
         ),
         subscriber=MemberInfo(
-            member_id="string",
-            first_name="string",
-            last_name="string",
-            date_of_birth=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-        ),
-        dependent=MemberInfo(
-            member_id="string",
-            first_name="string",
-            last_name="string",
-            date_of_birth=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-        ),
-        encounter=Encounter(
-            date_of_service=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            service_type_codes=["string"],
+            first_name="first_name",
+            last_name="last_name",
         ),
     ),
 )
@@ -17644,7 +15524,7 @@ client.pre_encounter.eligibility_checks.v_1.post(
 <dl>
 <dd>
 
-Adds an image. VersionConflictError is returned if a front or back of this coverage already exists.
+Adds an image.  VersionConflictError is returned if a front or back of this coverage already exists.
 </dd>
 </dl>
 </dd>
@@ -17659,15 +15539,10 @@ Adds an image. VersionConflictError is returned if a front or back of this cover
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.images.resources.v_1 import (
-    CoverageAssociation,
-    CoverageImageSide,
     ImageStatus,
     MutableImage,
-    PatientAssociation,
 )
 
 client = CandidApiClient(
@@ -17676,20 +15551,10 @@ client = CandidApiClient(
 )
 client.pre_encounter.images.v_1.create(
     request=MutableImage(
-        file_name="string",
-        display_name="string",
-        file_type="string",
+        file_name="file_name",
+        display_name="display_name",
+        file_type="file_type",
         status=ImageStatus.PENDING,
-        coverage=CoverageAssociation(
-            id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            side=CoverageImageSide.FRONT,
-        ),
-        patient=PatientAssociation(
-            id="string",
-            notes="string",
-        ),
     ),
 )
 
@@ -17761,7 +15626,7 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.images.v_1.get(
-    id="string",
+    id="id",
 )
 
 ```
@@ -17810,7 +15675,7 @@ client.pre_encounter.images.v_1.get(
 <dl>
 <dd>
 
-Updates an Image. The path must contain the most recent version to prevent races.
+Updates an Image.  The path must contain the most recent version to prevent races.
 </dd>
 </dl>
 </dd>
@@ -17825,15 +15690,10 @@ Updates an Image. The path must contain the most recent version to prevent races
 <dd>
 
 ```python
-import uuid
-
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.images.resources.v_1 import (
-    CoverageAssociation,
-    CoverageImageSide,
     ImageStatus,
     MutableImage,
-    PatientAssociation,
 )
 
 client = CandidApiClient(
@@ -17841,23 +15701,13 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.images.v_1.update(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
     request=MutableImage(
-        file_name="string",
-        display_name="string",
-        file_type="string",
+        file_name="file_name",
+        display_name="display_name",
+        file_type="file_type",
         status=ImageStatus.PENDING,
-        coverage=CoverageAssociation(
-            id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            side=CoverageImageSide.FRONT,
-        ),
-        patient=PatientAssociation(
-            id="string",
-            notes="string",
-        ),
     ),
 )
 
@@ -17923,7 +15773,7 @@ client.pre_encounter.images.v_1.update(
 <dl>
 <dd>
 
-Sets an Image as deactivated. The path must contain the most recent version to prevent races.
+Sets an Image as deactivated.  The path must contain the most recent version to prevent races.
 </dd>
 </dl>
 </dd>
@@ -17945,8 +15795,8 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.images.v_1.deactivate(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
 )
 
 ```
@@ -18024,10 +15874,7 @@ client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.pre_encounter.images.v_1.get_multi(
-    patient_id="string",
-    coverage_id="string",
-)
+client.pre_encounter.images.v_1.get_multi()
 
 ```
 </dd>
@@ -18100,19 +15947,12 @@ Gets patients with dependent objects for patients that match the query parameter
 
 ```python
 from candid import CandidApiClient
-from candid.resources.pre_encounter.resources.common import SortDirection
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.pre_encounter.lists.v_1.get_patient_list(
-    page_token="string",
-    limit=1,
-    sort_field="string",
-    sort_direction=SortDirection.ASC,
-    filters="string",
-)
+client.pre_encounter.lists.v_1.get_patient_list()
 
 ```
 </dd>
@@ -18208,19 +16048,12 @@ Searches for appointments that match the query parameters.
 
 ```python
 from candid import CandidApiClient
-from candid.resources.pre_encounter.resources.common import SortDirection
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.pre_encounter.lists.v_1.get_appointment_list(
-    sort_field="string",
-    sort_direction=SortDirection.ASC,
-    limit=1,
-    page_token="string",
-    filters="string",
-)
+client.pre_encounter.lists.v_1.get_appointment_list()
 
 ```
 </dd>
@@ -18323,7 +16156,7 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.notes.v_1.get(
-    id="string",
+    id="id",
 )
 
 ```
@@ -18398,9 +16231,7 @@ client = CandidApiClient(
 )
 client.pre_encounter.notes.v_1.create(
     request=MutableNote(
-        value="string",
-        author_email="string",
-        author_name="string",
+        value="value",
     ),
 )
 
@@ -18475,12 +16306,10 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.notes.v_1.update(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
     request=MutableNote(
-        value="string",
-        author_email="string",
-        author_name="string",
+        value="value",
     ),
 )
 
@@ -18546,7 +16375,7 @@ client.pre_encounter.notes.v_1.update(
 <dl>
 <dd>
 
-Sets a note as deactivated. The path must contain the most recent version to prevent races.
+Sets a note as deactivated.  The path must contain the most recent version to prevent races.
 </dd>
 </dl>
 </dd>
@@ -18568,8 +16397,8 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.notes.v_1.deactivate(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
 )
 
 ```
@@ -18627,7 +16456,7 @@ client.pre_encounter.notes.v_1.deactivate(
 <dl>
 <dd>
 
-Adds a patient. VersionConflictError is returned when the patient's external ID is already in use.
+Adds a patient.  VersionConflictError is returned when the patient's external ID is already in use.
 </dd>
 </dl>
 </dd>
@@ -18647,37 +16476,20 @@ import uuid
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.common import (
-    AdditionalPayerInformation,
     Address,
     AddressUse,
-    CanonicalNonInsurancePayerAssociation,
     ContactPoint,
     ContactPointUse,
-    DisabilityStatus,
-    Ethnicity,
-    ExternalIdentifier,
     ExternalProvider,
-    ExternalProviderType,
-    Gender,
     HumanName,
     NameUse,
-    Period,
-    Race,
     Relationship,
     Sex,
-    SexualOrientation,
 )
 from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
-    Authorization,
-    AuthorizationUnit,
     Contact,
-    DoNotInvoiceReason,
-    ExternalProvenance,
     FilingOrder,
-    Guarantor,
-    MaritalStatus,
     MutablePatient,
-    Referral,
 )
 
 client = CandidApiClient(
@@ -18685,222 +16497,188 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.create(
-    skip_duplicate_check=True,
     request=MutablePatient(
         name=HumanName(
-            family="string",
-            given=["string"],
+            family="family",
+            given=["given", "given"],
             use=NameUse.USUAL,
-            period=Period(),
-            suffix="string",
         ),
         other_names=[
             HumanName(
-                family="string",
-                given=["string"],
+                family="family",
+                given=["given", "given"],
                 use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
-            )
+            ),
+            HumanName(
+                family="family",
+                given=["given", "given"],
+                use=NameUse.USUAL,
+            ),
         ],
-        other_identifiers=[
-            ExternalIdentifier(
-                value="string",
-                system="string",
-            )
-        ],
-        gender=Gender.MAN,
         birth_date=datetime.date.fromisoformat(
             "2023-01-15",
         ),
-        social_security_number="string",
         biological_sex=Sex.FEMALE,
-        sexual_orientation=SexualOrientation.HETEROSEXUAL,
-        pronouns=["string"],
-        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-        disability_status=DisabilityStatus.DISABLED,
-        marital_status=MaritalStatus.ANNULLED,
-        deceased=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
-        ),
-        multiple_birth=1,
         primary_address=Address(
             use=AddressUse.HOME,
-            line=["string"],
-            city="string",
-            state="string",
-            postal_code="string",
-            country="string",
-            period=Period(),
+            line=["line", "line"],
+            city="city",
+            state="state",
+            postal_code="postal_code",
+            country="country",
         ),
         other_addresses=[
             Address(
                 use=AddressUse.HOME,
-                line=["string"],
-                city="string",
-                state="string",
-                postal_code="string",
-                country="string",
-                period=Period(),
-            )
+                line=["line", "line"],
+                city="city",
+                state="state",
+                postal_code="postal_code",
+                country="country",
+            ),
+            Address(
+                use=AddressUse.HOME,
+                line=["line", "line"],
+                city="city",
+                state="state",
+                postal_code="postal_code",
+                country="country",
+            ),
         ],
         primary_telecom=ContactPoint(
-            value="string",
+            value="value",
             use=ContactPointUse.HOME,
         ),
         other_telecoms=[
             ContactPoint(
-                value="string",
+                value="value",
                 use=ContactPointUse.HOME,
-            )
+            ),
+            ContactPoint(
+                value="value",
+                use=ContactPointUse.HOME,
+            ),
         ],
-        email="string",
-        electronic_communication_opt_in=True,
-        photo="string",
-        language="string",
-        external_provenance=ExternalProvenance(
-            external_id="string",
-            system_name="string",
-        ),
         contacts=[
             Contact(
-                relationship=[Relationship.SELF],
+                relationship=[Relationship.SELF, Relationship.SELF],
                 name=HumanName(
-                    family="string",
-                    given=["string"],
+                    family="family",
+                    given=["given", "given"],
                     use=NameUse.USUAL,
-                    period=Period(),
-                    suffix="string",
                 ),
                 telecoms=[
                     ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
-                    )
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
                 ],
                 addresses=[
                     Address(
                         use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    )
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
                 ],
-                period=Period(),
-                hipaa_authorization=True,
-            )
+            ),
+            Contact(
+                relationship=[Relationship.SELF, Relationship.SELF],
+                name=HumanName(
+                    family="family",
+                    given=["given", "given"],
+                    use=NameUse.USUAL,
+                ),
+                telecoms=[
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                ],
+                addresses=[
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                ],
+            ),
         ],
         general_practitioners=[
             ExternalProvider(
                 name=HumanName(
-                    family="string",
-                    given=["string"],
+                    family="family",
+                    given=["given", "given"],
                     use=NameUse.USUAL,
-                    period=Period(),
-                    suffix="string",
                 ),
-                type=ExternalProviderType.PRIMARY,
-                npi="string",
                 telecoms=[
                     ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
-                    )
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
                 ],
-                addresses=[],
-                period=Period(),
-                canonical_id="string",
-                fax="string",
-            )
+            ),
+            ExternalProvider(
+                name=HumanName(
+                    family="family",
+                    given=["given", "given"],
+                    use=NameUse.USUAL,
+                ),
+                telecoms=[
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                ],
+            ),
         ],
         filing_order=FilingOrder(
             coverages=[
                 uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
+                ),
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
             ],
         ),
-        non_insurance_payers=["string"],
-        non_insurance_payer_associations=[
-            CanonicalNonInsurancePayerAssociation(
-                id="string",
-            )
-        ],
-        guarantor=Guarantor(
-            name=HumanName(
-                family="string",
-                given=["string"],
-                use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
-            ),
-            telecom=ContactPoint(
-                value="string",
-                use=ContactPointUse.HOME,
-            ),
-            email="string",
-            birth_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            address=Address(
-                use=AddressUse.HOME,
-                line=["string"],
-                city="string",
-                state="string",
-                postal_code="string",
-                country="string",
-                period=Period(),
-            ),
-        ),
-        self_pay=True,
-        authorizations=[
-            Authorization(
-                payer_id="string",
-                payer_name="string",
-                additional_payer_information=AdditionalPayerInformation(),
-                authorization_number="string",
-                cpt_code="string",
-                apply_for_all_cpt_codes=True,
-                units=AuthorizationUnit.VISIT,
-                quantity=1,
-                period=Period(),
-                notes="string",
-            )
-        ],
-        referrals=[
-            Referral(
-                provider=ExternalProvider(
-                    name=HumanName(
-                        family="string",
-                        given=["string"],
-                        use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    ),
-                    type=ExternalProviderType.PRIMARY,
-                    npi="string",
-                    telecoms=[
-                        ContactPoint(
-                            value="string",
-                            use=ContactPointUse.HOME,
-                        )
-                    ],
-                    addresses=[],
-                    period=Period(),
-                    canonical_id="string",
-                    fax="string",
-                ),
-                referral_number="string",
-            )
-        ],
-        primary_service_facility_id="string",
-        do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
-        note_ids=["string"],
-        tag_ids=["string"],
     ),
 )
 
@@ -18958,7 +16736,7 @@ client.pre_encounter.patients.v_1.create(
 <dl>
 <dd>
 
-Adds a patient and hydrates their MRN with a pre-existing MRN. Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
+Adds a patient and hydrates their MRN with a pre-existing MRN.  Once this patient is created their MRN will not be editable. BadRequestError is returned when the MRN is greater than 20 characters. VersionConflictError is returned when the patient's external ID is already in use.
 </dd>
 </dl>
 </dd>
@@ -18978,37 +16756,20 @@ import uuid
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.common import (
-    AdditionalPayerInformation,
     Address,
     AddressUse,
-    CanonicalNonInsurancePayerAssociation,
     ContactPoint,
     ContactPointUse,
-    DisabilityStatus,
-    Ethnicity,
-    ExternalIdentifier,
     ExternalProvider,
-    ExternalProviderType,
-    Gender,
     HumanName,
     NameUse,
-    Period,
-    Race,
     Relationship,
     Sex,
-    SexualOrientation,
 )
 from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
-    Authorization,
-    AuthorizationUnit,
     Contact,
-    DoNotInvoiceReason,
-    ExternalProvenance,
     FilingOrder,
-    Guarantor,
-    MaritalStatus,
     MutablePatientWithMrn,
-    Referral,
 )
 
 client = CandidApiClient(
@@ -19016,223 +16777,189 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.create_with_mrn(
-    skip_duplicate_check=True,
     request=MutablePatientWithMrn(
-        mrn="string",
         name=HumanName(
-            family="string",
-            given=["string"],
+            family="family",
+            given=["given", "given"],
             use=NameUse.USUAL,
-            period=Period(),
-            suffix="string",
         ),
         other_names=[
             HumanName(
-                family="string",
-                given=["string"],
+                family="family",
+                given=["given", "given"],
                 use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
-            )
+            ),
+            HumanName(
+                family="family",
+                given=["given", "given"],
+                use=NameUse.USUAL,
+            ),
         ],
-        other_identifiers=[
-            ExternalIdentifier(
-                value="string",
-                system="string",
-            )
-        ],
-        gender=Gender.MAN,
         birth_date=datetime.date.fromisoformat(
             "2023-01-15",
         ),
-        social_security_number="string",
         biological_sex=Sex.FEMALE,
-        sexual_orientation=SexualOrientation.HETEROSEXUAL,
-        pronouns=["string"],
-        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-        disability_status=DisabilityStatus.DISABLED,
-        marital_status=MaritalStatus.ANNULLED,
-        deceased=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
-        ),
-        multiple_birth=1,
         primary_address=Address(
             use=AddressUse.HOME,
-            line=["string"],
-            city="string",
-            state="string",
-            postal_code="string",
-            country="string",
-            period=Period(),
+            line=["line", "line"],
+            city="city",
+            state="state",
+            postal_code="postal_code",
+            country="country",
         ),
         other_addresses=[
             Address(
                 use=AddressUse.HOME,
-                line=["string"],
-                city="string",
-                state="string",
-                postal_code="string",
-                country="string",
-                period=Period(),
-            )
+                line=["line", "line"],
+                city="city",
+                state="state",
+                postal_code="postal_code",
+                country="country",
+            ),
+            Address(
+                use=AddressUse.HOME,
+                line=["line", "line"],
+                city="city",
+                state="state",
+                postal_code="postal_code",
+                country="country",
+            ),
         ],
         primary_telecom=ContactPoint(
-            value="string",
+            value="value",
             use=ContactPointUse.HOME,
         ),
         other_telecoms=[
             ContactPoint(
-                value="string",
+                value="value",
                 use=ContactPointUse.HOME,
-            )
+            ),
+            ContactPoint(
+                value="value",
+                use=ContactPointUse.HOME,
+            ),
         ],
-        email="string",
-        electronic_communication_opt_in=True,
-        photo="string",
-        language="string",
-        external_provenance=ExternalProvenance(
-            external_id="string",
-            system_name="string",
-        ),
         contacts=[
             Contact(
-                relationship=[Relationship.SELF],
+                relationship=[Relationship.SELF, Relationship.SELF],
                 name=HumanName(
-                    family="string",
-                    given=["string"],
+                    family="family",
+                    given=["given", "given"],
                     use=NameUse.USUAL,
-                    period=Period(),
-                    suffix="string",
                 ),
                 telecoms=[
                     ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
-                    )
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
                 ],
                 addresses=[
                     Address(
                         use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    )
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
                 ],
-                period=Period(),
-                hipaa_authorization=True,
-            )
+            ),
+            Contact(
+                relationship=[Relationship.SELF, Relationship.SELF],
+                name=HumanName(
+                    family="family",
+                    given=["given", "given"],
+                    use=NameUse.USUAL,
+                ),
+                telecoms=[
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                ],
+                addresses=[
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                ],
+            ),
         ],
         general_practitioners=[
             ExternalProvider(
                 name=HumanName(
-                    family="string",
-                    given=["string"],
+                    family="family",
+                    given=["given", "given"],
                     use=NameUse.USUAL,
-                    period=Period(),
-                    suffix="string",
                 ),
-                type=ExternalProviderType.PRIMARY,
-                npi="string",
                 telecoms=[
                     ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
-                    )
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
                 ],
-                addresses=[],
-                period=Period(),
-                canonical_id="string",
-                fax="string",
-            )
+            ),
+            ExternalProvider(
+                name=HumanName(
+                    family="family",
+                    given=["given", "given"],
+                    use=NameUse.USUAL,
+                ),
+                telecoms=[
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                ],
+            ),
         ],
         filing_order=FilingOrder(
             coverages=[
                 uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
+                ),
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
             ],
         ),
-        non_insurance_payers=["string"],
-        non_insurance_payer_associations=[
-            CanonicalNonInsurancePayerAssociation(
-                id="string",
-            )
-        ],
-        guarantor=Guarantor(
-            name=HumanName(
-                family="string",
-                given=["string"],
-                use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
-            ),
-            telecom=ContactPoint(
-                value="string",
-                use=ContactPointUse.HOME,
-            ),
-            email="string",
-            birth_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            address=Address(
-                use=AddressUse.HOME,
-                line=["string"],
-                city="string",
-                state="string",
-                postal_code="string",
-                country="string",
-                period=Period(),
-            ),
-        ),
-        self_pay=True,
-        authorizations=[
-            Authorization(
-                payer_id="string",
-                payer_name="string",
-                additional_payer_information=AdditionalPayerInformation(),
-                authorization_number="string",
-                cpt_code="string",
-                apply_for_all_cpt_codes=True,
-                units=AuthorizationUnit.VISIT,
-                quantity=1,
-                period=Period(),
-                notes="string",
-            )
-        ],
-        referrals=[
-            Referral(
-                provider=ExternalProvider(
-                    name=HumanName(
-                        family="string",
-                        given=["string"],
-                        use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    ),
-                    type=ExternalProviderType.PRIMARY,
-                    npi="string",
-                    telecoms=[
-                        ContactPoint(
-                            value="string",
-                            use=ContactPointUse.HOME,
-                        )
-                    ],
-                    addresses=[],
-                    period=Period(),
-                    canonical_id="string",
-                    fax="string",
-                ),
-                referral_number="string",
-            )
-        ],
-        primary_service_facility_id="string",
-        do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
-        note_ids=["string"],
-        tag_ids=["string"],
+        mrn="mrn",
     ),
 )
 
@@ -19306,19 +17033,12 @@ Searches for patients that match the query parameters.
 
 ```python
 from candid import CandidApiClient
-from candid.resources.pre_encounter.resources.common import SortDirection
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.pre_encounter.patients.v_1.get_multi(
-    limit=1,
-    mrn="string",
-    page_token="string",
-    sort_field="string",
-    sort_direction=SortDirection.ASC,
-)
+client.pre_encounter.patients.v_1.get_multi()
 
 ```
 </dd>
@@ -19398,7 +17118,7 @@ client.pre_encounter.patients.v_1.get_multi(
 <dl>
 <dd>
 
-Searches for referring providers that match the query parameters. The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
+Searches for referring providers that match the query parameters.  The search is case-insensitive, supports fuzzy matching, and matches against provider name and NPI. The search criteria must be an alphanumeric string, and the search is limited to the first 20 results.
 </dd>
 </dl>
 </dd>
@@ -19420,7 +17140,7 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.search_providers(
-    search_criteria="string",
+    search_criteria="search_criteria",
 )
 
 ```
@@ -19491,7 +17211,7 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.get(
-    id="string",
+    id="id",
 )
 
 ```
@@ -19540,7 +17260,7 @@ client.pre_encounter.patients.v_1.get(
 <dl>
 <dd>
 
-Gets a patient along with it's full history. The return list is ordered by version ascending.
+Gets a patient along with it's full history.  The return list is ordered by version ascending.
 </dd>
 </dl>
 </dd>
@@ -19562,7 +17282,7 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.get_history(
-    id="string",
+    id="id",
 )
 
 ```
@@ -19611,7 +17331,7 @@ client.pre_encounter.patients.v_1.get_history(
 <dl>
 <dd>
 
-Updates a patient. The path must contain the most recent version to prevent race conditions. Updating historic versions is not supported.
+Updates a patient.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
 </dd>
 </dl>
 </dd>
@@ -19631,37 +17351,20 @@ import uuid
 
 from candid import CandidApiClient
 from candid.resources.pre_encounter.resources.common import (
-    AdditionalPayerInformation,
     Address,
     AddressUse,
-    CanonicalNonInsurancePayerAssociation,
     ContactPoint,
     ContactPointUse,
-    DisabilityStatus,
-    Ethnicity,
-    ExternalIdentifier,
     ExternalProvider,
-    ExternalProviderType,
-    Gender,
     HumanName,
     NameUse,
-    Period,
-    Race,
     Relationship,
     Sex,
-    SexualOrientation,
 )
 from candid.resources.pre_encounter.resources.patients.resources.v_1 import (
-    Authorization,
-    AuthorizationUnit,
     Contact,
-    DoNotInvoiceReason,
-    ExternalProvenance,
     FilingOrder,
-    Guarantor,
-    MaritalStatus,
     MutablePatient,
-    Referral,
 )
 
 client = CandidApiClient(
@@ -19669,223 +17372,190 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.update(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
     request=MutablePatient(
         name=HumanName(
-            family="string",
-            given=["string"],
+            family="family",
+            given=["given", "given"],
             use=NameUse.USUAL,
-            period=Period(),
-            suffix="string",
         ),
         other_names=[
             HumanName(
-                family="string",
-                given=["string"],
+                family="family",
+                given=["given", "given"],
                 use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
-            )
+            ),
+            HumanName(
+                family="family",
+                given=["given", "given"],
+                use=NameUse.USUAL,
+            ),
         ],
-        other_identifiers=[
-            ExternalIdentifier(
-                value="string",
-                system="string",
-            )
-        ],
-        gender=Gender.MAN,
         birth_date=datetime.date.fromisoformat(
             "2023-01-15",
         ),
-        social_security_number="string",
         biological_sex=Sex.FEMALE,
-        sexual_orientation=SexualOrientation.HETEROSEXUAL,
-        pronouns=["string"],
-        race=Race.AMERICAN_INDIAN_OR_ALASKA_NATIVE,
-        ethnicity=Ethnicity.HISPANIC_OR_LATINO,
-        disability_status=DisabilityStatus.DISABLED,
-        marital_status=MaritalStatus.ANNULLED,
-        deceased=datetime.datetime.fromisoformat(
-            "2024-01-15 09:30:00+00:00",
-        ),
-        multiple_birth=1,
         primary_address=Address(
             use=AddressUse.HOME,
-            line=["string"],
-            city="string",
-            state="string",
-            postal_code="string",
-            country="string",
-            period=Period(),
+            line=["line", "line"],
+            city="city",
+            state="state",
+            postal_code="postal_code",
+            country="country",
         ),
         other_addresses=[
             Address(
                 use=AddressUse.HOME,
-                line=["string"],
-                city="string",
-                state="string",
-                postal_code="string",
-                country="string",
-                period=Period(),
-            )
+                line=["line", "line"],
+                city="city",
+                state="state",
+                postal_code="postal_code",
+                country="country",
+            ),
+            Address(
+                use=AddressUse.HOME,
+                line=["line", "line"],
+                city="city",
+                state="state",
+                postal_code="postal_code",
+                country="country",
+            ),
         ],
         primary_telecom=ContactPoint(
-            value="string",
+            value="value",
             use=ContactPointUse.HOME,
         ),
         other_telecoms=[
             ContactPoint(
-                value="string",
+                value="value",
                 use=ContactPointUse.HOME,
-            )
+            ),
+            ContactPoint(
+                value="value",
+                use=ContactPointUse.HOME,
+            ),
         ],
-        email="string",
-        electronic_communication_opt_in=True,
-        photo="string",
-        language="string",
-        external_provenance=ExternalProvenance(
-            external_id="string",
-            system_name="string",
-        ),
         contacts=[
             Contact(
-                relationship=[Relationship.SELF],
+                relationship=[Relationship.SELF, Relationship.SELF],
                 name=HumanName(
-                    family="string",
-                    given=["string"],
+                    family="family",
+                    given=["given", "given"],
                     use=NameUse.USUAL,
-                    period=Period(),
-                    suffix="string",
                 ),
                 telecoms=[
                     ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
-                    )
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
                 ],
                 addresses=[
                     Address(
                         use=AddressUse.HOME,
-                        line=["string"],
-                        city="string",
-                        state="string",
-                        postal_code="string",
-                        country="string",
-                        period=Period(),
-                    )
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
                 ],
-                period=Period(),
-                hipaa_authorization=True,
-            )
+            ),
+            Contact(
+                relationship=[Relationship.SELF, Relationship.SELF],
+                name=HumanName(
+                    family="family",
+                    given=["given", "given"],
+                    use=NameUse.USUAL,
+                ),
+                telecoms=[
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                ],
+                addresses=[
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                    Address(
+                        use=AddressUse.HOME,
+                        line=["line", "line"],
+                        city="city",
+                        state="state",
+                        postal_code="postal_code",
+                        country="country",
+                    ),
+                ],
+            ),
         ],
         general_practitioners=[
             ExternalProvider(
                 name=HumanName(
-                    family="string",
-                    given=["string"],
+                    family="family",
+                    given=["given", "given"],
                     use=NameUse.USUAL,
-                    period=Period(),
-                    suffix="string",
                 ),
-                type=ExternalProviderType.PRIMARY,
-                npi="string",
                 telecoms=[
                     ContactPoint(
-                        value="string",
+                        value="value",
                         use=ContactPointUse.HOME,
-                    )
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
                 ],
-                addresses=[],
-                period=Period(),
-                canonical_id="string",
-                fax="string",
-            )
+            ),
+            ExternalProvider(
+                name=HumanName(
+                    family="family",
+                    given=["given", "given"],
+                    use=NameUse.USUAL,
+                ),
+                telecoms=[
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                    ContactPoint(
+                        value="value",
+                        use=ContactPointUse.HOME,
+                    ),
+                ],
+            ),
         ],
         filing_order=FilingOrder(
             coverages=[
                 uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
+                ),
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
             ],
         ),
-        non_insurance_payers=["string"],
-        non_insurance_payer_associations=[
-            CanonicalNonInsurancePayerAssociation(
-                id="string",
-            )
-        ],
-        guarantor=Guarantor(
-            name=HumanName(
-                family="string",
-                given=["string"],
-                use=NameUse.USUAL,
-                period=Period(),
-                suffix="string",
-            ),
-            telecom=ContactPoint(
-                value="string",
-                use=ContactPointUse.HOME,
-            ),
-            email="string",
-            birth_date=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            address=Address(
-                use=AddressUse.HOME,
-                line=["string"],
-                city="string",
-                state="string",
-                postal_code="string",
-                country="string",
-                period=Period(),
-            ),
-        ),
-        self_pay=True,
-        authorizations=[
-            Authorization(
-                payer_id="string",
-                payer_name="string",
-                additional_payer_information=AdditionalPayerInformation(),
-                authorization_number="string",
-                cpt_code="string",
-                apply_for_all_cpt_codes=True,
-                units=AuthorizationUnit.VISIT,
-                quantity=1,
-                period=Period(),
-                notes="string",
-            )
-        ],
-        referrals=[
-            Referral(
-                provider=ExternalProvider(
-                    name=HumanName(
-                        family="string",
-                        given=["string"],
-                        use=NameUse.USUAL,
-                        period=Period(),
-                        suffix="string",
-                    ),
-                    type=ExternalProviderType.PRIMARY,
-                    npi="string",
-                    telecoms=[
-                        ContactPoint(
-                            value="string",
-                            use=ContactPointUse.HOME,
-                        )
-                    ],
-                    addresses=[],
-                    period=Period(),
-                    canonical_id="string",
-                    fax="string",
-                ),
-                referral_number="string",
-            )
-        ],
-        primary_service_facility_id="string",
-        do_not_invoice_reason=DoNotInvoiceReason.BANKRUPTCY,
-        note_ids=["string"],
-        tag_ids=["string"],
     ),
 )
 
@@ -19951,7 +17621,7 @@ client.pre_encounter.patients.v_1.update(
 <dl>
 <dd>
 
-Sets a patient as deactivated. The path must contain the most recent version plus 1 to prevent race conditions. Deactivating historic versions is not supported.
+Sets a patient as deactivated.  The path must contain the most recent version plus 1 to prevent race conditions.  Deactivating historic versions is not supported.
 </dd>
 </dl>
 </dd>
@@ -19973,8 +17643,8 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.deactivate(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
 )
 
 ```
@@ -20031,7 +17701,7 @@ client.pre_encounter.patients.v_1.deactivate(
 <dl>
 <dd>
 
-Removes the deactivated flag for a patient. The path must contain the most recent version plus 1 to prevent race conditions. Reactivating historic versions is not supported.
+Removes the deactivated flag for a patient.  The path must contain the most recent version plus 1 to prevent race conditions.  Reactivating historic versions is not supported.
 </dd>
 </dl>
 </dd>
@@ -20053,8 +17723,8 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.patients.v_1.reactivate(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
 )
 
 ```
@@ -20132,10 +17802,7 @@ client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.pre_encounter.patients.v_1.search(
-    mrn="string",
-    similar_name_ordering="string",
-)
+client.pre_encounter.patients.v_1.search()
 
 ```
 </dd>
@@ -20191,7 +17858,7 @@ client.pre_encounter.patients.v_1.search(
 <dl>
 <dd>
 
-Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+Scans up to 100 patient updates.  The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 </dd>
 </dl>
 </dd>
@@ -20289,7 +17956,7 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.tags.v_1.get(
-    id="string",
+    id="id",
 )
 
 ```
@@ -20359,10 +18026,7 @@ client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.pre_encounter.tags.v_1.get_all(
-    limit=1,
-    page_token="string",
-)
+client.pre_encounter.tags.v_1.get_all()
 
 ```
 </dd>
@@ -20444,7 +18108,7 @@ client = CandidApiClient(
 )
 client.pre_encounter.tags.v_1.create(
     request=MutableTag(
-        value="string",
+        value="value",
     ),
 )
 
@@ -20519,10 +18183,10 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.tags.v_1.update(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
     request=MutableTag(
-        value="string",
+        value="value",
     ),
 )
 
@@ -20588,7 +18252,7 @@ client.pre_encounter.tags.v_1.update(
 <dl>
 <dd>
 
-Sets a tag as deactivated. The path must contain the most recent version to prevent races.
+Sets a tag as deactivated.  The path must contain the most recent version to prevent races.
 </dd>
 </dl>
 </dd>
@@ -20610,8 +18274,8 @@ client = CandidApiClient(
     client_secret="YOUR_CLIENT_SECRET",
 )
 client.pre_encounter.tags.v_1.deactivate(
-    id="string",
-    version="string",
+    id="id",
+    version="version",
 )
 
 ```
@@ -20698,12 +18362,11 @@ client = CandidApiClient(
 )
 client.diagnoses.create(
     request=StandaloneDiagnosisCreate(
+        code_type=DiagnosisTypeCode.ABF,
+        code="code",
         encounter_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
-        name="string",
-        code_type=DiagnosisTypeCode.ABF,
-        code="string",
     ),
 )
 
@@ -20771,7 +18434,6 @@ Updates the diagnosis record matching the provided `diagnosis_id`
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.diagnoses import DiagnosisTypeCode
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -20781,9 +18443,6 @@ client.diagnoses.update(
     diagnosis_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    name="string",
-    code_type=DiagnosisTypeCode.ABF,
-    code="string",
 )
 
 ```
@@ -20817,7 +18476,6 @@ client.diagnoses.update(
 <dd>
 
 **code_type:** `typing.Optional[DiagnosisTypeCode]` — Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.
-
     
 </dd>
 </dl>
@@ -20835,7 +18493,6 @@ Must obey the ICD-10 format if an ICD-10 code_type is provided, specifically:
   - Digit or the letter `A` or `B`
   - (Optional) Period `.`
   - Up to 4 (or as few as 0) letters and digits
-
     
 </dd>
 </dl>
@@ -20947,7 +18604,6 @@ client.diagnoses.delete(
 import uuid
 
 from candid import CandidApiClient
-from candid.resources.commons import State, StreetAddressLongZip
 from candid.resources.service_facility import EncounterServiceFacilityUpdate
 
 client = CandidApiClient(
@@ -20958,17 +18614,7 @@ client.service_facility.update(
     service_facility_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=EncounterServiceFacilityUpdate(
-        organization_name="Test Organization",
-        address=StreetAddressLongZip(
-            address_1="123 Main St",
-            address_2="Apt 1",
-            city="New York",
-            state=State.NY,
-            zip_code="10001",
-            zip_plus_four_code="1234",
-        ),
-    ),
+    request=EncounterServiceFacilityUpdate(),
 )
 
 ```

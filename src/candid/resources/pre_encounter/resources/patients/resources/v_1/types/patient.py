@@ -15,12 +15,12 @@ class Patient(BaseModel, MutablePatient):
 
     id: PatientId = pydantic.Field()
     """
-    The unique UUID identifier for a Patient. Patient ID is used in machine contexts.
+    The unique UUID identifier for a Patient.  Patient ID is used in machine contexts.
     """
 
     mrn: str = pydantic.Field()
     """
-    The medical record number for the patient. Human-friendly Candid generated MRNs are of the form "YYMMDDXXXX", where "YYYYMMDD" is the date of patient creation and "XXXX" is a zero-padded incrementing integer.
+    The medical record number for the patient.  Human-friendly Candid generated MRNs are of the form "YYMMDDXXXX", where "YYYYMMDD" is the date of patient creation and "XXXX" is a zero-padded incrementing integer.
     """
 
     if IS_PYDANTIC_V2:

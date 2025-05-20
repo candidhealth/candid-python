@@ -224,51 +224,13 @@ class V1Client:
 
         Examples
         --------
-        import datetime
-        import uuid
-
         from candid import CandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
-        from candid.resources.charge_capture_bundles.resources.v_1 import (
-            ChargeCaptureClaimCreationSortField,
-            ChargeCaptureClaimCreationStatus,
-        )
-        from candid.resources.commons import SortDirection
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.charge_capture_bundles.v_1.get_all(
-            limit=1,
-            sort=ChargeCaptureClaimCreationSortField.CREATED_AT,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            patient_external_id="string",
-            claim_creation_status=ChargeCaptureClaimCreationStatus.NOT_STARTED,
-            charge_status=ChargeCaptureStatus.PLANNED,
-            charge_external_id="string",
-            date_of_service_min=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            date_of_service_max=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            claim_ids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            claim_creation_ids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            billing_provider_npis="string",
-            service_facility_name="string",
-            primary_payer_ids="string",
-            rendering_provider_npis="string",
-            rendering_provider_names="string",
-            supervising_provider_npis="string",
-            supervising_provider_names="string",
-            has_charge_capture_updates=True,
-        )
+        client.charge_capture_bundles.v_1.get_all()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/charge_capture_claim_creation/v1",
@@ -532,16 +494,8 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
-        import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.charge_capture.resources.v_1 import ChargeCaptureStatus
-        from candid.resources.charge_capture_bundles.resources.v_1 import (
-            ChargeCaptureClaimCreationSortField,
-            ChargeCaptureClaimCreationStatus,
-        )
-        from candid.resources.commons import SortDirection
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -550,36 +504,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.charge_capture_bundles.v_1.get_all(
-                limit=1,
-                sort=ChargeCaptureClaimCreationSortField.CREATED_AT,
-                sort_direction=SortDirection.ASC,
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                patient_external_id="string",
-                claim_creation_status=ChargeCaptureClaimCreationStatus.NOT_STARTED,
-                charge_status=ChargeCaptureStatus.PLANNED,
-                charge_external_id="string",
-                date_of_service_min=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                date_of_service_max=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                claim_ids=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                claim_creation_ids=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                billing_provider_npis="string",
-                service_facility_name="string",
-                primary_payer_ids="string",
-                rendering_provider_npis="string",
-                rendering_provider_names="string",
-                supervising_provider_npis="string",
-                supervising_provider_names="string",
-                has_charge_capture_updates=True,
-            )
+            await client.charge_capture_bundles.v_1.get_all()
 
 
         asyncio.run(main())

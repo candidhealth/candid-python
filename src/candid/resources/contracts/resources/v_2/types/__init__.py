@@ -11,6 +11,7 @@ from .contract_base import ContractBase
 from .contract_id import ContractId
 from .contract_invalid_expiration_date_error import ContractInvalidExpirationDateError
 from .contract_is_linked_to_fee_schedule_error import ContractIsLinkedToFeeScheduleError
+from .contract_sort_field import ContractSortField
 from .contract_status import ContractStatus
 from .contract_with_providers import ContractWithProviders
 from .contracting_provider_id import ContractingProviderId
@@ -35,6 +36,7 @@ __all__ = [
     "ContractId",
     "ContractInvalidExpirationDateError",
     "ContractIsLinkedToFeeScheduleError",
+    "ContractSortField",
     "ContractStatus",
     "ContractWithProviders",
     "ContractingProviderId",

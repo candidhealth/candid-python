@@ -59,7 +59,6 @@ class V1Client:
         date_of_service : Date
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-
         external_patient_id : typing.Optional[str]
 
         subscriber_insurance_type : typing.Optional[InsuranceTypeCode]
@@ -77,23 +76,20 @@ class V1Client:
         Examples
         --------
         from candid import CandidApiClient
-        from candid.resources.commons import InsuranceTypeCode, State
+        from candid.resources.commons import State
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.expected_network_status.v_1.compute(
-            external_patient_id="string",
-            subscriber_payer_id="string",
-            subscriber_payer_name="string",
-            subscriber_insurance_type=InsuranceTypeCode.C_01,
-            subscriber_plan_name="string",
-            billing_provider_npi="string",
-            billing_provider_tin="string",
-            rendering_provider_npi="string",
+            subscriber_payer_id="subscriber_payer_id",
+            subscriber_payer_name="subscriber_payer_name",
+            billing_provider_npi="billing_provider_npi",
+            billing_provider_tin="billing_provider_tin",
+            rendering_provider_npi="rendering_provider_npi",
             contracted_state=State.AA,
-            date_of_service="string",
+            date_of_service="date_of_service",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -173,7 +169,6 @@ class AsyncV1Client:
         date_of_service : Date
             Date formatted as YYYY-MM-DD; eg: 2019-08-25.
 
-
         external_patient_id : typing.Optional[str]
 
         subscriber_insurance_type : typing.Optional[InsuranceTypeCode]
@@ -193,7 +188,7 @@ class AsyncV1Client:
         import asyncio
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import InsuranceTypeCode, State
+        from candid.resources.commons import State
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -203,16 +198,13 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.expected_network_status.v_1.compute(
-                external_patient_id="string",
-                subscriber_payer_id="string",
-                subscriber_payer_name="string",
-                subscriber_insurance_type=InsuranceTypeCode.C_01,
-                subscriber_plan_name="string",
-                billing_provider_npi="string",
-                billing_provider_tin="string",
-                rendering_provider_npi="string",
+                subscriber_payer_id="subscriber_payer_id",
+                subscriber_payer_name="subscriber_payer_name",
+                billing_provider_npi="billing_provider_npi",
+                billing_provider_tin="billing_provider_tin",
+                rendering_provider_npi="rendering_provider_npi",
                 contracted_state=State.AA,
-                date_of_service="string",
+                date_of_service="date_of_service",
             )
 
 

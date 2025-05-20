@@ -168,7 +168,7 @@ class InsuranceTypeCode(str, enum.Enum):
 
     CIN = "IN"
     """
-    Indemnity - Gives a subscriber the choice to select any provider. Payment is fixed percentage of the cost for covered care after satisfying an annual deductible
+    Indemnity - Gives a subscriber the choice to select any provider.  Payment is fixed percentage of the cost for covered care after satisfying an annual deductible
     """
 
     CIP = "IP"

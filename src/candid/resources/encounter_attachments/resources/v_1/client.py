@@ -100,22 +100,6 @@ class V1Client:
         Returns
         -------
         AttachmentId
-
-        Examples
-        --------
-        import uuid
-
-        from candid import CandidApiClient
-
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.encounter_attachments.v_1.create(
-            encounter_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
         """
         _response = self._client_wrapper.httpx_client.request(
             f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}",
@@ -292,29 +276,6 @@ class AsyncV1Client:
         Returns
         -------
         AttachmentId
-
-        Examples
-        --------
-        import asyncio
-        import uuid
-
-        from candid import AsyncCandidApiClient
-
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
-        async def main() -> None:
-            await client.encounter_attachments.v_1.create(
-                encounter_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
-        asyncio.run(main())
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}",

@@ -85,37 +85,13 @@ class V1Client:
 
         Examples
         --------
-        import uuid
-
         from candid import CandidApiClient
-        from candid.resources.commons import SortDirection
-        from candid.resources.financials import AccountType
-        from candid.resources.write_offs.resources.v_1 import WriteOffSortField
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.write_offs.v_1.get_multi(
-            limit=1,
-            patient_external_id="string",
-            payer_uuid=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            service_line_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            claim_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            billing_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            sort=WriteOffSortField.AMOUNT_CENTS,
-            sort_direction=SortDirection.ASC,
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            account_types=AccountType.PATIENT,
-        )
+        client.write_offs.v_1.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/write-offs/v1",
@@ -239,13 +215,22 @@ class V1Client:
                     write_off_timestamp=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",
                     ),
-                    write_off_note="string",
                     write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
                     service_line_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
                     amount_cents=1,
-                )
+                ),
+                WriteOffCreate_Patient(
+                    write_off_timestamp=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                    write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
+                    service_line_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    amount_cents=1,
+                ),
             ],
         )
         """
@@ -489,12 +474,8 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import SortDirection
-        from candid.resources.financials import AccountType
-        from candid.resources.write_offs.resources.v_1 import WriteOffSortField
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -503,26 +484,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.write_offs.v_1.get_multi(
-                limit=1,
-                patient_external_id="string",
-                payer_uuid=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                service_line_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                claim_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                billing_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                sort=WriteOffSortField.AMOUNT_CENTS,
-                sort_direction=SortDirection.ASC,
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                account_types=AccountType.PATIENT,
-            )
+            await client.write_offs.v_1.get_multi()
 
 
         asyncio.run(main())
@@ -662,13 +624,22 @@ class AsyncV1Client:
                         write_off_timestamp=datetime.datetime.fromisoformat(
                             "2024-01-15 09:30:00+00:00",
                         ),
-                        write_off_note="string",
                         write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
                         service_line_id=uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ),
                         amount_cents=1,
-                    )
+                    ),
+                    WriteOffCreate_Patient(
+                        write_off_timestamp=datetime.datetime.fromisoformat(
+                            "2024-01-15 09:30:00+00:00",
+                        ),
+                        write_off_reason=PatientWriteOffReason.SMALL_BALANCE,
+                        service_line_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        amount_cents=1,
+                    ),
                 ],
             )
 

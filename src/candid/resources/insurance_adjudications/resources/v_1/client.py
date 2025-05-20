@@ -101,13 +101,21 @@ class V1Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import ClaimAdjustmentGroupCodes
         from candid.resources.era_commons import ClaimStatusCodeCreate
         from candid.resources.insurance_adjudications.resources.v_1 import (
             ClaimAdjudicationCreate,
             InsuranceAdjudicationCreate,
+            ServiceLineAdjudicationCreate,
         )
         from candid.resources.payers.resources.v_3 import PayerIdentifier_PayerInfo
         from candid.resources.remits.resources.v_1 import Payee, PayeeIdentifier_Npi
+        from candid.resources.x_12.resources.v_1 import (
+            Carc,
+            ClaimAdjustmentReasonCode,
+            Rarc,
+            RemittanceAdviceRemarkCode,
+        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -115,33 +123,153 @@ class V1Client:
         )
         client.insurance_adjudications.v_1.create(
             request=InsuranceAdjudicationCreate(
-                payer_identifier=PayerIdentifier_PayerInfo(),
+                payer_identifier=PayerIdentifier_PayerInfo(
+                    payer_id="payer_id",
+                    payer_name="payer_name",
+                ),
                 payee=Payee(
-                    payee_name="string",
-                    payee_identifier=PayeeIdentifier_Npi(value="string"),
+                    payee_name="payee_name",
+                    payee_identifier=PayeeIdentifier_Npi(value="payee_identifier"),
                 ),
-                post_date=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                check_number="string",
                 check_date=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
-                note="string",
                 claims={
                     uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ): [
                         ClaimAdjudicationCreate(
                             claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
-                            service_lines={},
-                            carcs=[],
-                        )
+                            service_lines={
+                                uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                ): [
+                                    ServiceLineAdjudicationCreate(
+                                        carcs=[
+                                            ClaimAdjustmentReasonCode(
+                                                group_code=ClaimAdjustmentGroupCodes.CO,
+                                                reason_code=Carc.CARC_1,
+                                                amount_cents=1,
+                                            ),
+                                            ClaimAdjustmentReasonCode(
+                                                group_code=ClaimAdjustmentGroupCodes.CO,
+                                                reason_code=Carc.CARC_1,
+                                                amount_cents=1,
+                                            ),
+                                        ],
+                                        rarcs=[
+                                            RemittanceAdviceRemarkCode(
+                                                reason_code=Rarc.M_1,
+                                            ),
+                                            RemittanceAdviceRemarkCode(
+                                                reason_code=Rarc.M_1,
+                                            ),
+                                        ],
+                                    ),
+                                    ServiceLineAdjudicationCreate(
+                                        carcs=[
+                                            ClaimAdjustmentReasonCode(
+                                                group_code=ClaimAdjustmentGroupCodes.CO,
+                                                reason_code=Carc.CARC_1,
+                                                amount_cents=1,
+                                            ),
+                                            ClaimAdjustmentReasonCode(
+                                                group_code=ClaimAdjustmentGroupCodes.CO,
+                                                reason_code=Carc.CARC_1,
+                                                amount_cents=1,
+                                            ),
+                                        ],
+                                        rarcs=[
+                                            RemittanceAdviceRemarkCode(
+                                                reason_code=Rarc.M_1,
+                                            ),
+                                            RemittanceAdviceRemarkCode(
+                                                reason_code=Rarc.M_1,
+                                            ),
+                                        ],
+                                    ),
+                                ]
+                            },
+                            carcs=[
+                                ClaimAdjustmentReasonCode(
+                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                    reason_code=Carc.CARC_1,
+                                    amount_cents=1,
+                                ),
+                                ClaimAdjustmentReasonCode(
+                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                    reason_code=Carc.CARC_1,
+                                    amount_cents=1,
+                                ),
+                            ],
+                        ),
+                        ClaimAdjudicationCreate(
+                            claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
+                            service_lines={
+                                uuid.UUID(
+                                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                ): [
+                                    ServiceLineAdjudicationCreate(
+                                        carcs=[
+                                            ClaimAdjustmentReasonCode(
+                                                group_code=ClaimAdjustmentGroupCodes.CO,
+                                                reason_code=Carc.CARC_1,
+                                                amount_cents=1,
+                                            ),
+                                            ClaimAdjustmentReasonCode(
+                                                group_code=ClaimAdjustmentGroupCodes.CO,
+                                                reason_code=Carc.CARC_1,
+                                                amount_cents=1,
+                                            ),
+                                        ],
+                                        rarcs=[
+                                            RemittanceAdviceRemarkCode(
+                                                reason_code=Rarc.M_1,
+                                            ),
+                                            RemittanceAdviceRemarkCode(
+                                                reason_code=Rarc.M_1,
+                                            ),
+                                        ],
+                                    ),
+                                    ServiceLineAdjudicationCreate(
+                                        carcs=[
+                                            ClaimAdjustmentReasonCode(
+                                                group_code=ClaimAdjustmentGroupCodes.CO,
+                                                reason_code=Carc.CARC_1,
+                                                amount_cents=1,
+                                            ),
+                                            ClaimAdjustmentReasonCode(
+                                                group_code=ClaimAdjustmentGroupCodes.CO,
+                                                reason_code=Carc.CARC_1,
+                                                amount_cents=1,
+                                            ),
+                                        ],
+                                        rarcs=[
+                                            RemittanceAdviceRemarkCode(
+                                                reason_code=Rarc.M_1,
+                                            ),
+                                            RemittanceAdviceRemarkCode(
+                                                reason_code=Rarc.M_1,
+                                            ),
+                                        ],
+                                    ),
+                                ]
+                            },
+                            carcs=[
+                                ClaimAdjustmentReasonCode(
+                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                    reason_code=Carc.CARC_1,
+                                    amount_cents=1,
+                                ),
+                                ClaimAdjustmentReasonCode(
+                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                    reason_code=Carc.CARC_1,
+                                    amount_cents=1,
+                                ),
+                            ],
+                        ),
                     ]
                 },
-                remit_draft_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
             ),
         )
         """
@@ -320,13 +448,21 @@ class AsyncV1Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import ClaimAdjustmentGroupCodes
         from candid.resources.era_commons import ClaimStatusCodeCreate
         from candid.resources.insurance_adjudications.resources.v_1 import (
             ClaimAdjudicationCreate,
             InsuranceAdjudicationCreate,
+            ServiceLineAdjudicationCreate,
         )
         from candid.resources.payers.resources.v_3 import PayerIdentifier_PayerInfo
         from candid.resources.remits.resources.v_1 import Payee, PayeeIdentifier_Npi
+        from candid.resources.x_12.resources.v_1 import (
+            Carc,
+            ClaimAdjustmentReasonCode,
+            Rarc,
+            RemittanceAdviceRemarkCode,
+        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -337,33 +473,153 @@ class AsyncV1Client:
         async def main() -> None:
             await client.insurance_adjudications.v_1.create(
                 request=InsuranceAdjudicationCreate(
-                    payer_identifier=PayerIdentifier_PayerInfo(),
+                    payer_identifier=PayerIdentifier_PayerInfo(
+                        payer_id="payer_id",
+                        payer_name="payer_name",
+                    ),
                     payee=Payee(
-                        payee_name="string",
-                        payee_identifier=PayeeIdentifier_Npi(value="string"),
+                        payee_name="payee_name",
+                        payee_identifier=PayeeIdentifier_Npi(value="payee_identifier"),
                     ),
-                    post_date=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    check_number="string",
                     check_date=datetime.date.fromisoformat(
                         "2023-01-15",
                     ),
-                    note="string",
                     claims={
                         uuid.UUID(
                             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                         ): [
                             ClaimAdjudicationCreate(
                                 claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
-                                service_lines={},
-                                carcs=[],
-                            )
+                                service_lines={
+                                    uuid.UUID(
+                                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                    ): [
+                                        ServiceLineAdjudicationCreate(
+                                            carcs=[
+                                                ClaimAdjustmentReasonCode(
+                                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                                    reason_code=Carc.CARC_1,
+                                                    amount_cents=1,
+                                                ),
+                                                ClaimAdjustmentReasonCode(
+                                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                                    reason_code=Carc.CARC_1,
+                                                    amount_cents=1,
+                                                ),
+                                            ],
+                                            rarcs=[
+                                                RemittanceAdviceRemarkCode(
+                                                    reason_code=Rarc.M_1,
+                                                ),
+                                                RemittanceAdviceRemarkCode(
+                                                    reason_code=Rarc.M_1,
+                                                ),
+                                            ],
+                                        ),
+                                        ServiceLineAdjudicationCreate(
+                                            carcs=[
+                                                ClaimAdjustmentReasonCode(
+                                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                                    reason_code=Carc.CARC_1,
+                                                    amount_cents=1,
+                                                ),
+                                                ClaimAdjustmentReasonCode(
+                                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                                    reason_code=Carc.CARC_1,
+                                                    amount_cents=1,
+                                                ),
+                                            ],
+                                            rarcs=[
+                                                RemittanceAdviceRemarkCode(
+                                                    reason_code=Rarc.M_1,
+                                                ),
+                                                RemittanceAdviceRemarkCode(
+                                                    reason_code=Rarc.M_1,
+                                                ),
+                                            ],
+                                        ),
+                                    ]
+                                },
+                                carcs=[
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                ],
+                            ),
+                            ClaimAdjudicationCreate(
+                                claim_status_code=ClaimStatusCodeCreate.PROCESSED_AS_PRIMARY,
+                                service_lines={
+                                    uuid.UUID(
+                                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                                    ): [
+                                        ServiceLineAdjudicationCreate(
+                                            carcs=[
+                                                ClaimAdjustmentReasonCode(
+                                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                                    reason_code=Carc.CARC_1,
+                                                    amount_cents=1,
+                                                ),
+                                                ClaimAdjustmentReasonCode(
+                                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                                    reason_code=Carc.CARC_1,
+                                                    amount_cents=1,
+                                                ),
+                                            ],
+                                            rarcs=[
+                                                RemittanceAdviceRemarkCode(
+                                                    reason_code=Rarc.M_1,
+                                                ),
+                                                RemittanceAdviceRemarkCode(
+                                                    reason_code=Rarc.M_1,
+                                                ),
+                                            ],
+                                        ),
+                                        ServiceLineAdjudicationCreate(
+                                            carcs=[
+                                                ClaimAdjustmentReasonCode(
+                                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                                    reason_code=Carc.CARC_1,
+                                                    amount_cents=1,
+                                                ),
+                                                ClaimAdjustmentReasonCode(
+                                                    group_code=ClaimAdjustmentGroupCodes.CO,
+                                                    reason_code=Carc.CARC_1,
+                                                    amount_cents=1,
+                                                ),
+                                            ],
+                                            rarcs=[
+                                                RemittanceAdviceRemarkCode(
+                                                    reason_code=Rarc.M_1,
+                                                ),
+                                                RemittanceAdviceRemarkCode(
+                                                    reason_code=Rarc.M_1,
+                                                ),
+                                            ],
+                                        ),
+                                    ]
+                                },
+                                carcs=[
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                    ClaimAdjustmentReasonCode(
+                                        group_code=ClaimAdjustmentGroupCodes.CO,
+                                        reason_code=Carc.CARC_1,
+                                        amount_cents=1,
+                                    ),
+                                ],
+                            ),
                         ]
                     },
-                    remit_draft_id=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
                 ),
             )
 

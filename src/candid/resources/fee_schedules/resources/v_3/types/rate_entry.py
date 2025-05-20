@@ -9,7 +9,7 @@ import pydantic
 
 class RateEntry(UniversalBaseModel):
     """
-    A rate value in cents for a specific time range. Rate entries can be deactivated, which is set by using the deelte_rate endpoint. Deactivated rate entries are not considered when matching against service lines.
+    A rate value in cents for a specific time range.  Rate entries can be deactivated, which is set by using the deelte_rate endpoint.  Deactivated rate entries are not considered when matching against service lines.
 
     Examples
     --------

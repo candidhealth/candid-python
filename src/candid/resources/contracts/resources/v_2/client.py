@@ -16,6 +16,8 @@ from .types.contracting_provider_id import ContractingProviderId
 from .types.rendering_providerid import RenderingProviderid
 from ....commons.types.state import State
 from .types.contract_status import ContractStatus
+from .types.contract_sort_field import ContractSortField
+from ....commons.types.sort_direction import SortDirection
 from .types.contracts_page import ContractsPage
 import uuid
 from ....commons.types.date import Date
@@ -115,6 +117,8 @@ class V2Client:
         payer_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         states: typing.Optional[typing.Union[State, typing.Sequence[State]]] = None,
         contract_status: typing.Optional[ContractStatus] = None,
+        sort: typing.Optional[ContractSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractsPage:
         """
@@ -137,6 +141,12 @@ class V2Client:
         contract_status : typing.Optional[ContractStatus]
             The status of the contract. Defaults to `pending`
 
+        sort : typing.Optional[ContractSortField]
+            Potentially sort by a contract related attribute.  Defaults to created_at
+
+        sort_direction : typing.Optional[SortDirection]
+            Direction of sort, defaulting to desc
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -146,29 +156,13 @@ class V2Client:
 
         Examples
         --------
-        import uuid
-
         from candid import CandidApiClient
-        from candid.resources.commons import State
-        from candid.resources.contracts.resources.v_2 import ContractStatus
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.contracts.v_2.get_multi(
-            page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-            limit=1,
-            contracting_provider_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            rendering_provider_ids=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            payer_names="string",
-            states=State.AA,
-            contract_status=ContractStatus.PENDING,
-        )
+        client.contracts.v_2.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/contracts/v2",
@@ -182,6 +176,8 @@ class V2Client:
                 "payer_names": payer_names,
                 "states": states,
                 "contract_status": contract_status,
+                "sort": sort,
+                "sort_direction": sort_direction,
             },
             request_options=request_options,
         )
@@ -228,7 +224,6 @@ class V2Client:
             services under the contract held by the contracting provider.
             Max items is 100.
 
-
         payer_uuid : uuid.UUID
             The UUID of the insurance company under agreement to the contract
 
@@ -267,12 +262,6 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import Regions_States
-        from candid.resources.contracts.resources.v_2 import (
-            AuthorizedSignatory,
-            ContractStatus,
-            InsuranceTypes,
-        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -290,21 +279,6 @@ class V2Client:
             payer_uuid=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            effective_date="string",
-            expiration_date="string",
-            regions=Regions_States(),
-            contract_status=ContractStatus.PENDING,
-            authorized_signatory=AuthorizedSignatory(
-                first_name="string",
-                last_name="string",
-                title="string",
-                email="string",
-                phone="string",
-                fax="string",
-            ),
-            commercial_insurance_types=InsuranceTypes(),
-            medicare_insurance_types=InsuranceTypes(),
-            medicaid_insurance_types=InsuranceTypes(),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -420,7 +394,6 @@ class V2Client:
             services under the contract held by the contracting provider.
             Max items is 100.
 
-
         effective_date : typing.Optional[Date]
             The starting day upon which the contract is effective
 
@@ -430,7 +403,6 @@ class V2Client:
         regions : typing.Optional[RegionsUpdate]
             If present, the contract's rendering providers will be patched to this exact
             value, overriding what was set before.
-
 
         contract_status : typing.Optional[ContractStatus]
 
@@ -454,14 +426,6 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import Regions_States, State
-        from candid.resources.contracts.resources.v_2 import (
-            AuthorizedSignatoryUpdate_Set,
-            ContractStatus,
-            DateUpdate_Set,
-            InsuranceTypes,
-            RegionsUpdate_Set,
-        )
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -471,30 +435,6 @@ class V2Client:
             contract_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            rendering_provider_ids=[
-                uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                )
-            ],
-            effective_date="string",
-            expiration_date=DateUpdate_Set(value="string"),
-            regions=RegionsUpdate_Set(
-                value=Regions_States(
-                    states=[State.AA],
-                )
-            ),
-            contract_status=ContractStatus.PENDING,
-            authorized_signatory=AuthorizedSignatoryUpdate_Set(
-                first_name="string",
-                last_name="string",
-                title="string",
-                email="string",
-                phone="string",
-                fax="string",
-            ),
-            commercial_insurance_types=InsuranceTypes(),
-            medicare_insurance_types=InsuranceTypes(),
-            medicaid_insurance_types=InsuranceTypes(),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -636,6 +576,8 @@ class AsyncV2Client:
         payer_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         states: typing.Optional[typing.Union[State, typing.Sequence[State]]] = None,
         contract_status: typing.Optional[ContractStatus] = None,
+        sort: typing.Optional[ContractSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractsPage:
         """
@@ -658,6 +600,12 @@ class AsyncV2Client:
         contract_status : typing.Optional[ContractStatus]
             The status of the contract. Defaults to `pending`
 
+        sort : typing.Optional[ContractSortField]
+            Potentially sort by a contract related attribute.  Defaults to created_at
+
+        sort_direction : typing.Optional[SortDirection]
+            Direction of sort, defaulting to desc
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -668,11 +616,8 @@ class AsyncV2Client:
         Examples
         --------
         import asyncio
-        import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import State
-        from candid.resources.contracts.resources.v_2 import ContractStatus
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -681,19 +626,7 @@ class AsyncV2Client:
 
 
         async def main() -> None:
-            await client.contracts.v_2.get_multi(
-                page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-                limit=1,
-                contracting_provider_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                rendering_provider_ids=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                payer_names="string",
-                states=State.AA,
-                contract_status=ContractStatus.PENDING,
-            )
+            await client.contracts.v_2.get_multi()
 
 
         asyncio.run(main())
@@ -710,6 +643,8 @@ class AsyncV2Client:
                 "payer_names": payer_names,
                 "states": states,
                 "contract_status": contract_status,
+                "sort": sort,
+                "sort_direction": sort_direction,
             },
             request_options=request_options,
         )
@@ -756,7 +691,6 @@ class AsyncV2Client:
             services under the contract held by the contracting provider.
             Max items is 100.
 
-
         payer_uuid : uuid.UUID
             The UUID of the insurance company under agreement to the contract
 
@@ -796,12 +730,6 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import Regions_States
-        from candid.resources.contracts.resources.v_2 import (
-            AuthorizedSignatory,
-            ContractStatus,
-            InsuranceTypes,
-        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -822,21 +750,6 @@ class AsyncV2Client:
                 payer_uuid=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                effective_date="string",
-                expiration_date="string",
-                regions=Regions_States(),
-                contract_status=ContractStatus.PENDING,
-                authorized_signatory=AuthorizedSignatory(
-                    first_name="string",
-                    last_name="string",
-                    title="string",
-                    email="string",
-                    phone="string",
-                    fax="string",
-                ),
-                commercial_insurance_types=InsuranceTypes(),
-                medicare_insurance_types=InsuranceTypes(),
-                medicaid_insurance_types=InsuranceTypes(),
             )
 
 
@@ -962,7 +875,6 @@ class AsyncV2Client:
             services under the contract held by the contracting provider.
             Max items is 100.
 
-
         effective_date : typing.Optional[Date]
             The starting day upon which the contract is effective
 
@@ -972,7 +884,6 @@ class AsyncV2Client:
         regions : typing.Optional[RegionsUpdate]
             If present, the contract's rendering providers will be patched to this exact
             value, overriding what was set before.
-
 
         contract_status : typing.Optional[ContractStatus]
 
@@ -997,14 +908,6 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import Regions_States, State
-        from candid.resources.contracts.resources.v_2 import (
-            AuthorizedSignatoryUpdate_Set,
-            ContractStatus,
-            DateUpdate_Set,
-            InsuranceTypes,
-            RegionsUpdate_Set,
-        )
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -1017,30 +920,6 @@ class AsyncV2Client:
                 contract_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                rendering_provider_ids=[
-                    uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    )
-                ],
-                effective_date="string",
-                expiration_date=DateUpdate_Set(value="string"),
-                regions=RegionsUpdate_Set(
-                    value=Regions_States(
-                        states=[State.AA],
-                    )
-                ),
-                contract_status=ContractStatus.PENDING,
-                authorized_signatory=AuthorizedSignatoryUpdate_Set(
-                    first_name="string",
-                    last_name="string",
-                    title="string",
-                    email="string",
-                    phone="string",
-                    fax="string",
-                ),
-                commercial_insurance_types=InsuranceTypes(),
-                medicare_insurance_types=InsuranceTypes(),
-                medicaid_insurance_types=InsuranceTypes(),
             )
 
 

@@ -46,7 +46,6 @@ class V1Client:
         pay_to_address : typing.Optional[StreetAddressShortZip]
             Address that will be displayed on the superbill as the 'Pay to' Address. If not provided this value will be set from available encounter data.
 
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -59,27 +58,18 @@ class V1Client:
         import datetime
 
         from candid import CandidApiClient
-        from candid.resources.commons import State, StreetAddressShortZip
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.superbills.v_1.create_superbill(
-            patient_external_id="string",
+            patient_external_id="patient_external_id",
             date_range_min=datetime.date.fromisoformat(
                 "2023-01-15",
             ),
             date_range_max=datetime.date.fromisoformat(
                 "2023-01-15",
-            ),
-            pay_to_address=StreetAddressShortZip(
-                address_1="123 Main St",
-                address_2="Apt 1",
-                city="New York",
-                state=State.NY,
-                zip_code="10001",
-                zip_plus_four_code="1234",
             ),
         )
         """
@@ -150,7 +140,6 @@ class AsyncV1Client:
         pay_to_address : typing.Optional[StreetAddressShortZip]
             Address that will be displayed on the superbill as the 'Pay to' Address. If not provided this value will be set from available encounter data.
 
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -164,7 +153,6 @@ class AsyncV1Client:
         import datetime
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import State, StreetAddressShortZip
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -174,20 +162,12 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.superbills.v_1.create_superbill(
-                patient_external_id="string",
+                patient_external_id="patient_external_id",
                 date_range_min=datetime.date.fromisoformat(
                     "2023-01-15",
                 ),
                 date_range_max=datetime.date.fromisoformat(
                     "2023-01-15",
-                ),
-                pay_to_address=StreetAddressShortZip(
-                    address_1="123 Main St",
-                    address_2="Apt 1",
-                    city="New York",
-                    state=State.NY,
-                    zip_code="10001",
-                    zip_plus_four_code="1234",
                 ),
             )
 

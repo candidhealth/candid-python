@@ -44,27 +44,12 @@ class V2Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import (
-            FacilityTypeCode,
-            ProcedureModifier,
-            ServiceLineUnits,
-            State,
-            StreetAddressLongZip,
-        )
-        from candid.resources.encounter_providers.resources.v_2 import OrderingProvider
+        from candid.resources.commons import ServiceLineUnits
         from candid.resources.service_lines.resources.v_2 import (
-            DenialReasonContent,
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
             ServiceLineCreateStandalone,
-            ServiceLineDenialReason,
-            TestResult,
-            TestResultType,
         )
 
         client = CandidApiClient(
@@ -73,70 +58,12 @@ class V2Client:
         )
         client.service_lines.v_2.create(
             request=ServiceLineCreateStandalone(
-                modifiers=[ProcedureModifier.AV],
-                charge_amount_cents=1,
-                diagnosis_id_zero=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                diagnosis_id_one=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                diagnosis_id_two=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                diagnosis_id_three=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                denial_reason=ServiceLineDenialReason(
-                    reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
-                ),
-                place_of_service_code=FacilityTypeCode.PHARMACY,
-                procedure_code="string",
-                quantity="string",
+                procedure_code="procedure_code",
+                quantity="quantity",
                 units=ServiceLineUnits.MJ,
                 claim_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                description="string",
-                date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                end_date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                drug_identification=DrugIdentification(
-                    service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                    national_drug_code="string",
-                    national_drug_unit_count="string",
-                    measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                    link_sequence_number="string",
-                    pharmacy_prescription_number="string",
-                    conversion_formula="string",
-                    drug_description="string",
-                ),
-                ordering_provider=OrderingProvider(
-                    npi="string",
-                    taxonomy_code="string",
-                    address=StreetAddressLongZip(
-                        address_1="123 Main St",
-                        address_2="Apt 1",
-                        city="New York",
-                        state=State.NY,
-                        zip_code="10001",
-                        zip_plus_four_code="1234",
-                    ),
-                    first_name="string",
-                    last_name="string",
-                    organization_name="string",
-                ),
-                test_results=[
-                    TestResult(
-                        value=1.1,
-                        result_type=TestResultType.HEMATOCRIT,
-                    )
-                ],
-                has_epsdt_indicator=True,
-                has_family_planning_indicator=True,
             ),
         )
         """
@@ -196,25 +123,10 @@ class V2Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.commons import (
-            FacilityTypeCode,
-            ProcedureModifier,
-            ServiceLineUnits,
-        )
-        from candid.resources.service_lines.resources.v_2 import (
-            DenialReasonContent,
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
-            ServiceLineDenialReason,
-            ServiceLineUpdate,
-            TestResult,
-            TestResultType,
-        )
+        from candid.resources.service_lines.resources.v_2 import ServiceLineUpdate
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -224,55 +136,7 @@ class V2Client:
             service_line_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            request=ServiceLineUpdate(
-                edit_reason="string",
-                modifiers=[ProcedureModifier.AV],
-                charge_amount_cents=1,
-                diagnosis_id_zero=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                diagnosis_id_one=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                diagnosis_id_two=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                diagnosis_id_three=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                drug_identification=DrugIdentification(
-                    service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                    national_drug_code="string",
-                    national_drug_unit_count="string",
-                    measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                    link_sequence_number="string",
-                    pharmacy_prescription_number="string",
-                    conversion_formula="string",
-                    drug_description="string",
-                ),
-                denial_reason=ServiceLineDenialReason(
-                    reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
-                ),
-                place_of_service_code=FacilityTypeCode.PHARMACY,
-                units=ServiceLineUnits.MJ,
-                procedure_code="string",
-                quantity="string",
-                description="string",
-                date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                end_date_of_service=datetime.date.fromisoformat(
-                    "2023-01-15",
-                ),
-                test_results=[
-                    TestResult(
-                        value=1.1,
-                        result_type=TestResultType.HEMATOCRIT,
-                    )
-                ],
-                has_epsdt_indicator=True,
-                has_family_planning_indicator=True,
-            ),
+            request=ServiceLineUpdate(),
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -417,27 +281,12 @@ class AsyncV2Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import (
-            FacilityTypeCode,
-            ProcedureModifier,
-            ServiceLineUnits,
-            State,
-            StreetAddressLongZip,
-        )
-        from candid.resources.encounter_providers.resources.v_2 import OrderingProvider
+        from candid.resources.commons import ServiceLineUnits
         from candid.resources.service_lines.resources.v_2 import (
-            DenialReasonContent,
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
             ServiceLineCreateStandalone,
-            ServiceLineDenialReason,
-            TestResult,
-            TestResultType,
         )
 
         client = AsyncCandidApiClient(
@@ -449,70 +298,12 @@ class AsyncV2Client:
         async def main() -> None:
             await client.service_lines.v_2.create(
                 request=ServiceLineCreateStandalone(
-                    modifiers=[ProcedureModifier.AV],
-                    charge_amount_cents=1,
-                    diagnosis_id_zero=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    diagnosis_id_one=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    diagnosis_id_two=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    diagnosis_id_three=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    denial_reason=ServiceLineDenialReason(
-                        reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
-                    ),
-                    place_of_service_code=FacilityTypeCode.PHARMACY,
-                    procedure_code="string",
-                    quantity="string",
+                    procedure_code="procedure_code",
+                    quantity="quantity",
                     units=ServiceLineUnits.MJ,
                     claim_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    description="string",
-                    date_of_service=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    end_date_of_service=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    drug_identification=DrugIdentification(
-                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                        national_drug_code="string",
-                        national_drug_unit_count="string",
-                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                        link_sequence_number="string",
-                        pharmacy_prescription_number="string",
-                        conversion_formula="string",
-                        drug_description="string",
-                    ),
-                    ordering_provider=OrderingProvider(
-                        npi="string",
-                        taxonomy_code="string",
-                        address=StreetAddressLongZip(
-                            address_1="123 Main St",
-                            address_2="Apt 1",
-                            city="New York",
-                            state=State.NY,
-                            zip_code="10001",
-                            zip_plus_four_code="1234",
-                        ),
-                        first_name="string",
-                        last_name="string",
-                        organization_name="string",
-                    ),
-                    test_results=[
-                        TestResult(
-                            value=1.1,
-                            result_type=TestResultType.HEMATOCRIT,
-                        )
-                    ],
-                    has_epsdt_indicator=True,
-                    has_family_planning_indicator=True,
                 ),
             )
 
@@ -576,25 +367,10 @@ class AsyncV2Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.commons import (
-            FacilityTypeCode,
-            ProcedureModifier,
-            ServiceLineUnits,
-        )
-        from candid.resources.service_lines.resources.v_2 import (
-            DenialReasonContent,
-            DrugIdentification,
-            MeasurementUnitCode,
-            ServiceIdQualifier,
-            ServiceLineDenialReason,
-            ServiceLineUpdate,
-            TestResult,
-            TestResultType,
-        )
+        from candid.resources.service_lines.resources.v_2 import ServiceLineUpdate
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -607,55 +383,7 @@ class AsyncV2Client:
                 service_line_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                request=ServiceLineUpdate(
-                    edit_reason="string",
-                    modifiers=[ProcedureModifier.AV],
-                    charge_amount_cents=1,
-                    diagnosis_id_zero=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    diagnosis_id_one=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    diagnosis_id_two=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    diagnosis_id_three=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    drug_identification=DrugIdentification(
-                        service_id_qualifier=ServiceIdQualifier.EAN_UCC_13,
-                        national_drug_code="string",
-                        national_drug_unit_count="string",
-                        measurement_unit_code=MeasurementUnitCode.MILLILITERS,
-                        link_sequence_number="string",
-                        pharmacy_prescription_number="string",
-                        conversion_formula="string",
-                        drug_description="string",
-                    ),
-                    denial_reason=ServiceLineDenialReason(
-                        reason=DenialReasonContent.AUTHORIZATION_REQUIRED,
-                    ),
-                    place_of_service_code=FacilityTypeCode.PHARMACY,
-                    units=ServiceLineUnits.MJ,
-                    procedure_code="string",
-                    quantity="string",
-                    description="string",
-                    date_of_service=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    end_date_of_service=datetime.date.fromisoformat(
-                        "2023-01-15",
-                    ),
-                    test_results=[
-                        TestResult(
-                            value=1.1,
-                            result_type=TestResultType.HEMATOCRIT,
-                        )
-                    ],
-                    has_epsdt_indicator=True,
-                    has_family_planning_indicator=True,
-                ),
+                request=ServiceLineUpdate(),
             )
 
 

@@ -26,7 +26,7 @@ class V1Client:
 
     def create(self, *, request: MutableImage, request_options: typing.Optional[RequestOptions] = None) -> Image:
         """
-        Adds an image. VersionConflictError is returned if a front or back of this coverage already exists.
+        Adds an image.  VersionConflictError is returned if a front or back of this coverage already exists.
 
         Parameters
         ----------
@@ -41,15 +41,10 @@ class V1Client:
 
         Examples
         --------
-        import uuid
-
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.images.resources.v_1 import (
-            CoverageAssociation,
-            CoverageImageSide,
             ImageStatus,
             MutableImage,
-            PatientAssociation,
         )
 
         client = CandidApiClient(
@@ -58,20 +53,10 @@ class V1Client:
         )
         client.pre_encounter.images.v_1.create(
             request=MutableImage(
-                file_name="string",
-                display_name="string",
-                file_type="string",
+                file_name="file_name",
+                display_name="display_name",
+                file_type="file_type",
                 status=ImageStatus.PENDING,
-                coverage=CoverageAssociation(
-                    id=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    side=CoverageImageSide.FRONT,
-                ),
-                patient=PatientAssociation(
-                    id="string",
-                    notes="string",
-                ),
             ),
         )
         """
@@ -132,7 +117,7 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.images.v_1.get(
-            id="string",
+            id="id",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -175,7 +160,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Image:
         """
-        Updates an Image. The path must contain the most recent version to prevent races.
+        Updates an Image.  The path must contain the most recent version to prevent races.
 
         Parameters
         ----------
@@ -194,15 +179,10 @@ class V1Client:
 
         Examples
         --------
-        import uuid
-
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.images.resources.v_1 import (
-            CoverageAssociation,
-            CoverageImageSide,
             ImageStatus,
             MutableImage,
-            PatientAssociation,
         )
 
         client = CandidApiClient(
@@ -210,23 +190,13 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.images.v_1.update(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
             request=MutableImage(
-                file_name="string",
-                display_name="string",
-                file_type="string",
+                file_name="file_name",
+                display_name="display_name",
+                file_type="file_type",
                 status=ImageStatus.PENDING,
-                coverage=CoverageAssociation(
-                    id=uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    side=CoverageImageSide.FRONT,
-                ),
-                patient=PatientAssociation(
-                    id="string",
-                    notes="string",
-                ),
             ),
         )
         """
@@ -275,7 +245,7 @@ class V1Client:
 
     def deactivate(self, id: ImageId, version: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
         """
-        Sets an Image as deactivated. The path must contain the most recent version to prevent races.
+        Sets an Image as deactivated.  The path must contain the most recent version to prevent races.
 
         Parameters
         ----------
@@ -299,8 +269,8 @@ class V1Client:
             client_secret="YOUR_CLIENT_SECRET",
         )
         client.pre_encounter.images.v_1.deactivate(
-            id="string",
-            version="string",
+            id="id",
+            version="version",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -369,10 +339,7 @@ class V1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.pre_encounter.images.v_1.get_multi(
-            patient_id="string",
-            coverage_id="string",
-        )
+        client.pre_encounter.images.v_1.get_multi()
         """
         _response = self._client_wrapper.httpx_client.request(
             "images/v1",
@@ -405,7 +372,7 @@ class AsyncV1Client:
 
     async def create(self, *, request: MutableImage, request_options: typing.Optional[RequestOptions] = None) -> Image:
         """
-        Adds an image. VersionConflictError is returned if a front or back of this coverage already exists.
+        Adds an image.  VersionConflictError is returned if a front or back of this coverage already exists.
 
         Parameters
         ----------
@@ -421,15 +388,11 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import uuid
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.images.resources.v_1 import (
-            CoverageAssociation,
-            CoverageImageSide,
             ImageStatus,
             MutableImage,
-            PatientAssociation,
         )
 
         client = AsyncCandidApiClient(
@@ -441,20 +404,10 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.images.v_1.create(
                 request=MutableImage(
-                    file_name="string",
-                    display_name="string",
-                    file_type="string",
+                    file_name="file_name",
+                    display_name="display_name",
+                    file_type="file_type",
                     status=ImageStatus.PENDING,
-                    coverage=CoverageAssociation(
-                        id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                        side=CoverageImageSide.FRONT,
-                    ),
-                    patient=PatientAssociation(
-                        id="string",
-                        notes="string",
-                    ),
                 ),
             )
 
@@ -523,7 +476,7 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.images.v_1.get(
-                id="string",
+                id="id",
             )
 
 
@@ -569,7 +522,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Image:
         """
-        Updates an Image. The path must contain the most recent version to prevent races.
+        Updates an Image.  The path must contain the most recent version to prevent races.
 
         Parameters
         ----------
@@ -589,15 +542,11 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import uuid
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.images.resources.v_1 import (
-            CoverageAssociation,
-            CoverageImageSide,
             ImageStatus,
             MutableImage,
-            PatientAssociation,
         )
 
         client = AsyncCandidApiClient(
@@ -608,23 +557,13 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.images.v_1.update(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
                 request=MutableImage(
-                    file_name="string",
-                    display_name="string",
-                    file_type="string",
+                    file_name="file_name",
+                    display_name="display_name",
+                    file_type="file_type",
                     status=ImageStatus.PENDING,
-                    coverage=CoverageAssociation(
-                        id=uuid.UUID(
-                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                        ),
-                        side=CoverageImageSide.FRONT,
-                    ),
-                    patient=PatientAssociation(
-                        id="string",
-                        notes="string",
-                    ),
                 ),
             )
 
@@ -678,7 +617,7 @@ class AsyncV1Client:
         self, id: ImageId, version: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
-        Sets an Image as deactivated. The path must contain the most recent version to prevent races.
+        Sets an Image as deactivated.  The path must contain the most recent version to prevent races.
 
         Parameters
         ----------
@@ -707,8 +646,8 @@ class AsyncV1Client:
 
         async def main() -> None:
             await client.pre_encounter.images.v_1.deactivate(
-                id="string",
-                version="string",
+                id="id",
+                version="version",
             )
 
 
@@ -785,10 +724,7 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.pre_encounter.images.v_1.get_multi(
-                patient_id="string",
-                coverage_id="string",
-            )
+            await client.pre_encounter.images.v_1.get_multi()
 
 
         asyncio.run(main())

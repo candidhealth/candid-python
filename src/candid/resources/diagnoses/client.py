@@ -56,12 +56,11 @@ class DiagnosesClient:
         )
         client.diagnoses.create(
             request=StandaloneDiagnosisCreate(
+                code_type=DiagnosisTypeCode.ABF,
+                code="code",
                 encounter_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                name="string",
-                code_type=DiagnosisTypeCode.ABF,
-                code="string",
             ),
         )
         """
@@ -109,7 +108,6 @@ class DiagnosesClient:
         code_type : typing.Optional[DiagnosisTypeCode]
             Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.
 
-
         code : typing.Optional[str]
             Empty string not allowed.
             Should be of the appropriate format for the provided `code_type`.
@@ -119,7 +117,6 @@ class DiagnosesClient:
               - Digit or the letter `A` or `B`
               - (Optional) Period `.`
               - Up to 4 (or as few as 0) letters and digits
-
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -133,7 +130,6 @@ class DiagnosesClient:
         import uuid
 
         from candid import CandidApiClient
-        from candid.resources.diagnoses import DiagnosisTypeCode
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -143,9 +139,6 @@ class DiagnosesClient:
             diagnosis_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
-            name="string",
-            code_type=DiagnosisTypeCode.ABF,
-            code="string",
         )
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -283,12 +276,11 @@ class AsyncDiagnosesClient:
         async def main() -> None:
             await client.diagnoses.create(
                 request=StandaloneDiagnosisCreate(
+                    code_type=DiagnosisTypeCode.ABF,
+                    code="code",
                     encounter_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    name="string",
-                    code_type=DiagnosisTypeCode.ABF,
-                    code="string",
                 ),
             )
 
@@ -339,7 +331,6 @@ class AsyncDiagnosesClient:
         code_type : typing.Optional[DiagnosisTypeCode]
             Typically, providers submitting claims to Candid are using ICD-10 diagnosis codes. If you are using ICD-10 codes, the primary diagnosis code listed on the claim should use the ABK code_type. If more than one diagnosis is being submitted on a claim, please use ABF for the rest of the listed diagnoses. If you are using ICD-9 diagnosis codes, use BK and BF for the principal and following diagnosis code(s) respectively.
 
-
         code : typing.Optional[str]
             Empty string not allowed.
             Should be of the appropriate format for the provided `code_type`.
@@ -349,7 +340,6 @@ class AsyncDiagnosesClient:
               - Digit or the letter `A` or `B`
               - (Optional) Period `.`
               - Up to 4 (or as few as 0) letters and digits
-
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -364,7 +354,6 @@ class AsyncDiagnosesClient:
         import uuid
 
         from candid import AsyncCandidApiClient
-        from candid.resources.diagnoses import DiagnosisTypeCode
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -377,9 +366,6 @@ class AsyncDiagnosesClient:
                 diagnosis_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                name="string",
-                code_type=DiagnosisTypeCode.ABF,
-                code="string",
             )
 
 

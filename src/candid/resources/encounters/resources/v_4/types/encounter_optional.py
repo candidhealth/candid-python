@@ -53,7 +53,7 @@ class EncounterOptional(UniversalBaseModel):
 
     tag_ids: typing.Optional[typing.List[TagId]] = pydantic.Field(default=None)
     """
-    Names of tags that should be on the encounter. Note all tags on encounter will be overridden with this list.
+    Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
     """
 
     clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = pydantic.Field(default=None)
@@ -125,7 +125,7 @@ class EncounterOptional(UniversalBaseModel):
         default=None
     )
     """
-    837p Loop2300 REF\*4N
+    837p Loop2300 REF*4N
     Required when mandated by government law or regulation to obtain authorization for specific service(s) but, for the
     reasons listed in one of the enum values of ServiceAuthorizationExceptionCode, the service was performed without
     obtaining the authorization.
@@ -133,7 +133,7 @@ class EncounterOptional(UniversalBaseModel):
 
     admission_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
-    837p Loop2300 DTP\*435, CMS-1500 Box 18
+    837p Loop2300 DTP*435, CMS-1500 Box 18
     Required on all ambulance claims when the patient was known to be admitted to the hospital.
     OR
     Required on all claims involving inpatient medical visits.
@@ -141,13 +141,13 @@ class EncounterOptional(UniversalBaseModel):
 
     discharge_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
-    837p Loop2300 DTP\*096, CMS-1500 Box 18
+    837p Loop2300 DTP*096, CMS-1500 Box 18
     Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
     """
 
     onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
-    837p Loop2300 DTP\*431, CMS-1500 Box 14
+    837p Loop2300 DTP*431, CMS-1500 Box 14
     Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
     OR
     This date is the onset of acute symptoms for the current illness or condition.
@@ -155,7 +155,7 @@ class EncounterOptional(UniversalBaseModel):
 
     last_menstrual_period_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
-    837p Loop2300 DTP\*484, CMS-1500 Box 14
+    837p Loop2300 DTP*484, CMS-1500 Box 14
     Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.de
     """
 
@@ -199,7 +199,7 @@ class EncounterOptional(UniversalBaseModel):
 
     referral_number: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Refers to REF\*9F on the 837p. Value cannot be greater than 50 characters.
+    Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
     """
 
     epsdt_referral: typing.Optional[EpsdtReferral] = pydantic.Field(default=None)
