@@ -3,3 +3,5 @@
 # Top-level files and folders
 examples
 .idea
+
+.github/workflows/ci.yml
