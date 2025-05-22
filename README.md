@@ -104,13 +104,31 @@ except ApiError as e:
 
 ## Advanced
 
+### Access Raw Response Data
+
+The SDK provides access to raw response data, including headers, through the `.with_raw_response` property.
+The `.with_raw_response` property returns a "raw" client that can be used to access the `.headers` and `.data` attributes.
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    ...,
+)
+response = client.pre_encounter.eligibility_checks.v_1.with_raw_response.post(
+    ...
+)
+print(response.headers)  # access the response headers
+print(response.data)  # access the underlying object
+```
+
 ### Retries
 
 The SDK is instrumented with automatic retries with exponential backoff. A request will be retried as long
-as the request is deemed retriable and the number of retry attempts has not grown larger than the configured
+as the request is deemed retryable and the number of retry attempts has not grown larger than the configured
 retry limit (default: 2).
 
-A request is deemed retriable when any of the following HTTP status codes is returned:
+A request is deemed retryable when any of the following HTTP status codes is returned:
 
 - [408](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408) (Timeout)
 - [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) (Too Many Requests)
@@ -148,6 +166,7 @@ client.pre_encounter.eligibility_checks.v_1.post(..., request_options={
 
 You can override the `httpx` client to customize it for your use-case. Some common use-cases include support for proxies
 and transports.
+
 ```python
 import httpx
 from candid import CandidApiClient

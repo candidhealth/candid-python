@@ -12,6 +12,7 @@ class DenialReasonContent(str, enum.Enum):
     MEDICAL_RECORDS_REQUESTED = "Medical Records Requested"
     TIMELY_FILING = "Timely Filing"
     DUPLICATE_CLAIM = "Duplicate Claim"
+    FULL_CONTRACTUAL_ADJUSTMENT = "Full Contractual Adjustment"
     INCORRECT_PLACE_OF_SERVICE = "Incorrect Place of Service"
     INCORRECT_PATIENT_GENDER = "Incorrect Patient Gender"
     BUNDLED = "Bundled"
@@ -55,6 +56,7 @@ class DenialReasonContent(str, enum.Enum):
         medical_records_requested: typing.Callable[[], T_Result],
         timely_filing: typing.Callable[[], T_Result],
         duplicate_claim: typing.Callable[[], T_Result],
+        full_contractual_adjustment: typing.Callable[[], T_Result],
         incorrect_place_of_service: typing.Callable[[], T_Result],
         incorrect_patient_gender: typing.Callable[[], T_Result],
         bundled: typing.Callable[[], T_Result],
@@ -92,6 +94,8 @@ class DenialReasonContent(str, enum.Enum):
             return timely_filing()
         if self is DenialReasonContent.DUPLICATE_CLAIM:
             return duplicate_claim()
+        if self is DenialReasonContent.FULL_CONTRACTUAL_ADJUSTMENT:
+            return full_contractual_adjustment()
         if self is DenialReasonContent.INCORRECT_PLACE_OF_SERVICE:
             return incorrect_place_of_service()
         if self is DenialReasonContent.INCORRECT_PATIENT_GENDER:
