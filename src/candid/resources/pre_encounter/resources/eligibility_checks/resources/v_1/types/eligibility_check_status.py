@@ -8,7 +8,7 @@ T_Result = typing.TypeVar("T_Result")
 
 class EligibilityCheckStatus(str, enum.Enum):
     """
-    enum to represent the statuses of eligibility checks
+    enum to represent the status of an eligibility checks
     """
 
     COMPLETED = "COMPLETED"

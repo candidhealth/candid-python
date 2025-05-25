@@ -5,6 +5,8 @@ import typing
 from .......core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .......core.request_options import RequestOptions
 from .raw_client import AsyncRawV1Client, RawV1Client
+from .types.batch_eligibility_response import BatchEligibilityResponse
+from .types.eligibility_check_page import EligibilityCheckPage
 from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
 
@@ -74,6 +76,100 @@ class V1Client:
         )
         """
         _response = self._raw_client.post(request=request, request_options=request_options)
+        return _response.data
+
+    def batch(
+        self, *, request: typing.Sequence[EligibilityRequest], request_options: typing.Optional[RequestOptions] = None
+    ) -> BatchEligibilityResponse:
+        """
+        Sends a batch of eligibility checks to payers through Stedi.
+
+        Parameters
+        ----------
+        request : typing.Sequence[EligibilityRequest]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        BatchEligibilityResponse
+
+        Examples
+        --------
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
+            MemberInfo,
+        )
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            EligibilityRequest,
+            IndividualProvider,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.batch(
+            request=[
+                EligibilityRequest(
+                    payer_id="payer_id",
+                    provider=IndividualProvider(
+                        npi="npi",
+                    ),
+                    subscriber=MemberInfo(
+                        first_name="first_name",
+                        last_name="last_name",
+                    ),
+                ),
+                EligibilityRequest(
+                    payer_id="payer_id",
+                    provider=IndividualProvider(
+                        npi="npi",
+                    ),
+                    subscriber=MemberInfo(
+                        first_name="first_name",
+                        last_name="last_name",
+                    ),
+                ),
+            ],
+        )
+        """
+        _response = self._raw_client.batch(request=request, request_options=request_options)
+        return _response.data
+
+    def poll_batch(
+        self, batch_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> EligibilityCheckPage:
+        """
+        Polls the status of a batch eligibility check.
+        <Note>Batch eligibility checks are not yet available. Please reach out to the Candid team for more information.</Note>
+        path-parameters:
+
+        Parameters
+        ----------
+        batch_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityCheckPage
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.poll_batch(
+            batch_id="batch_id",
+        )
+        """
+        _response = self._raw_client.poll_batch(batch_id, request_options=request_options)
         return _response.data
 
 
@@ -147,4 +243,114 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.post(request=request, request_options=request_options)
+        return _response.data
+
+    async def batch(
+        self, *, request: typing.Sequence[EligibilityRequest], request_options: typing.Optional[RequestOptions] = None
+    ) -> BatchEligibilityResponse:
+        """
+        Sends a batch of eligibility checks to payers through Stedi.
+
+        Parameters
+        ----------
+        request : typing.Sequence[EligibilityRequest]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        BatchEligibilityResponse
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.coverages.resources.v_1 import (
+            MemberInfo,
+        )
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            EligibilityRequest,
+            IndividualProvider,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.batch(
+                request=[
+                    EligibilityRequest(
+                        payer_id="payer_id",
+                        provider=IndividualProvider(
+                            npi="npi",
+                        ),
+                        subscriber=MemberInfo(
+                            first_name="first_name",
+                            last_name="last_name",
+                        ),
+                    ),
+                    EligibilityRequest(
+                        payer_id="payer_id",
+                        provider=IndividualProvider(
+                            npi="npi",
+                        ),
+                        subscriber=MemberInfo(
+                            first_name="first_name",
+                            last_name="last_name",
+                        ),
+                    ),
+                ],
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.batch(request=request, request_options=request_options)
+        return _response.data
+
+    async def poll_batch(
+        self, batch_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> EligibilityCheckPage:
+        """
+        Polls the status of a batch eligibility check.
+        <Note>Batch eligibility checks are not yet available. Please reach out to the Candid team for more information.</Note>
+        path-parameters:
+
+        Parameters
+        ----------
+        batch_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityCheckPage
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.poll_batch(
+                batch_id="batch_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.poll_batch(batch_id, request_options=request_options)
         return _response.data

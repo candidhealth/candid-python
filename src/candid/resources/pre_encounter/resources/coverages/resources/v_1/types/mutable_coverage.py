@@ -6,9 +6,9 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.patient_id import PatientId
 from .....common.types.relationship import Relationship
+from .....eligibility_checks.resources.v_1.types.eligibility_check_metadata import EligibilityCheckMetadata
 from .coverage_benefits import CoverageBenefits
 from .coverage_status import CoverageStatus
-from .eligibility_check_metadata import EligibilityCheckMetadata
 from .insurance_plan import InsurancePlan
 from .latest_eligibility_check import LatestEligibilityCheck
 from .subscriber import Subscriber

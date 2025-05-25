@@ -6,8 +6,11 @@ from json.decoder import JSONDecodeError
 from .......core.api_error import ApiError
 from .......core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .......core.http_response import AsyncHttpResponse, HttpResponse
+from .......core.jsonable_encoder import jsonable_encoder
 from .......core.pydantic_utilities import parse_obj_as
 from .......core.request_options import RequestOptions
+from .types.batch_eligibility_response import BatchEligibilityResponse
+from .types.eligibility_check_page import EligibilityCheckPage
 from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
 
@@ -60,6 +63,86 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def batch(
+        self, *, request: typing.Sequence[EligibilityRequest], request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[BatchEligibilityResponse]:
+        """
+        Sends a batch of eligibility checks to payers through Stedi.
+
+        Parameters
+        ----------
+        request : typing.Sequence[EligibilityRequest]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[BatchEligibilityResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/batch",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                BatchEligibilityResponse,
+                parse_obj_as(
+                    type_=BatchEligibilityResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def poll_batch(
+        self, batch_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[EligibilityCheckPage]:
+        """
+        Polls the status of a batch eligibility check.
+        <Note>Batch eligibility checks are not yet available. Please reach out to the Candid team for more information.</Note>
+        path-parameters:
+
+        Parameters
+        ----------
+        batch_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[EligibilityCheckPage]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"eligibility-checks/v1/batch/{jsonable_encoder(batch_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityCheckPage,
+                parse_obj_as(
+                    type_=EligibilityCheckPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -100,6 +183,86 @@ class AsyncRawV1Client:
                 EligibilityResponse,
                 parse_obj_as(
                     type_=EligibilityResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def batch(
+        self, *, request: typing.Sequence[EligibilityRequest], request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[BatchEligibilityResponse]:
+        """
+        Sends a batch of eligibility checks to payers through Stedi.
+
+        Parameters
+        ----------
+        request : typing.Sequence[EligibilityRequest]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[BatchEligibilityResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/batch",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                BatchEligibilityResponse,
+                parse_obj_as(
+                    type_=BatchEligibilityResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def poll_batch(
+        self, batch_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[EligibilityCheckPage]:
+        """
+        Polls the status of a batch eligibility check.
+        <Note>Batch eligibility checks are not yet available. Please reach out to the Candid team for more information.</Note>
+        path-parameters:
+
+        Parameters
+        ----------
+        batch_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[EligibilityCheckPage]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"eligibility-checks/v1/batch/{jsonable_encoder(batch_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityCheckPage,
+                parse_obj_as(
+                    type_=EligibilityCheckPage,  # type: ignore
                     object_=_response_json,
                 ),
             )

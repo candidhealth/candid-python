@@ -2,9 +2,17 @@
 
 # isort: skip_file
 
+from .batch_eligibility_response import BatchEligibilityResponse
 from .eligibility_check import EligibilityCheck
+from .eligibility_check_error import EligibilityCheckError
+from .eligibility_check_error_details import EligibilityCheckErrorDetails
+from .eligibility_check_error_source import EligibilityCheckErrorSource
+from .eligibility_check_metadata import EligibilityCheckMetadata
+from .eligibility_check_page import EligibilityCheckPage
+from .eligibility_check_status import EligibilityCheckStatus
 from .eligibility_request import EligibilityRequest
 from .eligibility_response import EligibilityResponse
+from .eligibility_status import EligibilityStatus
 from .encounter import Encounter
 from .individual_provider import IndividualProvider
 from .organization_provider import OrganizationProvider
@@ -13,9 +21,17 @@ from .provider import Provider
 from .request_correction import RequestCorrection
 
 __all__ = [
+    "BatchEligibilityResponse",
     "EligibilityCheck",
+    "EligibilityCheckError",
+    "EligibilityCheckErrorDetails",
+    "EligibilityCheckErrorSource",
+    "EligibilityCheckMetadata",
+    "EligibilityCheckPage",
+    "EligibilityCheckStatus",
     "EligibilityRequest",
     "EligibilityResponse",
+    "EligibilityStatus",
     "Encounter",
     "IndividualProvider",
     "OrganizationProvider",

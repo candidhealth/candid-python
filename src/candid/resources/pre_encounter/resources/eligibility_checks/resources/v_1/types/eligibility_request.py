@@ -14,6 +14,12 @@ class EligibilityRequest(UniversalBaseModel):
     An object representing the data for an eligibility request.
     """
 
+    submitter_transaction_identifier: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    A unique identifier for the eligibility check within the batch. Candid returns this identifier in the response for the 
+    /batch/{batch_id} polling endpoint so you can correlate benefit responses with the original eligibility check.
+    """
+
     payer_id: str = pydantic.Field()
     """
     Supported payer ID values can be found [here](https://www.stedi.com/healthcare/network).

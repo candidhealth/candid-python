@@ -19,10 +19,10 @@ from ....common.types.error_base_4_xx import ErrorBase4Xx
 from ....common.types.page_token import PageToken
 from ....common.types.payer_plan_group_id import PayerPlanGroupId
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
+from ....eligibility_checks.resources.v_1.types.eligibility_check_metadata import EligibilityCheckMetadata
 from .types.coverage import Coverage
 from .types.coverage_eligibility_check_response import CoverageEligibilityCheckResponse
 from .types.coverages_page import CoveragesPage
-from .types.eligibility_check_metadata import EligibilityCheckMetadata
 from .types.mutable_coverage import MutableCoverage
 from .types.payer_plan_group_fields import PayerPlanGroupFields
 from .types.service_type_code import ServiceTypeCode

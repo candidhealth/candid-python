@@ -14,10 +14,6 @@ from .coverage_status import CoverageStatus
 from .coverage_value import CoverageValue
 from .coverage_value_unit import CoverageValueUnit
 from .coverages_page import CoveragesPage
-from .eligibility_check import EligibilityCheck
-from .eligibility_check_metadata import EligibilityCheckMetadata
-from .eligibility_check_status import EligibilityCheckStatus
-from .eligibility_status import EligibilityStatus
 from .expanded_member_info import ExpandedMemberInfo
 from .insurance_plan import InsurancePlan
 from .insurance_type_code import InsuranceTypeCode
@@ -49,10 +45,6 @@ __all__ = [
     "CoverageValue",
     "CoverageValueUnit",
     "CoveragesPage",
-    "EligibilityCheck",
-    "EligibilityCheckMetadata",
-    "EligibilityCheckStatus",
-    "EligibilityStatus",
     "ExpandedMemberInfo",
     "InsurancePlan",
     "InsuranceTypeCode",

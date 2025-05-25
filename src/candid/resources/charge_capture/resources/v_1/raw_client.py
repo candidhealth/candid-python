@@ -176,58 +176,6 @@ class RawV1Client:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def delete(
-        self, charge_capture_id: ChargeCaptureId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[None]:
-        """
-        Parameters
-        ----------
-        charge_capture_id : ChargeCaptureId
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        HttpResponse[None]
-        """
-        _response = self._client_wrapper.httpx_client.request(
-            f"api/charge_captures/v1/{jsonable_encoder(charge_capture_id)}",
-            base_url=self._client_wrapper.get_environment().candid_api,
-            method="DELETE",
-            request_options=request_options,
-        )
-        if 200 <= _response.status_code < 300:
-            return HttpResponse(response=_response, data=None)
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "EntityNotFoundError":
-                raise EntityNotFoundError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        EntityNotFoundErrorMessage,
-                        parse_obj_as(
-                            type_=EntityNotFoundErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-            if _response_json["errorName"] == "UnauthorizedError":
-                raise UnauthorizedError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        UnauthorizedErrorMessage,
-                        parse_obj_as(
-                            type_=UnauthorizedErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
     def update(
         self,
         charge_capture_id: ChargeCaptureId,
@@ -811,58 +759,6 @@ class AsyncRawV1Client:
                         ChargeExternalIdConflictErrorMessage,
                         parse_obj_as(
                             type_=ChargeExternalIdConflictErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-    async def delete(
-        self, charge_capture_id: ChargeCaptureId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[None]:
-        """
-        Parameters
-        ----------
-        charge_capture_id : ChargeCaptureId
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        AsyncHttpResponse[None]
-        """
-        _response = await self._client_wrapper.httpx_client.request(
-            f"api/charge_captures/v1/{jsonable_encoder(charge_capture_id)}",
-            base_url=self._client_wrapper.get_environment().candid_api,
-            method="DELETE",
-            request_options=request_options,
-        )
-        if 200 <= _response.status_code < 300:
-            return AsyncHttpResponse(response=_response, data=None)
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "EntityNotFoundError":
-                raise EntityNotFoundError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        EntityNotFoundErrorMessage,
-                        parse_obj_as(
-                            type_=EntityNotFoundErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-            if _response_json["errorName"] == "UnauthorizedError":
-                raise UnauthorizedError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        UnauthorizedErrorMessage,
-                        parse_obj_as(
-                            type_=UnauthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

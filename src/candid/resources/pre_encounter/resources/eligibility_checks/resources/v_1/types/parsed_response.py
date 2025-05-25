@@ -5,8 +5,8 @@ import typing
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....coverages.resources.v_1.types.coverage_benefits import CoverageBenefits
-from .....coverages.resources.v_1.types.eligibility_status import EligibilityStatus
 from .....coverages.resources.v_1.types.plan_metadata import PlanMetadata
+from .eligibility_status import EligibilityStatus
 
 
 class ParsedResponse(UniversalBaseModel):

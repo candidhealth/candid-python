@@ -7,6 +7,10 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class EligibilityStatus(str, enum.Enum):
+    """
+    enum to represent the status of a patient's coverage
+    """
+
     ACTIVE = "ACTIVE"
     INACTIVE = "INACTIVE"
     UNKNOWN = "UNKNOWN"

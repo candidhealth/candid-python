@@ -5,17 +5,15 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .....common.types.user_id import UserId
-from .eligibility_check_status import EligibilityCheckStatus
-from .service_type_code import ServiceTypeCode
 
 
-class EligibilityCheckMetadata(UniversalBaseModel):
-    check_id: str
-    service_code: ServiceTypeCode
-    status: EligibilityCheckStatus
-    initiated_by: UserId
-    initiated_at: dt.datetime
+class BatchEligibilityResponse(UniversalBaseModel):
+    """
+    An object representing the data for a batch eligibility response.
+    """
+
+    batch_id: str
+    submitted_at: dt.datetime
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

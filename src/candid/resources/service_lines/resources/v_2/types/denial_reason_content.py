@@ -15,6 +15,7 @@ class DenialReasonContent(str, enum.Enum):
     FULL_CONTRACTUAL_ADJUSTMENT = "Full Contractual Adjustment"
     INCORRECT_PLACE_OF_SERVICE = "Incorrect Place of Service"
     INCORRECT_PATIENT_GENDER = "Incorrect Patient Gender"
+    INCORRECT_PATIENT_INFO = "Incorrect Patient Info"
     BUNDLED = "Bundled"
     EXCEEDED_BILLABLE_TIME = "Exceeded Billable Time"
     INVALID_PROVIDER_INFORMATION = "Invalid Provider Information"
@@ -59,6 +60,7 @@ class DenialReasonContent(str, enum.Enum):
         full_contractual_adjustment: typing.Callable[[], T_Result],
         incorrect_place_of_service: typing.Callable[[], T_Result],
         incorrect_patient_gender: typing.Callable[[], T_Result],
+        incorrect_patient_info: typing.Callable[[], T_Result],
         bundled: typing.Callable[[], T_Result],
         exceeded_billable_time: typing.Callable[[], T_Result],
         invalid_provider_information: typing.Callable[[], T_Result],
@@ -100,6 +102,8 @@ class DenialReasonContent(str, enum.Enum):
             return incorrect_place_of_service()
         if self is DenialReasonContent.INCORRECT_PATIENT_GENDER:
             return incorrect_patient_gender()
+        if self is DenialReasonContent.INCORRECT_PATIENT_INFO:
+            return incorrect_patient_info()
         if self is DenialReasonContent.BUNDLED:
             return bundled()
         if self is DenialReasonContent.EXCEEDED_BILLABLE_TIME:

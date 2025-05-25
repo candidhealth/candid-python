@@ -4,13 +4,15 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .eligibility_check_error import EligibilityCheckError
 from .eligibility_request import EligibilityRequest
 from .parsed_response import ParsedResponse
 from .request_correction import RequestCorrection
 
 
 class EligibilityCheck(UniversalBaseModel):
-    errors: typing.Optional[typing.Optional[typing.Any]] = None
+    batch_id: typing.Optional[str] = None
+    errors: typing.Optional[typing.List[EligibilityCheckError]] = None
     request: typing.Optional[EligibilityRequest] = None
     response: typing.Optional[typing.Any] = None
     parsed_response: typing.Optional[ParsedResponse] = None

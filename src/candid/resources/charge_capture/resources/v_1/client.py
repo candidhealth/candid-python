@@ -102,40 +102,6 @@ class V1Client:
         )
         return _response.data
 
-    def delete(
-        self, charge_capture_id: ChargeCaptureId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> None:
-        """
-        Parameters
-        ----------
-        charge_capture_id : ChargeCaptureId
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        None
-
-        Examples
-        --------
-        import uuid
-
-        from candid import CandidApiClient
-
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.charge_capture.v_1.delete(
-            charge_capture_id=uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        )
-        """
-        _response = self._raw_client.delete(charge_capture_id, request_options=request_options)
-        return _response.data
-
     def update(
         self,
         charge_capture_id: ChargeCaptureId,
@@ -581,47 +547,6 @@ class AsyncV1Client:
             ehr_source_url=ehr_source_url,
             request_options=request_options,
         )
-        return _response.data
-
-    async def delete(
-        self, charge_capture_id: ChargeCaptureId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> None:
-        """
-        Parameters
-        ----------
-        charge_capture_id : ChargeCaptureId
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        None
-
-        Examples
-        --------
-        import asyncio
-        import uuid
-
-        from candid import AsyncCandidApiClient
-
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
-        async def main() -> None:
-            await client.charge_capture.v_1.delete(
-                charge_capture_id=uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            )
-
-
-        asyncio.run(main())
-        """
-        _response = await self._raw_client.delete(charge_capture_id, request_options=request_options)
         return _response.data
 
     async def update(

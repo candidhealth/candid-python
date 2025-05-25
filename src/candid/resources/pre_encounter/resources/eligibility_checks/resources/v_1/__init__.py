@@ -3,9 +3,17 @@
 # isort: skip_file
 
 from .types import (
+    BatchEligibilityResponse,
     EligibilityCheck,
+    EligibilityCheckError,
+    EligibilityCheckErrorDetails,
+    EligibilityCheckErrorSource,
+    EligibilityCheckMetadata,
+    EligibilityCheckPage,
+    EligibilityCheckStatus,
     EligibilityRequest,
     EligibilityResponse,
+    EligibilityStatus,
     Encounter,
     IndividualProvider,
     OrganizationProvider,
@@ -15,9 +23,17 @@ from .types import (
 )
 
 __all__ = [
+    "BatchEligibilityResponse",
     "EligibilityCheck",
+    "EligibilityCheckError",
+    "EligibilityCheckErrorDetails",
+    "EligibilityCheckErrorSource",
+    "EligibilityCheckMetadata",
+    "EligibilityCheckPage",
+    "EligibilityCheckStatus",
     "EligibilityRequest",
     "EligibilityResponse",
+    "EligibilityStatus",
     "Encounter",
     "IndividualProvider",
     "OrganizationProvider",
