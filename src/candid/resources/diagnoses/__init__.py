@@ -5,6 +5,7 @@
 from .types import (
     Diagnosis,
     DiagnosisCreate,
+    DiagnosisCreateOptional,
     DiagnosisId,
     DiagnosisNotFoundError,
     DiagnosisTypeCode,
@@ -15,6 +16,7 @@ from .errors import DiagnosisNotFoundHttpError
 __all__ = [
     "Diagnosis",
     "DiagnosisCreate",
+    "DiagnosisCreateOptional",
     "DiagnosisId",
     "DiagnosisNotFoundError",
     "DiagnosisNotFoundHttpError",

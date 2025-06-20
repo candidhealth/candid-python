@@ -2,6 +2,6 @@
 
 # isort: skip_file
 
-from .resources import v_2
+from .resources import default
 
-__all__ = ["v_2"]
+__all__ = ["default"]

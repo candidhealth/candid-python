@@ -8,15 +8,8 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.delay_reason_code import DelayReasonCode
 from .....commons.types.encounter_external_id import EncounterExternalId
 from .....commons.types.facility_type_code import FacilityTypeCode
-from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
-from .....guarantor.resources.v_1.types.guarantor_update import GuarantorUpdate
-from .....individual.types.subscriber_create import SubscriberCreate
 from .....tags.types.tag_id import TagId
 from .billable_status_type import BillableStatusType
-from .claim_supplemental_information import ClaimSupplementalInformation
-from .clinical_note_category_create import ClinicalNoteCategoryCreate
-from .epsdt_referral import EpsdtReferral
-from .medication import Medication
 from .prior_authorization_number import PriorAuthorizationNumber
 from .responsible_party_type import ResponsiblePartyType
 from .service_authorization_exception_code import ServiceAuthorizationExceptionCode
@@ -56,11 +49,6 @@ class EncounterOptional(UniversalBaseModel):
     Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
     """
 
-    clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = pydantic.Field(default=None)
-    """
-    Holds a collection of clinical observations made by healthcare providers during patient encounters.
-    """
-
     billable_status: typing.Optional[BillableStatusType] = pydantic.Field(default=None)
     """
     Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
@@ -98,21 +86,6 @@ class EncounterOptional(UniversalBaseModel):
     If omitted, the Encounter is assumed to be for a single day.
     Must not be temporally before the date_of_service field.
     If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
-    """
-
-    subscriber_primary: typing.Optional[SubscriberCreate] = pydantic.Field(default=None)
-    """
-    Contains details of the primary insurance subscriber.
-    """
-
-    subscriber_secondary: typing.Optional[SubscriberCreate] = pydantic.Field(default=None)
-    """
-    Contains details of the secondary insurance subscriber.
-    """
-
-    subscriber_tertiary: typing.Optional[SubscriberCreate] = pydantic.Field(default=None)
-    """
-    Contains details of the tertiary insurance subscriber.
     """
 
     additional_information: typing.Optional[str] = pydantic.Field(default=None)
@@ -172,46 +145,15 @@ class EncounterOptional(UniversalBaseModel):
     Box 12 on the CMS-1500 claim form.
     """
 
-    schema_instances: typing.Optional[typing.List[SchemaInstance]] = pydantic.Field(default=None)
-    """
-    Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
-    instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
-    semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
-    is provided as an input, then the encounter's schema instances will be cleared.
-    """
-
     vitals: typing.Optional[VitalsUpdate] = pydantic.Field(default=None)
     """
     If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
     Otherwise, a new vitals object will be created for the encounter.
     """
 
-    existing_medications: typing.Optional[typing.List[Medication]] = pydantic.Field(default=None)
-    """
-    Existing medications that should be on the encounter.
-    Note all current existing medications on encounter will be overridden with this list.
-    """
-
-    guarantor: typing.Optional[GuarantorUpdate] = pydantic.Field(default=None)
-    """
-    Personal and contact info for the guarantor of the patient responsibility.
-    """
-
     referral_number: typing.Optional[str] = pydantic.Field(default=None)
     """
     Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
-    """
-
-    epsdt_referral: typing.Optional[EpsdtReferral] = pydantic.Field(default=None)
-    """
-    Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
-    """
-
-    claim_supplemental_information: typing.Optional[typing.List[ClaimSupplementalInformation]] = pydantic.Field(
-        default=None
-    )
-    """
-    Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
     """
 
     secondary_payer_carrier_code: typing.Optional[str] = pydantic.Field(default=None)

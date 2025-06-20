@@ -8,6 +8,7 @@ from .types import (
     GuarantorBase,
     GuarantorCreate,
     GuarantorId,
+    GuarantorOptional,
     GuarantorUpdate,
 )
 from .errors import EncounterHasExistingGuarantorError
@@ -19,5 +20,6 @@ __all__ = [
     "GuarantorBase",
     "GuarantorCreate",
     "GuarantorId",
+    "GuarantorOptional",
     "GuarantorUpdate",
 ]

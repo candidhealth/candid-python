@@ -21,6 +21,11 @@ class Authorization(UniversalBaseModel):
     If true, then the authorization will apply for all claims for the payer that fall in range the `period`.
     """
 
+    no_prior_authorization_required: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    If true, indicates that prior authorization is not required and prior authorization number will not be set on the claim for this authorization.
+    """
+
     units: AuthorizationUnit
     quantity: typing.Optional[int] = None
     period: typing.Optional[Period] = None

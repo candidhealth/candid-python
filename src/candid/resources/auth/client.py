@@ -2,13 +2,13 @@
 
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .raw_client import AsyncRawAuthClient, RawAuthClient
-from .resources.v_2.client import AsyncV2Client, V2Client
+from .resources.default.client import AsyncDefaultClient, DefaultClient
 
 
 class AuthClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._raw_client = RawAuthClient(client_wrapper=client_wrapper)
-        self.v_2 = V2Client(client_wrapper=client_wrapper)
+        self.default = DefaultClient(client_wrapper=client_wrapper)
 
     @property
     def with_raw_response(self) -> RawAuthClient:
@@ -25,7 +25,7 @@ class AuthClient:
 class AsyncAuthClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._raw_client = AsyncRawAuthClient(client_wrapper=client_wrapper)
-        self.v_2 = AsyncV2Client(client_wrapper=client_wrapper)
+        self.default = AsyncDefaultClient(client_wrapper=client_wrapper)
 
     @property
     def with_raw_response(self) -> AsyncRawAuthClient:

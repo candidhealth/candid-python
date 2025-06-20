@@ -4,6 +4,7 @@
 
 from .diagnosis import Diagnosis
 from .diagnosis_create import DiagnosisCreate
+from .diagnosis_create_optional import DiagnosisCreateOptional
 from .diagnosis_id import DiagnosisId
 from .diagnosis_not_found_error import DiagnosisNotFoundError
 from .diagnosis_type_code import DiagnosisTypeCode
@@ -12,6 +13,7 @@ from .standalone_diagnosis_create import StandaloneDiagnosisCreate
 __all__ = [
     "Diagnosis",
     "DiagnosisCreate",
+    "DiagnosisCreateOptional",
     "DiagnosisId",
     "DiagnosisNotFoundError",
     "DiagnosisTypeCode",

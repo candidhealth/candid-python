@@ -2,6 +2,7 @@
 
 # isort: skip_file
 
+from .invalid_content_type_error import InvalidContentTypeError
 from .too_many_requests_error import TooManyRequestsError
 
-__all__ = ["TooManyRequestsError"]
+__all__ = ["InvalidContentTypeError", "TooManyRequestsError"]

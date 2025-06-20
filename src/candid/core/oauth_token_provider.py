@@ -3,7 +3,7 @@
 import datetime as dt
 import typing
 
-from ..resources.auth.resources.v_2.client import V2Client
+from ..resources.auth.resources.default.client import DefaultClient
 from .client_wrapper import SyncClientWrapper
 
 
@@ -15,7 +15,7 @@ class OAuthTokenProvider:
         self._client_secret = client_secret
         self._access_token: typing.Optional[str] = None
         self._expires_at: dt.datetime = dt.datetime.now()
-        self._auth_client = V2Client(client_wrapper=client_wrapper)
+        self._auth_client = DefaultClient(client_wrapper=client_wrapper)
 
     def get_token(self) -> str:
         if self._access_token and self._expires_at > dt.datetime.now():

@@ -5,6 +5,7 @@
 from .types import (
     Gender,
     IndividualBase,
+    IndividualBaseOptional,
     IndividualId,
     Patient,
     PatientBase,
@@ -13,16 +14,20 @@ from .types import (
     PatientCreate,
     PatientNonInsurancePayerInfo,
     PatientNonInsurancePayerInfoCreate,
+    PatientNonInsurancePayerInfoCreateOptional,
     PatientUpdate,
     PatientUpdateWithOptionalAddress,
     Subscriber,
     SubscriberBase,
+    SubscriberBaseOptional,
     SubscriberCreate,
+    SubscriberCreateOptional,
 )
 
 __all__ = [
     "Gender",
     "IndividualBase",
+    "IndividualBaseOptional",
     "IndividualId",
     "Patient",
     "PatientBase",
@@ -31,9 +36,12 @@ __all__ = [
     "PatientCreate",
     "PatientNonInsurancePayerInfo",
     "PatientNonInsurancePayerInfoCreate",
+    "PatientNonInsurancePayerInfoCreateOptional",
     "PatientUpdate",
     "PatientUpdateWithOptionalAddress",
     "Subscriber",
     "SubscriberBase",
+    "SubscriberBaseOptional",
     "SubscriberCreate",
+    "SubscriberCreateOptional",
 ]

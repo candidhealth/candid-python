@@ -18,6 +18,7 @@ class InsuranceAdjudicationCreate(UniversalBaseModel):
     post_date: typing.Optional[dt.date] = None
     check_number: typing.Optional[str] = None
     check_date: dt.date
+    check_amount_cents: typing.Optional[int] = None
     note: typing.Optional[str] = None
     claims: typing.Dict[ClaimId, typing.List[ClaimAdjudicationCreate]]
     remit_draft_id: typing.Optional[RemitDraftId] = None

@@ -9,6 +9,7 @@ from ...core.http_response import AsyncHttpResponse, HttpResponse
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
+from ..yes_no_indicator.types.yes_no_indicator import YesNoIndicator
 from .errors.diagnosis_not_found_http_error import DiagnosisNotFoundHttpError
 from .types.diagnosis import Diagnosis
 from .types.diagnosis_id import DiagnosisId
@@ -71,6 +72,7 @@ class RawDiagnosesClient:
         name: typing.Optional[str] = OMIT,
         code_type: typing.Optional[DiagnosisTypeCode] = OMIT,
         code: typing.Optional[str] = OMIT,
+        present_on_admission_indicator: typing.Optional[YesNoIndicator] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Diagnosis]:
         """
@@ -96,6 +98,12 @@ class RawDiagnosesClient:
               - (Optional) Period `.`
               - Up to 4 (or as few as 0) letters and digits
 
+        present_on_admission_indicator : typing.Optional[YesNoIndicator]
+            For Institutional claims only.
+            A "Y" indicates that the onset occurred prior to admission to the hospital.
+            An "N" indicates that the onset did NOT occur prior to admission to the hospital.
+            A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -111,6 +119,7 @@ class RawDiagnosesClient:
                 "name": name,
                 "code_type": code_type,
                 "code": code,
+                "present_on_admission_indicator": present_on_admission_indicator,
             },
             request_options=request_options,
             omit=OMIT,
@@ -237,6 +246,7 @@ class AsyncRawDiagnosesClient:
         name: typing.Optional[str] = OMIT,
         code_type: typing.Optional[DiagnosisTypeCode] = OMIT,
         code: typing.Optional[str] = OMIT,
+        present_on_admission_indicator: typing.Optional[YesNoIndicator] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Diagnosis]:
         """
@@ -262,6 +272,12 @@ class AsyncRawDiagnosesClient:
               - (Optional) Period `.`
               - Up to 4 (or as few as 0) letters and digits
 
+        present_on_admission_indicator : typing.Optional[YesNoIndicator]
+            For Institutional claims only.
+            A "Y" indicates that the onset occurred prior to admission to the hospital.
+            An "N" indicates that the onset did NOT occur prior to admission to the hospital.
+            A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -277,6 +293,7 @@ class AsyncRawDiagnosesClient:
                 "name": name,
                 "code_type": code_type,
                 "code": code,
+                "present_on_admission_indicator": present_on_admission_indicator,
             },
             request_options=request_options,
             omit=OMIT,

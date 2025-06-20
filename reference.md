@@ -1,6 +1,6 @@
 # Reference
-## Auth V2
-<details><summary><code>client.auth.v_2.<a href="src/candid/resources/auth/resources/v_2/client.py">get_token</a>(...)</code></summary>
+## Auth Default
+<details><summary><code>client.auth.default.<a href="src/candid/resources/auth/resources/default/client.py">get_token</a>(...)</code></summary>
 <dl>
 <dd>
 
@@ -18,7 +18,21 @@ Candid Health SDKs automatically handle authentication workflows after configuri
 </Callout>
 
 Candid Health utilizes the [OAuth 2.0 bearer token authentication scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) in our auth flow. You obtain the bearer token for all
-subsequent API requests via the `/auth/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`. Your `client_id` and `client_secret` can be [generated](https://support.joincandidhealth.com/hc/en-us/articles/23065219476244--Generating-Candid-API-Keys) from the "Users & Credentials" tab by your org admin.
+subsequent API requests via the `/auth/v2/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`. Your `client_id` and `client_secret` can be [generated](https://support.joincandidhealth.com/hc/en-us/articles/23065219476244--Generating-Candid-API-Keys) from the "Users & Credentials" tab by your org admin.
+
+The `/auth/v2/token` endpoint accepts both `Content-Type: application/json` and `Content-Type: application/x-www-form-urlencoded`. The request body should contain the `client_id` and `client_secret` as follows:
+
+```json
+{
+  "client_id": "YOUR_CLIENT_ID",
+  "client_secret": "YOUR_CLIENT_SECRET"
+}
+```
+or as URL-encoded form data:
+
+```
+client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET
+```
 
 The bearer token is a signed [JWT](https://jwt.io/). The public key for the JWT can be found [here](https://candidhealth.auth0.com/pem) for any verification workflows.
 
@@ -49,7 +63,7 @@ client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.auth.v_2.get_token(
+client.auth.default.get_token(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
@@ -406,6 +420,83 @@ client.charge_capture_bundles.v_1.get_summary()
 </dl>
 </details>
 
+<details><summary><code>client.charge_capture_bundles.v_1.<a href="src/candid/resources/charge_capture_bundles/resources/v_1/client.py">resolve_charge_creation_error</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.charge_capture_bundles.v_1.resolve_charge_creation_error(
+    charge_capture_bundle_error_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**charge_capture_bundle_error_id:** `uuid.UUID` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**resolved_by:** `typing.Optional[str]` — A string, denoting who resolved the error for audit trail purposes.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**resolution_reason:** `typing.Optional[str]` — A string denoting why or how the error was dealt with for audit trail purposes.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.charge_capture_bundles.v_1.<a href="src/candid/resources/charge_capture_bundles/resources/v_1/client.py">get_all</a>(...)</code></summary>
 <dl>
 <dd>
@@ -705,6 +796,22 @@ client.charge_capture.v_1.create(
 <dl>
 <dd>
 
+**originating_system:** `typing.Optional[str]` — An optional string field denoting the originating system of the charge.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_creation_category:** `typing.Optional[str]` — An optional string field denoting the user defined category of the claim creation.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **ehr_source_url:** `typing.Optional[str]` — External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
     
 </dd>
@@ -798,6 +905,22 @@ This field should not contain PHI.
 
 External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page).
 Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**originating_system:** `typing.Optional[str]` — An optional string field denoting the originating system of the charge.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_creation_category:** `typing.Optional[str]` — An optional string field denoting the user defined category of the claim creation.
     
 </dd>
 </dl>
@@ -4465,7 +4588,7 @@ Note: Cash Pay is no longer a valid payer_id in v4, please use responsible party
 <dl>
 <dd>
 
-**clinical_notes:** `typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]` — Holds a collection of clinical observations made by healthcare providers during patient encounters.
+**clinical_notes:** `typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]` — Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
     
 </dd>
 </dl>
@@ -4945,6 +5068,86 @@ client.encounters.v_4.update(
 <dl>
 <dd>
 
+**epsdt_referral:** `typing.Optional[EpsdtReferral]` — Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**clinical_notes:** `typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]` — Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_supplemental_information:** `typing.Optional[typing.Sequence[ClaimSupplementalInformation]]` — Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**schema_instances:** `typing.Optional[typing.Sequence[SchemaInstance]]` 
+
+Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
+semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
+is provided as an input, then the encounter's schema instances will be cleared.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**existing_medications:** `typing.Optional[typing.Sequence[Medication]]` 
+
+Existing medications that should be on the encounter.
+Note all current existing medications on encounter will be overridden with this list.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**guarantor:** `typing.Optional[GuarantorUpdate]` — Personal and contact info for the guarantor of the patient responsibility.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**subscriber_primary:** `typing.Optional[SubscriberCreate]` — Contains details of the primary insurance subscriber.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**subscriber_secondary:** `typing.Optional[SubscriberCreate]` — Contains details of the secondary insurance subscriber.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**subscriber_tertiary:** `typing.Optional[SubscriberCreate]` — Contains details of the tertiary insurance subscriber.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **pay_to_address:** `typing.Optional[StreetAddressLongZip]` — Specifies the address to which payments for the claim should be sent.
     
 </dd>
@@ -5089,14 +5292,6 @@ If service lines have distinct date_of_service values, updating the encounter's 
 <dl>
 <dd>
 
-**clinical_notes:** `typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]` — Holds a collection of clinical observations made by healthcare providers during patient encounters.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **billable_status:** `typing.Optional[BillableStatusType]` — Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
     
 </dd>
@@ -5152,30 +5347,6 @@ This date must be the local date in the timezone where the service occurred.
 If omitted, the Encounter is assumed to be for a single day.
 Must not be temporally before the date_of_service field.
 If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**subscriber_primary:** `typing.Optional[SubscriberCreate]` — Contains details of the primary insurance subscriber.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**subscriber_secondary:** `typing.Optional[SubscriberCreate]` — Contains details of the secondary insurance subscriber.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**subscriber_tertiary:** `typing.Optional[SubscriberCreate]` — Contains details of the tertiary insurance subscriber.
     
 </dd>
 </dl>
@@ -5278,19 +5449,6 @@ Box 12 on the CMS-1500 claim form.
 <dl>
 <dd>
 
-**schema_instances:** `typing.Optional[typing.Sequence[SchemaInstance]]` 
-
-Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
-instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
-semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
-is provided as an input, then the encounter's schema instances will be cleared.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **vitals:** `typing.Optional[VitalsUpdate]` 
 
 If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
@@ -5302,42 +5460,7 @@ Otherwise, a new vitals object will be created for the encounter.
 <dl>
 <dd>
 
-**existing_medications:** `typing.Optional[typing.Sequence[Medication]]` 
-
-Existing medications that should be on the encounter.
-Note all current existing medications on encounter will be overridden with this list.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**guarantor:** `typing.Optional[GuarantorUpdate]` — Personal and contact info for the guarantor of the patient responsibility.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **referral_number:** `typing.Optional[str]` — Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**epsdt_referral:** `typing.Optional[EpsdtReferral]` — Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**claim_supplemental_information:** `typing.Optional[typing.Sequence[ClaimSupplementalInformation]]` — Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
     
 </dd>
 </dl>
@@ -18604,6 +18727,19 @@ Must obey the ICD-10 format if an ICD-10 code_type is provided, specifically:
   - Digit or the letter `A` or `B`
   - (Optional) Period `.`
   - Up to 4 (or as few as 0) letters and digits
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**present_on_admission_indicator:** `typing.Optional[YesNoIndicator]` 
+
+For Institutional claims only.
+A "Y" indicates that the onset occurred prior to admission to the hospital.
+An "N" indicates that the onset did NOT occur prior to admission to the hospital.
+A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.
     
 </dd>
 </dl>

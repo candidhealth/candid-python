@@ -5,6 +5,13 @@
 from .insurance_card import InsuranceCard
 from .insurance_card_base import InsuranceCardBase
 from .insurance_card_create import InsuranceCardCreate
+from .insurance_card_create_optional import InsuranceCardCreateOptional
 from .insurance_card_id import InsuranceCardId
 
-__all__ = ["InsuranceCard", "InsuranceCardBase", "InsuranceCardCreate", "InsuranceCardId"]
+__all__ = [
+    "InsuranceCard",
+    "InsuranceCardBase",
+    "InsuranceCardCreate",
+    "InsuranceCardCreateOptional",
+    "InsuranceCardId",
+]

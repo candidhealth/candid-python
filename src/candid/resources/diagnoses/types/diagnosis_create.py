@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ...yes_no_indicator.types.yes_no_indicator import YesNoIndicator
 from .diagnosis_type_code import DiagnosisTypeCode
 
 
@@ -28,6 +29,14 @@ class DiagnosisCreate(UniversalBaseModel):
       - Digit or the letter `A` or `B`
       - (Optional) Period `.`
       - Up to 4 (or as few as 0) letters and digits
+    """
+
+    present_on_admission_indicator: typing.Optional[YesNoIndicator] = pydantic.Field(default=None)
+    """
+    For Institutional claims only.
+    A "Y" indicates that the onset occurred prior to admission to the hospital.
+    An "N" indicates that the onset did NOT occur prior to admission to the hospital.
+    A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.
     """
 
     if IS_PYDANTIC_V2:

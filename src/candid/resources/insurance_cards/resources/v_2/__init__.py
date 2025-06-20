@@ -2,6 +2,12 @@
 
 # isort: skip_file
 
-from .types import InsuranceCard, InsuranceCardBase, InsuranceCardCreate, InsuranceCardId
+from .types import InsuranceCard, InsuranceCardBase, InsuranceCardCreate, InsuranceCardCreateOptional, InsuranceCardId
 
-__all__ = ["InsuranceCard", "InsuranceCardBase", "InsuranceCardCreate", "InsuranceCardId"]
+__all__ = [
+    "InsuranceCard",
+    "InsuranceCardBase",
+    "InsuranceCardCreate",
+    "InsuranceCardCreateOptional",
+    "InsuranceCardId",
+]

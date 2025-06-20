@@ -370,7 +370,7 @@ class V4Client:
             Box 23 on the CMS-1500 claim form.
 
         clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
-            Holds a collection of clinical observations made by healthcare providers during patient encounters.
+            Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
 
         billing_notes : typing.Optional[typing.Sequence[BillingNoteBase]]
             Spot to store misc, human-readable, notes about this encounter to be used
@@ -711,6 +711,15 @@ class V4Client:
         self,
         encounter_id: EncounterId,
         *,
+        epsdt_referral: typing.Optional[EpsdtReferral] = OMIT,
+        clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
+        claim_supplemental_information: typing.Optional[typing.Sequence[ClaimSupplementalInformation]] = OMIT,
+        schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
+        guarantor: typing.Optional[GuarantorUpdate] = OMIT,
+        subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
+        subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
+        subscriber_tertiary: typing.Optional[SubscriberCreate] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
         initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
@@ -726,7 +735,6 @@ class V4Client:
         external_id: typing.Optional[EncounterExternalId] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
-        clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         billable_status: typing.Optional[BillableStatusType] = OMIT,
         responsible_party: typing.Optional[ResponsiblePartyType] = OMIT,
         provider_accepts_assignment: typing.Optional[bool] = OMIT,
@@ -734,9 +742,6 @@ class V4Client:
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
-        subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
-        subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
-        subscriber_tertiary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
         admission_date: typing.Optional[dt.date] = OMIT,
@@ -745,13 +750,8 @@ class V4Client:
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
-        schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         vitals: typing.Optional[VitalsUpdate] = OMIT,
-        existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
-        guarantor: typing.Optional[GuarantorUpdate] = OMIT,
         referral_number: typing.Optional[str] = OMIT,
-        epsdt_referral: typing.Optional[EpsdtReferral] = OMIT,
-        claim_supplemental_information: typing.Optional[typing.Sequence[ClaimSupplementalInformation]] = OMIT,
         secondary_payer_carrier_code: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
@@ -759,6 +759,37 @@ class V4Client:
         Parameters
         ----------
         encounter_id : EncounterId
+
+        epsdt_referral : typing.Optional[EpsdtReferral]
+            Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+
+        clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
+            Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
+
+        claim_supplemental_information : typing.Optional[typing.Sequence[ClaimSupplementalInformation]]
+            Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+
+        schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+            instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
+            semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
+            is provided as an input, then the encounter's schema instances will be cleared.
+
+        existing_medications : typing.Optional[typing.Sequence[Medication]]
+            Existing medications that should be on the encounter.
+            Note all current existing medications on encounter will be overridden with this list.
+
+        guarantor : typing.Optional[GuarantorUpdate]
+            Personal and contact info for the guarantor of the patient responsibility.
+
+        subscriber_primary : typing.Optional[SubscriberCreate]
+            Contains details of the primary insurance subscriber.
+
+        subscriber_secondary : typing.Optional[SubscriberCreate]
+            Contains details of the secondary insurance subscriber.
+
+        subscriber_tertiary : typing.Optional[SubscriberCreate]
+            Contains details of the tertiary insurance subscriber.
 
         pay_to_address : typing.Optional[StreetAddressLongZip]
             Specifies the address to which payments for the claim should be sent.
@@ -817,9 +848,6 @@ class V4Client:
         tag_ids : typing.Optional[typing.Sequence[TagId]]
             Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
 
-        clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
-            Holds a collection of clinical observations made by healthcare providers during patient encounters.
-
         billable_status : typing.Optional[BillableStatusType]
             Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
@@ -844,15 +872,6 @@ class V4Client:
             If omitted, the Encounter is assumed to be for a single day.
             Must not be temporally before the date_of_service field.
             If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
-
-        subscriber_primary : typing.Optional[SubscriberCreate]
-            Contains details of the primary insurance subscriber.
-
-        subscriber_secondary : typing.Optional[SubscriberCreate]
-            Contains details of the secondary insurance subscriber.
-
-        subscriber_tertiary : typing.Optional[SubscriberCreate]
-            Contains details of the tertiary insurance subscriber.
 
         additional_information : typing.Optional[str]
             Defines additional information on the claim needed by the payer.
@@ -893,31 +912,12 @@ class V4Client:
             for billing purpose.
             Box 12 on the CMS-1500 claim form.
 
-        schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
-            Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
-            instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
-            semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
-            is provided as an input, then the encounter's schema instances will be cleared.
-
         vitals : typing.Optional[VitalsUpdate]
             If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
             Otherwise, a new vitals object will be created for the encounter.
 
-        existing_medications : typing.Optional[typing.Sequence[Medication]]
-            Existing medications that should be on the encounter.
-            Note all current existing medications on encounter will be overridden with this list.
-
-        guarantor : typing.Optional[GuarantorUpdate]
-            Personal and contact info for the guarantor of the patient responsibility.
-
         referral_number : typing.Optional[str]
             Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
-
-        epsdt_referral : typing.Optional[EpsdtReferral]
-            Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
-
-        claim_supplemental_information : typing.Optional[typing.Sequence[ClaimSupplementalInformation]]
-            Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
 
         secondary_payer_carrier_code : typing.Optional[str]
             When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
@@ -947,6 +947,15 @@ class V4Client:
         """
         _response = self._raw_client.update(
             encounter_id,
+            epsdt_referral=epsdt_referral,
+            clinical_notes=clinical_notes,
+            claim_supplemental_information=claim_supplemental_information,
+            schema_instances=schema_instances,
+            existing_medications=existing_medications,
+            guarantor=guarantor,
+            subscriber_primary=subscriber_primary,
+            subscriber_secondary=subscriber_secondary,
+            subscriber_tertiary=subscriber_tertiary,
             pay_to_address=pay_to_address,
             diagnosis_ids=diagnosis_ids,
             initial_referring_provider=initial_referring_provider,
@@ -962,7 +971,6 @@ class V4Client:
             external_id=external_id,
             date_of_service=date_of_service,
             tag_ids=tag_ids,
-            clinical_notes=clinical_notes,
             billable_status=billable_status,
             responsible_party=responsible_party,
             provider_accepts_assignment=provider_accepts_assignment,
@@ -970,9 +978,6 @@ class V4Client:
             place_of_service_code=place_of_service_code,
             appointment_type=appointment_type,
             end_date_of_service=end_date_of_service,
-            subscriber_primary=subscriber_primary,
-            subscriber_secondary=subscriber_secondary,
-            subscriber_tertiary=subscriber_tertiary,
             additional_information=additional_information,
             service_authorization_exception_code=service_authorization_exception_code,
             admission_date=admission_date,
@@ -981,13 +986,8 @@ class V4Client:
             last_menstrual_period_date=last_menstrual_period_date,
             delay_reason_code=delay_reason_code,
             patient_authorized_release=patient_authorized_release,
-            schema_instances=schema_instances,
             vitals=vitals,
-            existing_medications=existing_medications,
-            guarantor=guarantor,
             referral_number=referral_number,
-            epsdt_referral=epsdt_referral,
-            claim_supplemental_information=claim_supplemental_information,
             secondary_payer_carrier_code=secondary_payer_carrier_code,
             request_options=request_options,
         )
@@ -1319,7 +1319,7 @@ class AsyncV4Client:
             Box 23 on the CMS-1500 claim form.
 
         clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
-            Holds a collection of clinical observations made by healthcare providers during patient encounters.
+            Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
 
         billing_notes : typing.Optional[typing.Sequence[BillingNoteBase]]
             Spot to store misc, human-readable, notes about this encounter to be used
@@ -1676,6 +1676,15 @@ class AsyncV4Client:
         self,
         encounter_id: EncounterId,
         *,
+        epsdt_referral: typing.Optional[EpsdtReferral] = OMIT,
+        clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
+        claim_supplemental_information: typing.Optional[typing.Sequence[ClaimSupplementalInformation]] = OMIT,
+        schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
+        guarantor: typing.Optional[GuarantorUpdate] = OMIT,
+        subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
+        subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
+        subscriber_tertiary: typing.Optional[SubscriberCreate] = OMIT,
         pay_to_address: typing.Optional[StreetAddressLongZip] = OMIT,
         diagnosis_ids: typing.Optional[typing.Sequence[DiagnosisId]] = OMIT,
         initial_referring_provider: typing.Optional[InitialReferringProviderUpdate] = OMIT,
@@ -1691,7 +1700,6 @@ class AsyncV4Client:
         external_id: typing.Optional[EncounterExternalId] = OMIT,
         date_of_service: typing.Optional[dt.date] = OMIT,
         tag_ids: typing.Optional[typing.Sequence[TagId]] = OMIT,
-        clinical_notes: typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]] = OMIT,
         billable_status: typing.Optional[BillableStatusType] = OMIT,
         responsible_party: typing.Optional[ResponsiblePartyType] = OMIT,
         provider_accepts_assignment: typing.Optional[bool] = OMIT,
@@ -1699,9 +1707,6 @@ class AsyncV4Client:
         place_of_service_code: typing.Optional[FacilityTypeCode] = OMIT,
         appointment_type: typing.Optional[str] = OMIT,
         end_date_of_service: typing.Optional[dt.date] = OMIT,
-        subscriber_primary: typing.Optional[SubscriberCreate] = OMIT,
-        subscriber_secondary: typing.Optional[SubscriberCreate] = OMIT,
-        subscriber_tertiary: typing.Optional[SubscriberCreate] = OMIT,
         additional_information: typing.Optional[str] = OMIT,
         service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = OMIT,
         admission_date: typing.Optional[dt.date] = OMIT,
@@ -1710,13 +1715,8 @@ class AsyncV4Client:
         last_menstrual_period_date: typing.Optional[dt.date] = OMIT,
         delay_reason_code: typing.Optional[DelayReasonCode] = OMIT,
         patient_authorized_release: typing.Optional[bool] = OMIT,
-        schema_instances: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         vitals: typing.Optional[VitalsUpdate] = OMIT,
-        existing_medications: typing.Optional[typing.Sequence[Medication]] = OMIT,
-        guarantor: typing.Optional[GuarantorUpdate] = OMIT,
         referral_number: typing.Optional[str] = OMIT,
-        epsdt_referral: typing.Optional[EpsdtReferral] = OMIT,
-        claim_supplemental_information: typing.Optional[typing.Sequence[ClaimSupplementalInformation]] = OMIT,
         secondary_payer_carrier_code: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
@@ -1724,6 +1724,37 @@ class AsyncV4Client:
         Parameters
         ----------
         encounter_id : EncounterId
+
+        epsdt_referral : typing.Optional[EpsdtReferral]
+            Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+
+        clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
+            Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
+
+        claim_supplemental_information : typing.Optional[typing.Sequence[ClaimSupplementalInformation]]
+            Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+
+        schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
+            instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
+            semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
+            is provided as an input, then the encounter's schema instances will be cleared.
+
+        existing_medications : typing.Optional[typing.Sequence[Medication]]
+            Existing medications that should be on the encounter.
+            Note all current existing medications on encounter will be overridden with this list.
+
+        guarantor : typing.Optional[GuarantorUpdate]
+            Personal and contact info for the guarantor of the patient responsibility.
+
+        subscriber_primary : typing.Optional[SubscriberCreate]
+            Contains details of the primary insurance subscriber.
+
+        subscriber_secondary : typing.Optional[SubscriberCreate]
+            Contains details of the secondary insurance subscriber.
+
+        subscriber_tertiary : typing.Optional[SubscriberCreate]
+            Contains details of the tertiary insurance subscriber.
 
         pay_to_address : typing.Optional[StreetAddressLongZip]
             Specifies the address to which payments for the claim should be sent.
@@ -1782,9 +1813,6 @@ class AsyncV4Client:
         tag_ids : typing.Optional[typing.Sequence[TagId]]
             Names of tags that should be on the encounter.  Note all tags on encounter will be overridden with this list.
 
-        clinical_notes : typing.Optional[typing.Sequence[ClinicalNoteCategoryCreate]]
-            Holds a collection of clinical observations made by healthcare providers during patient encounters.
-
         billable_status : typing.Optional[BillableStatusType]
             Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
 
@@ -1809,15 +1837,6 @@ class AsyncV4Client:
             If omitted, the Encounter is assumed to be for a single day.
             Must not be temporally before the date_of_service field.
             If service lines have distinct end_date_of_service values, updating the encounter's end_date_of_service will fail. If all service line end_date_of_service values are the same, updating the encounter's end_date_of_service will update all service line date_of_service values.
-
-        subscriber_primary : typing.Optional[SubscriberCreate]
-            Contains details of the primary insurance subscriber.
-
-        subscriber_secondary : typing.Optional[SubscriberCreate]
-            Contains details of the secondary insurance subscriber.
-
-        subscriber_tertiary : typing.Optional[SubscriberCreate]
-            Contains details of the tertiary insurance subscriber.
 
         additional_information : typing.Optional[str]
             Defines additional information on the claim needed by the payer.
@@ -1858,31 +1877,12 @@ class AsyncV4Client:
             for billing purpose.
             Box 12 on the CMS-1500 claim form.
 
-        schema_instances : typing.Optional[typing.Sequence[SchemaInstance]]
-            Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
-            instances cannot be created for the same schema on an encounter. Updating schema instances utilizes PUT
-            semantics, so the schema instances on the encounter will be set to whatever inputs are provided. If null
-            is provided as an input, then the encounter's schema instances will be cleared.
-
         vitals : typing.Optional[VitalsUpdate]
             If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
             Otherwise, a new vitals object will be created for the encounter.
 
-        existing_medications : typing.Optional[typing.Sequence[Medication]]
-            Existing medications that should be on the encounter.
-            Note all current existing medications on encounter will be overridden with this list.
-
-        guarantor : typing.Optional[GuarantorUpdate]
-            Personal and contact info for the guarantor of the patient responsibility.
-
         referral_number : typing.Optional[str]
             Refers to REF*9F on the 837p. Value cannot be greater than 50 characters.
-
-        epsdt_referral : typing.Optional[EpsdtReferral]
-            Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
-
-        claim_supplemental_information : typing.Optional[typing.Sequence[ClaimSupplementalInformation]]
-            Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
 
         secondary_payer_carrier_code : typing.Optional[str]
             When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
@@ -1919,6 +1919,15 @@ class AsyncV4Client:
         """
         _response = await self._raw_client.update(
             encounter_id,
+            epsdt_referral=epsdt_referral,
+            clinical_notes=clinical_notes,
+            claim_supplemental_information=claim_supplemental_information,
+            schema_instances=schema_instances,
+            existing_medications=existing_medications,
+            guarantor=guarantor,
+            subscriber_primary=subscriber_primary,
+            subscriber_secondary=subscriber_secondary,
+            subscriber_tertiary=subscriber_tertiary,
             pay_to_address=pay_to_address,
             diagnosis_ids=diagnosis_ids,
             initial_referring_provider=initial_referring_provider,
@@ -1934,7 +1943,6 @@ class AsyncV4Client:
             external_id=external_id,
             date_of_service=date_of_service,
             tag_ids=tag_ids,
-            clinical_notes=clinical_notes,
             billable_status=billable_status,
             responsible_party=responsible_party,
             provider_accepts_assignment=provider_accepts_assignment,
@@ -1942,9 +1950,6 @@ class AsyncV4Client:
             place_of_service_code=place_of_service_code,
             appointment_type=appointment_type,
             end_date_of_service=end_date_of_service,
-            subscriber_primary=subscriber_primary,
-            subscriber_secondary=subscriber_secondary,
-            subscriber_tertiary=subscriber_tertiary,
             additional_information=additional_information,
             service_authorization_exception_code=service_authorization_exception_code,
             admission_date=admission_date,
@@ -1953,13 +1958,8 @@ class AsyncV4Client:
             last_menstrual_period_date=last_menstrual_period_date,
             delay_reason_code=delay_reason_code,
             patient_authorized_release=patient_authorized_release,
-            schema_instances=schema_instances,
             vitals=vitals,
-            existing_medications=existing_medications,
-            guarantor=guarantor,
             referral_number=referral_number,
-            epsdt_referral=epsdt_referral,
-            claim_supplemental_information=claim_supplemental_information,
             secondary_payer_carrier_code=secondary_payer_carrier_code,
             request_options=request_options,
         )

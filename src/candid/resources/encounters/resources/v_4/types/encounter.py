@@ -7,6 +7,7 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 from .....billing_notes.resources.v_2.types.billing_note import BillingNote
 from .....claims.types.claim import Claim
+from .....commons.types.charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from .....commons.types.encounter_id import EncounterId
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.link_url import LinkUrl
@@ -699,6 +700,11 @@ class Encounter(EncounterBase):
     )
     """
 
+    claim_creation_id: typing.Optional[ChargeCaptureClaimCreationId] = pydantic.Field(default=None)
+    """
+    If the encounter was created from ingested charge captures, this is the associated Charge Capture Claim Creation Id.
+    """
+
     patient_control_number: typing.Optional[str] = pydantic.Field(default=None)
     """
     A patient control number (PCN) is a unique identifier assigned to a patient within a healthcare system or facility.
@@ -776,7 +782,7 @@ class Encounter(EncounterBase):
 
     clinical_notes: typing.List[ClinicalNoteCategory] = pydantic.Field()
     """
-    Holds a collection of clinical observations made by healthcare providers during patient encounters.
+    Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
     """
 
     billing_notes: typing.Optional[typing.List[BillingNote]] = pydantic.Field(default=None)

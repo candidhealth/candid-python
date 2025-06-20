@@ -2,6 +2,7 @@
 
 import datetime as dt
 import typing
+import uuid
 
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
@@ -16,6 +17,9 @@ from .types.charge_capture_claim_creation_page import ChargeCaptureClaimCreation
 from .types.charge_capture_claim_creation_sort_field import ChargeCaptureClaimCreationSortField
 from .types.charge_capture_claim_creation_status import ChargeCaptureClaimCreationStatus
 from .types.charge_capture_claim_creation_summary import ChargeCaptureClaimCreationSummary
+
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
 
 
 class V1Client:
@@ -94,6 +98,56 @@ class V1Client:
         client.charge_capture_bundles.v_1.get_summary()
         """
         _response = self._raw_client.get_summary(request_options=request_options)
+        return _response.data
+
+    def resolve_charge_creation_error(
+        self,
+        charge_capture_bundle_error_id: uuid.UUID,
+        *,
+        resolved_by: typing.Optional[str] = OMIT,
+        resolution_reason: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
+        """
+        Parameters
+        ----------
+        charge_capture_bundle_error_id : uuid.UUID
+
+        resolved_by : typing.Optional[str]
+            A string, denoting who resolved the error for audit trail purposes.
+
+        resolution_reason : typing.Optional[str]
+            A string denoting why or how the error was dealt with for audit trail purposes.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.charge_capture_bundles.v_1.resolve_charge_creation_error(
+            charge_capture_bundle_error_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.resolve_charge_creation_error(
+            charge_capture_bundle_error_id,
+            resolved_by=resolved_by,
+            resolution_reason=resolution_reason,
+            request_options=request_options,
+        )
         return _response.data
 
     def get_all(
@@ -323,6 +377,63 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.get_summary(request_options=request_options)
+        return _response.data
+
+    async def resolve_charge_creation_error(
+        self,
+        charge_capture_bundle_error_id: uuid.UUID,
+        *,
+        resolved_by: typing.Optional[str] = OMIT,
+        resolution_reason: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
+        """
+        Parameters
+        ----------
+        charge_capture_bundle_error_id : uuid.UUID
+
+        resolved_by : typing.Optional[str]
+            A string, denoting who resolved the error for audit trail purposes.
+
+        resolution_reason : typing.Optional[str]
+            A string denoting why or how the error was dealt with for audit trail purposes.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.charge_capture_bundles.v_1.resolve_charge_creation_error(
+                charge_capture_bundle_error_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.resolve_charge_creation_error(
+            charge_capture_bundle_error_id,
+            resolved_by=resolved_by,
+            resolution_reason=resolution_reason,
+            request_options=request_options,
+        )
         return _response.data
 
     async def get_all(

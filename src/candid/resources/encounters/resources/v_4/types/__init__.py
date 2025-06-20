@@ -5,13 +5,17 @@
 from .billable_status_type import BillableStatusType
 from .cash_pay_payer_error_message import CashPayPayerErrorMessage
 from .claim_supplemental_information import ClaimSupplementalInformation
+from .claim_supplemental_information_optional import ClaimSupplementalInformationOptional
 from .clinical_note import ClinicalNote
 from .clinical_note_category import ClinicalNoteCategory
 from .clinical_note_category_create import ClinicalNoteCategoryCreate
+from .clinical_note_category_create_optional import ClinicalNoteCategoryCreateOptional
+from .clinical_note_optional import ClinicalNoteOptional
 from .coding_attribution_type import CodingAttributionType
 from .encounter import Encounter
 from .encounter_base import EncounterBase
 from .encounter_create_from_pre_encounter import EncounterCreateFromPreEncounter
+from .encounter_deep_optional import EncounterDeepOptional
 from .encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
 from .encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
 from .encounter_optional import EncounterOptional
@@ -21,22 +25,28 @@ from .encounter_patient_control_number_uniqueness_error_type import EncounterPat
 from .encounter_sort_options import EncounterSortOptions
 from .encounter_submission_origin_type import EncounterSubmissionOriginType
 from .epsdt_referral import EpsdtReferral
+from .epsdt_referral_optional import EpsdtReferralOptional
 from .intake_follow_up import IntakeFollowUp
 from .intake_follow_up_id import IntakeFollowUpId
 from .intake_question import IntakeQuestion
 from .intake_question_id import IntakeQuestionId
+from .intake_question_optional import IntakeQuestionOptional
 from .intake_response_and_follow_ups import IntakeResponseAndFollowUps
 from .intervention import Intervention
 from .intervention_category import InterventionCategory
+from .intervention_optional import InterventionOptional
 from .invalid_tag_names_error_type import InvalidTagNamesErrorType
 from .key_does_not_exist_error import KeyDoesNotExistError
 from .lab import Lab
 from .lab_code_type import LabCodeType
+from .lab_optional import LabOptional
 from .medication import Medication
+from .medication_optional import MedicationOptional
 from .multiple_instances_for_schema_error import MultipleInstancesForSchemaError
 from .note_category import NoteCategory
 from .patient_history_category import PatientHistoryCategory
 from .patient_history_category_enum import PatientHistoryCategoryEnum
+from .patient_history_category_optional import PatientHistoryCategoryOptional
 from .payer_plan_group_payer_does_not_match_insurance_card_error import (
     PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
 )
@@ -66,13 +76,17 @@ __all__ = [
     "BillableStatusType",
     "CashPayPayerErrorMessage",
     "ClaimSupplementalInformation",
+    "ClaimSupplementalInformationOptional",
     "ClinicalNote",
     "ClinicalNoteCategory",
     "ClinicalNoteCategoryCreate",
+    "ClinicalNoteCategoryCreateOptional",
+    "ClinicalNoteOptional",
     "CodingAttributionType",
     "Encounter",
     "EncounterBase",
     "EncounterCreateFromPreEncounter",
+    "EncounterDeepOptional",
     "EncounterExternalIdUniquenessErrorType",
     "EncounterGuarantorMissingContactInfoErrorType",
     "EncounterOptional",
@@ -82,22 +96,28 @@ __all__ = [
     "EncounterSortOptions",
     "EncounterSubmissionOriginType",
     "EpsdtReferral",
+    "EpsdtReferralOptional",
     "IntakeFollowUp",
     "IntakeFollowUpId",
     "IntakeQuestion",
     "IntakeQuestionId",
+    "IntakeQuestionOptional",
     "IntakeResponseAndFollowUps",
     "Intervention",
     "InterventionCategory",
+    "InterventionOptional",
     "InvalidTagNamesErrorType",
     "KeyDoesNotExistError",
     "Lab",
     "LabCodeType",
+    "LabOptional",
     "Medication",
+    "MedicationOptional",
     "MultipleInstancesForSchemaError",
     "NoteCategory",
     "PatientHistoryCategory",
     "PatientHistoryCategoryEnum",
+    "PatientHistoryCategoryOptional",
     "PayerPlanGroupPayerDoesNotMatchInsuranceCardError",
     "PriorAuthorizationNumber",
     "ReportTransmissionCode",

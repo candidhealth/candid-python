@@ -22,6 +22,8 @@ class ChargeCapture(UniversalBaseModel):
     patient_external_id: PatientExternalId
     charge_external_id: str
     ehr_source_url: typing.Optional[str] = None
+    originating_system: typing.Optional[str] = None
+    claim_creation_category: typing.Optional[str] = None
     error: typing.Optional[ChargeCaptureError] = None
     updates: typing.List[ChargeCapturePostBilledChange]
     claim_creation_id: typing.Optional[ChargeCaptureClaimCreationId] = None

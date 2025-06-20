@@ -1972,6 +1972,11 @@ class ProcedureModifier(str, enum.Enum):
     The treatment was approved under the workers’ compensation plan
     """
 
+    X_4 = "X4"
+    """
+    Episodic/Focused Services - Reported by a specialty focused clinician who provides care that is time-limited
+    """
+
     XE = "XE"
     """
     Two or more separate patient visits on the same date of service
@@ -1990,6 +1995,11 @@ class ProcedureModifier(str, enum.Enum):
     XU = "XU"
     """
     The use of a service that is distinct because it does not overlap usual components of the main service
+    """
+
+    XY = "XY"
+    """
+    Custom modifier
     """
 
     _UNKNOWN = "__PROCEDUREMODIFIER_UNKNOWN__"
@@ -2398,10 +2408,12 @@ class ProcedureModifier(str, enum.Enum):
         w_1: typing.Callable[[], T_Result],
         w_2: typing.Callable[[], T_Result],
         w_3: typing.Callable[[], T_Result],
+        x_4: typing.Callable[[], T_Result],
         xe: typing.Callable[[], T_Result],
         xp: typing.Callable[[], T_Result],
         xs: typing.Callable[[], T_Result],
         xu: typing.Callable[[], T_Result],
+        xy: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is ProcedureModifier.AV:
@@ -3190,6 +3202,8 @@ class ProcedureModifier(str, enum.Enum):
             return w_2()
         if self is ProcedureModifier.W_3:
             return w_3()
+        if self is ProcedureModifier.X_4:
+            return x_4()
         if self is ProcedureModifier.XE:
             return xe()
         if self is ProcedureModifier.XP:
@@ -3198,4 +3212,6 @@ class ProcedureModifier(str, enum.Enum):
             return xs()
         if self is ProcedureModifier.XU:
             return xu()
+        if self is ProcedureModifier.XY:
+            return xy()
         return _unknown_member(self._value_)

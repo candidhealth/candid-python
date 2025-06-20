@@ -39,6 +39,7 @@ from .patient_external_id import PatientExternalId
 from .patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
 from .payer_plan_group_id import PayerPlanGroupId
 from .phone_number import PhoneNumber
+from .phone_number_optional import PhoneNumberOptional
 from .phone_number_type import PhoneNumberType
 from .pre_encounter_appointment_id import PreEncounterAppointmentId
 from .pre_encounter_patient_id import PreEncounterPatientId
@@ -66,6 +67,7 @@ from .source_of_payment_code import SourceOfPaymentCode
 from .state import State
 from .street_address_base import StreetAddressBase
 from .street_address_long_zip import StreetAddressLongZip
+from .street_address_long_zip_optional import StreetAddressLongZipOptional
 from .street_address_optional_base import StreetAddressOptionalBase
 from .street_address_short_zip import StreetAddressShortZip
 from .street_address_short_zip_optional import StreetAddressShortZipOptional
@@ -119,6 +121,7 @@ __all__ = [
     "PatientRelationshipToInsuredCodeAll",
     "PayerPlanGroupId",
     "PhoneNumber",
+    "PhoneNumberOptional",
     "PhoneNumberType",
     "PreEncounterAppointmentId",
     "PreEncounterPatientId",
@@ -146,6 +149,7 @@ __all__ = [
     "State",
     "StreetAddressBase",
     "StreetAddressLongZip",
+    "StreetAddressLongZipOptional",
     "StreetAddressOptionalBase",
     "StreetAddressShortZip",
     "StreetAddressShortZipOptional",

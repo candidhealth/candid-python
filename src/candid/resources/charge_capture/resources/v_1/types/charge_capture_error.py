@@ -23,6 +23,21 @@ class ChargeCaptureError(UniversalBaseModel):
     A human readable error explaining why this charge capture Claim Creation failed to create a claim.
     """
 
+    resolved: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Whether or not the error has been resolved as part of user workflows
+    """
+
+    resolved_by: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    A string denoting who resolved the error within candid's system.
+    """
+
+    resolution_reason: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    A string denoting how or why an error was resolved.
+    """
+
     field_in_error: typing.Optional[str] = pydantic.Field(default=None)
     """
     The field of the corresponding underlying ChargeCapture that has a field that is failing validations,

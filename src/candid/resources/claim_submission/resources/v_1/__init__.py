@@ -2,6 +2,18 @@
 
 # isort: skip_file
 
-from .types import ClaimFrequencyTypeCode, ClaimSubmissionRecordCreate, ExternalClaimSubmissionCreate
+from .types import (
+    ClaimFrequencyTypeCode,
+    ClaimSubmissionRecordCreate,
+    ClaimSubmissionRecordCreateOptional,
+    ExternalClaimSubmissionCreate,
+    ExternalClaimSubmissionCreateOptional,
+)
 
-__all__ = ["ClaimFrequencyTypeCode", "ClaimSubmissionRecordCreate", "ExternalClaimSubmissionCreate"]
+__all__ = [
+    "ClaimFrequencyTypeCode",
+    "ClaimSubmissionRecordCreate",
+    "ClaimSubmissionRecordCreateOptional",
+    "ExternalClaimSubmissionCreate",
+    "ExternalClaimSubmissionCreateOptional",
+]

@@ -2,6 +2,7 @@
 
 import datetime as dt
 import typing
+import uuid
 from json.decoder import JSONDecodeError
 
 from .....core.api_error import ApiError
@@ -11,15 +12,22 @@ from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
 from ....charge_capture.resources.v_1.types.charge_capture_status import ChargeCaptureStatus
+from ....commons.errors.entity_not_found_error import EntityNotFoundError
+from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.types.charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from ....commons.types.encounter_id import EncounterId
+from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.page_token import PageToken
 from ....commons.types.sort_direction import SortDirection
+from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from .types.charge_capture_claim_creation import ChargeCaptureClaimCreation
 from .types.charge_capture_claim_creation_page import ChargeCaptureClaimCreationPage
 from .types.charge_capture_claim_creation_sort_field import ChargeCaptureClaimCreationSortField
 from .types.charge_capture_claim_creation_status import ChargeCaptureClaimCreationStatus
 from .types.charge_capture_claim_creation_summary import ChargeCaptureClaimCreationSummary
+
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
 
 
 class RawV1Client:
@@ -97,6 +105,74 @@ class RawV1Client:
                 ),
             )
             return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def resolve_charge_creation_error(
+        self,
+        charge_capture_bundle_error_id: uuid.UUID,
+        *,
+        resolved_by: typing.Optional[str] = OMIT,
+        resolution_reason: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[None]:
+        """
+        Parameters
+        ----------
+        charge_capture_bundle_error_id : uuid.UUID
+
+        resolved_by : typing.Optional[str]
+            A string, denoting who resolved the error for audit trail purposes.
+
+        resolution_reason : typing.Optional[str]
+            A string denoting why or how the error was dealt with for audit trail purposes.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[None]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/charge_capture_claim_creation/v1/error/{jsonable_encoder(charge_capture_bundle_error_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "resolved_by": resolved_by,
+                "resolution_reason": resolution_reason,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        if 200 <= _response.status_code < 300:
+            return HttpResponse(response=_response, data=None)
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_all(
@@ -318,6 +394,74 @@ class AsyncRawV1Client:
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def resolve_charge_creation_error(
+        self,
+        charge_capture_bundle_error_id: uuid.UUID,
+        *,
+        resolved_by: typing.Optional[str] = OMIT,
+        resolution_reason: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[None]:
+        """
+        Parameters
+        ----------
+        charge_capture_bundle_error_id : uuid.UUID
+
+        resolved_by : typing.Optional[str]
+            A string, denoting who resolved the error for audit trail purposes.
+
+        resolution_reason : typing.Optional[str]
+            A string denoting why or how the error was dealt with for audit trail purposes.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[None]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/charge_capture_claim_creation/v1/error/{jsonable_encoder(charge_capture_bundle_error_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "resolved_by": resolved_by,
+                "resolution_reason": resolution_reason,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        if 200 <= _response.status_code < 300:
+            return AsyncHttpResponse(response=_response, data=None)
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_all(

@@ -8,15 +8,17 @@ from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.http_response import AsyncHttpResponse, HttpResponse
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
+from .errors.invalid_content_type_error import InvalidContentTypeError
 from .errors.too_many_requests_error import TooManyRequestsError
 from .types.auth_get_token_response import AuthGetTokenResponse
+from .types.invalid_content_type_error_type import InvalidContentTypeErrorType
 from .types.too_many_requests_error_type import TooManyRequestsErrorType
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
 
-class RawV2Client:
+class RawDefaultClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
@@ -30,7 +32,21 @@ class RawV2Client:
         </Callout>
 
         Candid Health utilizes the [OAuth 2.0 bearer token authentication scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) in our auth flow. You obtain the bearer token for all
-        subsequent API requests via the `/auth/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`. Your `client_id` and `client_secret` can be [generated](https://support.joincandidhealth.com/hc/en-us/articles/23065219476244--Generating-Candid-API-Keys) from the "Users & Credentials" tab by your org admin.
+        subsequent API requests via the `/auth/v2/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`. Your `client_id` and `client_secret` can be [generated](https://support.joincandidhealth.com/hc/en-us/articles/23065219476244--Generating-Candid-API-Keys) from the "Users & Credentials" tab by your org admin.
+
+        The `/auth/v2/token` endpoint accepts both `Content-Type: application/json` and `Content-Type: application/x-www-form-urlencoded`. The request body should contain the `client_id` and `client_secret` as follows:
+
+        ```json
+        {
+          "client_id": "YOUR_CLIENT_ID",
+          "client_secret": "YOUR_CLIENT_SECRET"
+        }
+        ```
+        or as URL-encoded form data:
+
+        ```
+        client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET
+        ```
 
         The bearer token is a signed [JWT](https://jwt.io/). The public key for the JWT can be found [here](https://candidhealth.auth0.com/pem) for any verification workflows.
 
@@ -93,10 +109,21 @@ class RawV2Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "InvalidContentTypeError":
+                raise InvalidContentTypeError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InvalidContentTypeErrorType,
+                        parse_obj_as(
+                            type_=InvalidContentTypeErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
-class AsyncRawV2Client:
+class AsyncRawDefaultClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
@@ -110,7 +137,21 @@ class AsyncRawV2Client:
         </Callout>
 
         Candid Health utilizes the [OAuth 2.0 bearer token authentication scheme](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication) in our auth flow. You obtain the bearer token for all
-        subsequent API requests via the `/auth/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`. Your `client_id` and `client_secret` can be [generated](https://support.joincandidhealth.com/hc/en-us/articles/23065219476244--Generating-Candid-API-Keys) from the "Users & Credentials" tab by your org admin.
+        subsequent API requests via the `/auth/v2/token` endpoint defined below, which requires you to provide your `client_id` and `client_secret`. Your `client_id` and `client_secret` can be [generated](https://support.joincandidhealth.com/hc/en-us/articles/23065219476244--Generating-Candid-API-Keys) from the "Users & Credentials" tab by your org admin.
+
+        The `/auth/v2/token` endpoint accepts both `Content-Type: application/json` and `Content-Type: application/x-www-form-urlencoded`. The request body should contain the `client_id` and `client_secret` as follows:
+
+        ```json
+        {
+          "client_id": "YOUR_CLIENT_ID",
+          "client_secret": "YOUR_CLIENT_SECRET"
+        }
+        ```
+        or as URL-encoded form data:
+
+        ```
+        client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET
+        ```
 
         The bearer token is a signed [JWT](https://jwt.io/). The public key for the JWT can be found [here](https://candidhealth.auth0.com/pem) for any verification workflows.
 
@@ -169,6 +210,17 @@ class AsyncRawV2Client:
                         TooManyRequestsErrorType,
                         parse_obj_as(
                             type_=TooManyRequestsErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "InvalidContentTypeError":
+                raise InvalidContentTypeError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InvalidContentTypeErrorType,
+                        parse_obj_as(
+                            type_=InvalidContentTypeErrorType,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

@@ -7,6 +7,7 @@ from .schema import Schema
 from .schema_field import SchemaField
 from .schema_get_multi_response import SchemaGetMultiResponse
 from .schema_instance import SchemaInstance
+from .schema_instance_optional import SchemaInstanceOptional
 from .schema_validation_error import (
     SchemaValidationError,
     SchemaValidationError_KeyNameAlreadyExists,
@@ -21,6 +22,7 @@ __all__ = [
     "SchemaField",
     "SchemaGetMultiResponse",
     "SchemaInstance",
+    "SchemaInstanceOptional",
     "SchemaValidationError",
     "SchemaValidationError_KeyNameAlreadyExists",
     "SchemaValidationError_SchemaNameAlreadyExists",

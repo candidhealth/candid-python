@@ -4,6 +4,7 @@
 
 from .gender import Gender
 from .individual_base import IndividualBase
+from .individual_base_optional import IndividualBaseOptional
 from .individual_id import IndividualId
 from .patient import Patient
 from .patient_base import PatientBase
@@ -12,15 +13,19 @@ from .patient_clinical_trial_info_create import PatientClinicalTrialInfoCreate
 from .patient_create import PatientCreate
 from .patient_non_insurance_payer_info import PatientNonInsurancePayerInfo
 from .patient_non_insurance_payer_info_create import PatientNonInsurancePayerInfoCreate
+from .patient_non_insurance_payer_info_create_optional import PatientNonInsurancePayerInfoCreateOptional
 from .patient_update import PatientUpdate
 from .patient_update_with_optional_address import PatientUpdateWithOptionalAddress
 from .subscriber import Subscriber
 from .subscriber_base import SubscriberBase
+from .subscriber_base_optional import SubscriberBaseOptional
 from .subscriber_create import SubscriberCreate
+from .subscriber_create_optional import SubscriberCreateOptional
 
 __all__ = [
     "Gender",
     "IndividualBase",
+    "IndividualBaseOptional",
     "IndividualId",
     "Patient",
     "PatientBase",
@@ -29,9 +34,12 @@ __all__ = [
     "PatientCreate",
     "PatientNonInsurancePayerInfo",
     "PatientNonInsurancePayerInfoCreate",
+    "PatientNonInsurancePayerInfoCreateOptional",
     "PatientUpdate",
     "PatientUpdateWithOptionalAddress",
     "Subscriber",
     "SubscriberBase",
+    "SubscriberBaseOptional",
     "SubscriberCreate",
+    "SubscriberCreateOptional",
 ]

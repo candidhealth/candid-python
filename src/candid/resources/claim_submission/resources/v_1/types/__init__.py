@@ -4,6 +4,14 @@
 
 from .claim_frequency_type_code import ClaimFrequencyTypeCode
 from .claim_submission_record_create import ClaimSubmissionRecordCreate
+from .claim_submission_record_create_optional import ClaimSubmissionRecordCreateOptional
 from .external_claim_submission_create import ExternalClaimSubmissionCreate
+from .external_claim_submission_create_optional import ExternalClaimSubmissionCreateOptional
 
-__all__ = ["ClaimFrequencyTypeCode", "ClaimSubmissionRecordCreate", "ExternalClaimSubmissionCreate"]
+__all__ = [
+    "ClaimFrequencyTypeCode",
+    "ClaimSubmissionRecordCreate",
+    "ClaimSubmissionRecordCreateOptional",
+    "ExternalClaimSubmissionCreate",
+    "ExternalClaimSubmissionCreateOptional",
+]

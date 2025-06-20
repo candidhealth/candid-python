@@ -62,7 +62,7 @@ class EncounterCreateFromPreEncounter(EncounterBase):
 
     clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = pydantic.Field(default=None)
     """
-    Holds a collection of clinical observations made by healthcare providers during patient encounters.
+    Holds a collection of clinical observations made by healthcare providers during patient encounters. Please note that medical records for appeals should be sent using the Encounter Attachments API.
     """
 
     billing_notes: typing.Optional[typing.List[BillingNoteBase]] = pydantic.Field(default=None)

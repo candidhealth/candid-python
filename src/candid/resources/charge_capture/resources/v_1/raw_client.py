@@ -52,6 +52,8 @@ class RawV1Client:
         charge_external_id: str,
         patient_external_id: str,
         status: ChargeCaptureStatus,
+        originating_system: typing.Optional[str] = OMIT,
+        claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ChargeCapture]:
@@ -70,6 +72,12 @@ class RawV1Client:
         status : ChargeCaptureStatus
             the status of the charge capture
 
+        originating_system : typing.Optional[str]
+            An optional string field denoting the originating system of the charge.
+
+        claim_creation_category : typing.Optional[str]
+            An optional string field denoting the user defined category of the claim creation.
+
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
 
@@ -87,6 +95,8 @@ class RawV1Client:
             json={
                 "data": data,
                 "charge_external_id": charge_external_id,
+                "originating_system": originating_system,
+                "claim_creation_category": claim_creation_category,
                 "ehr_source_url": ehr_source_url,
                 "patient_external_id": patient_external_id,
                 "status": status,
@@ -183,6 +193,8 @@ class RawV1Client:
         data: typing.Optional[ChargeCaptureData] = OMIT,
         charge_external_id: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
+        originating_system: typing.Optional[str] = OMIT,
+        claim_creation_category: typing.Optional[str] = OMIT,
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -202,6 +214,12 @@ class RawV1Client:
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page).
             Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+
+        originating_system : typing.Optional[str]
+            An optional string field denoting the originating system of the charge.
+
+        claim_creation_category : typing.Optional[str]
+            An optional string field denoting the user defined category of the claim creation.
 
         patient_external_id : typing.Optional[str]
             The patient ID from the external EMR platform for the patient
@@ -224,6 +242,8 @@ class RawV1Client:
                 "data": data,
                 "charge_external_id": charge_external_id,
                 "ehr_source_url": ehr_source_url,
+                "originating_system": originating_system,
+                "claim_creation_category": claim_creation_category,
                 "patient_external_id": patient_external_id,
                 "status": status,
             },
@@ -641,6 +661,8 @@ class AsyncRawV1Client:
         charge_external_id: str,
         patient_external_id: str,
         status: ChargeCaptureStatus,
+        originating_system: typing.Optional[str] = OMIT,
+        claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ChargeCapture]:
@@ -659,6 +681,12 @@ class AsyncRawV1Client:
         status : ChargeCaptureStatus
             the status of the charge capture
 
+        originating_system : typing.Optional[str]
+            An optional string field denoting the originating system of the charge.
+
+        claim_creation_category : typing.Optional[str]
+            An optional string field denoting the user defined category of the claim creation.
+
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
 
@@ -676,6 +704,8 @@ class AsyncRawV1Client:
             json={
                 "data": data,
                 "charge_external_id": charge_external_id,
+                "originating_system": originating_system,
+                "claim_creation_category": claim_creation_category,
                 "ehr_source_url": ehr_source_url,
                 "patient_external_id": patient_external_id,
                 "status": status,
@@ -772,6 +802,8 @@ class AsyncRawV1Client:
         data: typing.Optional[ChargeCaptureData] = OMIT,
         charge_external_id: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
+        originating_system: typing.Optional[str] = OMIT,
+        claim_creation_category: typing.Optional[str] = OMIT,
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -791,6 +823,12 @@ class AsyncRawV1Client:
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page).
             Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+
+        originating_system : typing.Optional[str]
+            An optional string field denoting the originating system of the charge.
+
+        claim_creation_category : typing.Optional[str]
+            An optional string field denoting the user defined category of the claim creation.
 
         patient_external_id : typing.Optional[str]
             The patient ID from the external EMR platform for the patient
@@ -813,6 +851,8 @@ class AsyncRawV1Client:
                 "data": data,
                 "charge_external_id": charge_external_id,
                 "ehr_source_url": ehr_source_url,
+                "originating_system": originating_system,
+                "claim_creation_category": claim_creation_category,
                 "patient_external_id": patient_external_id,
                 "status": status,
             },

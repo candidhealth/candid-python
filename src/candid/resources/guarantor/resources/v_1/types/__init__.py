@@ -7,6 +7,7 @@ from .guarantor import Guarantor
 from .guarantor_base import GuarantorBase
 from .guarantor_create import GuarantorCreate
 from .guarantor_id import GuarantorId
+from .guarantor_optional import GuarantorOptional
 from .guarantor_update import GuarantorUpdate
 
 __all__ = [
@@ -15,5 +16,6 @@ __all__ = [
     "GuarantorBase",
     "GuarantorCreate",
     "GuarantorId",
+    "GuarantorOptional",
     "GuarantorUpdate",
 ]

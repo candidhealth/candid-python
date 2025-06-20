@@ -4,6 +4,7 @@
 
 from .billing_note import BillingNote
 from .billing_note_base import BillingNoteBase
+from .billing_note_base_optional import BillingNoteBaseOptional
 from .billing_note_id import BillingNoteId
 
-__all__ = ["BillingNote", "BillingNoteBase", "BillingNoteId"]
+__all__ = ["BillingNote", "BillingNoteBase", "BillingNoteBaseOptional", "BillingNoteId"]

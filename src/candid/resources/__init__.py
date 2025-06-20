@@ -57,6 +57,7 @@ from . import (
     tasks,
     write_offs,
     x_12,
+    yes_no_indicator,
 )
 from .claims import Claim, ClaimStatus
 from .commons import (
@@ -103,6 +104,7 @@ from .commons import (
     PatientRelationshipToInsuredCodeAll,
     PayerPlanGroupId,
     PhoneNumber,
+    PhoneNumberOptional,
     PhoneNumberType,
     PreEncounterAppointmentId,
     PreEncounterPatientId,
@@ -130,6 +132,7 @@ from .commons import (
     State,
     StreetAddressBase,
     StreetAddressLongZip,
+    StreetAddressLongZipOptional,
     StreetAddressOptionalBase,
     StreetAddressShortZip,
     StreetAddressShortZipOptional,
@@ -149,6 +152,7 @@ from .commons import (
 from .diagnoses import (
     Diagnosis,
     DiagnosisCreate,
+    DiagnosisCreateOptional,
     DiagnosisId,
     DiagnosisNotFoundError,
     DiagnosisNotFoundHttpError,
@@ -211,6 +215,7 @@ from .identifiers import (
 from .individual import (
     Gender,
     IndividualBase,
+    IndividualBaseOptional,
     IndividualId,
     Patient,
     PatientBase,
@@ -219,11 +224,14 @@ from .individual import (
     PatientCreate,
     PatientNonInsurancePayerInfo,
     PatientNonInsurancePayerInfoCreate,
+    PatientNonInsurancePayerInfoCreateOptional,
     PatientUpdate,
     PatientUpdateWithOptionalAddress,
     Subscriber,
     SubscriberBase,
+    SubscriberBaseOptional,
     SubscriberCreate,
+    SubscriberCreateOptional,
 )
 from .invoices import Invoice, InvoiceItem, InvoiceStatus
 from .payment_account_configs import PaymentAccountConfigId
@@ -236,6 +244,7 @@ from .service_facility import (
     ServiceFacilityId,
 )
 from .tags import Tag, TagColorEnum, TagCreate, TagId
+from .yes_no_indicator import YesNoIndicator
 
 __all__ = [
     "AccountType",
@@ -278,6 +287,7 @@ __all__ = [
     "DelayReasonCode",
     "Diagnosis",
     "DiagnosisCreate",
+    "DiagnosisCreateOptional",
     "DiagnosisId",
     "DiagnosisNotFoundError",
     "DiagnosisNotFoundHttpError",
@@ -317,6 +327,7 @@ __all__ = [
     "IdentifierValue_MedicaidProviderIdentifier",
     "IdentifierValue_MedicareProviderIdentifier",
     "IndividualBase",
+    "IndividualBaseOptional",
     "IndividualId",
     "InsuranceTypeCode",
     "IntendedSubmissionMedium",
@@ -347,6 +358,7 @@ __all__ = [
     "PatientExternalId",
     "PatientNonInsurancePayerInfo",
     "PatientNonInsurancePayerInfoCreate",
+    "PatientNonInsurancePayerInfoCreateOptional",
     "PatientRelationshipToInsuredCodeAll",
     "PatientTransactionSource",
     "PatientUpdate",
@@ -354,6 +366,7 @@ __all__ = [
     "PayerPlanGroupId",
     "PaymentAccountConfigId",
     "PhoneNumber",
+    "PhoneNumberOptional",
     "PhoneNumberType",
     "PreEncounterAppointmentId",
     "PreEncounterPatientId",
@@ -388,12 +401,15 @@ __all__ = [
     "State",
     "StreetAddressBase",
     "StreetAddressLongZip",
+    "StreetAddressLongZipOptional",
     "StreetAddressOptionalBase",
     "StreetAddressShortZip",
     "StreetAddressShortZipOptional",
     "Subscriber",
     "SubscriberBase",
+    "SubscriberBaseOptional",
     "SubscriberCreate",
+    "SubscriberCreateOptional",
     "Tag",
     "TagColorEnum",
     "TagCreate",
@@ -414,6 +430,7 @@ __all__ = [
     "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage",
     "UserId",
     "WorkQueueId",
+    "YesNoIndicator",
     "auth",
     "billing_notes",
     "charge_capture",
@@ -468,4 +485,5 @@ __all__ = [
     "tasks",
     "write_offs",
     "x_12",
+    "yes_no_indicator",
 ]

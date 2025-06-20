@@ -2,6 +2,6 @@
 
 # isort: skip_file
 
-from .types import BillingNote, BillingNoteBase, BillingNoteId
+from .types import BillingNote, BillingNoteBase, BillingNoteBaseOptional, BillingNoteId
 
-__all__ = ["BillingNote", "BillingNoteBase", "BillingNoteId"]
+__all__ = ["BillingNote", "BillingNoteBase", "BillingNoteBaseOptional", "BillingNoteId"]

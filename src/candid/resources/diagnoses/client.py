@@ -4,6 +4,7 @@ import typing
 
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ...core.request_options import RequestOptions
+from ..yes_no_indicator.types.yes_no_indicator import YesNoIndicator
 from .raw_client import AsyncRawDiagnosesClient, RawDiagnosesClient
 from .types.diagnosis import Diagnosis
 from .types.diagnosis_id import DiagnosisId
@@ -80,6 +81,7 @@ class DiagnosesClient:
         name: typing.Optional[str] = OMIT,
         code_type: typing.Optional[DiagnosisTypeCode] = OMIT,
         code: typing.Optional[str] = OMIT,
+        present_on_admission_indicator: typing.Optional[YesNoIndicator] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Diagnosis:
         """
@@ -105,6 +107,12 @@ class DiagnosesClient:
               - (Optional) Period `.`
               - Up to 4 (or as few as 0) letters and digits
 
+        present_on_admission_indicator : typing.Optional[YesNoIndicator]
+            For Institutional claims only.
+            A "Y" indicates that the onset occurred prior to admission to the hospital.
+            An "N" indicates that the onset did NOT occur prior to admission to the hospital.
+            A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -129,7 +137,12 @@ class DiagnosesClient:
         )
         """
         _response = self._raw_client.update(
-            diagnosis_id, name=name, code_type=code_type, code=code, request_options=request_options
+            diagnosis_id,
+            name=name,
+            code_type=code_type,
+            code=code,
+            present_on_admission_indicator=present_on_admission_indicator,
+            request_options=request_options,
         )
         return _response.data
 
@@ -241,6 +254,7 @@ class AsyncDiagnosesClient:
         name: typing.Optional[str] = OMIT,
         code_type: typing.Optional[DiagnosisTypeCode] = OMIT,
         code: typing.Optional[str] = OMIT,
+        present_on_admission_indicator: typing.Optional[YesNoIndicator] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Diagnosis:
         """
@@ -265,6 +279,12 @@ class AsyncDiagnosesClient:
               - Digit or the letter `A` or `B`
               - (Optional) Period `.`
               - Up to 4 (or as few as 0) letters and digits
+
+        present_on_admission_indicator : typing.Optional[YesNoIndicator]
+            For Institutional claims only.
+            A "Y" indicates that the onset occurred prior to admission to the hospital.
+            An "N" indicates that the onset did NOT occur prior to admission to the hospital.
+            A "U" indicates that it is unknown whether the onset occurred prior to admission to the hospital or not.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -297,7 +317,12 @@ class AsyncDiagnosesClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.update(
-            diagnosis_id, name=name, code_type=code_type, code=code, request_options=request_options
+            diagnosis_id,
+            name=name,
+            code_type=code_type,
+            code=code,
+            present_on_admission_indicator=present_on_admission_indicator,
+            request_options=request_options,
         )
         return _response.data
 

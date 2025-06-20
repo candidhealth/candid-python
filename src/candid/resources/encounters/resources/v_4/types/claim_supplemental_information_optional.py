@@ -4,28 +4,14 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .report_transmission_code import ReportTransmissionCode
+from .report_type_code import ReportTypeCode
 
 
-class AuthGetTokenResponse(UniversalBaseModel):
-    """
-    Examples
-    --------
-    from candid.resources.auth.resources.v_2 import AuthGetTokenResponse
-
-    AuthGetTokenResponse(
-        access_token="eyJz93a...k4laUWw",
-        expires_in=86400,
-        token_type="Bearer",
-    )
-    """
-
-    access_token: str
-    expires_in: int = pydantic.Field()
-    """
-    Time in seconds.
-    """
-
-    token_type: str
+class ClaimSupplementalInformationOptional(UniversalBaseModel):
+    attachment_report_type_code: typing.Optional[ReportTypeCode] = None
+    attachment_transmission_code: typing.Optional[ReportTransmissionCode] = None
+    attachment_control_number: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
