@@ -74,6 +74,11 @@ class ServiceLineCreate(UniversalBaseModel):
     No more than 5 MEA-02 test results may be submitted per service line.
     """
 
+    note: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Maps to NTE02 loop 2400 on the EDI 837.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

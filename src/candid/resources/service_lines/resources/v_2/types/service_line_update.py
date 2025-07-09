@@ -79,6 +79,11 @@ class ServiceLineUpdate(UniversalBaseModel):
     If the value is true, the box will be populated with "Y". Otherwise, the box will not be populated.
     """
 
+    note: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Maps to NTE02 loop 2400 on the EDI 837.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

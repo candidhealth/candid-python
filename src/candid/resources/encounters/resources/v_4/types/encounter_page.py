@@ -21,6 +21,7 @@ class EncounterPage(ResourcePage):
         DateRangeOptionalEnd,
         FacilityTypeCode,
         InsuranceTypeCode,
+        NextResponsibleParty,
         PatientRelationshipToInsuredCodeAll,
         PhoneNumber,
         PhoneNumberType,
@@ -675,6 +676,7 @@ class EncounterPage(ResourcePage):
                 created_at=datetime.datetime.fromisoformat(
                     "2023-01-01 00:00:00+00:00",
                 ),
+                next_responsible_party=NextResponsibleParty.PRIMARY,
             )
         ],
     )

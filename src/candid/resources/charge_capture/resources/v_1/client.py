@@ -11,6 +11,8 @@ from ....commons.types.charge_capture_post_billed_change_id import ChargeCapture
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.page_token import PageToken
 from ....commons.types.sort_direction import SortDirection
+from ....encounters.resources.v_4.types.billable_status_type import BillableStatusType
+from ....encounters.resources.v_4.types.responsible_party_type import ResponsiblePartyType
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.charge_capture import ChargeCapture
 from .types.charge_capture_data import ChargeCaptureData
@@ -252,6 +254,9 @@ class V1Client:
         charge_external_id_ranked_sort: typing.Optional[str] = None,
         date_of_service_min_ranked_sort: typing.Optional[dt.date] = None,
         date_of_service_max_ranked_sort: typing.Optional[dt.date] = None,
+        search_term: typing.Optional[str] = None,
+        billable_status: typing.Optional[BillableStatusType] = None,
+        responsible_party: typing.Optional[ResponsiblePartyType] = None,
         claim_ids_ranked_sort: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
         claim_creation_ids_ranked_sort: typing.Optional[
             typing.Union[ChargeCaptureClaimCreationId, typing.Sequence[ChargeCaptureClaimCreationId]]
@@ -347,6 +352,17 @@ class V1Client:
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
+        search_term : typing.Optional[str]
+            Filter by any of the following fields: charge_id, claim_id, patient external_id,
+            patient date of birth, patient first name, patient last name,
+            or charge external id.
+
+        billable_status : typing.Optional[BillableStatusType]
+            Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+
+        responsible_party : typing.Optional[ResponsiblePartyType]
+            Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
+
         claim_ids_ranked_sort : typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]]
             A list of claim IDs to show first. This will return all charge captures that have a resulting claim with one of the IDs in this list.
 
@@ -416,6 +432,9 @@ class V1Client:
             charge_external_id_ranked_sort=charge_external_id_ranked_sort,
             date_of_service_min_ranked_sort=date_of_service_min_ranked_sort,
             date_of_service_max_ranked_sort=date_of_service_max_ranked_sort,
+            search_term=search_term,
+            billable_status=billable_status,
+            responsible_party=responsible_party,
             claim_ids_ranked_sort=claim_ids_ranked_sort,
             claim_creation_ids_ranked_sort=claim_creation_ids_ranked_sort,
             billing_provider_npis_ranked_sort=billing_provider_npis_ranked_sort,
@@ -733,6 +752,9 @@ class AsyncV1Client:
         charge_external_id_ranked_sort: typing.Optional[str] = None,
         date_of_service_min_ranked_sort: typing.Optional[dt.date] = None,
         date_of_service_max_ranked_sort: typing.Optional[dt.date] = None,
+        search_term: typing.Optional[str] = None,
+        billable_status: typing.Optional[BillableStatusType] = None,
+        responsible_party: typing.Optional[ResponsiblePartyType] = None,
         claim_ids_ranked_sort: typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]] = None,
         claim_creation_ids_ranked_sort: typing.Optional[
             typing.Union[ChargeCaptureClaimCreationId, typing.Sequence[ChargeCaptureClaimCreationId]]
@@ -828,6 +850,17 @@ class AsyncV1Client:
             Date formatted as YYYY-MM-DD; eg: 2019-08-24.
             This date must be the local date in the timezone where the service occurred.
 
+        search_term : typing.Optional[str]
+            Filter by any of the following fields: charge_id, claim_id, patient external_id,
+            patient date of birth, patient first name, patient last name,
+            or charge external id.
+
+        billable_status : typing.Optional[BillableStatusType]
+            Defines if the Encounter is to be billed by Candid to the responsible_party. Examples for when this should be set to NOT_BILLABLE include if the Encounter has not occurred yet or if there is no intention of ever billing the responsible_party.
+
+        responsible_party : typing.Optional[ResponsiblePartyType]
+            Defines the party to be billed with the initial balance owed on the claim. Use SELF_PAY if you intend to bill self pay/cash pay.
+
         claim_ids_ranked_sort : typing.Optional[typing.Union[EncounterId, typing.Sequence[EncounterId]]]
             A list of claim IDs to show first. This will return all charge captures that have a resulting claim with one of the IDs in this list.
 
@@ -905,6 +938,9 @@ class AsyncV1Client:
             charge_external_id_ranked_sort=charge_external_id_ranked_sort,
             date_of_service_min_ranked_sort=date_of_service_min_ranked_sort,
             date_of_service_max_ranked_sort=date_of_service_max_ranked_sort,
+            search_term=search_term,
+            billable_status=billable_status,
+            responsible_party=responsible_party,
             claim_ids_ranked_sort=claim_ids_ranked_sort,
             claim_creation_ids_ranked_sort=claim_creation_ids_ranked_sort,
             billing_provider_npis_ranked_sort=billing_provider_npis_ranked_sort,

@@ -11,6 +11,7 @@ from .....commons.types.charge_capture_claim_creation_id import ChargeCaptureCla
 from .....commons.types.encounter_id import EncounterId
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.link_url import LinkUrl
+from .....commons.types.next_responsible_party import NextResponsibleParty
 from .....commons.types.work_queue_id import WorkQueueId
 from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from .....diagnoses.types.diagnosis import Diagnosis
@@ -46,6 +47,7 @@ class Encounter(EncounterBase):
         DateRangeOptionalEnd,
         FacilityTypeCode,
         InsuranceTypeCode,
+        NextResponsibleParty,
         PatientRelationshipToInsuredCodeAll,
         PhoneNumber,
         PhoneNumberType,
@@ -697,6 +699,7 @@ class Encounter(EncounterBase):
         created_at=datetime.datetime.fromisoformat(
             "2023-01-01 00:00:00+00:00",
         ),
+        next_responsible_party=NextResponsibleParty.PRIMARY,
     )
     """
 
@@ -859,6 +862,11 @@ class Encounter(EncounterBase):
     created_at: dt.datetime = pydantic.Field()
     """
     The date and time the encounter was created.
+    """
+
+    next_responsible_party: typing.Optional[NextResponsibleParty] = pydantic.Field(default=None)
+    """
+    The party (payer, patient, etc.) responsible for the remainder of the balance on the claim.
     """
 
     if IS_PYDANTIC_V2:
