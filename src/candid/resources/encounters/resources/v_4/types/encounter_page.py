@@ -580,7 +580,7 @@ class EncounterPage(ResourcePage):
                     )
                 ],
                 coding_attribution=CodingAttributionType.CANDID,
-                work_queue_id="000856FE-1024-418F-BF96-2E7347AB4520",
+                work_queue_id="12",
                 work_queue_membership_activated_at=datetime.datetime.fromisoformat(
                     "2023-01-01 00:00:00+00:00",
                 ),
