@@ -3,6 +3,7 @@
 # isort: skip_file
 
 from .batch_eligibility_response import BatchEligibilityResponse
+from .coordination_of_benefits_recommendation import CoordinationOfBenefitsRecommendation
 from .eligibility_check import EligibilityCheck
 from .eligibility_check_error import EligibilityCheckError
 from .eligibility_check_error_details import EligibilityCheckErrorDetails
@@ -10,18 +11,32 @@ from .eligibility_check_error_source import EligibilityCheckErrorSource
 from .eligibility_check_metadata import EligibilityCheckMetadata
 from .eligibility_check_page import EligibilityCheckPage
 from .eligibility_check_status import EligibilityCheckStatus
+from .eligibility_recommendation import EligibilityRecommendation
+from .eligibility_recommendation_patient_info import EligibilityRecommendationPatientInfo
+from .eligibility_recommendation_payload import (
+    EligibilityRecommendationPayload,
+    EligibilityRecommendationPayload_CoordinationOfBenefits,
+    EligibilityRecommendationPayload_MedicareAdvantage,
+)
 from .eligibility_request import EligibilityRequest
 from .eligibility_response import EligibilityResponse
 from .eligibility_status import EligibilityStatus
 from .encounter import Encounter
 from .individual_provider import IndividualProvider
+from .medicare_advantage_recommendation import MedicareAdvantageRecommendation
+from .medicare_advantage_recommendation_payload import MedicareAdvantageRecommendationPayload
 from .organization_provider import OrganizationProvider
 from .parsed_response import ParsedResponse
+from .payer_search_response import PayerSearchResponse
+from .post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
 from .provider import Provider
 from .request_correction import RequestCorrection
+from .stedi_payer import StediPayer
+from .stedi_payer_item import StediPayerItem
 
 __all__ = [
     "BatchEligibilityResponse",
+    "CoordinationOfBenefitsRecommendation",
     "EligibilityCheck",
     "EligibilityCheckError",
     "EligibilityCheckErrorDetails",
@@ -29,13 +44,24 @@ __all__ = [
     "EligibilityCheckMetadata",
     "EligibilityCheckPage",
     "EligibilityCheckStatus",
+    "EligibilityRecommendation",
+    "EligibilityRecommendationPatientInfo",
+    "EligibilityRecommendationPayload",
+    "EligibilityRecommendationPayload_CoordinationOfBenefits",
+    "EligibilityRecommendationPayload_MedicareAdvantage",
     "EligibilityRequest",
     "EligibilityResponse",
     "EligibilityStatus",
     "Encounter",
     "IndividualProvider",
+    "MedicareAdvantageRecommendation",
+    "MedicareAdvantageRecommendationPayload",
     "OrganizationProvider",
     "ParsedResponse",
+    "PayerSearchResponse",
+    "PostEligibilityRecommendationRequest",
     "Provider",
     "RequestCorrection",
+    "StediPayer",
+    "StediPayerItem",
 ]

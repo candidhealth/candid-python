@@ -6,14 +6,12 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class MutableTag(UniversalBaseModel):
+class CoordinationOfBenefitsRecommendation(UniversalBaseModel):
     """
-    An object representing a Tag.
+    An object representing a Coordination Of Benefits recommendation.
     """
 
-    value: str
-    description: typing.Optional[str] = None
-    alert: typing.Optional[bool] = None
+    payload: typing.Optional[typing.Any] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

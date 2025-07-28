@@ -10,10 +10,10 @@ from .......core.pydantic_utilities import parse_obj_as
 from .......core.request_options import RequestOptions
 from ....common.errors.bad_request_error import BadRequestError
 from ....common.types.error_base_4_xx import ErrorBase4Xx
+from ....common.types.filter_query_string import FilterQueryString
 from ....common.types.page_token import PageToken
 from ....common.types.sort_direction import SortDirection
 from .types.appointment_list_page import AppointmentListPage
-from .types.filter_query_string import FilterQueryString
 from .types.patient_list_page import PatientListPage
 from .types.sort_field_string import SortFieldString
 

@@ -6,14 +6,17 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class MutableTag(UniversalBaseModel):
-    """
-    An object representing a Tag.
-    """
-
-    value: str
-    description: typing.Optional[str] = None
-    alert: typing.Optional[bool] = None
+class StediPayer(UniversalBaseModel):
+    stedi_id: str
+    display_name: str
+    primary_payer_id: str
+    aliases: typing.List[str]
+    names: typing.List[str]
+    transaction_support: typing.Optional[typing.Any] = None
+    employer_identification_numbers: typing.Optional[typing.List[str]] = None
+    payer_enrollment: typing.Optional[typing.Any] = None
+    parent_payer_group: typing.Optional[str] = None
+    coverage_types: typing.Optional[typing.List[str]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

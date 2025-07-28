@@ -5,15 +5,19 @@
 from .types import GetExportsResponse
 from .errors import (
     ExportDateTooEarlyError,
+    ExportDisabledError,
     ExportFilesUnavailableError,
     ExportNotYetAvailableError,
     MissingDailyIncrementalExportFileError,
+    UnsupportedExportWindowError,
 )
 
 __all__ = [
     "ExportDateTooEarlyError",
+    "ExportDisabledError",
     "ExportFilesUnavailableError",
     "ExportNotYetAvailableError",
     "GetExportsResponse",
     "MissingDailyIncrementalExportFileError",
+    "UnsupportedExportWindowError",
 ]

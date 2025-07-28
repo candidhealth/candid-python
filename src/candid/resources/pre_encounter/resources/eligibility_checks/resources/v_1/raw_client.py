@@ -9,10 +9,15 @@ from .......core.http_response import AsyncHttpResponse, HttpResponse
 from .......core.jsonable_encoder import jsonable_encoder
 from .......core.pydantic_utilities import parse_obj_as
 from .......core.request_options import RequestOptions
+from ....common.types.filter_query_string import FilterQueryString
+from ....common.types.page_token import PageToken
 from .types.batch_eligibility_response import BatchEligibilityResponse
 from .types.eligibility_check_page import EligibilityCheckPage
+from .types.eligibility_recommendation import EligibilityRecommendation
 from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
+from .types.payer_search_response import PayerSearchResponse
+from .types.post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -104,7 +109,11 @@ class RawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def poll_batch(
-        self, batch_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        batch_id: str,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EligibilityCheckPage]:
         """
         Polls the status of a batch eligibility check.
@@ -114,6 +123,8 @@ class RawV1Client:
         Parameters
         ----------
         batch_id : str
+
+        page_token : typing.Optional[PageToken]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -126,6 +137,9 @@ class RawV1Client:
             f"eligibility-checks/v1/batch/{jsonable_encoder(batch_id)}",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="GET",
+            params={
+                "page_token": page_token,
+            },
             request_options=request_options,
         )
         try:
@@ -137,6 +151,142 @@ class RawV1Client:
                 EligibilityCheckPage,
                 parse_obj_as(
                     type_=EligibilityCheckPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def payer_search(
+        self,
+        *,
+        page_size: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        query: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[PayerSearchResponse]:
+        """
+        Searches for payers that match the query parameters.
+
+        Parameters
+        ----------
+        page_size : typing.Optional[int]
+
+        page_token : typing.Optional[PageToken]
+
+        query : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[PayerSearchResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/payer/search",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "page_size": page_size,
+                "page_token": page_token,
+                "query": query,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                PayerSearchResponse,
+                parse_obj_as(
+                    type_=PayerSearchResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def recommendation(
+        self,
+        *,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[typing.List[EligibilityRecommendation]]:
+        """
+        Gets recommendation for eligibility checks based on the request.
+
+        Parameters
+        ----------
+        filters : typing.Optional[FilterQueryString]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[typing.List[EligibilityRecommendation]]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/recommendation",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "filters": filters,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[EligibilityRecommendation],
+                parse_obj_as(
+                    type_=typing.List[EligibilityRecommendation],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def create_recommendation(
+        self, *, request: PostEligibilityRecommendationRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[EligibilityRecommendation]:
+        """
+        Create an eligibiilty recommendation based on the request.
+
+        Parameters
+        ----------
+        request : PostEligibilityRecommendationRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[EligibilityRecommendation]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/recommendation",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityRecommendation,
+                parse_obj_as(
+                    type_=EligibilityRecommendation,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -230,7 +380,11 @@ class AsyncRawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def poll_batch(
-        self, batch_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        batch_id: str,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EligibilityCheckPage]:
         """
         Polls the status of a batch eligibility check.
@@ -240,6 +394,8 @@ class AsyncRawV1Client:
         Parameters
         ----------
         batch_id : str
+
+        page_token : typing.Optional[PageToken]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -252,6 +408,9 @@ class AsyncRawV1Client:
             f"eligibility-checks/v1/batch/{jsonable_encoder(batch_id)}",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="GET",
+            params={
+                "page_token": page_token,
+            },
             request_options=request_options,
         )
         try:
@@ -263,6 +422,142 @@ class AsyncRawV1Client:
                 EligibilityCheckPage,
                 parse_obj_as(
                     type_=EligibilityCheckPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def payer_search(
+        self,
+        *,
+        page_size: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        query: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[PayerSearchResponse]:
+        """
+        Searches for payers that match the query parameters.
+
+        Parameters
+        ----------
+        page_size : typing.Optional[int]
+
+        page_token : typing.Optional[PageToken]
+
+        query : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[PayerSearchResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/payer/search",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "page_size": page_size,
+                "page_token": page_token,
+                "query": query,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                PayerSearchResponse,
+                parse_obj_as(
+                    type_=PayerSearchResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def recommendation(
+        self,
+        *,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[typing.List[EligibilityRecommendation]]:
+        """
+        Gets recommendation for eligibility checks based on the request.
+
+        Parameters
+        ----------
+        filters : typing.Optional[FilterQueryString]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[typing.List[EligibilityRecommendation]]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/recommendation",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "filters": filters,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[EligibilityRecommendation],
+                parse_obj_as(
+                    type_=typing.List[EligibilityRecommendation],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def create_recommendation(
+        self, *, request: PostEligibilityRecommendationRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[EligibilityRecommendation]:
+        """
+        Create an eligibiilty recommendation based on the request.
+
+        Parameters
+        ----------
+        request : PostEligibilityRecommendationRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[EligibilityRecommendation]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/recommendation",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityRecommendation,
+                parse_obj_as(
+                    type_=EligibilityRecommendation,  # type: ignore
                     object_=_response_json,
                 ),
             )

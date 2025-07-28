@@ -9,9 +9,10 @@ from .types import (
     DiagnosisId,
     DiagnosisNotFoundError,
     DiagnosisTypeCode,
+    ServiceLinesMustHaveAtLeastOneDiagnosisError,
     StandaloneDiagnosisCreate,
 )
-from .errors import DiagnosisNotFoundHttpError
+from .errors import DiagnosisNotFoundHttpError, ServiceLinesMustHaveAtLeastOneDiagnosisHttpError
 
 __all__ = [
     "Diagnosis",
@@ -21,5 +22,7 @@ __all__ = [
     "DiagnosisNotFoundError",
     "DiagnosisNotFoundHttpError",
     "DiagnosisTypeCode",
+    "ServiceLinesMustHaveAtLeastOneDiagnosisError",
+    "ServiceLinesMustHaveAtLeastOneDiagnosisHttpError",
     "StandaloneDiagnosisCreate",
 ]

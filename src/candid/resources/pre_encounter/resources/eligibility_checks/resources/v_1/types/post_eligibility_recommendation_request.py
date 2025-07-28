@@ -4,16 +4,14 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .eligibility_recommendation_patient_info import EligibilityRecommendationPatientInfo
+from .eligibility_recommendation_payload import EligibilityRecommendationPayload
 
 
-class MutableTag(UniversalBaseModel):
-    """
-    An object representing a Tag.
-    """
-
-    value: str
-    description: typing.Optional[str] = None
-    alert: typing.Optional[bool] = None
+class PostEligibilityRecommendationRequest(UniversalBaseModel):
+    eligibility_check_id: str
+    patient: EligibilityRecommendationPatientInfo
+    recommendation: EligibilityRecommendationPayload
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

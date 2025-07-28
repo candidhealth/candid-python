@@ -3,17 +3,15 @@
 import typing
 
 import pydantic
-from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ...commons.types.service_line_id import ServiceLineId
+from .diagnosis_id import DiagnosisId
 
 
-class MutableTag(UniversalBaseModel):
-    """
-    An object representing a Tag.
-    """
-
-    value: str
-    description: typing.Optional[str] = None
-    alert: typing.Optional[bool] = None
+class ServiceLinesMustHaveAtLeastOneDiagnosisError(UniversalBaseModel):
+    diagnosis_id: DiagnosisId
+    service_line_id: ServiceLineId
+    message: str
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

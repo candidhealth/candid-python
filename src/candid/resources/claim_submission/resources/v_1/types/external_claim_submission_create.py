@@ -15,7 +15,6 @@ class ExternalClaimSubmissionCreate(UniversalBaseModel):
     import datetime
 
     from candid.resources.claim_submission.resources.v_1 import (
-        ClaimFrequencyTypeCode,
         ClaimSubmissionRecordCreate,
         ExternalClaimSubmissionCreate,
     )
@@ -23,6 +22,7 @@ class ExternalClaimSubmissionCreate(UniversalBaseModel):
         ClaimSubmissionPayerResponsibilityType,
         IntendedSubmissionMedium,
     )
+    from candid.resources.x_12.resources.v_1 import TypeOfBillFrequencyCode
 
     ExternalClaimSubmissionCreate(
         claim_created_at=datetime.datetime.fromisoformat(
@@ -34,7 +34,7 @@ class ExternalClaimSubmissionCreate(UniversalBaseModel):
                 submitted_at=datetime.datetime.fromisoformat(
                     "2023-01-01 13:00:00+00:00",
                 ),
-                claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
+                claim_frequency_code=TypeOfBillFrequencyCode.C_1,
                 payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
                 intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
             ),
@@ -42,7 +42,7 @@ class ExternalClaimSubmissionCreate(UniversalBaseModel):
                 submitted_at=datetime.datetime.fromisoformat(
                     "2023-01-04 12:00:00+00:00",
                 ),
-                claim_frequency_code=ClaimFrequencyTypeCode.REPLACEMENT,
+                claim_frequency_code=TypeOfBillFrequencyCode.C_7,
                 payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
                 intended_submission_medium=IntendedSubmissionMedium.PAPER,
             ),

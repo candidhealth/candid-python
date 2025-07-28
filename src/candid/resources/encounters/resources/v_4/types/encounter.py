@@ -12,21 +12,30 @@ from .....commons.types.encounter_id import EncounterId
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.link_url import LinkUrl
 from .....commons.types.next_responsible_party import NextResponsibleParty
+from .....commons.types.state import State
 from .....commons.types.work_queue_id import WorkQueueId
 from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from .....diagnoses.types.diagnosis import Diagnosis
 from .....encounter_providers.resources.v_2.types.encounter_provider import EncounterProvider
+from .....encounter_providers.resources.v_2.types.rendering_provider import RenderingProvider
 from .....guarantor.resources.v_1.types.guarantor import Guarantor
 from .....individual.types.patient import Patient
 from .....individual.types.subscriber import Subscriber
 from .....patient_payments.resources.v_3.types.patient_payment import PatientPayment
 from .....service_facility.types.encounter_service_facility import EncounterServiceFacility
 from .....tags.types.tag import Tag
+from .....x_12.resources.v_1.types.patient_discharge_status_code import PatientDischargeStatusCode
+from .....x_12.resources.v_1.types.point_of_origin_for_admission_or_visit_code import (
+    PointOfOriginForAdmissionOrVisitCode,
+)
+from .....x_12.resources.v_1.types.type_of_admission_or_visit_code import TypeOfAdmissionOrVisitCode
+from .....x_12.resources.v_1.types.type_of_bill_composite import TypeOfBillComposite
 from .claim_supplemental_information import ClaimSupplementalInformation
 from .clinical_note_category import ClinicalNoteCategory
 from .coding_attribution_type import CodingAttributionType
 from .encounter_base import EncounterBase
 from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
+from .encounter_submission_expectation import EncounterSubmissionExpectation
 from .encounter_submission_origin_type import EncounterSubmissionOriginType
 from .epsdt_referral import EpsdtReferral
 from .patient_history_category import PatientHistoryCategory
@@ -703,6 +712,11 @@ class Encounter(EncounterBase):
     )
     """
 
+    accident_state_or_province_code: typing.Optional[State] = pydantic.Field(default=None)
+    """
+    837i-REF1000 -- an optional state indicating where an accident related to the encounter occurred.
+    """
+
     claim_creation_id: typing.Optional[ChargeCaptureClaimCreationId] = pydantic.Field(default=None)
     """
     If the encounter was created from ingested charge captures, this is the associated Charge Capture Claim Creation Id.
@@ -735,6 +749,63 @@ class Encounter(EncounterBase):
     """
     The rendering provider is the practitioner -- physician, nurse practitioner, etc. -- performing the service.
     For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
+    """
+
+    attending_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)
+    """
+    837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has overall responsibility for the patient in institutional claims processing.
+    """
+
+    admission_hour: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    837i Loop 2300 DTP-03
+    Extension of the admission date with hour (0-23) details.
+    Required for institutional submission.
+    """
+
+    admission_type_code: typing.Optional[TypeOfAdmissionOrVisitCode] = pydantic.Field(default=None)
+    """
+    837i Loop 2300 CL1-01
+    Code used to indicate the priority of an admission or visit.
+    """
+
+    admission_source_code: typing.Optional[PointOfOriginForAdmissionOrVisitCode] = pydantic.Field(default=None)
+    """
+    837i Loop 2300 CLI1-02
+    Code used to indicate the conditions under which an admission occurs.
+    """
+
+    discharge_hour: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    837i Loop 2300 DTP-03
+    Extension of the discharge date with hour (0-23) details.
+    Required for institutional submission.
+    """
+
+    discharge_status: typing.Optional[PatientDischargeStatusCode] = pydantic.Field(default=None)
+    """
+    837i CL1-03
+    Code indicating patient status as of the "statement covers through date".
+    """
+
+    operating_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)
+    """
+    837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has primary responsibility for surgical procedures in institutional claims processing.
+    """
+
+    other_operating_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)
+    """
+    837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has secondary responsibility for surgical procedures in institutional claims processing.  Only used when operating_provider is also set.
+    """
+
+    submission_expectation: typing.Optional[EncounterSubmissionExpectation] = pydantic.Field(default=None)
+    """
+    Describes the currently expected target form for this encounter.  This effects what validations and queues the form is processed under.  When this value is not set, it should be assumed to be TARGET_PROFESSIONAL.
+    """
+
+    type_of_bill: typing.Optional[TypeOfBillComposite] = pydantic.Field(default=None)
+    """
+    Used by institutional forms to indicate how the bill is to be interpreted. Professional forms are not required to submit this attribute.
     """
 
     referring_provider: typing.Optional[EncounterProvider] = None

@@ -3,17 +3,14 @@
 import typing
 
 import pydantic
-from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ........core.pydantic_utilities import IS_PYDANTIC_V2
+from .....common.types.resource_page import ResourcePage
+from .stedi_payer_item import StediPayerItem
 
 
-class MutableTag(UniversalBaseModel):
-    """
-    An object representing a Tag.
-    """
-
-    value: str
-    description: typing.Optional[str] = None
-    alert: typing.Optional[bool] = None
+class PayerSearchResponse(ResourcePage):
+    items: typing.List[StediPayerItem]
+    stats: typing.Optional[typing.Any] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

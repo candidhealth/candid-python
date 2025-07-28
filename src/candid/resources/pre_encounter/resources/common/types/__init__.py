@@ -21,6 +21,7 @@ from .ethnicity import Ethnicity
 from .external_identifier import ExternalIdentifier
 from .external_provider import ExternalProvider
 from .external_provider_type import ExternalProviderType
+from .filter_query_string import FilterQueryString
 from .gender import Gender
 from .human_name import HumanName
 from .name_use import NameUse
@@ -61,6 +62,7 @@ __all__ = [
     "ExternalIdentifier",
     "ExternalProvider",
     "ExternalProviderType",
+    "FilterQueryString",
     "Gender",
     "HumanName",
     "NameUse",

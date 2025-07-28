@@ -28,6 +28,11 @@ class V3Client:
         self, *, start_date: dt.date, end_date: dt.date, request_options: typing.Optional[RequestOptions] = None
     ) -> GetExportsResponse:
         """
+        <Warning>
+        API-based exports are in the process of being deprecated in favor of Candid Data Share and are not being offered to new customers.
+        Please see the [Candid Data Share docs](https://docs.joincandidhealth.com/introduction/candid-data-share) for more information.
+        </Warning>
+
         Retrieve CSV-formatted reports on claim submissions and outcomes. This endpoint returns Export objects that contain an
         authenticated URL to a customer's reports with a 2min TTL. The schema for the CSV export can be found [here](https://app.joincandidhealth.com/files/exports_schema.csv).
 
@@ -41,9 +46,6 @@ class V3Client:
         caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
         up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
         outside of these stated guarantees.
-
-        **New Customers:** This endpoint is not enabled by default for new Candid customers. To have this endpoint enabled for your organization,
-        please email our [Support team](mailto:support@joincandidhealth.com) with the request.
 
         Parameters
         ----------
@@ -106,6 +108,11 @@ class AsyncV3Client:
         self, *, start_date: dt.date, end_date: dt.date, request_options: typing.Optional[RequestOptions] = None
     ) -> GetExportsResponse:
         """
+        <Warning>
+        API-based exports are in the process of being deprecated in favor of Candid Data Share and are not being offered to new customers.
+        Please see the [Candid Data Share docs](https://docs.joincandidhealth.com/introduction/candid-data-share) for more information.
+        </Warning>
+
         Retrieve CSV-formatted reports on claim submissions and outcomes. This endpoint returns Export objects that contain an
         authenticated URL to a customer's reports with a 2min TTL. The schema for the CSV export can be found [here](https://app.joincandidhealth.com/files/exports_schema.csv).
 
@@ -119,9 +126,6 @@ class AsyncV3Client:
         caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
         up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
         outside of these stated guarantees.
-
-        **New Customers:** This endpoint is not enabled by default for new Candid customers. To have this endpoint enabled for your organization,
-        please email our [Support team](mailto:support@joincandidhealth.com) with the request.
 
         Parameters
         ----------

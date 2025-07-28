@@ -5932,6 +5932,11 @@ client.expected_network_status.v_2.compute_all_in_network_providers(
 <dl>
 <dd>
 
+<Warning>
+API-based exports are in the process of being deprecated in favor of Candid Data Share and are not being offered to new customers.
+Please see the [Candid Data Share docs](https://docs.joincandidhealth.com/introduction/candid-data-share) for more information.
+</Warning>
+
 Retrieve CSV-formatted reports on claim submissions and outcomes. This endpoint returns Export objects that contain an
 authenticated URL to a customer's reports with a 2min TTL. The schema for the CSV export can be found [here](https://app.joincandidhealth.com/files/exports_schema.csv).
 
@@ -5945,9 +5950,6 @@ available by Wednesday at the latest. If file generation is still in progress up
 caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
 up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
 outside of these stated guarantees.
-
-**New Customers:** This endpoint is not enabled by default for new Candid customers. To have this endpoint enabled for your organization,
-please email our [Support team](mailto:support@joincandidhealth.com) with the request.
 </dd>
 </dl>
 </dd>
@@ -15754,6 +15756,254 @@ client.pre_encounter.eligibility_checks.v_1.poll_batch(
 <dd>
 
 **batch_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">payer_search</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Searches for payers that match the query parameters.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.eligibility_checks.v_1.payer_search()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_size:** `typing.Optional[int]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**query:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">recommendation</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets recommendation for eligibility checks based on the request.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.eligibility_checks.v_1.recommendation()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**filters:** `typing.Optional[FilterQueryString]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">create_recommendation</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create an eligibiilty recommendation based on the request.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+    EligibilityRecommendationPatientInfo,
+    EligibilityRecommendationPayload_MedicareAdvantage,
+    MedicareAdvantageRecommendationPayload,
+    PostEligibilityRecommendationRequest,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.eligibility_checks.v_1.create_recommendation(
+    request=PostEligibilityRecommendationRequest(
+        eligibility_check_id="eligibility_check_id",
+        patient=EligibilityRecommendationPatientInfo(),
+        recommendation=EligibilityRecommendationPayload_MedicareAdvantage(
+            payload=MedicareAdvantageRecommendationPayload(
+                payer_id="payer_id",
+                payer_name="payer_name",
+            ),
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `PostEligibilityRecommendationRequest` 
     
 </dd>
 </dl>

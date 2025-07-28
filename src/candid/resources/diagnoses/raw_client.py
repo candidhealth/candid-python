@@ -11,10 +11,14 @@ from ...core.pydantic_utilities import parse_obj_as
 from ...core.request_options import RequestOptions
 from ..yes_no_indicator.types.yes_no_indicator import YesNoIndicator
 from .errors.diagnosis_not_found_http_error import DiagnosisNotFoundHttpError
+from .errors.service_lines_must_have_at_least_one_diagnosis_http_error import (
+    ServiceLinesMustHaveAtLeastOneDiagnosisHttpError,
+)
 from .types.diagnosis import Diagnosis
 from .types.diagnosis_id import DiagnosisId
 from .types.diagnosis_not_found_error import DiagnosisNotFoundError
 from .types.diagnosis_type_code import DiagnosisTypeCode
+from .types.service_lines_must_have_at_least_one_diagnosis_error import ServiceLinesMustHaveAtLeastOneDiagnosisError
 from .types.standalone_diagnosis_create import StandaloneDiagnosisCreate
 
 # this is used as the default value for optional parameters
@@ -192,6 +196,17 @@ class RawDiagnosesClient:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "ServiceLinesMustHaveAtLeastOneDiagnosisHTTPError":
+                raise ServiceLinesMustHaveAtLeastOneDiagnosisHttpError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ServiceLinesMustHaveAtLeastOneDiagnosisError,
+                        parse_obj_as(
+                            type_=ServiceLinesMustHaveAtLeastOneDiagnosisError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
@@ -362,6 +377,17 @@ class AsyncRawDiagnosesClient:
                         DiagnosisNotFoundError,
                         parse_obj_as(
                             type_=DiagnosisNotFoundError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "ServiceLinesMustHaveAtLeastOneDiagnosisHTTPError":
+                raise ServiceLinesMustHaveAtLeastOneDiagnosisHttpError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ServiceLinesMustHaveAtLeastOneDiagnosisError,
+                        parse_obj_as(
+                            type_=ServiceLinesMustHaveAtLeastOneDiagnosisError,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

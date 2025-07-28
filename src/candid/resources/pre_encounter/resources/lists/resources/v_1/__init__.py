@@ -2,20 +2,6 @@
 
 # isort: skip_file
 
-from .types import (
-    AppointmentListItem,
-    AppointmentListPage,
-    FilterQueryString,
-    PatientListItem,
-    PatientListPage,
-    SortFieldString,
-)
+from .types import AppointmentListItem, AppointmentListPage, PatientListItem, PatientListPage, SortFieldString
 
-__all__ = [
-    "AppointmentListItem",
-    "AppointmentListPage",
-    "FilterQueryString",
-    "PatientListItem",
-    "PatientListPage",
-    "SortFieldString",
-]
+__all__ = ["AppointmentListItem", "AppointmentListPage", "PatientListItem", "PatientListPage", "SortFieldString"]

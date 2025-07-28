@@ -4,16 +4,15 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .medicare_advantage_recommendation_payload import MedicareAdvantageRecommendationPayload
 
 
-class MutableTag(UniversalBaseModel):
+class MedicareAdvantageRecommendation(UniversalBaseModel):
     """
-    An object representing a Tag.
+    An object representing a Medicare Advantage recommendation.
     """
 
-    value: str
-    description: typing.Optional[str] = None
-    alert: typing.Optional[bool] = None
+    payload: MedicareAdvantageRecommendationPayload
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -4,11 +4,16 @@ import typing
 
 from .......core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .......core.request_options import RequestOptions
+from ....common.types.filter_query_string import FilterQueryString
+from ....common.types.page_token import PageToken
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.batch_eligibility_response import BatchEligibilityResponse
 from .types.eligibility_check_page import EligibilityCheckPage
+from .types.eligibility_recommendation import EligibilityRecommendation
 from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
+from .types.payer_search_response import PayerSearchResponse
+from .types.post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -139,7 +144,11 @@ class V1Client:
         return _response.data
 
     def poll_batch(
-        self, batch_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        batch_id: str,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EligibilityCheckPage:
         """
         Polls the status of a batch eligibility check.
@@ -149,6 +158,8 @@ class V1Client:
         Parameters
         ----------
         batch_id : str
+
+        page_token : typing.Optional[PageToken]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -169,7 +180,128 @@ class V1Client:
             batch_id="batch_id",
         )
         """
-        _response = self._raw_client.poll_batch(batch_id, request_options=request_options)
+        _response = self._raw_client.poll_batch(batch_id, page_token=page_token, request_options=request_options)
+        return _response.data
+
+    def payer_search(
+        self,
+        *,
+        page_size: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        query: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PayerSearchResponse:
+        """
+        Searches for payers that match the query parameters.
+
+        Parameters
+        ----------
+        page_size : typing.Optional[int]
+
+        page_token : typing.Optional[PageToken]
+
+        query : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PayerSearchResponse
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.payer_search()
+        """
+        _response = self._raw_client.payer_search(
+            page_size=page_size, page_token=page_token, query=query, request_options=request_options
+        )
+        return _response.data
+
+    def recommendation(
+        self,
+        *,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.List[EligibilityRecommendation]:
+        """
+        Gets recommendation for eligibility checks based on the request.
+
+        Parameters
+        ----------
+        filters : typing.Optional[FilterQueryString]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[EligibilityRecommendation]
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.recommendation()
+        """
+        _response = self._raw_client.recommendation(filters=filters, request_options=request_options)
+        return _response.data
+
+    def create_recommendation(
+        self, *, request: PostEligibilityRecommendationRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> EligibilityRecommendation:
+        """
+        Create an eligibiilty recommendation based on the request.
+
+        Parameters
+        ----------
+        request : PostEligibilityRecommendationRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityRecommendation
+
+        Examples
+        --------
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            EligibilityRecommendationPatientInfo,
+            EligibilityRecommendationPayload_MedicareAdvantage,
+            MedicareAdvantageRecommendationPayload,
+            PostEligibilityRecommendationRequest,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.create_recommendation(
+            request=PostEligibilityRecommendationRequest(
+                eligibility_check_id="eligibility_check_id",
+                patient=EligibilityRecommendationPatientInfo(),
+                recommendation=EligibilityRecommendationPayload_MedicareAdvantage(
+                    payload=MedicareAdvantageRecommendationPayload(
+                        payer_id="payer_id",
+                        payer_name="payer_name",
+                    ),
+                ),
+            ),
+        )
+        """
+        _response = self._raw_client.create_recommendation(request=request, request_options=request_options)
         return _response.data
 
 
@@ -314,7 +446,11 @@ class AsyncV1Client:
         return _response.data
 
     async def poll_batch(
-        self, batch_id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        batch_id: str,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> EligibilityCheckPage:
         """
         Polls the status of a batch eligibility check.
@@ -324,6 +460,8 @@ class AsyncV1Client:
         Parameters
         ----------
         batch_id : str
+
+        page_token : typing.Optional[PageToken]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -352,5 +490,150 @@ class AsyncV1Client:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.poll_batch(batch_id, request_options=request_options)
+        _response = await self._raw_client.poll_batch(batch_id, page_token=page_token, request_options=request_options)
+        return _response.data
+
+    async def payer_search(
+        self,
+        *,
+        page_size: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        query: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PayerSearchResponse:
+        """
+        Searches for payers that match the query parameters.
+
+        Parameters
+        ----------
+        page_size : typing.Optional[int]
+
+        page_token : typing.Optional[PageToken]
+
+        query : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PayerSearchResponse
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.payer_search()
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.payer_search(
+            page_size=page_size, page_token=page_token, query=query, request_options=request_options
+        )
+        return _response.data
+
+    async def recommendation(
+        self,
+        *,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.List[EligibilityRecommendation]:
+        """
+        Gets recommendation for eligibility checks based on the request.
+
+        Parameters
+        ----------
+        filters : typing.Optional[FilterQueryString]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[EligibilityRecommendation]
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.recommendation()
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.recommendation(filters=filters, request_options=request_options)
+        return _response.data
+
+    async def create_recommendation(
+        self, *, request: PostEligibilityRecommendationRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> EligibilityRecommendation:
+        """
+        Create an eligibiilty recommendation based on the request.
+
+        Parameters
+        ----------
+        request : PostEligibilityRecommendationRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityRecommendation
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            EligibilityRecommendationPatientInfo,
+            EligibilityRecommendationPayload_MedicareAdvantage,
+            MedicareAdvantageRecommendationPayload,
+            PostEligibilityRecommendationRequest,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.create_recommendation(
+                request=PostEligibilityRecommendationRequest(
+                    eligibility_check_id="eligibility_check_id",
+                    patient=EligibilityRecommendationPatientInfo(),
+                    recommendation=EligibilityRecommendationPayload_MedicareAdvantage(
+                        payload=MedicareAdvantageRecommendationPayload(
+                            payer_id="payer_id",
+                            payer_name="payer_name",
+                        ),
+                    ),
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create_recommendation(request=request, request_options=request_options)
         return _response.data

@@ -4,11 +4,11 @@ import typing
 
 from .......core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .......core.request_options import RequestOptions
+from ....common.types.filter_query_string import FilterQueryString
 from ....common.types.page_token import PageToken
 from ....common.types.sort_direction import SortDirection
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.appointment_list_page import AppointmentListPage
-from .types.filter_query_string import FilterQueryString
 from .types.patient_list_page import PatientListPage
 from .types.sort_field_string import SortFieldString
 

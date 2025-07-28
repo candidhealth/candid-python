@@ -4,16 +4,8 @@
 
 from .appointment_list_item import AppointmentListItem
 from .appointment_list_page import AppointmentListPage
-from .filter_query_string import FilterQueryString
 from .patient_list_item import PatientListItem
 from .patient_list_page import PatientListPage
 from .sort_field_string import SortFieldString
 
-__all__ = [
-    "AppointmentListItem",
-    "AppointmentListPage",
-    "FilterQueryString",
-    "PatientListItem",
-    "PatientListPage",
-    "SortFieldString",
-]
+__all__ = ["AppointmentListItem", "AppointmentListPage", "PatientListItem", "PatientListPage", "SortFieldString"]

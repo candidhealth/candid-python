@@ -4,16 +4,12 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .stedi_payer import StediPayer
 
 
-class MutableTag(UniversalBaseModel):
-    """
-    An object representing a Tag.
-    """
-
-    value: str
-    description: typing.Optional[str] = None
-    alert: typing.Optional[bool] = None
+class StediPayerItem(UniversalBaseModel):
+    score: int
+    payer: StediPayer
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

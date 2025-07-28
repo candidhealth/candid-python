@@ -3,7 +3,6 @@
 # isort: skip_file
 
 from .types import (
-    ClaimFrequencyTypeCode,
     ClaimSubmissionRecordCreate,
     ClaimSubmissionRecordCreateOptional,
     ExternalClaimSubmissionCreate,
@@ -11,7 +10,6 @@ from .types import (
 )
 
 __all__ = [
-    "ClaimFrequencyTypeCode",
     "ClaimSubmissionRecordCreate",
     "ClaimSubmissionRecordCreateOptional",
     "ExternalClaimSubmissionCreate",

@@ -13,9 +13,11 @@ from ....commons.errors.http_request_validations_error import HttpRequestValidat
 from ....commons.types.error_message import ErrorMessage
 from ....commons.types.request_validation_error import RequestValidationError
 from .errors.export_date_too_early_error import ExportDateTooEarlyError
+from .errors.export_disabled_error import ExportDisabledError
 from .errors.export_files_unavailable_error import ExportFilesUnavailableError
 from .errors.export_not_yet_available_error import ExportNotYetAvailableError
 from .errors.missing_daily_incremental_export_file_error import MissingDailyIncrementalExportFileError
+from .errors.unsupported_export_window_error import UnsupportedExportWindowError
 from .types.get_exports_response import GetExportsResponse
 
 
@@ -27,6 +29,11 @@ class RawV3Client:
         self, *, start_date: dt.date, end_date: dt.date, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[GetExportsResponse]:
         """
+        <Warning>
+        API-based exports are in the process of being deprecated in favor of Candid Data Share and are not being offered to new customers.
+        Please see the [Candid Data Share docs](https://docs.joincandidhealth.com/introduction/candid-data-share) for more information.
+        </Warning>
+
         Retrieve CSV-formatted reports on claim submissions and outcomes. This endpoint returns Export objects that contain an
         authenticated URL to a customer's reports with a 2min TTL. The schema for the CSV export can be found [here](https://app.joincandidhealth.com/files/exports_schema.csv).
 
@@ -40,9 +47,6 @@ class RawV3Client:
         caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
         up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
         outside of these stated guarantees.
-
-        **New Customers:** This endpoint is not enabled by default for new Candid customers. To have this endpoint enabled for your organization,
-        please email our [Support team](mailto:support@joincandidhealth.com) with the request.
 
         Parameters
         ----------
@@ -140,6 +144,28 @@ class RawV3Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "UnsupportedExportWindowError":
+                raise UnsupportedExportWindowError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorMessage,
+                        parse_obj_as(
+                            type_=ErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "ExportDisabledError":
+                raise ExportDisabledError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorMessage,
+                        parse_obj_as(
+                            type_=ErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
@@ -151,6 +177,11 @@ class AsyncRawV3Client:
         self, *, start_date: dt.date, end_date: dt.date, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[GetExportsResponse]:
         """
+        <Warning>
+        API-based exports are in the process of being deprecated in favor of Candid Data Share and are not being offered to new customers.
+        Please see the [Candid Data Share docs](https://docs.joincandidhealth.com/introduction/candid-data-share) for more information.
+        </Warning>
+
         Retrieve CSV-formatted reports on claim submissions and outcomes. This endpoint returns Export objects that contain an
         authenticated URL to a customer's reports with a 2min TTL. The schema for the CSV export can be found [here](https://app.joincandidhealth.com/files/exports_schema.csv).
 
@@ -164,9 +195,6 @@ class AsyncRawV3Client:
         caller will receive a 422 response. If the file has already been generated, it will be served. Historic files should be available
         up to 90 days in the past by default. Please email our [Support team](mailto:support@joincandidhealth.com) with any data requests
         outside of these stated guarantees.
-
-        **New Customers:** This endpoint is not enabled by default for new Candid customers. To have this endpoint enabled for your organization,
-        please email our [Support team](mailto:support@joincandidhealth.com) with the request.
 
         Parameters
         ----------
@@ -255,6 +283,28 @@ class AsyncRawV3Client:
                 )
             if _response_json["errorName"] == "ExportDateTooEarlyError":
                 raise ExportDateTooEarlyError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorMessage,
+                        parse_obj_as(
+                            type_=ErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnsupportedExportWindowError":
+                raise UnsupportedExportWindowError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorMessage,
+                        parse_obj_as(
+                            type_=ErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "ExportDisabledError":
+                raise ExportDisabledError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         ErrorMessage,

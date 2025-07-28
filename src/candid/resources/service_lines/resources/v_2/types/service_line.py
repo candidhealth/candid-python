@@ -200,6 +200,7 @@ class ServiceLine(UniversalBaseModel):
     service_line_id: ServiceLineId
     procedure_code: str
     ordering_provider: typing.Optional[EncounterProvider] = None
+    revenue_code: typing.Optional[str] = None
     quantity: Decimal = pydantic.Field()
     """
     String representation of a Decimal that can be parsed by most libraries.

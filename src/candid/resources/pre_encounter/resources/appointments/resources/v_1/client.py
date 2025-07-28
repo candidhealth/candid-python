@@ -6,9 +6,9 @@ import typing
 from .......core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .......core.request_options import RequestOptions
 from ....common.types.appointment_id import AppointmentId
+from ....common.types.filter_query_string import FilterQueryString
 from ....common.types.page_token import PageToken
 from ....common.types.sort_direction import SortDirection
-from ....lists.resources.v_1.types.filter_query_string import FilterQueryString
 from ....lists.resources.v_1.types.sort_field_string import SortFieldString
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.appointment import Appointment

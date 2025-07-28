@@ -16,10 +16,10 @@ from ....common.errors.not_found_error import NotFoundError
 from ....common.errors.version_conflict_error import VersionConflictError
 from ....common.types.appointment_id import AppointmentId
 from ....common.types.error_base_4_xx import ErrorBase4Xx
+from ....common.types.filter_query_string import FilterQueryString
 from ....common.types.page_token import PageToken
 from ....common.types.sort_direction import SortDirection
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
-from ....lists.resources.v_1.types.filter_query_string import FilterQueryString
 from ....lists.resources.v_1.types.sort_field_string import SortFieldString
 from .types.appointment import Appointment
 from .types.mutable_appointment import MutableAppointment

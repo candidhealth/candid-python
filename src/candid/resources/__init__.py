@@ -158,6 +158,8 @@ from .diagnoses import (
     DiagnosisNotFoundError,
     DiagnosisNotFoundHttpError,
     DiagnosisTypeCode,
+    ServiceLinesMustHaveAtLeastOneDiagnosisError,
+    ServiceLinesMustHaveAtLeastOneDiagnosisHttpError,
     StandaloneDiagnosisCreate,
 )
 from .era import Era, EraBase, EraId, EraNotFullyProcessedError, EraNotFullyProcessedErrorMessage
@@ -397,6 +399,8 @@ __all__ = [
     "ServiceLineAllocationTarget",
     "ServiceLineId",
     "ServiceLineUnits",
+    "ServiceLinesMustHaveAtLeastOneDiagnosisError",
+    "ServiceLinesMustHaveAtLeastOneDiagnosisHttpError",
     "SortDirection",
     "SourceOfPaymentCode",
     "StandaloneDiagnosisCreate",

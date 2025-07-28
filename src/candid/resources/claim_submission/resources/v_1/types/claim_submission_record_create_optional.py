@@ -7,7 +7,7 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
 from .....commons.types.intended_submission_medium import IntendedSubmissionMedium
-from .claim_frequency_type_code import ClaimFrequencyTypeCode
+from .....x_12.resources.v_1.types.type_of_bill_frequency_code import TypeOfBillFrequencyCode
 
 
 class ClaimSubmissionRecordCreateOptional(UniversalBaseModel):
@@ -19,19 +19,19 @@ class ClaimSubmissionRecordCreateOptional(UniversalBaseModel):
     import datetime
 
     from candid.resources.claim_submission.resources.v_1 import (
-        ClaimFrequencyTypeCode,
         ClaimSubmissionRecordCreateOptional,
     )
     from candid.resources.commons import (
         ClaimSubmissionPayerResponsibilityType,
         IntendedSubmissionMedium,
     )
+    from candid.resources.x_12.resources.v_1 import TypeOfBillFrequencyCode
 
     ClaimSubmissionRecordCreateOptional(
         submitted_at=datetime.datetime.fromisoformat(
             "2023-01-01 13:00:00+00:00",
         ),
-        claim_frequency_code=ClaimFrequencyTypeCode.ORIGINAL,
+        claim_frequency_code=TypeOfBillFrequencyCode.C_1,
         payer_responsibility=ClaimSubmissionPayerResponsibilityType.PRIMARY,
         intended_submission_medium=IntendedSubmissionMedium.ELECTRONIC,
     )
@@ -42,7 +42,7 @@ class ClaimSubmissionRecordCreateOptional(UniversalBaseModel):
     When the claim was submitted to the payer.
     """
 
-    claim_frequency_code: typing.Optional[ClaimFrequencyTypeCode] = None
+    claim_frequency_code: typing.Optional[TypeOfBillFrequencyCode] = None
     payer_responsibility: typing.Optional[ClaimSubmissionPayerResponsibilityType] = None
     intended_submission_medium: typing.Optional[IntendedSubmissionMedium] = pydantic.Field(default=None)
     """

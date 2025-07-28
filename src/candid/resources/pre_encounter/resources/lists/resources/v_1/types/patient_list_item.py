@@ -12,6 +12,8 @@ from .....patients.resources.v_1.types.patient import Patient
 class PatientListItem(UniversalBaseModel):
     patient: Patient
     primary_coverage: typing.Optional[MutableCoverage] = None
+    secondary_coverage: typing.Optional[MutableCoverage] = None
+    tertiary_coverage: typing.Optional[MutableCoverage] = None
     next_appointment: typing.Optional[MutableAppointment] = None
 
     if IS_PYDANTIC_V2:
