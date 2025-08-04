@@ -832,6 +832,169 @@ client.charge_capture.v_1.create(
 </dl>
 </details>
 
+<details><summary><code>client.charge_capture.v_1.<a href="src/candid/resources/charge_capture/resources/v_1/client.py">create_from_pre_encounter_patient</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Create a Charge Capture from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+of the pre-encounter service should use the standard create endpoint.
+
+At encounter creation time, information from the provided patient and appointment objects will be populated
+where applicable. In particular, the following fields are populated from the patient and appointment objects:
+  - Patient
+  - Referring Provider
+  - Subscriber Primary
+  - Subscriber Secondary
+  - Referral Number
+  - Responsible Party
+  - Guarantor
+
+Note that these fields should not be populated in the ChargeCaptureData property of this endpoint, as they will be overwritten at encounter creation time.
+
+Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+encounter has not already been submitted or adjudicated.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.charge_capture.resources.v_1 import (
+    ChargeCaptureData,
+    ChargeCaptureStatus,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.charge_capture.v_1.create_from_pre_encounter_patient(
+    data=ChargeCaptureData(),
+    charge_external_id="charge_external_id",
+    pre_encounter_patient_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    pre_encounter_appointment_ids=[
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+    ],
+    status=ChargeCaptureStatus.PLANNED,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**data:** `ChargeCaptureData` — Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**charge_external_id:** `str` — A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pre_encounter_patient_id:** `PreEncounterPatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pre_encounter_appointment_ids:** `typing.Sequence[PreEncounterAppointmentId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**status:** `ChargeCaptureStatus` — the status of the charge capture
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**originating_system:** `typing.Optional[str]` — An optional string field denoting the originating system of the charge.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_creation_category:** `typing.Optional[str]` — An optional string field denoting the user defined category of the claim creation.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ehr_source_url:** `typing.Optional[str]` — External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.charge_capture.v_1.<a href="src/candid/resources/charge_capture/resources/v_1/client.py">update</a>(...)</code></summary>
 <dl>
 <dd>
@@ -1725,7 +1888,7 @@ client.contracts.v_2.create(
 
 A rendering provider isn't contracted directly with the payer but can render
 services under the contract held by the contracting provider.
-Max items is 1000.
+Max items is 4000.
     
 </dd>
 </dl>
@@ -1934,7 +2097,7 @@ client.contracts.v_2.update(
 
 A rendering provider isn't contracted directly with the payer but can render
 services under the contract held by the contracting provider.
-Max items is 1000.
+Max items is 4000.
     
 </dd>
 </dl>
@@ -14361,7 +14524,7 @@ client.pre_encounter.appointments.v_1.get_history(
 <dl>
 <dd>
 
-Updates an appointment.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
+Updates an appointment. The path must contain the next version number to prevent race conditions. For example, if the current version of the appointment is n, you will need to send a request to this endpoint with `/{id}/n+1` to update the appointment. Updating historic versions is not supported.
 </dd>
 </dl>
 </dd>
@@ -14725,7 +14888,7 @@ client.pre_encounter.coverages.v_1.create(
 <dl>
 <dd>
 
-Updates a Coverage.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
+Updates a Coverage. The path must contain the next version number to prevent race conditions. For example, if the current version of the coverage is n, you will need to send a request to this endpoint with `/{id}/n+1` to update the coverage. Updating historic versions is not supported.
 </dd>
 </dl>
 </dd>
@@ -15528,7 +15691,6 @@ client.pre_encounter.coverages.v_1.get_eligibility(
 <dd>
 
 Sends real-time eligibility checks to payers through Stedi.
-<Warning>Please only send one concurrent request to this endpoint. Batch requests must be made in succession, otherwise, it will cause this service to fail. A batch endpoint is in development - please reach out to the Candid team for more information.</Warning>
 </dd>
 </dl>
 </dd>
@@ -15715,8 +15877,6 @@ client.pre_encounter.eligibility_checks.v_1.batch(
 <dd>
 
 Polls the status of a batch eligibility check.
-<Note>Batch eligibility checks are not yet available. Please reach out to the Candid team for more information.</Note>
-path-parameters:
 </dd>
 </dl>
 </dd>
@@ -15981,10 +16141,7 @@ client.pre_encounter.eligibility_checks.v_1.create_recommendation(
         eligibility_check_id="eligibility_check_id",
         patient=EligibilityRecommendationPatientInfo(),
         recommendation=EligibilityRecommendationPayload_MedicareAdvantage(
-            payload=MedicareAdvantageRecommendationPayload(
-                payer_id="payer_id",
-                payer_name="payer_name",
-            ),
+            payload=MedicareAdvantageRecommendationPayload(),
         ),
     ),
 )
@@ -17843,7 +18000,7 @@ client.pre_encounter.patients.v_1.get_history(
 <dl>
 <dd>
 
-Updates a patient.  The path must contain the most recent version to prevent race conditions.  Updating historic versions is not supported.
+Updates a patient. The path must contain the next version number to prevent race conditions. For example, if the current version of the patient is n, you will need to send a request to this endpoint with `/{id}/n+1` to update the patient. Updating historic versions is not supported.
 </dd>
 </dl>
 </dd>

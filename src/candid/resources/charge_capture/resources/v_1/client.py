@@ -10,6 +10,8 @@ from ....commons.types.charge_capture_id import ChargeCaptureId
 from ....commons.types.charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.page_token import PageToken
+from ....commons.types.pre_encounter_appointment_id import PreEncounterAppointmentId
+from ....commons.types.pre_encounter_patient_id import PreEncounterPatientId
 from ....commons.types.sort_direction import SortDirection
 from ....encounters.resources.v_4.types.billable_status_type import BillableStatusType
 from ....encounters.resources.v_4.types.responsible_party_type import ResponsiblePartyType
@@ -106,6 +108,114 @@ class V1Client:
             data=data,
             charge_external_id=charge_external_id,
             patient_external_id=patient_external_id,
+            status=status,
+            originating_system=originating_system,
+            claim_creation_category=claim_creation_category,
+            ehr_source_url=ehr_source_url,
+            request_options=request_options,
+        )
+        return _response.data
+
+    def create_from_pre_encounter_patient(
+        self,
+        *,
+        data: ChargeCaptureData,
+        charge_external_id: str,
+        pre_encounter_patient_id: PreEncounterPatientId,
+        pre_encounter_appointment_ids: typing.Sequence[PreEncounterAppointmentId],
+        status: ChargeCaptureStatus,
+        originating_system: typing.Optional[str] = OMIT,
+        claim_creation_category: typing.Optional[str] = OMIT,
+        ehr_source_url: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ChargeCapture:
+        """
+        Create a Charge Capture from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+        patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+        of the pre-encounter service should use the standard create endpoint.
+
+        At encounter creation time, information from the provided patient and appointment objects will be populated
+        where applicable. In particular, the following fields are populated from the patient and appointment objects:
+          - Patient
+          - Referring Provider
+          - Subscriber Primary
+          - Subscriber Secondary
+          - Referral Number
+          - Responsible Party
+          - Guarantor
+
+        Note that these fields should not be populated in the ChargeCaptureData property of this endpoint, as they will be overwritten at encounter creation time.
+
+        Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+        encounter has not already been submitted or adjudicated.
+
+        Parameters
+        ----------
+        data : ChargeCaptureData
+            Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
+
+        charge_external_id : str
+            A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
+
+        pre_encounter_patient_id : PreEncounterPatientId
+
+        pre_encounter_appointment_ids : typing.Sequence[PreEncounterAppointmentId]
+
+        status : ChargeCaptureStatus
+            the status of the charge capture
+
+        originating_system : typing.Optional[str]
+            An optional string field denoting the originating system of the charge.
+
+        claim_creation_category : typing.Optional[str]
+            An optional string field denoting the user defined category of the claim creation.
+
+        ehr_source_url : typing.Optional[str]
+            External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ChargeCapture
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.charge_capture.resources.v_1 import (
+            ChargeCaptureData,
+            ChargeCaptureStatus,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.charge_capture.v_1.create_from_pre_encounter_patient(
+            data=ChargeCaptureData(),
+            charge_external_id="charge_external_id",
+            pre_encounter_patient_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            pre_encounter_appointment_ids=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            ],
+            status=ChargeCaptureStatus.PLANNED,
+        )
+        """
+        _response = self._raw_client.create_from_pre_encounter_patient(
+            data=data,
+            charge_external_id=charge_external_id,
+            pre_encounter_patient_id=pre_encounter_patient_id,
+            pre_encounter_appointment_ids=pre_encounter_appointment_ids,
             status=status,
             originating_system=originating_system,
             claim_creation_category=claim_creation_category,
@@ -590,6 +700,121 @@ class AsyncV1Client:
             data=data,
             charge_external_id=charge_external_id,
             patient_external_id=patient_external_id,
+            status=status,
+            originating_system=originating_system,
+            claim_creation_category=claim_creation_category,
+            ehr_source_url=ehr_source_url,
+            request_options=request_options,
+        )
+        return _response.data
+
+    async def create_from_pre_encounter_patient(
+        self,
+        *,
+        data: ChargeCaptureData,
+        charge_external_id: str,
+        pre_encounter_patient_id: PreEncounterPatientId,
+        pre_encounter_appointment_ids: typing.Sequence[PreEncounterAppointmentId],
+        status: ChargeCaptureStatus,
+        originating_system: typing.Optional[str] = OMIT,
+        claim_creation_category: typing.Optional[str] = OMIT,
+        ehr_source_url: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ChargeCapture:
+        """
+        Create a Charge Capture from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+        patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+        of the pre-encounter service should use the standard create endpoint.
+
+        At encounter creation time, information from the provided patient and appointment objects will be populated
+        where applicable. In particular, the following fields are populated from the patient and appointment objects:
+          - Patient
+          - Referring Provider
+          - Subscriber Primary
+          - Subscriber Secondary
+          - Referral Number
+          - Responsible Party
+          - Guarantor
+
+        Note that these fields should not be populated in the ChargeCaptureData property of this endpoint, as they will be overwritten at encounter creation time.
+
+        Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+        encounter has not already been submitted or adjudicated.
+
+        Parameters
+        ----------
+        data : ChargeCaptureData
+            Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
+
+        charge_external_id : str
+            A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
+
+        pre_encounter_patient_id : PreEncounterPatientId
+
+        pre_encounter_appointment_ids : typing.Sequence[PreEncounterAppointmentId]
+
+        status : ChargeCaptureStatus
+            the status of the charge capture
+
+        originating_system : typing.Optional[str]
+            An optional string field denoting the originating system of the charge.
+
+        claim_creation_category : typing.Optional[str]
+            An optional string field denoting the user defined category of the claim creation.
+
+        ehr_source_url : typing.Optional[str]
+            External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ChargeCapture
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.charge_capture.resources.v_1 import (
+            ChargeCaptureData,
+            ChargeCaptureStatus,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.charge_capture.v_1.create_from_pre_encounter_patient(
+                data=ChargeCaptureData(),
+                charge_external_id="charge_external_id",
+                pre_encounter_patient_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                pre_encounter_appointment_ids=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                ],
+                status=ChargeCaptureStatus.PLANNED,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create_from_pre_encounter_patient(
+            data=data,
+            charge_external_id=charge_external_id,
+            pre_encounter_patient_id=pre_encounter_patient_id,
+            pre_encounter_appointment_ids=pre_encounter_appointment_ids,
             status=status,
             originating_system=originating_system,
             claim_creation_category=claim_creation_category,

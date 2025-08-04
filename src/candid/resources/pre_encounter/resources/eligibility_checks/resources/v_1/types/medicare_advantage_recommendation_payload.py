@@ -11,8 +11,9 @@ class MedicareAdvantageRecommendationPayload(UniversalBaseModel):
     An object representing the payload for a Medicare Advantage recommendation.
     """
 
-    payer_id: str
-    payer_name: str
+    ma_benefit: typing.Optional[typing.Optional[typing.Any]] = None
+    payer_id: typing.Optional[str] = None
+    payer_name: typing.Optional[str] = None
     member_id: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:

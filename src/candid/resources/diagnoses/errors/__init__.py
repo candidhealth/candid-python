@@ -3,6 +3,11 @@
 # isort: skip_file
 
 from .diagnosis_not_found_http_error import DiagnosisNotFoundHttpError
+from .disallow_multiple_primary_diagnosis_http_error import DisallowMultiplePrimaryDiagnosisHttpError
 from .service_lines_must_have_at_least_one_diagnosis_http_error import ServiceLinesMustHaveAtLeastOneDiagnosisHttpError
 
-__all__ = ["DiagnosisNotFoundHttpError", "ServiceLinesMustHaveAtLeastOneDiagnosisHttpError"]
+__all__ = [
+    "DiagnosisNotFoundHttpError",
+    "DisallowMultiplePrimaryDiagnosisHttpError",
+    "ServiceLinesMustHaveAtLeastOneDiagnosisHttpError",
+]

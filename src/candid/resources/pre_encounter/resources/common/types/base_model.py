@@ -22,7 +22,7 @@ class BaseModel(UniversalBaseModel):
 
     version: int = pydantic.Field()
     """
-    The version of the object.  Any update to any property of an object object will create a new version.
+    The version of the object. Any update to any property of an object object will create a new version.
     """
 
     updated_at: dt.datetime

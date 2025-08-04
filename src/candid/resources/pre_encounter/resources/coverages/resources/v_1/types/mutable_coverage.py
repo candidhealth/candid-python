@@ -32,7 +32,7 @@ class MutableCoverage(UniversalBaseModel):
 
     patient: PatientId = pydantic.Field()
     """
-    The patient who benefits from the insurance coverage
+    The canonical Candid patient UUID corresponding with the patient who benefits from the insurance coverage
     """
 
     insurance_plan: InsurancePlan

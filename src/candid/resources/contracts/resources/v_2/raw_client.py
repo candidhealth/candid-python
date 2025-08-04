@@ -200,7 +200,7 @@ class RawV2Client:
         rendering_provider_ids : typing.Set[RenderingProviderid]
             A rendering provider isn't contracted directly with the payer but can render
             services under the contract held by the contracting provider.
-            Max items is 1000.
+            Max items is 4000.
 
         payer_uuid : uuid.UUID
             The UUID of the insurance company under agreement to the contract
@@ -334,7 +334,7 @@ class RawV2Client:
         rendering_provider_ids : typing.Optional[typing.Set[RenderingProviderid]]
             A rendering provider isn't contracted directly with the payer but can render
             services under the contract held by the contracting provider.
-            Max items is 1000.
+            Max items is 4000.
 
         effective_date : typing.Optional[Date]
             The starting day upon which the contract is effective
@@ -580,7 +580,7 @@ class AsyncRawV2Client:
         rendering_provider_ids : typing.Set[RenderingProviderid]
             A rendering provider isn't contracted directly with the payer but can render
             services under the contract held by the contracting provider.
-            Max items is 1000.
+            Max items is 4000.
 
         payer_uuid : uuid.UUID
             The UUID of the insurance company under agreement to the contract
@@ -714,7 +714,7 @@ class AsyncRawV2Client:
         rendering_provider_ids : typing.Optional[typing.Set[RenderingProviderid]]
             A rendering provider isn't contracted directly with the payer but can render
             services under the contract held by the contracting provider.
-            Max items is 1000.
+            Max items is 4000.
 
         effective_date : typing.Optional[Date]
             The starting day upon which the contract is effective

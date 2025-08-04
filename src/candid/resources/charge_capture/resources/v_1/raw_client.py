@@ -20,6 +20,8 @@ from ....commons.types.charge_capture_post_billed_change_id import ChargeCapture
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.page_token import PageToken
+from ....commons.types.pre_encounter_appointment_id import PreEncounterAppointmentId
+from ....commons.types.pre_encounter_patient_id import PreEncounterPatientId
 from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
@@ -101,6 +103,169 @@ class RawV1Client:
                 "claim_creation_category": claim_creation_category,
                 "ehr_source_url": ehr_source_url,
                 "patient_external_id": patient_external_id,
+                "status": status,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ChargeCapture,
+                parse_obj_as(
+                    type_=ChargeCapture,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        SchemaInstanceValidationFailure,
+                        parse_obj_as(
+                            type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "ChargeExternalIdConflictError":
+                raise ChargeExternalIdConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ChargeExternalIdConflictErrorMessage,
+                        parse_obj_as(
+                            type_=ChargeExternalIdConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def create_from_pre_encounter_patient(
+        self,
+        *,
+        data: ChargeCaptureData,
+        charge_external_id: str,
+        pre_encounter_patient_id: PreEncounterPatientId,
+        pre_encounter_appointment_ids: typing.Sequence[PreEncounterAppointmentId],
+        status: ChargeCaptureStatus,
+        originating_system: typing.Optional[str] = OMIT,
+        claim_creation_category: typing.Optional[str] = OMIT,
+        ehr_source_url: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ChargeCapture]:
+        """
+        Create a Charge Capture from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+        patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+        of the pre-encounter service should use the standard create endpoint.
+
+        At encounter creation time, information from the provided patient and appointment objects will be populated
+        where applicable. In particular, the following fields are populated from the patient and appointment objects:
+          - Patient
+          - Referring Provider
+          - Subscriber Primary
+          - Subscriber Secondary
+          - Referral Number
+          - Responsible Party
+          - Guarantor
+
+        Note that these fields should not be populated in the ChargeCaptureData property of this endpoint, as they will be overwritten at encounter creation time.
+
+        Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+        encounter has not already been submitted or adjudicated.
+
+        Parameters
+        ----------
+        data : ChargeCaptureData
+            Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
+
+        charge_external_id : str
+            A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
+
+        pre_encounter_patient_id : PreEncounterPatientId
+
+        pre_encounter_appointment_ids : typing.Sequence[PreEncounterAppointmentId]
+
+        status : ChargeCaptureStatus
+            the status of the charge capture
+
+        originating_system : typing.Optional[str]
+            An optional string field denoting the originating system of the charge.
+
+        claim_creation_category : typing.Optional[str]
+            An optional string field denoting the user defined category of the claim creation.
+
+        ehr_source_url : typing.Optional[str]
+            External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ChargeCapture]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/charge_captures/v1/create-from-pre-encounter",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "data": data,
+                "charge_external_id": charge_external_id,
+                "pre_encounter_patient_id": pre_encounter_patient_id,
+                "pre_encounter_appointment_ids": pre_encounter_appointment_ids,
+                "originating_system": originating_system,
+                "claim_creation_category": claim_creation_category,
+                "ehr_source_url": ehr_source_url,
                 "status": status,
             },
             request_options=request_options,
@@ -727,6 +892,169 @@ class AsyncRawV1Client:
                 "claim_creation_category": claim_creation_category,
                 "ehr_source_url": ehr_source_url,
                 "patient_external_id": patient_external_id,
+                "status": status,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ChargeCapture,
+                parse_obj_as(
+                    type_=ChargeCapture,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        SchemaInstanceValidationFailure,
+                        parse_obj_as(
+                            type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "ChargeExternalIdConflictError":
+                raise ChargeExternalIdConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ChargeExternalIdConflictErrorMessage,
+                        parse_obj_as(
+                            type_=ChargeExternalIdConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def create_from_pre_encounter_patient(
+        self,
+        *,
+        data: ChargeCaptureData,
+        charge_external_id: str,
+        pre_encounter_patient_id: PreEncounterPatientId,
+        pre_encounter_appointment_ids: typing.Sequence[PreEncounterAppointmentId],
+        status: ChargeCaptureStatus,
+        originating_system: typing.Optional[str] = OMIT,
+        claim_creation_category: typing.Optional[str] = OMIT,
+        ehr_source_url: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ChargeCapture]:
+        """
+        Create a Charge Capture from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+        patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+        of the pre-encounter service should use the standard create endpoint.
+
+        At encounter creation time, information from the provided patient and appointment objects will be populated
+        where applicable. In particular, the following fields are populated from the patient and appointment objects:
+          - Patient
+          - Referring Provider
+          - Subscriber Primary
+          - Subscriber Secondary
+          - Referral Number
+          - Responsible Party
+          - Guarantor
+
+        Note that these fields should not be populated in the ChargeCaptureData property of this endpoint, as they will be overwritten at encounter creation time.
+
+        Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+        encounter has not already been submitted or adjudicated.
+
+        Parameters
+        ----------
+        data : ChargeCaptureData
+            Charge Capture data contains all the fields needed to create an encounter, but listed as optional. Candid will use this data when attempting to bundle multiple Charge Captures into a single encounter.
+
+        charge_external_id : str
+            A client-specified unique ID to associate with this encounter; for example, your internal encounter ID or a Dr. Chrono encounter ID. This field should not contain PHI.
+
+        pre_encounter_patient_id : PreEncounterPatientId
+
+        pre_encounter_appointment_ids : typing.Sequence[PreEncounterAppointmentId]
+
+        status : ChargeCaptureStatus
+            the status of the charge capture
+
+        originating_system : typing.Optional[str]
+            An optional string field denoting the originating system of the charge.
+
+        claim_creation_category : typing.Optional[str]
+            An optional string field denoting the user defined category of the claim creation.
+
+        ehr_source_url : typing.Optional[str]
+            External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ChargeCapture]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/charge_captures/v1/create-from-pre-encounter",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "data": data,
+                "charge_external_id": charge_external_id,
+                "pre_encounter_patient_id": pre_encounter_patient_id,
+                "pre_encounter_appointment_ids": pre_encounter_appointment_ids,
+                "originating_system": originating_system,
+                "claim_creation_category": claim_creation_category,
+                "ehr_source_url": ehr_source_url,
                 "status": status,
             },
             request_options=request_options,

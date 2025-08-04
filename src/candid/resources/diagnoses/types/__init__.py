@@ -8,6 +8,7 @@ from .diagnosis_create_optional import DiagnosisCreateOptional
 from .diagnosis_id import DiagnosisId
 from .diagnosis_not_found_error import DiagnosisNotFoundError
 from .diagnosis_type_code import DiagnosisTypeCode
+from .disallow_multiple_primary_diagnosis_error import DisallowMultiplePrimaryDiagnosisError
 from .service_lines_must_have_at_least_one_diagnosis_error import ServiceLinesMustHaveAtLeastOneDiagnosisError
 from .standalone_diagnosis_create import StandaloneDiagnosisCreate
 
@@ -18,6 +19,7 @@ __all__ = [
     "DiagnosisId",
     "DiagnosisNotFoundError",
     "DiagnosisTypeCode",
+    "DisallowMultiplePrimaryDiagnosisError",
     "ServiceLinesMustHaveAtLeastOneDiagnosisError",
     "StandaloneDiagnosisCreate",
 ]
