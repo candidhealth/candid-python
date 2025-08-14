@@ -9,7 +9,10 @@ from .subscriber_base_optional import SubscriberBaseOptional
 
 
 class SubscriberCreateOptional(SubscriberBaseOptional):
-    insurance_card: typing.Optional[InsuranceCardCreateOptional] = None
+    insurance_card: typing.Optional[InsuranceCardCreateOptional] = pydantic.Field(default=None)
+    """
+    Please reference our [Payer Information](https://docs.joincandidhealth.com/introduction/payer-information) documentation for more details on how to populate the `insurance_card` fields.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

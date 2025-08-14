@@ -6,6 +6,7 @@ import typing
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.patient_id import PatientId
+from .....coverages.resources.v_1.types.mutable_coverage import MutableCoverage
 from .....patients.resources.v_1.types.mutable_patient_with_mrn import MutablePatientWithMrn
 from .appointment_status import AppointmentStatus
 
@@ -19,6 +20,7 @@ class Visit(UniversalBaseModel):
     patient: MutablePatientWithMrn
     start_time: dt.datetime
     status: AppointmentStatus
+    primary_coverage: typing.Optional[MutableCoverage] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

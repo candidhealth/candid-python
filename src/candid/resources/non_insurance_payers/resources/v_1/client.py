@@ -4,11 +4,13 @@ import typing
 
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
+from ....commons.types.clinical_trial_id import ClinicalTrialId
 from ....commons.types.page_token import PageToken
 from ....commons.types.sort_direction import SortDirection
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.create_non_insurance_payer_request import CreateNonInsurancePayerRequest
 from .types.non_insurance_payer import NonInsurancePayer
+from .types.non_insurance_payer_categories_page import NonInsurancePayerCategoriesPage
 from .types.non_insurance_payer_id import NonInsurancePayerId
 from .types.non_insurance_payer_page import NonInsurancePayerPage
 from .types.non_insurance_payer_sort_field import NonInsurancePayerSortField
@@ -122,6 +124,8 @@ class V1Client:
         *,
         name: typing.Optional[str] = None,
         category: typing.Optional[str] = None,
+        categories_exact: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        clinical_trial_ids: typing.Optional[typing.Union[ClinicalTrialId, typing.Sequence[ClinicalTrialId]]] = None,
         enabled: typing.Optional[bool] = None,
         sort: typing.Optional[NonInsurancePayerSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
@@ -135,6 +139,17 @@ class V1Client:
         name : typing.Optional[str]
 
         category : typing.Optional[str]
+            Fuzzy-match category names of non-insurance payers.
+
+        categories_exact : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter by one or more categories by name.
+            When multiple are present, non-insurance payers with any of the specified
+            categories will be matched.
+
+        clinical_trial_ids : typing.Optional[typing.Union[ClinicalTrialId, typing.Sequence[ClinicalTrialId]]]
+            Filter by one or more clinical trials by their `clinical_trial_id`.
+            When multiple are present, non-insurance payers with any of the specified
+            clinical trials will be matched.
 
         enabled : typing.Optional[bool]
 
@@ -167,12 +182,63 @@ class V1Client:
         _response = self._raw_client.get_multi(
             name=name,
             category=category,
+            categories_exact=categories_exact,
+            clinical_trial_ids=clinical_trial_ids,
             enabled=enabled,
             sort=sort,
             sort_direction=sort_direction,
             limit=limit,
             page_token=page_token,
             request_options=request_options,
+        )
+        return _response.data
+
+    def get_categories(
+        self,
+        *,
+        search_term: typing.Optional[str] = None,
+        limit: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> NonInsurancePayerCategoriesPage:
+        """
+        Returns a paginated list of all non-insurance payer categories.
+
+        Non-insurance payer categories are simply strings and are not stored as a
+        separate object in Candid. They are created when added to at least one
+        non-insurance payer's `category` field and are deleted when there are no
+        longer any non-insurance payers that contain them.
+
+        Parameters
+        ----------
+        search_term : typing.Optional[str]
+            Filters categories by fuzzy matching on name.
+
+        limit : typing.Optional[int]
+            Limits the maximum number of categories that will be returned. Defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+            The page token to continue paging through a previous request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        NonInsurancePayerCategoriesPage
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.non_insurance_payers.v_1.get_categories()
+        """
+        _response = self._raw_client.get_categories(
+            search_term=search_term, limit=limit, page_token=page_token, request_options=request_options
         )
         return _response.data
 
@@ -407,6 +473,8 @@ class AsyncV1Client:
         *,
         name: typing.Optional[str] = None,
         category: typing.Optional[str] = None,
+        categories_exact: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        clinical_trial_ids: typing.Optional[typing.Union[ClinicalTrialId, typing.Sequence[ClinicalTrialId]]] = None,
         enabled: typing.Optional[bool] = None,
         sort: typing.Optional[NonInsurancePayerSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
@@ -420,6 +488,17 @@ class AsyncV1Client:
         name : typing.Optional[str]
 
         category : typing.Optional[str]
+            Fuzzy-match category names of non-insurance payers.
+
+        categories_exact : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter by one or more categories by name.
+            When multiple are present, non-insurance payers with any of the specified
+            categories will be matched.
+
+        clinical_trial_ids : typing.Optional[typing.Union[ClinicalTrialId, typing.Sequence[ClinicalTrialId]]]
+            Filter by one or more clinical trials by their `clinical_trial_id`.
+            When multiple are present, non-insurance payers with any of the specified
+            clinical trials will be matched.
 
         enabled : typing.Optional[bool]
 
@@ -460,12 +539,71 @@ class AsyncV1Client:
         _response = await self._raw_client.get_multi(
             name=name,
             category=category,
+            categories_exact=categories_exact,
+            clinical_trial_ids=clinical_trial_ids,
             enabled=enabled,
             sort=sort,
             sort_direction=sort_direction,
             limit=limit,
             page_token=page_token,
             request_options=request_options,
+        )
+        return _response.data
+
+    async def get_categories(
+        self,
+        *,
+        search_term: typing.Optional[str] = None,
+        limit: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> NonInsurancePayerCategoriesPage:
+        """
+        Returns a paginated list of all non-insurance payer categories.
+
+        Non-insurance payer categories are simply strings and are not stored as a
+        separate object in Candid. They are created when added to at least one
+        non-insurance payer's `category` field and are deleted when there are no
+        longer any non-insurance payers that contain them.
+
+        Parameters
+        ----------
+        search_term : typing.Optional[str]
+            Filters categories by fuzzy matching on name.
+
+        limit : typing.Optional[int]
+            Limits the maximum number of categories that will be returned. Defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+            The page token to continue paging through a previous request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        NonInsurancePayerCategoriesPage
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.non_insurance_payers.v_1.get_categories()
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_categories(
+            search_term=search_term, limit=limit, page_token=page_token, request_options=request_options
         )
         return _response.data
 

@@ -32,6 +32,7 @@ from .types.dimension_name import DimensionName
 from .types.dimensions_page import DimensionsPage
 from .types.match_result import MatchResult
 from .types.match_test_result import MatchTestResult
+from .types.optional_dimensions import OptionalDimensions
 from .types.payer_threshold import PayerThreshold
 from .types.payer_thresholds_page import PayerThresholdsPage
 from .types.rate import Rate
@@ -663,6 +664,46 @@ class RawV3Client:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def hard_delete_rates(
+        self, *, request: OptionalDimensions, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[int]:
+        """
+        Hard deletes rates from the system that match the provided dimensions.  This is a destructive operation and cannot be undone.  If an empty dimensions object is provided, all rates will be hard deleted.  The maximum number of rates this API will delete at a time is 10000.  Returns the number of rates deleted and if that number is the maximum, the caller should call this API again to continue deleting rates.
+
+        Parameters
+        ----------
+        request : OptionalDimensions
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[int]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/fee-schedules/v3/hard-delete",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                int,
+                parse_obj_as(
+                    type_=int,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV3Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1282,4 +1323,44 @@ class AsyncRawV3Client:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def hard_delete_rates(
+        self, *, request: OptionalDimensions, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[int]:
+        """
+        Hard deletes rates from the system that match the provided dimensions.  This is a destructive operation and cannot be undone.  If an empty dimensions object is provided, all rates will be hard deleted.  The maximum number of rates this API will delete at a time is 10000.  Returns the number of rates deleted and if that number is the maximum, the caller should call this API again to continue deleting rates.
+
+        Parameters
+        ----------
+        request : OptionalDimensions
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[int]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/fee-schedules/v3/hard-delete",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                int,
+                parse_obj_as(
+                    type_=int,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

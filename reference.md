@@ -7317,6 +7317,99 @@ client.fee_schedules.v_3.set_payer_threshold(
 </dl>
 </details>
 
+<details><summary><code>client.fee_schedules.v_3.<a href="src/candid/resources/fee_schedules/resources/v_3/client.py">hard_delete_rates</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Hard deletes rates from the system that match the provided dimensions.  This is a destructive operation and cannot be undone.  If an empty dimensions object is provided, all rates will be hard deleted.  The maximum number of rates this API will delete at a time is 10000.  Returns the number of rates deleted and if that number is the maximum, the caller should call this API again to continue deleting rates.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.commons import (
+    FacilityTypeCode,
+    NetworkType,
+    ProcedureModifier,
+    State,
+)
+from candid.resources.fee_schedules.resources.v_3 import OptionalDimensions
+from candid.resources.organization_providers.resources.v_2 import LicenseType
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.fee_schedules.v_3.hard_delete_rates(
+    request=OptionalDimensions(
+        states=[State.AA],
+        zip_codes={"zip_codes"},
+        license_types=[LicenseType.MD],
+        facility_type_codes=[FacilityTypeCode.PHARMACY],
+        network_types=[NetworkType.PPO],
+        payer_plan_group_ids=[
+            uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            )
+        ],
+        modifiers=[ProcedureModifier.AV],
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `OptionalDimensions` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Guarantor V1
 <details><summary><code>client.guarantor.v_1.<a href="src/candid/resources/guarantor/resources/v_1/client.py">create</a>(...)</code></summary>
 <dl>
@@ -10239,7 +10332,31 @@ client.non_insurance_payers.v_1.get_multi()
 <dl>
 <dd>
 
-**category:** `typing.Optional[str]` 
+**category:** `typing.Optional[str]` — Fuzzy-match category names of non-insurance payers.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**categories_exact:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` 
+
+Filter by one or more categories by name.
+When multiple are present, non-insurance payers with any of the specified
+categories will be matched.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**clinical_trial_ids:** `typing.Optional[typing.Union[ClinicalTrialId, typing.Sequence[ClinicalTrialId]]]` 
+
+Filter by one or more clinical trials by their `clinical_trial_id`.
+When multiple are present, non-insurance payers with any of the specified
+clinical trials will be matched.
     
 </dd>
 </dl>
@@ -10280,6 +10397,96 @@ client.non_insurance_payers.v_1.get_multi()
 <dd>
 
 **page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.non_insurance_payers.v_1.<a href="src/candid/resources/non_insurance_payers/resources/v_1/client.py">get_categories</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns a paginated list of all non-insurance payer categories.
+
+Non-insurance payer categories are simply strings and are not stored as a
+separate object in Candid. They are created when added to at least one
+non-insurance payer's `category` field and are deleted when there are no
+longer any non-insurance payers that contain them.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.non_insurance_payers.v_1.get_categories()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**search_term:** `typing.Optional[str]` — Filters categories by fuzzy matching on name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Limits the maximum number of categories that will be returned. Defaults to 100.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` — The page token to continue paging through a previous request.
     
 </dd>
 </dl>
@@ -10604,6 +10811,19 @@ client.organization_service_facilities.v_2.get_multi(
 <dd>
 
 **name:** `typing.Optional[str]` — Filter to a name or a part of a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**organization_service_facility_ids:** `typing.Optional[
+    typing.Union[
+        OrganizationServiceFacilityId,
+        typing.Sequence[OrganizationServiceFacilityId],
+    ]
+]` — Filter to the provided organization service facility IDs.
     
 </dd>
 </dl>
@@ -11014,6 +11234,18 @@ client.organization_providers.v_3.get_multi(
 <dd>
 
 **is_billing:** `typing.Optional[bool]` — Filter to only billing providers.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**organization_provider_ids:** `typing.Optional[
+    typing.Union[
+        OrganizationProviderId, typing.Sequence[OrganizationProviderId]
+    ]
+]` — Filter to the provided organization provider IDs.
     
 </dd>
 </dl>

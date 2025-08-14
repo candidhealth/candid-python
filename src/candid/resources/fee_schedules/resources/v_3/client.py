@@ -21,6 +21,7 @@ from .types.dimension_name import DimensionName
 from .types.dimensions_page import DimensionsPage
 from .types.match_result import MatchResult
 from .types.match_test_result import MatchTestResult
+from .types.optional_dimensions import OptionalDimensions
 from .types.payer_threshold import PayerThreshold
 from .types.payer_thresholds_page import PayerThresholdsPage
 from .types.rate import Rate
@@ -614,6 +615,60 @@ class V3Client:
         )
         """
         _response = self._raw_client.set_payer_threshold(payer_uuid, request=request, request_options=request_options)
+        return _response.data
+
+    def hard_delete_rates(
+        self, *, request: OptionalDimensions, request_options: typing.Optional[RequestOptions] = None
+    ) -> int:
+        """
+        Hard deletes rates from the system that match the provided dimensions.  This is a destructive operation and cannot be undone.  If an empty dimensions object is provided, all rates will be hard deleted.  The maximum number of rates this API will delete at a time is 10000.  Returns the number of rates deleted and if that number is the maximum, the caller should call this API again to continue deleting rates.
+
+        Parameters
+        ----------
+        request : OptionalDimensions
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        int
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            NetworkType,
+            ProcedureModifier,
+            State,
+        )
+        from candid.resources.fee_schedules.resources.v_3 import OptionalDimensions
+        from candid.resources.organization_providers.resources.v_2 import LicenseType
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.hard_delete_rates(
+            request=OptionalDimensions(
+                states=[State.AA],
+                zip_codes={"zip_codes"},
+                license_types=[LicenseType.MD],
+                facility_type_codes=[FacilityTypeCode.PHARMACY],
+                network_types=[NetworkType.PPO],
+                payer_plan_group_ids=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ],
+                modifiers=[ProcedureModifier.AV],
+            ),
+        )
+        """
+        _response = self._raw_client.hard_delete_rates(request=request, request_options=request_options)
         return _response.data
 
 
@@ -1279,4 +1334,65 @@ class AsyncV3Client:
         _response = await self._raw_client.set_payer_threshold(
             payer_uuid, request=request, request_options=request_options
         )
+        return _response.data
+
+    async def hard_delete_rates(
+        self, *, request: OptionalDimensions, request_options: typing.Optional[RequestOptions] = None
+    ) -> int:
+        """
+        Hard deletes rates from the system that match the provided dimensions.  This is a destructive operation and cannot be undone.  If an empty dimensions object is provided, all rates will be hard deleted.  The maximum number of rates this API will delete at a time is 10000.  Returns the number of rates deleted and if that number is the maximum, the caller should call this API again to continue deleting rates.
+
+        Parameters
+        ----------
+        request : OptionalDimensions
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        int
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.commons import (
+            FacilityTypeCode,
+            NetworkType,
+            ProcedureModifier,
+            State,
+        )
+        from candid.resources.fee_schedules.resources.v_3 import OptionalDimensions
+        from candid.resources.organization_providers.resources.v_2 import LicenseType
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.hard_delete_rates(
+                request=OptionalDimensions(
+                    states=[State.AA],
+                    zip_codes={"zip_codes"},
+                    license_types=[LicenseType.MD],
+                    facility_type_codes=[FacilityTypeCode.PHARMACY],
+                    network_types=[NetworkType.PPO],
+                    payer_plan_group_ids=[
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        )
+                    ],
+                    modifiers=[ProcedureModifier.AV],
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.hard_delete_rates(request=request, request_options=request_options)
         return _response.data

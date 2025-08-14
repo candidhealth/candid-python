@@ -9,6 +9,7 @@ from .non_insurance_payer_address_update import (
     NonInsurancePayerAddressUpdate_Remove,
     NonInsurancePayerAddressUpdate_Set,
 )
+from .non_insurance_payer_categories_page import NonInsurancePayerCategoriesPage
 from .non_insurance_payer_category_update import (
     NonInsurancePayerCategoryUpdate,
     NonInsurancePayerCategoryUpdate_Remove,
@@ -31,6 +32,7 @@ __all__ = [
     "NonInsurancePayerAddressUpdate",
     "NonInsurancePayerAddressUpdate_Remove",
     "NonInsurancePayerAddressUpdate_Set",
+    "NonInsurancePayerCategoriesPage",
     "NonInsurancePayerCategoryUpdate",
     "NonInsurancePayerCategoryUpdate_Remove",
     "NonInsurancePayerCategoryUpdate_Set",

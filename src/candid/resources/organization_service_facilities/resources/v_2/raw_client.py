@@ -84,6 +84,9 @@ class RawV2Client:
         *,
         limit: typing.Optional[int] = None,
         name: typing.Optional[str] = None,
+        organization_service_facility_ids: typing.Optional[
+            typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]
+        ] = None,
         page_token: typing.Optional[PageToken] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[OrganizationServiceFacilityPage]:
@@ -95,6 +98,9 @@ class RawV2Client:
 
         name : typing.Optional[str]
             Filter to a name or a part of a name.
+
+        organization_service_facility_ids : typing.Optional[typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]]
+            Filter to the provided organization service facility IDs.
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
@@ -113,6 +119,7 @@ class RawV2Client:
             params={
                 "limit": limit,
                 "name": name,
+                "organization_service_facility_ids": organization_service_facility_ids,
                 "page_token": page_token,
             },
             request_options=request_options,
@@ -354,6 +361,9 @@ class AsyncRawV2Client:
         *,
         limit: typing.Optional[int] = None,
         name: typing.Optional[str] = None,
+        organization_service_facility_ids: typing.Optional[
+            typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]
+        ] = None,
         page_token: typing.Optional[PageToken] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[OrganizationServiceFacilityPage]:
@@ -365,6 +375,9 @@ class AsyncRawV2Client:
 
         name : typing.Optional[str]
             Filter to a name or a part of a name.
+
+        organization_service_facility_ids : typing.Optional[typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]]
+            Filter to the provided organization service facility IDs.
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
@@ -383,6 +396,7 @@ class AsyncRawV2Client:
             params={
                 "limit": limit,
                 "name": name,
+                "organization_service_facility_ids": organization_service_facility_ids,
                 "page_token": page_token,
             },
             request_options=request_options,

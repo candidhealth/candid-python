@@ -47,6 +47,7 @@ class MutableAppointment(UniversalBaseModel):
     estimated_copay_cents: typing.Optional[int] = None
     estimated_patient_responsibility_cents: typing.Optional[int] = None
     patient_deposit_cents: typing.Optional[int] = None
+    appointment_details: typing.Optional[str] = None
     checked_in_timestamp: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     The timestamp when the patient checked in for their appointment. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.

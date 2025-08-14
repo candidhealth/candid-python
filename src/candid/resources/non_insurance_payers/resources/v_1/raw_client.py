@@ -12,6 +12,7 @@ from .....core.request_options import RequestOptions
 from ....commons.errors.entity_conflict_error import EntityConflictError
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
+from ....commons.types.clinical_trial_id import ClinicalTrialId
 from ....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.page_token import PageToken
@@ -19,6 +20,7 @@ from ....commons.types.sort_direction import SortDirection
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from .types.create_non_insurance_payer_request import CreateNonInsurancePayerRequest
 from .types.non_insurance_payer import NonInsurancePayer
+from .types.non_insurance_payer_categories_page import NonInsurancePayerCategoriesPage
 from .types.non_insurance_payer_id import NonInsurancePayerId
 from .types.non_insurance_payer_page import NonInsurancePayerPage
 from .types.non_insurance_payer_sort_field import NonInsurancePayerSortField
@@ -155,6 +157,8 @@ class RawV1Client:
         *,
         name: typing.Optional[str] = None,
         category: typing.Optional[str] = None,
+        categories_exact: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        clinical_trial_ids: typing.Optional[typing.Union[ClinicalTrialId, typing.Sequence[ClinicalTrialId]]] = None,
         enabled: typing.Optional[bool] = None,
         sort: typing.Optional[NonInsurancePayerSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
@@ -168,6 +172,17 @@ class RawV1Client:
         name : typing.Optional[str]
 
         category : typing.Optional[str]
+            Fuzzy-match category names of non-insurance payers.
+
+        categories_exact : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter by one or more categories by name.
+            When multiple are present, non-insurance payers with any of the specified
+            categories will be matched.
+
+        clinical_trial_ids : typing.Optional[typing.Union[ClinicalTrialId, typing.Sequence[ClinicalTrialId]]]
+            Filter by one or more clinical trials by their `clinical_trial_id`.
+            When multiple are present, non-insurance payers with any of the specified
+            clinical trials will be matched.
 
         enabled : typing.Optional[bool]
 
@@ -194,6 +209,8 @@ class RawV1Client:
             params={
                 "name": name,
                 "category": category,
+                "categories_exact": categories_exact,
+                "clinical_trial_ids": clinical_trial_ids,
                 "enabled": enabled,
                 "sort": sort,
                 "sort_direction": sort_direction,
@@ -227,6 +244,66 @@ class RawV1Client:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_categories(
+        self,
+        *,
+        search_term: typing.Optional[str] = None,
+        limit: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[NonInsurancePayerCategoriesPage]:
+        """
+        Returns a paginated list of all non-insurance payer categories.
+
+        Non-insurance payer categories are simply strings and are not stored as a
+        separate object in Candid. They are created when added to at least one
+        non-insurance payer's `category` field and are deleted when there are no
+        longer any non-insurance payers that contain them.
+
+        Parameters
+        ----------
+        search_term : typing.Optional[str]
+            Filters categories by fuzzy matching on name.
+
+        limit : typing.Optional[int]
+            Limits the maximum number of categories that will be returned. Defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+            The page token to continue paging through a previous request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[NonInsurancePayerCategoriesPage]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/non-insurance-payers/v1/categories",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "search_term": search_term,
+                "limit": limit,
+                "page_token": page_token,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                NonInsurancePayerCategoriesPage,
+                parse_obj_as(
+                    type_=NonInsurancePayerCategoriesPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get(
@@ -512,6 +589,8 @@ class AsyncRawV1Client:
         *,
         name: typing.Optional[str] = None,
         category: typing.Optional[str] = None,
+        categories_exact: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        clinical_trial_ids: typing.Optional[typing.Union[ClinicalTrialId, typing.Sequence[ClinicalTrialId]]] = None,
         enabled: typing.Optional[bool] = None,
         sort: typing.Optional[NonInsurancePayerSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
@@ -525,6 +604,17 @@ class AsyncRawV1Client:
         name : typing.Optional[str]
 
         category : typing.Optional[str]
+            Fuzzy-match category names of non-insurance payers.
+
+        categories_exact : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter by one or more categories by name.
+            When multiple are present, non-insurance payers with any of the specified
+            categories will be matched.
+
+        clinical_trial_ids : typing.Optional[typing.Union[ClinicalTrialId, typing.Sequence[ClinicalTrialId]]]
+            Filter by one or more clinical trials by their `clinical_trial_id`.
+            When multiple are present, non-insurance payers with any of the specified
+            clinical trials will be matched.
 
         enabled : typing.Optional[bool]
 
@@ -551,6 +641,8 @@ class AsyncRawV1Client:
             params={
                 "name": name,
                 "category": category,
+                "categories_exact": categories_exact,
+                "clinical_trial_ids": clinical_trial_ids,
                 "enabled": enabled,
                 "sort": sort,
                 "sort_direction": sort_direction,
@@ -584,6 +676,66 @@ class AsyncRawV1Client:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_categories(
+        self,
+        *,
+        search_term: typing.Optional[str] = None,
+        limit: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[NonInsurancePayerCategoriesPage]:
+        """
+        Returns a paginated list of all non-insurance payer categories.
+
+        Non-insurance payer categories are simply strings and are not stored as a
+        separate object in Candid. They are created when added to at least one
+        non-insurance payer's `category` field and are deleted when there are no
+        longer any non-insurance payers that contain them.
+
+        Parameters
+        ----------
+        search_term : typing.Optional[str]
+            Filters categories by fuzzy matching on name.
+
+        limit : typing.Optional[int]
+            Limits the maximum number of categories that will be returned. Defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+            The page token to continue paging through a previous request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[NonInsurancePayerCategoriesPage]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/non-insurance-payers/v1/categories",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "search_term": search_term,
+                "limit": limit,
+                "page_token": page_token,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                NonInsurancePayerCategoriesPage,
+                parse_obj_as(
+                    type_=NonInsurancePayerCategoriesPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get(

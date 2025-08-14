@@ -94,6 +94,9 @@ class RawV3Client:
         npi: typing.Optional[str] = None,
         is_rendering: typing.Optional[bool] = None,
         is_billing: typing.Optional[bool] = None,
+        organization_provider_ids: typing.Optional[
+            typing.Union[OrganizationProviderId, typing.Sequence[OrganizationProviderId]]
+        ] = None,
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -115,6 +118,9 @@ class RawV3Client:
 
         is_billing : typing.Optional[bool]
             Filter to only billing providers.
+
+        organization_provider_ids : typing.Optional[typing.Union[OrganizationProviderId, typing.Sequence[OrganizationProviderId]]]
+            Filter to the provided organization provider IDs.
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
@@ -139,6 +145,7 @@ class RawV3Client:
                 "npi": npi,
                 "is_rendering": is_rendering,
                 "is_billing": is_billing,
+                "organization_provider_ids": organization_provider_ids,
                 "page_token": page_token,
                 "sort": sort,
             },
@@ -362,6 +369,9 @@ class AsyncRawV3Client:
         npi: typing.Optional[str] = None,
         is_rendering: typing.Optional[bool] = None,
         is_billing: typing.Optional[bool] = None,
+        organization_provider_ids: typing.Optional[
+            typing.Union[OrganizationProviderId, typing.Sequence[OrganizationProviderId]]
+        ] = None,
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
         request_options: typing.Optional[RequestOptions] = None,
@@ -383,6 +393,9 @@ class AsyncRawV3Client:
 
         is_billing : typing.Optional[bool]
             Filter to only billing providers.
+
+        organization_provider_ids : typing.Optional[typing.Union[OrganizationProviderId, typing.Sequence[OrganizationProviderId]]]
+            Filter to the provided organization provider IDs.
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
@@ -407,6 +420,7 @@ class AsyncRawV3Client:
                 "npi": npi,
                 "is_rendering": is_rendering,
                 "is_billing": is_billing,
+                "organization_provider_ids": organization_provider_ids,
                 "page_token": page_token,
                 "sort": sort,
             },
