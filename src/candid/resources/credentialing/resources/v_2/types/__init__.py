@@ -2,13 +2,21 @@
 
 # isort: skip_file
 
+from .base_credentialing_span import BaseCredentialingSpan
 from .credentialing_span_status import CredentialingSpanStatus
+from .facility_credentialing_span import FacilityCredentialingSpan
+from .facility_credentialing_span_id import FacilityCredentialingSpanId
+from .facility_credentialing_span_page import FacilityCredentialingSpanPage
 from .provider_credentialing_span import ProviderCredentialingSpan
 from .provider_credentialing_span_id import ProviderCredentialingSpanId
 from .provider_credentialing_span_page import ProviderCredentialingSpanPage
 
 __all__ = [
+    "BaseCredentialingSpan",
     "CredentialingSpanStatus",
+    "FacilityCredentialingSpan",
+    "FacilityCredentialingSpanId",
+    "FacilityCredentialingSpanPage",
     "ProviderCredentialingSpan",
     "ProviderCredentialingSpanId",
     "ProviderCredentialingSpanPage",

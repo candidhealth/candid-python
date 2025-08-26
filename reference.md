@@ -110,6 +110,63 @@ client.auth.default.get_token(
 </dl>
 </details>
 
+<details><summary><code>client.auth.default.<a href="src/candid/resources/auth/resources/default/client.py">get_machine_token_for_org_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.auth.default.get_machine_token_for_org_id(
+    org_id="org_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**org_id:** `str` — Organization ID to generate token for.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## BillingNotes V2
 <details><summary><code>client.billing_notes.v_2.<a href="src/candid/resources/billing_notes/resources/v_2/client.py">create</a>(...)</code></summary>
 <dl>
@@ -2185,6 +2242,464 @@ value, overriding what was set before.
 </details>
 
 ## Credentialing V2
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">create_facility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.create_facility(
+    service_facility_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    contracting_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    payer_uuid=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**service_facility_id:** `uuid.UUID` — The ID of the service facility covered by the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contracting_provider_id:** `uuid.UUID` — The ID of the billing provider for which the service facility is covered by the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_uuid:** `uuid.UUID` — The ID of the payer covered by the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**start_date:** `typing.Optional[dt.date]` — Start date of the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**end_date:** `typing.Optional[dt.date]` — End date of the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**submitted_date:** `typing.Optional[dt.date]` — Date that the credential paperwork was submitted.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_loaded_date:** `typing.Optional[dt.date]` — Date that the payer loaded the credentialing span into their system.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">get_facility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.get_facility(
+    facility_credentialing_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**facility_credentialing_id:** `FacilityCredentialingSpanId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">get_all_facilities</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.get_all_facilities()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Maximum number of entities per page, defaults to 100.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_uuid:** `typing.Optional[uuid.UUID]` — Filter by payer.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contracting_provider_id:** `typing.Optional[uuid.UUID]` — Filter to a particular contracting provider.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**service_facility_id:** `typing.Optional[uuid.UUID]` — Filter to a particular service facility.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">delete_facility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Soft deletes a credentialing span rate from the system.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.delete_facility(
+    facility_credentialing_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**facility_credentialing_id:** `FacilityCredentialingSpanId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">update_facility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.credentialing.v_2.update_facility(
+    facility_credentialing_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    contracting_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**facility_credentialing_id:** `FacilityCredentialingSpanId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contracting_provider_id:** `uuid.UUID` — The ID of the billing provider for which the service facility is covered by the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_uuid:** `typing.Optional[uuid.UUID]` — The ID of the payer doing the credentialing.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**start_date:** `typing.Optional[dt.date]` — Start date of the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**end_date:** `typing.Optional[dt.date]` — End date of the credentialing span.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**regions:** `typing.Optional[Regions]` — The states covered by the credentialing span. A span may be national and cover all states.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**submitted_date:** `typing.Optional[dt.date]` — Date that the credential paperwork was submitted.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_loaded_date:** `typing.Optional[dt.date]` — Date that the payer loaded the credentialing span into their system.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.credentialing.v_2.<a href="src/candid/resources/credentialing/resources/v_2/client.py">create</a>(...)</code></summary>
 <dl>
 <dd>
@@ -2244,7 +2759,7 @@ client.credentialing.v_2.create(
 <dl>
 <dd>
 
-**contracting_provider_id:** `uuid.UUID` — The ID of the practice location at which the rendering provider is covered by the credentialing span.
+**contracting_provider_id:** `uuid.UUID` — The ID of the billing provider for which the service facility is covered by the credentialing span.
     
 </dd>
 </dl>
@@ -2592,7 +3107,7 @@ client.credentialing.v_2.update(
 <dl>
 <dd>
 
-**contracting_provider_id:** `typing.Optional[uuid.UUID]` — The ID of the practice location at which the rendering provider is covered by the credentialing span.
+**contracting_provider_id:** `typing.Optional[uuid.UUID]` — The ID of the billing provider for which the service facility is covered by the credentialing span.
     
 </dd>
 </dl>
@@ -7667,6 +8182,141 @@ client.guarantor.v_1.update(
 </dl>
 </details>
 
+## HealthCareCodeInformation V1
+<details><summary><code>client.health_care_code_information.v_1.<a href="src/candid/resources/health_care_code_information/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.health_care_code_information.resources.v_1 import (
+    HealthCareCodeInformationUpdate,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.health_care_code_information.v_1.update(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=HealthCareCodeInformationUpdate(),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `HealthCareCodeInformationUpdate` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.health_care_code_information.v_1.<a href="src/candid/resources/health_care_code_information/resources/v_1/client.py">get_all_for_encounter</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.health_care_code_information.v_1.get_all_for_encounter(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## ImportInvoice V1
 <details><summary><code>client.import_invoice.v_1.<a href="src/candid/resources/import_invoice/resources/v_1/client.py">import_invoice</a>(...)</code></summary>
 <dl>
@@ -10701,6 +11351,359 @@ client.non_insurance_payers.v_1.delete(
 </dl>
 </details>
 
+## OrganizationProviders V3
+<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.get(
+    organization_provider_id=uuid.UUID(
+        "965a563a-0285-4910-9569-e3739c0f6eab",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**organization_provider_id:** `OrganizationProviderId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+from candid.resources.organization_providers.resources.v_2 import (
+    OrganizationProviderSortOptions,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.get_multi(
+    limit=100,
+    search_term="john",
+    npi="1234567890",
+    is_rendering=True,
+    is_billing=True,
+    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
+    sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Limit the number of results returned. Defaults to 100.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**search_term:** `typing.Optional[str]` — Filter to a name or a part of a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**npi:** `typing.Optional[str]` — Filter to a specific NPI.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**is_rendering:** `typing.Optional[bool]` — Filter to only rendering providers.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**is_billing:** `typing.Optional[bool]` — Filter to only billing providers.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**organization_provider_ids:** `typing.Optional[
+    typing.Union[
+        OrganizationProviderId, typing.Sequence[OrganizationProviderId]
+    ]
+]` — Filter to the provided organization provider IDs.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` — The page token to continue paging through a previous request.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort:** `typing.Optional[OrganizationProviderSortOptions]` — Defaults to PROVIDER_NAME_ASC.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+from candid.resources.commons import State
+from candid.resources.identifiers import (
+    IdentifierCode,
+    IdentifierCreate,
+    IdentifierValue_MedicareProviderIdentifier,
+)
+from candid.resources.organization_providers.resources.v_2 import (
+    LicenseType,
+    ProviderType,
+)
+from candid.resources.organization_providers.resources.v_3 import (
+    OrganizationProviderCreateV2,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.create(
+    request=OrganizationProviderCreateV2(
+        npi="npi",
+        is_rendering=True,
+        is_billing=True,
+        provider_type=ProviderType.INDIVIDUAL,
+        license_type=LicenseType.MD,
+        qualifications=[
+            IdentifierCreate(
+                identifier_code=IdentifierCode.MCR,
+                identifier_value=IdentifierValue_MedicareProviderIdentifier(
+                    state=State.AA,
+                    provider_number="provider_number",
+                ),
+            ),
+            IdentifierCreate(
+                identifier_code=IdentifierCode.MCR,
+                identifier_value=IdentifierValue_MedicareProviderIdentifier(
+                    state=State.AA,
+                    provider_number="provider_number",
+                ),
+            ),
+        ],
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `OrganizationProviderCreateV2` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.organization_providers.resources.v_3 import (
+    OrganizationProviderUpdateV2,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.update(
+    organization_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=OrganizationProviderUpdateV2(),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**organization_provider_id:** `OrganizationProviderId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `OrganizationProviderUpdateV2` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## OrganizationServiceFacilities V2
 <details><summary><code>client.organization_service_facilities.v_2.<a href="src/candid/resources/organization_service_facilities/resources/v_2/client.py">get</a>(...)</code></summary>
 <dl>
@@ -11093,10 +12096,114 @@ client.organization_service_facilities.v_2.delete(
 </dl>
 </details>
 
-## OrganizationProviders V3
-<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">get</a>(...)</code></summary>
+## PatientAr V1
+<details><summary><code>client.patient_ar.v_1.<a href="src/candid/resources/patient_ar/resources/v_1/client.py">list_inventory</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+NOTE: This service is in-development and can only be used by select partners. Please contact Candid Health to request access.
+
+Retrieve a list of inventory records based on the provided filters. Each inventory record provides the latest invoiceable status of the associated claim.
+The response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests should not include `page_token`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.patient_ar.v_1.list_inventory()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**since:** `typing.Optional[dt.datetime]` — Timestamp to filter records since, inclusive
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Maximum number of records to return, default is 100
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.patient_ar.v_1.<a href="src/candid/resources/patient_ar/resources/v_1/client.py">itemize</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+NOTE: This service is in-development and can only be used by select partners. Please contact Candid Health to request access.
+
+Provides detailed itemization of invoice data for a specific claim.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -11115,293 +12222,10 @@ client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
     client_secret="YOUR_CLIENT_SECRET",
 )
-client.organization_providers.v_3.get(
-    organization_provider_id=uuid.UUID(
-        "965a563a-0285-4910-9569-e3739c0f6eab",
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**organization_provider_id:** `OrganizationProviderId` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">get_multi</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from candid import CandidApiClient
-from candid.resources.organization_providers.resources.v_2 import (
-    OrganizationProviderSortOptions,
-)
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.organization_providers.v_3.get_multi(
-    limit=100,
-    search_term="john",
-    npi="1234567890",
-    is_rendering=True,
-    is_billing=True,
-    page_token="eyJ0b2tlbiI6IjEiLCJwYWdlX3Rva2VuIjoiMiJ9",
-    sort=OrganizationProviderSortOptions.PROVIDER_NAME_ASC,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**limit:** `typing.Optional[int]` — Limit the number of results returned. Defaults to 100.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**search_term:** `typing.Optional[str]` — Filter to a name or a part of a name.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**npi:** `typing.Optional[str]` — Filter to a specific NPI.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**is_rendering:** `typing.Optional[bool]` — Filter to only rendering providers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**is_billing:** `typing.Optional[bool]` — Filter to only billing providers.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**organization_provider_ids:** `typing.Optional[
-    typing.Union[
-        OrganizationProviderId, typing.Sequence[OrganizationProviderId]
-    ]
-]` — Filter to the provided organization provider IDs.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_token:** `typing.Optional[PageToken]` — The page token to continue paging through a previous request.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**sort:** `typing.Optional[OrganizationProviderSortOptions]` — Defaults to PROVIDER_NAME_ASC.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">create</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from candid import CandidApiClient
-from candid.resources.commons import State
-from candid.resources.identifiers import (
-    IdentifierCode,
-    IdentifierCreate,
-    IdentifierValue_MedicareProviderIdentifier,
-)
-from candid.resources.organization_providers.resources.v_2 import (
-    LicenseType,
-    ProviderType,
-)
-from candid.resources.organization_providers.resources.v_3 import (
-    OrganizationProviderCreateV2,
-)
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.organization_providers.v_3.create(
-    request=OrganizationProviderCreateV2(
-        npi="npi",
-        is_rendering=True,
-        is_billing=True,
-        provider_type=ProviderType.INDIVIDUAL,
-        license_type=LicenseType.MD,
-        qualifications=[
-            IdentifierCreate(
-                identifier_code=IdentifierCode.MCR,
-                identifier_value=IdentifierValue_MedicareProviderIdentifier(
-                    state=State.AA,
-                    provider_number="provider_number",
-                ),
-            ),
-            IdentifierCreate(
-                identifier_code=IdentifierCode.MCR,
-                identifier_value=IdentifierValue_MedicareProviderIdentifier(
-                    state=State.AA,
-                    provider_number="provider_number",
-                ),
-            ),
-        ],
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `OrganizationProviderCreateV2` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">update</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import uuid
-
-from candid import CandidApiClient
-from candid.resources.organization_providers.resources.v_3 import (
-    OrganizationProviderUpdateV2,
-)
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.organization_providers.v_3.update(
-    organization_provider_id=uuid.UUID(
+client.patient_ar.v_1.itemize(
+    claim_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
-    request=OrganizationProviderUpdateV2(),
 )
 
 ```
@@ -11418,15 +12242,7 @@ client.organization_providers.v_3.update(
 <dl>
 <dd>
 
-**organization_provider_id:** `OrganizationProviderId` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `OrganizationProviderUpdateV2` 
+**claim_id:** `ClaimId` 
     
 </dd>
 </dl>

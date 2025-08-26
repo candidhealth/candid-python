@@ -22,6 +22,9 @@ from ....commons.types.regions import Regions
 from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
+from .types.facility_credentialing_span import FacilityCredentialingSpan
+from .types.facility_credentialing_span_id import FacilityCredentialingSpanId
+from .types.facility_credentialing_span_page import FacilityCredentialingSpanPage
 from .types.provider_credentialing_span import ProviderCredentialingSpan
 from .types.provider_credentialing_span_page import ProviderCredentialingSpanPage
 
@@ -32,6 +35,429 @@ OMIT = typing.cast(typing.Any, ...)
 class RawV2Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    def create_facility(
+        self,
+        *,
+        service_facility_id: uuid.UUID,
+        contracting_provider_id: uuid.UUID,
+        payer_uuid: uuid.UUID,
+        start_date: typing.Optional[dt.date] = OMIT,
+        end_date: typing.Optional[dt.date] = OMIT,
+        submitted_date: typing.Optional[dt.date] = OMIT,
+        payer_loaded_date: typing.Optional[dt.date] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[FacilityCredentialingSpan]:
+        """
+        Parameters
+        ----------
+        service_facility_id : uuid.UUID
+            The ID of the service facility covered by the credentialing span.
+
+        contracting_provider_id : uuid.UUID
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
+
+        payer_uuid : uuid.UUID
+            The ID of the payer covered by the credentialing span.
+
+        start_date : typing.Optional[dt.date]
+            Start date of the credentialing span.
+
+        end_date : typing.Optional[dt.date]
+            End date of the credentialing span.
+
+        submitted_date : typing.Optional[dt.date]
+            Date that the credential paperwork was submitted.
+
+        payer_loaded_date : typing.Optional[dt.date]
+            Date that the payer loaded the credentialing span into their system.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[FacilityCredentialingSpan]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/provider-credentialing-span/v2/facility",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "service_facility_id": service_facility_id,
+                "contracting_provider_id": contracting_provider_id,
+                "payer_uuid": payer_uuid,
+                "start_date": start_date,
+                "end_date": end_date,
+                "submitted_date": submitted_date,
+                "payer_loaded_date": payer_loaded_date,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FacilityCredentialingSpan,
+                parse_obj_as(
+                    type_=FacilityCredentialingSpan,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[FacilityCredentialingSpan]:
+        """
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[FacilityCredentialingSpan]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/provider-credentialing-span/v2/facility/{jsonable_encoder(facility_credentialing_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FacilityCredentialingSpan,
+                parse_obj_as(
+                    type_=FacilityCredentialingSpan,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_all_facilities(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        payer_uuid: typing.Optional[uuid.UUID] = None,
+        contracting_provider_id: typing.Optional[uuid.UUID] = None,
+        service_facility_id: typing.Optional[uuid.UUID] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[FacilityCredentialingSpanPage]:
+        """
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+
+        payer_uuid : typing.Optional[uuid.UUID]
+            Filter by payer.
+
+        contracting_provider_id : typing.Optional[uuid.UUID]
+            Filter to a particular contracting provider.
+
+        service_facility_id : typing.Optional[uuid.UUID]
+            Filter to a particular service facility.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[FacilityCredentialingSpanPage]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/provider-credentialing-span/v2/facility",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "limit": limit,
+                "page_token": page_token,
+                "payer_uuid": payer_uuid,
+                "contracting_provider_id": contracting_provider_id,
+                "service_facility_id": service_facility_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FacilityCredentialingSpanPage,
+                parse_obj_as(
+                    type_=FacilityCredentialingSpanPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def delete_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[None]:
+        """
+        Soft deletes a credentialing span rate from the system.
+
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[None]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/provider-credentialing-span/v2/facility/{jsonable_encoder(facility_credentialing_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return HttpResponse(response=_response, data=None)
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def update_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        contracting_provider_id: uuid.UUID,
+        payer_uuid: typing.Optional[uuid.UUID] = OMIT,
+        start_date: typing.Optional[dt.date] = OMIT,
+        end_date: typing.Optional[dt.date] = OMIT,
+        regions: typing.Optional[Regions] = OMIT,
+        submitted_date: typing.Optional[dt.date] = OMIT,
+        payer_loaded_date: typing.Optional[dt.date] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[FacilityCredentialingSpan]:
+        """
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        contracting_provider_id : uuid.UUID
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
+
+        payer_uuid : typing.Optional[uuid.UUID]
+            The ID of the payer doing the credentialing.
+
+        start_date : typing.Optional[dt.date]
+            Start date of the credentialing span.
+
+        end_date : typing.Optional[dt.date]
+            End date of the credentialing span.
+
+        regions : typing.Optional[Regions]
+            The states covered by the credentialing span. A span may be national and cover all states.
+
+        submitted_date : typing.Optional[dt.date]
+            Date that the credential paperwork was submitted.
+
+        payer_loaded_date : typing.Optional[dt.date]
+            Date that the payer loaded the credentialing span into their system.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[FacilityCredentialingSpan]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/provider-credentialing-span/v2/facility/{jsonable_encoder(facility_credentialing_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "contracting_provider_id": contracting_provider_id,
+                "payer_uuid": payer_uuid,
+                "start_date": start_date,
+                "end_date": end_date,
+                "regions": regions,
+                "submitted_date": submitted_date,
+                "payer_loaded_date": payer_loaded_date,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FacilityCredentialingSpan,
+                parse_obj_as(
+                    type_=FacilityCredentialingSpan,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create(
         self,
@@ -53,7 +479,7 @@ class RawV2Client:
             The ID of the rendering provider covered by the credentialing span.
 
         contracting_provider_id : uuid.UUID
-            The ID of the practice location at which the rendering provider is covered by the credentialing span.
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
 
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
@@ -363,7 +789,7 @@ class RawV2Client:
         provider_credentialing_id : ProviderCredentialingSpanId
 
         contracting_provider_id : typing.Optional[uuid.UUID]
-            The ID of the practice location at which the rendering provider is covered by the credentialing span.
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
 
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.
@@ -471,6 +897,429 @@ class AsyncRawV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
+    async def create_facility(
+        self,
+        *,
+        service_facility_id: uuid.UUID,
+        contracting_provider_id: uuid.UUID,
+        payer_uuid: uuid.UUID,
+        start_date: typing.Optional[dt.date] = OMIT,
+        end_date: typing.Optional[dt.date] = OMIT,
+        submitted_date: typing.Optional[dt.date] = OMIT,
+        payer_loaded_date: typing.Optional[dt.date] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[FacilityCredentialingSpan]:
+        """
+        Parameters
+        ----------
+        service_facility_id : uuid.UUID
+            The ID of the service facility covered by the credentialing span.
+
+        contracting_provider_id : uuid.UUID
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
+
+        payer_uuid : uuid.UUID
+            The ID of the payer covered by the credentialing span.
+
+        start_date : typing.Optional[dt.date]
+            Start date of the credentialing span.
+
+        end_date : typing.Optional[dt.date]
+            End date of the credentialing span.
+
+        submitted_date : typing.Optional[dt.date]
+            Date that the credential paperwork was submitted.
+
+        payer_loaded_date : typing.Optional[dt.date]
+            Date that the payer loaded the credentialing span into their system.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[FacilityCredentialingSpan]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/provider-credentialing-span/v2/facility",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "service_facility_id": service_facility_id,
+                "contracting_provider_id": contracting_provider_id,
+                "payer_uuid": payer_uuid,
+                "start_date": start_date,
+                "end_date": end_date,
+                "submitted_date": submitted_date,
+                "payer_loaded_date": payer_loaded_date,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FacilityCredentialingSpan,
+                parse_obj_as(
+                    type_=FacilityCredentialingSpan,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[FacilityCredentialingSpan]:
+        """
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[FacilityCredentialingSpan]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/provider-credentialing-span/v2/facility/{jsonable_encoder(facility_credentialing_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FacilityCredentialingSpan,
+                parse_obj_as(
+                    type_=FacilityCredentialingSpan,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_all_facilities(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        payer_uuid: typing.Optional[uuid.UUID] = None,
+        contracting_provider_id: typing.Optional[uuid.UUID] = None,
+        service_facility_id: typing.Optional[uuid.UUID] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[FacilityCredentialingSpanPage]:
+        """
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+
+        payer_uuid : typing.Optional[uuid.UUID]
+            Filter by payer.
+
+        contracting_provider_id : typing.Optional[uuid.UUID]
+            Filter to a particular contracting provider.
+
+        service_facility_id : typing.Optional[uuid.UUID]
+            Filter to a particular service facility.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[FacilityCredentialingSpanPage]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/provider-credentialing-span/v2/facility",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "limit": limit,
+                "page_token": page_token,
+                "payer_uuid": payer_uuid,
+                "contracting_provider_id": contracting_provider_id,
+                "service_facility_id": service_facility_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FacilityCredentialingSpanPage,
+                parse_obj_as(
+                    type_=FacilityCredentialingSpanPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def delete_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[None]:
+        """
+        Soft deletes a credentialing span rate from the system.
+
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[None]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/provider-credentialing-span/v2/facility/{jsonable_encoder(facility_credentialing_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return AsyncHttpResponse(response=_response, data=None)
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def update_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        contracting_provider_id: uuid.UUID,
+        payer_uuid: typing.Optional[uuid.UUID] = OMIT,
+        start_date: typing.Optional[dt.date] = OMIT,
+        end_date: typing.Optional[dt.date] = OMIT,
+        regions: typing.Optional[Regions] = OMIT,
+        submitted_date: typing.Optional[dt.date] = OMIT,
+        payer_loaded_date: typing.Optional[dt.date] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[FacilityCredentialingSpan]:
+        """
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        contracting_provider_id : uuid.UUID
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
+
+        payer_uuid : typing.Optional[uuid.UUID]
+            The ID of the payer doing the credentialing.
+
+        start_date : typing.Optional[dt.date]
+            Start date of the credentialing span.
+
+        end_date : typing.Optional[dt.date]
+            End date of the credentialing span.
+
+        regions : typing.Optional[Regions]
+            The states covered by the credentialing span. A span may be national and cover all states.
+
+        submitted_date : typing.Optional[dt.date]
+            Date that the credential paperwork was submitted.
+
+        payer_loaded_date : typing.Optional[dt.date]
+            Date that the payer loaded the credentialing span into their system.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[FacilityCredentialingSpan]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/provider-credentialing-span/v2/facility/{jsonable_encoder(facility_credentialing_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "contracting_provider_id": contracting_provider_id,
+                "payer_uuid": payer_uuid,
+                "start_date": start_date,
+                "end_date": end_date,
+                "regions": regions,
+                "submitted_date": submitted_date,
+                "payer_loaded_date": payer_loaded_date,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FacilityCredentialingSpan,
+                parse_obj_as(
+                    type_=FacilityCredentialingSpan,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     async def create(
         self,
         *,
@@ -491,7 +1340,7 @@ class AsyncRawV2Client:
             The ID of the rendering provider covered by the credentialing span.
 
         contracting_provider_id : uuid.UUID
-            The ID of the practice location at which the rendering provider is covered by the credentialing span.
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
 
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
@@ -801,7 +1650,7 @@ class AsyncRawV2Client:
         provider_credentialing_id : ProviderCredentialingSpanId
 
         contracting_provider_id : typing.Optional[uuid.UUID]
-            The ID of the practice location at which the rendering provider is covered by the credentialing span.
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
 
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.

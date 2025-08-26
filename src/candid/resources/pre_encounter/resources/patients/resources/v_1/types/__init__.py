@@ -12,10 +12,14 @@ from .guarantor import Guarantor
 from .marital_status import MaritalStatus
 from .mutable_patient import MutablePatient
 from .mutable_patient_with_mrn import MutablePatientWithMrn
+from .origination_detail import OriginationDetail
 from .patient import Patient
 from .patient_page import PatientPage
 from .patient_sort_field import PatientSortField
 from .referral import Referral
+from .referral_source import ReferralSource
+from .referral_type import ReferralType
+from .specialization_category import SpecializationCategory
 
 __all__ = [
     "Authorization",
@@ -28,8 +32,12 @@ __all__ = [
     "MaritalStatus",
     "MutablePatient",
     "MutablePatientWithMrn",
+    "OriginationDetail",
     "Patient",
     "PatientPage",
     "PatientSortField",
     "Referral",
+    "ReferralSource",
+    "ReferralType",
+    "SpecializationCategory",
 ]

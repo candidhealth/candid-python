@@ -3,14 +3,22 @@
 # isort: skip_file
 
 from .types import (
+    BaseCredentialingSpan,
     CredentialingSpanStatus,
+    FacilityCredentialingSpan,
+    FacilityCredentialingSpanId,
+    FacilityCredentialingSpanPage,
     ProviderCredentialingSpan,
     ProviderCredentialingSpanId,
     ProviderCredentialingSpanPage,
 )
 
 __all__ = [
+    "BaseCredentialingSpan",
     "CredentialingSpanStatus",
+    "FacilityCredentialingSpan",
+    "FacilityCredentialingSpanId",
+    "FacilityCredentialingSpanPage",
     "ProviderCredentialingSpan",
     "ProviderCredentialingSpanId",
     "ProviderCredentialingSpanPage",

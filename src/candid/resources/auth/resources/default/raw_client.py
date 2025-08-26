@@ -122,6 +122,47 @@ class RawDefaultClient:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def get_machine_token_for_org_id(
+        self, *, org_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[AuthGetTokenResponse]:
+        """
+        Parameters
+        ----------
+        org_id : str
+            Organization ID to generate token for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AuthGetTokenResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/auth/v2/machine-token-for-org-id",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "org_id": org_id,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AuthGetTokenResponse,
+                parse_obj_as(
+                    type_=AuthGetTokenResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawDefaultClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -225,4 +266,45 @@ class AsyncRawDefaultClient:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_machine_token_for_org_id(
+        self, *, org_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[AuthGetTokenResponse]:
+        """
+        Parameters
+        ----------
+        org_id : str
+            Organization ID to generate token for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AuthGetTokenResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/auth/v2/machine-token-for-org-id",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "org_id": org_id,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AuthGetTokenResponse,
+                parse_obj_as(
+                    type_=AuthGetTokenResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

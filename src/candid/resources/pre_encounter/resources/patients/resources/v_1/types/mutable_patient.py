@@ -27,6 +27,7 @@ from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
 from .guarantor import Guarantor
 from .marital_status import MaritalStatus
+from .origination_detail import OriginationDetail
 from .referral import Referral
 
 
@@ -128,6 +129,10 @@ class MutablePatient(UniversalBaseModel):
 
     note_ids: typing.Optional[typing.List[NoteId]] = None
     tag_ids: typing.Optional[typing.List[TagId]] = None
+    origination_detail: typing.Optional[OriginationDetail] = pydantic.Field(default=None)
+    """
+    Information about the patient source, if applicable.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

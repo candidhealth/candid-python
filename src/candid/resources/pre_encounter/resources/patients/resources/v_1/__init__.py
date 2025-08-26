@@ -13,10 +13,14 @@ from .types import (
     MaritalStatus,
     MutablePatient,
     MutablePatientWithMrn,
+    OriginationDetail,
     Patient,
     PatientPage,
     PatientSortField,
     Referral,
+    ReferralSource,
+    ReferralType,
+    SpecializationCategory,
 )
 
 __all__ = [
@@ -30,8 +34,12 @@ __all__ = [
     "MaritalStatus",
     "MutablePatient",
     "MutablePatientWithMrn",
+    "OriginationDetail",
     "Patient",
     "PatientPage",
     "PatientSortField",
     "Referral",
+    "ReferralSource",
+    "ReferralType",
+    "SpecializationCategory",
 ]

@@ -95,6 +95,37 @@ class DefaultClient:
         )
         return _response.data
 
+    def get_machine_token_for_org_id(
+        self, *, org_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AuthGetTokenResponse:
+        """
+        Parameters
+        ----------
+        org_id : str
+            Organization ID to generate token for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AuthGetTokenResponse
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.auth.default.get_machine_token_for_org_id(
+            org_id="org_id",
+        )
+        """
+        _response = self._raw_client.get_machine_token_for_org_id(org_id=org_id, request_options=request_options)
+        return _response.data
+
 
 class AsyncDefaultClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -186,4 +217,43 @@ class AsyncDefaultClient:
         _response = await self._raw_client.get_token(
             client_id=client_id, client_secret=client_secret, request_options=request_options
         )
+        return _response.data
+
+    async def get_machine_token_for_org_id(
+        self, *, org_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AuthGetTokenResponse:
+        """
+        Parameters
+        ----------
+        org_id : str
+            Organization ID to generate token for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AuthGetTokenResponse
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.auth.default.get_machine_token_for_org_id(
+                org_id="org_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_machine_token_for_org_id(org_id=org_id, request_options=request_options)
         return _response.data

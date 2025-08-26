@@ -10,6 +10,9 @@ from ....commons.types.page_token import PageToken
 from ....commons.types.provider_credentialing_span_id import ProviderCredentialingSpanId
 from ....commons.types.regions import Regions
 from .raw_client import AsyncRawV2Client, RawV2Client
+from .types.facility_credentialing_span import FacilityCredentialingSpan
+from .types.facility_credentialing_span_id import FacilityCredentialingSpanId
+from .types.facility_credentialing_span_page import FacilityCredentialingSpanPage
 from .types.provider_credentialing_span import ProviderCredentialingSpan
 from .types.provider_credentialing_span_page import ProviderCredentialingSpanPage
 
@@ -32,6 +35,291 @@ class V2Client:
         """
         return self._raw_client
 
+    def create_facility(
+        self,
+        *,
+        service_facility_id: uuid.UUID,
+        contracting_provider_id: uuid.UUID,
+        payer_uuid: uuid.UUID,
+        start_date: typing.Optional[dt.date] = OMIT,
+        end_date: typing.Optional[dt.date] = OMIT,
+        submitted_date: typing.Optional[dt.date] = OMIT,
+        payer_loaded_date: typing.Optional[dt.date] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> FacilityCredentialingSpan:
+        """
+        Parameters
+        ----------
+        service_facility_id : uuid.UUID
+            The ID of the service facility covered by the credentialing span.
+
+        contracting_provider_id : uuid.UUID
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
+
+        payer_uuid : uuid.UUID
+            The ID of the payer covered by the credentialing span.
+
+        start_date : typing.Optional[dt.date]
+            Start date of the credentialing span.
+
+        end_date : typing.Optional[dt.date]
+            End date of the credentialing span.
+
+        submitted_date : typing.Optional[dt.date]
+            Date that the credential paperwork was submitted.
+
+        payer_loaded_date : typing.Optional[dt.date]
+            Date that the payer loaded the credentialing span into their system.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FacilityCredentialingSpan
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.credentialing.v_2.create_facility(
+            service_facility_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            contracting_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            payer_uuid=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.create_facility(
+            service_facility_id=service_facility_id,
+            contracting_provider_id=contracting_provider_id,
+            payer_uuid=payer_uuid,
+            start_date=start_date,
+            end_date=end_date,
+            submitted_date=submitted_date,
+            payer_loaded_date=payer_loaded_date,
+            request_options=request_options,
+        )
+        return _response.data
+
+    def get_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> FacilityCredentialingSpan:
+        """
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FacilityCredentialingSpan
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.credentialing.v_2.get_facility(
+            facility_credentialing_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.get_facility(facility_credentialing_id, request_options=request_options)
+        return _response.data
+
+    def get_all_facilities(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        payer_uuid: typing.Optional[uuid.UUID] = None,
+        contracting_provider_id: typing.Optional[uuid.UUID] = None,
+        service_facility_id: typing.Optional[uuid.UUID] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> FacilityCredentialingSpanPage:
+        """
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+
+        payer_uuid : typing.Optional[uuid.UUID]
+            Filter by payer.
+
+        contracting_provider_id : typing.Optional[uuid.UUID]
+            Filter to a particular contracting provider.
+
+        service_facility_id : typing.Optional[uuid.UUID]
+            Filter to a particular service facility.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FacilityCredentialingSpanPage
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.credentialing.v_2.get_all_facilities()
+        """
+        _response = self._raw_client.get_all_facilities(
+            limit=limit,
+            page_token=page_token,
+            payer_uuid=payer_uuid,
+            contracting_provider_id=contracting_provider_id,
+            service_facility_id=service_facility_id,
+            request_options=request_options,
+        )
+        return _response.data
+
+    def delete_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
+        """
+        Soft deletes a credentialing span rate from the system.
+
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.credentialing.v_2.delete_facility(
+            facility_credentialing_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.delete_facility(facility_credentialing_id, request_options=request_options)
+        return _response.data
+
+    def update_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        contracting_provider_id: uuid.UUID,
+        payer_uuid: typing.Optional[uuid.UUID] = OMIT,
+        start_date: typing.Optional[dt.date] = OMIT,
+        end_date: typing.Optional[dt.date] = OMIT,
+        regions: typing.Optional[Regions] = OMIT,
+        submitted_date: typing.Optional[dt.date] = OMIT,
+        payer_loaded_date: typing.Optional[dt.date] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> FacilityCredentialingSpan:
+        """
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        contracting_provider_id : uuid.UUID
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
+
+        payer_uuid : typing.Optional[uuid.UUID]
+            The ID of the payer doing the credentialing.
+
+        start_date : typing.Optional[dt.date]
+            Start date of the credentialing span.
+
+        end_date : typing.Optional[dt.date]
+            End date of the credentialing span.
+
+        regions : typing.Optional[Regions]
+            The states covered by the credentialing span. A span may be national and cover all states.
+
+        submitted_date : typing.Optional[dt.date]
+            Date that the credential paperwork was submitted.
+
+        payer_loaded_date : typing.Optional[dt.date]
+            Date that the payer loaded the credentialing span into their system.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FacilityCredentialingSpan
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.credentialing.v_2.update_facility(
+            facility_credentialing_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            contracting_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.update_facility(
+            facility_credentialing_id,
+            contracting_provider_id=contracting_provider_id,
+            payer_uuid=payer_uuid,
+            start_date=start_date,
+            end_date=end_date,
+            regions=regions,
+            submitted_date=submitted_date,
+            payer_loaded_date=payer_loaded_date,
+            request_options=request_options,
+        )
+        return _response.data
+
     def create(
         self,
         *,
@@ -52,7 +340,7 @@ class V2Client:
             The ID of the rendering provider covered by the credentialing span.
 
         contracting_provider_id : uuid.UUID
-            The ID of the practice location at which the rendering provider is covered by the credentialing span.
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
 
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
@@ -272,7 +560,7 @@ class V2Client:
         provider_credentialing_id : ProviderCredentialingSpanId
 
         contracting_provider_id : typing.Optional[uuid.UUID]
-            The ID of the practice location at which the rendering provider is covered by the credentialing span.
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
 
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.
@@ -344,6 +632,327 @@ class AsyncV2Client:
         """
         return self._raw_client
 
+    async def create_facility(
+        self,
+        *,
+        service_facility_id: uuid.UUID,
+        contracting_provider_id: uuid.UUID,
+        payer_uuid: uuid.UUID,
+        start_date: typing.Optional[dt.date] = OMIT,
+        end_date: typing.Optional[dt.date] = OMIT,
+        submitted_date: typing.Optional[dt.date] = OMIT,
+        payer_loaded_date: typing.Optional[dt.date] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> FacilityCredentialingSpan:
+        """
+        Parameters
+        ----------
+        service_facility_id : uuid.UUID
+            The ID of the service facility covered by the credentialing span.
+
+        contracting_provider_id : uuid.UUID
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
+
+        payer_uuid : uuid.UUID
+            The ID of the payer covered by the credentialing span.
+
+        start_date : typing.Optional[dt.date]
+            Start date of the credentialing span.
+
+        end_date : typing.Optional[dt.date]
+            End date of the credentialing span.
+
+        submitted_date : typing.Optional[dt.date]
+            Date that the credential paperwork was submitted.
+
+        payer_loaded_date : typing.Optional[dt.date]
+            Date that the payer loaded the credentialing span into their system.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FacilityCredentialingSpan
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.credentialing.v_2.create_facility(
+                service_facility_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                contracting_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                payer_uuid=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create_facility(
+            service_facility_id=service_facility_id,
+            contracting_provider_id=contracting_provider_id,
+            payer_uuid=payer_uuid,
+            start_date=start_date,
+            end_date=end_date,
+            submitted_date=submitted_date,
+            payer_loaded_date=payer_loaded_date,
+            request_options=request_options,
+        )
+        return _response.data
+
+    async def get_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> FacilityCredentialingSpan:
+        """
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FacilityCredentialingSpan
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.credentialing.v_2.get_facility(
+                facility_credentialing_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_facility(facility_credentialing_id, request_options=request_options)
+        return _response.data
+
+    async def get_all_facilities(
+        self,
+        *,
+        limit: typing.Optional[int] = None,
+        page_token: typing.Optional[PageToken] = None,
+        payer_uuid: typing.Optional[uuid.UUID] = None,
+        contracting_provider_id: typing.Optional[uuid.UUID] = None,
+        service_facility_id: typing.Optional[uuid.UUID] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> FacilityCredentialingSpanPage:
+        """
+        Parameters
+        ----------
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+
+        payer_uuid : typing.Optional[uuid.UUID]
+            Filter by payer.
+
+        contracting_provider_id : typing.Optional[uuid.UUID]
+            Filter to a particular contracting provider.
+
+        service_facility_id : typing.Optional[uuid.UUID]
+            Filter to a particular service facility.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FacilityCredentialingSpanPage
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.credentialing.v_2.get_all_facilities()
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_all_facilities(
+            limit=limit,
+            page_token=page_token,
+            payer_uuid=payer_uuid,
+            contracting_provider_id=contracting_provider_id,
+            service_facility_id=service_facility_id,
+            request_options=request_options,
+        )
+        return _response.data
+
+    async def delete_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
+        """
+        Soft deletes a credentialing span rate from the system.
+
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.credentialing.v_2.delete_facility(
+                facility_credentialing_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.delete_facility(facility_credentialing_id, request_options=request_options)
+        return _response.data
+
+    async def update_facility(
+        self,
+        facility_credentialing_id: FacilityCredentialingSpanId,
+        *,
+        contracting_provider_id: uuid.UUID,
+        payer_uuid: typing.Optional[uuid.UUID] = OMIT,
+        start_date: typing.Optional[dt.date] = OMIT,
+        end_date: typing.Optional[dt.date] = OMIT,
+        regions: typing.Optional[Regions] = OMIT,
+        submitted_date: typing.Optional[dt.date] = OMIT,
+        payer_loaded_date: typing.Optional[dt.date] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> FacilityCredentialingSpan:
+        """
+        Parameters
+        ----------
+        facility_credentialing_id : FacilityCredentialingSpanId
+
+        contracting_provider_id : uuid.UUID
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
+
+        payer_uuid : typing.Optional[uuid.UUID]
+            The ID of the payer doing the credentialing.
+
+        start_date : typing.Optional[dt.date]
+            Start date of the credentialing span.
+
+        end_date : typing.Optional[dt.date]
+            End date of the credentialing span.
+
+        regions : typing.Optional[Regions]
+            The states covered by the credentialing span. A span may be national and cover all states.
+
+        submitted_date : typing.Optional[dt.date]
+            Date that the credential paperwork was submitted.
+
+        payer_loaded_date : typing.Optional[dt.date]
+            Date that the payer loaded the credentialing span into their system.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FacilityCredentialingSpan
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.credentialing.v_2.update_facility(
+                facility_credentialing_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                contracting_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.update_facility(
+            facility_credentialing_id,
+            contracting_provider_id=contracting_provider_id,
+            payer_uuid=payer_uuid,
+            start_date=start_date,
+            end_date=end_date,
+            regions=regions,
+            submitted_date=submitted_date,
+            payer_loaded_date=payer_loaded_date,
+            request_options=request_options,
+        )
+        return _response.data
+
     async def create(
         self,
         *,
@@ -364,7 +973,7 @@ class AsyncV2Client:
             The ID of the rendering provider covered by the credentialing span.
 
         contracting_provider_id : uuid.UUID
-            The ID of the practice location at which the rendering provider is covered by the credentialing span.
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
 
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
@@ -613,7 +1222,7 @@ class AsyncV2Client:
         provider_credentialing_id : ProviderCredentialingSpanId
 
         contracting_provider_id : typing.Optional[uuid.UUID]
-            The ID of the practice location at which the rendering provider is covered by the credentialing span.
+            The ID of the billing provider for which the service facility is covered by the credentialing span.
 
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.
