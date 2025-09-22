@@ -32,16 +32,15 @@ class ServiceLineCreateOptional(UniversalBaseModel):
     quantity: typing.Optional[Decimal] = pydantic.Field(default=None)
     """
     String representation of a Decimal that can be parsed by most libraries.
-    A ServiceLine quantity cannot contain more than one digit of precision.
-    Example: 1.1 is valid, 1.11 is not.
+    For professional claims, a ServiceLine quantity cannot contain more than one digit of precision
+    (Example: 1.1 is valid, 1.11 is not). For institutional claims, a ServiceLine quantity cannot contain
+    more than three decimal digits of precision.
     """
 
     units: typing.Optional[ServiceLineUnits] = None
     charge_amount_cents: typing.Optional[int] = pydantic.Field(default=None)
     """
-    The total amount charged for this service line taking quantity into account. For example, if a single unit
-    costs 100 cents and 2 units were rendered, the `charge_amount_cents` should be 200. Should be greater than or
-    equal to 0.
+    The total amount charged for this service line, factoring in quantity. If procedure_code is updated and this is not, the system will attempt to set it based on chargemasters entries and the service line’s quantity. For example, if a single unit has an entry of 100 cents and 2 units were rendered, the charge_amount_cents will be set to 200, if there is no chargemaster entry, it will default to the amount set in this field.
     """
 
     diagnosis_pointers: typing.Optional[typing.List[int]] = pydantic.Field(default=None)
@@ -52,12 +51,12 @@ class ServiceLineCreateOptional(UniversalBaseModel):
     drug_identification: typing.Optional[DrugIdentificationOptional] = None
     place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
     """
-    837p Loop2300, SV105. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+    837p Loop2300, SV105. This enum is not used or required in 837i claims. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
     """
 
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on the 837-P.
+    A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on a 837-P and SV2-02, C003-07 on a 837-I form.
     """
 
     date_of_service: typing.Optional[dt.date] = None
@@ -71,12 +70,18 @@ class ServiceLineCreateOptional(UniversalBaseModel):
     test_results: typing.Optional[typing.List[TestResultOptional]] = pydantic.Field(default=None)
     """
     Contains a list of test results. Test result types may map to MEA-02 on the 837-P (ex: Hemoglobin, Hematocrit).
+    This is unused by 837-i and ignored for institutional service lines.
     No more than 5 MEA-02 test results may be submitted per service line.
     """
 
     note: typing.Optional[str] = pydantic.Field(default=None)
     """
     Maps to NTE02 loop 2400 on the EDI 837.
+    """
+
+    revenue_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    A 4 digit code that specifies facility department or type of service arrangement for institutional service line items (837i). This code is not required for professional claim billing (837p).
     """
 
     if IS_PYDANTIC_V2:

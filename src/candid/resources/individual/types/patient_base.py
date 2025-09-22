@@ -17,12 +17,12 @@ class PatientBase(IndividualBase):
 
     date_of_birth: dt.date = pydantic.Field()
     """
-    Box 3 on the CMS-1500 claim form. The date format should be in ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
+    Box 3 on the CMS-1500 claim form or Form Locator 10 on a UB-04 claim form. The date format should be in ISO 8601 date; formatted YYYY-MM-DD (i.e. 2012-02-01)
     """
 
     address: StreetAddressShortZip = pydantic.Field()
     """
-    Box 5 on the CMS-1500 claim form.
+    Box 5 on the CMS-1500 claim form or Form Locator 9 on a UB-04 claim form.
     """
 
     if IS_PYDANTIC_V2:

@@ -12,7 +12,7 @@ from .....common.types.sex import Sex
 
 class Subscriber(UniversalBaseModel):
     name: HumanName
-    date_of_birth: dt.date
+    date_of_birth: typing.Optional[dt.date] = None
     biological_sex: Sex
     address: typing.Optional[Address] = None
 

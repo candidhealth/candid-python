@@ -671,6 +671,47 @@ class V3Client:
         _response = self._raw_client.hard_delete_rates(request=request, request_options=request_options)
         return _response.data
 
+    def hard_delete_rates_by_ids(
+        self, *, rate_ids: typing.Sequence[RateId], request_options: typing.Optional[RequestOptions] = None
+    ) -> int:
+        """
+        Hard deletes specific rates from the system by their IDs. This is a destructive operation and cannot be undone. Limited to 100 rate IDs maximum per request. For bulk deletion of more than 100 rates, use the hard_delete_rates endpoint with dimension filters. Returns the number of rates deleted.
+
+        Parameters
+        ----------
+        rate_ids : typing.Sequence[RateId]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        int
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.hard_delete_rates_by_ids(
+            rate_ids=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            ],
+        )
+        """
+        _response = self._raw_client.hard_delete_rates_by_ids(rate_ids=rate_ids, request_options=request_options)
+        return _response.data
+
 
 class AsyncV3Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1395,4 +1436,52 @@ class AsyncV3Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.hard_delete_rates(request=request, request_options=request_options)
+        return _response.data
+
+    async def hard_delete_rates_by_ids(
+        self, *, rate_ids: typing.Sequence[RateId], request_options: typing.Optional[RequestOptions] = None
+    ) -> int:
+        """
+        Hard deletes specific rates from the system by their IDs. This is a destructive operation and cannot be undone. Limited to 100 rate IDs maximum per request. For bulk deletion of more than 100 rates, use the hard_delete_rates endpoint with dimension filters. Returns the number of rates deleted.
+
+        Parameters
+        ----------
+        rate_ids : typing.Sequence[RateId]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        int
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.hard_delete_rates_by_ids(
+                rate_ids=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                ],
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.hard_delete_rates_by_ids(rate_ids=rate_ids, request_options=request_options)
         return _response.data

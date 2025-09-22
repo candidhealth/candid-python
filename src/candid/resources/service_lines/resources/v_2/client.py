@@ -9,6 +9,8 @@ from .raw_client import AsyncRawV2Client, RawV2Client
 from .types.service_line import ServiceLine
 from .types.service_line_create_standalone import ServiceLineCreateStandalone
 from .types.service_line_update import ServiceLineUpdate
+from .types.universal_service_line_create_standalone import UniversalServiceLineCreateStandalone
+from .types.universal_service_line_update import UniversalServiceLineUpdate
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -60,7 +62,49 @@ class V2Client:
         )
         client.service_lines.v_2.create(
             request=ServiceLineCreateStandalone(
+                quantity="quantity",
+                units=ServiceLineUnits.MJ,
+                claim_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
                 procedure_code="procedure_code",
+            ),
+        )
+        """
+        _response = self._raw_client.create(request=request, request_options=request_options)
+        return _response.data
+
+    def create_universal(
+        self, *, request: UniversalServiceLineCreateStandalone, request_options: typing.Optional[RequestOptions] = None
+    ) -> ServiceLine:
+        """
+        Parameters
+        ----------
+        request : UniversalServiceLineCreateStandalone
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ServiceLine
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.commons import ServiceLineUnits
+        from candid.resources.service_lines.resources.v_2 import (
+            UniversalServiceLineCreateStandalone,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.service_lines.v_2.create_universal(
+            request=UniversalServiceLineCreateStandalone(
                 quantity="quantity",
                 units=ServiceLineUnits.MJ,
                 claim_id=uuid.UUID(
@@ -69,7 +113,51 @@ class V2Client:
             ),
         )
         """
-        _response = self._raw_client.create(request=request, request_options=request_options)
+        _response = self._raw_client.create_universal(request=request, request_options=request_options)
+        return _response.data
+
+    def update_universal(
+        self,
+        service_line_id: ServiceLineId,
+        *,
+        request: UniversalServiceLineUpdate,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ServiceLine:
+        """
+        Parameters
+        ----------
+        service_line_id : ServiceLineId
+
+        request : UniversalServiceLineUpdate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ServiceLine
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.service_lines.resources.v_2 import (
+            UniversalServiceLineUpdate,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.service_lines.v_2.update_universal(
+            service_line_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=UniversalServiceLineUpdate(),
+        )
+        """
+        _response = self._raw_client.update_universal(service_line_id, request=request, request_options=request_options)
         return _response.data
 
     def update(
@@ -199,7 +287,56 @@ class AsyncV2Client:
         async def main() -> None:
             await client.service_lines.v_2.create(
                 request=ServiceLineCreateStandalone(
+                    quantity="quantity",
+                    units=ServiceLineUnits.MJ,
+                    claim_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
                     procedure_code="procedure_code",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create(request=request, request_options=request_options)
+        return _response.data
+
+    async def create_universal(
+        self, *, request: UniversalServiceLineCreateStandalone, request_options: typing.Optional[RequestOptions] = None
+    ) -> ServiceLine:
+        """
+        Parameters
+        ----------
+        request : UniversalServiceLineCreateStandalone
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ServiceLine
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.commons import ServiceLineUnits
+        from candid.resources.service_lines.resources.v_2 import (
+            UniversalServiceLineCreateStandalone,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.service_lines.v_2.create_universal(
+                request=UniversalServiceLineCreateStandalone(
                     quantity="quantity",
                     units=ServiceLineUnits.MJ,
                     claim_id=uuid.UUID(
@@ -211,7 +348,60 @@ class AsyncV2Client:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.create(request=request, request_options=request_options)
+        _response = await self._raw_client.create_universal(request=request, request_options=request_options)
+        return _response.data
+
+    async def update_universal(
+        self,
+        service_line_id: ServiceLineId,
+        *,
+        request: UniversalServiceLineUpdate,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ServiceLine:
+        """
+        Parameters
+        ----------
+        service_line_id : ServiceLineId
+
+        request : UniversalServiceLineUpdate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ServiceLine
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.service_lines.resources.v_2 import (
+            UniversalServiceLineUpdate,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.service_lines.v_2.update_universal(
+                service_line_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                request=UniversalServiceLineUpdate(),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.update_universal(
+            service_line_id, request=request, request_options=request_options
+        )
         return _response.data
 
     async def update(

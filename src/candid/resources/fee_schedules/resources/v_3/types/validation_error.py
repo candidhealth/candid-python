@@ -109,6 +109,22 @@ class ValidationError_PayerPlanGroupDoesNotMatchRatePayer(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
+class ValidationError_PayerPlanGroupNetworkTypeMutualExclusion(UniversalBaseModel):
+    type: typing.Literal["payer_plan_group_network_type_mutual_exclusion"] = (
+        "payer_plan_group_network_type_mutual_exclusion"
+    )
+    entity_name: str
+
+    if IS_PYDANTIC_V2:
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
+    else:
+
+        class Config:
+            frozen = True
+            smart_union = True
+            extra = pydantic.Extra.allow
+
+
 ValidationError = typing.Union[
     ValidationError_OverlappingRateEntries,
     ValidationError_VersionConflict,
@@ -117,4 +133,5 @@ ValidationError = typing.Union[
     ValidationError_EmptyEntries,
     ValidationError_PayerPlanGroupNotFound,
     ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
+    ValidationError_PayerPlanGroupNetworkTypeMutualExclusion,
 ]

@@ -106,6 +106,8 @@ class LicenseType(str, enum.Enum):
     NP_C = "NP-C"
     PA_C = "PA-C"
     AMFT = "AMFT"
+    CDN = "CDN"
+    CNS = "CNS"
     _UNKNOWN = "__LICENSETYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -218,6 +220,8 @@ class LicenseType(str, enum.Enum):
         np_c: typing.Callable[[], T_Result],
         pa_c: typing.Callable[[], T_Result],
         amft: typing.Callable[[], T_Result],
+        cdn: typing.Callable[[], T_Result],
+        cns: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is LicenseType.MD:
@@ -418,4 +422,8 @@ class LicenseType(str, enum.Enum):
             return pa_c()
         if self is LicenseType.AMFT:
             return amft()
+        if self is LicenseType.CDN:
+            return cdn()
+        if self is LicenseType.CNS:
+            return cns()
         return _unknown_member(self._value_)

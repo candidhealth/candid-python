@@ -22,6 +22,16 @@ class ProcedureModifier(str, enum.Enum):
     Item furnished in conjunction with dialysis services
     """
 
+    SEVEN = "07"
+    EIGHT = "08"
+    NINE = "09"
+    TEN = "10"
+    ELEVEN = "11"
+    TWELVE = "12"
+    THIRTEEN = "13"
+    FOURTEEN = "14"
+    FIFTEEN = "15"
+    SIXTEEN = "16"
     TWENTY_TWO = "22"
     """
     Increased Procedural Services
@@ -52,6 +62,7 @@ class ProcedureModifier(str, enum.Enum):
     Multiple Outpatient Hospital E/M Encounters on the Same Date
     """
 
+    TWENTY_EIGHT = "28"
     THIRTY_TWO = "32"
     """
     Mandated Services
@@ -2018,12 +2029,23 @@ class ProcedureModifier(str, enum.Enum):
         av: typing.Callable[[], T_Result],
         au: typing.Callable[[], T_Result],
         aw: typing.Callable[[], T_Result],
+        seven: typing.Callable[[], T_Result],
+        eight: typing.Callable[[], T_Result],
+        nine: typing.Callable[[], T_Result],
+        ten: typing.Callable[[], T_Result],
+        eleven: typing.Callable[[], T_Result],
+        twelve: typing.Callable[[], T_Result],
+        thirteen: typing.Callable[[], T_Result],
+        fourteen: typing.Callable[[], T_Result],
+        fifteen: typing.Callable[[], T_Result],
+        sixteen: typing.Callable[[], T_Result],
         twenty_two: typing.Callable[[], T_Result],
         twenty_three: typing.Callable[[], T_Result],
         twenty_four: typing.Callable[[], T_Result],
         twenty_five: typing.Callable[[], T_Result],
         twenty_six: typing.Callable[[], T_Result],
         twenty_seven: typing.Callable[[], T_Result],
+        twenty_eight: typing.Callable[[], T_Result],
         thirty_two: typing.Callable[[], T_Result],
         thirty_three: typing.Callable[[], T_Result],
         forty_seven: typing.Callable[[], T_Result],
@@ -2422,6 +2444,26 @@ class ProcedureModifier(str, enum.Enum):
             return au()
         if self is ProcedureModifier.AW:
             return aw()
+        if self is ProcedureModifier.SEVEN:
+            return seven()
+        if self is ProcedureModifier.EIGHT:
+            return eight()
+        if self is ProcedureModifier.NINE:
+            return nine()
+        if self is ProcedureModifier.TEN:
+            return ten()
+        if self is ProcedureModifier.ELEVEN:
+            return eleven()
+        if self is ProcedureModifier.TWELVE:
+            return twelve()
+        if self is ProcedureModifier.THIRTEEN:
+            return thirteen()
+        if self is ProcedureModifier.FOURTEEN:
+            return fourteen()
+        if self is ProcedureModifier.FIFTEEN:
+            return fifteen()
+        if self is ProcedureModifier.SIXTEEN:
+            return sixteen()
         if self is ProcedureModifier.TWENTY_TWO:
             return twenty_two()
         if self is ProcedureModifier.TWENTY_THREE:
@@ -2434,6 +2476,8 @@ class ProcedureModifier(str, enum.Enum):
             return twenty_six()
         if self is ProcedureModifier.TWENTY_SEVEN:
             return twenty_seven()
+        if self is ProcedureModifier.TWENTY_EIGHT:
+            return twenty_eight()
         if self is ProcedureModifier.THIRTY_TWO:
             return thirty_two()
         if self is ProcedureModifier.THIRTY_THREE:

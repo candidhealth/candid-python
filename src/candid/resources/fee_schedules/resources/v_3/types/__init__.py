@@ -38,6 +38,7 @@ from .validation_error import (
     ValidationError_OrganizationProviderNotFound,
     ValidationError_OverlappingRateEntries,
     ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
+    ValidationError_PayerPlanGroupNetworkTypeMutualExclusion,
     ValidationError_PayerPlanGroupNotFound,
     ValidationError_VersionConflict,
 )
@@ -80,6 +81,7 @@ __all__ = [
     "ValidationError_OrganizationProviderNotFound",
     "ValidationError_OverlappingRateEntries",
     "ValidationError_PayerPlanGroupDoesNotMatchRatePayer",
+    "ValidationError_PayerPlanGroupNetworkTypeMutualExclusion",
     "ValidationError_PayerPlanGroupNotFound",
     "ValidationError_VersionConflict",
 ]

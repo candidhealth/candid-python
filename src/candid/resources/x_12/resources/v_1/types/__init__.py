@@ -10,6 +10,12 @@ from .rarc import Rarc
 from .remittance_advice_remark_code import RemittanceAdviceRemarkCode
 from .type_of_admission_or_visit_code import TypeOfAdmissionOrVisitCode
 from .type_of_bill_composite import TypeOfBillComposite
+from .type_of_bill_composite_base import TypeOfBillCompositeBase
+from .type_of_bill_composite_update import (
+    TypeOfBillCompositeUpdate,
+    TypeOfBillCompositeUpdate_CompositeCodes,
+    TypeOfBillCompositeUpdate_RawCode,
+)
 from .type_of_bill_frequency_code import TypeOfBillFrequencyCode
 from .type_of_care_code import TypeOfCareCode
 from .type_of_facility_code import TypeOfFacilityCode
@@ -23,6 +29,10 @@ __all__ = [
     "RemittanceAdviceRemarkCode",
     "TypeOfAdmissionOrVisitCode",
     "TypeOfBillComposite",
+    "TypeOfBillCompositeBase",
+    "TypeOfBillCompositeUpdate",
+    "TypeOfBillCompositeUpdate_CompositeCodes",
+    "TypeOfBillCompositeUpdate_RawCode",
     "TypeOfBillFrequencyCode",
     "TypeOfCareCode",
     "TypeOfFacilityCode",

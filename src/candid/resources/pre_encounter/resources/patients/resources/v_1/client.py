@@ -134,10 +134,6 @@ class V1Client:
                         country="country",
                     ),
                 ],
-                primary_telecom=ContactPoint(
-                    value="value",
-                    use=ContactPointUse.HOME,
-                ),
                 other_telecoms=[
                     ContactPoint(
                         value="value",
@@ -375,10 +371,6 @@ class V1Client:
                         country="country",
                     ),
                 ],
-                primary_telecom=ContactPoint(
-                    value="value",
-                    use=ContactPointUse.HOME,
-                ),
                 other_telecoms=[
                     ContactPoint(
                         value="value",
@@ -633,6 +625,36 @@ class V1Client:
         _response = self._raw_client.get(id, request_options=request_options)
         return _response.data
 
+    def get_by_mrn(self, mrn: str, *, request_options: typing.Optional[RequestOptions] = None) -> Patient:
+        """
+        Gets a patient by mrn.
+
+        Parameters
+        ----------
+        mrn : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Patient
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.patients.v_1.get_by_mrn(
+            mrn="mrn",
+        )
+        """
+        _response = self._raw_client.get_by_mrn(mrn, request_options=request_options)
+        return _response.data
+
     def get_history(
         self, id: PatientId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Patient]:
@@ -769,10 +791,6 @@ class V1Client:
                         country="country",
                     ),
                 ],
-                primary_telecom=ContactPoint(
-                    value="value",
-                    use=ContactPointUse.HOME,
-                ),
                 other_telecoms=[
                     ContactPoint(
                         value="value",
@@ -1173,10 +1191,6 @@ class AsyncV1Client:
                             country="country",
                         ),
                     ],
-                    primary_telecom=ContactPoint(
-                        value="value",
-                        use=ContactPointUse.HOME,
-                    ),
                     other_telecoms=[
                         ContactPoint(
                             value="value",
@@ -1421,10 +1435,6 @@ class AsyncV1Client:
                             country="country",
                         ),
                     ],
-                    primary_telecom=ContactPoint(
-                        value="value",
-                        use=ContactPointUse.HOME,
-                    ),
                     other_telecoms=[
                         ContactPoint(
                             value="value",
@@ -1708,6 +1718,44 @@ class AsyncV1Client:
         _response = await self._raw_client.get(id, request_options=request_options)
         return _response.data
 
+    async def get_by_mrn(self, mrn: str, *, request_options: typing.Optional[RequestOptions] = None) -> Patient:
+        """
+        Gets a patient by mrn.
+
+        Parameters
+        ----------
+        mrn : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Patient
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.patients.v_1.get_by_mrn(
+                mrn="mrn",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_by_mrn(mrn, request_options=request_options)
+        return _response.data
+
     async def get_history(
         self, id: PatientId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.List[Patient]:
@@ -1856,10 +1904,6 @@ class AsyncV1Client:
                             country="country",
                         ),
                     ],
-                    primary_telecom=ContactPoint(
-                        value="value",
-                        use=ContactPointUse.HOME,
-                    ),
                     other_telecoms=[
                         ContactPoint(
                             value="value",

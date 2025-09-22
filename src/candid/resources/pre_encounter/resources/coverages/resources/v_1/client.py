@@ -53,8 +53,6 @@ class V1Client:
 
         Examples
         --------
-        import datetime
-
         from candid import CandidApiClient
         from candid.resources.pre_encounter.resources.common import (
             HumanName,
@@ -81,9 +79,6 @@ class V1Client:
                         family="family",
                         given=["given", "given"],
                         use=NameUse.USUAL,
-                    ),
-                    date_of_birth=datetime.date.fromisoformat(
-                        "2023-01-15",
                     ),
                     biological_sex=Sex.FEMALE,
                 ),
@@ -129,7 +124,6 @@ class V1Client:
 
         Examples
         --------
-        import datetime
         import uuid
 
         from candid import CandidApiClient
@@ -162,9 +156,6 @@ class V1Client:
                         family="family",
                         given=["given", "given"],
                         use=NameUse.USUAL,
-                    ),
-                    date_of_birth=datetime.date.fromisoformat(
-                        "2023-01-15",
                     ),
                     biological_sex=Sex.FEMALE,
                 ),
@@ -555,7 +546,6 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
 
         from candid import AsyncCandidApiClient
         from candid.resources.pre_encounter.resources.common import (
@@ -586,9 +576,6 @@ class AsyncV1Client:
                             family="family",
                             given=["given", "given"],
                             use=NameUse.USUAL,
-                        ),
-                        date_of_birth=datetime.date.fromisoformat(
-                            "2023-01-15",
                         ),
                         biological_sex=Sex.FEMALE,
                     ),
@@ -638,7 +625,6 @@ class AsyncV1Client:
         Examples
         --------
         import asyncio
-        import datetime
         import uuid
 
         from candid import AsyncCandidApiClient
@@ -674,9 +660,6 @@ class AsyncV1Client:
                             family="family",
                             given=["given", "given"],
                             use=NameUse.USUAL,
-                        ),
-                        date_of_birth=datetime.date.fromisoformat(
-                            "2023-01-15",
                         ),
                         biological_sex=Sex.FEMALE,
                     ),

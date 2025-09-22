@@ -317,6 +317,54 @@ class RawV1Client:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def get_by_mrn(self, mrn: str, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[Patient]:
+        """
+        Gets a patient by mrn.
+
+        Parameters
+        ----------
+        mrn : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[Patient]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"patients/v1/mrn/{jsonable_encoder(mrn)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                Patient,
+                parse_obj_as(
+                    type_=Patient,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "NotFoundError":
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def get_history(
         self, id: PatientId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[typing.List[Patient]]:
@@ -900,6 +948,56 @@ class AsyncRawV1Client:
         """
         _response = await self._client_wrapper.httpx_client.request(
             f"patients/v1/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                Patient,
+                parse_obj_as(
+                    type_=Patient,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "NotFoundError":
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_by_mrn(
+        self, mrn: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[Patient]:
+        """
+        Gets a patient by mrn.
+
+        Parameters
+        ----------
+        mrn : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[Patient]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"patients/v1/mrn/{jsonable_encoder(mrn)}",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="GET",
             request_options=request_options,

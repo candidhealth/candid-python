@@ -4,17 +4,22 @@
 
 from .admitting_diagnosis import AdmittingDiagnosis
 from .admitting_diagnosis_code_qualifier import AdmittingDiagnosisCodeQualifier
+from .admitting_diagnosis_new import AdmittingDiagnosisNew
 from .code_list_qualifier_code import CodeListQualifierCode
 from .condition_code import ConditionCode
 from .condition_information import ConditionInformation
 from .condition_information_code_qualifier import ConditionInformationCodeQualifier
+from .condition_information_new import ConditionInformationNew
 from .d_8_date import D8Date
 from .date_time_period_format_qualifier import DateTimePeriodFormatQualifier
 from .diagnosis_related_group import DiagnosisRelatedGroup
 from .diagnosis_related_group_code_qualifier import DiagnosisRelatedGroupCodeQualifier
+from .diagnosis_related_group_new import DiagnosisRelatedGroupNew
 from .external_cause_of_injury import ExternalCauseOfInjury
 from .external_cause_of_injury_code_qualifier import ExternalCauseOfInjuryCodeQualifier
+from .external_cause_of_injury_new import ExternalCauseOfInjuryNew
 from .health_care_code_information import HealthCareCodeInformation
+from .health_care_code_information_create import HealthCareCodeInformationCreate
 from .health_care_code_information_get_all_response import HealthCareCodeInformationGetAllResponse
 from .health_care_code_information_new import HealthCareCodeInformationNew
 from .health_care_code_information_update import HealthCareCodeInformationUpdate
@@ -23,20 +28,27 @@ from .msdrg_code import MsdrgCode
 from .occurrence_code import OccurrenceCode
 from .occurrence_information import OccurrenceInformation
 from .occurrence_information_code_qualifier import OccurrenceInformationCodeQualifier
+from .occurrence_information_new import OccurrenceInformationNew
 from .occurrence_span_code import OccurrenceSpanCode
 from .occurrence_span_code_qualifier import OccurrenceSpanCodeQualifier
 from .occurrence_span_information import OccurrenceSpanInformation
+from .occurrence_span_information_new import OccurrenceSpanInformationNew
 from .other_diagnosis_information import OtherDiagnosisInformation
 from .other_diagnosis_information_code_qualifier import OtherDiagnosisInformationCodeQualifier
+from .other_diagnosis_information_new import OtherDiagnosisInformationNew
 from .other_procedure_information import OtherProcedureInformation
 from .other_procedure_information_code_qualifier import OtherProcedureInformationCodeQualifier
+from .other_procedure_information_new import OtherProcedureInformationNew
 from .patient_reason_for_visit import PatientReasonForVisit
 from .patient_reason_for_visit_code_qualifier import PatientReasonForVisitCodeQualifier
+from .patient_reason_for_visit_new import PatientReasonForVisitNew
 from .present_on_admission_indicator_code import PresentOnAdmissionIndicatorCode
 from .principal_diagnosis import PrincipalDiagnosis
 from .principal_diagnosis_code_qualifier import PrincipalDiagnosisCodeQualifier
+from .principal_diagnosis_new import PrincipalDiagnosisNew
 from .principal_procedure_information import PrincipalProcedureInformation
 from .principal_procedure_information_code_qualifier import PrincipalProcedureInformationCodeQualifier
+from .principal_procedure_information_new import PrincipalProcedureInformationNew
 from .rd_8_date import Rd8Date
 from .set_or_clear_admitting_diagnosis import SetOrClearAdmittingDiagnosis
 from .set_or_clear_diagnosis_related_group import SetOrClearDiagnosisRelatedGroup
@@ -44,25 +56,32 @@ from .set_or_clear_principal_diagnosis import SetOrClearPrincipalDiagnosis
 from .set_or_clear_principal_procedure_information import SetOrClearPrincipalProcedureInformation
 from .treatment_code import TreatmentCode
 from .treatment_code_information import TreatmentCodeInformation
+from .treatment_code_information_new import TreatmentCodeInformationNew
 from .treatment_code_qualifier import TreatmentCodeQualifier
 from .value_code import ValueCode
 from .value_code_qualifier import ValueCodeQualifier
 from .value_information import ValueInformation
+from .value_information_new import ValueInformationNew
 
 __all__ = [
     "AdmittingDiagnosis",
     "AdmittingDiagnosisCodeQualifier",
+    "AdmittingDiagnosisNew",
     "CodeListQualifierCode",
     "ConditionCode",
     "ConditionInformation",
     "ConditionInformationCodeQualifier",
+    "ConditionInformationNew",
     "D8Date",
     "DateTimePeriodFormatQualifier",
     "DiagnosisRelatedGroup",
     "DiagnosisRelatedGroupCodeQualifier",
+    "DiagnosisRelatedGroupNew",
     "ExternalCauseOfInjury",
     "ExternalCauseOfInjuryCodeQualifier",
+    "ExternalCauseOfInjuryNew",
     "HealthCareCodeInformation",
+    "HealthCareCodeInformationCreate",
     "HealthCareCodeInformationGetAllResponse",
     "HealthCareCodeInformationNew",
     "HealthCareCodeInformationUpdate",
@@ -71,20 +90,27 @@ __all__ = [
     "OccurrenceCode",
     "OccurrenceInformation",
     "OccurrenceInformationCodeQualifier",
+    "OccurrenceInformationNew",
     "OccurrenceSpanCode",
     "OccurrenceSpanCodeQualifier",
     "OccurrenceSpanInformation",
+    "OccurrenceSpanInformationNew",
     "OtherDiagnosisInformation",
     "OtherDiagnosisInformationCodeQualifier",
+    "OtherDiagnosisInformationNew",
     "OtherProcedureInformation",
     "OtherProcedureInformationCodeQualifier",
+    "OtherProcedureInformationNew",
     "PatientReasonForVisit",
     "PatientReasonForVisitCodeQualifier",
+    "PatientReasonForVisitNew",
     "PresentOnAdmissionIndicatorCode",
     "PrincipalDiagnosis",
     "PrincipalDiagnosisCodeQualifier",
+    "PrincipalDiagnosisNew",
     "PrincipalProcedureInformation",
     "PrincipalProcedureInformationCodeQualifier",
+    "PrincipalProcedureInformationNew",
     "Rd8Date",
     "SetOrClearAdmittingDiagnosis",
     "SetOrClearDiagnosisRelatedGroup",
@@ -92,8 +118,10 @@ __all__ = [
     "SetOrClearPrincipalProcedureInformation",
     "TreatmentCode",
     "TreatmentCodeInformation",
+    "TreatmentCodeInformationNew",
     "TreatmentCodeQualifier",
     "ValueCode",
     "ValueCodeQualifier",
     "ValueInformation",
+    "ValueInformationNew",
 ]

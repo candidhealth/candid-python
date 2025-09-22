@@ -9,6 +9,7 @@ from .do_not_invoice_reason import DoNotInvoiceReason
 from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
 from .guarantor import Guarantor
+from .inferred_patient_metadata import InferredPatientMetadata
 from .marital_status import MaritalStatus
 from .mutable_patient import MutablePatient
 from .mutable_patient_with_mrn import MutablePatientWithMrn
@@ -29,6 +30,7 @@ __all__ = [
     "ExternalProvenance",
     "FilingOrder",
     "Guarantor",
+    "InferredPatientMetadata",
     "MaritalStatus",
     "MutablePatient",
     "MutablePatientWithMrn",

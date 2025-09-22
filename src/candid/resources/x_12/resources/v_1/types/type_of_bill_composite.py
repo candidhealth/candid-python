@@ -3,31 +3,14 @@
 import typing
 
 import pydantic
-from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .type_of_bill_frequency_code import TypeOfBillFrequencyCode
-from .type_of_care_code import TypeOfCareCode
-from .type_of_facility_code import TypeOfFacilityCode
+from ......core.pydantic_utilities import IS_PYDANTIC_V2
+from .type_of_bill_composite_base import TypeOfBillCompositeBase
 
 
-class TypeOfBillComposite(UniversalBaseModel):
+class TypeOfBillComposite(TypeOfBillCompositeBase):
     code: str = pydantic.Field()
     """
     The composite, 4 digit code of the composite, starting with a padding code 0.
-    """
-
-    type_of_facility: TypeOfFacilityCode = pydantic.Field()
-    """
-    The FL04 Institutional type of facility code for the bill.  The second digit of the composite code.
-    """
-
-    type_of_care: TypeOfCareCode = pydantic.Field()
-    """
-    The FL04 Institutional type of care code for the bill.  The second digit of the composite code.
-    """
-
-    frequency_code: TypeOfBillFrequencyCode = pydantic.Field()
-    """
-    The FL04 Institutional frequency code for the bill.  The fourth digit of the composite code.
     """
 
     if IS_PYDANTIC_V2:

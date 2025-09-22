@@ -96,13 +96,28 @@ class DefaultClient:
         return _response.data
 
     def get_machine_token_for_org_id(
-        self, *, org_id: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        org_id: str,
+        client_id: str,
+        client_secret: str,
+        force_token_refresh: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AuthGetTokenResponse:
         """
         Parameters
         ----------
         org_id : str
             Organization ID to generate token for.
+
+        client_id : str
+            Your application's Client ID.
+
+        client_secret : str
+            Your application's Client Secret.
+
+        force_token_refresh : typing.Optional[bool]
+            Refreshes auth token for a given user <> org pair.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -121,9 +136,17 @@ class DefaultClient:
         )
         client.auth.default.get_machine_token_for_org_id(
             org_id="org_id",
+            client_id="client_id",
+            client_secret="client_secret",
         )
         """
-        _response = self._raw_client.get_machine_token_for_org_id(org_id=org_id, request_options=request_options)
+        _response = self._raw_client.get_machine_token_for_org_id(
+            org_id=org_id,
+            client_id=client_id,
+            client_secret=client_secret,
+            force_token_refresh=force_token_refresh,
+            request_options=request_options,
+        )
         return _response.data
 
 
@@ -220,13 +243,28 @@ class AsyncDefaultClient:
         return _response.data
 
     async def get_machine_token_for_org_id(
-        self, *, org_id: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        org_id: str,
+        client_id: str,
+        client_secret: str,
+        force_token_refresh: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AuthGetTokenResponse:
         """
         Parameters
         ----------
         org_id : str
             Organization ID to generate token for.
+
+        client_id : str
+            Your application's Client ID.
+
+        client_secret : str
+            Your application's Client Secret.
+
+        force_token_refresh : typing.Optional[bool]
+            Refreshes auth token for a given user <> org pair.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -250,10 +288,18 @@ class AsyncDefaultClient:
         async def main() -> None:
             await client.auth.default.get_machine_token_for_org_id(
                 org_id="org_id",
+                client_id="client_id",
+                client_secret="client_secret",
             )
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get_machine_token_for_org_id(org_id=org_id, request_options=request_options)
+        _response = await self._raw_client.get_machine_token_for_org_id(
+            org_id=org_id,
+            client_id=client_id,
+            client_secret=client_secret,
+            force_token_refresh=force_token_refresh,
+            request_options=request_options,
+        )
         return _response.data

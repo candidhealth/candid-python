@@ -6,6 +6,7 @@ from .cash_pay_payer_error import CashPayPayerError
 from .encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
 from .encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
 from .encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
+from .encounter_rendering_or_attending_provider_required import EncounterRenderingOrAttendingProviderRequired
 from .invalid_tag_names_error import InvalidTagNamesError
 from .payer_plan_group_payer_does_not_match_insurance_card_http_error import (
     PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError,
@@ -17,6 +18,7 @@ __all__ = [
     "EncounterExternalIdUniquenessError",
     "EncounterGuarantorMissingContactInfoError",
     "EncounterPatientControlNumberUniquenessError",
+    "EncounterRenderingOrAttendingProviderRequired",
     "InvalidTagNamesError",
     "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError",
     "SchemaInstanceValidationHttpFailure",

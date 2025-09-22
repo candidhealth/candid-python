@@ -26,6 +26,7 @@ from .do_not_invoice_reason import DoNotInvoiceReason
 from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
 from .guarantor import Guarantor
+from .inferred_patient_metadata import InferredPatientMetadata
 from .marital_status import MaritalStatus
 from .origination_detail import OriginationDetail
 from .referral import Referral
@@ -89,7 +90,7 @@ class MutablePatient(UniversalBaseModel):
     Other addresses for the patient.
     """
 
-    primary_telecom: ContactPoint = pydantic.Field()
+    primary_telecom: typing.Optional[ContactPoint] = pydantic.Field(default=None)
     """
     The primary phone number for the patient.
     """
@@ -132,6 +133,11 @@ class MutablePatient(UniversalBaseModel):
     origination_detail: typing.Optional[OriginationDetail] = pydantic.Field(default=None)
     """
     Information about the patient source, if applicable.
+    """
+
+    inferred_patient_metadata: typing.Optional[InferredPatientMetadata] = pydantic.Field(default=None)
+    """
+    Metadata for the patient used for patient inference from encounters.
     """
 
     if IS_PYDANTIC_V2:

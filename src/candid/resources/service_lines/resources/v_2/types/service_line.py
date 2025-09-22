@@ -189,7 +189,7 @@ class ServiceLine(UniversalBaseModel):
     denial_reason: typing.Optional[ServiceLineDenialReason] = None
     place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
     """
-    837p Loop2300, SV105. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+    837p Loop2300, SV105. This enum is not used or required in 837i claims. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
     """
 
     place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
@@ -200,12 +200,17 @@ class ServiceLine(UniversalBaseModel):
     service_line_id: ServiceLineId
     procedure_code: str
     ordering_provider: typing.Optional[EncounterProvider] = None
-    revenue_code: typing.Optional[str] = None
+    revenue_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    A 4 digit code that specifies facility department or type of service arrangement for institutional service line items (837i). This code is not required for professional claim billing (837p).
+    """
+
     quantity: Decimal = pydantic.Field()
     """
     String representation of a Decimal that can be parsed by most libraries.
-    A ServiceLine quantity cannot contain more than one digit of precision.
-    Example: 1.1 is valid, 1.11 is not.
+    For professional claims, a ServiceLine quantity cannot contain more than one digit of precision
+    (Example: 1.1 is valid, 1.11 is not). For institutional claims, a ServiceLine quantity cannot contain
+    more than three decimal digits of precision.
     """
 
     units: ServiceLineUnits
@@ -218,7 +223,7 @@ class ServiceLine(UniversalBaseModel):
 
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on the 837-P.
+    A free-form description to clarify the related data elements and their content. Maps to SV1-01, C003-07 on a 837-P and SV2-02, C003-07 on a 837-I form.
     """
 
     date_of_service: dt.date
@@ -226,6 +231,7 @@ class ServiceLine(UniversalBaseModel):
     test_results: typing.Optional[typing.List[TestResult]] = pydantic.Field(default=None)
     """
     Contains a list of test results. Test result types may map to MEA-02 on the 837-P (ex: Hemoglobin, Hematocrit).
+    This is unused by 837-i and ignored for institutional service lines.
     No more than 5 MEA-02 test results may be submitted per service line.
     """
 

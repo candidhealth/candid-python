@@ -14,7 +14,7 @@ class Guarantor(UniversalBaseModel):
     name: HumanName
     telecom: typing.Optional[ContactPoint] = None
     email: typing.Optional[str] = None
-    birth_date: dt.date
+    birth_date: typing.Optional[dt.date] = None
     address: Address
 
     if IS_PYDANTIC_V2:

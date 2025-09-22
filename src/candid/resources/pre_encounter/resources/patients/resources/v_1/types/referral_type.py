@@ -9,6 +9,7 @@ T_Result = typing.TypeVar("T_Result")
 class ReferralType(str, enum.Enum):
     DIRECTED = "DIRECTED"
     ROTATION = "ROTATION"
+    OVERNIGHT = "OVERNIGHT"
     _UNKNOWN = "__REFERRALTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -24,10 +25,13 @@ class ReferralType(str, enum.Enum):
         self,
         directed: typing.Callable[[], T_Result],
         rotation: typing.Callable[[], T_Result],
+        overnight: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is ReferralType.DIRECTED:
             return directed()
         if self is ReferralType.ROTATION:
             return rotation()
+        if self is ReferralType.OVERNIGHT:
+            return overnight()
         return _unknown_member(self._value_)

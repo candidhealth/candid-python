@@ -14,18 +14,17 @@ from .prior_authorization_number import PriorAuthorizationNumber
 from .responsible_party_type import ResponsiblePartyType
 from .service_authorization_exception_code import ServiceAuthorizationExceptionCode
 from .synchronicity_type import SynchronicityType
-from .vitals_update import VitalsUpdate
 
 
 class EncounterOptional(UniversalBaseModel):
     benefits_assigned_to_provider: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form.
+    Whether this patient has authorized insurance payments to be made to you, not them. If false, patient may receive reimbursement. Box 13 on the CMS-1500 claim form or Form Locator 53 on a UB-04 claim form.
     """
 
     prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = pydantic.Field(default=None)
     """
-    Box 23 on the CMS-1500 claim form.
+    Box 23 on the CMS-1500 claim form or Form Locator 63 on a UB-04 claim form.
     """
 
     external_id: typing.Optional[EncounterExternalId] = pydantic.Field(default=None)
@@ -39,7 +38,7 @@ class EncounterOptional(UniversalBaseModel):
     """
     Date formatted as YYYY-MM-DD; eg: 2019-08-24.
     This date must be the local date in the timezone where the service occurred.
-    Box 24a on the CMS-1500 claim form.
+    Box 24a on the CMS-1500 claim form or Form Locator 45 on the UB-04 claim form.
     If service occurred over a range of dates, this should be the start date.
     If service lines have distinct date_of_service values, updating the encounter's date_of_service will fail. If all service line date_of_service values are the same, updating the encounter's date_of_service will update all service line date_of_service values.
     """
@@ -61,7 +60,7 @@ class EncounterOptional(UniversalBaseModel):
 
     provider_accepts_assignment: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form.
+    Whether you have accepted the patient's authorization for insurance payments to be made to you, not them. Box 27 on the CMS-1500 claim form. There is no exact equivalent of this field on a UB-04 claim, however contributes to the concept of Form Locator 53.
     """
 
     synchronicity: typing.Optional[SynchronicityType] = pydantic.Field(default=None)
@@ -91,7 +90,7 @@ class EncounterOptional(UniversalBaseModel):
     additional_information: typing.Optional[str] = pydantic.Field(default=None)
     """
     Defines additional information on the claim needed by the payer.
-    Box 19 on the CMS-1500 claim form.
+    Box 19 on the CMS-1500 claim form or Form Locator 80 on a UB-04 claim form.
     """
 
     service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = pydantic.Field(
@@ -106,7 +105,7 @@ class EncounterOptional(UniversalBaseModel):
 
     admission_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
-    837p Loop2300 DTP*435, CMS-1500 Box 18
+    837p Loop2300 DTP*435, CMS-1500 Box 18 or UB-04 Form Locator 12.
     Required on all ambulance claims when the patient was known to be admitted to the hospital.
     OR
     Required on all claims involving inpatient medical visits.
@@ -114,8 +113,7 @@ class EncounterOptional(UniversalBaseModel):
 
     discharge_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
-    837p Loop2300 DTP*096, CMS-1500 Box 18
-    Required for inpatient claims when the patient was discharged from the facility and the discharge date is known.
+    837p Loop2300 DTP*096, CMS-1500 Box 18 Required for inpatient claims when the patient was discharged from the facility and the discharge date is known. Not used on an institutional claim.
     """
 
     onset_of_current_illness_or_symptom_date: typing.Optional[dt.date] = pydantic.Field(default=None)
@@ -124,12 +122,14 @@ class EncounterOptional(UniversalBaseModel):
     Required for the initial medical service or visit performed in response to a medical emergency when the date is available and is different than the date of service.
     OR
     This date is the onset of acute symptoms for the current illness or condition.
+     For UB-04 claims, this is populated separately via occurrence codes.
     """
 
     last_menstrual_period_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     837p Loop2300 DTP*484, CMS-1500 Box 14
     Required when, in the judgment of the provider, the services on this claim are related to the patient's pregnancy.de
+    This field is populated separately via occurrence codes for UB-04 claim forms.
     """
 
     delay_reason_code: typing.Optional[DelayReasonCode] = pydantic.Field(default=None)
@@ -142,13 +142,7 @@ class EncounterOptional(UniversalBaseModel):
     """
     Whether this patient has authorized the release of medical information
     for billing purpose.
-    Box 12 on the CMS-1500 claim form.
-    """
-
-    vitals: typing.Optional[VitalsUpdate] = pydantic.Field(default=None)
-    """
-    If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
-    Otherwise, a new vitals object will be created for the encounter.
+    Box 12 on the CMS-1500 claim form  or Form Locator 52 on a UB-04 claim form.
     """
 
     referral_number: typing.Optional[str] = pydantic.Field(default=None)

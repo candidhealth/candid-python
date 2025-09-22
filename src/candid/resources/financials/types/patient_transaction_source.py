@@ -14,6 +14,7 @@ class PatientTransactionSource(str, enum.Enum):
     ELATION = "ELATION"
     CEDAR = "CEDAR"
     HEALTHIE = "HEALTHIE"
+    REALLOCATION = "REALLOCATION"
     _UNKNOWN = "__PATIENTTRANSACTIONSOURCE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -34,6 +35,7 @@ class PatientTransactionSource(str, enum.Enum):
         elation: typing.Callable[[], T_Result],
         cedar: typing.Callable[[], T_Result],
         healthie: typing.Callable[[], T_Result],
+        reallocation: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is PatientTransactionSource.MANUAL_ENTRY:
@@ -50,4 +52,6 @@ class PatientTransactionSource(str, enum.Enum):
             return cedar()
         if self is PatientTransactionSource.HEALTHIE:
             return healthie()
+        if self is PatientTransactionSource.REALLOCATION:
+            return reallocation()
         return _unknown_member(self._value_)

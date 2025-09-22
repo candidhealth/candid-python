@@ -3,12 +3,15 @@
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .raw_client import AsyncRawPayersClient, RawPayersClient
 from .resources.v_3.client import AsyncV3Client, V3Client
+from .resources.v_4.client import AsyncV4Client, V4Client
 
 
 class PayersClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._raw_client = RawPayersClient(client_wrapper=client_wrapper)
         self.v_3 = V3Client(client_wrapper=client_wrapper)
+
+        self.v_4 = V4Client(client_wrapper=client_wrapper)
 
     @property
     def with_raw_response(self) -> RawPayersClient:
@@ -26,6 +29,8 @@ class AsyncPayersClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._raw_client = AsyncRawPayersClient(client_wrapper=client_wrapper)
         self.v_3 = AsyncV3Client(client_wrapper=client_wrapper)
+
+        self.v_4 = AsyncV4Client(client_wrapper=client_wrapper)
 
     @property
     def with_raw_response(self) -> AsyncRawPayersClient:

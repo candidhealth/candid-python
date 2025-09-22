@@ -17,7 +17,6 @@ from .....commons.types.work_queue_id import WorkQueueId
 from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from .....diagnoses.types.diagnosis import Diagnosis
 from .....encounter_providers.resources.v_2.types.encounter_provider import EncounterProvider
-from .....encounter_providers.resources.v_2.types.rendering_provider import RenderingProvider
 from .....guarantor.resources.v_1.types.guarantor import Guarantor
 from .....individual.types.patient import Patient
 from .....individual.types.subscriber import Subscriber
@@ -92,7 +91,6 @@ class Encounter(EncounterBase):
         ResponsiblePartyType,
         ServiceAuthorizationExceptionCode,
         SynchronicityType,
-        Vitals,
     )
     from candid.resources.era import Era
     from candid.resources.guarantor.resources.v_1 import Guarantor
@@ -640,15 +638,6 @@ class Encounter(EncounterBase):
                 as_needed=True,
             )
         ],
-        vitals=Vitals(
-            height_in=70,
-            weight_lbs=165,
-            blood_pressure_systolic_mmhg=115,
-            blood_pressure_diastolic_mmhg=85,
-            body_temperature_f=98.0,
-            hemoglobin_gdl=15.1,
-            hematocrit_pct=51.2,
-        ),
         interventions=[
             Intervention(
                 name="Physical Therapy Session",
@@ -742,7 +731,7 @@ class Encounter(EncounterBase):
 
     billing_provider: EncounterProvider = pydantic.Field()
     """
-    The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
+    The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form or Form Locator 1 on a UB-04 claim form.
     """
 
     rendering_provider: EncounterProvider = pydantic.Field()
@@ -751,7 +740,7 @@ class Encounter(EncounterBase):
     For telehealth services, the rendering provider performs the visit, asynchronous communication, or other service. The rendering provider address should generally be the same as the service facility address.
     """
 
-    attending_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)
+    attending_provider: typing.Optional[EncounterProvider] = pydantic.Field(default=None)
     """
     837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has overall responsibility for the patient in institutional claims processing.
     """
@@ -765,35 +754,32 @@ class Encounter(EncounterBase):
 
     admission_type_code: typing.Optional[TypeOfAdmissionOrVisitCode] = pydantic.Field(default=None)
     """
-    837i Loop 2300 CL1-01
-    Code used to indicate the priority of an admission or visit.
+    837i Loop 2300 CL1-01 Code used to indicate the priority of an admission or visit. Equivalent to Form Locator 14 Priority of Admission on a UB-04 claim, not used on CMS-1500 claim forms.
     """
 
     admission_source_code: typing.Optional[PointOfOriginForAdmissionOrVisitCode] = pydantic.Field(default=None)
     """
-    837i Loop 2300 CLI1-02
-    Code used to indicate the conditions under which an admission occurs.
+    837i Loop 2300 CLI1-02 Code used to indicate the conditions under which an admission occurs. Equivalent to Form Locator 15 Point of Origin on a UB-04 claim, not used on CMS-1500 claim forms.
     """
 
     discharge_hour: typing.Optional[int] = pydantic.Field(default=None)
     """
     837i Loop 2300 DTP-03
     Extension of the discharge date with hour (0-23) details.
-    Required for institutional submission.
     """
 
     discharge_status: typing.Optional[PatientDischargeStatusCode] = pydantic.Field(default=None)
     """
-    837i CL1-03
+    837i CL1-03 or Form Locator 17 on a UB-04 claim form. This is a required field on UB-04 claims.
     Code indicating patient status as of the "statement covers through date".
     """
 
-    operating_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)
+    operating_provider: typing.Optional[EncounterProvider] = pydantic.Field(default=None)
     """
     837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has primary responsibility for surgical procedures in institutional claims processing.
     """
 
-    other_operating_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)
+    other_operating_provider: typing.Optional[EncounterProvider] = pydantic.Field(default=None)
     """
     837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has secondary responsibility for surgical procedures in institutional claims processing.  Only used when operating_provider is also set.
     """
@@ -805,7 +791,7 @@ class Encounter(EncounterBase):
 
     type_of_bill: typing.Optional[TypeOfBillComposite] = pydantic.Field(default=None)
     """
-    Used by institutional forms to indicate how the bill is to be interpreted. Professional forms are not required to submit this attribute.
+    Four digit code used in institutional forms to indicate the type of bill (e.g., hospital inpatient, hospital outpatient). First digit is a leading 0, followed by the type_of_facility, type_of_care, then frequency_code. Professional forms are not required to submit this attribute. You may send the 4 digit code via raw_code, or each individual digit separately via composite_codes.
     """
 
     referring_provider: typing.Optional[EncounterProvider] = None
@@ -813,7 +799,7 @@ class Encounter(EncounterBase):
     supervising_provider: typing.Optional[EncounterProvider] = None
     service_facility: EncounterServiceFacility = pydantic.Field()
     """
-    Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
+    Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. There is no equivalent on the paper UB-04 claim form, but this field is equivalent to Loop 2310E Service Facility Location details on an 837i form, and is used when this is different to the entity identified as the Billing Provider. Note that for an in-network claim to be successfully adjudicated, the service facility address listed
     """
 
     subscriber_primary: typing.Optional[Subscriber] = pydantic.Field(default=None)
@@ -836,7 +822,7 @@ class Encounter(EncounterBase):
 
     prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = pydantic.Field(default=None)
     """
-    Box 23 on the CMS-1500 claim form.
+    Box 23 on the CMS-1500 claim form or Form Locator 63 on a UB-04 claim form.
     """
 
     responsible_party: ResponsiblePartyType = pydantic.Field()
@@ -851,7 +837,7 @@ class Encounter(EncounterBase):
 
     diagnoses: typing.List[Diagnosis] = pydantic.Field()
     """
-    Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses may be submitted at this time, and coders will later prioritize the 12 that will be submitted to the payor.
+    Contains the primary and other diagnosis health care code information objects associated with this encounter. For professional claims, these diagnoses correspond with those that are set on service lines directly, where as for institutional claims these are only associated directly with the claim itself.  See also Health Care Code Information objects and corresponding apis.
     """
 
     clinical_notes: typing.List[ClinicalNoteCategory] = pydantic.Field()
@@ -910,14 +896,14 @@ class Encounter(EncounterBase):
 
     epsdt_referral: typing.Optional[EpsdtReferral] = pydantic.Field(default=None)
     """
-    Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+    Refers to Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P and 837i form
     """
 
     claim_supplemental_information: typing.Optional[typing.List[ClaimSupplementalInformation]] = pydantic.Field(
         default=None
     )
     """
-    Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+    Refers to Loop 2300 - Segment PWK on the 837P and 837i form. No more than 10 entries are permitted.
     """
 
     secondary_payer_carrier_code: typing.Optional[str] = pydantic.Field(default=None)

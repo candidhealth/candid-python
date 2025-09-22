@@ -40,9 +40,16 @@ from .epsdt_referral_optional import EpsdtReferralOptional
 from .intervention_optional import InterventionOptional
 from .medication_optional import MedicationOptional
 from .patient_history_category_optional import PatientHistoryCategoryOptional
+from .vitals_update import VitalsUpdate
 
 
 class EncounterDeepOptional(EncounterOptional):
+    vitals: typing.Optional[VitalsUpdate] = pydantic.Field(default=None)
+    """
+    If a vitals entity already exists for the encounter, then all values will be updated to the provided values.
+    Otherwise, a new vitals object will be created for the encounter.
+    """
+
     diagnoses: typing.Optional[typing.List[DiagnosisCreateOptional]] = pydantic.Field(default=None)
     """
     Ideally, this field should contain no more than 12 diagnoses. However, more diagnoses
@@ -59,12 +66,12 @@ class EncounterDeepOptional(EncounterOptional):
         default=None
     )
     """
-    Refers to Loop 2300 - Segment PWK on the 837P form. No more than 10 entries are permitted.
+    Refers to Loop 2300 - Segment PWK on the 837P and 837i form. No more than 10 entries are permitted.
     """
 
     epsdt_referral: typing.Optional[EpsdtReferralOptional] = pydantic.Field(default=None)
     """
-    Refers Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P form
+    Refers to Box 24H on the CMS1500 form and Loop 2300 CRC - EPSDT Referral on the 837P and 837i form
     """
 
     existing_medications: typing.Optional[typing.List[MedicationOptional]] = pydantic.Field(default=None)
@@ -130,7 +137,7 @@ class EncounterDeepOptional(EncounterOptional):
 
     service_facility: typing.Optional[EncounterServiceFacilityUpdateWithOptionalAddress] = pydantic.Field(default=None)
     """
-    Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. Note that for an in-network claim to be successfully adjudicated, the service facility address listed on claims must match what was provided to the payer during the credentialing process.
+    Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. There is no equivalent on the paper UB-04 claim form, but this field is equivalent to Loop 2310E Service Facility Location details on an 837i form, and is used when this is different to the entity identified as the Billing Provider. Note that for an in-network claim to be successfully adjudicated, the service facility address listed
     """
 
     rendering_provider: typing.Optional[RenderingProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)
@@ -160,7 +167,7 @@ class EncounterDeepOptional(EncounterOptional):
 
     billing_provider: typing.Optional[BillingProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)
     """
-    The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form.
+    The billing provider is the provider or business entity submitting the claim. Billing provider may be, but is not necessarily, the same person/NPI as the rendering provider. From a payer's perspective, this represents the person or entity being reimbursed. When a contract exists with the target payer, the billing provider should be the entity contracted with the payer. In some circumstances, this will be an individual provider. In that case, submit that provider's NPI and the tax ID (TIN) that the provider gave to the payer during contracting. In other cases, the billing entity will be a medical group. If so, submit the group NPI and the group's tax ID. Box 33 on the CMS-1500 claim form or Form Locator 1 on a UB-04 claim form.
     """
 
     pay_to_address: typing.Optional[StreetAddressShortZipOptional] = pydantic.Field(default=None)

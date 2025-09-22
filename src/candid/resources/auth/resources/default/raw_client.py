@@ -123,13 +123,28 @@ class RawDefaultClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_machine_token_for_org_id(
-        self, *, org_id: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        org_id: str,
+        client_id: str,
+        client_secret: str,
+        force_token_refresh: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AuthGetTokenResponse]:
         """
         Parameters
         ----------
         org_id : str
             Organization ID to generate token for.
+
+        client_id : str
+            Your application's Client ID.
+
+        client_secret : str
+            Your application's Client Secret.
+
+        force_token_refresh : typing.Optional[bool]
+            Refreshes auth token for a given user <> org pair.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -144,6 +159,9 @@ class RawDefaultClient:
             method="POST",
             json={
                 "org_id": org_id,
+                "client_id": client_id,
+                "client_secret": client_secret,
+                "force_token_refresh": force_token_refresh,
             },
             request_options=request_options,
             omit=OMIT,
@@ -269,13 +287,28 @@ class AsyncRawDefaultClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_machine_token_for_org_id(
-        self, *, org_id: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        org_id: str,
+        client_id: str,
+        client_secret: str,
+        force_token_refresh: typing.Optional[bool] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AuthGetTokenResponse]:
         """
         Parameters
         ----------
         org_id : str
             Organization ID to generate token for.
+
+        client_id : str
+            Your application's Client ID.
+
+        client_secret : str
+            Your application's Client Secret.
+
+        force_token_refresh : typing.Optional[bool]
+            Refreshes auth token for a given user <> org pair.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -290,6 +323,9 @@ class AsyncRawDefaultClient:
             method="POST",
             json={
                 "org_id": org_id,
+                "client_id": client_id,
+                "client_secret": client_secret,
+                "force_token_refresh": force_token_refresh,
             },
             request_options=request_options,
             omit=OMIT,

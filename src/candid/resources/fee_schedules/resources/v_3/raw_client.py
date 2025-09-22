@@ -704,6 +704,48 @@ class RawV3Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def hard_delete_rates_by_ids(
+        self, *, rate_ids: typing.Sequence[RateId], request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[int]:
+        """
+        Hard deletes specific rates from the system by their IDs. This is a destructive operation and cannot be undone. Limited to 100 rate IDs maximum per request. For bulk deletion of more than 100 rates, use the hard_delete_rates endpoint with dimension filters. Returns the number of rates deleted.
+
+        Parameters
+        ----------
+        rate_ids : typing.Sequence[RateId]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[int]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/fee-schedules/v3/hard-delete-by-ids",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "rate_ids": rate_ids,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                int,
+                parse_obj_as(
+                    type_=int,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV3Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1347,6 +1389,48 @@ class AsyncRawV3Client:
             base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
             json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                int,
+                parse_obj_as(
+                    type_=int,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def hard_delete_rates_by_ids(
+        self, *, rate_ids: typing.Sequence[RateId], request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[int]:
+        """
+        Hard deletes specific rates from the system by their IDs. This is a destructive operation and cannot be undone. Limited to 100 rate IDs maximum per request. For bulk deletion of more than 100 rates, use the hard_delete_rates endpoint with dimension filters. Returns the number of rates deleted.
+
+        Parameters
+        ----------
+        rate_ids : typing.Sequence[RateId]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[int]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/fee-schedules/v3/hard-delete-by-ids",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "rate_ids": rate_ids,
+            },
             request_options=request_options,
             omit=OMIT,
         )
