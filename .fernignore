@@ -3,3 +3,7 @@
 # Top-level files and folders
 examples
 .idea
+
+# Ignore workflow changes
+.github/workflows/ci.yml
+.github/workflows/actions/*
