@@ -284,6 +284,7 @@ class EncounterPage(ResourcePage):
                     phone_consent=True,
                     email="johndoe@joincandidhealth.com",
                     email_consent=True,
+                    auto_charge_consent=True,
                     external_id="49460F77-6456-41F1-AC6D-0AED08614D39",
                     date_of_birth=datetime.date.fromisoformat(
                         "2000-01-01",
@@ -313,6 +314,7 @@ class EncounterPage(ResourcePage):
                     phone_consent=True,
                     email="johndoe@joincandidhealth.com",
                     email_consent=True,
+                    auto_charge_consent=True,
                     first_name="John",
                     last_name="Doe",
                     external_id="49460F77-6456-41F1-AC6D-0AED08614D39",

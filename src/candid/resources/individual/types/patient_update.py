@@ -36,6 +36,7 @@ class PatientUpdate(UniversalBaseModel):
     phone_consent: typing.Optional[bool] = None
     email: typing.Optional[Email] = None
     email_consent: typing.Optional[bool] = None
+    auto_charge_consent: typing.Optional[bool] = None
     non_insurance_payers: typing.Optional[typing.List[NonInsurancePayerId]] = pydantic.Field(default=None)
     """
     On update, we will replace the existing list of non-insurance payers with the new list if populated.

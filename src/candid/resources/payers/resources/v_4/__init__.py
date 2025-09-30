@@ -2,6 +2,6 @@
 
 # isort: skip_file
 
-from .types import ClearinghousePayerInfo, Payer, PayerIds, PayerPage, PayerUuid, SupportState
+from .types import ClearinghousePayerInfo, Payer, PayerIds, PayerPage, PayerUuid, PrimaryPayerIds, SupportState
 
-__all__ = ["ClearinghousePayerInfo", "Payer", "PayerIds", "PayerPage", "PayerUuid", "SupportState"]
+__all__ = ["ClearinghousePayerInfo", "Payer", "PayerIds", "PayerPage", "PayerUuid", "PrimaryPayerIds", "SupportState"]

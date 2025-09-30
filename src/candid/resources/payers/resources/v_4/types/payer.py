@@ -7,8 +7,8 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.clearinghouse import Clearinghouse
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .clearinghouse_payer_info import ClearinghousePayerInfo
-from .payer_ids import PayerIds
 from .payer_uuid import PayerUuid
+from .primary_payer_ids import PrimaryPayerIds
 
 
 class Payer(UniversalBaseModel):
@@ -17,7 +17,7 @@ class Payer(UniversalBaseModel):
     Auto-generated ID set on creation.
     """
 
-    payer_ids: PayerIds = pydantic.Field()
+    payer_ids: PrimaryPayerIds = pydantic.Field()
     """
     The primary national payer IDs of the payer.
     """

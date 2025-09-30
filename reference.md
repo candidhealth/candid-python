@@ -782,6 +782,46 @@ This date must be the local date in the timezone where the service occurred.
 <dl>
 <dd>
 
+**claim_status:** `typing.Optional[ClaimStatus]` — the status of the claim to filter by created from charge capture bundle.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_creation_category:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tags:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of tags to filter by. This will return all charge captures with one of the tags.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**primary_payer_names:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of primary payer names to filter by. This will return all charge captures with one of the names.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**patient_names:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of patient names to filter by. This will return all charge captures with one of the names.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **has_charge_capture_updates:** `typing.Optional[bool]` — If true, only return claim_creations that have charge captures that have been updated since the Claim Creation has had a status of BILLED. See the updates property on ChargeCapture for more details.
     
 </dd>
@@ -1457,6 +1497,38 @@ This date must be the local date in the timezone where the service occurred.
 <dl>
 <dd>
 
+**claim_creation_category:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tags:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of tags to filter by. This will return all charge captures with one of the tags.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**primary_payer_names:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of primary payer names to filter by. This will return all charge captures with one of the names.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**patient_names:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of patient names to filter by. This will return all charge captures with one of the names.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **exclude_charges_linked_to_claims:** `typing.Optional[bool]` — Whether to exclude charge captures which are part of a claim creation.
     
 </dd>
@@ -1613,6 +1685,46 @@ or charge external id.
 <dd>
 
 **supervising_provider_names_ranked_sort:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of supervising provider names to show first. This will return all charge captures with one of the names in this list.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_status:** `typing.Optional[ClaimStatus]` — the status of the claim to filter by created from charge capture bundle.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**claim_creation_category_ranked_sort:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of claim creation categories to sort by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tags_ranked_sort:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of tags. This will return all charge captures with one of the tags.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**primary_payer_names_ranked_sort:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of primary payer names to sort by. This will return all charge captures with one of the names.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**patient_names_ranked_sort:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of patient names to sort by. This will return all charge captures with one of the names.
     
 </dd>
 </dl>

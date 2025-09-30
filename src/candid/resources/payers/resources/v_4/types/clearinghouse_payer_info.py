@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .payer_ids import PayerIds
+from .support_state import SupportState
 
 
 class ClearinghousePayerInfo(UniversalBaseModel):
@@ -21,6 +22,26 @@ class ClearinghousePayerInfo(UniversalBaseModel):
     institutional_payer_ids: PayerIds = pydantic.Field()
     """
     Payer IDs for institutional claims
+    """
+
+    professional_claims_support: SupportState = pydantic.Field()
+    """
+    The support state for claims submission
+    """
+
+    institutional_claims_support: SupportState = pydantic.Field()
+    """
+    The support state for institutional claims submission
+    """
+
+    eligibility_support: SupportState = pydantic.Field()
+    """
+    The support state for eligibility
+    """
+
+    remittance_support: SupportState = pydantic.Field()
+    """
+    The support state for remittance
     """
 
     if IS_PYDANTIC_V2:

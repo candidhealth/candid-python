@@ -22,6 +22,11 @@ class GuarantorCreate(GuarantorBase):
     Defaults to false
     """
 
+    auto_charge_consent: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Defaults to false
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

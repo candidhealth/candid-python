@@ -7,6 +7,7 @@ import uuid
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
 from ....charge_capture.resources.v_1.types.charge_capture_status import ChargeCaptureStatus
+from ....claims.types.claim_status import ClaimStatus
 from ....commons.types.charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.page_token import PageToken
@@ -174,6 +175,11 @@ class V1Client:
         rendering_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        claim_status: typing.Optional[ClaimStatus] = None,
+        claim_creation_category: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        tags: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        primary_payer_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        patient_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         has_charge_capture_updates: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCaptureClaimCreationPage:
@@ -240,6 +246,21 @@ class V1Client:
         supervising_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
             A list of supervising provider names to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
 
+        claim_status : typing.Optional[ClaimStatus]
+            the status of the claim to filter by created from charge capture bundle.
+
+        claim_creation_category : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+
+        tags : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of tags to filter by. This will return all charge captures with one of the tags.
+
+        primary_payer_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer names to filter by. This will return all charge captures with one of the names.
+
+        patient_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of patient names to filter by. This will return all charge captures with one of the names.
+
         has_charge_capture_updates : typing.Optional[bool]
             If true, only return claim_creations that have charge captures that have been updated since the Claim Creation has had a status of BILLED. See the updates property on ChargeCapture for more details.
 
@@ -280,6 +301,11 @@ class V1Client:
             rendering_provider_names=rendering_provider_names,
             supervising_provider_npis=supervising_provider_npis,
             supervising_provider_names=supervising_provider_names,
+            claim_status=claim_status,
+            claim_creation_category=claim_creation_category,
+            tags=tags,
+            primary_payer_names=primary_payer_names,
+            patient_names=patient_names,
             has_charge_capture_updates=has_charge_capture_updates,
             request_options=request_options,
         )
@@ -460,6 +486,11 @@ class AsyncV1Client:
         rendering_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        claim_status: typing.Optional[ClaimStatus] = None,
+        claim_creation_category: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        tags: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        primary_payer_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        patient_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         has_charge_capture_updates: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCaptureClaimCreationPage:
@@ -526,6 +557,21 @@ class AsyncV1Client:
         supervising_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
             A list of supervising provider names to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
 
+        claim_status : typing.Optional[ClaimStatus]
+            the status of the claim to filter by created from charge capture bundle.
+
+        claim_creation_category : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+
+        tags : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of tags to filter by. This will return all charge captures with one of the tags.
+
+        primary_payer_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer names to filter by. This will return all charge captures with one of the names.
+
+        patient_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of patient names to filter by. This will return all charge captures with one of the names.
+
         has_charge_capture_updates : typing.Optional[bool]
             If true, only return claim_creations that have charge captures that have been updated since the Claim Creation has had a status of BILLED. See the updates property on ChargeCapture for more details.
 
@@ -574,6 +620,11 @@ class AsyncV1Client:
             rendering_provider_names=rendering_provider_names,
             supervising_provider_npis=supervising_provider_npis,
             supervising_provider_names=supervising_provider_names,
+            claim_status=claim_status,
+            claim_creation_category=claim_creation_category,
+            tags=tags,
+            primary_payer_names=primary_payer_names,
+            patient_names=patient_names,
             has_charge_capture_updates=has_charge_capture_updates,
             request_options=request_options,
         )

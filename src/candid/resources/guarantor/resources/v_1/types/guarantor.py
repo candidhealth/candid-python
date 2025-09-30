@@ -38,6 +38,7 @@ class Guarantor(GuarantorBase):
         phone_consent=True,
         email="johndoe@joincandidhealth.com",
         email_consent=True,
+        auto_charge_consent=True,
         first_name="John",
         last_name="Doe",
         external_id="49460F77-6456-41F1-AC6D-0AED08614D39",
@@ -60,6 +61,7 @@ class Guarantor(GuarantorBase):
     phone_consent: bool
     email: typing.Optional[Email] = None
     email_consent: bool
+    auto_charge_consent: typing.Optional[bool] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

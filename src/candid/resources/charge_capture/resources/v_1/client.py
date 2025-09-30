@@ -5,6 +5,7 @@ import typing
 
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
+from ....claims.types.claim_status import ClaimStatus
 from ....commons.types.charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from ....commons.types.charge_capture_id import ChargeCaptureId
 from ....commons.types.charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
@@ -358,6 +359,10 @@ class V1Client:
         rendering_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        claim_creation_category: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        tags: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        primary_payer_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        patient_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         exclude_charges_linked_to_claims: typing.Optional[bool] = None,
         patient_external_id_ranked_sort: typing.Optional[str] = None,
         status_ranked_sort: typing.Optional[ChargeCaptureStatus] = None,
@@ -378,6 +383,11 @@ class V1Client:
         rendering_provider_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_npis_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        claim_status: typing.Optional[ClaimStatus] = None,
+        claim_creation_category_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        tags_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        primary_payer_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        patient_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
         """
@@ -440,6 +450,18 @@ class V1Client:
         supervising_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
             A list of supervising provider names to filter by. This will return all charge captures with one of the names in this list.
 
+        claim_creation_category : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+
+        tags : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of tags to filter by. This will return all charge captures with one of the tags.
+
+        primary_payer_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer names to filter by. This will return all charge captures with one of the names.
+
+        patient_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of patient names to filter by. This will return all charge captures with one of the names.
+
         exclude_charges_linked_to_claims : typing.Optional[bool]
             Whether to exclude charge captures which are part of a claim creation.
 
@@ -500,6 +522,21 @@ class V1Client:
         supervising_provider_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
             A list of supervising provider names to show first. This will return all charge captures with one of the names in this list.
 
+        claim_status : typing.Optional[ClaimStatus]
+            the status of the claim to filter by created from charge capture bundle.
+
+        claim_creation_category_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of claim creation categories to sort by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+
+        tags_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of tags. This will return all charge captures with one of the tags.
+
+        primary_payer_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer names to sort by. This will return all charge captures with one of the names.
+
+        patient_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of patient names to sort by. This will return all charge captures with one of the names.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -536,6 +573,10 @@ class V1Client:
             rendering_provider_names=rendering_provider_names,
             supervising_provider_npis=supervising_provider_npis,
             supervising_provider_names=supervising_provider_names,
+            claim_creation_category=claim_creation_category,
+            tags=tags,
+            primary_payer_names=primary_payer_names,
+            patient_names=patient_names,
             exclude_charges_linked_to_claims=exclude_charges_linked_to_claims,
             patient_external_id_ranked_sort=patient_external_id_ranked_sort,
             status_ranked_sort=status_ranked_sort,
@@ -554,6 +595,11 @@ class V1Client:
             rendering_provider_names_ranked_sort=rendering_provider_names_ranked_sort,
             supervising_provider_npis_ranked_sort=supervising_provider_npis_ranked_sort,
             supervising_provider_names_ranked_sort=supervising_provider_names_ranked_sort,
+            claim_status=claim_status,
+            claim_creation_category_ranked_sort=claim_creation_category_ranked_sort,
+            tags_ranked_sort=tags_ranked_sort,
+            primary_payer_names_ranked_sort=primary_payer_names_ranked_sort,
+            patient_names_ranked_sort=patient_names_ranked_sort,
             request_options=request_options,
         )
         return _response.data
@@ -971,6 +1017,10 @@ class AsyncV1Client:
         rendering_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_npis: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        claim_creation_category: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        tags: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        primary_payer_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        patient_names: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         exclude_charges_linked_to_claims: typing.Optional[bool] = None,
         patient_external_id_ranked_sort: typing.Optional[str] = None,
         status_ranked_sort: typing.Optional[ChargeCaptureStatus] = None,
@@ -991,6 +1041,11 @@ class AsyncV1Client:
         rendering_provider_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_npis_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         supervising_provider_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        claim_status: typing.Optional[ClaimStatus] = None,
+        claim_creation_category_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        tags_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        primary_payer_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        patient_names_ranked_sort: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapturePage:
         """
@@ -1053,6 +1108,18 @@ class AsyncV1Client:
         supervising_provider_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
             A list of supervising provider names to filter by. This will return all charge captures with one of the names in this list.
 
+        claim_creation_category : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of claim creation categories to filter by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+
+        tags : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of tags to filter by. This will return all charge captures with one of the tags.
+
+        primary_payer_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer names to filter by. This will return all charge captures with one of the names.
+
+        patient_names : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of patient names to filter by. This will return all charge captures with one of the names.
+
         exclude_charges_linked_to_claims : typing.Optional[bool]
             Whether to exclude charge captures which are part of a claim creation.
 
@@ -1113,6 +1180,21 @@ class AsyncV1Client:
         supervising_provider_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
             A list of supervising provider names to show first. This will return all charge captures with one of the names in this list.
 
+        claim_status : typing.Optional[ClaimStatus]
+            the status of the claim to filter by created from charge capture bundle.
+
+        claim_creation_category_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of claim creation categories to sort by. This will return all charge capture claim_creations which include one or more charges with one of the names in this list.
+
+        tags_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of tags. This will return all charge captures with one of the tags.
+
+        primary_payer_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of primary payer names to sort by. This will return all charge captures with one of the names.
+
+        patient_names_ranked_sort : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            A list of patient names to sort by. This will return all charge captures with one of the names.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1157,6 +1239,10 @@ class AsyncV1Client:
             rendering_provider_names=rendering_provider_names,
             supervising_provider_npis=supervising_provider_npis,
             supervising_provider_names=supervising_provider_names,
+            claim_creation_category=claim_creation_category,
+            tags=tags,
+            primary_payer_names=primary_payer_names,
+            patient_names=patient_names,
             exclude_charges_linked_to_claims=exclude_charges_linked_to_claims,
             patient_external_id_ranked_sort=patient_external_id_ranked_sort,
             status_ranked_sort=status_ranked_sort,
@@ -1175,6 +1261,11 @@ class AsyncV1Client:
             rendering_provider_names_ranked_sort=rendering_provider_names_ranked_sort,
             supervising_provider_npis_ranked_sort=supervising_provider_npis_ranked_sort,
             supervising_provider_names_ranked_sort=supervising_provider_names_ranked_sort,
+            claim_status=claim_status,
+            claim_creation_category_ranked_sort=claim_creation_category_ranked_sort,
+            tags_ranked_sort=tags_ranked_sort,
+            primary_payer_names_ranked_sort=primary_payer_names_ranked_sort,
+            patient_names_ranked_sort=patient_names_ranked_sort,
             request_options=request_options,
         )
         return _response.data

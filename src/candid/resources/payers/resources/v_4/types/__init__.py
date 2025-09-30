@@ -7,6 +7,7 @@ from .payer import Payer
 from .payer_ids import PayerIds
 from .payer_page import PayerPage
 from .payer_uuid import PayerUuid
+from .primary_payer_ids import PrimaryPayerIds
 from .support_state import SupportState
 
-__all__ = ["ClearinghousePayerInfo", "Payer", "PayerIds", "PayerPage", "PayerUuid", "SupportState"]
+__all__ = ["ClearinghousePayerInfo", "Payer", "PayerIds", "PayerPage", "PayerUuid", "PrimaryPayerIds", "SupportState"]

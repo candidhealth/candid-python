@@ -6,8 +6,8 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class PayerIds(UniversalBaseModel):
-    claims_payer_id: typing.Optional[str] = pydantic.Field(default=None)
+class PrimaryPayerIds(UniversalBaseModel):
+    claims_payer_id: str = pydantic.Field()
     """
     The payer ID for claim submission
     """
