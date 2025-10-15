@@ -61,7 +61,7 @@ class Guarantor(GuarantorBase):
     phone_consent: bool
     email: typing.Optional[Email] = None
     email_consent: bool
-    auto_charge_consent: typing.Optional[bool] = None
+    auto_charge_consent: bool
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

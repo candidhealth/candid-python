@@ -17,7 +17,13 @@ class OtherProcedureInformation(HealthCareCodeInformation):
 
     other_procedure_code_qualifier: OtherProcedureInformationCodeQualifier
     other_procedure_code: IcdCode
-    other_procedure_date: D8Date
+    other_procedure_date: D8Date = pydantic.Field()
+    """
+    An [RFC 3339, section 5.6 datetime](https://ijmacd.github.io/rfc3339-iso8601/).
+    For example, 2017-07-21T17:32:28Z.
+    In practice, only the date portion of this is used for claim submission, so
+    midnight time is fine.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

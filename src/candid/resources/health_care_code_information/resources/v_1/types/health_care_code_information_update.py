@@ -20,19 +20,70 @@ from .value_information import ValueInformation
 
 
 class HealthCareCodeInformationUpdate(UniversalBaseModel):
-    principal_diagnosis: typing.Optional[SetOrClearPrincipalDiagnosis] = None
-    admitting_diagnosis: typing.Optional[SetOrClearAdmittingDiagnosis] = None
-    patient_reasons_for_visit: typing.Optional[typing.List[PatientReasonForVisit]] = None
-    external_causes_of_injury: typing.Optional[typing.List[ExternalCauseOfInjury]] = None
-    diagnosis_related_groups: typing.Optional[SetOrClearDiagnosisRelatedGroup] = None
-    other_diagnosis_information: typing.Optional[typing.List[OtherDiagnosisInformation]] = None
-    principal_procedure: typing.Optional[SetOrClearPrincipalProcedureInformation] = None
-    other_procedure_information: typing.Optional[typing.List[OtherProcedureInformation]] = None
-    occurrence_span_information: typing.Optional[typing.List[OccurrenceSpanInformation]] = None
-    occurrence_information: typing.Optional[typing.List[OccurrenceInformation]] = None
-    treatment_code_information: typing.Optional[typing.List[TreatmentCodeInformation]] = None
-    value_information: typing.Optional[typing.List[ValueInformation]] = None
-    condition_information: typing.Optional[typing.List[ConditionInformation]] = None
+    principal_diagnosis: typing.Optional[SetOrClearPrincipalDiagnosis] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  If the id matches the existing principal_diagnosis, that diagnosis is updated in place.  If the entry has no id, it is created newly, its id will be in the response, and any existing principal_diagnosis is deleted and removed from any service line pointers.
+    """
+
+    other_diagnosis_information: typing.Optional[typing.List[OtherDiagnosisInformation]] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  For each entry that has an id, any previous other_diagnosis_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted, including having it removed from any service line pointers.
+    """
+
+    admitting_diagnosis: typing.Optional[SetOrClearAdmittingDiagnosis] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  If the id matches the existing admitting_diagnosis, that diagnosis is updated in place.  If the entry has no id, it is created newly, its id will be in the response, and any existing principal_diagnosis is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    patient_reasons_for_visit: typing.Optional[typing.List[PatientReasonForVisit]] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  For each entry that has an id, any previous patient_reasons_for_visit by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    external_causes_of_injury: typing.Optional[typing.List[ExternalCauseOfInjury]] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  For each entry that has an id, any previous external_causes_of_injury by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    diagnosis_related_groups: typing.Optional[SetOrClearDiagnosisRelatedGroup] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  If the id matches the existing diagnosis_related_groups, that diagnosis_related_group is updated in place.  If the entry has no id, it is created newly, its id will be in the response, and any existing diagnosis_related_groups is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    principal_procedure: typing.Optional[SetOrClearPrincipalProcedureInformation] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  If the id matches the existing principal_procedure, that principal_procedure is updated in place.  If the entry has no id, it is created newly, its id will be in the response, and any existing principal_procedure is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    other_procedure_information: typing.Optional[typing.List[OtherProcedureInformation]] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  For each entry that has an id, any previous other_procedure_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    occurrence_span_information: typing.Optional[typing.List[OccurrenceSpanInformation]] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  For each entry that has an id, any previous occurrence_span_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    occurrence_information: typing.Optional[typing.List[OccurrenceInformation]] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  For each entry that has an id, any previous occurrence_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    treatment_code_information: typing.Optional[typing.List[TreatmentCodeInformation]] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  For each entry that has an id, any previous treatment_code_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    value_information: typing.Optional[typing.List[ValueInformation]] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  For each entry that has an id, any previous value_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+    """
+
+    condition_information: typing.Optional[typing.List[ConditionInformation]] = pydantic.Field(default=None)
+    """
+    Set & Replace semantics.  For each entry that has an id, any previous condition_information by that id is updated in place.  For each entry without an id, it is created newly and its id will be in the response.  For each existing entry that was not referred to by id, it is deleted. This object only applies to 837i institutional claim forms.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

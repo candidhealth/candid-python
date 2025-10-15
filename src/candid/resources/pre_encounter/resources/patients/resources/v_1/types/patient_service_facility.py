@@ -3,10 +3,17 @@
 import typing
 
 import pydantic
-from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .....common.types.canonical_service_facility_id import CanonicalServiceFacilityId
 
 
-class HealthCareCodeInformationNew(UniversalBaseModel):
+class PatientServiceFacility(UniversalBaseModel):
+    """
+    Represents a canonical service facility which is associated with a patient.
+    """
+
+    service_facility_id: CanonicalServiceFacilityId
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

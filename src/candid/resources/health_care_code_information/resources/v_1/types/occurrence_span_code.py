@@ -7,6 +7,10 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class OccurrenceSpanCode(str, enum.Enum):
+    """
+    An enumeration.
+    """
+
     C_70 = "70"
     """
     QUALIFYING STAY DATES FOR SNF USE ONLY
@@ -52,11 +56,6 @@ class OccurrenceSpanCode(str, enum.Enum):
     SNF PROIR STAY DATES
     """
 
-    C_79 = "79"
-    """
-    PAYER CODE
-    """
-
     C_80 = "80"
     """
     PRIOR SAME-SNF STAY DATES FOR PAYMENT BAN PRUPOSES
@@ -70,6 +69,31 @@ class OccurrenceSpanCode(str, enum.Enum):
     C_82 = "82"
     """
     HOSPITAL AT HOME CARE DATES
+    """
+
+    CM_0 = "M0"
+    """
+    QIO/UR APPROVED STAY DATES - The first and last days that were approved where not all of the stay was approved. (Use when Condition Code C3 is used in Form Locators 18-28.)
+    """
+
+    CM_1 = "M1"
+    """
+    PROVIDER LIABILITY - NO UTILIZATION - Code indicates the from/through dates of a period of noncovered care that is denied due to lack of medical necessity or as custodial care for which the provider is liable. The beneficiary is not charged with utilization. The provider may not collect Part A or Part B deductible or coinsurance from the beneficiary.
+    """
+
+    CM_2 = "M2"
+    """
+    INPATIENT RESPITE DATES - The from/through dates of a period of inpatient respite care.
+    """
+
+    CM_3 = "M3"
+    """
+    ICF LEVEL OF CARE - The from/through dates of a period of intermediate level of care during an inpatient hospital stay.
+    """
+
+    CM_4 = "M4"
+    """
+    RESIDENTIAL LEVEL OF CARE - The from/through dates of a period of residential level of care during an inpatient hospital stay.
     """
 
     _UNKNOWN = "__OCCURRENCESPANCODE_UNKNOWN__"
@@ -94,10 +118,14 @@ class OccurrenceSpanCode(str, enum.Enum):
         c_76: typing.Callable[[], T_Result],
         c_77: typing.Callable[[], T_Result],
         c_78: typing.Callable[[], T_Result],
-        c_79: typing.Callable[[], T_Result],
         c_80: typing.Callable[[], T_Result],
         c_81: typing.Callable[[], T_Result],
         c_82: typing.Callable[[], T_Result],
+        cm_0: typing.Callable[[], T_Result],
+        cm_1: typing.Callable[[], T_Result],
+        cm_2: typing.Callable[[], T_Result],
+        cm_3: typing.Callable[[], T_Result],
+        cm_4: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is OccurrenceSpanCode.C_70:
@@ -118,12 +146,20 @@ class OccurrenceSpanCode(str, enum.Enum):
             return c_77()
         if self is OccurrenceSpanCode.C_78:
             return c_78()
-        if self is OccurrenceSpanCode.C_79:
-            return c_79()
         if self is OccurrenceSpanCode.C_80:
             return c_80()
         if self is OccurrenceSpanCode.C_81:
             return c_81()
         if self is OccurrenceSpanCode.C_82:
             return c_82()
+        if self is OccurrenceSpanCode.CM_0:
+            return cm_0()
+        if self is OccurrenceSpanCode.CM_1:
+            return cm_1()
+        if self is OccurrenceSpanCode.CM_2:
+            return cm_2()
+        if self is OccurrenceSpanCode.CM_3:
+            return cm_3()
+        if self is OccurrenceSpanCode.CM_4:
+            return cm_4()
         return _unknown_member(self._value_)

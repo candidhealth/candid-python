@@ -7,6 +7,15 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class ConditionCode(str, enum.Enum):
+    """
+
+    FL 18-28 - Condition Codes
+    Source: UB-04 Manual 2025, Pages 64-81 (FL18-28, Pages 1-18)
+    Excludes codes designated as "Payer Codes" or "FOR PUBLIC HEALTH DATA REPORTING ONLY"
+    unless usage on claims is indicated.
+
+    """
+
     C_01 = "01"
     """
     MILITARY SERVICE RELATED - Medical condition incurred during military service.
@@ -112,144 +121,327 @@ class ConditionCode(str, enum.Enum):
     VA ELIGIBLE PATIENT CHOOSES TO RECEIVE SERVICES IN A MEDICARE CERTIFIED FACILITY - Indicates that the patient is a VA eligible patient and chooses to receive services in a Medicare certified provider instead of a VA facility.
     """
 
+    C_27 = "27"
+    """
+    PATIENT REFERRED TO A SOLE COMMUNITY HOSPITAL FOR A DIAGNOSTIC LABORATORY TEST - To be reported by Sole Community hospitals only. Report this code to indicate the patient was referred for a diagnostic laboratory test. Do not report this code when a specimen only is referred.
+    """
+
     C_28 = "28"
     """
-    DATE COMPREHENSIVE OUTPATIENT REHABILITATION PLAN ESTABLISHED OR LAST REVIEWED - Code indicating the date a comprehensive outpatient rehabilitation plan was established or last reviewed.
+    PATIENT AND/OR SPOUSE’S EGHP IS SECONDARY TO MEDICARE - Code indicates that in response to development questions, the patient and/or spouse have indicated that one is or both are employed and that there is group health insurance from an EGHP or other employer sponsored or provided health insurance that covers the patient but that either: (1) the EGHP is a single employer plan and the employer has fewer than 20 full and part-time employees; or, (2) the EGHP is a multi or multiple employer plan that elects to pay secondary to Medicare for employees and spouses aged 65 and older for those participating employers who have fewer than 20 employees.
     """
 
     C_29 = "29"
     """
-    DATE OUTPATIENT PHYSICAL THERAPY PLAN ESTABLISHED OR LAST REVIEWED - Code indicating the date a physical therapy plan established or last reviewed.
+    DISABLED BENEFICIARY AND/OR FAMILY MEMBER’S LGHP IS SECONDARY TO MEDICARE - Code indicates that in response to development questions, the patient and/or family member(s) have indicated that one is or more are employed. There also is group health insurance coverage from a LGHP or other employer sponsored or provided health insurance that covers the patient. Generally, (1) the LGHP is a single employer plan and that the employer has fewer than 100 full and part-time employees; or, (2), the LGHP is a multiple employer plan and that all employers participating in the plan have fewer than 100 full and part-time employees.
     """
 
     C_30 = "30"
     """
-    DATE OUTPATIENT SPEECH PATHOLOGY PLAN ESTABLISHED OR LAST REVIEWED - Code indicating the date a speech pathology plan was established or last reviewed.
+    QUALIFYING CLINICAL TRIALS - Non-research services provided to patients enrolled in a Qualified Clinical Trial.
     """
 
     C_31 = "31"
     """
-    DATE BENEFICIARY NOTIFIED OF INTENT TO BILL (ACCOMMODATIONS) - The date of notice provided by the hospital to the patient that inpatient care is no longer required.
+    PATIENT IS STUDENT (FULL TIME - DAY) - Patient declares that he or she is enrolled as a full time day student.
     """
 
     C_32 = "32"
     """
-    DATE BENEFICIARY NOTIFIED OF INTENT TO BILL (PROCEDURES OR TREATMENTS) - The date of notice provided to the beneficiary that requested care (diagnostic procedures or treatments) may not be reasonable or necessary.
+    PATIENT IS STUDENT (COOPERATIVE/ WORK STUDY PROGRAM) - Self-explanatory.
     """
 
     C_33 = "33"
     """
-    FIRST DAY OF THE COORDINATION PERIOD FOR ESRD BENEFICIARIES COVERED BY EGHP - Code indicates the first day of coordination for benefits that are secondary to benefits payable under an employer’s group health plan. Required only for ESRD beneficiaries.
+    PATIENT IS STUDENT (FULL TIME - NIGHT) - Patient declares that he or she is enrolled as a full time night student.
     """
 
     C_34 = "34"
     """
-    DATE OF ELECTION OF EXTENDED CARE FACILITIES - Code indicates the date the guest elected to receive extended care services (used by Religious Non-Medical only).
+    PATIENT IS STUDENT (PART TIME) - Patient declares that he or she is enrolled as a part time student.
     """
 
     C_35 = "35"
     """
-    DATE TREATMENT STARTED FOR PHYSICAL THERAPY - Code indicates the initial date services by the billing provider for physical therapy began.
+    PACE ELIGIBLE PATIENT DISENROLLS DURING AN INPATIENT ADMISSION - Indicates that the patient is a PACE eligible patient that has disenrolled from PACE during an inpatient admission.
     """
 
     C_36 = "36"
     """
-    DATE OF INPATIENT HOSPITAL DISCHARGE FOR COVERED TRANSPLANT PATIENT - Code indicates the date of discharge for inpatient hospital stay in which the patient received a covered transplant procedure when the hospital is billing for immunosuppressive drugs. Note: When the patient received both a covered and a non-covered transplant, the covered transplant predominates.
+    GENERAL CARE PATIENT IN A SPECIAL UNIT - Patient temporarily placed in special care unit bed because no general care beds available.
     """
 
     C_37 = "37"
     """
-    DATE OF INPATIENT HOSPITAL DISCHARGE FOR NON-COVERED TRANSPLANT PATIENT - Code indicates the date of discharge for the inpatient hospital stay in which the patient received a non-covered transplant procedure when the hospital is billing for immunosuppressive drugs.
+    WARD ACCOMMODATION AT PATIENT REQUEST - Patient assigned to ward accommodations at patient’s request.
     """
 
     C_38 = "38"
     """
-    DATE TREATMENT STARTED FOR HOME IV THERAPY - Date the patient was first treated at home for IV therapy. (Home IV providers - Bill Type 085x.)
+    SEMI-PRIVATE ROOM NOT AVAILABLE - Indicates that either private or ward accommodations were assigned because semi- private accommodations were not available.
     """
 
     C_39 = "39"
     """
-    DATE DISCHARGED ON A CONTINUOUS COURSE OF IV THERAPY - Date the patient was discharged from the hospital on continuous course of IV therapy. (Home IV providers - Bill Type 085x.)
+    PRIVATE ROOM MEDICALLY NECESSARY - Patient needs a private room for medical requirements.
     """
 
     C_40 = "40"
     """
-    SCHEDULED DATE OF ADMISSION - The scheduled date the patient will be admitted as an inpatient to the hospital. (This code may only be used on an outpatient claim.)
+    SAME DAY TRANSFER - Patient transferred to another facility before midnight on the day of admission.
     """
 
     C_41 = "41"
     """
-    DATE OF FIRST TEST PRE-ADMISSION TESTING - The date on which the first outpatient diagnostic test was performed as part of a PAT program. This code may only be used if a date of admission was scheduled before the administration of the test(s).
+    PARTIAL HOSPITALIZATION - Indicates claim is for partial hospitalization services.
     """
 
     C_42 = "42"
     """
-    DATE OF DISCHARGE - Use only when "Through" date in Form Locator 06 (Statement Covers Period) is not the actual discharge date and the frequency code in Form Locator 04 is that of a final bill. For final bill for hospice care, enter the date the Medicare beneficiary terminated his election of hospice care.
+    CONTINUING CARE NOT RELATED TO INPATIENT HOSPITALIZATION - Continuing care not related to the condition or diagnosis for which the individual received inpatient hospital services.
     """
 
     C_43 = "43"
     """
-    SCHEDULED DATE OF CANCELED SURGERY - The date for which outpatient surgery was scheduled.
+    CONTINUING CARE NOT PROVIDED WITHIN PRESCRIBED POST-DISCHARGE WINDOW - Continuing care related to the inpatient admission but the prescribed care was not provided within the post-discharge window.
     """
 
     C_44 = "44"
     """
-    DATE TREATMENT STARTED OCCUPATIONAL THERAPY - The date services were initiated by the billing provider for occupational therapy.
+    INPATIENT ADMISSION CHANGED TO OUTPATIENT - For use on outpatient claims only, when the physician ordered inpatient services, but upon internal utilization review performed before the claim was originally submitted, the hospital determined that the services did not meet its inpatient criteria. (Note: For Medicare, the change in patient status from inpatient to outpatient is made prior to discharge or release, while the beneficiary is still a patient of the hospital.)
     """
 
     C_45 = "45"
     """
-    DATE TREATMENT STARTED FOR SPEECH THERAPY - The date services were initiated by the billing provider for speech therapy.
+    GENDER INCONGRUENCE - Characterized by a marked and persistent incongruence between an individual's experienced gender and the sex at birth.
     """
 
     C_46 = "46"
     """
-    DATE TREATMENT STARTED FOR CARDIAC REHABILITATION - The date services were initiated by the billing provider for cardiac rehabilitation.
+    NON-AVAILABILITY STATEMENT ON FILE - A non-availability statement must be issued for each TRICARE claim for non-emergency inpatient care when the TRICARE beneficiary resides within the catchment’s area (usually a 40-mile radius) of a Uniformed Services Hospital.
     """
 
     C_47 = "47"
     """
-    DATE COST OUTLIER STATUS BEGINS - Code indicates that this is the first day after the day the Cost Outlier threshold is reached. For Medicare purposes, a beneficiary must have regular, coinsurance and/or lifetime reserve days available beginning on this date to allow coverage of additional daily charges for the purpose of making a cost outlier payment.
+    TRANSFER FROM ANOTHER HOME HEALTH AGENCY (EFFECTIVE 7/1/10) - The patient was admitted to this home health agency as a transfer from another home health agency.
+    """
+
+    C_48 = "48"
+    """
+    PSYCHIATRIC RESIDENTIAL TREATMENT CENTERS FOR CHILDREN AND ADOLESCENTS (RTCS) - Code to identify claims submitted by a “TRICARE - authorized” psychiatric Residential Treatment Center (RTC) for Children and Adolescents.
+    """
+
+    C_49 = "49"
+    """
+    PRODUCT REPLACEMENT WITHIN PRODUCT LIFECYCLE (EFFECTIVE 1/1/15) - Replacement of a product earlier than the anticipated lifecycle.
     """
 
     C_50 = "50"
     """
-    ASSESSMENT DATE (EFFECTIVE 1/1/11) - Code indicating an assessment date as defined by the assessment instrument applicable to this provider type (e.g., Minimum Data Set (MDS) for skilled nursing).
+    PRODUCT REPLACEMENT FOR KNOWN RECALL OF A PRODUCT - Manufacturer or FDA has identified the product for recall and therefore replacement.
     """
 
     C_51 = "51"
     """
-    DATE OF LAST KT/V READING (EFFECTIVE 7/1/10) - For in-center hemodialysis patients, this is the date of the last reading taken during the billing period. For peritoneal dialysis patients (and home hemodialysis patients), this date may be before the current billing period but should be within 4 months of the date of service.
+    ATTESTATION OF UNRELATED OUTPATIENT NONDIAGNOSTIC SERVICES (EFFECTIVE 4/1/11) - The hospital attests that the outpatient nondiagnostic service provided within 3 calendars days (1 calendar day for non-subsection (d) hospitals) prior to the admission is not related to the admission to the inpatient stay. For use on outpatient claims only.
     """
 
     C_52 = "52"
     """
-    MEDICAL CERTIFICATION/RECERTIFICATION DATE (EFFECTIVE 1/1/11) - The date of the most recent non-hospice medical certification or recertification of the patient. Use Occurrence Code 27 for Date of Hospice Certification or Recertification.
+    OUT OF HOSPICE SERVICE AREA (EFFECTIVE 7/1/12) - Code used when the patient is discharged for moving out of the hospice service area, including patients admitted to a hospital without contractual arrangements with the hospice.
+    """
+
+    C_53 = "53"
+    """
+    INITIAL PLACEMENT OF A MEDICAL DEVICE PROVIDED AS PART OF A CLINICAL TRIAL OR A FREE SAMPLE. (EFFECTIVE 7/1/15) - Code is for outpatient claims that have received a device credit upon initial medical device placement in a clinical trial or a free sample.
     """
 
     C_54 = "54"
     """
-    PHYSICIAN FOLLOW-UP DATE (EFFECTIVE 1/1/11) - Last date of a physician follow-up with the patient.
+    NO SKILLED HOME HEALTH VISITS IN BILLING PERIOD. POLICY EXCEPTION DOCUMENTED AT THE HOME HEALTH AGENCY (EFFECTIVE 7/1/16) - Report when the Home Health claim is submitted without any skilled visits due to a circumstance that is allowed by the payer and indicate that the policy exception is documented at the Home Health Agency.
     """
 
     C_55 = "55"
     """
-    DATE OF DEATH (EFFECTIVE 10/1/12) - Report this code when patient discharge status codes 20 (expired), 40 (expired at home), 41 (expired in a medical facility), or 42 (expired - place unknown) are used.
+    SNF BED NOT AVAILABLE - Code indicates the patient’s SNF admission was delayed more than 30 days after hospital discharge because a SNF bed was not available.
     """
 
     C_56 = "56"
     """
-    ORIGINAL HOSPICE ELECTION OR REVOCATION DATE (EFFECTIVE 1/1/18) - Used when the hospice is submitting a correction to the election date reported on a previous 08xA Type of Bill or the revocation date on a previous 08xB Type of Bill. The hospice reports the correct dates in FL06 - Statement Covers Period (From-Through) and the original date in this occurrence code.
+    MEDICAL APPROPRIATENESS - Code indicates the patient’s SNF admission was delayed more than 30 days after hospital discharge because his condition made it inappropriate to begin active care within that period.
+    """
+
+    C_57 = "57"
+    """
+    SNF READMISSION - Code indicates the patient was previously receiving Medicare covered SNF care within 30 days of this readmission.
+    """
+
+    C_58 = "58"
+    """
+    TERMINATED MEDICARE ADVANTAGE ENROLLEE - Code indicates that patient is a terminated enrollee in a Medicare Advantage plan whose three-day inpatient hospital stay was waived.
+    """
+
+    C_59 = "59"
+    """
+    NON-PRIMARY ESRD FACILITY - Code indicates that ESRD beneficiary received non- scheduled or emergency dialysis services at a facility other than his/her primary ESRD dialysis facility.
+    """
+
+    C_60 = "60"
+    """
+    DAY OUTLIER - A hospital being paid under a prospective payment system is reporting this stay as a day outlier.
     """
 
     C_61 = "61"
     """
-    HOSPITAL DISCHARGE DATE (HHA ONLY) (EFFECTIVE 1/1/2020) - The Through date of a hospital stay that ended within 14 days prior to the From date of this HHA claim.
+    COST OUTLIER - A hospital being paid under a prospective payment system is requesting additional payment for this stay as a cost outlier.
     """
 
-    C_62 = "62"
+    C_66 = "66"
     """
-    OTHER INSTITUTIONAL DISCHARGE DATE (HHA ONLY) (EFFECTIVE 1/1/2020) - The Through date of a skilled nursing facility (SNF), inpatient rehabilitation facility (IRF), long term care hospital (LTCH), or inpatient psychiatric facility (IPF) stay that ended within 14 days prior to this HHA admission.
+    PROVIDER DOES NOT WISH COST OUTLIER PAYMENT - A hospital paid under a prospective payment system is NOT requesting additional payment for this stay as a cost outlier.
+    """
+
+    C_67 = "67"
+    """
+    BENEFICIARY ELECTS NOT TO USE LIFE TIME RESERVE (LTR) DAYS - Indicates beneficiary elects not to use LTR days.
+    """
+
+    C_68 = "68"
+    """
+    BENEFICIARY ELECTS TO USE LIFE TIME RESERVE (LTR) DAYS - Indicates beneficiary has elected to use LTR days when charges are less than LTR co-insurance amounts.
+    """
+
+    C_69 = "69"
+    """
+    IME/DGME/N&AH PAYMENT ONLY - Code indicates a request for a supplemental payment for IME/DGME/N&AH (Indirect Medical Education/Graduate Medical Education/ Nursing and Allied Health).
+    """
+
+    C_70 = "70"
+    """
+    SELF-ADMINISTERED ANEMIA MANAGEMENT DRUG - Code indicates the billing is for a home dialysis patient who self administers an anemia management drug, such as erythropoietin alpha (EPO) or darbepoetin alpha.
+    """
+
+    C_71 = "71"
+    """
+    FULL CARE IN UNIT - Code indicates the billing is for a patient who received staff-assisted dialysis services in a hospital or renal dialysis facility.
+    """
+
+    C_72 = "72"
+    """
+    SELF CARE IN UNIT - Code indicates the billing is for a patient who managed his own dialysis services without staff assistance in a hospital or renal dialysis facility.
+    """
+
+    C_73 = "73"
+    """
+    ESRD SELF CARE TRAINING - Code indicates the billing is for special dialysis services training when a patient or caregiver is learning to perform dialysis.
+    """
+
+    C_74 = "74"
+    """
+    HOME - Code indicates the billing is for a patient who received dialysis services at home, but where code 75 below does not apply.
+    """
+
+    C_75 = "75"
+    """
+    HOME - 100 PERCENT REIMBURSEMENT - Code indicates the billing is for a patient who received dialysis services at home, using a dialysis machine that was purchased by Medicare under the 100 percent program.
+    """
+
+    C_76 = "76"
+    """
+    BACK-UP IN FACILITY DIALYSIS - Code indicates the billing is for a home dialysis patient who received back-up dialysis in a facility.
+    """
+
+    C_77 = "77"
+    """
+    PROVIDER ACCEPTS OR IS OBLIGATED/REQUIRED DUE TO A CONTRACTUAL ARRANGEMENT OR LAW TO ACCEPT PAYMENT BY A PRIMARY PAYER AS PAYMENT IN FULL. - Code indicates you have accepted or are
+    obligated/required due to a contractual
+    arrangement or law to accept payment as
+    payment in full. Therefore, no payment is due.
+    """
+
+    C_78 = "78"
+    """
+    NEW COVERAGE NOT IMPLEMENTED BY MANAGED CARE PLAN - Billing is for a newly covered service for which
+    the managed care plan/HMO does not pay. (Note:
+    For outpatient bills Condition Code 04 should be
+    omitted).
+    """
+
+    C_79 = "79"
+    """
+    CORF SERVICES PROVIDED OFFSITE - Enter this code to indicate that physical therapy,
+    occupational therapy, or speech pathology ser-
+    vices were provided offsite.
+    """
+
+    C_80 = "80"
+    """
+    HOME DIALYSIS - NURSING FACILITY - Home dialysis furnished in a SNF or nursing facility.
+    """
+
+    C_81 = "81"
+    """
+    C-SECTIONS/INDUCTIONS < 39 WEEKS - MEDICAL NECESSITY - C-sections or inductions performed at less than 39 weeks gestation for medical necessity.
+    """
+
+    C_82 = "82"
+    """
+    C-SECTIONS/INDUCTIONS < 39 WEEKS - ELECTIVE - C-sections or inductions performed at less than 39 weeks gestation electively.
+    """
+
+    C_83 = "83"
+    """
+    C-SECTIONS/INDUCTIONS 39 WEEKS OR GREATER - C-sections or inductions performed at 39 weeks gestation or greater.
+    """
+
+    C_84 = "84"
+    """
+    DIALYSIS FOR ACUTE KIDNEY INJURY (AKI) (EFFECTIVE 1/1/17) - Dialysis facilities (Type of Bill 072x) enter this code to indicate that the billing is for a patient with AKI. (Not to be used for patients with End Stage Renal Disease)
+    """
+
+    C_85 = "85"
+    """
+    DELAYED RECERTIFICATION OF HOSPICE TERMINAL ILLNESS (EFFECTIVE 1/1/17) - Used when hospice recertification is untimely.
+    """
+
+    C_86 = "86"
+    """
+    ADDITIONAL HEMODIALYSIS TREATMENTS WITH MEDICAL JUSTIFICATION (ORIGINAL EFFECTIVE DATE DELAYED. NEW EFFECTIVE DATE TBD*) - Enter this code to indicate that the billing is for a patient receiving hemodialysis who exhibits a medical condition that necessitates hemodialysis at a frequency greater than the patient’s plan of care and all treatments on the claim are reasonable and necessary.
+    """
+
+    C_87 = "87"
+    """
+    ESRD SELF CARE RETRAINING (EFFECTIVE 7/1/17) - Code indicates the billing is for special dialysis services retraining where the patient or caregiver has previously completed dialysis training.
+    """
+
+    C_88 = "88"
+    """
+    ALLOGENEIC STEM CELL TRANSPLANT RELATED DONOR CHARGES (EFFECTIVE 7/1/20) - Claim submitted is solely for separately billed charges for evaluating related stem cell transplant donor candidates prior to the actual transplant claim.
+    """
+
+    C_89 = "89"
+    """
+    OPIOID TREATMENT PROGRAM (EFFECTIVE 1/1/21) - Indicates claim is for opioid treatment program services.
+    """
+
+    C_90 = "90"
+    """
+    EXPANDED ACCESS APPROVAL (EFFECTIVE 2/1/21) - Service provided as part of an Expanded Access approval.
+    """
+
+    C_91 = "91"
+    """
+    EMERGENCY USE AUTHORIZATION (EFFECTIVE 2/1/21) - Service provided as part of an Emergency Use Authorization.
+    """
+
+    C_92 = "92"
+    """
+    INTENSIVE OUTPATIENT PROGRAM (IOP) (EFFECTIVE FOR SERVICES FURNISHED ON OR AFTER 1/1/2024) - Code indicates claim is for Intensive Outpatient Services
+    """
+
+    CA_0 = "A0"
+    """
+    TRICARE EXTERNAL PARTNERSHIP PROGRAM - This code identifies TRICARE claims submitted under the External Partnership Program.
     """
 
     CA_1 = "A1"
@@ -259,47 +451,343 @@ class ConditionCode(str, enum.Enum):
 
     CA_2 = "A2"
     """
-    EFFECTIVE DATE - INSURED A POLICY - A code indicating the first date insurance is in force.
+    PHYSICALLY HANDICAPPED CHILDREN’S PROGRAM - Services provided under this program receive special funding through Title VII of the Social Security Act or the TRICARE program for the Handicapped.
     """
 
     CA_3 = "A3"
     """
-    BENEFITS EXHAUSTED - PAYER A - Code indicating the last date for which benefits are available and after which no payment can be made by Payer A.
+    SPECIAL FEDERAL FUNDING - This code has been designed for uniform use as defined by state law.
     """
 
     CA_4 = "A4"
     """
-    SPLIT BILL DATE - Date patient became eligible due to medically needy spend down (sometimes referred to as "Split Bill Date").
+    FAMILY PLANNING - This code has been designed for uniform use as defined by state law.
+    """
+
+    CA_5 = "A5"
+    """
+    DISABILITY - This code has been designed for uniform use as defined by state law.
+    """
+
+    CA_6 = "A6"
+    """
+    VACCINES/MEDICARE 100% PAYMENT - This code identifies that pneumococcal pneumonia and influenza vaccine services are reimbursed under special Medicare program provisions and Medicare deductible and coinsurance requirements do not apply.
+    """
+
+    CA_7 = "A7"
+    """
+    HOSPITAL SERVICES PROVIDED IN A MOBILE FACILITY OR WITH PORTABLE UNITS (EFFECTIVE 4/1/20). - Code indicates that hospital services were provided in a mobile facility or with portable units.
+    """
+
+    CA_9 = "A9"
+    """
+    SECOND OPINION SURGERY - Services requested to support second opinion on surgery.
+    """
+
+    CAA = "AA"
+    """
+    ABORTION PERFORMED DUE TO RAPE - Code indicates abortion performed due to a rape.
+    """
+
+    CAB = "AB"
+    """
+    ABORTION PERFORMED DUE TO INCEST - Code indicates abortion performed due to an incident of incest.
+    """
+
+    CAC = "AC"
+    """
+    ABORTION PERFORMED DUE TO SERIOUS FETAL GENETIC DEFECT, DEFORMITY, OR ABNORMALITY - Code indicates abortion performed due to a genetic defect, a deformity, or abnormality to the fetus.
+    """
+
+    CAD = "AD"
+    """
+    ABORTION PERFORMED DUE TO A LIFE ENDANGERING PHYSICAL CONDITION - Abortion performed due to a life endangering physical condition caused by, or, arising from or exacerbated by the pregnancy itself.
+    """
+
+    CAE = "AE"
+    """
+    ABORTION PERFORMED DUE TO PHYSICAL HEALTH OF MOTHER THAT IS NOT LIFE ENDANGERING - Abortion performed due to physical health of mother that is not life endangering.
+    """
+
+    CAF = "AF"
+    """
+    ABORTION PERFORMED DUE TO EMOTIONAL/PSYCHOLOGICAL HEALTH OF THE MOTHER - Abortion performed due to emotional psychological health of the mother.
+    """
+
+    CAG = "AG"
+    """
+    ABORTION PERFORMED DUE TO SOCIAL OR ECONOMIC REASONS - Abortion performed due to social or economic reasons.
+    """
+
+    CAH = "AH"
+    """
+    ELECTIVE ABORTION - Elective abortion.
+    """
+
+    CAI = "AI"
+    """
+    STERILIZATION - Sterilization.
+    """
+
+    CAJ = "AJ"
+    """
+    PAYER RESPONSIBLE FOR CO-PAYMENT - Payer responsible for co-payment.
+    """
+
+    CAK = "AK"
+    """
+    AIR AMBULANCE REQUIRED - For ambulance claims. Air ambulance required; time needed to transport poses a threat.
+    """
+
+    CAL = "AL"
+    """
+    SPECIALIZED TREATMENT/BED UNAVAILABLE - ALTERNATE FACILITY TRANSPORT - For ambulance claims. Specialized treatment bed unavailable. Transport to alternate facility.
+    """
+
+    CAM = "AM"
+    """
+    NON-EMERGENCY MEDICALLY NECESSARY STRETCHER TRANSPORT REQUIRED - For ambulance claims. Non-emergency medically necessary stretcher transport required.
+    """
+
+    CAN = "AN"
+    """
+    PREADMISSION SCREENING NOT REQUIRED - Person meets the criteria for an exemption from preadmission screening.
+    """
+
+    CB_0 = "B0"
+    """
+    MEDICARE COORDINATED CARE DEMONSTRATION CLAIM - Patient is participant in the Medicare Coordinated Care Demonstration.
     """
 
     CB_1 = "B1"
     """
-    BIRTH DATE INSURED B - The birth date of the individual in whose name the insurance is carried.
+    BENEFICIARY IS INELIGIBLE FOR DEMONSTRATION PROGRAM - Beneficiary is ineligible for demonstration program.
     """
 
     CB_2 = "B2"
     """
-    EFFECTIVE DATE - INSURED B POLICY - A code indicating the first date insurance is in force.
+    CRITICAL ACCESS HOSPITAL AMBULANCE ATTESTATION - Attestation by Critical Access Hospital that it meets the criteria for exemption from the ambulance fee schedule.
     """
 
     CB_3 = "B3"
     """
-    BENEFITS EXHAUSTED - PAYER B - Code indicating the last date for which benefits are available and after which no payment can be made by Payer B.
+    PREGNANCY INDICATOR - Indicates patient is pregnant. Required when mandated by law; determination of pregnancy completed in compliance with applicable law.
+    """
+
+    CB_4 = "B4"
+    """
+    ADMISSION UNRELATED TO DISCHARGE ON SAME DAY - Report code when a patient is discharged/transferred from an acute care PPS hospital on the same day for symptoms unrelated to and/or not for evaluation and management of, the prior stay’s medical condition.
+    """
+
+    CBP = "BP"
+    """
+    GULF OIL SPILL OF 2010 (EFFECTIVE 4/20/10) - This code identifies claims where the provision of all services on the claim are related, in whole or in part, to an illness, injury, or condition that was caused by or exacerbated by the effects, direct or indirect, of the 2010 oil spill in the Gulf of Mexico and/or circumstances related to such spill, including but not limited to subsequent clean-up activities.
     """
 
     CC_1 = "C1"
     """
-    BIRTH DATE INSURED C - The birth date of the individual in whose name the insurance is carried.
+    APPROVED AS BILLED - The services provided for this billing period have been reviewed by the QIO or intermediary, as appropriate, and are fully approved including any day or cost outlier.
     """
 
     CC_2 = "C2"
     """
-    EFFECTIVE DATE - INSURED C POLICY - A code indicating the first date insurance is in force.
+    AUTOMATIC APPROVAL AS BILLED BASED ON FOCUSED REVIEW - This should include only categories of cases that the QIO has determined it need not review under a focused review program. (No longer used for Medicare.)
     """
 
     CC_3 = "C3"
     """
-    BENEFITS EXHAUSTED - PAYER C - Code indicating the last date for which benefits are available and after which no payment can be made by Payer C.
+    PARTIAL APPROVAL - The services provided for this billing period have been reviewed by the QIO or intermediary, as appropriate, and some portion has been denied (days, or services).
+    """
+
+    CC_4 = "C4"
+    """
+    ADMISSION/SERVICES DENIED - This should only be used to indicate that all of the services were denied by the QIO.
+    """
+
+    CC_5 = "C5"
+    """
+    POST PAYMENT REVIEW APPLICABLE - This should be used indicated that the QIO review will take place after payment.
+    """
+
+    CC_6 = "C6"
+    """
+    ADMISSION PREAUTHORIZATION - The QIO authorized this admission/service but has not reviewed the services provided.
+    """
+
+    CC_7 = "C7"
+    """
+    EXTENDED AUTHORIZATION - The QIO has authorized these services for an extended length of time but has not reviewed the services provided.
+    """
+
+    CD_0 = "D0"
+    """
+    CHANGES TO SERVICE DATES - Changes to service dates.
+    """
+
+    CD_1 = "D1"
+    """
+    CHANGES TO CHARGES - Changes to charges.
+    """
+
+    CD_2 = "D2"
+    """
+    CHANGES IN REVENUE CODES/HCPCS/HIPPS RATE CODES - Report this claim change reason code on a replacement claim (Bill Type Frequency Code 7) to reflect a change in Revenue Codes (FL42) HCPCS/HIPPS Rate Codes (FL44).
+    """
+
+    CD_3 = "D3"
+    """
+    SECOND OR SUBSEQUENT INTERIM PPS BILL - Second or subsequent Interim PPS bill.
+    """
+
+    CD_4 = "D4"
+    """
+    CHANGE IN CLINICAL CODES (ICD) FOR DIAGNOSIS AND/OR PROCEDURE CODES - Report this claim change reason code on a replacement claim (Bill Type Frequency Code 7) to reflect a change in diagnosis (FL67) and procedure codes (FL74).
+    """
+
+    CD_5 = "D5"
+    """
+    CANCEL TO CORRECT INSURED’S ID OR PROVIDER ID - Cancel only to correct insured’s ID or provider identification number.
+    """
+
+    CD_6 = "D6"
+    """
+    CANCEL ONLY TO REPAY A DUPLICATE OR OIG OVERPAYMENT - Cancel only to repay a duplicate payment or OIG overpayment. (Includes cancellation of an
+    outpatient bill containing services required to be included on the inpatient bill.)
+    """
+
+    CD_7 = "D7"
+    """
+    CHANGE TO MAKE MEDICARE THE SECONDARY PAYER - Change to make Medicare the secondary payer.
+    """
+
+    CD_8 = "D8"
+    """
+    CHANGE TO MAKE MEDICARE THE PRIMARY PAYER - Change to make Medicare the primary payer.
+    """
+
+    CD_9 = "D9"
+    """
+    ANY OTHER CHANGE - Any other change.
+    """
+
+    CD_RA = "DR(a)"
+    """
+    DISASTER RELATED - Used to identify claims that are or may be impacted by specific payer/health plan policies related to a national or regional disaster.
+    """
+
+    CE_0 = "E0"
+    """
+    CHANGE IN PATIENT STATUS - Change in patient status.
+    """
+
+    CG_0 = "G0"
+    """
+    DISTINCT MEDICAL VISIT - Report this code when multiple medical visits occurred on the same day in the same revenue center but the visits were distinct and constituted independent visits. An example of such a situation would be a beneficiary going to the emergency room twice on the same day, in the morning for a broken arm and later for chest pain.
+    """
+
+    CH_0 = "H0"
+    """
+    DELAYED FILING; STATEMENT OF INTENT SUBMITTED - Code indicates submission of “Statement of Intent” within the qualifying period to specifically identify the existence of another third party liability situation.
+    """
+
+    CH_2 = "H2"
+    """
+    DISCHARGE BY A HOSPICE PROVIDER FOR CAUSE (EFFECTIVE 1/1/09) - Discharge by a hospice provider for cause.
+    """
+
+    CH_3 = "H3"
+    """
+    REOCCURRENCE OF GI BLEED COMORBID CATEGORY (EFFECTIVE 1/1/11) - Code indicates a reoccurrence of GI bleed comorbid category limited for use in conjunction with ESRD PPS and applicable to 072x types of bill only.
+    """
+
+    CH_4 = "H4"
+    """
+    REOCCURRENCE OF PNEUMONIA COMORBID CATEGORY (EFFECTIVE 1/1/11) - Code indicates a reoccurrence of pneumonia comorbid category limited for use in conjunction with ESRD PPS and applicable to 072x types of bill only.
+    """
+
+    CH_5 = "H5"
+    """
+    REOCCURRENCE OF PERICARDITIS COMORBID CATEGORY (EFFECTIVE 1/1/11) - Code indicates a reoccurrence of pericarditis comorbid category limited for use in conjunction with ESRD PPS and applicable to 072x types of bill only.
+    """
+
+    CP_1 = "P1"
+    """
+    DO NOT RESUSCITATE ORDER (DNR) - FOR PUBLIC HEALTH DATA REPORTING ONLY when required by state or federal law or regulations. Code indicates that a DNR order was written at the time of or within the first 24 hours of the patient’s admission to the hospital and is clearly documented in the patient’s medical record.
+    """
+
+    CP_7 = "P7"
+    """
+    DIRECT INPATIENT ADMISSION FROM EMERGENCY ROOM (EFFECTIVE 7/1/10) - FOR PUBLIC HEALTH DATA REPORTING ONLY when required by state or federal law or regulations. Code indicates that patient was admitted directly from this facility’s Emergency Room/Department.
+    """
+
+    CR_1 = "R1"
+    """
+    REQUEST FOR REOPENING REASON CODE - MATHEMATICAL OR COMPUTATIONAL MISTAKES (EFFECTIVE 1/1/16) - Mathematical or computational mistakes.
+    """
+
+    CR_2 = "R2"
+    """
+    REQUEST FOR REOPENING REASON CODE - INACCURATE DATA ENTRY (EFFECTIVE 1/1/16) - Inaccurate data entry, e.g., miskeyed or transposed provider number, referring NPI, date of service, procedure code, etc.
+    """
+
+    CR_3 = "R3"
+    """
+    REQUEST FOR REOPENING REASON CODE - MISAPPLICATION OF A FEE SCHEDULE (EFFECTIVE 1/1/16) - Misapplication of a fee schedule.
+    """
+
+    CR_4 = "R4"
+    """
+    REQUEST FOR REOPENING REASON CODE - COMPUTER ERRORS (EFFECTIVE 1/1/16) - Computer errors.
+    """
+
+    CR_5 = "R5"
+    """
+    REQUEST FOR REOPENING REASON CODE - INCORRECTLY IDENTIFIED DUPLICATE CLAIM (EFFECTIVE 1/1/16) - Claims denied as duplicates which the party believes were incorrectly identified as a duplicate.
+    """
+
+    CR_6 = "R6"
+    """
+    REQUEST FOR REOPENING REASON CODE - OTHER CLERICAL ERRORS OR MINOR ERRORS AND OMISSIONS NOT SPECIFIED IN R1-R5 ABOVE (EFFECTIVE 1/1/16) - Other clerical errors or minor errors and omissions not specified in R1-R5 above.
+    """
+
+    CR_7 = "R7"
+    """
+    REQUEST FOR REOPENING REASON CODE - CORRECTIONS OTHER THAN CLERICAL ERRORS (EFFECTIVE 1/1/16) - Claim corrections other than clerical errors within one year of the date of initial determination.
+    """
+
+    CR_8 = "R8"
+    """
+    REQUEST FOR REOPENING REASON CODE - NEW AND MATERIAL EVIDENCE (EFFECTIVE 1/1/16) - A reopening for good cause (one to four years from the date of the initial determination) due to new and material evidence that was not available or known at the time of the determination or decision and may result in a different conclusion.
+    """
+
+    CR_9 = "R9"
+    """
+    REQUEST FOR REOPENING REASON CODE - FAULTY EVIDENCE (EFFECTIVE 1/1/16) - A reopening for good cause (one to four years from the date of the initial determination) because the evidence that was considered in making the determination or decision clearly shows that an obvious error was made at the time of the determination or decision.
+    """
+
+    CW_0 = "W0"
+    """
+    UNITED MINE WORKERS OF AMERICA (UMWA) DEMONSTRATION INDICATOR - Used for United Mine Workers of America (UMWA) demonstration indicator ONLY.
+    """
+
+    CW_2 = "W2"
+    """
+    DUPLICATE OF ORIGINAL BILL (EFFECTIVE 10/1/08) - Code indicates bill is exact duplicate of the original bill submitted.
+    """
+
+    CW_3 = "W3"
+    """
+    LEVEL I APPEAL (EFFECTIVE 10/1/08) - Code indicates bill is submitted for reconsideration; the level of appeal / reconsideration (I) is specified/defined by the payer.
+    """
+
+    CW_4 = "W4"
+    """
+    LEVEL II APPEAL (EFFECTIVE 10/1/08) - Code indicates bill is submitted for reconsideration; the level of appeal / reconsideration (II) is specified/defined by the payer.
+    """
+
+    CW_5 = "W5"
+    """
+    LEVEL III APPEAL (EFFECTIVE 10/1/08) - Code indicates bill is submitted for reconsideration; the level of appeal / reconsideration (II) is specified/defined by the payer.
     """
 
     _UNKNOWN = "__CONDITIONCODE_UNKNOWN__"
@@ -336,6 +824,7 @@ class ConditionCode(str, enum.Enum):
         c_24: typing.Callable[[], T_Result],
         c_25: typing.Callable[[], T_Result],
         c_26: typing.Callable[[], T_Result],
+        c_27: typing.Callable[[], T_Result],
         c_28: typing.Callable[[], T_Result],
         c_29: typing.Callable[[], T_Result],
         c_30: typing.Callable[[], T_Result],
@@ -356,24 +845,117 @@ class ConditionCode(str, enum.Enum):
         c_45: typing.Callable[[], T_Result],
         c_46: typing.Callable[[], T_Result],
         c_47: typing.Callable[[], T_Result],
+        c_48: typing.Callable[[], T_Result],
+        c_49: typing.Callable[[], T_Result],
         c_50: typing.Callable[[], T_Result],
         c_51: typing.Callable[[], T_Result],
         c_52: typing.Callable[[], T_Result],
+        c_53: typing.Callable[[], T_Result],
         c_54: typing.Callable[[], T_Result],
         c_55: typing.Callable[[], T_Result],
         c_56: typing.Callable[[], T_Result],
+        c_57: typing.Callable[[], T_Result],
+        c_58: typing.Callable[[], T_Result],
+        c_59: typing.Callable[[], T_Result],
+        c_60: typing.Callable[[], T_Result],
         c_61: typing.Callable[[], T_Result],
-        c_62: typing.Callable[[], T_Result],
+        c_66: typing.Callable[[], T_Result],
+        c_67: typing.Callable[[], T_Result],
+        c_68: typing.Callable[[], T_Result],
+        c_69: typing.Callable[[], T_Result],
+        c_70: typing.Callable[[], T_Result],
+        c_71: typing.Callable[[], T_Result],
+        c_72: typing.Callable[[], T_Result],
+        c_73: typing.Callable[[], T_Result],
+        c_74: typing.Callable[[], T_Result],
+        c_75: typing.Callable[[], T_Result],
+        c_76: typing.Callable[[], T_Result],
+        c_77: typing.Callable[[], T_Result],
+        c_78: typing.Callable[[], T_Result],
+        c_79: typing.Callable[[], T_Result],
+        c_80: typing.Callable[[], T_Result],
+        c_81: typing.Callable[[], T_Result],
+        c_82: typing.Callable[[], T_Result],
+        c_83: typing.Callable[[], T_Result],
+        c_84: typing.Callable[[], T_Result],
+        c_85: typing.Callable[[], T_Result],
+        c_86: typing.Callable[[], T_Result],
+        c_87: typing.Callable[[], T_Result],
+        c_88: typing.Callable[[], T_Result],
+        c_89: typing.Callable[[], T_Result],
+        c_90: typing.Callable[[], T_Result],
+        c_91: typing.Callable[[], T_Result],
+        c_92: typing.Callable[[], T_Result],
+        ca_0: typing.Callable[[], T_Result],
         ca_1: typing.Callable[[], T_Result],
         ca_2: typing.Callable[[], T_Result],
         ca_3: typing.Callable[[], T_Result],
         ca_4: typing.Callable[[], T_Result],
+        ca_5: typing.Callable[[], T_Result],
+        ca_6: typing.Callable[[], T_Result],
+        ca_7: typing.Callable[[], T_Result],
+        ca_9: typing.Callable[[], T_Result],
+        caa: typing.Callable[[], T_Result],
+        cab: typing.Callable[[], T_Result],
+        cac: typing.Callable[[], T_Result],
+        cad: typing.Callable[[], T_Result],
+        cae: typing.Callable[[], T_Result],
+        caf: typing.Callable[[], T_Result],
+        cag: typing.Callable[[], T_Result],
+        cah: typing.Callable[[], T_Result],
+        cai: typing.Callable[[], T_Result],
+        caj: typing.Callable[[], T_Result],
+        cak: typing.Callable[[], T_Result],
+        cal: typing.Callable[[], T_Result],
+        cam: typing.Callable[[], T_Result],
+        can: typing.Callable[[], T_Result],
+        cb_0: typing.Callable[[], T_Result],
         cb_1: typing.Callable[[], T_Result],
         cb_2: typing.Callable[[], T_Result],
         cb_3: typing.Callable[[], T_Result],
+        cb_4: typing.Callable[[], T_Result],
+        cbp: typing.Callable[[], T_Result],
         cc_1: typing.Callable[[], T_Result],
         cc_2: typing.Callable[[], T_Result],
         cc_3: typing.Callable[[], T_Result],
+        cc_4: typing.Callable[[], T_Result],
+        cc_5: typing.Callable[[], T_Result],
+        cc_6: typing.Callable[[], T_Result],
+        cc_7: typing.Callable[[], T_Result],
+        cd_0: typing.Callable[[], T_Result],
+        cd_1: typing.Callable[[], T_Result],
+        cd_2: typing.Callable[[], T_Result],
+        cd_3: typing.Callable[[], T_Result],
+        cd_4: typing.Callable[[], T_Result],
+        cd_5: typing.Callable[[], T_Result],
+        cd_6: typing.Callable[[], T_Result],
+        cd_7: typing.Callable[[], T_Result],
+        cd_8: typing.Callable[[], T_Result],
+        cd_9: typing.Callable[[], T_Result],
+        cd_ra: typing.Callable[[], T_Result],
+        ce_0: typing.Callable[[], T_Result],
+        cg_0: typing.Callable[[], T_Result],
+        ch_0: typing.Callable[[], T_Result],
+        ch_2: typing.Callable[[], T_Result],
+        ch_3: typing.Callable[[], T_Result],
+        ch_4: typing.Callable[[], T_Result],
+        ch_5: typing.Callable[[], T_Result],
+        cp_1: typing.Callable[[], T_Result],
+        cp_7: typing.Callable[[], T_Result],
+        cr_1: typing.Callable[[], T_Result],
+        cr_2: typing.Callable[[], T_Result],
+        cr_3: typing.Callable[[], T_Result],
+        cr_4: typing.Callable[[], T_Result],
+        cr_5: typing.Callable[[], T_Result],
+        cr_6: typing.Callable[[], T_Result],
+        cr_7: typing.Callable[[], T_Result],
+        cr_8: typing.Callable[[], T_Result],
+        cr_9: typing.Callable[[], T_Result],
+        cw_0: typing.Callable[[], T_Result],
+        cw_2: typing.Callable[[], T_Result],
+        cw_3: typing.Callable[[], T_Result],
+        cw_4: typing.Callable[[], T_Result],
+        cw_5: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is ConditionCode.C_01:
@@ -418,6 +1000,8 @@ class ConditionCode(str, enum.Enum):
             return c_25()
         if self is ConditionCode.C_26:
             return c_26()
+        if self is ConditionCode.C_27:
+            return c_27()
         if self is ConditionCode.C_28:
             return c_28()
         if self is ConditionCode.C_29:
@@ -458,22 +1042,90 @@ class ConditionCode(str, enum.Enum):
             return c_46()
         if self is ConditionCode.C_47:
             return c_47()
+        if self is ConditionCode.C_48:
+            return c_48()
+        if self is ConditionCode.C_49:
+            return c_49()
         if self is ConditionCode.C_50:
             return c_50()
         if self is ConditionCode.C_51:
             return c_51()
         if self is ConditionCode.C_52:
             return c_52()
+        if self is ConditionCode.C_53:
+            return c_53()
         if self is ConditionCode.C_54:
             return c_54()
         if self is ConditionCode.C_55:
             return c_55()
         if self is ConditionCode.C_56:
             return c_56()
+        if self is ConditionCode.C_57:
+            return c_57()
+        if self is ConditionCode.C_58:
+            return c_58()
+        if self is ConditionCode.C_59:
+            return c_59()
+        if self is ConditionCode.C_60:
+            return c_60()
         if self is ConditionCode.C_61:
             return c_61()
-        if self is ConditionCode.C_62:
-            return c_62()
+        if self is ConditionCode.C_66:
+            return c_66()
+        if self is ConditionCode.C_67:
+            return c_67()
+        if self is ConditionCode.C_68:
+            return c_68()
+        if self is ConditionCode.C_69:
+            return c_69()
+        if self is ConditionCode.C_70:
+            return c_70()
+        if self is ConditionCode.C_71:
+            return c_71()
+        if self is ConditionCode.C_72:
+            return c_72()
+        if self is ConditionCode.C_73:
+            return c_73()
+        if self is ConditionCode.C_74:
+            return c_74()
+        if self is ConditionCode.C_75:
+            return c_75()
+        if self is ConditionCode.C_76:
+            return c_76()
+        if self is ConditionCode.C_77:
+            return c_77()
+        if self is ConditionCode.C_78:
+            return c_78()
+        if self is ConditionCode.C_79:
+            return c_79()
+        if self is ConditionCode.C_80:
+            return c_80()
+        if self is ConditionCode.C_81:
+            return c_81()
+        if self is ConditionCode.C_82:
+            return c_82()
+        if self is ConditionCode.C_83:
+            return c_83()
+        if self is ConditionCode.C_84:
+            return c_84()
+        if self is ConditionCode.C_85:
+            return c_85()
+        if self is ConditionCode.C_86:
+            return c_86()
+        if self is ConditionCode.C_87:
+            return c_87()
+        if self is ConditionCode.C_88:
+            return c_88()
+        if self is ConditionCode.C_89:
+            return c_89()
+        if self is ConditionCode.C_90:
+            return c_90()
+        if self is ConditionCode.C_91:
+            return c_91()
+        if self is ConditionCode.C_92:
+            return c_92()
+        if self is ConditionCode.CA_0:
+            return ca_0()
         if self is ConditionCode.CA_1:
             return ca_1()
         if self is ConditionCode.CA_2:
@@ -482,16 +1134,134 @@ class ConditionCode(str, enum.Enum):
             return ca_3()
         if self is ConditionCode.CA_4:
             return ca_4()
+        if self is ConditionCode.CA_5:
+            return ca_5()
+        if self is ConditionCode.CA_6:
+            return ca_6()
+        if self is ConditionCode.CA_7:
+            return ca_7()
+        if self is ConditionCode.CA_9:
+            return ca_9()
+        if self is ConditionCode.CAA:
+            return caa()
+        if self is ConditionCode.CAB:
+            return cab()
+        if self is ConditionCode.CAC:
+            return cac()
+        if self is ConditionCode.CAD:
+            return cad()
+        if self is ConditionCode.CAE:
+            return cae()
+        if self is ConditionCode.CAF:
+            return caf()
+        if self is ConditionCode.CAG:
+            return cag()
+        if self is ConditionCode.CAH:
+            return cah()
+        if self is ConditionCode.CAI:
+            return cai()
+        if self is ConditionCode.CAJ:
+            return caj()
+        if self is ConditionCode.CAK:
+            return cak()
+        if self is ConditionCode.CAL:
+            return cal()
+        if self is ConditionCode.CAM:
+            return cam()
+        if self is ConditionCode.CAN:
+            return can()
+        if self is ConditionCode.CB_0:
+            return cb_0()
         if self is ConditionCode.CB_1:
             return cb_1()
         if self is ConditionCode.CB_2:
             return cb_2()
         if self is ConditionCode.CB_3:
             return cb_3()
+        if self is ConditionCode.CB_4:
+            return cb_4()
+        if self is ConditionCode.CBP:
+            return cbp()
         if self is ConditionCode.CC_1:
             return cc_1()
         if self is ConditionCode.CC_2:
             return cc_2()
         if self is ConditionCode.CC_3:
             return cc_3()
+        if self is ConditionCode.CC_4:
+            return cc_4()
+        if self is ConditionCode.CC_5:
+            return cc_5()
+        if self is ConditionCode.CC_6:
+            return cc_6()
+        if self is ConditionCode.CC_7:
+            return cc_7()
+        if self is ConditionCode.CD_0:
+            return cd_0()
+        if self is ConditionCode.CD_1:
+            return cd_1()
+        if self is ConditionCode.CD_2:
+            return cd_2()
+        if self is ConditionCode.CD_3:
+            return cd_3()
+        if self is ConditionCode.CD_4:
+            return cd_4()
+        if self is ConditionCode.CD_5:
+            return cd_5()
+        if self is ConditionCode.CD_6:
+            return cd_6()
+        if self is ConditionCode.CD_7:
+            return cd_7()
+        if self is ConditionCode.CD_8:
+            return cd_8()
+        if self is ConditionCode.CD_9:
+            return cd_9()
+        if self is ConditionCode.CD_RA:
+            return cd_ra()
+        if self is ConditionCode.CE_0:
+            return ce_0()
+        if self is ConditionCode.CG_0:
+            return cg_0()
+        if self is ConditionCode.CH_0:
+            return ch_0()
+        if self is ConditionCode.CH_2:
+            return ch_2()
+        if self is ConditionCode.CH_3:
+            return ch_3()
+        if self is ConditionCode.CH_4:
+            return ch_4()
+        if self is ConditionCode.CH_5:
+            return ch_5()
+        if self is ConditionCode.CP_1:
+            return cp_1()
+        if self is ConditionCode.CP_7:
+            return cp_7()
+        if self is ConditionCode.CR_1:
+            return cr_1()
+        if self is ConditionCode.CR_2:
+            return cr_2()
+        if self is ConditionCode.CR_3:
+            return cr_3()
+        if self is ConditionCode.CR_4:
+            return cr_4()
+        if self is ConditionCode.CR_5:
+            return cr_5()
+        if self is ConditionCode.CR_6:
+            return cr_6()
+        if self is ConditionCode.CR_7:
+            return cr_7()
+        if self is ConditionCode.CR_8:
+            return cr_8()
+        if self is ConditionCode.CR_9:
+            return cr_9()
+        if self is ConditionCode.CW_0:
+            return cw_0()
+        if self is ConditionCode.CW_2:
+            return cw_2()
+        if self is ConditionCode.CW_3:
+            return cw_3()
+        if self is ConditionCode.CW_4:
+            return cw_4()
+        if self is ConditionCode.CW_5:
+            return cw_5()
         return _unknown_member(self._value_)

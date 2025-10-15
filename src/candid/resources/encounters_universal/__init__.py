@@ -3,19 +3,13 @@
 # isort: skip_file
 
 from .types import (
-    UniversalEncounterCreate,
     UniversalEncounterCreateBase,
-    UniversalEncounterCreateFromPreEncounter,
     UniversalEncounterCreateFromPreEncounterBase,
-    UniversalEncounterUpdate,
     UniversalEncounterUpdateBase,
 )
 
 __all__ = [
-    "UniversalEncounterCreate",
     "UniversalEncounterCreateBase",
-    "UniversalEncounterCreateFromPreEncounter",
     "UniversalEncounterCreateFromPreEncounterBase",
-    "UniversalEncounterUpdate",
     "UniversalEncounterUpdateBase",
 ]

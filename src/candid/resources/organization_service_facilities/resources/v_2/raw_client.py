@@ -12,6 +12,7 @@ from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.facility_type_code import FacilityTypeCode
 from ....commons.types.page_token import PageToken
 from ....commons.types.request_validation_error import RequestValidationError
 from .types.organization_service_facility import OrganizationServiceFacility
@@ -87,6 +88,8 @@ class RawV2Client:
         organization_service_facility_ids: typing.Optional[
             typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]
         ] = None,
+        external_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        place_of_service_code: typing.Optional[FacilityTypeCode] = None,
         page_token: typing.Optional[PageToken] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[OrganizationServiceFacilityPage]:
@@ -101,6 +104,12 @@ class RawV2Client:
 
         organization_service_facility_ids : typing.Optional[typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]]
             Filter to the provided organization service facility IDs.
+
+        external_ids : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter by one or more external_ids.
+
+        place_of_service_code : typing.Optional[FacilityTypeCode]
+            Filter by Place of Service (POS) code.
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
@@ -120,6 +129,8 @@ class RawV2Client:
                 "limit": limit,
                 "name": name,
                 "organization_service_facility_ids": organization_service_facility_ids,
+                "external_ids": external_ids,
+                "place_of_service_code": place_of_service_code,
                 "page_token": page_token,
             },
             request_options=request_options,
@@ -137,6 +148,58 @@ class RawV2Client:
                 ),
             )
             return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_by_external_id(
+        self, external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[OrganizationServiceFacility]:
+        """
+        Looks up a single organization service facility by its `external_id` field. This can be useful
+        for finding service facilities within Candid which are associated with service facilities in
+        an external system.
+
+        Parameters
+        ----------
+        external_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[OrganizationServiceFacility]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/organization-service-facilities/v2/external-id/{jsonable_encoder(external_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                OrganizationServiceFacility,
+                parse_obj_as(
+                    type_=OrganizationServiceFacility,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create(
@@ -364,6 +427,8 @@ class AsyncRawV2Client:
         organization_service_facility_ids: typing.Optional[
             typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]
         ] = None,
+        external_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        place_of_service_code: typing.Optional[FacilityTypeCode] = None,
         page_token: typing.Optional[PageToken] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[OrganizationServiceFacilityPage]:
@@ -378,6 +443,12 @@ class AsyncRawV2Client:
 
         organization_service_facility_ids : typing.Optional[typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]]
             Filter to the provided organization service facility IDs.
+
+        external_ids : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter by one or more external_ids.
+
+        place_of_service_code : typing.Optional[FacilityTypeCode]
+            Filter by Place of Service (POS) code.
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
@@ -397,6 +468,8 @@ class AsyncRawV2Client:
                 "limit": limit,
                 "name": name,
                 "organization_service_facility_ids": organization_service_facility_ids,
+                "external_ids": external_ids,
+                "place_of_service_code": place_of_service_code,
                 "page_token": page_token,
             },
             request_options=request_options,
@@ -414,6 +487,58 @@ class AsyncRawV2Client:
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_by_external_id(
+        self, external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[OrganizationServiceFacility]:
+        """
+        Looks up a single organization service facility by its `external_id` field. This can be useful
+        for finding service facilities within Candid which are associated with service facilities in
+        an external system.
+
+        Parameters
+        ----------
+        external_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[OrganizationServiceFacility]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/organization-service-facilities/v2/external-id/{jsonable_encoder(external_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                OrganizationServiceFacility,
+                parse_obj_as(
+                    type_=OrganizationServiceFacility,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create(

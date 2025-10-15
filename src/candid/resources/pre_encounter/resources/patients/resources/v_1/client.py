@@ -324,6 +324,7 @@ class V1Client:
         )
         client.pre_encounter.patients.v_1.create_with_mrn(
             request=MutablePatientWithMrn(
+                mrn="mrn",
                 name=HumanName(
                     family="family",
                     given=["given", "given"],
@@ -501,7 +502,6 @@ class V1Client:
                         ),
                     ],
                 ),
-                mrn="mrn",
             ),
         )
         """
@@ -1388,6 +1388,7 @@ class AsyncV1Client:
         async def main() -> None:
             await client.pre_encounter.patients.v_1.create_with_mrn(
                 request=MutablePatientWithMrn(
+                    mrn="mrn",
                     name=HumanName(
                         family="family",
                         given=["given", "given"],
@@ -1565,7 +1566,6 @@ class AsyncV1Client:
                             ),
                         ],
                     ),
-                    mrn="mrn",
                 ),
             )
 

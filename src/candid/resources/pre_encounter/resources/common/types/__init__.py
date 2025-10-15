@@ -12,6 +12,7 @@ from .canonical_clinical_trial_id import CanonicalClinicalTrialId
 from .canonical_non_insurance_payer_association import CanonicalNonInsurancePayerAssociation
 from .canonical_non_insurance_payer_id import CanonicalNonInsurancePayerId
 from .canonical_provider_id import CanonicalProviderId
+from .canonical_service_facility_id import CanonicalServiceFacilityId
 from .contact_point import ContactPoint
 from .contact_point_use import ContactPointUse
 from .coverage_id import CoverageId
@@ -53,6 +54,7 @@ __all__ = [
     "CanonicalNonInsurancePayerAssociation",
     "CanonicalNonInsurancePayerId",
     "CanonicalProviderId",
+    "CanonicalServiceFacilityId",
     "ContactPoint",
     "ContactPointUse",
     "CoverageId",

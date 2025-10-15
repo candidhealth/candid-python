@@ -45,7 +45,7 @@ class ServiceLineCreateBaseBase(UniversalBaseModel):
     drug_identification: typing.Optional[DrugIdentification] = None
     place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
     """
-    837p Loop2300, SV105. This enum is not used or required for institutional claims. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+    837p Loop2300, SV105. This enum is not used or required in 837i claims. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
     """
 
     description: typing.Optional[str] = pydantic.Field(default=None)

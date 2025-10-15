@@ -63,11 +63,11 @@ class DiagnosesClient:
         )
         client.diagnoses.create(
             request=StandaloneDiagnosisCreate(
-                code_type=DiagnosisTypeCode.ABF,
-                code="code",
                 encounter_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
+                code_type=DiagnosisTypeCode.ABF,
+                code="code",
             ),
         )
         """
@@ -233,11 +233,11 @@ class AsyncDiagnosesClient:
         async def main() -> None:
             await client.diagnoses.create(
                 request=StandaloneDiagnosisCreate(
-                    code_type=DiagnosisTypeCode.ABF,
-                    code="code",
                     encounter_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
+                    code_type=DiagnosisTypeCode.ABF,
+                    code="code",
                 ),
             )
 

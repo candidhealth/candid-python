@@ -7,6 +7,10 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class OccurrenceCode(str, enum.Enum):
+    """
+    An enumeration.
+    """
+
     C_01 = "01"
     """
     Accident/Medical Coverage Code indicating accident-related injury for which there is medical payment coverage. Provide the date of accident/injury.

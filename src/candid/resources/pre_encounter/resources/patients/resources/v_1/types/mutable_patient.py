@@ -29,6 +29,7 @@ from .guarantor import Guarantor
 from .inferred_patient_metadata import InferredPatientMetadata
 from .marital_status import MaritalStatus
 from .origination_detail import OriginationDetail
+from .patient_service_facility import PatientServiceFacility
 from .referral import Referral
 
 
@@ -123,6 +124,11 @@ class MutablePatient(UniversalBaseModel):
     authorizations: typing.Optional[typing.List[Authorization]] = None
     referrals: typing.Optional[typing.List[Referral]] = None
     primary_service_facility_id: typing.Optional[str] = None
+    service_facilities: typing.Optional[typing.List[PatientServiceFacility]] = pydantic.Field(default=None)
+    """
+    Associated service facilities for this patient.
+    """
+
     do_not_invoice_reason: typing.Optional[DoNotInvoiceReason] = pydantic.Field(default=None)
     """
     If this value is defined, the customer will not be invoiced.

@@ -217,6 +217,8 @@ class V2Client:
         import uuid
 
         from candid import CandidApiClient
+        from candid.resources.commons import Regions_States, State
+        from candid.resources.contracts.resources.v_2 import InsuranceTypes
 
         client = CandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -234,6 +236,13 @@ class V2Client:
             payer_uuid=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
+            effective_date="effective_date",
+            regions=Regions_States(
+                states=[State.AA, State.AA],
+            ),
+            commercial_insurance_types=InsuranceTypes(),
+            medicare_insurance_types=InsuranceTypes(),
+            medicaid_insurance_types=InsuranceTypes(),
         )
         """
         _response = self._raw_client.create(
@@ -573,6 +582,8 @@ class AsyncV2Client:
         import uuid
 
         from candid import AsyncCandidApiClient
+        from candid.resources.commons import Regions_States, State
+        from candid.resources.contracts.resources.v_2 import InsuranceTypes
 
         client = AsyncCandidApiClient(
             client_id="YOUR_CLIENT_ID",
@@ -593,6 +604,13 @@ class AsyncV2Client:
                 payer_uuid=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
+                effective_date="effective_date",
+                regions=Regions_States(
+                    states=[State.AA, State.AA],
+                ),
+                commercial_insurance_types=InsuranceTypes(),
+                medicare_insurance_types=InsuranceTypes(),
+                medicaid_insurance_types=InsuranceTypes(),
             )
 
 

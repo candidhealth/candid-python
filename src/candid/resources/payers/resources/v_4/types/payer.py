@@ -27,6 +27,11 @@ class Payer(UniversalBaseModel):
     The primary display name of the payer.
     """
 
+    alternate_payer_names: typing.List[str] = pydantic.Field()
+    """
+    The alternate display names of the payer.
+    """
+
     clearinghouse_payer_info: typing.Dict[Clearinghouse, ClearinghousePayerInfo]
     street_address: typing.Optional[StreetAddressLongZip] = None
 

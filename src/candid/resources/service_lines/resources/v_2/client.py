@@ -62,12 +62,12 @@ class V2Client:
         )
         client.service_lines.v_2.create(
             request=ServiceLineCreateStandalone(
+                procedure_code="procedure_code",
                 quantity="quantity",
                 units=ServiceLineUnits.MJ,
                 claim_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
-                procedure_code="procedure_code",
             ),
         )
         """
@@ -287,12 +287,12 @@ class AsyncV2Client:
         async def main() -> None:
             await client.service_lines.v_2.create(
                 request=ServiceLineCreateStandalone(
+                    procedure_code="procedure_code",
                     quantity="quantity",
                     units=ServiceLineUnits.MJ,
                     claim_id=uuid.UUID(
                         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                     ),
-                    procedure_code="procedure_code",
                 ),
             )
 

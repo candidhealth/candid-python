@@ -23,7 +23,6 @@ from .service_line_update_base import ServiceLineUpdateBase
 from .test_result import TestResult
 from .test_result_optional import TestResultOptional
 from .test_result_type import TestResultType
-from .universal_service_line_create import UniversalServiceLineCreate
 from .universal_service_line_create_standalone import UniversalServiceLineCreateStandalone
 from .universal_service_line_update import UniversalServiceLineUpdate
 
@@ -49,7 +48,6 @@ __all__ = [
     "TestResult",
     "TestResultOptional",
     "TestResultType",
-    "UniversalServiceLineCreate",
     "UniversalServiceLineCreateStandalone",
     "UniversalServiceLineUpdate",
 ]

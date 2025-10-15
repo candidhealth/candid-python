@@ -21,18 +21,61 @@ from .value_information import ValueInformation
 
 class HealthCareCodeInformationGetAllResponse(UniversalBaseModel):
     principal_diagnosis: typing.Optional[PrincipalDiagnosis] = None
-    admitting_diagnosis: typing.Optional[AdmittingDiagnosis] = None
-    patient_reasons_for_visit: typing.List[PatientReasonForVisit]
-    external_causes_of_injury: typing.List[ExternalCauseOfInjury]
-    diagnosis_related_groups: typing.Optional[DiagnosisRelatedGroup] = None
     other_diagnosis_information: typing.List[OtherDiagnosisInformation]
-    principal_procedure: typing.Optional[PrincipalProcedureInformation] = None
-    other_procedure_information: typing.List[OtherProcedureInformation]
-    occurrence_span_information: typing.List[OccurrenceSpanInformation]
-    occurrence_information: typing.List[OccurrenceInformation]
-    treatment_code_information: typing.List[TreatmentCodeInformation]
-    value_information: typing.List[ValueInformation]
-    condition_information: typing.List[ConditionInformation]
+    admitting_diagnosis: typing.Optional[AdmittingDiagnosis] = pydantic.Field(default=None)
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    patient_reasons_for_visit: typing.List[PatientReasonForVisit] = pydantic.Field()
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    external_causes_of_injury: typing.List[ExternalCauseOfInjury] = pydantic.Field()
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    diagnosis_related_groups: typing.Optional[DiagnosisRelatedGroup] = pydantic.Field(default=None)
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    principal_procedure: typing.Optional[PrincipalProcedureInformation] = pydantic.Field(default=None)
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    other_procedure_information: typing.List[OtherProcedureInformation] = pydantic.Field()
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    occurrence_span_information: typing.List[OccurrenceSpanInformation] = pydantic.Field()
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    occurrence_information: typing.List[OccurrenceInformation] = pydantic.Field()
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    treatment_code_information: typing.List[TreatmentCodeInformation] = pydantic.Field()
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    value_information: typing.List[ValueInformation] = pydantic.Field()
+    """
+    This object only applies to 837i institutional claim forms.
+    """
+
+    condition_information: typing.List[ConditionInformation] = pydantic.Field()
+    """
+    This object only applies to 837i institutional claim forms.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

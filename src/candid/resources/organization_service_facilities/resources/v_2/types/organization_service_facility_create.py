@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .service_facility_mode import ServiceFacilityMode
 from .service_facility_operational_status import ServiceFacilityOperationalStatus
@@ -62,10 +63,20 @@ class OrganizationServiceFacilityCreate(UniversalBaseModel):
     A description of the service facility.
     """
 
+    external_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    An ID for this service facility used in an external system (e.g. your EMR). Service facilities can be queried by this field.
+    """
+
     npi: typing.Optional[str] = pydantic.Field(default=None)
     """
     An NPI specific to the service facility if applicable, i.e. if it has one and is not under the billing provider's NPI.
     Box 32 section (a) of the CMS-1500 claim form.
+    """
+
+    place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
+    """
+    The Place of Service (POS) code for this service facility.
     """
 
     status: typing.Optional[ServiceFacilityStatus] = pydantic.Field(default=None)

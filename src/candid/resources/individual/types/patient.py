@@ -111,7 +111,7 @@ class Patient(PatientBase):
     phone_consent: bool
     email: typing.Optional[Email] = None
     email_consent: bool
-    auto_charge_consent: typing.Optional[bool] = None
+    auto_charge_consent: bool
     non_insurance_payers: typing.List[NonInsurancePayer]
     non_insurance_payers_info: typing.List[PatientNonInsurancePayerInfo]
 

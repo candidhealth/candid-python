@@ -16,6 +16,7 @@ from .mutable_patient_with_mrn import MutablePatientWithMrn
 from .origination_detail import OriginationDetail
 from .patient import Patient
 from .patient_page import PatientPage
+from .patient_service_facility import PatientServiceFacility
 from .patient_sort_field import PatientSortField
 from .referral import Referral
 from .referral_source import ReferralSource
@@ -37,6 +38,7 @@ __all__ = [
     "OriginationDetail",
     "Patient",
     "PatientPage",
+    "PatientServiceFacility",
     "PatientSortField",
     "Referral",
     "ReferralSource",

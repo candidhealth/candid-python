@@ -110,89 +110,6 @@ client.auth.default.get_token(
 </dl>
 </details>
 
-<details><summary><code>client.auth.default.<a href="src/candid/resources/auth/resources/default/client.py">get_machine_token_for_org_id</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from candid import CandidApiClient
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.auth.default.get_machine_token_for_org_id(
-    org_id="org_id",
-    client_id="client_id",
-    client_secret="client_secret",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**org_id:** `str` — Organization ID to generate token for.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**client_id:** `str` — Your application's Client ID.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**client_secret:** `str` — Your application's Client Secret.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**force_token_refresh:** `typing.Optional[bool]` — Refreshes auth token for a given user <> org pair.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 ## BillingNotes V2
 <details><summary><code>client.billing_notes.v_2.<a href="src/candid/resources/billing_notes/resources/v_2/client.py">create</a>(...)</code></summary>
 <dl>
@@ -219,6 +136,7 @@ client.billing_notes.v_2.create(
     encounter_id=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
+    text="text",
 )
 
 ```
@@ -2038,6 +1956,8 @@ Creates a new contract within the user's current organization
 import uuid
 
 from candid import CandidApiClient
+from candid.resources.commons import Regions_States, State
+from candid.resources.contracts.resources.v_2 import InsuranceTypes
 
 client = CandidApiClient(
     client_id="YOUR_CLIENT_ID",
@@ -2055,6 +1975,13 @@ client.contracts.v_2.create(
     payer_uuid=uuid.UUID(
         "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
     ),
+    effective_date="effective_date",
+    regions=Regions_States(
+        states=[State.AA, State.AA],
+    ),
+    commercial_insurance_types=InsuranceTypes(),
+    medicare_insurance_types=InsuranceTypes(),
+    medicaid_insurance_types=InsuranceTypes(),
 )
 
 ```
@@ -5149,112 +5076,6 @@ client.encounters.v_4.get(
 </dl>
 </details>
 
-<details><summary><code>client.encounters.v_4.<a href="src/candid/resources/encounters/resources/v_4/client.py">create_universal</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import datetime
-
-from candid import CandidApiClient
-from candid.resources.commons import (
-    State,
-    StreetAddressLongZip,
-    StreetAddressShortZip,
-)
-from candid.resources.encounter_providers.resources.v_2 import BillingProvider
-from candid.resources.encounters.resources.v_4 import (
-    BillableStatusType,
-    EncounterSubmissionExpectation,
-    ResponsiblePartyType,
-)
-from candid.resources.encounters_universal import UniversalEncounterCreate
-from candid.resources.individual import Gender, PatientCreate
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.encounters.v_4.create_universal(
-    request=UniversalEncounterCreate(
-        external_id="external_id",
-        patient_authorized_release=True,
-        benefits_assigned_to_provider=True,
-        provider_accepts_assignment=True,
-        billable_status=BillableStatusType.BILLABLE,
-        patient=PatientCreate(
-            first_name="first_name",
-            last_name="last_name",
-            gender=Gender.MALE,
-            external_id="external_id",
-            date_of_birth=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            address=StreetAddressShortZip(
-                address_1="address1",
-                city="city",
-                state=State.AA,
-                zip_code="zip_code",
-            ),
-        ),
-        responsible_party=ResponsiblePartyType.INSURANCE_PAY,
-        billing_provider=BillingProvider(
-            address=StreetAddressLongZip(
-                address_1="address1",
-                city="city",
-                state=State.AA,
-                zip_code="zip_code",
-                zip_plus_four_code="zip_plus_four_code",
-            ),
-            tax_id="tax_id",
-            npi="npi",
-        ),
-        submission_expectation=EncounterSubmissionExpectation.TARGET_PROFESSIONAL,
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `UniversalEncounterCreate` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 <details><summary><code>client.encounters.v_4.<a href="src/candid/resources/encounters/resources/v_4/client.py">create</a>(...)</code></summary>
 <dl>
 <dd>
@@ -5295,34 +5116,13 @@ client = CandidApiClient(
 )
 client.encounters.v_4.create(
     request=EncounterCreate(
-        external_id="external_id",
-        patient_authorized_release=True,
-        benefits_assigned_to_provider=True,
-        provider_accepts_assignment=True,
-        billable_status=BillableStatusType.BILLABLE,
-        patient=PatientCreate(
-            first_name="first_name",
-            last_name="last_name",
-            gender=Gender.MALE,
-            external_id="external_id",
-            date_of_birth=datetime.date.fromisoformat(
-                "2023-01-15",
-            ),
-            address=StreetAddressShortZip(
-                address_1="address1",
-                city="city",
-                state=State.AA,
-                zip_code="zip_code",
-            ),
-        ),
-        responsible_party=ResponsiblePartyType.INSURANCE_PAY,
         billing_provider=BillingProvider(
             address=StreetAddressLongZip(
+                zip_plus_four_code="zip_plus_four_code",
                 address_1="address1",
                 city="city",
                 state=State.AA,
                 zip_code="zip_code",
-                zip_plus_four_code="zip_plus_four_code",
             ),
             tax_id="tax_id",
             npi="npi",
@@ -5341,6 +5141,27 @@ client.encounters.v_4.create(
         rendering_provider=RenderingProvider(
             npi="npi",
         ),
+        patient=PatientCreate(
+            external_id="external_id",
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            address=StreetAddressShortZip(
+                address_1="address1",
+                city="city",
+                state=State.AA,
+                zip_code="zip_code",
+            ),
+            first_name="first_name",
+            last_name="last_name",
+            gender=Gender.MALE,
+        ),
+        responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+        external_id="external_id",
+        patient_authorized_release=True,
+        benefits_assigned_to_provider=True,
+        provider_accepts_assignment=True,
+        billable_status=BillableStatusType.BILLABLE,
     ),
 )
 
@@ -5359,132 +5180,6 @@ client.encounters.v_4.create(
 <dd>
 
 **request:** `EncounterCreate` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.encounters.v_4.<a href="src/candid/resources/encounters/resources/v_4/client.py">create_from_pre_encounter_patient_universal</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Create an encounter from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
-patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
-of the pre-encounter service should use the standard create endpoint.
-
-The endpoint will create an encounter from the provided fields, pulling information from the provided patient and appointment objects
-where applicable. In particular, the following fields are populated from the patient and appointment objects:
-  - Patient
-  - Referring Provider
-  - Subscriber Primary
-  - Subscriber Secondary
-  - Referral Number
-  - Responsible Party
-  - Guarantor
-
-Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
-encounter has not already been submitted or adjudicated.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import uuid
-
-from candid import CandidApiClient
-from candid.resources.commons import State, StreetAddressLongZip
-from candid.resources.encounter_providers.resources.v_2 import BillingProvider
-from candid.resources.encounters.resources.v_4 import (
-    BillableStatusType,
-    EncounterSubmissionExpectation,
-)
-from candid.resources.encounters_universal import (
-    UniversalEncounterCreateFromPreEncounter,
-)
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.encounters.v_4.create_from_pre_encounter_patient_universal(
-    request=UniversalEncounterCreateFromPreEncounter(
-        external_id="external_id",
-        patient_authorized_release=True,
-        benefits_assigned_to_provider=True,
-        provider_accepts_assignment=True,
-        billable_status=BillableStatusType.BILLABLE,
-        pre_encounter_patient_id=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        pre_encounter_appointment_ids=[
-            uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        ],
-        billing_provider=BillingProvider(
-            address=StreetAddressLongZip(
-                address_1="address1",
-                city="city",
-                state=State.AA,
-                zip_code="zip_code",
-                zip_plus_four_code="zip_plus_four_code",
-            ),
-            tax_id="tax_id",
-            npi="npi",
-        ),
-        submission_expectation=EncounterSubmissionExpectation.TARGET_PROFESSIONAL,
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `UniversalEncounterCreateFromPreEncounter` 
     
 </dd>
 </dl>
@@ -5570,33 +5265,6 @@ client = CandidApiClient(
 )
 client.encounters.v_4.create_from_pre_encounter_patient(
     request=EncounterCreateFromPreEncounter(
-        external_id="external_id",
-        patient_authorized_release=True,
-        benefits_assigned_to_provider=True,
-        provider_accepts_assignment=True,
-        billable_status=BillableStatusType.BILLABLE,
-        pre_encounter_patient_id=uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        pre_encounter_appointment_ids=[
-            uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-            uuid.UUID(
-                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-            ),
-        ],
-        billing_provider=BillingProvider(
-            address=StreetAddressLongZip(
-                address_1="address1",
-                city="city",
-                state=State.AA,
-                zip_code="zip_code",
-                zip_plus_four_code="zip_plus_four_code",
-            ),
-            tax_id="tax_id",
-            npi="npi",
-        ),
         rendering_provider=RenderingProvider(
             npi="npi",
         ),
@@ -5611,6 +5279,33 @@ client.encounters.v_4.create_from_pre_encounter_patient(
                 code="code",
             ),
         ],
+        pre_encounter_patient_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        pre_encounter_appointment_ids=[
+            uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        ],
+        billing_provider=BillingProvider(
+            address=StreetAddressLongZip(
+                zip_plus_four_code="zip_plus_four_code",
+                address_1="address1",
+                city="city",
+                state=State.AA,
+                zip_code="zip_code",
+            ),
+            tax_id="tax_id",
+            npi="npi",
+        ),
+        external_id="external_id",
+        patient_authorized_release=True,
+        benefits_assigned_to_provider=True,
+        provider_accepts_assignment=True,
+        billable_status=BillableStatusType.BILLABLE,
     ),
 )
 
@@ -5629,77 +5324,6 @@ client.encounters.v_4.create_from_pre_encounter_patient(
 <dd>
 
 **request:** `EncounterCreateFromPreEncounter` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.encounters.v_4.<a href="src/candid/resources/encounters/resources/v_4/client.py">update_universal</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import uuid
-
-from candid import CandidApiClient
-from candid.resources.encounters_universal import UniversalEncounterUpdate
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.encounters.v_4.update_universal(
-    encounter_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-    request=UniversalEncounterUpdate(),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**encounter_id:** `EncounterId` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request:** `UniversalEncounterUpdate` 
     
 </dd>
 </dl>
@@ -11510,7 +11134,96 @@ client.organization_service_facilities.v_2.get_multi(
 <dl>
 <dd>
 
+**external_ids:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — Filter by one or more external_ids.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**place_of_service_code:** `typing.Optional[FacilityTypeCode]` — Filter by Place of Service (POS) code.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **page_token:** `typing.Optional[PageToken]` — The page token to continue paging through a previous request.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.organization_service_facilities.v_2.<a href="src/candid/resources/organization_service_facilities/resources/v_2/client.py">get_by_external_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Looks up a single organization service facility by its `external_id` field. This can be useful
+for finding service facilities within Candid which are associated with service facilities in
+an external system.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_service_facilities.v_2.get_by_external_id(
+    external_id="external_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**external_id:** `str` 
     
 </dd>
 </dl>
@@ -13821,12 +13534,12 @@ client = CandidApiClient(
 )
 client.service_lines.v_2.create(
     request=ServiceLineCreateStandalone(
+        procedure_code="procedure_code",
         quantity="quantity",
         units=ServiceLineUnits.MJ,
         claim_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
-        procedure_code="procedure_code",
     ),
 )
 
@@ -18433,6 +18146,7 @@ client = CandidApiClient(
 )
 client.pre_encounter.patients.v_1.create_with_mrn(
     request=MutablePatientWithMrn(
+        mrn="mrn",
         name=HumanName(
             family="family",
             given=["given", "given"],
@@ -18610,7 +18324,6 @@ client.pre_encounter.patients.v_1.create_with_mrn(
                 ),
             ],
         ),
-        mrn="mrn",
     ),
 )
 
@@ -20080,11 +19793,11 @@ client = CandidApiClient(
 )
 client.diagnoses.create(
     request=StandaloneDiagnosisCreate(
-        code_type=DiagnosisTypeCode.ABF,
-        code="code",
         encounter_id=uuid.UUID(
             "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
         ),
+        code_type=DiagnosisTypeCode.ABF,
+        code="code",
     ),
 )
 

@@ -4,6 +4,7 @@ import typing
 
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
+from ....commons.types.facility_type_code import FacilityTypeCode
 from ....commons.types.page_token import PageToken
 from .raw_client import AsyncRawV2Client, RawV2Client
 from .types.organization_service_facility import OrganizationServiceFacility
@@ -76,6 +77,8 @@ class V2Client:
         organization_service_facility_ids: typing.Optional[
             typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]
         ] = None,
+        external_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        place_of_service_code: typing.Optional[FacilityTypeCode] = None,
         page_token: typing.Optional[PageToken] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationServiceFacilityPage:
@@ -90,6 +93,12 @@ class V2Client:
 
         organization_service_facility_ids : typing.Optional[typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]]
             Filter to the provided organization service facility IDs.
+
+        external_ids : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter by one or more external_ids.
+
+        place_of_service_code : typing.Optional[FacilityTypeCode]
+            Filter by Place of Service (POS) code.
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
@@ -119,9 +128,45 @@ class V2Client:
             limit=limit,
             name=name,
             organization_service_facility_ids=organization_service_facility_ids,
+            external_ids=external_ids,
+            place_of_service_code=place_of_service_code,
             page_token=page_token,
             request_options=request_options,
         )
+        return _response.data
+
+    def get_by_external_id(
+        self, external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> OrganizationServiceFacility:
+        """
+        Looks up a single organization service facility by its `external_id` field. This can be useful
+        for finding service facilities within Candid which are associated with service facilities in
+        an external system.
+
+        Parameters
+        ----------
+        external_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacility
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_service_facilities.v_2.get_by_external_id(
+            external_id="external_id",
+        )
+        """
+        _response = self._raw_client.get_by_external_id(external_id, request_options=request_options)
         return _response.data
 
     def create(
@@ -356,6 +401,8 @@ class AsyncV2Client:
         organization_service_facility_ids: typing.Optional[
             typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]
         ] = None,
+        external_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        place_of_service_code: typing.Optional[FacilityTypeCode] = None,
         page_token: typing.Optional[PageToken] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationServiceFacilityPage:
@@ -370,6 +417,12 @@ class AsyncV2Client:
 
         organization_service_facility_ids : typing.Optional[typing.Union[OrganizationServiceFacilityId, typing.Sequence[OrganizationServiceFacilityId]]]
             Filter to the provided organization service facility IDs.
+
+        external_ids : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Filter by one or more external_ids.
+
+        place_of_service_code : typing.Optional[FacilityTypeCode]
+            Filter by Place of Service (POS) code.
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
@@ -407,9 +460,53 @@ class AsyncV2Client:
             limit=limit,
             name=name,
             organization_service_facility_ids=organization_service_facility_ids,
+            external_ids=external_ids,
+            place_of_service_code=place_of_service_code,
             page_token=page_token,
             request_options=request_options,
         )
+        return _response.data
+
+    async def get_by_external_id(
+        self, external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> OrganizationServiceFacility:
+        """
+        Looks up a single organization service facility by its `external_id` field. This can be useful
+        for finding service facilities within Candid which are associated with service facilities in
+        an external system.
+
+        Parameters
+        ----------
+        external_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        OrganizationServiceFacility
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.organization_service_facilities.v_2.get_by_external_id(
+                external_id="external_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_by_external_id(external_id, request_options=request_options)
         return _response.data
 
     async def create(
