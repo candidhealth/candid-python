@@ -5,7 +5,9 @@ import typing
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.external_provider import ExternalProvider
+from .....common.types.patient_service_facility import PatientServiceFacility
 from .....common.types.period import Period
+from .referral_unit import ReferralUnit
 
 
 class Referral(UniversalBaseModel):
@@ -13,6 +15,11 @@ class Referral(UniversalBaseModel):
     referral_number: str
     period: typing.Optional[Period] = None
     notes: typing.Optional[str] = None
+    service_facility: typing.Optional[PatientServiceFacility] = pydantic.Field(alias="serviceFacility", default=None)
+    units: typing.Optional[ReferralUnit] = None
+    quantity: typing.Optional[int] = None
+    cpt_codes: typing.Optional[typing.List[str]] = pydantic.Field(alias="cptCodes", default=None)
+    apply_for_all_cpt_codes: typing.Optional[bool] = pydantic.Field(alias="applyForAllCptCodes", default=None)
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

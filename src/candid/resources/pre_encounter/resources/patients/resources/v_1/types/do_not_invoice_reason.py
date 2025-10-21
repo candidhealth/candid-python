@@ -11,6 +11,9 @@ class DoNotInvoiceReason(str, enum.Enum):
     DECEASED = "DECEASED"
     HARDSHIP = "HARDSHIP"
     OTHER = "OTHER"
+    COLLECTIONS = "COLLECTIONS"
+    BAD_ADDRESS = "BAD_ADDRESS"
+    PROFESSIONAL_COURTESY = "PROFESSIONAL_COURTESY"
     _UNKNOWN = "__DONOTINVOICEREASON_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -28,6 +31,9 @@ class DoNotInvoiceReason(str, enum.Enum):
         deceased: typing.Callable[[], T_Result],
         hardship: typing.Callable[[], T_Result],
         other: typing.Callable[[], T_Result],
+        collections: typing.Callable[[], T_Result],
+        bad_address: typing.Callable[[], T_Result],
+        professional_courtesy: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is DoNotInvoiceReason.BANKRUPTCY:
@@ -38,4 +44,10 @@ class DoNotInvoiceReason(str, enum.Enum):
             return hardship()
         if self is DoNotInvoiceReason.OTHER:
             return other()
+        if self is DoNotInvoiceReason.COLLECTIONS:
+            return collections()
+        if self is DoNotInvoiceReason.BAD_ADDRESS:
+            return bad_address()
+        if self is DoNotInvoiceReason.PROFESSIONAL_COURTESY:
+            return professional_courtesy()
         return _unknown_member(self._value_)

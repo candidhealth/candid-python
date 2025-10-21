@@ -9,6 +9,7 @@ from .canonical_provider_id import CanonicalProviderId
 from .contact_point import ContactPoint
 from .external_provider_type import ExternalProviderType
 from .human_name import HumanName
+from .patient_service_facility import PatientServiceFacility
 from .period import Period
 
 
@@ -25,6 +26,10 @@ class ExternalProvider(UniversalBaseModel):
     period: typing.Optional[Period] = None
     canonical_id: typing.Optional[CanonicalProviderId] = None
     fax: typing.Optional[str] = None
+    service_facilities: typing.Optional[typing.List[PatientServiceFacility]] = pydantic.Field(default=None)
+    """
+    Associated service facilities for this provider.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

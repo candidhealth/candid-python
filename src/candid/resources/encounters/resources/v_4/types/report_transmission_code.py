@@ -12,6 +12,11 @@ class ReportTransmissionCode(str, enum.Enum):
     By Mail
     """
 
+    CEL = "EL"
+    """
+    Electronically Only
+    """
+
     CFX = "FX"
     """
     By Fax
@@ -31,11 +36,14 @@ class ReportTransmissionCode(str, enum.Enum):
     def visit(
         self,
         cbm: typing.Callable[[], T_Result],
+        cel: typing.Callable[[], T_Result],
         cfx: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is ReportTransmissionCode.CBM:
             return cbm()
+        if self is ReportTransmissionCode.CEL:
+            return cel()
         if self is ReportTransmissionCode.CFX:
             return cfx()
         return _unknown_member(self._value_)

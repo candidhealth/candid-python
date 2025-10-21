@@ -3,13 +3,13 @@
 import typing
 
 import pydantic
-from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .....common.types.canonical_service_facility_id import CanonicalServiceFacilityId
+from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .canonical_service_facility_id import CanonicalServiceFacilityId
 
 
 class PatientServiceFacility(UniversalBaseModel):
     """
-    Represents a canonical service facility which is associated with a patient.
+    Represents a canonical service facility attached to a patient or patient dependent object
     """
 
     service_facility_id: CanonicalServiceFacilityId

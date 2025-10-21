@@ -16,6 +16,7 @@ from .....common.types.external_provider import ExternalProvider
 from .....common.types.gender import Gender
 from .....common.types.human_name import HumanName
 from .....common.types.note_id import NoteId
+from .....common.types.patient_service_facility import PatientServiceFacility
 from .....common.types.race import Race
 from .....common.types.sex import Sex
 from .....common.types.sexual_orientation import SexualOrientation
@@ -29,7 +30,6 @@ from .guarantor import Guarantor
 from .inferred_patient_metadata import InferredPatientMetadata
 from .marital_status import MaritalStatus
 from .origination_detail import OriginationDetail
-from .patient_service_facility import PatientServiceFacility
 from .referral import Referral
 
 

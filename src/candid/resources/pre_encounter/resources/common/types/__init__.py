@@ -30,6 +30,7 @@ from .note_id import NoteId
 from .organization_id import OrganizationId
 from .page_token import PageToken
 from .patient_id import PatientId
+from .patient_service_facility import PatientServiceFacility
 from .payer_id import PayerId
 from .payer_plan_group_id import PayerPlanGroupId
 from .period import Period
@@ -72,6 +73,7 @@ __all__ = [
     "OrganizationId",
     "PageToken",
     "PatientId",
+    "PatientServiceFacility",
     "PayerId",
     "PayerPlanGroupId",
     "Period",

@@ -17,11 +17,11 @@ from .types import (
     OriginationDetail,
     Patient,
     PatientPage,
-    PatientServiceFacility,
     PatientSortField,
     Referral,
     ReferralSource,
     ReferralType,
+    ReferralUnit,
     SpecializationCategory,
 )
 
@@ -40,10 +40,10 @@ __all__ = [
     "OriginationDetail",
     "Patient",
     "PatientPage",
-    "PatientServiceFacility",
     "PatientSortField",
     "Referral",
     "ReferralSource",
     "ReferralType",
+    "ReferralUnit",
     "SpecializationCategory",
 ]

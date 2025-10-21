@@ -21,7 +21,7 @@ class Patient(BaseModel, MutablePatient):
 
     mrn: str = pydantic.Field()
     """
-    The medical record number for the patient.  Human-friendly Candid generated MRNs are of the form "YYMMDDXXXX", where "YYYYMMDD" is the date of patient creation and "XXXX" is a zero-padded incrementing integer.
+    The medical record number for the patient.  Human-friendly Candid generated MRNs are of the form "YYMMDDXXXX", where "YYMMDD" is the date of patient creation and "XXXX" is a zero-padded incrementing integer.
     """
 
     if IS_PYDANTIC_V2:
