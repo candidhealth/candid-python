@@ -56,6 +56,11 @@ class MutableCoverage(UniversalBaseModel):
     The eligibility of the patient for the coverage, manually verified by users.
     """
 
+    orcon: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    ORCON (Originator Controlled) - When set to true, the Candid system will hide this coverage from downstream integrations. Defaults to false.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

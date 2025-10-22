@@ -146,6 +146,11 @@ class MutablePatient(UniversalBaseModel):
     Metadata for the patient used for patient inference from encounters.
     """
 
+    orcon: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    ORCON (Originator Controlled) - When set to true, the Candid system will hide this patient from downstream integrations. Defaults to false.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
