@@ -79,6 +79,11 @@ class OrganizationServiceFacilityCreate(UniversalBaseModel):
     The Place of Service (POS) code for this service facility.
     """
 
+    clia_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
+    """
+
     status: typing.Optional[ServiceFacilityStatus] = pydantic.Field(default=None)
     """
     The status of the service facility.

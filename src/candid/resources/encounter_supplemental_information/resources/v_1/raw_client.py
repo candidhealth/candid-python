@@ -3,17 +3,19 @@
 import typing
 from json.decoder import JSONDecodeError
 
-from ..... import core
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.http_response import AsyncHttpResponse, HttpResponse
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
+from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.types.encounter_id import EncounterId
-from .types.attachment_id import AttachmentId
-from .types.encounter_attachment import EncounterAttachment
-from .types.encounter_attachment_type import EncounterAttachmentType
+from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from .types.create_supplemental_information_request import CreateSupplementalInformationRequest
+from .types.supplemental_information import SupplementalInformation
+from .types.supplemental_information_id import SupplementalInformationId
+from .types.update_supplemental_information_request import UpdateSupplementalInformationRequest
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -25,7 +27,7 @@ class RawV1Client:
 
     def get(
         self, encounter_id: EncounterId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[typing.List[EncounterAttachment]]:
+    ) -> HttpResponse[typing.List[SupplementalInformation]]:
         """
         Parameters
         ----------
@@ -36,10 +38,10 @@ class RawV1Client:
 
         Returns
         -------
-        HttpResponse[typing.List[EncounterAttachment]]
+        HttpResponse[typing.List[SupplementalInformation]]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}",
+            f"api/encounter-supplemental-information/v1/{jsonable_encoder(encounter_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
@@ -50,9 +52,9 @@ class RawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                typing.List[EncounterAttachment],
+                typing.List[SupplementalInformation],
                 parse_obj_as(
-                    type_=typing.List[EncounterAttachment],  # type: ignore
+                    type_=typing.List[SupplementalInformation],  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -63,43 +65,30 @@ class RawV1Client:
         self,
         encounter_id: EncounterId,
         *,
-        attachment_file: core.File,
-        attachment_type: EncounterAttachmentType,
+        request: CreateSupplementalInformationRequest,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[AttachmentId]:
+    ) -> HttpResponse[SupplementalInformation]:
         """
-        Uploads a file to the encounter. The file will be stored in the
-        encounter's attachments. Deprecated: Use create-v2 instead.
-
         Parameters
         ----------
         encounter_id : EncounterId
 
-        attachment_file : core.File
-            See core.File for more documentation
-
-        attachment_type : EncounterAttachmentType
+        request : CreateSupplementalInformationRequest
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[AttachmentId]
+        HttpResponse[SupplementalInformation]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}",
+            f"api/encounter-supplemental-information/v1/{jsonable_encoder(encounter_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="PUT",
-            data={
-                "attachment_type": attachment_type,
-            },
-            files={
-                "attachment_file": attachment_file,
-            },
+            json=request,
             request_options=request_options,
             omit=OMIT,
-            force_multipart=True,
         )
         try:
             _response_json = _response.json()
@@ -107,60 +96,58 @@ class RawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                AttachmentId,
+                SupplementalInformation,
                 parse_obj_as(
-                    type_=AttachmentId,  # type: ignore
+                    type_=SupplementalInformation,  # type: ignore
                     object_=_response_json,
                 ),
             )
             return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def create_with_description(
+    def update(
         self,
         encounter_id: EncounterId,
+        supplemental_information_id: SupplementalInformationId,
         *,
-        attachment_file: core.File,
-        attachment_type: EncounterAttachmentType,
-        description: typing.Optional[str] = OMIT,
+        request: UpdateSupplementalInformationRequest,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[AttachmentId]:
+    ) -> HttpResponse[SupplementalInformation]:
         """
-        Uploads a file to the encounter. The file will be stored in the
-        encounter's attachments.
-
         Parameters
         ----------
         encounter_id : EncounterId
 
-        attachment_file : core.File
-            See core.File for more documentation
+        supplemental_information_id : SupplementalInformationId
 
-        attachment_type : EncounterAttachmentType
-
-        description : typing.Optional[str]
+        request : UpdateSupplementalInformationRequest
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[AttachmentId]
+        HttpResponse[SupplementalInformation]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}/v2",
+            f"api/encounter-supplemental-information/v1/{jsonable_encoder(encounter_id)}/{jsonable_encoder(supplemental_information_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
-            method="PUT",
-            data={
-                "attachment_type": attachment_type,
-                "description": description,
-            },
-            files={
-                "attachment_file": attachment_file,
-            },
+            method="PATCH",
+            json=request,
             request_options=request_options,
             omit=OMIT,
-            force_multipart=True,
         )
         try:
             _response_json = _response.json()
@@ -168,20 +155,32 @@ class RawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                AttachmentId,
+                SupplementalInformation,
                 parse_obj_as(
-                    type_=AttachmentId,  # type: ignore
+                    type_=SupplementalInformation,  # type: ignore
                     object_=_response_json,
                 ),
             )
             return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete(
         self,
         encounter_id: EncounterId,
+        supplemental_information_id: SupplementalInformationId,
         *,
-        attachment_id: AttachmentId,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[None]:
         """
@@ -189,7 +188,7 @@ class RawV1Client:
         ----------
         encounter_id : EncounterId
 
-        attachment_id : AttachmentId
+        supplemental_information_id : SupplementalInformationId
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -199,14 +198,10 @@ class RawV1Client:
         HttpResponse[None]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}",
+            f"api/encounter-supplemental-information/v1/{jsonable_encoder(encounter_id)}/{jsonable_encoder(supplemental_information_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
-            json={
-                "attachment_id": attachment_id,
-            },
             request_options=request_options,
-            omit=OMIT,
         )
         if 200 <= _response.status_code < 300:
             return HttpResponse(response=_response, data=None)
@@ -214,6 +209,18 @@ class RawV1Client:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
@@ -223,7 +230,7 @@ class AsyncRawV1Client:
 
     async def get(
         self, encounter_id: EncounterId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[typing.List[EncounterAttachment]]:
+    ) -> AsyncHttpResponse[typing.List[SupplementalInformation]]:
         """
         Parameters
         ----------
@@ -234,10 +241,10 @@ class AsyncRawV1Client:
 
         Returns
         -------
-        AsyncHttpResponse[typing.List[EncounterAttachment]]
+        AsyncHttpResponse[typing.List[SupplementalInformation]]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}",
+            f"api/encounter-supplemental-information/v1/{jsonable_encoder(encounter_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
@@ -248,9 +255,9 @@ class AsyncRawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                typing.List[EncounterAttachment],
+                typing.List[SupplementalInformation],
                 parse_obj_as(
-                    type_=typing.List[EncounterAttachment],  # type: ignore
+                    type_=typing.List[SupplementalInformation],  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -261,43 +268,30 @@ class AsyncRawV1Client:
         self,
         encounter_id: EncounterId,
         *,
-        attachment_file: core.File,
-        attachment_type: EncounterAttachmentType,
+        request: CreateSupplementalInformationRequest,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[AttachmentId]:
+    ) -> AsyncHttpResponse[SupplementalInformation]:
         """
-        Uploads a file to the encounter. The file will be stored in the
-        encounter's attachments. Deprecated: Use create-v2 instead.
-
         Parameters
         ----------
         encounter_id : EncounterId
 
-        attachment_file : core.File
-            See core.File for more documentation
-
-        attachment_type : EncounterAttachmentType
+        request : CreateSupplementalInformationRequest
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[AttachmentId]
+        AsyncHttpResponse[SupplementalInformation]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}",
+            f"api/encounter-supplemental-information/v1/{jsonable_encoder(encounter_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="PUT",
-            data={
-                "attachment_type": attachment_type,
-            },
-            files={
-                "attachment_file": attachment_file,
-            },
+            json=request,
             request_options=request_options,
             omit=OMIT,
-            force_multipart=True,
         )
         try:
             _response_json = _response.json()
@@ -305,60 +299,58 @@ class AsyncRawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                AttachmentId,
+                SupplementalInformation,
                 parse_obj_as(
-                    type_=AttachmentId,  # type: ignore
+                    type_=SupplementalInformation,  # type: ignore
                     object_=_response_json,
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    async def create_with_description(
+    async def update(
         self,
         encounter_id: EncounterId,
+        supplemental_information_id: SupplementalInformationId,
         *,
-        attachment_file: core.File,
-        attachment_type: EncounterAttachmentType,
-        description: typing.Optional[str] = OMIT,
+        request: UpdateSupplementalInformationRequest,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[AttachmentId]:
+    ) -> AsyncHttpResponse[SupplementalInformation]:
         """
-        Uploads a file to the encounter. The file will be stored in the
-        encounter's attachments.
-
         Parameters
         ----------
         encounter_id : EncounterId
 
-        attachment_file : core.File
-            See core.File for more documentation
+        supplemental_information_id : SupplementalInformationId
 
-        attachment_type : EncounterAttachmentType
-
-        description : typing.Optional[str]
+        request : UpdateSupplementalInformationRequest
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[AttachmentId]
+        AsyncHttpResponse[SupplementalInformation]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}/v2",
+            f"api/encounter-supplemental-information/v1/{jsonable_encoder(encounter_id)}/{jsonable_encoder(supplemental_information_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
-            method="PUT",
-            data={
-                "attachment_type": attachment_type,
-                "description": description,
-            },
-            files={
-                "attachment_file": attachment_file,
-            },
+            method="PATCH",
+            json=request,
             request_options=request_options,
             omit=OMIT,
-            force_multipart=True,
         )
         try:
             _response_json = _response.json()
@@ -366,20 +358,32 @@ class AsyncRawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                AttachmentId,
+                SupplementalInformation,
                 parse_obj_as(
-                    type_=AttachmentId,  # type: ignore
+                    type_=SupplementalInformation,  # type: ignore
                     object_=_response_json,
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete(
         self,
         encounter_id: EncounterId,
+        supplemental_information_id: SupplementalInformationId,
         *,
-        attachment_id: AttachmentId,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[None]:
         """
@@ -387,7 +391,7 @@ class AsyncRawV1Client:
         ----------
         encounter_id : EncounterId
 
-        attachment_id : AttachmentId
+        supplemental_information_id : SupplementalInformationId
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -397,14 +401,10 @@ class AsyncRawV1Client:
         AsyncHttpResponse[None]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/encounter-attachments/v1/{jsonable_encoder(encounter_id)}",
+            f"api/encounter-supplemental-information/v1/{jsonable_encoder(encounter_id)}/{jsonable_encoder(supplemental_information_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
-            json={
-                "attachment_id": attachment_id,
-            },
             request_options=request_options,
-            omit=OMIT,
         )
         if 200 <= _response.status_code < 300:
             return AsyncHttpResponse(response=_response, data=None)
@@ -412,4 +412,16 @@ class AsyncRawV1Client:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

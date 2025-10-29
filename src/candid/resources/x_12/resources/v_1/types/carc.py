@@ -302,6 +302,7 @@ class Carc(str, enum.Enum):
     CARC_P_30 = "P30"
     CARC_P_31 = "P31"
     CARC_P_32 = "P32"
+    CARC_15 = "15"
     CARC_17 = "17"
     CARC_25 = "25"
     CARC_28 = "28"
@@ -718,6 +719,7 @@ class Carc(str, enum.Enum):
         carc_p_30: typing.Callable[[], T_Result],
         carc_p_31: typing.Callable[[], T_Result],
         carc_p_32: typing.Callable[[], T_Result],
+        carc_15: typing.Callable[[], T_Result],
         carc_17: typing.Callable[[], T_Result],
         carc_25: typing.Callable[[], T_Result],
         carc_28: typing.Callable[[], T_Result],
@@ -1418,6 +1420,8 @@ class Carc(str, enum.Enum):
             return carc_p_31()
         if self is Carc.CARC_P_32:
             return carc_p_32()
+        if self is Carc.CARC_15:
+            return carc_15()
         if self is Carc.CARC_17:
             return carc_17()
         if self is Carc.CARC_25:

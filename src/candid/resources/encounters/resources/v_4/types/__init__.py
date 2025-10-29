@@ -55,8 +55,6 @@ from .payer_plan_group_payer_does_not_match_insurance_card_error import (
     PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
 )
 from .prior_authorization_number import PriorAuthorizationNumber
-from .report_transmission_code import ReportTransmissionCode
-from .report_type_code import ReportTypeCode
 from .responsible_party_type import ResponsiblePartyType
 from .rx_cui import RxCui
 from .schema_does_not_exist_error import SchemaDoesNotExistError
@@ -128,8 +126,6 @@ __all__ = [
     "PatientHistoryCategoryOptional",
     "PayerPlanGroupPayerDoesNotMatchInsuranceCardError",
     "PriorAuthorizationNumber",
-    "ReportTransmissionCode",
-    "ReportTypeCode",
     "ResponsiblePartyType",
     "RxCui",
     "SchemaDoesNotExistError",

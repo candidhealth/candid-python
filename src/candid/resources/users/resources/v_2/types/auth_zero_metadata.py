@@ -4,14 +4,20 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .....commons.types.report_transmission_code import ReportTransmissionCode
-from .....commons.types.report_type_code import ReportTypeCode
 
 
-class ClaimSupplementalInformation(UniversalBaseModel):
-    attachment_report_type_code: ReportTypeCode
-    attachment_transmission_code: ReportTransmissionCode
-    attachment_control_number: typing.Optional[str] = None
+class AuthZeroMetadata(UniversalBaseModel):
+    """
+    Examples
+    --------
+    from candid.resources.users.resources.v_2 import AuthZeroMetadata
+
+    AuthZeroMetadata(
+        auth_0_id="auth0|5f9b3b5a7b0b0d006a2b0b0b",
+    )
+    """
+
+    auth_0_id: str = pydantic.Field(alias="auth0_id")
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -59,6 +59,8 @@ from .removable_date_range_optional_end import (
     RemovableDateRangeOptionalEnd_DateRange,
     RemovableDateRangeOptionalEnd_Remove,
 )
+from .report_transmission_code import ReportTransmissionCode
+from .report_type_code import ReportTypeCode
 from .request_validation_error import RequestValidationError
 from .resource_page import ResourcePage
 from .schema_id import SchemaId
@@ -143,6 +145,8 @@ __all__ = [
     "RemovableDateRangeOptionalEnd",
     "RemovableDateRangeOptionalEnd_DateRange",
     "RemovableDateRangeOptionalEnd_Remove",
+    "ReportTransmissionCode",
+    "ReportTypeCode",
     "RequestValidationError",
     "ResourcePage",
     "SchemaId",

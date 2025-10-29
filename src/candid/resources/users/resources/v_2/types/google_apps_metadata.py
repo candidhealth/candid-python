@@ -4,14 +4,10 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .....commons.types.report_transmission_code import ReportTransmissionCode
-from .....commons.types.report_type_code import ReportTypeCode
 
 
-class ClaimSupplementalInformation(UniversalBaseModel):
-    attachment_report_type_code: ReportTypeCode
-    attachment_transmission_code: ReportTransmissionCode
-    attachment_control_number: typing.Optional[str] = None
+class GoogleAppsMetadata(UniversalBaseModel):
+    google_apps_id: str
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

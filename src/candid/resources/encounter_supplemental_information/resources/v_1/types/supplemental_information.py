@@ -4,14 +4,22 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .....commons.types.encounter_id import EncounterId
 from .....commons.types.report_transmission_code import ReportTransmissionCode
 from .....commons.types.report_type_code import ReportTypeCode
+from .....encounter_attachments.resources.v_1.types.attachment_id import AttachmentId
+from .attachment_inclusion import AttachmentInclusion
+from .supplemental_information_id import SupplementalInformationId
 
 
-class ClaimSupplementalInformation(UniversalBaseModel):
+class SupplementalInformation(UniversalBaseModel):
+    supplemental_information_id: SupplementalInformationId
+    attachment_id: typing.Optional[AttachmentId] = None
     attachment_report_type_code: ReportTypeCode
     attachment_transmission_code: ReportTransmissionCode
     attachment_control_number: typing.Optional[str] = None
+    attachment_inclusion: AttachmentInclusion
+    encounter_id: EncounterId
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -74,7 +74,7 @@ class V1Client:
     ) -> AttachmentId:
         """
         Uploads a file to the encounter. The file will be stored in the
-        encounter's attachments.
+        encounter's attachments. Deprecated: Use create-v2 instead.
 
         Parameters
         ----------
@@ -96,6 +96,46 @@ class V1Client:
             encounter_id,
             attachment_file=attachment_file,
             attachment_type=attachment_type,
+            request_options=request_options,
+        )
+        return _response.data
+
+    def create_with_description(
+        self,
+        encounter_id: EncounterId,
+        *,
+        attachment_file: core.File,
+        attachment_type: EncounterAttachmentType,
+        description: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AttachmentId:
+        """
+        Uploads a file to the encounter. The file will be stored in the
+        encounter's attachments.
+
+        Parameters
+        ----------
+        encounter_id : EncounterId
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        attachment_type : EncounterAttachmentType
+
+        description : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AttachmentId
+        """
+        _response = self._raw_client.create_with_description(
+            encounter_id,
+            attachment_file=attachment_file,
+            attachment_type=attachment_type,
+            description=description,
             request_options=request_options,
         )
         return _response.data
@@ -210,7 +250,7 @@ class AsyncV1Client:
     ) -> AttachmentId:
         """
         Uploads a file to the encounter. The file will be stored in the
-        encounter's attachments.
+        encounter's attachments. Deprecated: Use create-v2 instead.
 
         Parameters
         ----------
@@ -232,6 +272,46 @@ class AsyncV1Client:
             encounter_id,
             attachment_file=attachment_file,
             attachment_type=attachment_type,
+            request_options=request_options,
+        )
+        return _response.data
+
+    async def create_with_description(
+        self,
+        encounter_id: EncounterId,
+        *,
+        attachment_file: core.File,
+        attachment_type: EncounterAttachmentType,
+        description: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AttachmentId:
+        """
+        Uploads a file to the encounter. The file will be stored in the
+        encounter's attachments.
+
+        Parameters
+        ----------
+        encounter_id : EncounterId
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        attachment_type : EncounterAttachmentType
+
+        description : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AttachmentId
+        """
+        _response = await self._raw_client.create_with_description(
+            encounter_id,
+            attachment_file=attachment_file,
+            attachment_type=attachment_type,
+            description=description,
             request_options=request_options,
         )
         return _response.data

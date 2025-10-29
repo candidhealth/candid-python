@@ -6,12 +6,16 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.report_transmission_code import ReportTransmissionCode
 from .....commons.types.report_type_code import ReportTypeCode
+from .....encounter_attachments.resources.v_1.types.attachment_id import AttachmentId
+from .attachment_inclusion import AttachmentInclusion
 
 
-class ClaimSupplementalInformation(UniversalBaseModel):
-    attachment_report_type_code: ReportTypeCode
-    attachment_transmission_code: ReportTransmissionCode
+class UpdateSupplementalInformationRequest(UniversalBaseModel):
+    attachment_id: typing.Optional[AttachmentId] = None
+    attachment_report_type_code: typing.Optional[ReportTypeCode] = None
+    attachment_transmission_code: typing.Optional[ReportTransmissionCode] = None
     attachment_control_number: typing.Optional[str] = None
+    attachment_inclusion: typing.Optional[AttachmentInclusion] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

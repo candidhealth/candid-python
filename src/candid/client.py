@@ -17,6 +17,10 @@ from .resources.diagnoses.client import AsyncDiagnosesClient, DiagnosesClient
 from .resources.eligibility.client import AsyncEligibilityClient, EligibilityClient
 from .resources.encounter_attachments.client import AsyncEncounterAttachmentsClient, EncounterAttachmentsClient
 from .resources.encounter_providers.client import AsyncEncounterProvidersClient, EncounterProvidersClient
+from .resources.encounter_supplemental_information.client import (
+    AsyncEncounterSupplementalInformationClient,
+    EncounterSupplementalInformationClient,
+)
 from .resources.encounters.client import AsyncEncountersClient, EncountersClient
 from .resources.expected_network_status.client import AsyncExpectedNetworkStatusClient, ExpectedNetworkStatusClient
 from .resources.exports.client import AsyncExportsClient, ExportsClient
@@ -144,6 +148,9 @@ class CandidApiClient:
         self.eligibility = EligibilityClient(client_wrapper=self._client_wrapper)
         self.encounter_attachments = EncounterAttachmentsClient(client_wrapper=self._client_wrapper)
         self.encounter_providers = EncounterProvidersClient(client_wrapper=self._client_wrapper)
+        self.encounter_supplemental_information = EncounterSupplementalInformationClient(
+            client_wrapper=self._client_wrapper
+        )
         self.encounters = EncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = ExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = ExportsClient(client_wrapper=self._client_wrapper)
@@ -257,6 +264,9 @@ class AsyncCandidApiClient:
         self.eligibility = AsyncEligibilityClient(client_wrapper=self._client_wrapper)
         self.encounter_attachments = AsyncEncounterAttachmentsClient(client_wrapper=self._client_wrapper)
         self.encounter_providers = AsyncEncounterProvidersClient(client_wrapper=self._client_wrapper)
+        self.encounter_supplemental_information = AsyncEncounterSupplementalInformationClient(
+            client_wrapper=self._client_wrapper
+        )
         self.encounters = AsyncEncountersClient(client_wrapper=self._client_wrapper)
         self.expected_network_status = AsyncExpectedNetworkStatusClient(client_wrapper=self._client_wrapper)
         self.exports = AsyncExportsClient(client_wrapper=self._client_wrapper)

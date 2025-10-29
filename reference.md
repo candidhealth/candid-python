@@ -4814,6 +4814,303 @@ client.encounter_providers.v_2.delete_ordering_provider(
 </dl>
 </details>
 
+## EncounterSupplementalInformation V1
+<details><summary><code>client.encounter_supplemental_information.v_1.<a href="src/candid/resources/encounter_supplemental_information/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_supplemental_information.v_1.get(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_supplemental_information.v_1.<a href="src/candid/resources/encounter_supplemental_information/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.commons import ReportTransmissionCode, ReportTypeCode
+from candid.resources.encounter_supplemental_information.resources.v_1 import (
+    AttachmentInclusion,
+    CreateSupplementalInformationRequest,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_supplemental_information.v_1.create(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=CreateSupplementalInformationRequest(
+        attachment_report_type_code=ReportTypeCode.C_03,
+        attachment_transmission_code=ReportTransmissionCode.CBM,
+        attachment_inclusion=AttachmentInclusion.NOT_INCLUDED,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `CreateSupplementalInformationRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_supplemental_information.v_1.<a href="src/candid/resources/encounter_supplemental_information/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.encounter_supplemental_information.resources.v_1 import (
+    UpdateSupplementalInformationRequest,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_supplemental_information.v_1.update(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    supplemental_information_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=UpdateSupplementalInformationRequest(),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**supplemental_information_id:** `SupplementalInformationId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `UpdateSupplementalInformationRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_supplemental_information.v_1.<a href="src/candid/resources/encounter_supplemental_information/resources/v_1/client.py">delete</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_supplemental_information.v_1.delete(
+    encounter_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    supplemental_information_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**supplemental_information_id:** `SupplementalInformationId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Encounters V4
 <details><summary><code>client.encounters.v_4.<a href="src/candid/resources/encounters/resources/v_4/client.py">get_all</a>(...)</code></summary>
 <dl>
@@ -19302,12 +19599,12 @@ client.pre_encounter.patients.v_1.search()
 <dl>
 <dd>
 
-Scans up to 100 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+Scans up to 1000 patient updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
 
 **Polling Pattern:**
 To continuously poll for updates without gaps:
 1. Make your initial request with a `since` timestamp (e.g., `since=2020-01-01T13:00:00.000Z`)
-2. The API returns up to 100 patient records, sorted by `updated_at` ascending
+2. The API returns 100 by default and up to 1000 patient records, sorted by `updated_at` ascending
 3. Find the `updated_at` value from the last record in the response
 4. Use that `updated_at` value as the `since` parameter in your next request
 5. Repeat steps 2-4 to ingest updates until you receive an empty list
@@ -19359,6 +19656,14 @@ client.pre_encounter.patients.v_1.scan(
 <dd>
 
 **since:** `dt.datetime` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**max_results:** `typing.Optional[int]` 
     
 </dd>
 </dl>

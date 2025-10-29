@@ -4,8 +4,8 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .report_transmission_code import ReportTransmissionCode
-from .report_type_code import ReportTypeCode
+from .....commons.types.report_transmission_code import ReportTransmissionCode
+from .....commons.types.report_type_code import ReportTypeCode
 
 
 class ClaimSupplementalInformationOptional(UniversalBaseModel):
