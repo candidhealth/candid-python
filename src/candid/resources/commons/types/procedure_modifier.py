@@ -558,6 +558,11 @@ class ProcedureModifier(str, enum.Enum):
     Emergency services
     """
 
+    EV = "EV"
+    """
+    Electronic visit verification
+    """
+
     EX = "EX"
     """
     Expatriate beneficiary
@@ -2145,6 +2150,7 @@ class ProcedureModifier(str, enum.Enum):
         ep: typing.Callable[[], T_Result],
         er: typing.Callable[[], T_Result],
         et: typing.Callable[[], T_Result],
+        ev: typing.Callable[[], T_Result],
         ex: typing.Callable[[], T_Result],
         ey: typing.Callable[[], T_Result],
         f_1: typing.Callable[[], T_Result],
@@ -2676,6 +2682,8 @@ class ProcedureModifier(str, enum.Enum):
             return er()
         if self is ProcedureModifier.ET:
             return et()
+        if self is ProcedureModifier.EV:
+            return ev()
         if self is ProcedureModifier.EX:
             return ex()
         if self is ProcedureModifier.EY:

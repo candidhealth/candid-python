@@ -10,6 +10,11 @@ from ....commons.types.encounter_external_id import EncounterExternalId
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.page_token import PageToken
 from ....commons.types.work_queue_id import WorkQueueId
+from ....encounters_universal.types.universal_encounter_create import UniversalEncounterCreate
+from ....encounters_universal.types.universal_encounter_create_from_pre_encounter import (
+    UniversalEncounterCreateFromPreEncounter,
+)
+from ....encounters_universal.types.universal_encounter_update import UniversalEncounterUpdate
 from ....tags.types.tag_id import TagId
 from .raw_client import AsyncRawV4Client, RawV4Client
 from .types.billable_status_type import BillableStatusType
@@ -204,6 +209,85 @@ class V4Client:
         _response = self._raw_client.get(encounter_id, request_options=request_options)
         return _response.data
 
+    def create_universal(
+        self, *, request: UniversalEncounterCreate, request_options: typing.Optional[RequestOptions] = None
+    ) -> Encounter:
+        """
+        Parameters
+        ----------
+        request : UniversalEncounterCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import datetime
+
+        from candid import CandidApiClient
+        from candid.resources.commons import (
+            State,
+            StreetAddressLongZip,
+            StreetAddressShortZip,
+        )
+        from candid.resources.encounter_providers.resources.v_2 import BillingProvider
+        from candid.resources.encounters.resources.v_4 import (
+            BillableStatusType,
+            EncounterSubmissionExpectation,
+            ResponsiblePartyType,
+        )
+        from candid.resources.encounters_universal import UniversalEncounterCreate
+        from candid.resources.individual import Gender, PatientCreate
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.encounters.v_4.create_universal(
+            request=UniversalEncounterCreate(
+                billing_provider=BillingProvider(
+                    address=StreetAddressLongZip(
+                        zip_plus_four_code="zip_plus_four_code",
+                        address_1="address1",
+                        city="city",
+                        state=State.AA,
+                        zip_code="zip_code",
+                    ),
+                    tax_id="tax_id",
+                    npi="npi",
+                ),
+                submission_expectation=EncounterSubmissionExpectation.TARGET_PROFESSIONAL,
+                patient=PatientCreate(
+                    external_id="external_id",
+                    date_of_birth=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                    address=StreetAddressShortZip(
+                        address_1="address1",
+                        city="city",
+                        state=State.AA,
+                        zip_code="zip_code",
+                    ),
+                    first_name="first_name",
+                    last_name="last_name",
+                    gender=Gender.MALE,
+                ),
+                responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+                external_id="external_id",
+                patient_authorized_release=True,
+                benefits_assigned_to_provider=True,
+                provider_accepts_assignment=True,
+                billable_status=BillableStatusType.BILLABLE,
+            ),
+        )
+        """
+        _response = self._raw_client.create_universal(request=request, request_options=request_options)
+        return _response.data
+
     def create(self, *, request: EncounterCreate, request_options: typing.Optional[RequestOptions] = None) -> Encounter:
         """
         Parameters
@@ -296,6 +380,98 @@ class V4Client:
         )
         """
         _response = self._raw_client.create(request=request, request_options=request_options)
+        return _response.data
+
+    def create_from_pre_encounter_patient_universal(
+        self,
+        *,
+        request: UniversalEncounterCreateFromPreEncounter,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Encounter:
+        """
+        Create an encounter from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+        patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+        of the pre-encounter service should use the standard create endpoint.
+
+        The endpoint will create an encounter from the provided fields, pulling information from the provided patient and appointment objects
+        where applicable. In particular, the following fields are populated from the patient and appointment objects:
+          - Patient
+          - Referring Provider
+          - Subscriber Primary
+          - Subscriber Secondary
+          - Referral Number
+          - Responsible Party
+          - Guarantor
+
+        Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+        encounter has not already been submitted or adjudicated.
+
+        Parameters
+        ----------
+        request : UniversalEncounterCreateFromPreEncounter
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.commons import State, StreetAddressLongZip
+        from candid.resources.encounter_providers.resources.v_2 import BillingProvider
+        from candid.resources.encounters.resources.v_4 import (
+            BillableStatusType,
+            EncounterSubmissionExpectation,
+        )
+        from candid.resources.encounters_universal import (
+            UniversalEncounterCreateFromPreEncounter,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.encounters.v_4.create_from_pre_encounter_patient_universal(
+            request=UniversalEncounterCreateFromPreEncounter(
+                submission_expectation=EncounterSubmissionExpectation.TARGET_PROFESSIONAL,
+                pre_encounter_patient_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                pre_encounter_appointment_ids=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                ],
+                billing_provider=BillingProvider(
+                    address=StreetAddressLongZip(
+                        zip_plus_four_code="zip_plus_four_code",
+                        address_1="address1",
+                        city="city",
+                        state=State.AA,
+                        zip_code="zip_code",
+                    ),
+                    tax_id="tax_id",
+                    npi="npi",
+                ),
+                external_id="external_id",
+                patient_authorized_release=True,
+                benefits_assigned_to_provider=True,
+                provider_accepts_assignment=True,
+                billable_status=BillableStatusType.BILLABLE,
+            ),
+        )
+        """
+        _response = self._raw_client.create_from_pre_encounter_patient_universal(
+            request=request, request_options=request_options
+        )
         return _response.data
 
     def create_from_pre_encounter_patient(
@@ -401,6 +577,48 @@ class V4Client:
         )
         """
         _response = self._raw_client.create_from_pre_encounter_patient(request=request, request_options=request_options)
+        return _response.data
+
+    def update_universal(
+        self,
+        encounter_id: EncounterId,
+        *,
+        request: UniversalEncounterUpdate,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Encounter:
+        """
+        Parameters
+        ----------
+        encounter_id : EncounterId
+
+        request : UniversalEncounterUpdate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.encounters_universal import UniversalEncounterUpdate
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.encounters.v_4.update_universal(
+            encounter_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            request=UniversalEncounterUpdate(),
+        )
+        """
+        _response = self._raw_client.update_universal(encounter_id, request=request, request_options=request_options)
         return _response.data
 
     def update(
@@ -640,6 +858,92 @@ class AsyncV4Client:
         _response = await self._raw_client.get(encounter_id, request_options=request_options)
         return _response.data
 
+    async def create_universal(
+        self, *, request: UniversalEncounterCreate, request_options: typing.Optional[RequestOptions] = None
+    ) -> Encounter:
+        """
+        Parameters
+        ----------
+        request : UniversalEncounterCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import asyncio
+        import datetime
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.commons import (
+            State,
+            StreetAddressLongZip,
+            StreetAddressShortZip,
+        )
+        from candid.resources.encounter_providers.resources.v_2 import BillingProvider
+        from candid.resources.encounters.resources.v_4 import (
+            BillableStatusType,
+            EncounterSubmissionExpectation,
+            ResponsiblePartyType,
+        )
+        from candid.resources.encounters_universal import UniversalEncounterCreate
+        from candid.resources.individual import Gender, PatientCreate
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.encounters.v_4.create_universal(
+                request=UniversalEncounterCreate(
+                    billing_provider=BillingProvider(
+                        address=StreetAddressLongZip(
+                            zip_plus_four_code="zip_plus_four_code",
+                            address_1="address1",
+                            city="city",
+                            state=State.AA,
+                            zip_code="zip_code",
+                        ),
+                        tax_id="tax_id",
+                        npi="npi",
+                    ),
+                    submission_expectation=EncounterSubmissionExpectation.TARGET_PROFESSIONAL,
+                    patient=PatientCreate(
+                        external_id="external_id",
+                        date_of_birth=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                        address=StreetAddressShortZip(
+                            address_1="address1",
+                            city="city",
+                            state=State.AA,
+                            zip_code="zip_code",
+                        ),
+                        first_name="first_name",
+                        last_name="last_name",
+                        gender=Gender.MALE,
+                    ),
+                    responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+                    external_id="external_id",
+                    patient_authorized_release=True,
+                    benefits_assigned_to_provider=True,
+                    provider_accepts_assignment=True,
+                    billable_status=BillableStatusType.BILLABLE,
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create_universal(request=request, request_options=request_options)
+        return _response.data
+
     async def create(
         self, *, request: EncounterCreate, request_options: typing.Optional[RequestOptions] = None
     ) -> Encounter:
@@ -741,6 +1045,105 @@ class AsyncV4Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.create(request=request, request_options=request_options)
+        return _response.data
+
+    async def create_from_pre_encounter_patient_universal(
+        self,
+        *,
+        request: UniversalEncounterCreateFromPreEncounter,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Encounter:
+        """
+        Create an encounter from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+        patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+        of the pre-encounter service should use the standard create endpoint.
+
+        The endpoint will create an encounter from the provided fields, pulling information from the provided patient and appointment objects
+        where applicable. In particular, the following fields are populated from the patient and appointment objects:
+          - Patient
+          - Referring Provider
+          - Subscriber Primary
+          - Subscriber Secondary
+          - Referral Number
+          - Responsible Party
+          - Guarantor
+
+        Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+        encounter has not already been submitted or adjudicated.
+
+        Parameters
+        ----------
+        request : UniversalEncounterCreateFromPreEncounter
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.commons import State, StreetAddressLongZip
+        from candid.resources.encounter_providers.resources.v_2 import BillingProvider
+        from candid.resources.encounters.resources.v_4 import (
+            BillableStatusType,
+            EncounterSubmissionExpectation,
+        )
+        from candid.resources.encounters_universal import (
+            UniversalEncounterCreateFromPreEncounter,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.encounters.v_4.create_from_pre_encounter_patient_universal(
+                request=UniversalEncounterCreateFromPreEncounter(
+                    submission_expectation=EncounterSubmissionExpectation.TARGET_PROFESSIONAL,
+                    pre_encounter_patient_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    pre_encounter_appointment_ids=[
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                    ],
+                    billing_provider=BillingProvider(
+                        address=StreetAddressLongZip(
+                            zip_plus_four_code="zip_plus_four_code",
+                            address_1="address1",
+                            city="city",
+                            state=State.AA,
+                            zip_code="zip_code",
+                        ),
+                        tax_id="tax_id",
+                        npi="npi",
+                    ),
+                    external_id="external_id",
+                    patient_authorized_release=True,
+                    benefits_assigned_to_provider=True,
+                    provider_accepts_assignment=True,
+                    billable_status=BillableStatusType.BILLABLE,
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create_from_pre_encounter_patient_universal(
+            request=request, request_options=request_options
+        )
         return _response.data
 
     async def create_from_pre_encounter_patient(
@@ -854,6 +1257,57 @@ class AsyncV4Client:
         """
         _response = await self._raw_client.create_from_pre_encounter_patient(
             request=request, request_options=request_options
+        )
+        return _response.data
+
+    async def update_universal(
+        self,
+        encounter_id: EncounterId,
+        *,
+        request: UniversalEncounterUpdate,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> Encounter:
+        """
+        Parameters
+        ----------
+        encounter_id : EncounterId
+
+        request : UniversalEncounterUpdate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        Encounter
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.encounters_universal import UniversalEncounterUpdate
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.encounters.v_4.update_universal(
+                encounter_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                request=UniversalEncounterUpdate(),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.update_universal(
+            encounter_id, request=request, request_options=request_options
         )
         return _response.data
 

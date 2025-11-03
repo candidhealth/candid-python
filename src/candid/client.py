@@ -59,7 +59,6 @@ from .resources.patient_refunds.client import AsyncPatientRefundsClient, Patient
 from .resources.payer_plan_groups.client import AsyncPayerPlanGroupsClient, PayerPlanGroupsClient
 from .resources.payers.client import AsyncPayersClient, PayersClient
 from .resources.pre_encounter.client import AsyncPreEncounterClient, PreEncounterClient
-from .resources.service_facility.client import AsyncServiceFacilityClient, ServiceFacilityClient
 from .resources.service_lines.client import AsyncServiceLinesClient, ServiceLinesClient
 from .resources.superbills.client import AsyncSuperbillsClient, SuperbillsClient
 from .resources.tasks.client import AsyncTasksClient, TasksClient
@@ -179,7 +178,6 @@ class CandidApiClient:
         self.write_offs = WriteOffsClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = PreEncounterClient(client_wrapper=self._client_wrapper)
         self.diagnoses = DiagnosesClient(client_wrapper=self._client_wrapper)
-        self.service_facility = ServiceFacilityClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncCandidApiClient:
@@ -299,4 +297,3 @@ class AsyncCandidApiClient:
         self.write_offs = AsyncWriteOffsClient(client_wrapper=self._client_wrapper)
         self.pre_encounter = AsyncPreEncounterClient(client_wrapper=self._client_wrapper)
         self.diagnoses = AsyncDiagnosesClient(client_wrapper=self._client_wrapper)
-        self.service_facility = AsyncServiceFacilityClient(client_wrapper=self._client_wrapper)

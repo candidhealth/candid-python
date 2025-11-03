@@ -25,6 +25,11 @@ from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from ....commons.types.work_queue_id import WorkQueueId
+from ....encounters_universal.types.universal_encounter_create import UniversalEncounterCreate
+from ....encounters_universal.types.universal_encounter_create_from_pre_encounter import (
+    UniversalEncounterCreateFromPreEncounter,
+)
+from ....encounters_universal.types.universal_encounter_update import UniversalEncounterUpdate
 from ....tags.types.tag_id import TagId
 from .errors.cash_pay_payer_error import CashPayPayerError
 from .errors.encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
@@ -224,6 +229,177 @@ class RawV4Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def create_universal(
+        self, *, request: UniversalEncounterCreate, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[Encounter]:
+        """
+        Parameters
+        ----------
+        request : UniversalEncounterCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[Encounter]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/encounters/v4/universal",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                Encounter,
+                parse_obj_as(
+                    type_=Encounter,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterExternalIdUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterExternalIdUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EncounterPatientControlNumberUniquenessError":
+                raise EncounterPatientControlNumberUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterPatientControlNumberUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterPatientControlNumberUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
+                raise EncounterGuarantorMissingContactInfoError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterGuarantorMissingContactInfoErrorType,
+                        parse_obj_as(
+                            type_=EncounterGuarantorMissingContactInfoErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "CashPayPayerError":
+                raise CashPayPayerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        CashPayPayerErrorMessage,
+                        parse_obj_as(
+                            type_=CashPayPayerErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        SchemaInstanceValidationFailure,
+                        parse_obj_as(
+                            type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InvalidTagNamesErrorType,
+                        parse_obj_as(
+                            type_=InvalidTagNamesErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        RequestValidationError,
+                        parse_obj_as(
+                            type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EncounterRenderingOrAttendingProviderRequired":
+                raise EncounterRenderingOrAttendingProviderRequired(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterRenderingOrAttendingProviderRequiredError,
+                        parse_obj_as(
+                            type_=EncounterRenderingOrAttendingProviderRequiredError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def create(
         self, *, request: EncounterCreate, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Encounter]:
@@ -395,6 +571,153 @@ class RawV4Client:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def create_from_pre_encounter_patient_universal(
+        self,
+        *,
+        request: UniversalEncounterCreateFromPreEncounter,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[Encounter]:
+        """
+        Create an encounter from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+        patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+        of the pre-encounter service should use the standard create endpoint.
+
+        The endpoint will create an encounter from the provided fields, pulling information from the provided patient and appointment objects
+        where applicable. In particular, the following fields are populated from the patient and appointment objects:
+          - Patient
+          - Referring Provider
+          - Subscriber Primary
+          - Subscriber Secondary
+          - Referral Number
+          - Responsible Party
+          - Guarantor
+
+        Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+        encounter has not already been submitted or adjudicated.
+
+        Parameters
+        ----------
+        request : UniversalEncounterCreateFromPreEncounter
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[Encounter]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/encounters/v4/create-from-pre-encounter/universal",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                Encounter,
+                parse_obj_as(
+                    type_=Encounter,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterExternalIdUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterExternalIdUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EncounterPatientControlNumberUniquenessError":
+                raise EncounterPatientControlNumberUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterPatientControlNumberUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterPatientControlNumberUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        SchemaInstanceValidationFailure,
+                        parse_obj_as(
+                            type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        RequestValidationError,
+                        parse_obj_as(
+                            type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def create_from_pre_encounter_patient(
         self, *, request: EncounterCreateFromPreEncounter, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Encounter]:
@@ -522,6 +845,139 @@ class RawV4Client:
                         RequestValidationError,
                         parse_obj_as(
                             type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def update_universal(
+        self,
+        encounter_id: EncounterId,
+        *,
+        request: UniversalEncounterUpdate,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[Encounter]:
+        """
+        Parameters
+        ----------
+        encounter_id : EncounterId
+
+        request : UniversalEncounterUpdate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[Encounter]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/encounters/v4/{jsonable_encoder(encounter_id)}/universal",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                Encounter,
+                parse_obj_as(
+                    type_=Encounter,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterExternalIdUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterExternalIdUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        SchemaInstanceValidationFailure,
+                        parse_obj_as(
+                            type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InvalidTagNamesErrorType,
+                        parse_obj_as(
+                            type_=InvalidTagNamesErrorType,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -833,6 +1289,177 @@ class AsyncRawV4Client:
             return AsyncHttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    async def create_universal(
+        self, *, request: UniversalEncounterCreate, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[Encounter]:
+        """
+        Parameters
+        ----------
+        request : UniversalEncounterCreate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[Encounter]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/encounters/v4/universal",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                Encounter,
+                parse_obj_as(
+                    type_=Encounter,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterExternalIdUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterExternalIdUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EncounterPatientControlNumberUniquenessError":
+                raise EncounterPatientControlNumberUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterPatientControlNumberUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterPatientControlNumberUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EncounterGuarantorMissingContactInfoError":
+                raise EncounterGuarantorMissingContactInfoError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterGuarantorMissingContactInfoErrorType,
+                        parse_obj_as(
+                            type_=EncounterGuarantorMissingContactInfoErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "CashPayPayerError":
+                raise CashPayPayerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        CashPayPayerErrorMessage,
+                        parse_obj_as(
+                            type_=CashPayPayerErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        SchemaInstanceValidationFailure,
+                        parse_obj_as(
+                            type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InvalidTagNamesErrorType,
+                        parse_obj_as(
+                            type_=InvalidTagNamesErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        RequestValidationError,
+                        parse_obj_as(
+                            type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EncounterRenderingOrAttendingProviderRequired":
+                raise EncounterRenderingOrAttendingProviderRequired(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterRenderingOrAttendingProviderRequiredError,
+                        parse_obj_as(
+                            type_=EncounterRenderingOrAttendingProviderRequiredError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     async def create(
         self, *, request: EncounterCreate, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Encounter]:
@@ -1004,6 +1631,153 @@ class AsyncRawV4Client:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    async def create_from_pre_encounter_patient_universal(
+        self,
+        *,
+        request: UniversalEncounterCreateFromPreEncounter,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[Encounter]:
+        """
+        Create an encounter from a pre-encounter patient and appointment. This endpoint is intended to be used by consumers who are managing
+        patients and appointments in the pre-encounter service and is currently under development. Consumers who are not taking advantage
+        of the pre-encounter service should use the standard create endpoint.
+
+        The endpoint will create an encounter from the provided fields, pulling information from the provided patient and appointment objects
+        where applicable. In particular, the following fields are populated from the patient and appointment objects:
+          - Patient
+          - Referring Provider
+          - Subscriber Primary
+          - Subscriber Secondary
+          - Referral Number
+          - Responsible Party
+          - Guarantor
+
+        Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
+        encounter has not already been submitted or adjudicated.
+
+        Parameters
+        ----------
+        request : UniversalEncounterCreateFromPreEncounter
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[Encounter]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/encounters/v4/create-from-pre-encounter/universal",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                Encounter,
+                parse_obj_as(
+                    type_=Encounter,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterExternalIdUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterExternalIdUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EncounterPatientControlNumberUniquenessError":
+                raise EncounterPatientControlNumberUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterPatientControlNumberUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterPatientControlNumberUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        SchemaInstanceValidationFailure,
+                        parse_obj_as(
+                            type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationError":
+                raise HttpRequestValidationError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        RequestValidationError,
+                        parse_obj_as(
+                            type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     async def create_from_pre_encounter_patient(
         self, *, request: EncounterCreateFromPreEncounter, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Encounter]:
@@ -1131,6 +1905,139 @@ class AsyncRawV4Client:
                         RequestValidationError,
                         parse_obj_as(
                             type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError":
+                raise PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+                        parse_obj_as(
+                            type_=PayerPlanGroupPayerDoesNotMatchInsuranceCardError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def update_universal(
+        self,
+        encounter_id: EncounterId,
+        *,
+        request: UniversalEncounterUpdate,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[Encounter]:
+        """
+        Parameters
+        ----------
+        encounter_id : EncounterId
+
+        request : UniversalEncounterUpdate
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[Encounter]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/encounters/v4/{jsonable_encoder(encounter_id)}/universal",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                Encounter,
+                parse_obj_as(
+                    type_=Encounter,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EncounterExternalIdUniquenessError":
+                raise EncounterExternalIdUniquenessError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EncounterExternalIdUniquenessErrorType,
+                        parse_obj_as(
+                            type_=EncounterExternalIdUniquenessErrorType,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "SchemaInstanceValidationHttpFailure":
+                raise SchemaInstanceValidationHttpFailure(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        SchemaInstanceValidationFailure,
+                        parse_obj_as(
+                            type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "InvalidTagNamesError":
+                raise InvalidTagNamesError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InvalidTagNamesErrorType,
+                        parse_obj_as(
+                            type_=InvalidTagNamesErrorType,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

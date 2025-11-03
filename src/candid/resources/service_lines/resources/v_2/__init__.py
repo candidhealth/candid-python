@@ -24,6 +24,7 @@ from .types import (
     TestResult,
     TestResultOptional,
     TestResultType,
+    UniversalServiceLineCreate,
     UniversalServiceLineCreateStandalone,
     UniversalServiceLineUpdate,
 )
@@ -50,6 +51,7 @@ __all__ = [
     "TestResult",
     "TestResultOptional",
     "TestResultType",
+    "UniversalServiceLineCreate",
     "UniversalServiceLineCreateStandalone",
     "UniversalServiceLineUpdate",
 ]

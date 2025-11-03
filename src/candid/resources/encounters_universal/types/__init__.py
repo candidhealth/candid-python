@@ -2,12 +2,18 @@
 
 # isort: skip_file
 
+from .universal_encounter_create import UniversalEncounterCreate
 from .universal_encounter_create_base import UniversalEncounterCreateBase
+from .universal_encounter_create_from_pre_encounter import UniversalEncounterCreateFromPreEncounter
 from .universal_encounter_create_from_pre_encounter_base import UniversalEncounterCreateFromPreEncounterBase
+from .universal_encounter_update import UniversalEncounterUpdate
 from .universal_encounter_update_base import UniversalEncounterUpdateBase
 
 __all__ = [
+    "UniversalEncounterCreate",
     "UniversalEncounterCreateBase",
+    "UniversalEncounterCreateFromPreEncounter",
     "UniversalEncounterCreateFromPreEncounterBase",
+    "UniversalEncounterUpdate",
     "UniversalEncounterUpdateBase",
 ]
