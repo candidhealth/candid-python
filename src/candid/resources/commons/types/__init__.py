@@ -8,7 +8,6 @@ from .billing_provider_commercial_license_type import BillingProviderCommercialL
 from .charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from .charge_capture_id import ChargeCaptureId
 from .charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
-from .claim_adjustment_group_codes import ClaimAdjustmentGroupCodes
 from .claim_id import ClaimId
 from .claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
 from .clearinghouse import Clearinghouse
@@ -78,7 +77,6 @@ from .street_address_short_zip_optional import StreetAddressShortZipOptional
 from .task_assignment_id import TaskAssignmentId
 from .task_id import TaskId
 from .task_note_id import TaskNoteId
-from .tax_id import TaxId
 from .unauthorized_error_message import UnauthorizedErrorMessage
 from .unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from .updates_disabled_due_to_external_system_integration_error_message import (
@@ -94,7 +92,6 @@ __all__ = [
     "ChargeCaptureClaimCreationId",
     "ChargeCaptureId",
     "ChargeCapturePostBilledChangeId",
-    "ClaimAdjustmentGroupCodes",
     "ClaimId",
     "ClaimSubmissionPayerResponsibilityType",
     "Clearinghouse",
@@ -164,7 +161,6 @@ __all__ = [
     "TaskAssignmentId",
     "TaskId",
     "TaskNoteId",
-    "TaxId",
     "UnauthorizedErrorMessage",
     "UnprocessableEntityErrorMessage",
     "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage",

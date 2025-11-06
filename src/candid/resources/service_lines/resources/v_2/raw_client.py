@@ -9,9 +9,11 @@ from .....core.http_response import AsyncHttpResponse, HttpResponse
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
+from ....commons.errors.entity_conflict_error import EntityConflictError
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.errors.unauthorized_error import UnauthorizedError
+from ....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.service_line_id import ServiceLineId
@@ -336,6 +338,17 @@ class RawV2Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
@@ -645,6 +658,17 @@ class AsyncRawV2Client:
                         UnauthorizedErrorMessage,
                         parse_obj_as(
                             type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
