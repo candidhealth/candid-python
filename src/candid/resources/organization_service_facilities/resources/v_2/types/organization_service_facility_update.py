@@ -84,6 +84,11 @@ class OrganizationServiceFacilityUpdate(UniversalBaseModel):
     The associated CLIA number with this service facility. Can be used to populate CLIA numbers on encounters.
     """
 
+    mammography_certification_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+    """
+
     status: typing.Optional[ServiceFacilityStatus] = pydantic.Field(default=None)
     """
     The status of the service facility.
