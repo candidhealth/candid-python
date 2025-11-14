@@ -53,6 +53,11 @@ class EncounterServiceFacility(UniversalBaseModel):
     Box 32 section (b) of the CMS-1500 claim form.
     """
 
+    mammography_certification_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The associated mammography certification number for this service facility. This is a 6 digit code assigned by the FDA.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
