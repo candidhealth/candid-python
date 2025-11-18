@@ -628,6 +628,7 @@ class V1Client:
         Returns
         -------
         typing.List[ChargeCapturePostBilledChange]
+            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
 
         Examples
         --------
@@ -1294,6 +1295,7 @@ class AsyncV1Client:
         Returns
         -------
         typing.List[ChargeCapturePostBilledChange]
+            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
 
         Examples
         --------

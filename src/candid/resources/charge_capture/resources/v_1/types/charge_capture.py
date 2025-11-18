@@ -25,7 +25,11 @@ class ChargeCapture(UniversalBaseModel):
     originating_system: typing.Optional[str] = None
     claim_creation_category: typing.Optional[str] = None
     error: typing.Optional[ChargeCaptureError] = None
-    updates: typing.List[ChargeCapturePostBilledChange]
+    updates: typing.List[ChargeCapturePostBilledChange] = pydantic.Field()
+    """
+    This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
+    """
+
     claim_creation_id: typing.Optional[ChargeCaptureClaimCreationId] = None
 
     if IS_PYDANTIC_V2:

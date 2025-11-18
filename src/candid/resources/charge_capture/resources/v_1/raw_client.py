@@ -829,6 +829,7 @@ class RawV1Client:
         Returns
         -------
         HttpResponse[typing.List[ChargeCapturePostBilledChange]]
+            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/charge_captures/v1/changes/",
@@ -1663,6 +1664,7 @@ class AsyncRawV1Client:
         Returns
         -------
         AsyncHttpResponse[typing.List[ChargeCapturePostBilledChange]]
+            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/charge_captures/v1/changes/",
