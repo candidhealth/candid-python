@@ -11,6 +11,7 @@ from .....commons.types.patient_external_id import PatientExternalId
 from .....financials.types.allocation import Allocation
 from .....financials.types.patient_transaction_source import PatientTransactionSource
 from .patient_payment_id import PatientPaymentId
+from .payment_method_detail import PaymentMethodDetail
 
 
 class PatientPayment(UniversalBaseModel):
@@ -24,6 +25,7 @@ class PatientPayment(UniversalBaseModel):
     payment_note: typing.Optional[str] = None
     allocations: typing.List[Allocation]
     invoice: typing.Optional[InvoiceId] = None
+    payment_method_detail: typing.Optional[PaymentMethodDetail] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

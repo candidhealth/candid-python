@@ -2,9 +2,27 @@
 
 # isort: skip_file
 
+from .card_payment_method import CardPaymentMethod
+from .cash_payment_method import CashPaymentMethod
+from .check_payment_method import CheckPaymentMethod
 from .patient_payment import PatientPayment
 from .patient_payment_id import PatientPaymentId
 from .patient_payment_sort_field import PatientPaymentSortField
 from .patient_payments_page import PatientPaymentsPage
+from .payment_method import PaymentMethod, PaymentMethod_Card, PaymentMethod_Cash, PaymentMethod_Check
+from .payment_method_detail import PaymentMethodDetail
 
-__all__ = ["PatientPayment", "PatientPaymentId", "PatientPaymentSortField", "PatientPaymentsPage"]
+__all__ = [
+    "CardPaymentMethod",
+    "CashPaymentMethod",
+    "CheckPaymentMethod",
+    "PatientPayment",
+    "PatientPaymentId",
+    "PatientPaymentSortField",
+    "PatientPaymentsPage",
+    "PaymentMethod",
+    "PaymentMethodDetail",
+    "PaymentMethod_Card",
+    "PaymentMethod_Cash",
+    "PaymentMethod_Check",
+]

@@ -8,6 +8,7 @@ from .billing_provider_commercial_license_type import BillingProviderCommercialL
 from .charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from .charge_capture_id import ChargeCaptureId
 from .charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
+from .claim_adjustment_group_codes import ClaimAdjustmentGroupCodes
 from .claim_id import ClaimId
 from .claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
 from .clearinghouse import Clearinghouse
@@ -92,6 +93,7 @@ __all__ = [
     "ChargeCaptureClaimCreationId",
     "ChargeCaptureId",
     "ChargeCapturePostBilledChangeId",
+    "ClaimAdjustmentGroupCodes",
     "ClaimId",
     "ClaimSubmissionPayerResponsibilityType",
     "Clearinghouse",

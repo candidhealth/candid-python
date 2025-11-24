@@ -2,6 +2,32 @@
 
 # isort: skip_file
 
-from .types import PatientPayment, PatientPaymentId, PatientPaymentSortField, PatientPaymentsPage
+from .types import (
+    CardPaymentMethod,
+    CashPaymentMethod,
+    CheckPaymentMethod,
+    PatientPayment,
+    PatientPaymentId,
+    PatientPaymentSortField,
+    PatientPaymentsPage,
+    PaymentMethod,
+    PaymentMethodDetail,
+    PaymentMethod_Card,
+    PaymentMethod_Cash,
+    PaymentMethod_Check,
+)
 
-__all__ = ["PatientPayment", "PatientPaymentId", "PatientPaymentSortField", "PatientPaymentsPage"]
+__all__ = [
+    "CardPaymentMethod",
+    "CashPaymentMethod",
+    "CheckPaymentMethod",
+    "PatientPayment",
+    "PatientPaymentId",
+    "PatientPaymentSortField",
+    "PatientPaymentsPage",
+    "PaymentMethod",
+    "PaymentMethodDetail",
+    "PaymentMethod_Card",
+    "PaymentMethod_Cash",
+    "PaymentMethod_Check",
+]

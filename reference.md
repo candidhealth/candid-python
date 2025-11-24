@@ -8628,6 +8628,82 @@ client.import_invoice.v_1.update(
 </dl>
 </details>
 
+## InsuranceAdjudications V1
+<details><summary><code>client.insurance_adjudications.v_1.<a href="src/candid/resources/insurance_adjudications/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieves a previously created insurance adjudication by its `insurance_adjudication_id`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.insurance_adjudications.v_1.get(
+    insurance_adjudication_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**insurance_adjudication_id:** `InsuranceAdjudicationId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## InsurancePayments V1
 <details><summary><code>client.insurance_payments.v_1.<a href="src/candid/resources/insurance_payments/resources/v_1/client.py">get_multi</a>(...)</code></summary>
 <dl>

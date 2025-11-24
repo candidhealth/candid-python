@@ -3,8 +3,12 @@
 # isort: skip_file
 
 from .types import (
+    Carc,
+    ClaimAdjustmentReasonCode,
     PatientDischargeStatusCode,
     PointOfOriginForAdmissionOrVisitCode,
+    Rarc,
+    RemittanceAdviceRemarkCode,
     TypeOfAdmissionOrVisitCode,
     TypeOfBillComposite,
     TypeOfBillCompositeBase,
@@ -17,8 +21,12 @@ from .types import (
 )
 
 __all__ = [
+    "Carc",
+    "ClaimAdjustmentReasonCode",
     "PatientDischargeStatusCode",
     "PointOfOriginForAdmissionOrVisitCode",
+    "Rarc",
+    "RemittanceAdviceRemarkCode",
     "TypeOfAdmissionOrVisitCode",
     "TypeOfBillComposite",
     "TypeOfBillCompositeBase",

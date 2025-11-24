@@ -35,6 +35,7 @@ from .resources.health_care_code_information.client import (
     HealthCareCodeInformationClient,
 )
 from .resources.import_invoice.client import AsyncImportInvoiceClient, ImportInvoiceClient
+from .resources.insurance_adjudications.client import AsyncInsuranceAdjudicationsClient, InsuranceAdjudicationsClient
 from .resources.insurance_payments.client import AsyncInsurancePaymentsClient, InsurancePaymentsClient
 from .resources.insurance_refunds.client import AsyncInsuranceRefundsClient, InsuranceRefundsClient
 from .resources.medication_dispense.client import AsyncMedicationDispenseClient, MedicationDispenseClient
@@ -157,6 +158,7 @@ class CandidApiClient:
         self.guarantor = GuarantorClient(client_wrapper=self._client_wrapper)
         self.health_care_code_information = HealthCareCodeInformationClient(client_wrapper=self._client_wrapper)
         self.import_invoice = ImportInvoiceClient(client_wrapper=self._client_wrapper)
+        self.insurance_adjudications = InsuranceAdjudicationsClient(client_wrapper=self._client_wrapper)
         self.insurance_payments = InsurancePaymentsClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = InsuranceRefundsClient(client_wrapper=self._client_wrapper)
         self.medication_dispense = MedicationDispenseClient(client_wrapper=self._client_wrapper)
@@ -273,6 +275,7 @@ class AsyncCandidApiClient:
         self.guarantor = AsyncGuarantorClient(client_wrapper=self._client_wrapper)
         self.health_care_code_information = AsyncHealthCareCodeInformationClient(client_wrapper=self._client_wrapper)
         self.import_invoice = AsyncImportInvoiceClient(client_wrapper=self._client_wrapper)
+        self.insurance_adjudications = AsyncInsuranceAdjudicationsClient(client_wrapper=self._client_wrapper)
         self.insurance_payments = AsyncInsurancePaymentsClient(client_wrapper=self._client_wrapper)
         self.insurance_refunds = AsyncInsuranceRefundsClient(client_wrapper=self._client_wrapper)
         self.medication_dispense = AsyncMedicationDispenseClient(client_wrapper=self._client_wrapper)
