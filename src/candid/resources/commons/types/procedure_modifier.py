@@ -2018,6 +2018,11 @@ class ProcedureModifier(str, enum.Enum):
     Custom modifier
     """
 
+    ZZ = "ZZ"
+    """
+    Custom modifier representing an invalid modifier
+    """
+
     _UNKNOWN = "__PROCEDUREMODIFIER_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -2442,6 +2447,7 @@ class ProcedureModifier(str, enum.Enum):
         xs: typing.Callable[[], T_Result],
         xu: typing.Callable[[], T_Result],
         xy: typing.Callable[[], T_Result],
+        zz: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is ProcedureModifier.AV:
@@ -3266,4 +3272,6 @@ class ProcedureModifier(str, enum.Enum):
             return xu()
         if self is ProcedureModifier.XY:
             return xy()
+        if self is ProcedureModifier.ZZ:
+            return zz()
         return _unknown_member(self._value_)
