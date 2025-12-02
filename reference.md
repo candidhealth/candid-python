@@ -6014,6 +6014,169 @@ client.encounters.v_4.update(
 </dl>
 </details>
 
+## Events V1
+<details><summary><code>client.events.v_1.<a href="src/candid/resources/events/resources/v_1/client.py">scan</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Scans the last 30 days of events. All results are sorted by created date, descending.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.events.v_1.scan()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Number of events to return. Minimum value is 1, maximum is 100. Defaults to 10.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**event_types:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — Event types to filter on. Defaults to showing all event types.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**created_before:** `typing.Optional[dt.datetime]` — Filters for only events created before this time (inclusive).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**created_after:** `typing.Optional[dt.datetime]` — Filters for only events created after this time (inclusive).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.events.v_1.<a href="src/candid/resources/events/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.events.v_1.get(
+    event_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**event_id:** `EventId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## ExpectedNetworkStatus V1
 <details><summary><code>client.expected_network_status.v_1.<a href="src/candid/resources/expected_network_status/resources/v_1/client.py">compute</a>(...)</code></summary>
 <dl>
@@ -11786,8 +11949,6 @@ client.organization_service_facilities.v_2.delete(
 <dl>
 <dd>
 
-NOTE: This service is in-development and can only be used by select partners. Please contact Candid Health to request access.
-
 Retrieve a list of inventory records based on the provided filters. Each inventory record provides the latest invoiceable status of the associated claim.
 The response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests should not include `page_token`.
 </dd>
@@ -11873,8 +12034,6 @@ client.patient_ar.v_1.list_inventory()
 
 <dl>
 <dd>
-
-NOTE: This service is in-development and can only be used by select partners. Please contact Candid Health to request access.
 
 Provides detailed itemization of invoice data for a specific claim.
 </dd>

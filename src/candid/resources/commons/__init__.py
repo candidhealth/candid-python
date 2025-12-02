@@ -5,6 +5,7 @@
 from .types import (
     AdjustmentId,
     AppointmentId,
+    BadRequestErrorMessage,
     BillingProviderCommercialLicenseType,
     ChargeCaptureClaimCreationId,
     ChargeCaptureId,
@@ -30,6 +31,7 @@ from .types import (
     HttpServiceUnavailableErrorMessage,
     InsuranceTypeCode,
     IntendedSubmissionMedium,
+    InternalErrorMessage,
     InvoiceId,
     LinkUrl,
     NetworkType,
@@ -86,11 +88,13 @@ from .types import (
     WorkQueueId,
 )
 from .errors import (
+    BadRequestError,
     EntityConflictError,
     EntityNotFoundError,
     HttpRequestValidationError,
     HttpRequestValidationsError,
     HttpServiceUnavailableError,
+    InternalError,
     OrganizationNotAuthorizedError,
     UnauthorizedError,
     UnprocessableEntityError,
@@ -100,6 +104,8 @@ from .errors import (
 __all__ = [
     "AdjustmentId",
     "AppointmentId",
+    "BadRequestError",
+    "BadRequestErrorMessage",
     "BillingProviderCommercialLicenseType",
     "ChargeCaptureClaimCreationId",
     "ChargeCaptureId",
@@ -130,6 +136,8 @@ __all__ = [
     "HttpServiceUnavailableErrorMessage",
     "InsuranceTypeCode",
     "IntendedSubmissionMedium",
+    "InternalError",
+    "InternalErrorMessage",
     "InvoiceId",
     "LinkUrl",
     "NetworkType",

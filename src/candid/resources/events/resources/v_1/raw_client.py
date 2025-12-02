@@ -11,59 +11,68 @@ from .....core.http_response import AsyncHttpResponse, HttpResponse
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
+from ....commons.errors.bad_request_error import BadRequestError
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
-from ....commons.errors.unauthorized_error import UnauthorizedError
-from ....commons.types.claim_id import ClaimId
+from ....commons.errors.internal_error import InternalError
+from ....commons.types.bad_request_error_message import BadRequestErrorMessage
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.internal_error_message import InternalErrorMessage
 from ....commons.types.page_token import PageToken
-from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
-from .errors.invalid_filters_error import InvalidFiltersError
-from .types.invalid_filters_error_type import InvalidFiltersErrorType
-from .types.invoice_itemization_response import InvoiceItemizationResponse
-from .types.list_inventory_paged_response import ListInventoryPagedResponse
+from .types.event import Event
+from .types.event_id import EventId
+from .types.event_scan_page import EventScanPage
 
 
 class RawV1Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def list_inventory(
+    def scan(
         self,
         *,
-        since: typing.Optional[dt.datetime] = None,
-        limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        event_types: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        created_before: typing.Optional[dt.datetime] = None,
+        created_after: typing.Optional[dt.datetime] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[ListInventoryPagedResponse]:
+    ) -> HttpResponse[EventScanPage]:
         """
-        Retrieve a list of inventory records based on the provided filters. Each inventory record provides the latest invoiceable status of the associated claim.
-        The response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests should not include `page_token`.
+        Scans the last 30 days of events. All results are sorted by created date, descending.
 
         Parameters
         ----------
-        since : typing.Optional[dt.datetime]
-            Timestamp to filter records since, inclusive
+        page_token : typing.Optional[PageToken]
 
         limit : typing.Optional[int]
-            Maximum number of records to return, default is 100
+            Number of events to return. Minimum value is 1, maximum is 100. Defaults to 10.
 
-        page_token : typing.Optional[PageToken]
+        event_types : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Event types to filter on. Defaults to showing all event types.
+
+        created_before : typing.Optional[dt.datetime]
+            Filters for only events created before this time (inclusive).
+
+        created_after : typing.Optional[dt.datetime]
+            Filters for only events created after this time (inclusive).
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[ListInventoryPagedResponse]
+        HttpResponse[EventScanPage]
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/patient-ar/v1/inventory",
+            "api/events/v1/",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
-                "since": serialize_datetime(since) if since is not None else None,
-                "limit": limit,
                 "page_token": page_token,
+                "limit": limit,
+                "event_types": event_types,
+                "created_before": serialize_datetime(created_before) if created_before is not None else None,
+                "created_after": serialize_datetime(created_after) if created_after is not None else None,
             },
             request_options=request_options,
         )
@@ -73,57 +82,53 @@ class RawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                ListInventoryPagedResponse,
+                EventScanPage,
                 parse_obj_as(
-                    type_=ListInventoryPagedResponse,  # type: ignore
+                    type_=EventScanPage,  # type: ignore
                     object_=_response_json,
                 ),
             )
             return HttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "InvalidFiltersError":
-                raise InvalidFiltersError(
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        InvalidFiltersErrorType,
+                        BadRequestErrorMessage,
                         parse_obj_as(
-                            type_=InvalidFiltersErrorType,  # type: ignore
+                            type_=BadRequestErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
                 )
-            if _response_json["errorName"] == "UnauthorizedError":
-                raise UnauthorizedError(
+            if _response_json["errorName"] == "InternalError":
+                raise InternalError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        UnauthorizedErrorMessage,
+                        InternalErrorMessage,
                         parse_obj_as(
-                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            type_=InternalErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def itemize(
-        self, claim_id: ClaimId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[InvoiceItemizationResponse]:
+    def get(self, event_id: EventId, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[Event]:
         """
-        Provides detailed itemization of invoice data for a specific claim.
-
         Parameters
         ----------
-        claim_id : ClaimId
+        event_id : EventId
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[InvoiceItemizationResponse]
+        HttpResponse[Event]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/patient-ar/v1/invoice-itemization/{jsonable_encoder(claim_id)}",
+            f"api/events/v1/{jsonable_encoder(event_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
@@ -134,14 +139,36 @@ class RawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                InvoiceItemizationResponse,
+                Event,
                 parse_obj_as(
-                    type_=InvoiceItemizationResponse,  # type: ignore
+                    type_=Event,  # type: ignore
                     object_=_response_json,
                 ),
             )
             return HttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BadRequestErrorMessage,
+                        parse_obj_as(
+                            type_=BadRequestErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "InternalError":
+                raise InternalError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InternalErrorMessage,
+                        parse_obj_as(
+                            type_=InternalErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
                     headers=dict(_response.headers),
@@ -149,17 +176,6 @@ class RawV1Client:
                         EntityNotFoundErrorMessage,
                         parse_obj_as(
                             type_=EntityNotFoundErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-            if _response_json["errorName"] == "UnauthorizedError":
-                raise UnauthorizedError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        UnauthorizedErrorMessage,
-                        parse_obj_as(
-                            type_=UnauthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -171,43 +187,52 @@ class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def list_inventory(
+    async def scan(
         self,
         *,
-        since: typing.Optional[dt.datetime] = None,
-        limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        event_types: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        created_before: typing.Optional[dt.datetime] = None,
+        created_after: typing.Optional[dt.datetime] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[ListInventoryPagedResponse]:
+    ) -> AsyncHttpResponse[EventScanPage]:
         """
-        Retrieve a list of inventory records based on the provided filters. Each inventory record provides the latest invoiceable status of the associated claim.
-        The response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests should not include `page_token`.
+        Scans the last 30 days of events. All results are sorted by created date, descending.
 
         Parameters
         ----------
-        since : typing.Optional[dt.datetime]
-            Timestamp to filter records since, inclusive
+        page_token : typing.Optional[PageToken]
 
         limit : typing.Optional[int]
-            Maximum number of records to return, default is 100
+            Number of events to return. Minimum value is 1, maximum is 100. Defaults to 10.
 
-        page_token : typing.Optional[PageToken]
+        event_types : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Event types to filter on. Defaults to showing all event types.
+
+        created_before : typing.Optional[dt.datetime]
+            Filters for only events created before this time (inclusive).
+
+        created_after : typing.Optional[dt.datetime]
+            Filters for only events created after this time (inclusive).
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[ListInventoryPagedResponse]
+        AsyncHttpResponse[EventScanPage]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/patient-ar/v1/inventory",
+            "api/events/v1/",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
-                "since": serialize_datetime(since) if since is not None else None,
-                "limit": limit,
                 "page_token": page_token,
+                "limit": limit,
+                "event_types": event_types,
+                "created_before": serialize_datetime(created_before) if created_before is not None else None,
+                "created_after": serialize_datetime(created_after) if created_after is not None else None,
             },
             request_options=request_options,
         )
@@ -217,57 +242,55 @@ class AsyncRawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                ListInventoryPagedResponse,
+                EventScanPage,
                 parse_obj_as(
-                    type_=ListInventoryPagedResponse,  # type: ignore
+                    type_=EventScanPage,  # type: ignore
                     object_=_response_json,
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
-            if _response_json["errorName"] == "InvalidFiltersError":
-                raise InvalidFiltersError(
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        InvalidFiltersErrorType,
+                        BadRequestErrorMessage,
                         parse_obj_as(
-                            type_=InvalidFiltersErrorType,  # type: ignore
+                            type_=BadRequestErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
                 )
-            if _response_json["errorName"] == "UnauthorizedError":
-                raise UnauthorizedError(
+            if _response_json["errorName"] == "InternalError":
+                raise InternalError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        UnauthorizedErrorMessage,
+                        InternalErrorMessage,
                         parse_obj_as(
-                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            type_=InternalErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    async def itemize(
-        self, claim_id: ClaimId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[InvoiceItemizationResponse]:
+    async def get(
+        self, event_id: EventId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[Event]:
         """
-        Provides detailed itemization of invoice data for a specific claim.
-
         Parameters
         ----------
-        claim_id : ClaimId
+        event_id : EventId
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[InvoiceItemizationResponse]
+        AsyncHttpResponse[Event]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/patient-ar/v1/invoice-itemization/{jsonable_encoder(claim_id)}",
+            f"api/events/v1/{jsonable_encoder(event_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
@@ -278,14 +301,36 @@ class AsyncRawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                InvoiceItemizationResponse,
+                Event,
                 parse_obj_as(
-                    type_=InvoiceItemizationResponse,  # type: ignore
+                    type_=Event,  # type: ignore
                     object_=_response_json,
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BadRequestErrorMessage,
+                        parse_obj_as(
+                            type_=BadRequestErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "InternalError":
+                raise InternalError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InternalErrorMessage,
+                        parse_obj_as(
+                            type_=InternalErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "EntityNotFoundError":
                 raise EntityNotFoundError(
                     headers=dict(_response.headers),
@@ -293,17 +338,6 @@ class AsyncRawV1Client:
                         EntityNotFoundErrorMessage,
                         parse_obj_as(
                             type_=EntityNotFoundErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-            if _response_json["errorName"] == "UnauthorizedError":
-                raise UnauthorizedError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        UnauthorizedErrorMessage,
-                        parse_obj_as(
-                            type_=UnauthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

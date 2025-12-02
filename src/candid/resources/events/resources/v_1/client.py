@@ -5,11 +5,11 @@ import typing
 
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
-from ....commons.types.claim_id import ClaimId
 from ....commons.types.page_token import PageToken
 from .raw_client import AsyncRawV1Client, RawV1Client
-from .types.invoice_itemization_response import InvoiceItemizationResponse
-from .types.list_inventory_paged_response import ListInventoryPagedResponse
+from .types.event import Event
+from .types.event_id import EventId
+from .types.event_scan_page import EventScanPage
 
 
 class V1Client:
@@ -27,34 +27,41 @@ class V1Client:
         """
         return self._raw_client
 
-    def list_inventory(
+    def scan(
         self,
         *,
-        since: typing.Optional[dt.datetime] = None,
-        limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        event_types: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        created_before: typing.Optional[dt.datetime] = None,
+        created_after: typing.Optional[dt.datetime] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ListInventoryPagedResponse:
+    ) -> EventScanPage:
         """
-        Retrieve a list of inventory records based on the provided filters. Each inventory record provides the latest invoiceable status of the associated claim.
-        The response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests should not include `page_token`.
+        Scans the last 30 days of events. All results are sorted by created date, descending.
 
         Parameters
         ----------
-        since : typing.Optional[dt.datetime]
-            Timestamp to filter records since, inclusive
+        page_token : typing.Optional[PageToken]
 
         limit : typing.Optional[int]
-            Maximum number of records to return, default is 100
+            Number of events to return. Minimum value is 1, maximum is 100. Defaults to 10.
 
-        page_token : typing.Optional[PageToken]
+        event_types : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Event types to filter on. Defaults to showing all event types.
+
+        created_before : typing.Optional[dt.datetime]
+            Filters for only events created before this time (inclusive).
+
+        created_after : typing.Optional[dt.datetime]
+            Filters for only events created after this time (inclusive).
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        ListInventoryPagedResponse
+        EventScanPage
 
         Examples
         --------
@@ -64,29 +71,30 @@ class V1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.patient_ar.v_1.list_inventory()
+        client.events.v_1.scan()
         """
-        _response = self._raw_client.list_inventory(
-            since=since, limit=limit, page_token=page_token, request_options=request_options
+        _response = self._raw_client.scan(
+            page_token=page_token,
+            limit=limit,
+            event_types=event_types,
+            created_before=created_before,
+            created_after=created_after,
+            request_options=request_options,
         )
         return _response.data
 
-    def itemize(
-        self, claim_id: ClaimId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> InvoiceItemizationResponse:
+    def get(self, event_id: EventId, *, request_options: typing.Optional[RequestOptions] = None) -> Event:
         """
-        Provides detailed itemization of invoice data for a specific claim.
-
         Parameters
         ----------
-        claim_id : ClaimId
+        event_id : EventId
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        InvoiceItemizationResponse
+        Event
 
         Examples
         --------
@@ -98,13 +106,13 @@ class V1Client:
             client_id="YOUR_CLIENT_ID",
             client_secret="YOUR_CLIENT_SECRET",
         )
-        client.patient_ar.v_1.itemize(
-            claim_id=uuid.UUID(
+        client.events.v_1.get(
+            event_id=uuid.UUID(
                 "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
             ),
         )
         """
-        _response = self._raw_client.itemize(claim_id, request_options=request_options)
+        _response = self._raw_client.get(event_id, request_options=request_options)
         return _response.data
 
 
@@ -123,34 +131,41 @@ class AsyncV1Client:
         """
         return self._raw_client
 
-    async def list_inventory(
+    async def scan(
         self,
         *,
-        since: typing.Optional[dt.datetime] = None,
-        limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        event_types: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
+        created_before: typing.Optional[dt.datetime] = None,
+        created_after: typing.Optional[dt.datetime] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ListInventoryPagedResponse:
+    ) -> EventScanPage:
         """
-        Retrieve a list of inventory records based on the provided filters. Each inventory record provides the latest invoiceable status of the associated claim.
-        The response is paginated, and the `page_token` can be used to retrieve subsequent pages. Initial requests should not include `page_token`.
+        Scans the last 30 days of events. All results are sorted by created date, descending.
 
         Parameters
         ----------
-        since : typing.Optional[dt.datetime]
-            Timestamp to filter records since, inclusive
+        page_token : typing.Optional[PageToken]
 
         limit : typing.Optional[int]
-            Maximum number of records to return, default is 100
+            Number of events to return. Minimum value is 1, maximum is 100. Defaults to 10.
 
-        page_token : typing.Optional[PageToken]
+        event_types : typing.Optional[typing.Union[str, typing.Sequence[str]]]
+            Event types to filter on. Defaults to showing all event types.
+
+        created_before : typing.Optional[dt.datetime]
+            Filters for only events created before this time (inclusive).
+
+        created_after : typing.Optional[dt.datetime]
+            Filters for only events created after this time (inclusive).
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        ListInventoryPagedResponse
+        EventScanPage
 
         Examples
         --------
@@ -165,32 +180,33 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.patient_ar.v_1.list_inventory()
+            await client.events.v_1.scan()
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.list_inventory(
-            since=since, limit=limit, page_token=page_token, request_options=request_options
+        _response = await self._raw_client.scan(
+            page_token=page_token,
+            limit=limit,
+            event_types=event_types,
+            created_before=created_before,
+            created_after=created_after,
+            request_options=request_options,
         )
         return _response.data
 
-    async def itemize(
-        self, claim_id: ClaimId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> InvoiceItemizationResponse:
+    async def get(self, event_id: EventId, *, request_options: typing.Optional[RequestOptions] = None) -> Event:
         """
-        Provides detailed itemization of invoice data for a specific claim.
-
         Parameters
         ----------
-        claim_id : ClaimId
+        event_id : EventId
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        InvoiceItemizationResponse
+        Event
 
         Examples
         --------
@@ -206,8 +222,8 @@ class AsyncV1Client:
 
 
         async def main() -> None:
-            await client.patient_ar.v_1.itemize(
-                claim_id=uuid.UUID(
+            await client.events.v_1.get(
+                event_id=uuid.UUID(
                     "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
                 ),
             )
@@ -215,5 +231,5 @@ class AsyncV1Client:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.itemize(claim_id, request_options=request_options)
+        _response = await self._raw_client.get(event_id, request_options=request_options)
         return _response.data
