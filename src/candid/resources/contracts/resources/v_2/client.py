@@ -47,6 +47,8 @@ class V2Client:
         self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ContractWithProviders:
         """
+        This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
+
         Parameters
         ----------
         contract_id : ContractId
@@ -94,6 +96,8 @@ class V2Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractsPage:
         """
+        This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
+
         Parameters
         ----------
         page_token : typing.Optional[PageToken]
@@ -396,6 +400,8 @@ class AsyncV2Client:
         self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ContractWithProviders:
         """
+        This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
+
         Parameters
         ----------
         contract_id : ContractId
@@ -450,6 +456,8 @@ class AsyncV2Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractsPage:
         """
+        This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
+
         Parameters
         ----------
         page_token : typing.Optional[PageToken]

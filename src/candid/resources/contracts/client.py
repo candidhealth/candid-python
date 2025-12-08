@@ -3,12 +3,15 @@
 from ...core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .raw_client import AsyncRawContractsClient, RawContractsClient
 from .resources.v_2.client import AsyncV2Client, V2Client
+from .resources.v_3.client import AsyncV3Client, V3Client
 
 
 class ContractsClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._raw_client = RawContractsClient(client_wrapper=client_wrapper)
         self.v_2 = V2Client(client_wrapper=client_wrapper)
+
+        self.v_3 = V3Client(client_wrapper=client_wrapper)
 
     @property
     def with_raw_response(self) -> RawContractsClient:
@@ -26,6 +29,8 @@ class AsyncContractsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._raw_client = AsyncRawContractsClient(client_wrapper=client_wrapper)
         self.v_2 = AsyncV2Client(client_wrapper=client_wrapper)
+
+        self.v_3 = AsyncV3Client(client_wrapper=client_wrapper)
 
     @property
     def with_raw_response(self) -> AsyncRawContractsClient:

@@ -12,44 +12,40 @@ from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
-from ....commons.types.date import Date
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.page_token import PageToken
-from ....commons.types.regions import Regions
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.state import State
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
-from .errors.contract_invalid_expiration_date_http_error import ContractInvalidExpirationDateHttpError
-from .errors.contract_is_linked_to_fee_schedule_http_error import ContractIsLinkedToFeeScheduleHttpError
-from .types.authorized_signatory import AuthorizedSignatory
-from .types.authorized_signatory_update import AuthorizedSignatoryUpdate
+from ..v_2.errors.contract_invalid_expiration_date_http_error import ContractInvalidExpirationDateHttpError
+from ..v_2.errors.contract_is_linked_to_fee_schedule_http_error import ContractIsLinkedToFeeScheduleHttpError
+from ..v_2.types.contract_invalid_expiration_date_error import ContractInvalidExpirationDateError
+from ..v_2.types.contract_is_linked_to_fee_schedule_error import ContractIsLinkedToFeeScheduleError
+from ..v_2.types.contract_sort_field import ContractSortField
+from ..v_2.types.contract_status import ContractStatus
+from .types.contract_create_union import ContractCreateUnion
 from .types.contract_id import ContractId
-from .types.contract_invalid_expiration_date_error import ContractInvalidExpirationDateError
-from .types.contract_is_linked_to_fee_schedule_error import ContractIsLinkedToFeeScheduleError
-from .types.contract_sort_field import ContractSortField
-from .types.contract_status import ContractStatus
-from .types.contract_with_providers import ContractWithProviders
+from .types.contract_service_facility import ContractServiceFacility
+from .types.contract_service_facility_id import ContractServiceFacilityId
+from .types.contract_type import ContractType
+from .types.contract_update_union import ContractUpdateUnion
+from .types.contract_with_providers_union import ContractWithProvidersUnion
 from .types.contracting_provider_id import ContractingProviderId
 from .types.contracts_page import ContractsPage
-from .types.date_update import DateUpdate
-from .types.insurance_types import InsuranceTypes
-from .types.regions_update import RegionsUpdate
 from .types.rendering_providerid import RenderingProviderid
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
 
-class RawV2Client:
+class RawV3Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
     def get(
         self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[ContractWithProviders]:
+    ) -> HttpResponse[ContractWithProvidersUnion]:
         """
-        This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
-
         Parameters
         ----------
         contract_id : ContractId
@@ -59,10 +55,10 @@ class RawV2Client:
 
         Returns
         -------
-        HttpResponse[ContractWithProviders]
+        HttpResponse[ContractWithProvidersUnion]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/contracts/v2/{jsonable_encoder(contract_id)}",
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
@@ -73,9 +69,9 @@ class RawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                ContractWithProviders,
+                ContractWithProvidersUnion,
                 parse_obj_as(
-                    type_=ContractWithProviders,  # type: ignore
+                    type_=ContractWithProvidersUnion,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -99,6 +95,7 @@ class RawV2Client:
         *,
         page_token: typing.Optional[PageToken] = None,
         limit: typing.Optional[int] = None,
+        type: typing.Optional[ContractType] = None,
         contracting_provider_id: typing.Optional[ContractingProviderId] = None,
         rendering_provider_ids: typing.Optional[
             typing.Union[RenderingProviderid, typing.Sequence[RenderingProviderid]]
@@ -111,14 +108,15 @@ class RawV2Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ContractsPage]:
         """
-        This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
-
         Parameters
         ----------
         page_token : typing.Optional[PageToken]
 
         limit : typing.Optional[int]
             Max number of contracts returned. Defaults to 1000. Max is 1000.
+
+        type : typing.Optional[ContractType]
+            The type of contract
 
         contracting_provider_id : typing.Optional[ContractingProviderId]
 
@@ -146,12 +144,13 @@ class RawV2Client:
         HttpResponse[ContractsPage]
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/contracts/v2",
+            "api/contracts/v3",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "page_token": page_token,
                 "limit": limit,
+                "type": type,
                 "contracting_provider_id": contracting_provider_id,
                 "rendering_provider_ids": rendering_provider_ids,
                 "payer_names": payer_names,
@@ -178,84 +177,27 @@ class RawV2Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def create(
-        self,
-        *,
-        contracting_provider_id: ContractingProviderId,
-        rendering_provider_ids: typing.Set[RenderingProviderid],
-        payer_uuid: uuid.UUID,
-        effective_date: Date,
-        regions: Regions,
-        commercial_insurance_types: InsuranceTypes,
-        medicare_insurance_types: InsuranceTypes,
-        medicaid_insurance_types: InsuranceTypes,
-        expiration_date: typing.Optional[Date] = OMIT,
-        contract_status: typing.Optional[ContractStatus] = OMIT,
-        authorized_signatory: typing.Optional[AuthorizedSignatory] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[ContractWithProviders]:
+        self, *, request: ContractCreateUnion, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ContractWithProvidersUnion]:
         """
         Creates a new contract within the user's current organization
 
         Parameters
         ----------
-        contracting_provider_id : ContractingProviderId
-            The UUID of the provider under agreement to the contract
-
-        rendering_provider_ids : typing.Set[RenderingProviderid]
-            A rendering provider isn't contracted directly with the payer but can render
-            services under the contract held by the contracting provider.
-            Max items is 4000.
-
-        payer_uuid : uuid.UUID
-            The UUID of the insurance company under agreement to the contract
-
-        effective_date : Date
-            The starting day upon which the contract is effective
-
-        regions : Regions
-            The state(s) to which the contract's coverage extends.
-            It may also be set to "national" for the entirety of the US.
-
-        commercial_insurance_types : InsuranceTypes
-            The commercial plan insurance types this contract applies.
-
-        medicare_insurance_types : InsuranceTypes
-            The Medicare plan insurance types this contract applies.
-
-        medicaid_insurance_types : InsuranceTypes
-            The Medicaid plan insurance types this contract applies.
-
-        expiration_date : typing.Optional[Date]
-            An optional end day upon which the contract expires
-
-        contract_status : typing.Optional[ContractStatus]
-
-        authorized_signatory : typing.Optional[AuthorizedSignatory]
+        request : ContractCreateUnion
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[ContractWithProviders]
+        HttpResponse[ContractWithProvidersUnion]
         """
         _response = self._client_wrapper.httpx_client.request(
-            "api/contracts/v2",
+            "api/contracts/v3",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
-            json={
-                "contracting_provider_id": contracting_provider_id,
-                "rendering_provider_ids": rendering_provider_ids,
-                "payer_uuid": payer_uuid,
-                "effective_date": effective_date,
-                "expiration_date": expiration_date,
-                "regions": regions,
-                "contract_status": contract_status,
-                "authorized_signatory": authorized_signatory,
-                "commercial_insurance_types": commercial_insurance_types,
-                "medicare_insurance_types": medicare_insurance_types,
-                "medicaid_insurance_types": medicaid_insurance_types,
-            },
+            json=request,
             request_options=request_options,
             omit=OMIT,
         )
@@ -265,9 +207,9 @@ class RawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                ContractWithProviders,
+                ContractWithProvidersUnion,
                 parse_obj_as(
-                    type_=ContractWithProviders,  # type: ignore
+                    type_=ContractWithProvidersUnion,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -290,7 +232,7 @@ class RawV2Client:
         HttpResponse[None]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/contracts/v2/{jsonable_encoder(contract_id)}",
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
@@ -319,69 +261,28 @@ class RawV2Client:
         self,
         contract_id: ContractId,
         *,
-        rendering_provider_ids: typing.Optional[typing.Set[RenderingProviderid]] = OMIT,
-        effective_date: typing.Optional[Date] = OMIT,
-        expiration_date: typing.Optional[DateUpdate] = OMIT,
-        regions: typing.Optional[RegionsUpdate] = OMIT,
-        contract_status: typing.Optional[ContractStatus] = OMIT,
-        authorized_signatory: typing.Optional[AuthorizedSignatoryUpdate] = OMIT,
-        commercial_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
-        medicare_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
-        medicaid_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
+        request: ContractUpdateUnion,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[ContractWithProviders]:
+    ) -> HttpResponse[ContractWithProvidersUnion]:
         """
         Parameters
         ----------
         contract_id : ContractId
 
-        rendering_provider_ids : typing.Optional[typing.Set[RenderingProviderid]]
-            A rendering provider isn't contracted directly with the payer but can render
-            services under the contract held by the contracting provider.
-            Max items is 4000.
-
-        effective_date : typing.Optional[Date]
-            The starting day upon which the contract is effective
-
-        expiration_date : typing.Optional[DateUpdate]
-            An optional end day upon which the contract expires
-
-        regions : typing.Optional[RegionsUpdate]
-            If present, the contract's rendering providers will be patched to this exact
-            value, overriding what was set before.
-
-        contract_status : typing.Optional[ContractStatus]
-
-        authorized_signatory : typing.Optional[AuthorizedSignatoryUpdate]
-
-        commercial_insurance_types : typing.Optional[InsuranceTypes]
-
-        medicare_insurance_types : typing.Optional[InsuranceTypes]
-
-        medicaid_insurance_types : typing.Optional[InsuranceTypes]
+        request : ContractUpdateUnion
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[ContractWithProviders]
+        HttpResponse[ContractWithProvidersUnion]
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"api/contracts/v2/{jsonable_encoder(contract_id)}",
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
-            json={
-                "rendering_provider_ids": rendering_provider_ids,
-                "effective_date": effective_date,
-                "expiration_date": expiration_date,
-                "regions": regions,
-                "contract_status": contract_status,
-                "authorized_signatory": authorized_signatory,
-                "commercial_insurance_types": commercial_insurance_types,
-                "medicare_insurance_types": medicare_insurance_types,
-                "medicaid_insurance_types": medicaid_insurance_types,
-            },
+            json=request,
             request_options=request_options,
             omit=OMIT,
         )
@@ -391,9 +292,9 @@ class RawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                ContractWithProviders,
+                ContractWithProvidersUnion,
                 parse_obj_as(
-                    type_=ContractWithProviders,  # type: ignore
+                    type_=ContractWithProvidersUnion,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -423,17 +324,146 @@ class RawV2Client:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def create_contract_service_facility(
+        self,
+        contract_id: ContractId,
+        *,
+        service_facility_id: uuid.UUID,
+        provider_ids: typing.Set[uuid.UUID],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ContractServiceFacility]:
+        """
+        Parameters
+        ----------
+        contract_id : ContractId
 
-class AsyncRawV2Client:
+        service_facility_id : uuid.UUID
+            The UUID of the service facility
+
+        provider_ids : typing.Set[uuid.UUID]
+            The providers who are authorized under the contract
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ContractServiceFacility]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/service-facilities",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "service_facility_id": service_facility_id,
+                "provider_ids": provider_ids,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractServiceFacility,
+                parse_obj_as(
+                    type_=ContractServiceFacility,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def update_contract_service_facility(
+        self,
+        contract_id: ContractId,
+        contract_service_facility_id: ContractServiceFacilityId,
+        *,
+        service_facility_id: typing.Optional[uuid.UUID] = OMIT,
+        provider_ids: typing.Optional[typing.Set[uuid.UUID]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ContractServiceFacility]:
+        """
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        contract_service_facility_id : ContractServiceFacilityId
+
+        service_facility_id : typing.Optional[uuid.UUID]
+            The UUID of the service facility
+
+        provider_ids : typing.Optional[typing.Set[uuid.UUID]]
+            The providers who are authorized under the contract
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ContractServiceFacility]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/service-facilities/{jsonable_encoder(contract_service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "service_facility_id": service_facility_id,
+                "provider_ids": provider_ids,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractServiceFacility,
+                parse_obj_as(
+                    type_=ContractServiceFacility,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+
+class AsyncRawV3Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
     async def get(
         self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[ContractWithProviders]:
+    ) -> AsyncHttpResponse[ContractWithProvidersUnion]:
         """
-        This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
-
         Parameters
         ----------
         contract_id : ContractId
@@ -443,10 +473,10 @@ class AsyncRawV2Client:
 
         Returns
         -------
-        AsyncHttpResponse[ContractWithProviders]
+        AsyncHttpResponse[ContractWithProvidersUnion]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/contracts/v2/{jsonable_encoder(contract_id)}",
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             request_options=request_options,
@@ -457,9 +487,9 @@ class AsyncRawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                ContractWithProviders,
+                ContractWithProvidersUnion,
                 parse_obj_as(
-                    type_=ContractWithProviders,  # type: ignore
+                    type_=ContractWithProvidersUnion,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -483,6 +513,7 @@ class AsyncRawV2Client:
         *,
         page_token: typing.Optional[PageToken] = None,
         limit: typing.Optional[int] = None,
+        type: typing.Optional[ContractType] = None,
         contracting_provider_id: typing.Optional[ContractingProviderId] = None,
         rendering_provider_ids: typing.Optional[
             typing.Union[RenderingProviderid, typing.Sequence[RenderingProviderid]]
@@ -495,14 +526,15 @@ class AsyncRawV2Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ContractsPage]:
         """
-        This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
-
         Parameters
         ----------
         page_token : typing.Optional[PageToken]
 
         limit : typing.Optional[int]
             Max number of contracts returned. Defaults to 1000. Max is 1000.
+
+        type : typing.Optional[ContractType]
+            The type of contract
 
         contracting_provider_id : typing.Optional[ContractingProviderId]
 
@@ -530,12 +562,13 @@ class AsyncRawV2Client:
         AsyncHttpResponse[ContractsPage]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/contracts/v2",
+            "api/contracts/v3",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
             params={
                 "page_token": page_token,
                 "limit": limit,
+                "type": type,
                 "contracting_provider_id": contracting_provider_id,
                 "rendering_provider_ids": rendering_provider_ids,
                 "payer_names": payer_names,
@@ -562,84 +595,27 @@ class AsyncRawV2Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def create(
-        self,
-        *,
-        contracting_provider_id: ContractingProviderId,
-        rendering_provider_ids: typing.Set[RenderingProviderid],
-        payer_uuid: uuid.UUID,
-        effective_date: Date,
-        regions: Regions,
-        commercial_insurance_types: InsuranceTypes,
-        medicare_insurance_types: InsuranceTypes,
-        medicaid_insurance_types: InsuranceTypes,
-        expiration_date: typing.Optional[Date] = OMIT,
-        contract_status: typing.Optional[ContractStatus] = OMIT,
-        authorized_signatory: typing.Optional[AuthorizedSignatory] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[ContractWithProviders]:
+        self, *, request: ContractCreateUnion, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ContractWithProvidersUnion]:
         """
         Creates a new contract within the user's current organization
 
         Parameters
         ----------
-        contracting_provider_id : ContractingProviderId
-            The UUID of the provider under agreement to the contract
-
-        rendering_provider_ids : typing.Set[RenderingProviderid]
-            A rendering provider isn't contracted directly with the payer but can render
-            services under the contract held by the contracting provider.
-            Max items is 4000.
-
-        payer_uuid : uuid.UUID
-            The UUID of the insurance company under agreement to the contract
-
-        effective_date : Date
-            The starting day upon which the contract is effective
-
-        regions : Regions
-            The state(s) to which the contract's coverage extends.
-            It may also be set to "national" for the entirety of the US.
-
-        commercial_insurance_types : InsuranceTypes
-            The commercial plan insurance types this contract applies.
-
-        medicare_insurance_types : InsuranceTypes
-            The Medicare plan insurance types this contract applies.
-
-        medicaid_insurance_types : InsuranceTypes
-            The Medicaid plan insurance types this contract applies.
-
-        expiration_date : typing.Optional[Date]
-            An optional end day upon which the contract expires
-
-        contract_status : typing.Optional[ContractStatus]
-
-        authorized_signatory : typing.Optional[AuthorizedSignatory]
+        request : ContractCreateUnion
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[ContractWithProviders]
+        AsyncHttpResponse[ContractWithProvidersUnion]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "api/contracts/v2",
+            "api/contracts/v3",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="POST",
-            json={
-                "contracting_provider_id": contracting_provider_id,
-                "rendering_provider_ids": rendering_provider_ids,
-                "payer_uuid": payer_uuid,
-                "effective_date": effective_date,
-                "expiration_date": expiration_date,
-                "regions": regions,
-                "contract_status": contract_status,
-                "authorized_signatory": authorized_signatory,
-                "commercial_insurance_types": commercial_insurance_types,
-                "medicare_insurance_types": medicare_insurance_types,
-                "medicaid_insurance_types": medicaid_insurance_types,
-            },
+            json=request,
             request_options=request_options,
             omit=OMIT,
         )
@@ -649,9 +625,9 @@ class AsyncRawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                ContractWithProviders,
+                ContractWithProvidersUnion,
                 parse_obj_as(
-                    type_=ContractWithProviders,  # type: ignore
+                    type_=ContractWithProvidersUnion,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -674,7 +650,7 @@ class AsyncRawV2Client:
         AsyncHttpResponse[None]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/contracts/v2/{jsonable_encoder(contract_id)}",
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="DELETE",
             request_options=request_options,
@@ -703,69 +679,28 @@ class AsyncRawV2Client:
         self,
         contract_id: ContractId,
         *,
-        rendering_provider_ids: typing.Optional[typing.Set[RenderingProviderid]] = OMIT,
-        effective_date: typing.Optional[Date] = OMIT,
-        expiration_date: typing.Optional[DateUpdate] = OMIT,
-        regions: typing.Optional[RegionsUpdate] = OMIT,
-        contract_status: typing.Optional[ContractStatus] = OMIT,
-        authorized_signatory: typing.Optional[AuthorizedSignatoryUpdate] = OMIT,
-        commercial_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
-        medicare_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
-        medicaid_insurance_types: typing.Optional[InsuranceTypes] = OMIT,
+        request: ContractUpdateUnion,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[ContractWithProviders]:
+    ) -> AsyncHttpResponse[ContractWithProvidersUnion]:
         """
         Parameters
         ----------
         contract_id : ContractId
 
-        rendering_provider_ids : typing.Optional[typing.Set[RenderingProviderid]]
-            A rendering provider isn't contracted directly with the payer but can render
-            services under the contract held by the contracting provider.
-            Max items is 4000.
-
-        effective_date : typing.Optional[Date]
-            The starting day upon which the contract is effective
-
-        expiration_date : typing.Optional[DateUpdate]
-            An optional end day upon which the contract expires
-
-        regions : typing.Optional[RegionsUpdate]
-            If present, the contract's rendering providers will be patched to this exact
-            value, overriding what was set before.
-
-        contract_status : typing.Optional[ContractStatus]
-
-        authorized_signatory : typing.Optional[AuthorizedSignatoryUpdate]
-
-        commercial_insurance_types : typing.Optional[InsuranceTypes]
-
-        medicare_insurance_types : typing.Optional[InsuranceTypes]
-
-        medicaid_insurance_types : typing.Optional[InsuranceTypes]
+        request : ContractUpdateUnion
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[ContractWithProviders]
+        AsyncHttpResponse[ContractWithProvidersUnion]
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"api/contracts/v2/{jsonable_encoder(contract_id)}",
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="PATCH",
-            json={
-                "rendering_provider_ids": rendering_provider_ids,
-                "effective_date": effective_date,
-                "expiration_date": expiration_date,
-                "regions": regions,
-                "contract_status": contract_status,
-                "authorized_signatory": authorized_signatory,
-                "commercial_insurance_types": commercial_insurance_types,
-                "medicare_insurance_types": medicare_insurance_types,
-                "medicaid_insurance_types": medicaid_insurance_types,
-            },
+            json=request,
             request_options=request_options,
             omit=OMIT,
         )
@@ -775,9 +710,9 @@ class AsyncRawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                ContractWithProviders,
+                ContractWithProvidersUnion,
                 parse_obj_as(
-                    type_=ContractWithProviders,  # type: ignore
+                    type_=ContractWithProvidersUnion,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -801,6 +736,137 @@ class AsyncRawV2Client:
                         ContractInvalidExpirationDateError,
                         parse_obj_as(
                             type_=ContractInvalidExpirationDateError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def create_contract_service_facility(
+        self,
+        contract_id: ContractId,
+        *,
+        service_facility_id: uuid.UUID,
+        provider_ids: typing.Set[uuid.UUID],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ContractServiceFacility]:
+        """
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        service_facility_id : uuid.UUID
+            The UUID of the service facility
+
+        provider_ids : typing.Set[uuid.UUID]
+            The providers who are authorized under the contract
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ContractServiceFacility]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/service-facilities",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "service_facility_id": service_facility_id,
+                "provider_ids": provider_ids,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractServiceFacility,
+                parse_obj_as(
+                    type_=ContractServiceFacility,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def update_contract_service_facility(
+        self,
+        contract_id: ContractId,
+        contract_service_facility_id: ContractServiceFacilityId,
+        *,
+        service_facility_id: typing.Optional[uuid.UUID] = OMIT,
+        provider_ids: typing.Optional[typing.Set[uuid.UUID]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ContractServiceFacility]:
+        """
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        contract_service_facility_id : ContractServiceFacilityId
+
+        service_facility_id : typing.Optional[uuid.UUID]
+            The UUID of the service facility
+
+        provider_ids : typing.Optional[typing.Set[uuid.UUID]]
+            The providers who are authorized under the contract
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ContractServiceFacility]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/service-facilities/{jsonable_encoder(contract_service_facility_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "service_facility_id": service_facility_id,
+                "provider_ids": provider_ids,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractServiceFacility,
+                parse_obj_as(
+                    type_=ContractServiceFacility,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

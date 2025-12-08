@@ -1748,6 +1748,20 @@ If false, the change will be marked as unresolved.
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -1808,6 +1822,20 @@ client.contracts.v_2.get(
 <details><summary><code>client.contracts.v_2.<a href="src/candid/resources/contracts/resources/v_2/client.py">get_multi</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2287,6 +2315,603 @@ value, overriding what was set before.
 <dd>
 
 **medicaid_insurance_types:** `typing.Optional[InsuranceTypes]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Contracts V3
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.get(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.get_multi()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Max number of contracts returned. Defaults to 1000. Max is 1000.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**type:** `typing.Optional[ContractType]` — The type of contract
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contracting_provider_id:** `typing.Optional[ContractingProviderId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rendering_provider_ids:** `typing.Optional[
+    typing.Union[RenderingProviderid, typing.Sequence[RenderingProviderid]]
+]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payer_names:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — Filter to contracts that include any of the included payer names.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**states:** `typing.Optional[typing.Union[State, typing.Sequence[State]]]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contract_status:** `typing.Optional[ContractStatus]` — The status of the contract. Defaults to `pending`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort:** `typing.Optional[ContractSortField]` — Potentially sort by a contract related attribute.  Defaults to created_at
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Direction of sort, defaulting to desc
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a new contract within the user's current organization
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.commons import Regions_States, State
+from candid.resources.contracts.resources.v_2 import InsuranceTypes
+from candid.resources.contracts.resources.v_3 import (
+    ContractCreateUnion_Professional,
+    ContractType,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.create(
+    request=ContractCreateUnion_Professional(
+        rendering_provider_ids=[
+            uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            )
+        ],
+        contract_type=ContractType.PROFESSIONAL,
+        contracting_provider_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        payer_uuid=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        effective_date="effective_date",
+        regions=Regions_States(
+            states=[State.AA, State.AA],
+        ),
+        commercial_insurance_types=InsuranceTypes(),
+        medicare_insurance_types=InsuranceTypes(),
+        medicaid_insurance_types=InsuranceTypes(),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `ContractCreateUnion` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">delete</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.delete(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.contracts.resources.v_3 import (
+    ContractUpdateUnion_Professional,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.update(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    request=ContractUpdateUnion_Professional(),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `ContractUpdateUnion` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">create_contract_service_facility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.create_contract_service_facility(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    service_facility_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    provider_ids={
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        )
+    },
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**service_facility_id:** `uuid.UUID` — The UUID of the service facility
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**provider_ids:** `typing.Set[uuid.UUID]` — The providers who are authorized under the contract
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">update_contract_service_facility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.update_contract_service_facility(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    contract_service_facility_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**contract_service_facility_id:** `ContractServiceFacilityId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**service_facility_id:** `typing.Optional[uuid.UUID]` — The UUID of the service facility
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**provider_ids:** `typing.Optional[typing.Set[uuid.UUID]]` — The providers who are authorized under the contract
     
 </dd>
 </dl>
