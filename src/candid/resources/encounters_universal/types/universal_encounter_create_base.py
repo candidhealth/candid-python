@@ -20,6 +20,9 @@ from ...encounters.resources.v_4.types.responsible_party_type import Responsible
 from ...guarantor.resources.v_1.types.guarantor_create import GuarantorCreate
 from ...individual.types.patient_create import PatientCreate
 from ...individual.types.subscriber_create import SubscriberCreate
+from ...related_causes_information.resources.v_1.types.related_causes_information_create import (
+    RelatedCausesInformationCreate,
+)
 from ...service_facility.types.encounter_service_facility_base import EncounterServiceFacilityBase
 from ...tags.types.tag_id import TagId
 
@@ -136,6 +139,11 @@ class UniversalEncounterCreateBase(EncounterBase):
     secondary_payer_carrier_code: typing.Optional[str] = pydantic.Field(default=None)
     """
     When Medicaid is billed as the secondary payer the Carrier Code is used to identify the primary payer. This is required for certain states.
+    """
+
+    related_causes_information: typing.Optional[RelatedCausesInformationCreate] = pydantic.Field(default=None)
+    """
+    Corresponds to box 10a on the CMS-1500 (Loop 2300 on 837)
     """
 
     if IS_PYDANTIC_V2:

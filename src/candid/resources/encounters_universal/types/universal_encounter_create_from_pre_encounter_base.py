@@ -15,6 +15,9 @@ from ...encounter_providers.resources.v_2.types.supervising_provider import Supe
 from ...encounters.resources.v_4.types.clinical_note_category_create import ClinicalNoteCategoryCreate
 from ...encounters.resources.v_4.types.encounter_base import EncounterBase
 from ...encounters.resources.v_4.types.patient_history_category import PatientHistoryCategory
+from ...related_causes_information.resources.v_1.types.related_causes_information_create import (
+    RelatedCausesInformationCreate,
+)
 from ...service_facility.types.encounter_service_facility_base import EncounterServiceFacilityBase
 from ...tags.types.tag_id import TagId
 
@@ -71,6 +74,11 @@ class UniversalEncounterCreateFromPreEncounterBase(EncounterBase):
     """
     Key-value pairs that must adhere to a schema created via the Custom Schema API. Multiple schema
     instances cannot be created for the same schema on an encounter.
+    """
+
+    related_causes_information: typing.Optional[RelatedCausesInformationCreate] = pydantic.Field(default=None)
+    """
+    Corresponds to box 10a on the CMS-1500 (Loop 2300 on 837)
     """
 
     if IS_PYDANTIC_V2:

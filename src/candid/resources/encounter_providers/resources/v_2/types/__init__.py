@@ -14,6 +14,7 @@ from .ordering_provider import OrderingProvider
 from .ordering_provider_optional import OrderingProviderOptional
 from .ordering_provider_update import OrderingProviderUpdate
 from .provider_id import ProviderId
+from .provider_secondary_identification import ProviderSecondaryIdentification
 from .referring_provider import ReferringProvider
 from .referring_provider_update import ReferringProviderUpdate
 from .referring_provider_update_with_optional_address import ReferringProviderUpdateWithOptionalAddress
@@ -37,6 +38,7 @@ __all__ = [
     "OrderingProviderOptional",
     "OrderingProviderUpdate",
     "ProviderId",
+    "ProviderSecondaryIdentification",
     "ReferringProvider",
     "ReferringProviderUpdate",
     "ReferringProviderUpdateWithOptionalAddress",

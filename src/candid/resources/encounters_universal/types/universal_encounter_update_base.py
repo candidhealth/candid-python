@@ -20,6 +20,9 @@ from ...encounters.resources.v_4.types.medication import Medication
 from ...guarantor.resources.v_1.types.guarantor_update import GuarantorUpdate
 from ...individual.types.patient_update import PatientUpdate
 from ...individual.types.subscriber_create import SubscriberCreate
+from ...related_causes_information.resources.v_1.types.related_causes_information_update import (
+    RelatedCausesInformationUpdate,
+)
 from ...service_facility.types.encounter_service_facility_update import EncounterServiceFacilityUpdate
 
 
@@ -123,6 +126,11 @@ class UniversalEncounterUpdateBase(EncounterOptional):
     place_of_service_code_as_submitted: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
     """
     Box 24B on the CMS-1500 claim form. 837p Loop2300, CLM-05-1. This box is not used on a UB-04 or 837i claim form. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).
+    """
+
+    related_causes_information: typing.Optional[RelatedCausesInformationUpdate] = pydantic.Field(default=None)
+    """
+    Corresponds to box 10a on the CMS-1500 (Loop 2300 on 837)
     """
 
     if IS_PYDANTIC_V2:

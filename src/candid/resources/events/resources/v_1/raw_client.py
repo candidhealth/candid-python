@@ -50,6 +50,17 @@ class RawV1Client:
         event_types : typing.Optional[typing.Union[str, typing.Sequence[str]]]
             Event types to filter on. Defaults to showing all event types.
 
+            | Event Type | Description |
+            |------------|-------------|
+            | `CandidApi.Encounter.Created` | When a new claim is created |
+            | `CandidApi.Encounter.StatusUpdated` | When a claim's status has been updated |
+            | `PreEncounter.Patient.Created` | When a new patient has been created |
+            | `PreEncounter.Patient.Updated` | When a patient's information has been updated |
+            | `PreEncounter.Coverage.Created` | When a new coverage has been created for a patient |
+            | `PreEncounter.Coverage.Updated` | When a patient's coverage has been updated |
+            | `PreEncounter.Tag.Created` | When a new tag has been created for a patient |
+            | `PreEncounter.Tag.Updated` | When a patient's tag has been updated |
+
         created_before : typing.Optional[dt.datetime]
             Filters for only events created before this time (inclusive).
 
@@ -209,6 +220,17 @@ class AsyncRawV1Client:
 
         event_types : typing.Optional[typing.Union[str, typing.Sequence[str]]]
             Event types to filter on. Defaults to showing all event types.
+
+            | Event Type | Description |
+            |------------|-------------|
+            | `CandidApi.Encounter.Created` | When a new claim is created |
+            | `CandidApi.Encounter.StatusUpdated` | When a claim's status has been updated |
+            | `PreEncounter.Patient.Created` | When a new patient has been created |
+            | `PreEncounter.Patient.Updated` | When a patient's information has been updated |
+            | `PreEncounter.Coverage.Created` | When a new coverage has been created for a patient |
+            | `PreEncounter.Coverage.Updated` | When a patient's coverage has been updated |
+            | `PreEncounter.Tag.Created` | When a new tag has been created for a patient |
+            | `PreEncounter.Tag.Updated` | When a patient's tag has been updated |
 
         created_before : typing.Optional[dt.datetime]
             Filters for only events created before this time (inclusive).

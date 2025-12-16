@@ -7,6 +7,7 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2
 from .....commons.types.billing_provider_commercial_license_type import BillingProviderCommercialLicenseType
 from .....commons.types.street_address_short_zip_optional import StreetAddressShortZipOptional
 from .encounter_provider_base import EncounterProviderBase
+from .provider_secondary_identification import ProviderSecondaryIdentification
 
 
 class BillingProviderUpdateWithOptionalAddress(EncounterProviderBase):
@@ -36,6 +37,13 @@ class BillingProviderUpdateWithOptionalAddress(EncounterProviderBase):
     """
     837i Loop2010BB G2
     Provider Commercial Number
+    """
+
+    secondary_identification: typing.Optional[ProviderSecondaryIdentification] = pydantic.Field(default=None)
+    """
+    Only one of provider_commercial_license_type or secondary_identification may be provided
+    837i Loop2010BB G2
+    Secondary Identification
     """
 
     if IS_PYDANTIC_V2:

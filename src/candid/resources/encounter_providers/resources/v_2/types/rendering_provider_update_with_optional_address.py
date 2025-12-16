@@ -6,6 +6,7 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 from .....commons.types.street_address_short_zip_optional import StreetAddressShortZipOptional
 from .encounter_provider_base import EncounterProviderBase
+from .provider_secondary_identification import ProviderSecondaryIdentification
 
 
 class RenderingProviderUpdateWithOptionalAddress(EncounterProviderBase):
@@ -17,6 +18,12 @@ class RenderingProviderUpdateWithOptionalAddress(EncounterProviderBase):
 
     taxonomy_code: typing.Optional[str] = None
     address: typing.Optional[StreetAddressShortZipOptional] = None
+    secondary_identification: typing.Optional[ProviderSecondaryIdentification] = pydantic.Field(default=None)
+    """
+    Only one of provider_commercial_license_type or secondary_identification may be provided
+    837i Loop2310BB G2
+    Secondary Identification
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

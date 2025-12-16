@@ -21,6 +21,7 @@ from .....guarantor.resources.v_1.types.guarantor import Guarantor
 from .....individual.types.patient import Patient
 from .....individual.types.subscriber import Subscriber
 from .....patient_payments.resources.v_3.types.patient_payment import PatientPayment
+from .....related_causes_information.resources.v_1.types.related_causes_information import RelatedCausesInformation
 from .....service_facility.types.encounter_service_facility import EncounterServiceFacility
 from .....tags.types.tag import Tag
 from .....x_12.resources.v_1.types.patient_discharge_status_code import PatientDischargeStatusCode
@@ -786,6 +787,7 @@ class Encounter(EncounterBase):
     837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has secondary responsibility for surgical procedures in institutional claims processing.  Only used when operating_provider is also set.
     """
 
+    related_causes_information: typing.Optional[RelatedCausesInformation] = None
     submission_expectation: typing.Optional[EncounterSubmissionExpectation] = pydantic.Field(default=None)
     """
     Describes the currently expected target form for this encounter.  This effects what validations and queues the form is processed under.  When this value is not set, it should be assumed to be TARGET_PROFESSIONAL.

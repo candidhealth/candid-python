@@ -233,6 +233,11 @@ class RawV4Client:
         self, *, request: UniversalEncounterCreate, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[Encounter]:
         """
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         request : UniversalEncounterCreate
@@ -350,6 +355,17 @@ class RawV4Client:
                         SchemaInstanceValidationFailure,
                         parse_obj_as(
                             type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -525,6 +541,17 @@ class RawV4Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "InvalidTagNamesError":
                 raise InvalidTagNamesError(
                     headers=dict(_response.headers),
@@ -594,6 +621,11 @@ class RawV4Client:
 
         Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
         encounter has not already been submitted or adjudicated.
+
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
 
         Parameters
         ----------
@@ -690,6 +722,17 @@ class RawV4Client:
                         SchemaInstanceValidationFailure,
                         parse_obj_as(
                             type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -838,6 +881,17 @@ class RawV4Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
                     headers=dict(_response.headers),
@@ -870,6 +924,11 @@ class RawV4Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[Encounter]:
         """
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         encounter_id : EncounterId
@@ -1293,6 +1352,11 @@ class AsyncRawV4Client:
         self, *, request: UniversalEncounterCreate, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[Encounter]:
         """
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         request : UniversalEncounterCreate
@@ -1410,6 +1474,17 @@ class AsyncRawV4Client:
                         SchemaInstanceValidationFailure,
                         parse_obj_as(
                             type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -1585,6 +1660,17 @@ class AsyncRawV4Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "InvalidTagNamesError":
                 raise InvalidTagNamesError(
                     headers=dict(_response.headers),
@@ -1654,6 +1740,11 @@ class AsyncRawV4Client:
 
         Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
         encounter has not already been submitted or adjudicated.
+
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
 
         Parameters
         ----------
@@ -1750,6 +1841,17 @@ class AsyncRawV4Client:
                         SchemaInstanceValidationFailure,
                         parse_obj_as(
                             type_=SchemaInstanceValidationFailure,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -1898,6 +2000,17 @@ class AsyncRawV4Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
                     headers=dict(_response.headers),
@@ -1930,6 +2043,11 @@ class AsyncRawV4Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[Encounter]:
         """
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         encounter_id : EncounterId

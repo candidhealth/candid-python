@@ -4,13 +4,10 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
-from .....commons.types.resource_page import ResourcePage
-from .insurance_payment import InsurancePayment
+from .related_causes_information import RelatedCausesInformation
 
 
-class InsurancePaymentsPage(ResourcePage):
-    items: typing.List[InsurancePayment]
-
+class RelatedCausesInformationCreate(RelatedCausesInformation):
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

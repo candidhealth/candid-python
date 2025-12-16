@@ -6002,6 +6002,23 @@ client.encounters.v_4.get(
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+express, written consent of AHA.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -6255,6 +6272,11 @@ where applicable. In particular, the following fields are populated from the pat
 
 Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
 encounter has not already been submitted or adjudicated.
+
+Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+express, written consent of AHA.
 </dd>
 </dl>
 </dd>
@@ -6501,6 +6523,23 @@ client.encounters.v_4.create_from_pre_encounter_patient(
 <dl>
 <dd>
 
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+express, written consent of AHA.
+</dd>
+</dl>
+</dd>
+</dl>
+
 #### 🔌 Usage
 
 <dl>
@@ -6705,7 +6744,20 @@ client.events.v_1.scan()
 <dl>
 <dd>
 
-**event_types:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — Event types to filter on. Defaults to showing all event types.
+**event_types:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` 
+
+Event types to filter on. Defaults to showing all event types.
+
+| Event Type | Description |
+|------------|-------------|
+| `CandidApi.Encounter.Created` | When a new claim is created |
+| `CandidApi.Encounter.StatusUpdated` | When a claim's status has been updated |
+| `PreEncounter.Patient.Created` | When a new patient has been created |
+| `PreEncounter.Patient.Updated` | When a patient's information has been updated |
+| `PreEncounter.Coverage.Created` | When a new coverage has been created for a patient |
+| `PreEncounter.Coverage.Updated` | When a patient's coverage has been updated |
+| `PreEncounter.Tag.Created` | When a new tag has been created for a patient |
+| `PreEncounter.Tag.Updated` | When a patient's tag has been updated |
     
 </dd>
 </dl>
@@ -7973,7 +8025,15 @@ client.fee_schedules.v_3.get_rate_history(
 <dl>
 <dd>
 
-Uploads a new fee schedule.\n Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.\n If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will be returned.\n Use the dry run flag to discover already existing rates and to run validations.  If validations for any rate fail, no rates will be saved to the system.
+Uploads a new fee schedule.
+
+Each rate may either be totally new as qualified by it's dimensions or a new version for an existing rate.
+
+If adding a new version to an existing rate, the rate must be posted with the next version number (previous version + 1) or a EntityConflictError will
+be returned.
+
+Use the dry run flag to discover already existing rates and to run validations.  If validations for any rate fail, no rates will
+be saved to the system.
 </dd>
 </dl>
 </dd>
@@ -9473,208 +9533,6 @@ client.insurance_adjudications.v_1.get(
 <dd>
 
 **insurance_adjudication_id:** `InsuranceAdjudicationId` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-## InsurancePayments V1
-<details><summary><code>client.insurance_payments.v_1.<a href="src/candid/resources/insurance_payments/resources/v_1/client.py">get_multi</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Returns all non-ERA originated insurance payments satisfying the search criteria
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from candid import CandidApiClient
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.insurance_payments.v_1.get_multi()
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**limit:** `typing.Optional[int]` — Defaults to 100. The value must be greater than 0 and less than 1000.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**payer_uuid:** `typing.Optional[PayerUuid]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**claim_id:** `typing.Optional[ClaimId]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**service_line_id:** `typing.Optional[ServiceLineId]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**billing_provider_id:** `typing.Optional[ProviderId]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**sort:** `typing.Optional[InsurancePaymentSortField]` — Defaults to payment_timestamp
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**sort_direction:** `typing.Optional[SortDirection]` — Sort direction. Defaults to descending order if not provided.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**page_token:** `typing.Optional[PageToken]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.insurance_payments.v_1.<a href="src/candid/resources/insurance_payments/resources/v_1/client.py">get</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Retrieves a previously created insurance payment by its `insurance_payment_id`.
-If the payment does not exist, a `403` will be thrown.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import uuid
-
-from candid import CandidApiClient
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.insurance_payments.v_1.get(
-    insurance_payment_id=uuid.UUID(
-        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**insurance_payment_id:** `InsurancePaymentId` 
     
 </dd>
 </dl>

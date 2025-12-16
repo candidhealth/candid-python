@@ -213,6 +213,11 @@ class V4Client:
         self, *, request: UniversalEncounterCreate, request_options: typing.Optional[RequestOptions] = None
     ) -> Encounter:
         """
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         request : UniversalEncounterCreate
@@ -406,6 +411,11 @@ class V4Client:
         Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
         encounter has not already been submitted or adjudicated.
 
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         request : UniversalEncounterCreateFromPreEncounter
@@ -587,6 +597,11 @@ class V4Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         encounter_id : EncounterId
@@ -862,6 +877,11 @@ class AsyncV4Client:
         self, *, request: UniversalEncounterCreate, request_options: typing.Optional[RequestOptions] = None
     ) -> Encounter:
         """
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         request : UniversalEncounterCreate
@@ -1071,6 +1091,11 @@ class AsyncV4Client:
         Utilizing this endpoint opts you into automatic updating of the encounter when the patient or appointment is updated, assuming the
         encounter has not already been submitted or adjudicated.
 
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         request : UniversalEncounterCreateFromPreEncounter
@@ -1268,6 +1293,11 @@ class AsyncV4Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> Encounter:
         """
+        Notice: The UB-04 Data File, 2025, is copyrighted by American Hospital Association (AHA), Chicago, Illinois.
+        No portion of the THE UB-04 Data File, may be reproduced, stored in a retrieval system, or transmitted,
+        in any form or by any means, electronic, mechanical, photocopying, recording, or otherwise, without prior
+        express, written consent of AHA.
+
         Parameters
         ----------
         encounter_id : EncounterId

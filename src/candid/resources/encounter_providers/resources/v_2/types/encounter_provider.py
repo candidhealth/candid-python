@@ -9,6 +9,7 @@ from .....commons.types.qualifier_code import QualifierCode
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .encounter_provider_base import EncounterProviderBase
 from .provider_id import ProviderId
+from .provider_secondary_identification import ProviderSecondaryIdentification
 
 
 class EncounterProvider(EncounterProviderBase):
@@ -53,6 +54,13 @@ class EncounterProvider(EncounterProviderBase):
     """
     837i Loop2010BB G2
     Provider Commercial Number
+    """
+
+    secondary_identification: typing.Optional[ProviderSecondaryIdentification] = pydantic.Field(default=None)
+    """
+    Only one of provider_commercial_license_type or secondary_identification may be provided
+    837i Loop2010BB G2
+    Secondary Identification
     """
 
     if IS_PYDANTIC_V2:
