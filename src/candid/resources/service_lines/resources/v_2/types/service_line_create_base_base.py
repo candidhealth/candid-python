@@ -78,6 +78,12 @@ class ServiceLineCreateBaseBase(UniversalBaseModel):
     Prior authorization number for this service line. Maps to the appropriate REF segment on Loop 2400 of the EDI 837p. This is not used for institutional claims (EDI 837i).
     """
 
+    external_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    An external identifier for this service line. This is not used in the EDI 837, but can be used to identify the service line in external systems.
+    This field should not contain PHI. Must be unique on a given claim.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

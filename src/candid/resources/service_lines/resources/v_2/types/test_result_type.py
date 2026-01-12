@@ -10,6 +10,7 @@ class TestResultType(str, enum.Enum):
     HEMATOCRIT = "HEMATOCRIT"
     HEMOGLOBIN = "HEMOGLOBIN"
     LDL = "LDL"
+    VITAMIN_D = "VITAMIN_D"
     _UNKNOWN = "__TESTRESULTTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -26,6 +27,7 @@ class TestResultType(str, enum.Enum):
         hematocrit: typing.Callable[[], T_Result],
         hemoglobin: typing.Callable[[], T_Result],
         ldl: typing.Callable[[], T_Result],
+        vitamin_d: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is TestResultType.HEMATOCRIT:
@@ -34,4 +36,6 @@ class TestResultType(str, enum.Enum):
             return hemoglobin()
         if self is TestResultType.LDL:
             return ldl()
+        if self is TestResultType.VITAMIN_D:
+            return vitamin_d()
         return _unknown_member(self._value_)

@@ -29,6 +29,9 @@ from .....encounter_providers.resources.v_2.types.supervising_provider_update_wi
 from .....guarantor.resources.v_1.types.guarantor_optional import GuarantorOptional
 from .....individual.types.patient_update_with_optional_address import PatientUpdateWithOptionalAddress
 from .....individual.types.subscriber_create_optional import SubscriberCreateOptional
+from .....related_causes_information.resources.v_1.types.related_causes_information_create import (
+    RelatedCausesInformationCreate,
+)
 from .....service_facility.types.encounter_service_facility_update_with_optional_address import (
     EncounterServiceFacilityUpdateWithOptionalAddress,
 )
@@ -173,6 +176,11 @@ class EncounterDeepOptional(EncounterOptional):
     pay_to_address: typing.Optional[StreetAddressShortZipOptional] = pydantic.Field(default=None)
     """
     Specifies the address to which payments for the claim should be sent.
+    """
+
+    related_causes_information: typing.Optional[RelatedCausesInformationCreate] = pydantic.Field(default=None)
+    """
+    Corresponds to box 10a on the CMS-1500 (Loop 2300 on 837)
     """
 
     if IS_PYDANTIC_V2:

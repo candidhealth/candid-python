@@ -5,6 +5,11 @@
 from .account_type import AccountType
 from .allocation import Allocation
 from .allocation_create import AllocationCreate
+from .allocation_earmark_type import (
+    AllocationEarmarkType,
+    AllocationEarmarkType_DateOfService,
+    AllocationEarmarkType_ExternalEncounterId,
+)
 from .allocation_target import (
     AllocationTarget,
     AllocationTarget_Appointment,
@@ -37,6 +42,9 @@ __all__ = [
     "AccountType",
     "Allocation",
     "AllocationCreate",
+    "AllocationEarmarkType",
+    "AllocationEarmarkType_DateOfService",
+    "AllocationEarmarkType_ExternalEncounterId",
     "AllocationTarget",
     "AllocationTargetCreate",
     "AllocationTargetCreate_AppointmentByIdAndPatientExternalId",

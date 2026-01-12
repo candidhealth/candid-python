@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .allocation_earmark_type import AllocationEarmarkType
 from .allocation_target_create import AllocationTargetCreate
 
 
@@ -15,6 +16,11 @@ class AllocationCreate(UniversalBaseModel):
 
     amount_cents: int
     target: AllocationTargetCreate
+    earmark: typing.Optional[AllocationEarmarkType] = pydantic.Field(default=None)
+    """
+    CURRENTLY UNIMPLEMENTED - Optional earmarking configuration for patient prepayments.
+    When provided on unattributed allocations, holds the payment for future auto-allocation to matching encounters.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

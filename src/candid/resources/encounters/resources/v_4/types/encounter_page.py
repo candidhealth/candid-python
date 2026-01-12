@@ -59,7 +59,7 @@ class EncounterPage(ResourcePage):
         ServiceAuthorizationExceptionCode,
         SynchronicityType,
     )
-    from candid.resources.era import Era
+    from candid.resources.eras import Era
     from candid.resources.guarantor.resources.v_1 import Guarantor
     from candid.resources.individual import (
         Gender,

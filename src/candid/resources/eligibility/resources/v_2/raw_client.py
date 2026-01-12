@@ -9,8 +9,6 @@ from .....core.http_response import AsyncHttpResponse, HttpResponse
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
-from ....commons.errors.http_service_unavailable_error import HttpServiceUnavailableError
-from ....commons.types.http_service_unavailable_error_message import HttpServiceUnavailableErrorMessage
 from ....commons.types.request_validation_error import RequestValidationError
 
 # this is used as the default value for optional parameters
@@ -20,74 +18,6 @@ OMIT = typing.cast(typing.Any, ...)
 class RawV2Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
-
-    def submit_eligibility_check(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[typing.Optional[typing.Any]]:
-        """
-        <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
-        For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
-
-        This API is a wrapper around Change Healthcare's eligibility API. Below are some helpful documentation links:
-
-        - [Change Healthcare - Guides: Contents of the Eligibility Request Body](https://developers.changehealthcare.com/eligibilityandclaims/docs/contents-of-the-eligibility-request-body)
-        - [Change Healthcare - Guides: Use "Bare Minimum" Eligibility Requests](https://developers.changehealthcare.com/eligibilityandclaims/docs/use-bare-minimum-eligibility-requests)
-        - [Change Healthcare - Guides: Contents of the Eligibility Response](https://developers.changehealthcare.com/eligibilityandclaims/docs/contents-of-the-eligibility-response)
-        - [Change Healthcare - Guides: Eligibility JSON-to-EDI API Contents](https://developers.changehealthcare.com/eligibilityandclaims/docs/eligibility-json-to-edi-api-contents)
-        - [Change Healthcare - Guides: Eligibility Error Messages](https://developers.changehealthcare.com/eligibilityandclaims/docs/eligibility-error-messages)
-        - [Change Healthcare - Guides: FAQ](https://developers.changehealthcare.com/eligibilityandclaims/docs/frequently-asked-questions)
-        - [Change Healthcare - Guides: Eligibility FAQs](https://developers.changehealthcare.com/eligibilityandclaims/docs/eligibility-api-requests)
-        - [Change Healthcare - Guides: Sandbox API Values and Test Responses](https://developers.changehealthcare.com/eligibilityandclaims/docs/eligibility-sandbox-api-values-and-test-responses)
-        - [Change Healthcare - Guides: Sandbox Predefined Fields and Values](https://developers.changehealthcare.com/eligibilityandclaims/docs/sandbox-predefined-fields-and-values)
-        - [Change Healthcare - Guides: Using Test Payers in the Sandbox](https://developers.changehealthcare.com/eligibilityandclaims/docs/use-the-test-payers-in-the-sandbox-api)
-
-        A schema of the response object can be found here: [Change Healthcare Docs](https://developers.changehealthcare.com/eligibilityandclaims/reference/medicaleligibility)
-
-        Parameters
-        ----------
-        request : typing.Optional[typing.Any]
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        HttpResponse[typing.Optional[typing.Any]]
-        """
-        _response = self._client_wrapper.httpx_client.request(
-            "api/eligibility/v2",
-            base_url=self._client_wrapper.get_environment().candid_api,
-            method="POST",
-            json=request,
-            request_options=request_options,
-            omit=OMIT,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        if 200 <= _response.status_code < 300:
-            _data = typing.cast(
-                typing.Optional[typing.Any],
-                parse_obj_as(
-                    type_=typing.Optional[typing.Any],  # type: ignore
-                    object_=_response_json,
-                ),
-            )
-            return HttpResponse(response=_response, data=_data)
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "HttpServiceUnavailableError":
-                raise HttpServiceUnavailableError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        HttpServiceUnavailableErrorMessage,
-                        parse_obj_as(
-                            type_=HttpServiceUnavailableErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None
@@ -225,74 +155,6 @@ class RawV2Client:
 class AsyncRawV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
-
-    async def submit_eligibility_check(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[typing.Optional[typing.Any]]:
-        """
-        <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
-        For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
-
-        This API is a wrapper around Change Healthcare's eligibility API. Below are some helpful documentation links:
-
-        - [Change Healthcare - Guides: Contents of the Eligibility Request Body](https://developers.changehealthcare.com/eligibilityandclaims/docs/contents-of-the-eligibility-request-body)
-        - [Change Healthcare - Guides: Use "Bare Minimum" Eligibility Requests](https://developers.changehealthcare.com/eligibilityandclaims/docs/use-bare-minimum-eligibility-requests)
-        - [Change Healthcare - Guides: Contents of the Eligibility Response](https://developers.changehealthcare.com/eligibilityandclaims/docs/contents-of-the-eligibility-response)
-        - [Change Healthcare - Guides: Eligibility JSON-to-EDI API Contents](https://developers.changehealthcare.com/eligibilityandclaims/docs/eligibility-json-to-edi-api-contents)
-        - [Change Healthcare - Guides: Eligibility Error Messages](https://developers.changehealthcare.com/eligibilityandclaims/docs/eligibility-error-messages)
-        - [Change Healthcare - Guides: FAQ](https://developers.changehealthcare.com/eligibilityandclaims/docs/frequently-asked-questions)
-        - [Change Healthcare - Guides: Eligibility FAQs](https://developers.changehealthcare.com/eligibilityandclaims/docs/eligibility-api-requests)
-        - [Change Healthcare - Guides: Sandbox API Values and Test Responses](https://developers.changehealthcare.com/eligibilityandclaims/docs/eligibility-sandbox-api-values-and-test-responses)
-        - [Change Healthcare - Guides: Sandbox Predefined Fields and Values](https://developers.changehealthcare.com/eligibilityandclaims/docs/sandbox-predefined-fields-and-values)
-        - [Change Healthcare - Guides: Using Test Payers in the Sandbox](https://developers.changehealthcare.com/eligibilityandclaims/docs/use-the-test-payers-in-the-sandbox-api)
-
-        A schema of the response object can be found here: [Change Healthcare Docs](https://developers.changehealthcare.com/eligibilityandclaims/reference/medicaleligibility)
-
-        Parameters
-        ----------
-        request : typing.Optional[typing.Any]
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        AsyncHttpResponse[typing.Optional[typing.Any]]
-        """
-        _response = await self._client_wrapper.httpx_client.request(
-            "api/eligibility/v2",
-            base_url=self._client_wrapper.get_environment().candid_api,
-            method="POST",
-            json=request,
-            request_options=request_options,
-            omit=OMIT,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        if 200 <= _response.status_code < 300:
-            _data = typing.cast(
-                typing.Optional[typing.Any],
-                parse_obj_as(
-                    type_=typing.Optional[typing.Any],  # type: ignore
-                    object_=_response_json,
-                ),
-            )
-            return AsyncHttpResponse(response=_response, data=_data)
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "HttpServiceUnavailableError":
-                raise HttpServiceUnavailableError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        HttpServiceUnavailableErrorMessage,
-                        parse_obj_as(
-                            type_=HttpServiceUnavailableErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None

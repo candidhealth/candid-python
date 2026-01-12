@@ -7,7 +7,6 @@ from .entity_conflict_error import EntityConflictError
 from .entity_not_found_error import EntityNotFoundError
 from .http_request_validation_error import HttpRequestValidationError
 from .http_request_validations_error import HttpRequestValidationsError
-from .http_service_unavailable_error import HttpServiceUnavailableError
 from .internal_error import InternalError
 from .organization_not_authorized_error import OrganizationNotAuthorizedError
 from .unauthorized_error import UnauthorizedError
@@ -22,7 +21,6 @@ __all__ = [
     "EntityNotFoundError",
     "HttpRequestValidationError",
     "HttpRequestValidationsError",
-    "HttpServiceUnavailableError",
     "InternalError",
     "OrganizationNotAuthorizedError",
     "UnauthorizedError",

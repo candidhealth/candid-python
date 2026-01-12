@@ -69,6 +69,17 @@ class RawV2Client:
             )
             return HttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
                     headers=dict(_response.headers),
@@ -119,6 +130,17 @@ class RawV2Client:
             )
             return HttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
                     headers=dict(_response.headers),
@@ -393,6 +415,17 @@ class AsyncRawV2Client:
             )
             return AsyncHttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
                     headers=dict(_response.headers),
@@ -443,6 +476,17 @@ class AsyncRawV2Client:
             )
             return AsyncHttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "HttpRequestValidationError":
                 raise HttpRequestValidationError(
                     headers=dict(_response.headers),

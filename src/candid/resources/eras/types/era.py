@@ -3,18 +3,29 @@
 import typing
 
 import pydantic
-from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .insurance_type_codes import InsuranceTypeCodes
-from .line_of_business import LineOfBusiness
+from ....core.pydantic_utilities import IS_PYDANTIC_V2
+from .era_base import EraBase
+from .era_id import EraId
 
 
-class InsuranceType(UniversalBaseModel):
-    line_of_business: LineOfBusiness = pydantic.Field()
+class Era(EraBase):
     """
-    The line of business associated with the patient’s insurance
+    Examples
+    --------
+    import uuid
+
+    from candid.resources.eras import Era
+
+    Era(
+        era_id=uuid.UUID(
+            "4d844ef1-2253-43cd-a4f1-6db7e65cb54b",
+        ),
+        check_number="CHK12345",
+        check_date="2023-10-12",
+    )
     """
 
-    insurance_type_codes: InsuranceTypeCodes
+    era_id: EraId
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

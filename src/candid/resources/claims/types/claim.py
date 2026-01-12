@@ -5,7 +5,7 @@ import typing
 import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...commons.types.claim_id import ClaimId
-from ...era.types.era import Era
+from ...eras.types.era import Era
 from ...service_lines.resources.v_2.types.service_line import ServiceLine
 from .claim_status import ClaimStatus
 
@@ -24,7 +24,7 @@ class Claim(UniversalBaseModel):
         ProcedureModifier,
         ServiceLineUnits,
     )
-    from candid.resources.era import Era
+    from candid.resources.eras import Era
     from candid.resources.invoices import Invoice, InvoiceItem, InvoiceStatus
     from candid.resources.service_lines.resources.v_2 import (
         DenialReasonContent,

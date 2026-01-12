@@ -27,7 +27,6 @@ from .entity_not_found_error_message import EntityNotFoundErrorMessage
 from .epsdt_referral_condition_indicator_code import EpsdtReferralConditionIndicatorCode
 from .error_message import ErrorMessage
 from .facility_type_code import FacilityTypeCode
-from .http_service_unavailable_error_message import HttpServiceUnavailableErrorMessage
 from .insurance_type_code import InsuranceTypeCode
 from .intended_submission_medium import IntendedSubmissionMedium
 from .internal_error_message import InternalErrorMessage
@@ -114,7 +113,6 @@ __all__ = [
     "EpsdtReferralConditionIndicatorCode",
     "ErrorMessage",
     "FacilityTypeCode",
-    "HttpServiceUnavailableErrorMessage",
     "InsuranceTypeCode",
     "IntendedSubmissionMedium",
     "InternalErrorMessage",
