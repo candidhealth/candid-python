@@ -19,6 +19,7 @@ class TaskType(str, enum.Enum):
     PAYER_CONFIGURATION_ERROR = "PAYER_CONFIGURATION_ERROR"
     DENIAL_RESOLUTION = "DENIAL_RESOLUTION"
     MISSING_ENROLLMENT = "MISSING_ENROLLMENT"
+    CHARGE_CAPTURE_UPDATE = "CHARGE_CAPTURE_UPDATE"
     _UNKNOWN = "__TASKTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -44,6 +45,7 @@ class TaskType(str, enum.Enum):
         payer_configuration_error: typing.Callable[[], T_Result],
         denial_resolution: typing.Callable[[], T_Result],
         missing_enrollment: typing.Callable[[], T_Result],
+        charge_capture_update: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is TaskType.CUSTOMER_DATA_REQUEST:
@@ -70,4 +72,6 @@ class TaskType(str, enum.Enum):
             return denial_resolution()
         if self is TaskType.MISSING_ENROLLMENT:
             return missing_enrollment()
+        if self is TaskType.CHARGE_CAPTURE_UPDATE:
+            return charge_capture_update()
         return _unknown_member(self._value_)

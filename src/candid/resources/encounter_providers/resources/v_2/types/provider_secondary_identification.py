@@ -4,12 +4,21 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .provider_secondary_identification_qualifier import ProviderSecondaryIdentificationQualifier
 
 
 class ProviderSecondaryIdentification(UniversalBaseModel):
     reference_identification: str = pydantic.Field()
     """
-    Value cannot exceed 50 characters
+    Represents REF02 on the EDI 837 Loop 2010BB Billing Provider Secondary Identification segment. Value cannot exceed 50 characters
+    """
+
+    reference_identification_qualifier: typing.Optional[ProviderSecondaryIdentificationQualifier] = pydantic.Field(
+        default=None
+    )
+    """
+    Represents REF01 on the EDI 837 Loop 2010BB Billing Provider Secondary Identification segment.
+    Valid values include G2 (Provider Commercial Number) and LU (Location Number). Defaults to G2 if not set.
     """
 
     if IS_PYDANTIC_V2:

@@ -7,6 +7,7 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.insurance_type_code import InsuranceTypeCode
 from .....commons.types.payer_plan_group_id import PayerPlanGroupId
 from .....commons.types.source_of_payment_code import SourceOfPaymentCode
+from .....commons.types.street_address_long_zip import StreetAddressLongZip
 
 
 class InsuranceCardBase(UniversalBaseModel):
@@ -23,6 +24,7 @@ class InsuranceCardBase(UniversalBaseModel):
     plan_type: typing.Optional[SourceOfPaymentCode] = None
     insurance_type: typing.Optional[InsuranceTypeCode] = None
     payer_plan_group_id: typing.Optional[PayerPlanGroupId] = None
+    payer_address: typing.Optional[StreetAddressLongZip] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
