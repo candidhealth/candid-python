@@ -29,6 +29,7 @@ from .allocation_target_create import (
 )
 from .appointment_allocation_target import AppointmentAllocationTarget
 from .appointment_by_id_and_patient_external_id import AppointmentByIdAndPatientExternalId
+from .balance_earmark import BalanceEarmark
 from .billing_provider_allocation_target import BillingProviderAllocationTarget
 from .claim_allocation_target import ClaimAllocationTarget
 from .invoice_update import InvoiceUpdate, InvoiceUpdate_Remove, InvoiceUpdate_Set
@@ -60,6 +61,7 @@ __all__ = [
     "AllocationTarget_Unattributed",
     "AppointmentAllocationTarget",
     "AppointmentByIdAndPatientExternalId",
+    "BalanceEarmark",
     "BillingProviderAllocationTarget",
     "ClaimAllocationTarget",
     "InvoiceUpdate",

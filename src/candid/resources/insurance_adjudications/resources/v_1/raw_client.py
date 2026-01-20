@@ -9,6 +9,8 @@ from .....core.http_response import AsyncHttpResponse, HttpResponse
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
+from ....commons.errors.unauthorized_error import UnauthorizedError
+from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from .types.insurance_adjudication import InsuranceAdjudication
 from .types.insurance_adjudication_id import InsuranceAdjudicationId
 
@@ -56,6 +58,18 @@ class RawV1Client:
                 ),
             )
             return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
 
@@ -102,4 +116,16 @@ class AsyncRawV1Client:
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
