@@ -5838,6 +5838,14 @@ or encounter external id.
 <dl>
 <dd>
 
+**include_merged_patient_data:** `typing.Optional[bool]` — If true and patient_external_id is set, then also include the encounters of all alternative patients.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -15434,6 +15442,17 @@ client.pre_encounter.appointments.v_1.create(
 <dd>
 
 Gets all Visits within a given time range. The return list is ordered by start_time ascending.
+
+**IMPORTANT:** This endpoint requires a date filter on `appointment.startTimestamp` to ensure acceptable query performance.
+Without date filtering, the query can take 50+ seconds on large datasets due to grouping and aggregation operations.
+
+Example filters:
+- `appointment.startTimestamp|gt|2024-01-01` - appointments after January 1, 2024
+- `appointment.startTimestamp|eq|2024-12-08` - appointments on December 8, 2024
+- `appointment.startTimestamp|lt|2024-12-31` - appointments before December 31, 2024
+
+You can combine the date filter with other filters using commas:
+- `appointment.startTimestamp|gt|2024-01-01,appointment.status|eq|PENDING`
 </dd>
 </dl>
 </dd>
@@ -15503,6 +15522,9 @@ client.pre_encounter.appointments.v_1.get_visits()
 <dd>
 
 **filters:** `typing.Optional[FilterQueryString]` 
+
+**Required:** Must include a date filter on appointment.startTimestamp (using gt, lt, or eq operators).
+Example: appointment.startTimestamp|gt|2024-01-01
     
 </dd>
 </dl>
@@ -16326,7 +16348,8 @@ client.pre_encounter.coverages.v_1.get(
 <dl>
 <dd>
 
-Gets a coverage along with it's full history.  The return list is ordered by version ascending.
+Gets a coverage's history. Full history is returned if no filters are 
+defined. The return list is ordered by version, defaulting to ascending.
 </dd>
 </dl>
 </dd>
@@ -16370,6 +16393,46 @@ client.pre_encounter.coverages.v_1.get_history(
 <dd>
 
 **id:** `CoverageId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**start:** `typing.Optional[dt.date]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**end:** `typing.Optional[dt.date]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**non_auto_updated_coverages_only:** `typing.Optional[bool]` — If true, only returns coverages that have NOT been auto-updated by the system.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Defaults to ascending. Sorts by version.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Must be between 0 and 1000. No default.
     
 </dd>
 </dl>
@@ -17833,6 +17896,14 @@ client.pre_encounter.lists.v_1.get_patient_list()
 <dl>
 <dd>
 
+**include_deactivated:** `typing.Optional[bool]` — If true, includes deactivated patients in the results. Defaults to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -17927,6 +17998,14 @@ client.pre_encounter.lists.v_1.get_appointment_list()
 <dd>
 
 **filters:** `typing.Optional[FilterQueryString]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_deactivated:** `typing.Optional[bool]` — If true, includes deactivated appointments in the results. Defaults to false.
     
 </dd>
 </dl>
@@ -19188,6 +19267,85 @@ client.pre_encounter.patients.v_1.get_history(
 <dd>
 
 **id:** `PatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">get_coverage_snapshot</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets a patient along with their coverages at a specific point in time. Note that the date passed in is only used to determine what the filing order was for that patient during that time. The actual data returned will always be the latest version of the patient and coverages.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.get_coverage_snapshot(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `PatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date:** `typing.Optional[dt.datetime]` 
     
 </dd>
 </dl>

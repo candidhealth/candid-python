@@ -15,6 +15,8 @@ class PatientListItem(UniversalBaseModel):
     secondary_coverage: typing.Optional[MutableCoverage] = None
     tertiary_coverage: typing.Optional[MutableCoverage] = None
     next_appointment: typing.Optional[MutableAppointment] = None
+    primary_mrn: typing.Optional[str] = None
+    alternative_mrns: typing.List[str]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

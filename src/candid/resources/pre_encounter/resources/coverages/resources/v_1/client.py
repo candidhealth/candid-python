@@ -8,6 +8,7 @@ from .......core.request_options import RequestOptions
 from ....common.types.coverage_id import CoverageId
 from ....common.types.page_token import PageToken
 from ....common.types.payer_plan_group_id import PayerPlanGroupId
+from ....common.types.sort_direction import SortDirection
 from ....eligibility_checks.resources.v_1.types.eligibility_check_metadata import EligibilityCheckMetadata
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.coverage import Coverage
@@ -257,14 +258,36 @@ class V1Client:
         return _response.data
 
     def get_history(
-        self, id: CoverageId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: CoverageId,
+        *,
+        start: typing.Optional[dt.date] = None,
+        end: typing.Optional[dt.date] = None,
+        non_auto_updated_coverages_only: typing.Optional[bool] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[Coverage]:
         """
-        Gets a coverage along with it's full history.  The return list is ordered by version ascending.
+        Gets a coverage's history. Full history is returned if no filters are
+        defined. The return list is ordered by version, defaulting to ascending.
 
         Parameters
         ----------
         id : CoverageId
+
+        start : typing.Optional[dt.date]
+
+        end : typing.Optional[dt.date]
+
+        non_auto_updated_coverages_only : typing.Optional[bool]
+            If true, only returns coverages that have NOT been auto-updated by the system.
+
+        sort_direction : typing.Optional[SortDirection]
+            Defaults to ascending. Sorts by version.
+
+        limit : typing.Optional[int]
+            Must be between 0 and 1000. No default.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -289,7 +312,15 @@ class V1Client:
             ),
         )
         """
-        _response = self._raw_client.get_history(id, request_options=request_options)
+        _response = self._raw_client.get_history(
+            id,
+            start=start,
+            end=end,
+            non_auto_updated_coverages_only=non_auto_updated_coverages_only,
+            sort_direction=sort_direction,
+            limit=limit,
+            request_options=request_options,
+        )
         return _response.data
 
     def get_multi(
@@ -792,14 +823,36 @@ class AsyncV1Client:
         return _response.data
 
     async def get_history(
-        self, id: CoverageId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: CoverageId,
+        *,
+        start: typing.Optional[dt.date] = None,
+        end: typing.Optional[dt.date] = None,
+        non_auto_updated_coverages_only: typing.Optional[bool] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[Coverage]:
         """
-        Gets a coverage along with it's full history.  The return list is ordered by version ascending.
+        Gets a coverage's history. Full history is returned if no filters are
+        defined. The return list is ordered by version, defaulting to ascending.
 
         Parameters
         ----------
         id : CoverageId
+
+        start : typing.Optional[dt.date]
+
+        end : typing.Optional[dt.date]
+
+        non_auto_updated_coverages_only : typing.Optional[bool]
+            If true, only returns coverages that have NOT been auto-updated by the system.
+
+        sort_direction : typing.Optional[SortDirection]
+            Defaults to ascending. Sorts by version.
+
+        limit : typing.Optional[int]
+            Must be between 0 and 1000. No default.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -831,7 +884,15 @@ class AsyncV1Client:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get_history(id, request_options=request_options)
+        _response = await self._raw_client.get_history(
+            id,
+            start=start,
+            end=end,
+            non_auto_updated_coverages_only=non_auto_updated_coverages_only,
+            sort_direction=sort_direction,
+            limit=limit,
+            request_options=request_options,
+        )
         return _response.data
 
     async def get_multi(

@@ -9,6 +9,7 @@ T_Result = typing.TypeVar("T_Result")
 class EmrPayerCrosswalk(str, enum.Enum):
     HEALTHIE = "HEALTHIE"
     CANVAS = "CANVAS"
+    HL_7_WEBPT_E_34_EPIC = "HL7_WEBPT_E34_EPIC"
     _UNKNOWN = "__EMRPAYERCROSSWALK_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -24,10 +25,13 @@ class EmrPayerCrosswalk(str, enum.Enum):
         self,
         healthie: typing.Callable[[], T_Result],
         canvas: typing.Callable[[], T_Result],
+        hl_7_webpt_e_34_epic: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is EmrPayerCrosswalk.HEALTHIE:
             return healthie()
         if self is EmrPayerCrosswalk.CANVAS:
             return canvas()
+        if self is EmrPayerCrosswalk.HL_7_WEBPT_E_34_EPIC:
+            return hl_7_webpt_e_34_epic()
         return _unknown_member(self._value_)

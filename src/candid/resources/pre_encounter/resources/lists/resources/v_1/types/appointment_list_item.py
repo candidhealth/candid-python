@@ -14,6 +14,7 @@ class AppointmentListItem(UniversalBaseModel):
     appointment: Appointment
     patient: MutablePatientWithMrn
     primary_coverage: typing.Optional[MutableCoverage] = None
+    secondary_coverage: typing.Optional[MutableCoverage] = None
     primary_service_type: typing.Optional[UniversalServiceIdentifier] = None
 
     if IS_PYDANTIC_V2:

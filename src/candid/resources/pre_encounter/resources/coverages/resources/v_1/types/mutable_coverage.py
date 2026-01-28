@@ -58,7 +58,12 @@ class MutableCoverage(UniversalBaseModel):
 
     orcon: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    ORCON (Originator Controlled) - When set to true, the Candid system will hide this coverage from downstream integrations. Defaults to false.
+    ORCON (Originator Controlled) - When set to true, the Candid system will hide this coverage from downstream integrations. Updates made in the Candid UI will unset this flag. Defaults to false.
+    """
+
+    auto_update_enabled: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Default to true. When set to true, the Candid system will automatically update this coverage with the latest eligibility check benefits information. Auto update behavior is also set at the eligibilityConfig org level configuration.
     """
 
     if IS_PYDANTIC_V2:

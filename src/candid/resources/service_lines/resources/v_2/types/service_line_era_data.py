@@ -8,7 +8,14 @@ from .service_line_adjustment import ServiceLineAdjustment
 
 
 class ServiceLineEraData(UniversalBaseModel):
-    service_line_adjustments: typing.List[ServiceLineAdjustment]
+    service_line_adjustments: typing.List[ServiceLineAdjustment] = pydantic.Field()
+    """
+    Deprecated. This field aggregates all CARCs across a service line's history
+    without granular context
+    (e.g., which CARCs relate to denials vs. payments vs. reversals), making it
+    unsuitable for denial analysis or operational workflows.
+    """
+
     remittance_advice_remark_codes: typing.List[str]
 
     if IS_PYDANTIC_V2:

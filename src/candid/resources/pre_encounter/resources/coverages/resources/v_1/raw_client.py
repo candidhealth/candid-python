@@ -18,6 +18,7 @@ from ....common.types.coverage_id import CoverageId
 from ....common.types.error_base_4_xx import ErrorBase4Xx
 from ....common.types.page_token import PageToken
 from ....common.types.payer_plan_group_id import PayerPlanGroupId
+from ....common.types.sort_direction import SortDirection
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from ....eligibility_checks.resources.v_1.types.eligibility_check_metadata import EligibilityCheckMetadata
 from .types.coverage import Coverage
@@ -253,14 +254,36 @@ class RawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_history(
-        self, id: CoverageId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: CoverageId,
+        *,
+        start: typing.Optional[dt.date] = None,
+        end: typing.Optional[dt.date] = None,
+        non_auto_updated_coverages_only: typing.Optional[bool] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.List[Coverage]]:
         """
-        Gets a coverage along with it's full history.  The return list is ordered by version ascending.
+        Gets a coverage's history. Full history is returned if no filters are
+        defined. The return list is ordered by version, defaulting to ascending.
 
         Parameters
         ----------
         id : CoverageId
+
+        start : typing.Optional[dt.date]
+
+        end : typing.Optional[dt.date]
+
+        non_auto_updated_coverages_only : typing.Optional[bool]
+            If true, only returns coverages that have NOT been auto-updated by the system.
+
+        sort_direction : typing.Optional[SortDirection]
+            Defaults to ascending. Sorts by version.
+
+        limit : typing.Optional[int]
+            Must be between 0 and 1000. No default.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -273,6 +296,13 @@ class RawV1Client:
             f"coverages/v1/{jsonable_encoder(id)}/history",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="GET",
+            params={
+                "start": str(start) if start is not None else None,
+                "end": str(end) if end is not None else None,
+                "non_auto_updated_coverages_only": non_auto_updated_coverages_only,
+                "sort_direction": sort_direction,
+                "limit": limit,
+            },
             request_options=request_options,
         )
         try:
@@ -289,6 +319,17 @@ class RawV1Client:
             )
             return HttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "NotFoundError":
                 raise NotFoundError(
                     headers=dict(_response.headers),
@@ -757,14 +798,36 @@ class AsyncRawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_history(
-        self, id: CoverageId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: CoverageId,
+        *,
+        start: typing.Optional[dt.date] = None,
+        end: typing.Optional[dt.date] = None,
+        non_auto_updated_coverages_only: typing.Optional[bool] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.List[Coverage]]:
         """
-        Gets a coverage along with it's full history.  The return list is ordered by version ascending.
+        Gets a coverage's history. Full history is returned if no filters are
+        defined. The return list is ordered by version, defaulting to ascending.
 
         Parameters
         ----------
         id : CoverageId
+
+        start : typing.Optional[dt.date]
+
+        end : typing.Optional[dt.date]
+
+        non_auto_updated_coverages_only : typing.Optional[bool]
+            If true, only returns coverages that have NOT been auto-updated by the system.
+
+        sort_direction : typing.Optional[SortDirection]
+            Defaults to ascending. Sorts by version.
+
+        limit : typing.Optional[int]
+            Must be between 0 and 1000. No default.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -777,6 +840,13 @@ class AsyncRawV1Client:
             f"coverages/v1/{jsonable_encoder(id)}/history",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="GET",
+            params={
+                "start": str(start) if start is not None else None,
+                "end": str(end) if end is not None else None,
+                "non_auto_updated_coverages_only": non_auto_updated_coverages_only,
+                "sort_direction": sort_direction,
+                "limit": limit,
+            },
             request_options=request_options,
         )
         try:
@@ -793,6 +863,17 @@ class AsyncRawV1Client:
             )
             return AsyncHttpResponse(response=_response, data=_data)
         if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "NotFoundError":
                 raise NotFoundError(
                     headers=dict(_response.headers),

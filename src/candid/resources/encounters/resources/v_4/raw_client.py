@@ -15,11 +15,13 @@ from ....claims.types.claim_status import ClaimStatus
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
+from ....commons.errors.internal_error import InternalError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.encounter_external_id import EncounterExternalId
 from ....commons.types.encounter_id import EncounterId
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.internal_error_message import InternalErrorMessage
 from ....commons.types.page_token import PageToken
 from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
@@ -92,6 +94,7 @@ class RawV4Client:
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
         patient_external_id: typing.Optional[str] = None,
+        include_merged_patient_data: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[EncounterPage]:
         """
@@ -145,6 +148,9 @@ class RawV4Client:
         patient_external_id : typing.Optional[str]
             The patient ID from the external EMR platform for the patient
 
+        include_merged_patient_data : typing.Optional[bool]
+            If true and patient_external_id is set, then also include the encounters of all alternative patients.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -175,6 +181,7 @@ class RawV4Client:
                 "responsible_party": responsible_party,
                 "owner_of_next_action": owner_of_next_action,
                 "patient_external_id": patient_external_id,
+                "include_merged_patient_data": include_merged_patient_data,
             },
             request_options=request_options,
         )
@@ -191,6 +198,40 @@ class RawV4Client:
                 ),
             )
             return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "InternalError":
+                raise InternalError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InternalErrorMessage,
+                        parse_obj_as(
+                            type_=InternalErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get(
@@ -1211,6 +1252,7 @@ class AsyncRawV4Client:
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
         patient_external_id: typing.Optional[str] = None,
+        include_merged_patient_data: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[EncounterPage]:
         """
@@ -1264,6 +1306,9 @@ class AsyncRawV4Client:
         patient_external_id : typing.Optional[str]
             The patient ID from the external EMR platform for the patient
 
+        include_merged_patient_data : typing.Optional[bool]
+            If true and patient_external_id is set, then also include the encounters of all alternative patients.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1294,6 +1339,7 @@ class AsyncRawV4Client:
                 "responsible_party": responsible_party,
                 "owner_of_next_action": owner_of_next_action,
                 "patient_external_id": patient_external_id,
+                "include_merged_patient_data": include_merged_patient_data,
             },
             request_options=request_options,
         )
@@ -1310,6 +1356,40 @@ class AsyncRawV4Client:
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "InternalError":
+                raise InternalError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        InternalErrorMessage,
+                        parse_obj_as(
+                            type_=InternalErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get(

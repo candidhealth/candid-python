@@ -30,6 +30,7 @@ class RawV1Client:
         sort_field: typing.Optional[SortFieldString] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         filters: typing.Optional[FilterQueryString] = None,
+        include_deactivated: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PatientListPage]:
         """
@@ -49,6 +50,9 @@ class RawV1Client:
 
         filters : typing.Optional[FilterQueryString]
 
+        include_deactivated : typing.Optional[bool]
+            If true, includes deactivated patients in the results. Defaults to false.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -66,6 +70,7 @@ class RawV1Client:
                 "sort_field": sort_field,
                 "sort_direction": sort_direction,
                 "filters": filters,
+                "include_deactivated": include_deactivated,
             },
             request_options=request_options,
         )
@@ -104,6 +109,7 @@ class RawV1Client:
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
         filters: typing.Optional[FilterQueryString] = None,
+        include_deactivated: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AppointmentListPage]:
         """
@@ -124,6 +130,9 @@ class RawV1Client:
 
         filters : typing.Optional[FilterQueryString]
 
+        include_deactivated : typing.Optional[bool]
+            If true, includes deactivated appointments in the results. Defaults to false.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -141,6 +150,7 @@ class RawV1Client:
                 "limit": limit,
                 "page_token": page_token,
                 "filters": filters,
+                "include_deactivated": include_deactivated,
             },
             request_options=request_options,
         )
@@ -172,6 +182,7 @@ class AsyncRawV1Client:
         sort_field: typing.Optional[SortFieldString] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         filters: typing.Optional[FilterQueryString] = None,
+        include_deactivated: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PatientListPage]:
         """
@@ -191,6 +202,9 @@ class AsyncRawV1Client:
 
         filters : typing.Optional[FilterQueryString]
 
+        include_deactivated : typing.Optional[bool]
+            If true, includes deactivated patients in the results. Defaults to false.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -208,6 +222,7 @@ class AsyncRawV1Client:
                 "sort_field": sort_field,
                 "sort_direction": sort_direction,
                 "filters": filters,
+                "include_deactivated": include_deactivated,
             },
             request_options=request_options,
         )
@@ -246,6 +261,7 @@ class AsyncRawV1Client:
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
         filters: typing.Optional[FilterQueryString] = None,
+        include_deactivated: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AppointmentListPage]:
         """
@@ -266,6 +282,9 @@ class AsyncRawV1Client:
 
         filters : typing.Optional[FilterQueryString]
 
+        include_deactivated : typing.Optional[bool]
+            If true, includes deactivated appointments in the results. Defaults to false.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -283,6 +302,7 @@ class AsyncRawV1Client:
                 "limit": limit,
                 "page_token": page_token,
                 "filters": filters,
+                "include_deactivated": include_deactivated,
             },
             request_options=request_options,
         )

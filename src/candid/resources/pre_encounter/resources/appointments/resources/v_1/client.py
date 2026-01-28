@@ -92,6 +92,17 @@ class V1Client:
         """
         Gets all Visits within a given time range. The return list is ordered by start_time ascending.
 
+        **IMPORTANT:** This endpoint requires a date filter on `appointment.startTimestamp` to ensure acceptable query performance.
+        Without date filtering, the query can take 50+ seconds on large datasets due to grouping and aggregation operations.
+
+        Example filters:
+        - `appointment.startTimestamp|gt|2024-01-01` - appointments after January 1, 2024
+        - `appointment.startTimestamp|eq|2024-12-08` - appointments on December 8, 2024
+        - `appointment.startTimestamp|lt|2024-12-31` - appointments before December 31, 2024
+
+        You can combine the date filter with other filters using commas:
+        - `appointment.startTimestamp|gt|2024-01-01,appointment.status|eq|PENDING`
+
         Parameters
         ----------
         page_token : typing.Optional[PageToken]
@@ -105,6 +116,8 @@ class V1Client:
             Defaults to ascending.
 
         filters : typing.Optional[FilterQueryString]
+            **Required:** Must include a date filter on appointment.startTimestamp (using gt, lt, or eq operators).
+            Example: appointment.startTimestamp|gt|2024-01-01
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -403,6 +416,17 @@ class AsyncV1Client:
         """
         Gets all Visits within a given time range. The return list is ordered by start_time ascending.
 
+        **IMPORTANT:** This endpoint requires a date filter on `appointment.startTimestamp` to ensure acceptable query performance.
+        Without date filtering, the query can take 50+ seconds on large datasets due to grouping and aggregation operations.
+
+        Example filters:
+        - `appointment.startTimestamp|gt|2024-01-01` - appointments after January 1, 2024
+        - `appointment.startTimestamp|eq|2024-12-08` - appointments on December 8, 2024
+        - `appointment.startTimestamp|lt|2024-12-31` - appointments before December 31, 2024
+
+        You can combine the date filter with other filters using commas:
+        - `appointment.startTimestamp|gt|2024-01-01,appointment.status|eq|PENDING`
+
         Parameters
         ----------
         page_token : typing.Optional[PageToken]
@@ -416,6 +440,8 @@ class AsyncV1Client:
             Defaults to ascending.
 
         filters : typing.Optional[FilterQueryString]
+            **Required:** Must include a date filter on appointment.startTimestamp (using gt, lt, or eq operators).
+            Example: appointment.startTimestamp|gt|2024-01-01
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

@@ -14,6 +14,9 @@ class CoverageBenefits(UniversalBaseModel):
     service_specific_coverage: typing.Optional[typing.List[ServiceCoverage]] = None
     benefits_related_entities: typing.Optional[typing.List[BenefitsRelatedEntity]] = None
     notes: typing.Optional[str] = None
+    auto_updated_eligibility_check_id: typing.Optional[str] = pydantic.Field(
+        alias="autoUpdatedEligibilityCheckId", default=None
+    )
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

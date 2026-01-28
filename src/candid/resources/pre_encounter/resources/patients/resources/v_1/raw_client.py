@@ -23,6 +23,7 @@ from ....common.types.version_conflict_error_body import VersionConflictErrorBod
 from .types.mutable_patient import MutablePatient
 from .types.mutable_patient_with_mrn import MutablePatientWithMrn
 from .types.patient import Patient
+from .types.patient_coverage_snapshot import PatientCoverageSnapshot
 from .types.patient_page import PatientPage
 from .types.patient_sort_field import PatientSortField
 
@@ -397,6 +398,65 @@ class RawV1Client:
                 typing.List[Patient],
                 parse_obj_as(
                     type_=typing.List[Patient],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "NotFoundError":
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_coverage_snapshot(
+        self,
+        id: PatientId,
+        *,
+        date: typing.Optional[dt.datetime] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[PatientCoverageSnapshot]:
+        """
+        Gets a patient along with their coverages at a specific point in time. Note that the date passed in is only used to determine what the filing order was for that patient during that time. The actual data returned will always be the latest version of the patient and coverages.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        date : typing.Optional[dt.datetime]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[PatientCoverageSnapshot]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"patients/v1/{jsonable_encoder(id)}/snapshot",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "date": serialize_datetime(date) if date is not None else None,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                PatientCoverageSnapshot,
+                parse_obj_as(
+                    type_=PatientCoverageSnapshot,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -1081,6 +1141,65 @@ class AsyncRawV1Client:
                 typing.List[Patient],
                 parse_obj_as(
                     type_=typing.List[Patient],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "NotFoundError":
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_coverage_snapshot(
+        self,
+        id: PatientId,
+        *,
+        date: typing.Optional[dt.datetime] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[PatientCoverageSnapshot]:
+        """
+        Gets a patient along with their coverages at a specific point in time. Note that the date passed in is only used to determine what the filing order was for that patient during that time. The actual data returned will always be the latest version of the patient and coverages.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        date : typing.Optional[dt.datetime]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[PatientCoverageSnapshot]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"patients/v1/{jsonable_encoder(id)}/snapshot",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "date": serialize_datetime(date) if date is not None else None,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                PatientCoverageSnapshot,
+                parse_obj_as(
+                    type_=PatientCoverageSnapshot,  # type: ignore
                     object_=_response_json,
                 ),
             )

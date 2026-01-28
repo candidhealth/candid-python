@@ -13,6 +13,7 @@ from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.mutable_patient import MutablePatient
 from .types.mutable_patient_with_mrn import MutablePatientWithMrn
 from .types.patient import Patient
+from .types.patient_coverage_snapshot import PatientCoverageSnapshot
 from .types.patient_page import PatientPage
 from .types.patient_sort_field import PatientSortField
 
@@ -685,6 +686,44 @@ class V1Client:
         )
         """
         _response = self._raw_client.get_history(id, request_options=request_options)
+        return _response.data
+
+    def get_coverage_snapshot(
+        self,
+        id: PatientId,
+        *,
+        date: typing.Optional[dt.datetime] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PatientCoverageSnapshot:
+        """
+        Gets a patient along with their coverages at a specific point in time. Note that the date passed in is only used to determine what the filing order was for that patient during that time. The actual data returned will always be the latest version of the patient and coverages.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        date : typing.Optional[dt.datetime]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientCoverageSnapshot
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.patients.v_1.get_coverage_snapshot(
+            id="id",
+        )
+        """
+        _response = self._raw_client.get_coverage_snapshot(id, date=date, request_options=request_options)
         return _response.data
 
     def update(
@@ -1813,6 +1852,52 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.get_history(id, request_options=request_options)
+        return _response.data
+
+    async def get_coverage_snapshot(
+        self,
+        id: PatientId,
+        *,
+        date: typing.Optional[dt.datetime] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PatientCoverageSnapshot:
+        """
+        Gets a patient along with their coverages at a specific point in time. Note that the date passed in is only used to determine what the filing order was for that patient during that time. The actual data returned will always be the latest version of the patient and coverages.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        date : typing.Optional[dt.datetime]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientCoverageSnapshot
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.patients.v_1.get_coverage_snapshot(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_coverage_snapshot(id, date=date, request_options=request_options)
         return _response.data
 
     async def update(

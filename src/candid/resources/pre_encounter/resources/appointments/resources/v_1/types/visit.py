@@ -21,6 +21,7 @@ class Visit(UniversalBaseModel):
     start_time: dt.datetime
     status: AppointmentStatus
     primary_coverage_status: typing.Optional[CoverageStatus] = None
+    secondary_coverage_status: typing.Optional[CoverageStatus] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

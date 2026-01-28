@@ -65,6 +65,7 @@ class V4Client:
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
         patient_external_id: typing.Optional[str] = None,
+        include_merged_patient_data: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterPage:
         """
@@ -117,6 +118,9 @@ class V4Client:
 
         patient_external_id : typing.Optional[str]
             The patient ID from the external EMR platform for the patient
+
+        include_merged_patient_data : typing.Optional[bool]
+            If true and patient_external_id is set, then also include the encounters of all alternative patients.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -173,6 +177,7 @@ class V4Client:
             responsible_party=responsible_party,
             owner_of_next_action=owner_of_next_action,
             patient_external_id=patient_external_id,
+            include_merged_patient_data=include_merged_patient_data,
             request_options=request_options,
         )
         return _response.data
@@ -713,6 +718,7 @@ class AsyncV4Client:
         responsible_party: typing.Optional[ResponsiblePartyType] = None,
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
         patient_external_id: typing.Optional[str] = None,
+        include_merged_patient_data: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterPage:
         """
@@ -765,6 +771,9 @@ class AsyncV4Client:
 
         patient_external_id : typing.Optional[str]
             The patient ID from the external EMR platform for the patient
+
+        include_merged_patient_data : typing.Optional[bool]
+            If true and patient_external_id is set, then also include the encounters of all alternative patients.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -828,6 +837,7 @@ class AsyncV4Client:
             responsible_party=responsible_party,
             owner_of_next_action=owner_of_next_action,
             patient_external_id=patient_external_id,
+            include_merged_patient_data=include_merged_patient_data,
             request_options=request_options,
         )
         return _response.data
