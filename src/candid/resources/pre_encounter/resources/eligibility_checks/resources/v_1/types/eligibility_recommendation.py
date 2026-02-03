@@ -7,6 +7,7 @@ from ........core.pydantic_utilities import IS_PYDANTIC_V2
 from .....common.types.base_model import BaseModel
 from .eligibility_recommendation_patient_info import EligibilityRecommendationPatientInfo
 from .eligibility_recommendation_payload import EligibilityRecommendationPayload
+from .vote import Vote
 
 
 class EligibilityRecommendation(BaseModel):
@@ -19,8 +20,13 @@ class EligibilityRecommendation(BaseModel):
     The unique UUID identifier for an EligibilityRecommendation.
     """
 
+    eligibility_check_id: str
     recommendation: EligibilityRecommendationPayload
     patient: EligibilityRecommendationPatientInfo
+    vote: typing.Optional[Vote] = pydantic.Field(default=None)
+    """
+    User feedback on this recommendation
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

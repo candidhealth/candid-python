@@ -23,6 +23,7 @@ from .....common.types.sexual_orientation import SexualOrientation
 from .....common.types.tag_id import TagId
 from .authorization import Authorization
 from .contact import Contact
+from .coverages_for_related_causes import CoveragesForRelatedCauses
 from .do_not_invoice_reason import DoNotInvoiceReason
 from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
@@ -117,6 +118,7 @@ class MutablePatient(UniversalBaseModel):
 
     general_practitioners: typing.List[ExternalProvider]
     filing_order: FilingOrder
+    coverages_for_related_causes: typing.Optional[CoveragesForRelatedCauses] = None
     non_insurance_payers: typing.Optional[typing.List[CanonicalNonInsurancePayerId]] = None
     non_insurance_payer_associations: typing.Optional[typing.List[CanonicalNonInsurancePayerAssociation]] = None
     guarantor: typing.Optional[Guarantor] = None

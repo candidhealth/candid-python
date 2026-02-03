@@ -110,6 +110,7 @@ class RawV1Client:
         page_token: typing.Optional[PageToken] = None,
         filters: typing.Optional[FilterQueryString] = None,
         include_deactivated: typing.Optional[bool] = None,
+        include_merged_patient_data: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AppointmentListPage]:
         """
@@ -133,6 +134,9 @@ class RawV1Client:
         include_deactivated : typing.Optional[bool]
             If true, includes deactivated appointments in the results. Defaults to false.
 
+        include_merged_patient_data : typing.Optional[bool]
+            If true and a patient id is specified, then also include appointments from any alternative patients that are merged into this patient. Defaults to false.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -151,6 +155,7 @@ class RawV1Client:
                 "page_token": page_token,
                 "filters": filters,
                 "include_deactivated": include_deactivated,
+                "include_merged_patient_data": include_merged_patient_data,
             },
             request_options=request_options,
         )
@@ -262,6 +267,7 @@ class AsyncRawV1Client:
         page_token: typing.Optional[PageToken] = None,
         filters: typing.Optional[FilterQueryString] = None,
         include_deactivated: typing.Optional[bool] = None,
+        include_merged_patient_data: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AppointmentListPage]:
         """
@@ -285,6 +291,9 @@ class AsyncRawV1Client:
         include_deactivated : typing.Optional[bool]
             If true, includes deactivated appointments in the results. Defaults to false.
 
+        include_merged_patient_data : typing.Optional[bool]
+            If true and a patient id is specified, then also include appointments from any alternative patients that are merged into this patient. Defaults to false.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -303,6 +312,7 @@ class AsyncRawV1Client:
                 "page_token": page_token,
                 "filters": filters,
                 "include_deactivated": include_deactivated,
+                "include_merged_patient_data": include_merged_patient_data,
             },
             request_options=request_options,
         )

@@ -4,16 +4,22 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .....coverages.resources.v_1.types.coverage import Coverage
-from .patient import Patient
 
 
-class PatientCoverageSnapshot(UniversalBaseModel):
-    patient: Patient
-    primary_coverage: typing.Optional[Coverage] = None
-    secondary_coverage: typing.Optional[Coverage] = None
-    tertiary_coverage: typing.Optional[Coverage] = None
-    coverages_for_related_causes: typing.List[Coverage]
+class CopayEstimationRecommendationPayload(UniversalBaseModel):
+    """
+    Payload for MD visit copay estimation from AI analysis
+    """
+
+    structured_response: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The estimated copay amount in cents
+    """
+
+    exposition: str = pydantic.Field()
+    """
+    The AI's explanation of the copay estimate
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

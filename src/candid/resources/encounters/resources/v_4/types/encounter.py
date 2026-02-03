@@ -788,6 +788,16 @@ class Encounter(EncounterBase):
     """
 
     related_causes_information: typing.Optional[RelatedCausesInformation] = None
+    property_casualty_claim_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    837p Loop2010 REF02, CMS1500 Box 11b
+    """
+
+    accident_date: typing.Optional[dt.date] = pydantic.Field(default=None)
+    """
+    837p Loop2300 DTP*439, CMS1500 Box 15
+    """
+
     submission_expectation: typing.Optional[EncounterSubmissionExpectation] = pydantic.Field(default=None)
     """
     Describes the currently expected target form for this encounter.  This effects what validations and queues the form is processed under.  When this value is not set, it should be assumed to be TARGET_PROFESSIONAL.

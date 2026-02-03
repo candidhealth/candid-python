@@ -30,6 +30,10 @@ class Authorization(UniversalBaseModel):
     quantity: typing.Optional[int] = None
     period: typing.Optional[Period] = None
     notes: typing.Optional[str] = None
+    billing_provider_npi: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The NPI of the billing provider for which this authorization applies.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

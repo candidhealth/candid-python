@@ -4,16 +4,15 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .....coverages.resources.v_1.types.coverage import Coverage
-from .patient import Patient
+from .user_configured_prompts_recommendation_payload import UserConfiguredPromptsRecommendationPayload
 
 
-class PatientCoverageSnapshot(UniversalBaseModel):
-    patient: Patient
-    primary_coverage: typing.Optional[Coverage] = None
-    secondary_coverage: typing.Optional[Coverage] = None
-    tertiary_coverage: typing.Optional[Coverage] = None
-    coverages_for_related_causes: typing.List[Coverage]
+class UserConfiguredPromptsRecommendation(UniversalBaseModel):
+    """
+    An object representing a user-configured prompt recommendation from AI analysis
+    """
+
+    payload: UserConfiguredPromptsRecommendationPayload
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -17399,6 +17399,102 @@ client.pre_encounter.eligibility_checks.v_1.create_recommendation(
 </dl>
 </details>
 
+<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">vote_recommendation</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Submit user feedback on an eligibility recommendation. The path must contain the next version number to prevent race conditions. For example, if the current version of the recommendation is n, you will need to send a request to this endpoint with `/{recommendation_id}/{n+1}/vote` to update the vote.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+    Vote,
+    VoteValue,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.eligibility_checks.v_1.vote_recommendation(
+    recommendation_id="recommendation_id",
+    version="version",
+    request=Vote(
+        user_id="user_id",
+        value=VoteValue.GOOD,
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**recommendation_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `Vote` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## PreEncounter Images V1
 <details><summary><code>client.pre_encounter.images.v_1.<a href="src/candid/resources/pre_encounter/resources/images/resources/v_1/client.py">create</a>(...)</code></summary>
 <dl>
@@ -18006,6 +18102,14 @@ client.pre_encounter.lists.v_1.get_appointment_list()
 <dd>
 
 **include_deactivated:** `typing.Optional[bool]` — If true, includes deactivated appointments in the results. Defaults to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_merged_patient_data:** `typing.Optional[bool]` — If true and a patient id is specified, then also include appointments from any alternative patients that are merged into this patient. Defaults to false.
     
 </dd>
 </dl>

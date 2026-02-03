@@ -6,7 +6,9 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .copay_estimation_recommendation_payload import CopayEstimationRecommendationPayload
 from .medicare_advantage_recommendation_payload import MedicareAdvantageRecommendationPayload
+from .user_configured_prompts_recommendation_payload import UserConfiguredPromptsRecommendationPayload
 
 
 class EligibilityRecommendationPayload_MedicareAdvantage(UniversalBaseModel):
@@ -37,6 +39,37 @@ class EligibilityRecommendationPayload_CoordinationOfBenefits(UniversalBaseModel
             extra = pydantic.Extra.allow
 
 
+class EligibilityRecommendationPayload_CopayEstimation(UniversalBaseModel):
+    type: typing.Literal["COPAY_ESTIMATION"] = "COPAY_ESTIMATION"
+    payload: CopayEstimationRecommendationPayload
+
+    if IS_PYDANTIC_V2:
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
+    else:
+
+        class Config:
+            frozen = True
+            smart_union = True
+            extra = pydantic.Extra.allow
+
+
+class EligibilityRecommendationPayload_UserConfiguredPrompts(UniversalBaseModel):
+    type: typing.Literal["USER_CONFIGURED_PROMPTS"] = "USER_CONFIGURED_PROMPTS"
+    payload: UserConfiguredPromptsRecommendationPayload
+
+    if IS_PYDANTIC_V2:
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
+    else:
+
+        class Config:
+            frozen = True
+            smart_union = True
+            extra = pydantic.Extra.allow
+
+
 EligibilityRecommendationPayload = typing.Union[
-    EligibilityRecommendationPayload_MedicareAdvantage, EligibilityRecommendationPayload_CoordinationOfBenefits
+    EligibilityRecommendationPayload_MedicareAdvantage,
+    EligibilityRecommendationPayload_CoordinationOfBenefits,
+    EligibilityRecommendationPayload_CopayEstimation,
+    EligibilityRecommendationPayload_UserConfiguredPrompts,
 ]

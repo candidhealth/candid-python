@@ -34,6 +34,7 @@ class Payer(UniversalBaseModel):
 
     clearinghouse_payer_info: typing.Dict[Clearinghouse, ClearinghousePayerInfo]
     street_address: typing.Optional[StreetAddressLongZip] = None
+    alternate_payer_addresses: typing.List[StreetAddressLongZip]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

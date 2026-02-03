@@ -7,10 +7,6 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class OccurrenceSpanCode(str, enum.Enum):
-    """
-    An enumeration.
-    """
-
     C_70 = "70"
     """
     QUALIFYING STAY DATES FOR SNF USE ONLY

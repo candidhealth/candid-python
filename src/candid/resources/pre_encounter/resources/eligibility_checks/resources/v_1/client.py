@@ -14,6 +14,7 @@ from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
 from .types.payer_search_response import PayerSearchResponse
 from .types.post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
+from .types.vote import Vote
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -296,6 +297,58 @@ class V1Client:
         )
         """
         _response = self._raw_client.create_recommendation(request=request, request_options=request_options)
+        return _response.data
+
+    def vote_recommendation(
+        self,
+        recommendation_id: str,
+        version: str,
+        *,
+        request: Vote,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> EligibilityRecommendation:
+        """
+        Submit user feedback on an eligibility recommendation. The path must contain the next version number to prevent race conditions. For example, if the current version of the recommendation is n, you will need to send a request to this endpoint with `/{recommendation_id}/{n+1}/vote` to update the vote.
+
+        Parameters
+        ----------
+        recommendation_id : str
+
+        version : str
+
+        request : Vote
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityRecommendation
+
+        Examples
+        --------
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            Vote,
+            VoteValue,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.vote_recommendation(
+            recommendation_id="recommendation_id",
+            version="version",
+            request=Vote(
+                user_id="user_id",
+                value=VoteValue.GOOD,
+            ),
+        )
+        """
+        _response = self._raw_client.vote_recommendation(
+            recommendation_id, version, request=request, request_options=request_options
+        )
         return _response.data
 
 
@@ -624,4 +677,64 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.create_recommendation(request=request, request_options=request_options)
+        return _response.data
+
+    async def vote_recommendation(
+        self,
+        recommendation_id: str,
+        version: str,
+        *,
+        request: Vote,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> EligibilityRecommendation:
+        """
+        Submit user feedback on an eligibility recommendation. The path must contain the next version number to prevent race conditions. For example, if the current version of the recommendation is n, you will need to send a request to this endpoint with `/{recommendation_id}/{n+1}/vote` to update the vote.
+
+        Parameters
+        ----------
+        recommendation_id : str
+
+        version : str
+
+        request : Vote
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityRecommendation
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            Vote,
+            VoteValue,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.vote_recommendation(
+                recommendation_id="recommendation_id",
+                version="version",
+                request=Vote(
+                    user_id="user_id",
+                    value=VoteValue.GOOD,
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.vote_recommendation(
+            recommendation_id, version, request=request, request_options=request_options
+        )
         return _response.data

@@ -4,6 +4,8 @@
 
 from .batch_eligibility_response import BatchEligibilityResponse
 from .coordination_of_benefits_recommendation import CoordinationOfBenefitsRecommendation
+from .copay_estimation_recommendation import CopayEstimationRecommendation
+from .copay_estimation_recommendation_payload import CopayEstimationRecommendationPayload
 from .eligibility_check import EligibilityCheck
 from .eligibility_check_error import EligibilityCheckError
 from .eligibility_check_error_details import EligibilityCheckErrorDetails
@@ -16,7 +18,9 @@ from .eligibility_recommendation_patient_info import EligibilityRecommendationPa
 from .eligibility_recommendation_payload import (
     EligibilityRecommendationPayload,
     EligibilityRecommendationPayload_CoordinationOfBenefits,
+    EligibilityRecommendationPayload_CopayEstimation,
     EligibilityRecommendationPayload_MedicareAdvantage,
+    EligibilityRecommendationPayload_UserConfiguredPrompts,
 )
 from .eligibility_request import EligibilityRequest
 from .eligibility_response import EligibilityResponse
@@ -33,10 +37,17 @@ from .provider import Provider
 from .request_correction import RequestCorrection
 from .stedi_payer import StediPayer
 from .stedi_payer_item import StediPayerItem
+from .user_configured_prompts_recommendation import UserConfiguredPromptsRecommendation
+from .user_configured_prompts_recommendation_payload import UserConfiguredPromptsRecommendationPayload
+from .user_configured_prompts_result import UserConfiguredPromptsResult
+from .vote import Vote
+from .vote_value import VoteValue
 
 __all__ = [
     "BatchEligibilityResponse",
     "CoordinationOfBenefitsRecommendation",
+    "CopayEstimationRecommendation",
+    "CopayEstimationRecommendationPayload",
     "EligibilityCheck",
     "EligibilityCheckError",
     "EligibilityCheckErrorDetails",
@@ -48,7 +59,9 @@ __all__ = [
     "EligibilityRecommendationPatientInfo",
     "EligibilityRecommendationPayload",
     "EligibilityRecommendationPayload_CoordinationOfBenefits",
+    "EligibilityRecommendationPayload_CopayEstimation",
     "EligibilityRecommendationPayload_MedicareAdvantage",
+    "EligibilityRecommendationPayload_UserConfiguredPrompts",
     "EligibilityRequest",
     "EligibilityResponse",
     "EligibilityStatus",
@@ -64,4 +77,9 @@ __all__ = [
     "RequestCorrection",
     "StediPayer",
     "StediPayerItem",
+    "UserConfiguredPromptsRecommendation",
+    "UserConfiguredPromptsRecommendationPayload",
+    "UserConfiguredPromptsResult",
+    "Vote",
+    "VoteValue",
 ]

@@ -21,6 +21,16 @@ class BalanceEarmark(UniversalBaseModel):
     The target for this earmark (date of service or external encounter ID)
     """
 
+    amount_earmarked_cents: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The amount earmarked in cents for future allocation
+    """
+
+    created_by_allocation_id: typing.Optional[uuid.UUID] = pydantic.Field(default=None)
+    """
+    The ID of the allocation that created this earmark
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

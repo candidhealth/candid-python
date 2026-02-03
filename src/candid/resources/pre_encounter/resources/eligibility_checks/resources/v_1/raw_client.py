@@ -9,8 +9,12 @@ from .......core.http_response import AsyncHttpResponse, HttpResponse
 from .......core.jsonable_encoder import jsonable_encoder
 from .......core.pydantic_utilities import parse_obj_as
 from .......core.request_options import RequestOptions
+from ....common.errors.not_found_error import NotFoundError
+from ....common.errors.version_conflict_error import VersionConflictError
+from ....common.types.error_base_4_xx import ErrorBase4Xx
 from ....common.types.filter_query_string import FilterQueryString
 from ....common.types.page_token import PageToken
+from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from .types.batch_eligibility_response import BatchEligibilityResponse
 from .types.eligibility_check_page import EligibilityCheckPage
 from .types.eligibility_recommendation import EligibilityRecommendation
@@ -18,6 +22,7 @@ from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
 from .types.payer_search_response import PayerSearchResponse
 from .types.post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
+from .types.vote import Vote
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -290,6 +295,78 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def vote_recommendation(
+        self,
+        recommendation_id: str,
+        version: str,
+        *,
+        request: Vote,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[EligibilityRecommendation]:
+        """
+        Submit user feedback on an eligibility recommendation. The path must contain the next version number to prevent race conditions. For example, if the current version of the recommendation is n, you will need to send a request to this endpoint with `/{recommendation_id}/{n+1}/vote` to update the vote.
+
+        Parameters
+        ----------
+        recommendation_id : str
+
+        version : str
+
+        request : Vote
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[EligibilityRecommendation]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"eligibility-checks/v1/recommendation/{jsonable_encoder(recommendation_id)}/{jsonable_encoder(version)}/vote",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="PUT",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityRecommendation,
+                parse_obj_as(
+                    type_=EligibilityRecommendation,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "NotFoundError":
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "VersionConflictError":
+                raise VersionConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        VersionConflictErrorBody,
+                        parse_obj_as(
+                            type_=VersionConflictErrorBody,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -556,4 +633,76 @@ class AsyncRawV1Client:
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def vote_recommendation(
+        self,
+        recommendation_id: str,
+        version: str,
+        *,
+        request: Vote,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[EligibilityRecommendation]:
+        """
+        Submit user feedback on an eligibility recommendation. The path must contain the next version number to prevent race conditions. For example, if the current version of the recommendation is n, you will need to send a request to this endpoint with `/{recommendation_id}/{n+1}/vote` to update the vote.
+
+        Parameters
+        ----------
+        recommendation_id : str
+
+        version : str
+
+        request : Vote
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[EligibilityRecommendation]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"eligibility-checks/v1/recommendation/{jsonable_encoder(recommendation_id)}/{jsonable_encoder(version)}/vote",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="PUT",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityRecommendation,
+                parse_obj_as(
+                    type_=EligibilityRecommendation,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "NotFoundError":
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "VersionConflictError":
+                raise VersionConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        VersionConflictErrorBody,
+                        parse_obj_as(
+                            type_=VersionConflictErrorBody,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

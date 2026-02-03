@@ -4,16 +4,29 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .....coverages.resources.v_1.types.coverage import Coverage
-from .patient import Patient
+from .....common.types.user_id import UserId
+from .vote_value import VoteValue
 
 
-class PatientCoverageSnapshot(UniversalBaseModel):
-    patient: Patient
-    primary_coverage: typing.Optional[Coverage] = None
-    secondary_coverage: typing.Optional[Coverage] = None
-    tertiary_coverage: typing.Optional[Coverage] = None
-    coverages_for_related_causes: typing.List[Coverage]
+class Vote(UniversalBaseModel):
+    """
+    User feedback on a recommendation
+    """
+
+    user_id: UserId = pydantic.Field()
+    """
+    The user who voted
+    """
+
+    value: VoteValue = pydantic.Field()
+    """
+    The vote value
+    """
+
+    comment: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Optional comment explaining the vote
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

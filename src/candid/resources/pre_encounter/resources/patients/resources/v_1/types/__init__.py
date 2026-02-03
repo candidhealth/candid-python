@@ -5,6 +5,7 @@
 from .authorization import Authorization
 from .authorization_unit import AuthorizationUnit
 from .contact import Contact
+from .coverages_for_related_causes import CoveragesForRelatedCauses
 from .do_not_invoice_reason import DoNotInvoiceReason
 from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
@@ -28,6 +29,7 @@ __all__ = [
     "Authorization",
     "AuthorizationUnit",
     "Contact",
+    "CoveragesForRelatedCauses",
     "DoNotInvoiceReason",
     "ExternalProvenance",
     "FilingOrder",
