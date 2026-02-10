@@ -140,6 +140,47 @@ class V1Client:
         )
         return _response.data
 
+    def create_with_charge_capture_external_id(
+        self,
+        *,
+        charge_capture_external_id: str,
+        attachment_file: core.File,
+        attachment_type: EncounterAttachmentType,
+        description: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AttachmentId:
+        """
+        Uploads a file using an external identifier. For Charge Capture, the file will be associated with the Encounter at Encounter creation time.
+
+        Note: Attachments created via this endpoint are not searchable via the get endpoint until they are associated with an encounter.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        attachment_type : EncounterAttachmentType
+
+        description : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AttachmentId
+        """
+        _response = self._raw_client.create_with_charge_capture_external_id(
+            charge_capture_external_id=charge_capture_external_id,
+            attachment_file=attachment_file,
+            attachment_type=attachment_type,
+            description=description,
+            request_options=request_options,
+        )
+        return _response.data
+
     def delete(
         self,
         encounter_id: EncounterId,
@@ -309,6 +350,47 @@ class AsyncV1Client:
         """
         _response = await self._raw_client.create_with_description(
             encounter_id,
+            attachment_file=attachment_file,
+            attachment_type=attachment_type,
+            description=description,
+            request_options=request_options,
+        )
+        return _response.data
+
+    async def create_with_charge_capture_external_id(
+        self,
+        *,
+        charge_capture_external_id: str,
+        attachment_file: core.File,
+        attachment_type: EncounterAttachmentType,
+        description: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AttachmentId:
+        """
+        Uploads a file using an external identifier. For Charge Capture, the file will be associated with the Encounter at Encounter creation time.
+
+        Note: Attachments created via this endpoint are not searchable via the get endpoint until they are associated with an encounter.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        attachment_type : EncounterAttachmentType
+
+        description : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AttachmentId
+        """
+        _response = await self._raw_client.create_with_charge_capture_external_id(
+            charge_capture_external_id=charge_capture_external_id,
             attachment_file=attachment_file,
             attachment_type=attachment_type,
             description=description,

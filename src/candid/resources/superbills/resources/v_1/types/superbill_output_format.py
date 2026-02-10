@@ -6,28 +6,32 @@ import typing
 T_Result = typing.TypeVar("T_Result")
 
 
-class RefundReason(str, enum.Enum):
-    OVERCHARGED = "OVERCHARGED"
-    ENTERED_IN_ERROR = "ENTERED_IN_ERROR"
-    _UNKNOWN = "__REFUNDREASON_UNKNOWN__"
+class SuperbillOutputFormat(str, enum.Enum):
+    """
+    Output format for the generated superbill.
+    """
+
+    DOCX = "DOCX"
+    PDF = "PDF"
+    _UNKNOWN = "__SUPERBILLOUTPUTFORMAT_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
     """
 
     @classmethod
-    def _missing_(cls, value: typing.Any) -> "RefundReason":
+    def _missing_(cls, value: typing.Any) -> "SuperbillOutputFormat":
         unknown = cls._UNKNOWN
         unknown._value_ = value
         return unknown
 
     def visit(
         self,
-        overcharged: typing.Callable[[], T_Result],
-        entered_in_error: typing.Callable[[], T_Result],
+        docx: typing.Callable[[], T_Result],
+        pdf: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
-        if self is RefundReason.OVERCHARGED:
-            return overcharged()
-        if self is RefundReason.ENTERED_IN_ERROR:
-            return entered_in_error()
+        if self is SuperbillOutputFormat.DOCX:
+            return docx()
+        if self is SuperbillOutputFormat.PDF:
+            return pdf()
         return _unknown_member(self._value_)

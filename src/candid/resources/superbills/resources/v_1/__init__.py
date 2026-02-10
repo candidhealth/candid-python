@@ -2,6 +2,6 @@
 
 # isort: skip_file
 
-from .types import Superbill, SuperbillResponse
+from .types import Superbill, SuperbillOutputFormat, SuperbillResponse
 
-__all__ = ["Superbill", "SuperbillResponse"]
+__all__ = ["Superbill", "SuperbillOutputFormat", "SuperbillResponse"]

@@ -8,6 +8,7 @@ from .....core.request_options import RequestOptions
 from ....commons.types.patient_external_id import PatientExternalId
 from ....commons.types.street_address_short_zip import StreetAddressShortZip
 from .raw_client import AsyncRawV1Client, RawV1Client
+from .types.superbill_output_format import SuperbillOutputFormat
 from .types.superbill_response import SuperbillResponse
 
 # this is used as the default value for optional parameters
@@ -36,6 +37,7 @@ class V1Client:
         date_range_min: dt.date,
         date_range_max: dt.date,
         pay_to_address: typing.Optional[StreetAddressShortZip] = OMIT,
+        output_format: typing.Optional[SuperbillOutputFormat] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SuperbillResponse:
         """
@@ -52,6 +54,9 @@ class V1Client:
 
         pay_to_address : typing.Optional[StreetAddressShortZip]
             Address that will be displayed on the superbill as the 'Pay to' Address. If not provided this value will be set from available encounter data.
+
+        output_format : typing.Optional[SuperbillOutputFormat]
+            Output format for the superbill. Defaults to DOCX if not specified.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -85,6 +90,7 @@ class V1Client:
             date_range_min=date_range_min,
             date_range_max=date_range_max,
             pay_to_address=pay_to_address,
+            output_format=output_format,
             request_options=request_options,
         )
         return _response.data
@@ -112,6 +118,7 @@ class AsyncV1Client:
         date_range_min: dt.date,
         date_range_max: dt.date,
         pay_to_address: typing.Optional[StreetAddressShortZip] = OMIT,
+        output_format: typing.Optional[SuperbillOutputFormat] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SuperbillResponse:
         """
@@ -128,6 +135,9 @@ class AsyncV1Client:
 
         pay_to_address : typing.Optional[StreetAddressShortZip]
             Address that will be displayed on the superbill as the 'Pay to' Address. If not provided this value will be set from available encounter data.
+
+        output_format : typing.Optional[SuperbillOutputFormat]
+            Output format for the superbill. Defaults to DOCX if not specified.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -168,6 +178,7 @@ class AsyncV1Client:
             date_range_min=date_range_min,
             date_range_max=date_range_max,
             pay_to_address=pay_to_address,
+            output_format=output_format,
             request_options=request_options,
         )
         return _response.data

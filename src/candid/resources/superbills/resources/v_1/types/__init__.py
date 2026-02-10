@@ -3,6 +3,7 @@
 # isort: skip_file
 
 from .superbill import Superbill
+from .superbill_output_format import SuperbillOutputFormat
 from .superbill_response import SuperbillResponse
 
-__all__ = ["Superbill", "SuperbillResponse"]
+__all__ = ["Superbill", "SuperbillOutputFormat", "SuperbillResponse"]

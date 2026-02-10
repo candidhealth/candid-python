@@ -177,6 +177,69 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def create_with_charge_capture_external_id(
+        self,
+        *,
+        charge_capture_external_id: str,
+        attachment_file: core.File,
+        attachment_type: EncounterAttachmentType,
+        description: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[AttachmentId]:
+        """
+        Uploads a file using an external identifier. For Charge Capture, the file will be associated with the Encounter at Encounter creation time.
+
+        Note: Attachments created via this endpoint are not searchable via the get endpoint until they are associated with an encounter.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        attachment_type : EncounterAttachmentType
+
+        description : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AttachmentId]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/encounter-attachments/v1/create-from-charge-capture-external-id",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            data={
+                "charge_capture_external_id": charge_capture_external_id,
+                "attachment_type": attachment_type,
+                "description": description,
+            },
+            files={
+                "attachment_file": attachment_file,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AttachmentId,
+                parse_obj_as(
+                    type_=AttachmentId,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def delete(
         self,
         encounter_id: EncounterId,
@@ -350,6 +413,69 @@ class AsyncRawV1Client:
             base_url=self._client_wrapper.get_environment().candid_api,
             method="PUT",
             data={
+                "attachment_type": attachment_type,
+                "description": description,
+            },
+            files={
+                "attachment_file": attachment_file,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AttachmentId,
+                parse_obj_as(
+                    type_=AttachmentId,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def create_with_charge_capture_external_id(
+        self,
+        *,
+        charge_capture_external_id: str,
+        attachment_file: core.File,
+        attachment_type: EncounterAttachmentType,
+        description: typing.Optional[str] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[AttachmentId]:
+        """
+        Uploads a file using an external identifier. For Charge Capture, the file will be associated with the Encounter at Encounter creation time.
+
+        Note: Attachments created via this endpoint are not searchable via the get endpoint until they are associated with an encounter.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        attachment_type : EncounterAttachmentType
+
+        description : typing.Optional[str]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AttachmentId]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/encounter-attachments/v1/create-from-charge-capture-external-id",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            data={
+                "charge_capture_external_id": charge_capture_external_id,
                 "attachment_type": attachment_type,
                 "description": description,
             },

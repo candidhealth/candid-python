@@ -60,6 +60,7 @@ class RawV1Client:
         originating_system: typing.Optional[str] = OMIT,
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
+        attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ChargeCapture]:
         """
@@ -86,6 +87,9 @@ class RawV1Client:
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
 
+        attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
+            Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -105,6 +109,7 @@ class RawV1Client:
                 "ehr_source_url": ehr_source_url,
                 "patient_external_id": patient_external_id,
                 "status": status,
+                "attachment_external_document_ids": attachment_external_document_ids,
             },
             request_options=request_options,
             omit=OMIT,
@@ -202,6 +207,7 @@ class RawV1Client:
         originating_system: typing.Optional[str] = OMIT,
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
+        attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ChargeCapture]:
         """
@@ -248,6 +254,9 @@ class RawV1Client:
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
 
+        attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
+            Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -268,6 +277,7 @@ class RawV1Client:
                 "claim_creation_category": claim_creation_category,
                 "ehr_source_url": ehr_source_url,
                 "status": status,
+                "attachment_external_document_ids": attachment_external_document_ids,
             },
             request_options=request_options,
             omit=OMIT,
@@ -365,6 +375,7 @@ class RawV1Client:
         claim_creation_category: typing.Optional[str] = OMIT,
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
+        attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ChargeCapture]:
         """
@@ -395,6 +406,9 @@ class RawV1Client:
         status : typing.Optional[ChargeCaptureStatus]
             the status of the charge capture
 
+        attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
+            Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -414,6 +428,7 @@ class RawV1Client:
                 "claim_creation_category": claim_creation_category,
                 "patient_external_id": patient_external_id,
                 "status": status,
+                "attachment_external_document_ids": attachment_external_document_ids,
             },
             request_options=request_options,
             omit=OMIT,
@@ -895,6 +910,7 @@ class AsyncRawV1Client:
         originating_system: typing.Optional[str] = OMIT,
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
+        attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ChargeCapture]:
         """
@@ -921,6 +937,9 @@ class AsyncRawV1Client:
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
 
+        attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
+            Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -940,6 +959,7 @@ class AsyncRawV1Client:
                 "ehr_source_url": ehr_source_url,
                 "patient_external_id": patient_external_id,
                 "status": status,
+                "attachment_external_document_ids": attachment_external_document_ids,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1037,6 +1057,7 @@ class AsyncRawV1Client:
         originating_system: typing.Optional[str] = OMIT,
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
+        attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ChargeCapture]:
         """
@@ -1083,6 +1104,9 @@ class AsyncRawV1Client:
         ehr_source_url : typing.Optional[str]
             External URL reference that links to Charge Capture details within the external system (e.g. the EHR visit page). Send full URL format for the external link (e.g. https://emr_charge_capture_url.com/123).
 
+        attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
+            Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1103,6 +1127,7 @@ class AsyncRawV1Client:
                 "claim_creation_category": claim_creation_category,
                 "ehr_source_url": ehr_source_url,
                 "status": status,
+                "attachment_external_document_ids": attachment_external_document_ids,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1200,6 +1225,7 @@ class AsyncRawV1Client:
         claim_creation_category: typing.Optional[str] = OMIT,
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
+        attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ChargeCapture]:
         """
@@ -1230,6 +1256,9 @@ class AsyncRawV1Client:
         status : typing.Optional[ChargeCaptureStatus]
             the status of the charge capture
 
+        attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
+            Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1249,6 +1278,7 @@ class AsyncRawV1Client:
                 "claim_creation_category": claim_creation_category,
                 "patient_external_id": patient_external_id,
                 "status": status,
+                "attachment_external_document_ids": attachment_external_document_ids,
             },
             request_options=request_options,
             omit=OMIT,

@@ -11,6 +11,7 @@ from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
+from ....commons.errors.http_request_validations_error import HttpRequestValidationsError
 from ....commons.errors.organization_not_authorized_error import OrganizationNotAuthorizedError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.types.encounter_id import EncounterId
@@ -211,6 +212,17 @@ class RawV2Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
             if _response_json["errorName"] == "UnauthorizedError":
                 raise UnauthorizedError(
                     headers=dict(_response.headers),
@@ -407,6 +419,17 @@ class AsyncRawV2Client:
                         RequestValidationError,
                         parse_obj_as(
                             type_=RequestValidationError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "HttpRequestValidationsError":
+                raise HttpRequestValidationsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.List[RequestValidationError],
+                        parse_obj_as(
+                            type_=typing.List[RequestValidationError],  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
