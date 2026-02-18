@@ -21,7 +21,10 @@ from .....guarantor.resources.v_1.types.guarantor import Guarantor
 from .....individual.types.patient import Patient
 from .....individual.types.subscriber import Subscriber
 from .....patient_payments.resources.v_3.types.patient_payment import PatientPayment
-from .....related_causes_information.resources.v_1.types.related_causes_information import RelatedCausesInformation
+from .....property_and_casualty.resources.v_1.types.property_casualty_patient_identifier import (
+    PropertyCasualtyPatientIdentifier,
+)
+from .....related_causes.resources.v_1.types.related_causes_information import RelatedCausesInformation
 from .....service_facility.types.encounter_service_facility import EncounterServiceFacility
 from .....tags.types.tag import Tag
 from .....x_12.resources.v_1.types.patient_discharge_status_code import PatientDischargeStatusCode
@@ -796,6 +799,14 @@ class Encounter(EncounterBase):
     accident_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     837p Loop2300 DTP*439, CMS1500 Box 15
+    """
+
+    property_casualty_patient_identifier: typing.Optional[PropertyCasualtyPatientIdentifier] = pydantic.Field(
+        default=None
+    )
+    """
+    Patient identifier for Property and Casualty claims.
+    837p Loop2010CA
     """
 
     submission_expectation: typing.Optional[EncounterSubmissionExpectation] = pydantic.Field(default=None)

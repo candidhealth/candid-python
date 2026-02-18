@@ -11,6 +11,7 @@ class Clearinghouse(str, enum.Enum):
     OLIVE = "OLIVE"
     UCSF_CIRIUS = "UCSF_CIRIUS"
     AVAILITY = "AVAILITY"
+    JOPARI = "JOPARI"
     PAYER_PORTAL = "PAYER_PORTAL"
     STEDI = "STEDI"
     WAYSTAR = "WAYSTAR"
@@ -32,6 +33,7 @@ class Clearinghouse(str, enum.Enum):
         olive: typing.Callable[[], T_Result],
         ucsf_cirius: typing.Callable[[], T_Result],
         availity: typing.Callable[[], T_Result],
+        jopari: typing.Callable[[], T_Result],
         payer_portal: typing.Callable[[], T_Result],
         stedi: typing.Callable[[], T_Result],
         waystar: typing.Callable[[], T_Result],
@@ -46,6 +48,8 @@ class Clearinghouse(str, enum.Enum):
             return ucsf_cirius()
         if self is Clearinghouse.AVAILITY:
             return availity()
+        if self is Clearinghouse.JOPARI:
+            return jopari()
         if self is Clearinghouse.PAYER_PORTAL:
             return payer_portal()
         if self is Clearinghouse.STEDI:

@@ -169,6 +169,7 @@ class V4Client:
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
+        source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
         """
@@ -189,6 +190,8 @@ class V4Client:
         payment_note : typing.Optional[str]
 
         invoice : typing.Optional[InvoiceId]
+
+        source_internal_id : typing.Optional[str]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -241,6 +244,7 @@ class V4Client:
             payment_timestamp=payment_timestamp,
             payment_note=payment_note,
             invoice=invoice,
+            source_internal_id=source_internal_id,
             request_options=request_options,
         )
         return _response.data
@@ -494,6 +498,7 @@ class AsyncV4Client:
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
+        source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
         """
@@ -514,6 +519,8 @@ class AsyncV4Client:
         payment_note : typing.Optional[str]
 
         invoice : typing.Optional[InvoiceId]
+
+        source_internal_id : typing.Optional[str]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -573,6 +580,7 @@ class AsyncV4Client:
             payment_timestamp=payment_timestamp,
             payment_note=payment_note,
             invoice=invoice,
+            source_internal_id=source_internal_id,
             request_options=request_options,
         )
         return _response.data

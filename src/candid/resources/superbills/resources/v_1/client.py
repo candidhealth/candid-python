@@ -38,6 +38,7 @@ class V1Client:
         date_range_max: dt.date,
         pay_to_address: typing.Optional[StreetAddressShortZip] = OMIT,
         output_format: typing.Optional[SuperbillOutputFormat] = OMIT,
+        include_merged_patient_data: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SuperbillResponse:
         """
@@ -57,6 +58,9 @@ class V1Client:
 
         output_format : typing.Optional[SuperbillOutputFormat]
             Output format for the superbill. Defaults to DOCX if not specified.
+
+        include_merged_patient_data : typing.Optional[bool]
+            If true will include claims from any alternative patients the given patient_external_id has.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -91,6 +95,7 @@ class V1Client:
             date_range_max=date_range_max,
             pay_to_address=pay_to_address,
             output_format=output_format,
+            include_merged_patient_data=include_merged_patient_data,
             request_options=request_options,
         )
         return _response.data
@@ -119,6 +124,7 @@ class AsyncV1Client:
         date_range_max: dt.date,
         pay_to_address: typing.Optional[StreetAddressShortZip] = OMIT,
         output_format: typing.Optional[SuperbillOutputFormat] = OMIT,
+        include_merged_patient_data: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> SuperbillResponse:
         """
@@ -138,6 +144,9 @@ class AsyncV1Client:
 
         output_format : typing.Optional[SuperbillOutputFormat]
             Output format for the superbill. Defaults to DOCX if not specified.
+
+        include_merged_patient_data : typing.Optional[bool]
+            If true will include claims from any alternative patients the given patient_external_id has.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -179,6 +188,7 @@ class AsyncV1Client:
             date_range_max=date_range_max,
             pay_to_address=pay_to_address,
             output_format=output_format,
+            include_merged_patient_data=include_merged_patient_data,
             request_options=request_options,
         )
         return _response.data

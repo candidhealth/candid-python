@@ -224,6 +224,7 @@ class RawV4Client:
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
+        source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PatientPayment]:
         """
@@ -245,6 +246,8 @@ class RawV4Client:
 
         invoice : typing.Optional[InvoiceId]
 
+        source_internal_id : typing.Optional[str]
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -263,6 +266,7 @@ class RawV4Client:
                 "patient_external_id": patient_external_id,
                 "allocations": allocations,
                 "invoice": invoice,
+                "source_internal_id": source_internal_id,
             },
             request_options=request_options,
             omit=OMIT,
@@ -660,6 +664,7 @@ class AsyncRawV4Client:
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
+        source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PatientPayment]:
         """
@@ -681,6 +686,8 @@ class AsyncRawV4Client:
 
         invoice : typing.Optional[InvoiceId]
 
+        source_internal_id : typing.Optional[str]
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -699,6 +706,7 @@ class AsyncRawV4Client:
                 "patient_external_id": patient_external_id,
                 "allocations": allocations,
                 "invoice": invoice,
+                "source_internal_id": source_internal_id,
             },
             request_options=request_options,
             omit=OMIT,

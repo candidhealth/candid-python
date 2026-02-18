@@ -9,6 +9,7 @@ T_Result = typing.TypeVar("T_Result")
 class RefundReason(str, enum.Enum):
     OVERCHARGED = "OVERCHARGED"
     ENTERED_IN_ERROR = "ENTERED_IN_ERROR"
+    TRANSFER = "TRANSFER"
     _UNKNOWN = "__REFUNDREASON_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -24,10 +25,13 @@ class RefundReason(str, enum.Enum):
         self,
         overcharged: typing.Callable[[], T_Result],
         entered_in_error: typing.Callable[[], T_Result],
+        transfer: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is RefundReason.OVERCHARGED:
             return overcharged()
         if self is RefundReason.ENTERED_IN_ERROR:
             return entered_in_error()
+        if self is RefundReason.TRANSFER:
+            return transfer()
         return _unknown_member(self._value_)

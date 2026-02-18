@@ -12479,6 +12479,14 @@ client.patient_payments.v_4.create(
 <dl>
 <dd>
 
+**source_internal_id:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -14402,6 +14410,14 @@ client.superbills.v_1.create_superbill(
 <dd>
 
 **output_format:** `typing.Optional[SuperbillOutputFormat]` — Output format for the superbill. Defaults to DOCX if not specified.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_merged_patient_data:** `typing.Optional[bool]` — If true will include claims from any alternative patients the given patient_external_id has.
     
 </dd>
 </dl>

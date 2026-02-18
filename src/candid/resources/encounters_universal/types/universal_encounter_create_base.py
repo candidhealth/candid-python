@@ -21,9 +21,10 @@ from ...encounters.resources.v_4.types.responsible_party_type import Responsible
 from ...guarantor.resources.v_1.types.guarantor_create import GuarantorCreate
 from ...individual.types.patient_create import PatientCreate
 from ...individual.types.subscriber_create import SubscriberCreate
-from ...related_causes_information.resources.v_1.types.related_causes_information_create import (
-    RelatedCausesInformationCreate,
+from ...property_and_casualty.resources.v_1.types.property_casualty_patient_identifier_create import (
+    PropertyCasualtyPatientIdentifierCreate,
 )
+from ...related_causes.resources.v_1.types.related_causes_information_create import RelatedCausesInformationCreate
 from ...service_facility.types.encounter_service_facility_base import EncounterServiceFacilityBase
 from ...tags.types.tag_id import TagId
 
@@ -155,6 +156,14 @@ class UniversalEncounterCreateBase(EncounterBase):
     accident_date: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     837p Loop2300 DTP*439, CMS1500 Box 15
+    """
+
+    property_casualty_patient_identifier: typing.Optional[PropertyCasualtyPatientIdentifierCreate] = pydantic.Field(
+        default=None
+    )
+    """
+    Patient identifier for Property and Casualty claims
+    837p Loop 2010CA
     """
 
     if IS_PYDANTIC_V2:
