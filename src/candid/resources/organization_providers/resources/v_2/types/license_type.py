@@ -107,6 +107,7 @@ class LicenseType(str, enum.Enum):
     PA_C = "PA-C"
     AMFT = "AMFT"
     CDN = "CDN"
+    CGC = "CGC"
     CNS = "CNS"
     MDPHD = "MDPHD"
     AUD = "AuD"
@@ -225,6 +226,7 @@ class LicenseType(str, enum.Enum):
         pa_c: typing.Callable[[], T_Result],
         amft: typing.Callable[[], T_Result],
         cdn: typing.Callable[[], T_Result],
+        cgc: typing.Callable[[], T_Result],
         cns: typing.Callable[[], T_Result],
         mdphd: typing.Callable[[], T_Result],
         aud: typing.Callable[[], T_Result],
@@ -432,6 +434,8 @@ class LicenseType(str, enum.Enum):
             return amft()
         if self is LicenseType.CDN:
             return cdn()
+        if self is LicenseType.CGC:
+            return cgc()
         if self is LicenseType.CNS:
             return cns()
         if self is LicenseType.MDPHD:

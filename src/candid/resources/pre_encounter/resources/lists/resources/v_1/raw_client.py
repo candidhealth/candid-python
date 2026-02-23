@@ -31,6 +31,7 @@ class RawV1Client:
         sort_direction: typing.Optional[SortDirection] = None,
         filters: typing.Optional[FilterQueryString] = None,
         include_deactivated: typing.Optional[bool] = None,
+        redirect_to_primary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PatientListPage]:
         """
@@ -53,6 +54,9 @@ class RawV1Client:
         include_deactivated : typing.Optional[bool]
             If true, includes deactivated patients in the results. Defaults to false.
 
+        redirect_to_primary : typing.Optional[bool]
+            If true, and filtering by mrn equals, then only return the primary version of the patient requested
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -71,6 +75,7 @@ class RawV1Client:
                 "sort_direction": sort_direction,
                 "filters": filters,
                 "include_deactivated": include_deactivated,
+                "redirect_to_primary": redirect_to_primary,
             },
             request_options=request_options,
         )
@@ -188,6 +193,7 @@ class AsyncRawV1Client:
         sort_direction: typing.Optional[SortDirection] = None,
         filters: typing.Optional[FilterQueryString] = None,
         include_deactivated: typing.Optional[bool] = None,
+        redirect_to_primary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PatientListPage]:
         """
@@ -210,6 +216,9 @@ class AsyncRawV1Client:
         include_deactivated : typing.Optional[bool]
             If true, includes deactivated patients in the results. Defaults to false.
 
+        redirect_to_primary : typing.Optional[bool]
+            If true, and filtering by mrn equals, then only return the primary version of the patient requested
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -228,6 +237,7 @@ class AsyncRawV1Client:
                 "sort_direction": sort_direction,
                 "filters": filters,
                 "include_deactivated": include_deactivated,
+                "redirect_to_primary": redirect_to_primary,
             },
             request_options=request_options,
         )

@@ -11,9 +11,8 @@ class VoteValue(str, enum.Enum):
     Possible vote values for recommendation quality
     """
 
-    GOOD = "GOOD"
-    BAD = "BAD"
-    OK = "OK"
+    UPVOTE = "UPVOTE"
+    DOWNVOTE = "DOWNVOTE"
     _UNKNOWN = "__VOTEVALUE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -27,15 +26,12 @@ class VoteValue(str, enum.Enum):
 
     def visit(
         self,
-        good: typing.Callable[[], T_Result],
-        bad: typing.Callable[[], T_Result],
-        ok: typing.Callable[[], T_Result],
+        upvote: typing.Callable[[], T_Result],
+        downvote: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
-        if self is VoteValue.GOOD:
-            return good()
-        if self is VoteValue.BAD:
-            return bad()
-        if self is VoteValue.OK:
-            return ok()
+        if self is VoteValue.UPVOTE:
+            return upvote()
+        if self is VoteValue.DOWNVOTE:
+            return downvote()
         return _unknown_member(self._value_)

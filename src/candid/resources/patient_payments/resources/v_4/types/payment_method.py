@@ -48,4 +48,18 @@ class PaymentMethod_Card(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-PaymentMethod = typing.Union[PaymentMethod_Cash, PaymentMethod_Check, PaymentMethod_Card]
+class PaymentMethod_MoneyOrder(UniversalBaseModel):
+    type: typing.Literal["money_order"] = "money_order"
+    money_order_serial_number: str
+
+    if IS_PYDANTIC_V2:
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
+    else:
+
+        class Config:
+            frozen = True
+            smart_union = True
+            extra = pydantic.Extra.allow
+
+
+PaymentMethod = typing.Union[PaymentMethod_Cash, PaymentMethod_Check, PaymentMethod_Card, PaymentMethod_MoneyOrder]

@@ -6,6 +6,7 @@ from .types import (
     CardPaymentMethod,
     CashPaymentMethod,
     CheckPaymentMethod,
+    MoneyOrderPaymentMethod,
     PatientPayment,
     PatientPaymentId,
     PatientPaymentSortField,
@@ -15,12 +16,14 @@ from .types import (
     PaymentMethod_Card,
     PaymentMethod_Cash,
     PaymentMethod_Check,
+    PaymentMethod_MoneyOrder,
 )
 
 __all__ = [
     "CardPaymentMethod",
     "CashPaymentMethod",
     "CheckPaymentMethod",
+    "MoneyOrderPaymentMethod",
     "PatientPayment",
     "PatientPaymentId",
     "PatientPaymentSortField",
@@ -30,4 +33,5 @@ __all__ = [
     "PaymentMethod_Card",
     "PaymentMethod_Cash",
     "PaymentMethod_Check",
+    "PaymentMethod_MoneyOrder",
 ]

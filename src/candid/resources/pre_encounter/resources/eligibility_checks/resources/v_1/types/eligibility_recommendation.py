@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2
 from .....common.types.base_model import BaseModel
+from .....common.types.coverage_id import CoverageId
 from .eligibility_recommendation_patient_info import EligibilityRecommendationPatientInfo
 from .eligibility_recommendation_payload import EligibilityRecommendationPayload
 from .vote import Vote
@@ -22,10 +23,11 @@ class EligibilityRecommendation(BaseModel):
 
     eligibility_check_id: str
     recommendation: EligibilityRecommendationPayload
+    coverage_id: typing.Optional[CoverageId] = None
     patient: EligibilityRecommendationPatientInfo
-    vote: typing.Optional[Vote] = pydantic.Field(default=None)
+    votes: typing.Optional[typing.List[Vote]] = pydantic.Field(default=None)
     """
-    User feedback on this recommendation
+    Array of votes for this recommendation
     """
 
     if IS_PYDANTIC_V2:
