@@ -4,12 +4,14 @@ name = "candidhealth"
 [tool.poetry]
 name = "candidhealth"
 version = "1.20.1"
+license = "Apache-2.0"
 description = ""
 readme = "README.md"
 authors = []
 keywords = []
 
 classifiers = [
+    "License :: OSI Approved :: Apache Software License",
     "Intended Audience :: Developers",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
