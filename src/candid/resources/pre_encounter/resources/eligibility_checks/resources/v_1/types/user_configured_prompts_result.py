@@ -21,7 +21,7 @@ class UserConfiguredPromptsResult(UniversalBaseModel):
     User-defined name for the prompt
     """
 
-    structured_response: typing.Optional[typing.Any] = pydantic.Field(default=None)
+    structured_response: typing.Any = pydantic.Field()
     """
     The AI's structured answer (boolean, number, or string)
     """

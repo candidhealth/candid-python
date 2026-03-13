@@ -6,6 +6,7 @@ import typing
 import uuid
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.date import Date
 from .....commons.types.regions import Regions
@@ -70,6 +71,7 @@ class ContractWithProvidersUnion_Institutional(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-ContractWithProvidersUnion = typing.Union[
-    ContractWithProvidersUnion_Professional, ContractWithProvidersUnion_Institutional
+ContractWithProvidersUnion = typing_extensions.Annotated[
+    typing.Union[ContractWithProvidersUnion_Professional, ContractWithProvidersUnion_Institutional],
+    pydantic.Field(discriminator="type"),
 ]

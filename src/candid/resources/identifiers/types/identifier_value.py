@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...commons.types.state import State
 
@@ -39,4 +40,7 @@ class IdentifierValue_MedicaidProviderIdentifier(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-IdentifierValue = typing.Union[IdentifierValue_MedicareProviderIdentifier, IdentifierValue_MedicaidProviderIdentifier]
+IdentifierValue = typing_extensions.Annotated[
+    typing.Union[IdentifierValue_MedicareProviderIdentifier, IdentifierValue_MedicaidProviderIdentifier],
+    pydantic.Field(discriminator="type"),
+]

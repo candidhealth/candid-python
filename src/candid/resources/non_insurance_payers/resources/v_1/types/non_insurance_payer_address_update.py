@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.street_address_short_zip import StreetAddressShortZip
 
@@ -35,4 +36,7 @@ class NonInsurancePayerAddressUpdate_Set(UniversalBaseModel):
             smart_union = True
 
 
-NonInsurancePayerAddressUpdate = typing.Union[NonInsurancePayerAddressUpdate_Remove, NonInsurancePayerAddressUpdate_Set]
+NonInsurancePayerAddressUpdate = typing_extensions.Annotated[
+    typing.Union[NonInsurancePayerAddressUpdate_Remove, NonInsurancePayerAddressUpdate_Set],
+    pydantic.Field(discriminator="type"),
+]

@@ -6,8 +6,8 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 from .....commons.types.billing_provider_commercial_license_type import BillingProviderCommercialLicenseType
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
+from .billing_provider_secondary_identification import BillingProviderSecondaryIdentification
 from .encounter_provider_base import EncounterProviderBase
-from .provider_secondary_identification import ProviderSecondaryIdentification
 
 
 class BillingProviderUpdate(EncounterProviderBase):
@@ -38,7 +38,7 @@ class BillingProviderUpdate(EncounterProviderBase):
     Provider Commercial Number
     """
 
-    secondary_identification: typing.Optional[ProviderSecondaryIdentification] = pydantic.Field(default=None)
+    secondary_identification: typing.Optional[BillingProviderSecondaryIdentification] = pydantic.Field(default=None)
     """
     Only one of provider_commercial_license_type or secondary_identification may be provided
     837i Loop2010BB G2

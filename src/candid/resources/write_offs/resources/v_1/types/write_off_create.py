@@ -6,6 +6,7 @@ import datetime as dt
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.service_line_id import ServiceLineId
 from .....non_insurance_payers.resources.v_1.types.non_insurance_payer_id import NonInsurancePayerId
@@ -71,4 +72,7 @@ class WriteOffCreate_NonInsurancePayer(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-WriteOffCreate = typing.Union[WriteOffCreate_Patient, WriteOffCreate_Insurance, WriteOffCreate_NonInsurancePayer]
+WriteOffCreate = typing_extensions.Annotated[
+    typing.Union[WriteOffCreate_Patient, WriteOffCreate_Insurance, WriteOffCreate_NonInsurancePayer],
+    pydantic.Field(discriminator="type"),
+]

@@ -2,28 +2,78 @@
 
 # isort: skip_file
 
-from .authorization import Authorization
-from .authorization_unit import AuthorizationUnit
-from .contact import Contact
-from .coverages_for_related_causes import CoveragesForRelatedCauses
-from .do_not_invoice_reason import DoNotInvoiceReason
-from .external_provenance import ExternalProvenance
-from .filing_order import FilingOrder
-from .guarantor import Guarantor
-from .inferred_patient_metadata import InferredPatientMetadata
-from .marital_status import MaritalStatus
-from .mutable_patient import MutablePatient
-from .mutable_patient_with_mrn import MutablePatientWithMrn
-from .origination_detail import OriginationDetail
-from .patient import Patient
-from .patient_coverage_snapshot import PatientCoverageSnapshot
-from .patient_page import PatientPage
-from .patient_sort_field import PatientSortField
-from .referral import Referral
-from .referral_source import ReferralSource
-from .referral_type import ReferralType
-from .referral_unit import ReferralUnit
-from .specialization_category import SpecializationCategory
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .authorization import Authorization
+    from .authorization_unit import AuthorizationUnit
+    from .contact import Contact
+    from .coverages_for_related_causes import CoveragesForRelatedCauses
+    from .do_not_invoice_reason import DoNotInvoiceReason
+    from .external_provenance import ExternalProvenance
+    from .filing_order import FilingOrder
+    from .guarantor import Guarantor
+    from .inferred_patient_metadata import InferredPatientMetadata
+    from .marital_status import MaritalStatus
+    from .mutable_patient import MutablePatient
+    from .mutable_patient_with_mrn import MutablePatientWithMrn
+    from .origination_detail import OriginationDetail
+    from .patient import Patient
+    from .patient_coverage_snapshot import PatientCoverageSnapshot
+    from .patient_page import PatientPage
+    from .patient_sort_field import PatientSortField
+    from .referral import Referral
+    from .referral_source import ReferralSource
+    from .referral_type import ReferralType
+    from .referral_unit import ReferralUnit
+    from .specialization_category import SpecializationCategory
+_dynamic_imports: typing.Dict[str, str] = {
+    "Authorization": ".authorization",
+    "AuthorizationUnit": ".authorization_unit",
+    "Contact": ".contact",
+    "CoveragesForRelatedCauses": ".coverages_for_related_causes",
+    "DoNotInvoiceReason": ".do_not_invoice_reason",
+    "ExternalProvenance": ".external_provenance",
+    "FilingOrder": ".filing_order",
+    "Guarantor": ".guarantor",
+    "InferredPatientMetadata": ".inferred_patient_metadata",
+    "MaritalStatus": ".marital_status",
+    "MutablePatient": ".mutable_patient",
+    "MutablePatientWithMrn": ".mutable_patient_with_mrn",
+    "OriginationDetail": ".origination_detail",
+    "Patient": ".patient",
+    "PatientCoverageSnapshot": ".patient_coverage_snapshot",
+    "PatientPage": ".patient_page",
+    "PatientSortField": ".patient_sort_field",
+    "Referral": ".referral",
+    "ReferralSource": ".referral_source",
+    "ReferralType": ".referral_type",
+    "ReferralUnit": ".referral_unit",
+    "SpecializationCategory": ".specialization_category",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Authorization",

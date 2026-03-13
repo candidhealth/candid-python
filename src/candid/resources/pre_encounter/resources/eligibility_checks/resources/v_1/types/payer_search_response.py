@@ -10,7 +10,7 @@ from .stedi_payer_item import StediPayerItem
 
 class PayerSearchResponse(ResourcePage):
     items: typing.List[StediPayerItem]
-    stats: typing.Optional[typing.Any] = None
+    stats: typing.Any
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

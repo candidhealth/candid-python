@@ -2,40 +2,98 @@
 
 # isort: skip_file
 
-from .contract import Contract
-from .contract_base import ContractBase
-from .contract_create import ContractCreate
-from .contract_create_union import (
-    ContractCreateUnion,
-    ContractCreateUnion_Institutional,
-    ContractCreateUnion_Professional,
-)
-from .contract_id import ContractId
-from .contract_service_facility import ContractServiceFacility
-from .contract_service_facility_base import ContractServiceFacilityBase
-from .contract_service_facility_id import ContractServiceFacilityId
-from .contract_type import ContractType
-from .contract_union import ContractUnion, ContractUnion_Institutional, ContractUnion_Professional
-from .contract_update import ContractUpdate
-from .contract_update_union import (
-    ContractUpdateUnion,
-    ContractUpdateUnion_Institutional,
-    ContractUpdateUnion_Professional,
-)
-from .contract_with_providers_union import (
-    ContractWithProvidersUnion,
-    ContractWithProvidersUnion_Institutional,
-    ContractWithProvidersUnion_Professional,
-)
-from .contracting_provider_id import ContractingProviderId
-from .contracts_page import ContractsPage
-from .institutional_contract import InstitutionalContract
-from .institutional_contract_create import InstitutionalContractCreate
-from .institutional_contract_update import InstitutionalContractUpdate
-from .professional_contract import ProfessionalContract
-from .professional_contract_create import ProfessionalContractCreate
-from .professional_contract_update import ProfessionalContractUpdate
-from .rendering_providerid import RenderingProviderid
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .contract import Contract
+    from .contract_base import ContractBase
+    from .contract_create import ContractCreate
+    from .contract_create_union import (
+        ContractCreateUnion,
+        ContractCreateUnion_Institutional,
+        ContractCreateUnion_Professional,
+    )
+    from .contract_id import ContractId
+    from .contract_service_facility import ContractServiceFacility
+    from .contract_service_facility_base import ContractServiceFacilityBase
+    from .contract_service_facility_id import ContractServiceFacilityId
+    from .contract_type import ContractType
+    from .contract_union import ContractUnion, ContractUnion_Institutional, ContractUnion_Professional
+    from .contract_update import ContractUpdate
+    from .contract_update_union import (
+        ContractUpdateUnion,
+        ContractUpdateUnion_Institutional,
+        ContractUpdateUnion_Professional,
+    )
+    from .contract_with_providers_union import (
+        ContractWithProvidersUnion,
+        ContractWithProvidersUnion_Institutional,
+        ContractWithProvidersUnion_Professional,
+    )
+    from .contracting_provider_id import ContractingProviderId
+    from .contracts_page import ContractsPage
+    from .institutional_contract import InstitutionalContract
+    from .institutional_contract_create import InstitutionalContractCreate
+    from .institutional_contract_update import InstitutionalContractUpdate
+    from .professional_contract import ProfessionalContract
+    from .professional_contract_create import ProfessionalContractCreate
+    from .professional_contract_update import ProfessionalContractUpdate
+    from .rendering_providerid import RenderingProviderid
+_dynamic_imports: typing.Dict[str, str] = {
+    "Contract": ".contract",
+    "ContractBase": ".contract_base",
+    "ContractCreate": ".contract_create",
+    "ContractCreateUnion": ".contract_create_union",
+    "ContractCreateUnion_Institutional": ".contract_create_union",
+    "ContractCreateUnion_Professional": ".contract_create_union",
+    "ContractId": ".contract_id",
+    "ContractServiceFacility": ".contract_service_facility",
+    "ContractServiceFacilityBase": ".contract_service_facility_base",
+    "ContractServiceFacilityId": ".contract_service_facility_id",
+    "ContractType": ".contract_type",
+    "ContractUnion": ".contract_union",
+    "ContractUnion_Institutional": ".contract_union",
+    "ContractUnion_Professional": ".contract_union",
+    "ContractUpdate": ".contract_update",
+    "ContractUpdateUnion": ".contract_update_union",
+    "ContractUpdateUnion_Institutional": ".contract_update_union",
+    "ContractUpdateUnion_Professional": ".contract_update_union",
+    "ContractWithProvidersUnion": ".contract_with_providers_union",
+    "ContractWithProvidersUnion_Institutional": ".contract_with_providers_union",
+    "ContractWithProvidersUnion_Professional": ".contract_with_providers_union",
+    "ContractingProviderId": ".contracting_provider_id",
+    "ContractsPage": ".contracts_page",
+    "InstitutionalContract": ".institutional_contract",
+    "InstitutionalContractCreate": ".institutional_contract_create",
+    "InstitutionalContractUpdate": ".institutional_contract_update",
+    "ProfessionalContract": ".professional_contract",
+    "ProfessionalContractCreate": ".professional_contract_create",
+    "ProfessionalContractUpdate": ".professional_contract_update",
+    "RenderingProviderid": ".rendering_providerid",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Contract",

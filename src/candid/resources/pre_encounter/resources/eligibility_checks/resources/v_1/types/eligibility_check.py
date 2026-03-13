@@ -14,7 +14,7 @@ class EligibilityCheck(UniversalBaseModel):
     batch_id: typing.Optional[str] = None
     errors: typing.Optional[typing.List[EligibilityCheckError]] = None
     request: typing.Optional[EligibilityRequest] = None
-    response: typing.Optional[typing.Any] = None
+    response: typing.Any
     parsed_response: typing.Optional[ParsedResponse] = None
     request_corrections: typing.Optional[typing.List[RequestCorrection]] = None
 

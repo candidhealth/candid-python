@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....payers.resources.v_3.types.payer_uuid import PayerUuid
 from .rate_entry import RateEntry
@@ -125,13 +126,16 @@ class ValidationError_PayerPlanGroupNetworkTypeMutualExclusion(UniversalBaseMode
             extra = pydantic.Extra.allow
 
 
-ValidationError = typing.Union[
-    ValidationError_OverlappingRateEntries,
-    ValidationError_VersionConflict,
-    ValidationError_OrganizationProviderNotFound,
-    ValidationError_DuplicateRate,
-    ValidationError_EmptyEntries,
-    ValidationError_PayerPlanGroupNotFound,
-    ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
-    ValidationError_PayerPlanGroupNetworkTypeMutualExclusion,
+ValidationError = typing_extensions.Annotated[
+    typing.Union[
+        ValidationError_OverlappingRateEntries,
+        ValidationError_VersionConflict,
+        ValidationError_OrganizationProviderNotFound,
+        ValidationError_DuplicateRate,
+        ValidationError_EmptyEntries,
+        ValidationError_PayerPlanGroupNotFound,
+        ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
+        ValidationError_PayerPlanGroupNetworkTypeMutualExclusion,
+    ],
+    pydantic.Field(discriminator="type"),
 ]

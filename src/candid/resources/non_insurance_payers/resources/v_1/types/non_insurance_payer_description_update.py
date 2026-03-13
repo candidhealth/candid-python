@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
@@ -34,6 +35,7 @@ class NonInsurancePayerDescriptionUpdate_Set(UniversalBaseModel):
             smart_union = True
 
 
-NonInsurancePayerDescriptionUpdate = typing.Union[
-    NonInsurancePayerDescriptionUpdate_Remove, NonInsurancePayerDescriptionUpdate_Set
+NonInsurancePayerDescriptionUpdate = typing_extensions.Annotated[
+    typing.Union[NonInsurancePayerDescriptionUpdate_Remove, NonInsurancePayerDescriptionUpdate_Set],
+    pydantic.Field(discriminator="type"),
 ]

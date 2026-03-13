@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
@@ -62,4 +63,7 @@ class PaymentMethod_MoneyOrder(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-PaymentMethod = typing.Union[PaymentMethod_Cash, PaymentMethod_Check, PaymentMethod_Card, PaymentMethod_MoneyOrder]
+PaymentMethod = typing_extensions.Annotated[
+    typing.Union[PaymentMethod_Cash, PaymentMethod_Check, PaymentMethod_Card, PaymentMethod_MoneyOrder],
+    pydantic.Field(discriminator="type"),
+]

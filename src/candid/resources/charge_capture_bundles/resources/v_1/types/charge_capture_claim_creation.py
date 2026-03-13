@@ -19,7 +19,7 @@ class ChargeCaptureClaimCreation(UniversalBaseModel):
     Status of the Claim Creation, Successful means that the Claim Creation created a corresponding Claim
     """
 
-    characteristics: typing.Dict[str, typing.Optional[typing.Optional[typing.Any]]] = pydantic.Field()
+    characteristics: typing.Dict[str, typing.Optional[typing.Any]] = pydantic.Field()
     """
     A dictionary of characteristics that are used to group charge captures together based on the bundling configuration.
     Example: {"service_facility.npi": "99999999", "date_of_service": "2023-01-01"}

@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
@@ -71,4 +72,6 @@ UserMetadata_HumanUserMetadata(
     email="john.doe@example.com",
 )
 """
-UserMetadata = typing.Union[UserMetadata_MachineUserMetadata, UserMetadata_HumanUserMetadata]
+UserMetadata = typing_extensions.Annotated[
+    typing.Union[UserMetadata_MachineUserMetadata, UserMetadata_HumanUserMetadata], pydantic.Field(discriminator="type")
+]

@@ -2,32 +2,97 @@
 
 # isort: skip_file
 
-from .billing_provider import BillingProvider
-from .billing_provider_update import BillingProviderUpdate
-from .billing_provider_update_with_optional_address import BillingProviderUpdateWithOptionalAddress
-from .encounter_provider import EncounterProvider
-from .encounter_provider_base import EncounterProviderBase
-from .initial_referring_provider import InitialReferringProvider
-from .initial_referring_provider_update import InitialReferringProviderUpdate
-from .initial_referring_provider_update_with_optional_address import InitialReferringProviderUpdateWithOptionalAddress
-from .ordering_provider import OrderingProvider
-from .ordering_provider_optional import OrderingProviderOptional
-from .ordering_provider_update import OrderingProviderUpdate
-from .provider_id import ProviderId
-from .provider_secondary_identification import ProviderSecondaryIdentification
-from .provider_secondary_identification_qualifier import ProviderSecondaryIdentificationQualifier
-from .referring_provider import ReferringProvider
-from .referring_provider_update import ReferringProviderUpdate
-from .referring_provider_update_with_optional_address import ReferringProviderUpdateWithOptionalAddress
-from .rendering_provider import RenderingProvider
-from .rendering_provider_update import RenderingProviderUpdate
-from .rendering_provider_update_with_optional_address import RenderingProviderUpdateWithOptionalAddress
-from .supervising_provider import SupervisingProvider
-from .supervising_provider_update import SupervisingProviderUpdate
-from .supervising_provider_update_with_optional_address import SupervisingProviderUpdateWithOptionalAddress
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .billing_provider import BillingProvider
+    from .billing_provider_secondary_identification import BillingProviderSecondaryIdentification
+    from .billing_provider_secondary_identification_qualifier import BillingProviderSecondaryIdentificationQualifier
+    from .billing_provider_update import BillingProviderUpdate
+    from .billing_provider_update_with_optional_address import BillingProviderUpdateWithOptionalAddress
+    from .encounter_provider import EncounterProvider
+    from .encounter_provider_base import EncounterProviderBase
+    from .initial_referring_provider import InitialReferringProvider
+    from .initial_referring_provider_update import InitialReferringProviderUpdate
+    from .initial_referring_provider_update_with_optional_address import (
+        InitialReferringProviderUpdateWithOptionalAddress,
+    )
+    from .ordering_provider import OrderingProvider
+    from .ordering_provider_optional import OrderingProviderOptional
+    from .ordering_provider_update import OrderingProviderUpdate
+    from .provider_id import ProviderId
+    from .provider_secondary_identification import ProviderSecondaryIdentification
+    from .provider_secondary_identification_qualifier import ProviderSecondaryIdentificationQualifier
+    from .referring_provider import ReferringProvider
+    from .referring_provider_secondary_identification import ReferringProviderSecondaryIdentification
+    from .referring_provider_secondary_identification_qualifier import ReferringProviderSecondaryIdentificationQualifier
+    from .referring_provider_update import ReferringProviderUpdate
+    from .referring_provider_update_with_optional_address import ReferringProviderUpdateWithOptionalAddress
+    from .rendering_provider import RenderingProvider
+    from .rendering_provider_update import RenderingProviderUpdate
+    from .rendering_provider_update_with_optional_address import RenderingProviderUpdateWithOptionalAddress
+    from .supervising_provider import SupervisingProvider
+    from .supervising_provider_secondary_identification import SupervisingProviderSecondaryIdentification
+    from .supervising_provider_update import SupervisingProviderUpdate
+    from .supervising_provider_update_with_optional_address import SupervisingProviderUpdateWithOptionalAddress
+_dynamic_imports: typing.Dict[str, str] = {
+    "BillingProvider": ".billing_provider",
+    "BillingProviderSecondaryIdentification": ".billing_provider_secondary_identification",
+    "BillingProviderSecondaryIdentificationQualifier": ".billing_provider_secondary_identification_qualifier",
+    "BillingProviderUpdate": ".billing_provider_update",
+    "BillingProviderUpdateWithOptionalAddress": ".billing_provider_update_with_optional_address",
+    "EncounterProvider": ".encounter_provider",
+    "EncounterProviderBase": ".encounter_provider_base",
+    "InitialReferringProvider": ".initial_referring_provider",
+    "InitialReferringProviderUpdate": ".initial_referring_provider_update",
+    "InitialReferringProviderUpdateWithOptionalAddress": ".initial_referring_provider_update_with_optional_address",
+    "OrderingProvider": ".ordering_provider",
+    "OrderingProviderOptional": ".ordering_provider_optional",
+    "OrderingProviderUpdate": ".ordering_provider_update",
+    "ProviderId": ".provider_id",
+    "ProviderSecondaryIdentification": ".provider_secondary_identification",
+    "ProviderSecondaryIdentificationQualifier": ".provider_secondary_identification_qualifier",
+    "ReferringProvider": ".referring_provider",
+    "ReferringProviderSecondaryIdentification": ".referring_provider_secondary_identification",
+    "ReferringProviderSecondaryIdentificationQualifier": ".referring_provider_secondary_identification_qualifier",
+    "ReferringProviderUpdate": ".referring_provider_update",
+    "ReferringProviderUpdateWithOptionalAddress": ".referring_provider_update_with_optional_address",
+    "RenderingProvider": ".rendering_provider",
+    "RenderingProviderUpdate": ".rendering_provider_update",
+    "RenderingProviderUpdateWithOptionalAddress": ".rendering_provider_update_with_optional_address",
+    "SupervisingProvider": ".supervising_provider",
+    "SupervisingProviderSecondaryIdentification": ".supervising_provider_secondary_identification",
+    "SupervisingProviderUpdate": ".supervising_provider_update",
+    "SupervisingProviderUpdateWithOptionalAddress": ".supervising_provider_update_with_optional_address",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "BillingProvider",
+    "BillingProviderSecondaryIdentification",
+    "BillingProviderSecondaryIdentificationQualifier",
     "BillingProviderUpdate",
     "BillingProviderUpdateWithOptionalAddress",
     "EncounterProvider",
@@ -42,12 +107,15 @@ __all__ = [
     "ProviderSecondaryIdentification",
     "ProviderSecondaryIdentificationQualifier",
     "ReferringProvider",
+    "ReferringProviderSecondaryIdentification",
+    "ReferringProviderSecondaryIdentificationQualifier",
     "ReferringProviderUpdate",
     "ReferringProviderUpdateWithOptionalAddress",
     "RenderingProvider",
     "RenderingProviderUpdate",
     "RenderingProviderUpdateWithOptionalAddress",
     "SupervisingProvider",
+    "SupervisingProviderSecondaryIdentification",
     "SupervisingProviderUpdate",
     "SupervisingProviderUpdateWithOptionalAddress",
 ]

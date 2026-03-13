@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.date import Date
 from ...v_2.types.authorized_signatory_update import AuthorizedSignatoryUpdate
@@ -60,4 +61,7 @@ class ContractUpdateUnion_Institutional(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-ContractUpdateUnion = typing.Union[ContractUpdateUnion_Professional, ContractUpdateUnion_Institutional]
+ContractUpdateUnion = typing_extensions.Annotated[
+    typing.Union[ContractUpdateUnion_Professional, ContractUpdateUnion_Institutional],
+    pydantic.Field(discriminator="type"),
+]

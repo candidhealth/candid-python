@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...commons.types.appointment_id import AppointmentId
 from ...commons.types.claim_id import ClaimId
@@ -104,11 +105,14 @@ class AllocationTargetCreate_Unattributed(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-AllocationTargetCreate = typing.Union[
-    AllocationTargetCreate_ServiceLineById,
-    AllocationTargetCreate_ClaimById,
-    AllocationTargetCreate_ClaimByEncounterExternalId,
-    AllocationTargetCreate_BillingProviderById,
-    AllocationTargetCreate_AppointmentByIdAndPatientExternalId,
-    AllocationTargetCreate_Unattributed,
+AllocationTargetCreate = typing_extensions.Annotated[
+    typing.Union[
+        AllocationTargetCreate_ServiceLineById,
+        AllocationTargetCreate_ClaimById,
+        AllocationTargetCreate_ClaimByEncounterExternalId,
+        AllocationTargetCreate_BillingProviderById,
+        AllocationTargetCreate_AppointmentByIdAndPatientExternalId,
+        AllocationTargetCreate_Unattributed,
+    ],
+    pydantic.Field(discriminator="type"),
 ]

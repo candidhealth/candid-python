@@ -2,15 +2,52 @@
 
 # isort: skip_file
 
-from .diagnosis import Diagnosis
-from .diagnosis_create import DiagnosisCreate
-from .diagnosis_create_optional import DiagnosisCreateOptional
-from .diagnosis_id import DiagnosisId
-from .diagnosis_not_found_error import DiagnosisNotFoundError
-from .diagnosis_type_code import DiagnosisTypeCode
-from .disallow_multiple_primary_diagnosis_error import DisallowMultiplePrimaryDiagnosisError
-from .service_lines_must_have_at_least_one_diagnosis_error import ServiceLinesMustHaveAtLeastOneDiagnosisError
-from .standalone_diagnosis_create import StandaloneDiagnosisCreate
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .diagnosis import Diagnosis
+    from .diagnosis_create import DiagnosisCreate
+    from .diagnosis_create_optional import DiagnosisCreateOptional
+    from .diagnosis_id import DiagnosisId
+    from .diagnosis_not_found_error import DiagnosisNotFoundError
+    from .diagnosis_type_code import DiagnosisTypeCode
+    from .disallow_multiple_primary_diagnosis_error import DisallowMultiplePrimaryDiagnosisError
+    from .service_lines_must_have_at_least_one_diagnosis_error import ServiceLinesMustHaveAtLeastOneDiagnosisError
+    from .standalone_diagnosis_create import StandaloneDiagnosisCreate
+_dynamic_imports: typing.Dict[str, str] = {
+    "Diagnosis": ".diagnosis",
+    "DiagnosisCreate": ".diagnosis_create",
+    "DiagnosisCreateOptional": ".diagnosis_create_optional",
+    "DiagnosisId": ".diagnosis_id",
+    "DiagnosisNotFoundError": ".diagnosis_not_found_error",
+    "DiagnosisTypeCode": ".diagnosis_type_code",
+    "DisallowMultiplePrimaryDiagnosisError": ".disallow_multiple_primary_diagnosis_error",
+    "ServiceLinesMustHaveAtLeastOneDiagnosisError": ".service_lines_must_have_at_least_one_diagnosis_error",
+    "StandaloneDiagnosisCreate": ".standalone_diagnosis_create",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Diagnosis",

@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .copay_estimation_recommendation_payload import CopayEstimationRecommendationPayload
 from .medicare_advantage_recommendation_payload import MedicareAdvantageRecommendationPayload
@@ -27,7 +28,7 @@ class EligibilityRecommendationPayload_MedicareAdvantage(UniversalBaseModel):
 
 class EligibilityRecommendationPayload_CoordinationOfBenefits(UniversalBaseModel):
     type: typing.Literal["COORDINATION_OF_BENEFITS"] = "COORDINATION_OF_BENEFITS"
-    payload: typing.Optional[typing.Any] = None
+    payload: typing.Any
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
@@ -67,9 +68,12 @@ class EligibilityRecommendationPayload_UserConfiguredPrompts(UniversalBaseModel)
             extra = pydantic.Extra.allow
 
 
-EligibilityRecommendationPayload = typing.Union[
-    EligibilityRecommendationPayload_MedicareAdvantage,
-    EligibilityRecommendationPayload_CoordinationOfBenefits,
-    EligibilityRecommendationPayload_CopayEstimation,
-    EligibilityRecommendationPayload_UserConfiguredPrompts,
+EligibilityRecommendationPayload = typing_extensions.Annotated[
+    typing.Union[
+        EligibilityRecommendationPayload_MedicareAdvantage,
+        EligibilityRecommendationPayload_CoordinationOfBenefits,
+        EligibilityRecommendationPayload_CopayEstimation,
+        EligibilityRecommendationPayload_UserConfiguredPrompts,
+    ],
+    pydantic.Field(discriminator="type"),
 ]

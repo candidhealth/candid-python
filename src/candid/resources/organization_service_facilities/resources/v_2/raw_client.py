@@ -9,8 +9,10 @@ from .....core.http_response import AsyncHttpResponse, HttpResponse
 from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
+from ....commons.errors.entity_conflict_error import EntityConflictError
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
+from ....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.facility_type_code import FacilityTypeCode
 from ....commons.types.page_token import PageToken
@@ -250,6 +252,17 @@ class RawV2Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update(
@@ -313,6 +326,17 @@ class RawV2Client:
                         EntityNotFoundErrorMessage,
                         parse_obj_as(
                             type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -589,6 +613,17 @@ class AsyncRawV2Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update(
@@ -652,6 +687,17 @@ class AsyncRawV2Client:
                         EntityNotFoundErrorMessage,
                         parse_obj_as(
                             type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "EntityConflictError":
+                raise EntityConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityConflictErrorMessage,
+                        parse_obj_as(
+                            type_=EntityConflictErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

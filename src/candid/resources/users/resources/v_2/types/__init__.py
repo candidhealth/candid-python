@@ -2,19 +2,60 @@
 
 # isort: skip_file
 
-from .auth_zero_metadata import AuthZeroMetadata
-from .google_apps_metadata import GoogleAppsMetadata
-from .human_user_metadata import HumanUserMetadata
-from .idp_user_metadata import (
-    IdpUserMetadata,
-    IdpUserMetadata_AuthZeroMetadata,
-    IdpUserMetadata_GoogleAppsMetadata,
-    IdpUserMetadata_OtherIdpMetadata,
-)
-from .machine_user_metadata import MachineUserMetadata
-from .other_idp_metadata import OtherIdpMetadata
-from .user_metadata import UserMetadata, UserMetadata_HumanUserMetadata, UserMetadata_MachineUserMetadata
-from .user_v_2 import UserV2
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .auth_zero_metadata import AuthZeroMetadata
+    from .google_apps_metadata import GoogleAppsMetadata
+    from .human_user_metadata import HumanUserMetadata
+    from .idp_user_metadata import (
+        IdpUserMetadata,
+        IdpUserMetadata_AuthZeroMetadata,
+        IdpUserMetadata_GoogleAppsMetadata,
+        IdpUserMetadata_OtherIdpMetadata,
+    )
+    from .machine_user_metadata import MachineUserMetadata
+    from .other_idp_metadata import OtherIdpMetadata
+    from .user_metadata import UserMetadata, UserMetadata_HumanUserMetadata, UserMetadata_MachineUserMetadata
+    from .user_v_2 import UserV2
+_dynamic_imports: typing.Dict[str, str] = {
+    "AuthZeroMetadata": ".auth_zero_metadata",
+    "GoogleAppsMetadata": ".google_apps_metadata",
+    "HumanUserMetadata": ".human_user_metadata",
+    "IdpUserMetadata": ".idp_user_metadata",
+    "IdpUserMetadata_AuthZeroMetadata": ".idp_user_metadata",
+    "IdpUserMetadata_GoogleAppsMetadata": ".idp_user_metadata",
+    "IdpUserMetadata_OtherIdpMetadata": ".idp_user_metadata",
+    "MachineUserMetadata": ".machine_user_metadata",
+    "OtherIdpMetadata": ".other_idp_metadata",
+    "UserMetadata": ".user_metadata",
+    "UserMetadata_HumanUserMetadata": ".user_metadata",
+    "UserMetadata_MachineUserMetadata": ".user_metadata",
+    "UserV2": ".user_v_2",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AuthZeroMetadata",

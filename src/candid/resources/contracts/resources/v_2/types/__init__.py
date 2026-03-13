@@ -2,31 +2,84 @@
 
 # isort: skip_file
 
-from .authorized_signatory import AuthorizedSignatory
-from .authorized_signatory_update import (
-    AuthorizedSignatoryUpdate,
-    AuthorizedSignatoryUpdate_Remove,
-    AuthorizedSignatoryUpdate_Set,
-)
-from .contract import Contract
-from .contract_base import ContractBase
-from .contract_id import ContractId
-from .contract_invalid_expiration_date_error import ContractInvalidExpirationDateError
-from .contract_is_linked_to_fee_schedule_error import ContractIsLinkedToFeeScheduleError
-from .contract_sort_field import ContractSortField
-from .contract_status import ContractStatus
-from .contract_with_providers import ContractWithProviders
-from .contracting_provider_id import ContractingProviderId
-from .contracts_page import ContractsPage
-from .date_update import DateUpdate, DateUpdate_Remove, DateUpdate_Set
-from .insurance_types import (
-    InsuranceTypes,
-    InsuranceTypes_AllApply,
-    InsuranceTypes_NoneApply,
-    InsuranceTypes_TheseApply,
-)
-from .regions_update import RegionsUpdate, RegionsUpdate_Remove, RegionsUpdate_Set
-from .rendering_providerid import RenderingProviderid
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .authorized_signatory import AuthorizedSignatory
+    from .authorized_signatory_update import (
+        AuthorizedSignatoryUpdate,
+        AuthorizedSignatoryUpdate_Remove,
+        AuthorizedSignatoryUpdate_Set,
+    )
+    from .contract import Contract
+    from .contract_base import ContractBase
+    from .contract_id import ContractId
+    from .contract_invalid_expiration_date_error import ContractInvalidExpirationDateError
+    from .contract_is_linked_to_fee_schedule_error import ContractIsLinkedToFeeScheduleError
+    from .contract_sort_field import ContractSortField
+    from .contract_status import ContractStatus
+    from .contract_with_providers import ContractWithProviders
+    from .contracting_provider_id import ContractingProviderId
+    from .contracts_page import ContractsPage
+    from .date_update import DateUpdate, DateUpdate_Remove, DateUpdate_Set
+    from .insurance_types import (
+        InsuranceTypes,
+        InsuranceTypes_AllApply,
+        InsuranceTypes_NoneApply,
+        InsuranceTypes_TheseApply,
+    )
+    from .regions_update import RegionsUpdate, RegionsUpdate_Remove, RegionsUpdate_Set
+    from .rendering_providerid import RenderingProviderid
+_dynamic_imports: typing.Dict[str, str] = {
+    "AuthorizedSignatory": ".authorized_signatory",
+    "AuthorizedSignatoryUpdate": ".authorized_signatory_update",
+    "AuthorizedSignatoryUpdate_Remove": ".authorized_signatory_update",
+    "AuthorizedSignatoryUpdate_Set": ".authorized_signatory_update",
+    "Contract": ".contract",
+    "ContractBase": ".contract_base",
+    "ContractId": ".contract_id",
+    "ContractInvalidExpirationDateError": ".contract_invalid_expiration_date_error",
+    "ContractIsLinkedToFeeScheduleError": ".contract_is_linked_to_fee_schedule_error",
+    "ContractSortField": ".contract_sort_field",
+    "ContractStatus": ".contract_status",
+    "ContractWithProviders": ".contract_with_providers",
+    "ContractingProviderId": ".contracting_provider_id",
+    "ContractsPage": ".contracts_page",
+    "DateUpdate": ".date_update",
+    "DateUpdate_Remove": ".date_update",
+    "DateUpdate_Set": ".date_update",
+    "InsuranceTypes": ".insurance_types",
+    "InsuranceTypes_AllApply": ".insurance_types",
+    "InsuranceTypes_NoneApply": ".insurance_types",
+    "InsuranceTypes_TheseApply": ".insurance_types",
+    "RegionsUpdate": ".regions_update",
+    "RegionsUpdate_Remove": ".regions_update",
+    "RegionsUpdate_Set": ".regions_update",
+    "RenderingProviderid": ".rendering_providerid",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AuthorizedSignatory",

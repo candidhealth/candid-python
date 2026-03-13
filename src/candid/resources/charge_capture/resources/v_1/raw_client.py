@@ -364,6 +364,81 @@ class RawV1Client:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def update_post_billed_changes(
+        self,
+        *,
+        charge_capture_change_ids: typing.Sequence[ChargeCapturePostBilledChangeId],
+        resolved: bool,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[typing.List[ChargeCapturePostBilledChange]]:
+        """
+        Parameters
+        ----------
+        charge_capture_change_ids : typing.Sequence[ChargeCapturePostBilledChangeId]
+            A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
+            All of the charges sent will be marked as resolved
+
+        resolved : bool
+            Whether the change has been resolved. If true, the change will be marked as resolved.
+            If false, the change will be marked as unresolved.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[typing.List[ChargeCapturePostBilledChange]]
+            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/charge_captures/v1/changes",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "charge_capture_change_ids": charge_capture_change_ids,
+                "resolved": resolved,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[ChargeCapturePostBilledChange],
+                parse_obj_as(
+                    type_=typing.List[ChargeCapturePostBilledChange],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def update(
         self,
         charge_capture_id: ChargeCaptureId,
@@ -820,81 +895,6 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def update_post_billed_changes(
-        self,
-        *,
-        charge_capture_change_ids: typing.Sequence[ChargeCapturePostBilledChangeId],
-        resolved: bool,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[typing.List[ChargeCapturePostBilledChange]]:
-        """
-        Parameters
-        ----------
-        charge_capture_change_ids : typing.Sequence[ChargeCapturePostBilledChangeId]
-            A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
-            All of the charges sent will be marked as resolved
-
-        resolved : bool
-            Whether the change has been resolved. If true, the change will be marked as resolved.
-            If false, the change will be marked as unresolved.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        HttpResponse[typing.List[ChargeCapturePostBilledChange]]
-            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
-        """
-        _response = self._client_wrapper.httpx_client.request(
-            "api/charge_captures/v1/changes/",
-            base_url=self._client_wrapper.get_environment().candid_api,
-            method="PATCH",
-            json={
-                "charge_capture_change_ids": charge_capture_change_ids,
-                "resolved": resolved,
-            },
-            request_options=request_options,
-            omit=OMIT,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        if 200 <= _response.status_code < 300:
-            _data = typing.cast(
-                typing.List[ChargeCapturePostBilledChange],
-                parse_obj_as(
-                    type_=typing.List[ChargeCapturePostBilledChange],  # type: ignore
-                    object_=_response_json,
-                ),
-            )
-            return HttpResponse(response=_response, data=_data)
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "EntityNotFoundError":
-                raise EntityNotFoundError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        EntityNotFoundErrorMessage,
-                        parse_obj_as(
-                            type_=EntityNotFoundErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-            if _response_json["errorName"] == "UnauthorizedError":
-                raise UnauthorizedError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        UnauthorizedErrorMessage,
-                        parse_obj_as(
-                            type_=UnauthorizedErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
 
 class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1208,6 +1208,81 @@ class AsyncRawV1Client:
                         ChargeExternalIdConflictErrorMessage,
                         parse_obj_as(
                             type_=ChargeExternalIdConflictErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def update_post_billed_changes(
+        self,
+        *,
+        charge_capture_change_ids: typing.Sequence[ChargeCapturePostBilledChangeId],
+        resolved: bool,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[typing.List[ChargeCapturePostBilledChange]]:
+        """
+        Parameters
+        ----------
+        charge_capture_change_ids : typing.Sequence[ChargeCapturePostBilledChangeId]
+            A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
+            All of the charges sent will be marked as resolved
+
+        resolved : bool
+            Whether the change has been resolved. If true, the change will be marked as resolved.
+            If false, the change will be marked as unresolved.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[typing.List[ChargeCapturePostBilledChange]]
+            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/charge_captures/v1/changes",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PATCH",
+            json={
+                "charge_capture_change_ids": charge_capture_change_ids,
+                "resolved": resolved,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[ChargeCapturePostBilledChange],
+                parse_obj_as(
+                    type_=typing.List[ChargeCapturePostBilledChange],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -1668,79 +1743,4 @@ class AsyncRawV1Client:
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
-        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
-
-    async def update_post_billed_changes(
-        self,
-        *,
-        charge_capture_change_ids: typing.Sequence[ChargeCapturePostBilledChangeId],
-        resolved: bool,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[typing.List[ChargeCapturePostBilledChange]]:
-        """
-        Parameters
-        ----------
-        charge_capture_change_ids : typing.Sequence[ChargeCapturePostBilledChangeId]
-            A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
-            All of the charges sent will be marked as resolved
-
-        resolved : bool
-            Whether the change has been resolved. If true, the change will be marked as resolved.
-            If false, the change will be marked as unresolved.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        AsyncHttpResponse[typing.List[ChargeCapturePostBilledChange]]
-            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
-        """
-        _response = await self._client_wrapper.httpx_client.request(
-            "api/charge_captures/v1/changes/",
-            base_url=self._client_wrapper.get_environment().candid_api,
-            method="PATCH",
-            json={
-                "charge_capture_change_ids": charge_capture_change_ids,
-                "resolved": resolved,
-            },
-            request_options=request_options,
-            omit=OMIT,
-        )
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
-        if 200 <= _response.status_code < 300:
-            _data = typing.cast(
-                typing.List[ChargeCapturePostBilledChange],
-                parse_obj_as(
-                    type_=typing.List[ChargeCapturePostBilledChange],  # type: ignore
-                    object_=_response_json,
-                ),
-            )
-            return AsyncHttpResponse(response=_response, data=_data)
-        if "errorName" in _response_json:
-            if _response_json["errorName"] == "EntityNotFoundError":
-                raise EntityNotFoundError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        EntityNotFoundErrorMessage,
-                        parse_obj_as(
-                            type_=EntityNotFoundErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
-            if _response_json["errorName"] == "UnauthorizedError":
-                raise UnauthorizedError(
-                    headers=dict(_response.headers),
-                    body=typing.cast(
-                        UnauthorizedErrorMessage,
-                        parse_obj_as(
-                            type_=UnauthorizedErrorMessage,  # type: ignore
-                            object_=_response_json["content"],
-                        ),
-                    ),
-                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

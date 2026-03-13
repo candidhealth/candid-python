@@ -2,90 +2,200 @@
 
 # isort: skip_file
 
-from .adjustment_id import AdjustmentId
-from .appointment_id import AppointmentId
-from .bad_request_error_message import BadRequestErrorMessage
-from .billing_provider_commercial_license_type import BillingProviderCommercialLicenseType
-from .charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
-from .charge_capture_id import ChargeCaptureId
-from .charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
-from .claim_adjustment_group_codes import ClaimAdjustmentGroupCodes
-from .claim_id import ClaimId
-from .claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
-from .clearinghouse import Clearinghouse
-from .clinical_trial_id import ClinicalTrialId
-from .date import Date
-from .date_range_optional_end import DateRangeOptionalEnd
-from .decimal import Decimal
-from .delay_reason_code import DelayReasonCode
-from .email import Email
-from .emr_payer_crosswalk import EmrPayerCrosswalk
-from .encounter_external_id import EncounterExternalId
-from .encounter_id import EncounterId
-from .entity_conflict_error_message import EntityConflictErrorMessage
-from .entity_not_found_error_message import EntityNotFoundErrorMessage
-from .epsdt_referral_condition_indicator_code import EpsdtReferralConditionIndicatorCode
-from .error_message import ErrorMessage
-from .facility_type_code import FacilityTypeCode
-from .insurance_type_code import InsuranceTypeCode
-from .intended_submission_medium import IntendedSubmissionMedium
-from .internal_error_message import InternalErrorMessage
-from .invoice_id import InvoiceId
-from .link_url import LinkUrl
-from .network_type import NetworkType
-from .next_responsible_party import NextResponsibleParty
-from .npi import Npi
-from .organization_id import OrganizationId
-from .organization_not_authorized_error_message import OrganizationNotAuthorizedErrorMessage
-from .page_token import PageToken
-from .patient_external_id import PatientExternalId
-from .patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
-from .payer_plan_group_id import PayerPlanGroupId
-from .phone_number import PhoneNumber
-from .phone_number_optional import PhoneNumberOptional
-from .phone_number_type import PhoneNumberType
-from .pre_encounter_appointment_id import PreEncounterAppointmentId
-from .pre_encounter_patient_id import PreEncounterPatientId
-from .primitive import Primitive
-from .procedure_modifier import ProcedureModifier
-from .provider_credentialing_span_id import ProviderCredentialingSpanId
-from .provider_id import ProviderId
-from .qualifier_code import QualifierCode
-from .rate_id import RateId
-from .region_national import RegionNational
-from .region_states import RegionStates
-from .regions import Regions, Regions_National, Regions_States
-from .removable_date_range_optional_end import (
-    RemovableDateRangeOptionalEnd,
-    RemovableDateRangeOptionalEnd_DateRange,
-    RemovableDateRangeOptionalEnd_Remove,
-)
-from .report_transmission_code import ReportTransmissionCode
-from .report_type_code import ReportTypeCode
-from .request_validation_error import RequestValidationError
-from .resource_page import ResourcePage
-from .schema_id import SchemaId
-from .service_line_id import ServiceLineId
-from .service_line_units import ServiceLineUnits
-from .sort_direction import SortDirection
-from .source_of_payment_code import SourceOfPaymentCode
-from .state import State
-from .street_address_base import StreetAddressBase
-from .street_address_long_zip import StreetAddressLongZip
-from .street_address_long_zip_optional import StreetAddressLongZipOptional
-from .street_address_optional_base import StreetAddressOptionalBase
-from .street_address_short_zip import StreetAddressShortZip
-from .street_address_short_zip_optional import StreetAddressShortZipOptional
-from .task_assignment_id import TaskAssignmentId
-from .task_id import TaskId
-from .task_note_id import TaskNoteId
-from .unauthorized_error_message import UnauthorizedErrorMessage
-from .unprocessable_entity_error_message import UnprocessableEntityErrorMessage
-from .updates_disabled_due_to_external_system_integration_error_message import (
-    UpdatesDisabledDueToExternalSystemIntegrationErrorMessage,
-)
-from .user_id import UserId
-from .work_queue_id import WorkQueueId
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .adjustment_id import AdjustmentId
+    from .appointment_id import AppointmentId
+    from .bad_request_error_message import BadRequestErrorMessage
+    from .billing_provider_commercial_license_type import BillingProviderCommercialLicenseType
+    from .charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
+    from .charge_capture_id import ChargeCaptureId
+    from .charge_capture_post_billed_change_id import ChargeCapturePostBilledChangeId
+    from .claim_adjustment_group_codes import ClaimAdjustmentGroupCodes
+    from .claim_id import ClaimId
+    from .claim_submission_payer_responsibility_type import ClaimSubmissionPayerResponsibilityType
+    from .clearinghouse import Clearinghouse
+    from .clinical_trial_id import ClinicalTrialId
+    from .date import Date
+    from .date_range_optional_end import DateRangeOptionalEnd
+    from .decimal import Decimal
+    from .delay_reason_code import DelayReasonCode
+    from .email import Email
+    from .emr_payer_crosswalk import EmrPayerCrosswalk
+    from .encounter_external_id import EncounterExternalId
+    from .encounter_id import EncounterId
+    from .entity_conflict_error_message import EntityConflictErrorMessage
+    from .entity_not_found_error_message import EntityNotFoundErrorMessage
+    from .epsdt_referral_condition_indicator_code import EpsdtReferralConditionIndicatorCode
+    from .error_message import ErrorMessage
+    from .facility_type_code import FacilityTypeCode
+    from .insurance_type_code import InsuranceTypeCode
+    from .intended_submission_medium import IntendedSubmissionMedium
+    from .internal_error_message import InternalErrorMessage
+    from .invoice_id import InvoiceId
+    from .link_url import LinkUrl
+    from .network_type import NetworkType
+    from .next_responsible_party import NextResponsibleParty
+    from .npi import Npi
+    from .organization_id import OrganizationId
+    from .organization_not_authorized_error_message import OrganizationNotAuthorizedErrorMessage
+    from .page_token import PageToken
+    from .patient_external_id import PatientExternalId
+    from .patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
+    from .payer_plan_group_id import PayerPlanGroupId
+    from .phone_number import PhoneNumber
+    from .phone_number_optional import PhoneNumberOptional
+    from .phone_number_type import PhoneNumberType
+    from .pre_encounter_appointment_id import PreEncounterAppointmentId
+    from .pre_encounter_patient_id import PreEncounterPatientId
+    from .primitive import Primitive
+    from .procedure_modifier import ProcedureModifier
+    from .provider_credentialing_span_id import ProviderCredentialingSpanId
+    from .provider_id import ProviderId
+    from .qualifier_code import QualifierCode
+    from .rate_id import RateId
+    from .region_national import RegionNational
+    from .region_states import RegionStates
+    from .regions import Regions, Regions_National, Regions_States
+    from .removable_date_range_optional_end import (
+        RemovableDateRangeOptionalEnd,
+        RemovableDateRangeOptionalEnd_DateRange,
+        RemovableDateRangeOptionalEnd_Remove,
+    )
+    from .report_transmission_code import ReportTransmissionCode
+    from .report_type_code import ReportTypeCode
+    from .request_validation_error import RequestValidationError
+    from .resource_page import ResourcePage
+    from .schema_id import SchemaId
+    from .service_line_id import ServiceLineId
+    from .service_line_units import ServiceLineUnits
+    from .sort_direction import SortDirection
+    from .source_of_payment_code import SourceOfPaymentCode
+    from .state import State
+    from .street_address_base import StreetAddressBase
+    from .street_address_long_zip import StreetAddressLongZip
+    from .street_address_long_zip_optional import StreetAddressLongZipOptional
+    from .street_address_optional_base import StreetAddressOptionalBase
+    from .street_address_short_zip import StreetAddressShortZip
+    from .street_address_short_zip_optional import StreetAddressShortZipOptional
+    from .task_assignment_id import TaskAssignmentId
+    from .task_id import TaskId
+    from .task_note_id import TaskNoteId
+    from .unauthorized_error_message import UnauthorizedErrorMessage
+    from .unprocessable_entity_error_message import UnprocessableEntityErrorMessage
+    from .updates_disabled_due_to_external_system_integration_error_message import (
+        UpdatesDisabledDueToExternalSystemIntegrationErrorMessage,
+    )
+    from .user_id import UserId
+    from .work_queue_id import WorkQueueId
+_dynamic_imports: typing.Dict[str, str] = {
+    "AdjustmentId": ".adjustment_id",
+    "AppointmentId": ".appointment_id",
+    "BadRequestErrorMessage": ".bad_request_error_message",
+    "BillingProviderCommercialLicenseType": ".billing_provider_commercial_license_type",
+    "ChargeCaptureClaimCreationId": ".charge_capture_claim_creation_id",
+    "ChargeCaptureId": ".charge_capture_id",
+    "ChargeCapturePostBilledChangeId": ".charge_capture_post_billed_change_id",
+    "ClaimAdjustmentGroupCodes": ".claim_adjustment_group_codes",
+    "ClaimId": ".claim_id",
+    "ClaimSubmissionPayerResponsibilityType": ".claim_submission_payer_responsibility_type",
+    "Clearinghouse": ".clearinghouse",
+    "ClinicalTrialId": ".clinical_trial_id",
+    "Date": ".date",
+    "DateRangeOptionalEnd": ".date_range_optional_end",
+    "Decimal": ".decimal",
+    "DelayReasonCode": ".delay_reason_code",
+    "Email": ".email",
+    "EmrPayerCrosswalk": ".emr_payer_crosswalk",
+    "EncounterExternalId": ".encounter_external_id",
+    "EncounterId": ".encounter_id",
+    "EntityConflictErrorMessage": ".entity_conflict_error_message",
+    "EntityNotFoundErrorMessage": ".entity_not_found_error_message",
+    "EpsdtReferralConditionIndicatorCode": ".epsdt_referral_condition_indicator_code",
+    "ErrorMessage": ".error_message",
+    "FacilityTypeCode": ".facility_type_code",
+    "InsuranceTypeCode": ".insurance_type_code",
+    "IntendedSubmissionMedium": ".intended_submission_medium",
+    "InternalErrorMessage": ".internal_error_message",
+    "InvoiceId": ".invoice_id",
+    "LinkUrl": ".link_url",
+    "NetworkType": ".network_type",
+    "NextResponsibleParty": ".next_responsible_party",
+    "Npi": ".npi",
+    "OrganizationId": ".organization_id",
+    "OrganizationNotAuthorizedErrorMessage": ".organization_not_authorized_error_message",
+    "PageToken": ".page_token",
+    "PatientExternalId": ".patient_external_id",
+    "PatientRelationshipToInsuredCodeAll": ".patient_relationship_to_insured_code_all",
+    "PayerPlanGroupId": ".payer_plan_group_id",
+    "PhoneNumber": ".phone_number",
+    "PhoneNumberOptional": ".phone_number_optional",
+    "PhoneNumberType": ".phone_number_type",
+    "PreEncounterAppointmentId": ".pre_encounter_appointment_id",
+    "PreEncounterPatientId": ".pre_encounter_patient_id",
+    "Primitive": ".primitive",
+    "ProcedureModifier": ".procedure_modifier",
+    "ProviderCredentialingSpanId": ".provider_credentialing_span_id",
+    "ProviderId": ".provider_id",
+    "QualifierCode": ".qualifier_code",
+    "RateId": ".rate_id",
+    "RegionNational": ".region_national",
+    "RegionStates": ".region_states",
+    "Regions": ".regions",
+    "Regions_National": ".regions",
+    "Regions_States": ".regions",
+    "RemovableDateRangeOptionalEnd": ".removable_date_range_optional_end",
+    "RemovableDateRangeOptionalEnd_DateRange": ".removable_date_range_optional_end",
+    "RemovableDateRangeOptionalEnd_Remove": ".removable_date_range_optional_end",
+    "ReportTransmissionCode": ".report_transmission_code",
+    "ReportTypeCode": ".report_type_code",
+    "RequestValidationError": ".request_validation_error",
+    "ResourcePage": ".resource_page",
+    "SchemaId": ".schema_id",
+    "ServiceLineId": ".service_line_id",
+    "ServiceLineUnits": ".service_line_units",
+    "SortDirection": ".sort_direction",
+    "SourceOfPaymentCode": ".source_of_payment_code",
+    "State": ".state",
+    "StreetAddressBase": ".street_address_base",
+    "StreetAddressLongZip": ".street_address_long_zip",
+    "StreetAddressLongZipOptional": ".street_address_long_zip_optional",
+    "StreetAddressOptionalBase": ".street_address_optional_base",
+    "StreetAddressShortZip": ".street_address_short_zip",
+    "StreetAddressShortZipOptional": ".street_address_short_zip_optional",
+    "TaskAssignmentId": ".task_assignment_id",
+    "TaskId": ".task_id",
+    "TaskNoteId": ".task_note_id",
+    "UnauthorizedErrorMessage": ".unauthorized_error_message",
+    "UnprocessableEntityErrorMessage": ".unprocessable_entity_error_message",
+    "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage": ".updates_disabled_due_to_external_system_integration_error_message",
+    "UserId": ".user_id",
+    "WorkQueueId": ".work_queue_id",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AdjustmentId",

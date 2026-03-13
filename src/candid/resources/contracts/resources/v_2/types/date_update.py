@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.date import Date
 
@@ -35,4 +36,6 @@ class DateUpdate_Remove(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-DateUpdate = typing.Union[DateUpdate_Set, DateUpdate_Remove]
+DateUpdate = typing_extensions.Annotated[
+    typing.Union[DateUpdate_Set, DateUpdate_Remove], pydantic.Field(discriminator="type")
+]

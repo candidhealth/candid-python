@@ -2,19 +2,60 @@
 
 # isort: skip_file
 
-from .insurance_adjustment_info import InsuranceAdjustmentInfo
-from .insurance_payment_info import InsurancePaymentInfo
-from .invalid_filters_error_type import InvalidFiltersErrorType
-from .inventory_record import InventoryRecord
-from .invoice_itemization_response import InvoiceItemizationResponse
-from .list_inventory_paged_response import ListInventoryPagedResponse
-from .non_insurance_adjustment_info import NonInsuranceAdjustmentInfo
-from .non_insurance_payment_info import NonInsurancePaymentInfo
-from .patient_adjustment_info import PatientAdjustmentInfo
-from .patient_ar_status import PatientArStatus
-from .patient_payment_allocation import PatientPaymentAllocation
-from .patient_payment_info import PatientPaymentInfo
-from .service_line_itemization import ServiceLineItemization
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .insurance_adjustment_info import InsuranceAdjustmentInfo
+    from .insurance_payment_info import InsurancePaymentInfo
+    from .invalid_filters_error_type import InvalidFiltersErrorType
+    from .inventory_record import InventoryRecord
+    from .invoice_itemization_response import InvoiceItemizationResponse
+    from .list_inventory_paged_response import ListInventoryPagedResponse
+    from .non_insurance_adjustment_info import NonInsuranceAdjustmentInfo
+    from .non_insurance_payment_info import NonInsurancePaymentInfo
+    from .patient_adjustment_info import PatientAdjustmentInfo
+    from .patient_ar_status import PatientArStatus
+    from .patient_payment_allocation import PatientPaymentAllocation
+    from .patient_payment_info import PatientPaymentInfo
+    from .service_line_itemization import ServiceLineItemization
+_dynamic_imports: typing.Dict[str, str] = {
+    "InsuranceAdjustmentInfo": ".insurance_adjustment_info",
+    "InsurancePaymentInfo": ".insurance_payment_info",
+    "InvalidFiltersErrorType": ".invalid_filters_error_type",
+    "InventoryRecord": ".inventory_record",
+    "InvoiceItemizationResponse": ".invoice_itemization_response",
+    "ListInventoryPagedResponse": ".list_inventory_paged_response",
+    "NonInsuranceAdjustmentInfo": ".non_insurance_adjustment_info",
+    "NonInsurancePaymentInfo": ".non_insurance_payment_info",
+    "PatientAdjustmentInfo": ".patient_adjustment_info",
+    "PatientArStatus": ".patient_ar_status",
+    "PatientPaymentAllocation": ".patient_payment_allocation",
+    "PatientPaymentInfo": ".patient_payment_info",
+    "ServiceLineItemization": ".service_line_itemization",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "InsuranceAdjustmentInfo",

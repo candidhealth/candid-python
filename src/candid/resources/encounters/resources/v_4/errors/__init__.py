@@ -2,16 +2,52 @@
 
 # isort: skip_file
 
-from .cash_pay_payer_error import CashPayPayerError
-from .encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
-from .encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
-from .encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
-from .encounter_rendering_or_attending_provider_required import EncounterRenderingOrAttendingProviderRequired
-from .invalid_tag_names_error import InvalidTagNamesError
-from .payer_plan_group_payer_does_not_match_insurance_card_http_error import (
-    PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError,
-)
-from .schema_instance_validation_http_failure import SchemaInstanceValidationHttpFailure
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .cash_pay_payer_error import CashPayPayerError
+    from .encounter_external_id_uniqueness_error import EncounterExternalIdUniquenessError
+    from .encounter_guarantor_missing_contact_info_error import EncounterGuarantorMissingContactInfoError
+    from .encounter_patient_control_number_uniqueness_error import EncounterPatientControlNumberUniquenessError
+    from .encounter_rendering_or_attending_provider_required import EncounterRenderingOrAttendingProviderRequired
+    from .invalid_tag_names_error import InvalidTagNamesError
+    from .payer_plan_group_payer_does_not_match_insurance_card_http_error import (
+        PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError,
+    )
+    from .schema_instance_validation_http_failure import SchemaInstanceValidationHttpFailure
+_dynamic_imports: typing.Dict[str, str] = {
+    "CashPayPayerError": ".cash_pay_payer_error",
+    "EncounterExternalIdUniquenessError": ".encounter_external_id_uniqueness_error",
+    "EncounterGuarantorMissingContactInfoError": ".encounter_guarantor_missing_contact_info_error",
+    "EncounterPatientControlNumberUniquenessError": ".encounter_patient_control_number_uniqueness_error",
+    "EncounterRenderingOrAttendingProviderRequired": ".encounter_rendering_or_attending_provider_required",
+    "InvalidTagNamesError": ".invalid_tag_names_error",
+    "PayerPlanGroupPayerDoesNotMatchInsuranceCardHttpError": ".payer_plan_group_payer_does_not_match_insurance_card_http_error",
+    "SchemaInstanceValidationHttpFailure": ".schema_instance_validation_http_failure",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "CashPayPayerError",

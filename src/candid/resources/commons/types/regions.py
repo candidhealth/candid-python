@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .state import State
 
@@ -36,4 +37,6 @@ class Regions_National(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-Regions = typing.Union[Regions_States, Regions_National]
+Regions = typing_extensions.Annotated[
+    typing.Union[Regions_States, Regions_National], pydantic.Field(discriminator="type")
+]

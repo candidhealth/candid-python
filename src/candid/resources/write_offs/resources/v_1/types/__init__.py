@@ -2,31 +2,83 @@
 
 # isort: skip_file
 
-from .create_write_offs_response import CreateWriteOffsResponse
-from .insurance_write_off import InsuranceWriteOff
-from .insurance_write_off_create import InsuranceWriteOffCreate
-from .insurance_write_off_reason import InsuranceWriteOffReason
-from .insurance_write_off_target import (
-    InsuranceWriteOffTarget,
-    InsuranceWriteOffTarget_BillingProviderId,
-    InsuranceWriteOffTarget_ClaimId,
-    InsuranceWriteOffTarget_ServiceLineId,
-)
-from .non_insurance_payer_write_off import NonInsurancePayerWriteOff
-from .non_insurance_payer_write_off_create import NonInsurancePayerWriteOffCreate
-from .patient_write_off import PatientWriteOff
-from .patient_write_off_create import PatientWriteOffCreate
-from .patient_write_off_reason import PatientWriteOffReason
-from .write_off import WriteOff, WriteOff_Insurance, WriteOff_NonInsurancePayer, WriteOff_Patient
-from .write_off_create import (
-    WriteOffCreate,
-    WriteOffCreate_Insurance,
-    WriteOffCreate_NonInsurancePayer,
-    WriteOffCreate_Patient,
-)
-from .write_off_id import WriteOffId
-from .write_off_sort_field import WriteOffSortField
-from .write_offs_page import WriteOffsPage
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .create_write_offs_response import CreateWriteOffsResponse
+    from .insurance_write_off import InsuranceWriteOff
+    from .insurance_write_off_create import InsuranceWriteOffCreate
+    from .insurance_write_off_reason import InsuranceWriteOffReason
+    from .insurance_write_off_target import (
+        InsuranceWriteOffTarget,
+        InsuranceWriteOffTarget_BillingProviderId,
+        InsuranceWriteOffTarget_ClaimId,
+        InsuranceWriteOffTarget_ServiceLineId,
+    )
+    from .non_insurance_payer_write_off import NonInsurancePayerWriteOff
+    from .non_insurance_payer_write_off_create import NonInsurancePayerWriteOffCreate
+    from .patient_write_off import PatientWriteOff
+    from .patient_write_off_create import PatientWriteOffCreate
+    from .patient_write_off_reason import PatientWriteOffReason
+    from .write_off import WriteOff, WriteOff_Insurance, WriteOff_NonInsurancePayer, WriteOff_Patient
+    from .write_off_create import (
+        WriteOffCreate,
+        WriteOffCreate_Insurance,
+        WriteOffCreate_NonInsurancePayer,
+        WriteOffCreate_Patient,
+    )
+    from .write_off_id import WriteOffId
+    from .write_off_sort_field import WriteOffSortField
+    from .write_offs_page import WriteOffsPage
+_dynamic_imports: typing.Dict[str, str] = {
+    "CreateWriteOffsResponse": ".create_write_offs_response",
+    "InsuranceWriteOff": ".insurance_write_off",
+    "InsuranceWriteOffCreate": ".insurance_write_off_create",
+    "InsuranceWriteOffReason": ".insurance_write_off_reason",
+    "InsuranceWriteOffTarget": ".insurance_write_off_target",
+    "InsuranceWriteOffTarget_BillingProviderId": ".insurance_write_off_target",
+    "InsuranceWriteOffTarget_ClaimId": ".insurance_write_off_target",
+    "InsuranceWriteOffTarget_ServiceLineId": ".insurance_write_off_target",
+    "NonInsurancePayerWriteOff": ".non_insurance_payer_write_off",
+    "NonInsurancePayerWriteOffCreate": ".non_insurance_payer_write_off_create",
+    "PatientWriteOff": ".patient_write_off",
+    "PatientWriteOffCreate": ".patient_write_off_create",
+    "PatientWriteOffReason": ".patient_write_off_reason",
+    "WriteOff": ".write_off",
+    "WriteOffCreate": ".write_off_create",
+    "WriteOffCreate_Insurance": ".write_off_create",
+    "WriteOffCreate_NonInsurancePayer": ".write_off_create",
+    "WriteOffCreate_Patient": ".write_off_create",
+    "WriteOffId": ".write_off_id",
+    "WriteOffSortField": ".write_off_sort_field",
+    "WriteOff_Insurance": ".write_off",
+    "WriteOff_NonInsurancePayer": ".write_off",
+    "WriteOff_Patient": ".write_off",
+    "WriteOffsPage": ".write_offs_page",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "CreateWriteOffsResponse",

@@ -2,9 +2,42 @@
 
 # isort: skip_file
 
-from .diagnosis_not_found_http_error import DiagnosisNotFoundHttpError
-from .disallow_multiple_primary_diagnosis_http_error import DisallowMultiplePrimaryDiagnosisHttpError
-from .service_lines_must_have_at_least_one_diagnosis_http_error import ServiceLinesMustHaveAtLeastOneDiagnosisHttpError
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .diagnosis_not_found_http_error import DiagnosisNotFoundHttpError
+    from .disallow_multiple_primary_diagnosis_http_error import DisallowMultiplePrimaryDiagnosisHttpError
+    from .service_lines_must_have_at_least_one_diagnosis_http_error import (
+        ServiceLinesMustHaveAtLeastOneDiagnosisHttpError,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "DiagnosisNotFoundHttpError": ".diagnosis_not_found_http_error",
+    "DisallowMultiplePrimaryDiagnosisHttpError": ".disallow_multiple_primary_diagnosis_http_error",
+    "ServiceLinesMustHaveAtLeastOneDiagnosisHttpError": ".service_lines_must_have_at_least_one_diagnosis_http_error",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "DiagnosisNotFoundHttpError",

@@ -2,9 +2,49 @@
 
 # isort: skip_file
 
-from .attachment_id import AttachmentId
-from .base_attachment import BaseAttachment
-from .encounter_attachment import EncounterAttachment
-from .encounter_attachment_type import EncounterAttachmentType
+import typing
+from importlib import import_module
 
-__all__ = ["AttachmentId", "BaseAttachment", "EncounterAttachment", "EncounterAttachmentType"]
+if typing.TYPE_CHECKING:
+    from .attachment_id import AttachmentId
+    from .base_attachment import BaseAttachment
+    from .charge_capture_attachment import ChargeCaptureAttachment
+    from .encounter_attachment import EncounterAttachment
+    from .encounter_attachment_type import EncounterAttachmentType
+_dynamic_imports: typing.Dict[str, str] = {
+    "AttachmentId": ".attachment_id",
+    "BaseAttachment": ".base_attachment",
+    "ChargeCaptureAttachment": ".charge_capture_attachment",
+    "EncounterAttachment": ".encounter_attachment",
+    "EncounterAttachmentType": ".encounter_attachment_type",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
+
+__all__ = [
+    "AttachmentId",
+    "BaseAttachment",
+    "ChargeCaptureAttachment",
+    "EncounterAttachment",
+    "EncounterAttachmentType",
+]

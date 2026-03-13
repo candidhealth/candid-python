@@ -2,9 +2,41 @@
 
 # isort: skip_file
 
-from .patient_payment import PatientPayment
-from .patient_payment_id import PatientPaymentId
-from .patient_payment_source import PatientPaymentSource
-from .patient_payment_status import PatientPaymentStatus
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .patient_payment import PatientPayment
+    from .patient_payment_id import PatientPaymentId
+    from .patient_payment_source import PatientPaymentSource
+    from .patient_payment_status import PatientPaymentStatus
+_dynamic_imports: typing.Dict[str, str] = {
+    "PatientPayment": ".patient_payment",
+    "PatientPaymentId": ".patient_payment_id",
+    "PatientPaymentSource": ".patient_payment_source",
+    "PatientPaymentStatus": ".patient_payment_status",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = ["PatientPayment", "PatientPaymentId", "PatientPaymentSource", "PatientPaymentStatus"]

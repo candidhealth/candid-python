@@ -6,6 +6,7 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .encounter_provider_base import EncounterProviderBase
+from .supervising_provider_secondary_identification import SupervisingProviderSecondaryIdentification
 
 
 class SupervisingProviderUpdate(EncounterProviderBase):
@@ -17,6 +18,7 @@ class SupervisingProviderUpdate(EncounterProviderBase):
 
     taxonomy_code: typing.Optional[str] = None
     address: typing.Optional[StreetAddressLongZip] = None
+    secondary_identification: typing.Optional[SupervisingProviderSecondaryIdentification] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

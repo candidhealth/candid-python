@@ -11,7 +11,7 @@ class CoordinationOfBenefitsRecommendation(UniversalBaseModel):
     An object representing a Coordination Of Benefits recommendation.
     """
 
-    payload: typing.Optional[typing.Any] = None
+    payload: typing.Any
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

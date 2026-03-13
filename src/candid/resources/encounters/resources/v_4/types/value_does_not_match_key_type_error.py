@@ -12,7 +12,7 @@ class ValueDoesNotMatchKeyTypeError(UniversalBaseModel):
     schema_id: SchemaId
     key: str
     expected_value_type: Primitive
-    value: typing.Optional[typing.Any] = None
+    value: typing.Any
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

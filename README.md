@@ -12,6 +12,7 @@ The Candid Python library provides convenient access to the Candid APIs from Pyt
 - [Usage](#usage)
 - [Async Client](#async-client)
 - [Exception Handling](#exception-handling)
+- [Oauth Token Override](#oauth-token-override)
 - [Advanced](#advanced)
   - [Access Raw Response Data](#access-raw-response-data)
   - [Retries](#retries)
@@ -63,7 +64,7 @@ client.pre_encounter.eligibility_checks.v_1.post(
 
 ## Async Client
 
-The SDK also exports an `async` client so that you can make non-blocking calls to our API.
+The SDK also exports an `async` client so that you can make non-blocking calls to our API. Note that if you are constructing an Async httpx client class to pass into this client, use `httpx.AsyncClient()` instead of `httpx.Client()` (e.g. for the `httpx_client` parameter of this client).
 
 ```python
 import asyncio
@@ -114,6 +115,24 @@ try:
 except ApiError as e:
     print(e.status_code)
     print(e.body)
+```
+
+## Oauth Token Override
+
+This SDK supports two authentication methods: OAuth client credentials flow (automatic token management) or direct bearer token authentication. You can choose between these options when initializing the client:
+
+```python
+from candid import CandidApiClient
+
+# Option 1: Direct bearer token (bypass OAuth flow)
+client = CandidApiClient(..., token="my-pre-generated-bearer-token")
+
+from candid import CandidApiClient
+
+# Option 2: OAuth client credentials flow (automatic token management)
+client = CandidApiClient(
+    ..., client_id="your-client-id", client_secret="your-client-secret"
+)
 ```
 
 ## Advanced
@@ -188,7 +207,7 @@ from candid import CandidApiClient
 client = CandidApiClient(
     ...,
     httpx_client=httpx.Client(
-        proxies="http://my.test.proxy.example.com",
+        proxy="http://my.test.proxy.example.com",
         transport=httpx.HTTPTransport(local_address="0.0.0.0"),
     ),
 )

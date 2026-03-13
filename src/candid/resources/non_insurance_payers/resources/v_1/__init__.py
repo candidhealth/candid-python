@@ -2,25 +2,70 @@
 
 # isort: skip_file
 
-from .types import (
-    CreateNonInsurancePayerRequest,
-    NonInsurancePayer,
-    NonInsurancePayerAddressUpdate,
-    NonInsurancePayerAddressUpdate_Remove,
-    NonInsurancePayerAddressUpdate_Set,
-    NonInsurancePayerCategoriesPage,
-    NonInsurancePayerCategoryUpdate,
-    NonInsurancePayerCategoryUpdate_Remove,
-    NonInsurancePayerCategoryUpdate_Set,
-    NonInsurancePayerDescriptionUpdate,
-    NonInsurancePayerDescriptionUpdate_Remove,
-    NonInsurancePayerDescriptionUpdate_Set,
-    NonInsurancePayerId,
-    NonInsurancePayerPage,
-    NonInsurancePayerSortField,
-    NonInsurancePayerUpdateRequest,
-    ToggleNonInsurancePayerEnablementRequest,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        CreateNonInsurancePayerRequest,
+        NonInsurancePayer,
+        NonInsurancePayerAddressUpdate,
+        NonInsurancePayerAddressUpdate_Remove,
+        NonInsurancePayerAddressUpdate_Set,
+        NonInsurancePayerCategoriesPage,
+        NonInsurancePayerCategoryUpdate,
+        NonInsurancePayerCategoryUpdate_Remove,
+        NonInsurancePayerCategoryUpdate_Set,
+        NonInsurancePayerDescriptionUpdate,
+        NonInsurancePayerDescriptionUpdate_Remove,
+        NonInsurancePayerDescriptionUpdate_Set,
+        NonInsurancePayerId,
+        NonInsurancePayerPage,
+        NonInsurancePayerSortField,
+        NonInsurancePayerUpdateRequest,
+        ToggleNonInsurancePayerEnablementRequest,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "CreateNonInsurancePayerRequest": ".types",
+    "NonInsurancePayer": ".types",
+    "NonInsurancePayerAddressUpdate": ".types",
+    "NonInsurancePayerAddressUpdate_Remove": ".types",
+    "NonInsurancePayerAddressUpdate_Set": ".types",
+    "NonInsurancePayerCategoriesPage": ".types",
+    "NonInsurancePayerCategoryUpdate": ".types",
+    "NonInsurancePayerCategoryUpdate_Remove": ".types",
+    "NonInsurancePayerCategoryUpdate_Set": ".types",
+    "NonInsurancePayerDescriptionUpdate": ".types",
+    "NonInsurancePayerDescriptionUpdate_Remove": ".types",
+    "NonInsurancePayerDescriptionUpdate_Set": ".types",
+    "NonInsurancePayerId": ".types",
+    "NonInsurancePayerPage": ".types",
+    "NonInsurancePayerSortField": ".types",
+    "NonInsurancePayerUpdateRequest": ".types",
+    "ToggleNonInsurancePayerEnablementRequest": ".types",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "CreateNonInsurancePayerRequest",

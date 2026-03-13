@@ -2,42 +2,106 @@
 
 # isort: skip_file
 
-from .account_type import AccountType
-from .allocation import Allocation
-from .allocation_create import AllocationCreate
-from .allocation_earmark_type import (
-    AllocationEarmarkType,
-    AllocationEarmarkType_DateOfService,
-    AllocationEarmarkType_ExternalEncounterId,
-)
-from .allocation_target import (
-    AllocationTarget,
-    AllocationTarget_Appointment,
-    AllocationTarget_BillingProviderId,
-    AllocationTarget_Claim,
-    AllocationTarget_ServiceLine,
-    AllocationTarget_Unattributed,
-)
-from .allocation_target_create import (
-    AllocationTargetCreate,
-    AllocationTargetCreate_AppointmentByIdAndPatientExternalId,
-    AllocationTargetCreate_BillingProviderById,
-    AllocationTargetCreate_ClaimByEncounterExternalId,
-    AllocationTargetCreate_ClaimById,
-    AllocationTargetCreate_ServiceLineById,
-    AllocationTargetCreate_Unattributed,
-)
-from .appointment_allocation_target import AppointmentAllocationTarget
-from .appointment_by_id_and_patient_external_id import AppointmentByIdAndPatientExternalId
-from .balance_earmark import BalanceEarmark
-from .billing_provider_allocation_target import BillingProviderAllocationTarget
-from .claim_allocation_target import ClaimAllocationTarget
-from .invoice_update import InvoiceUpdate, InvoiceUpdate_Remove, InvoiceUpdate_Set
-from .note_update import NoteUpdate, NoteUpdate_Remove, NoteUpdate_Set
-from .patient_transaction_source import PatientTransactionSource
-from .refund_reason import RefundReason
-from .refund_reason_update import RefundReasonUpdate, RefundReasonUpdate_Remove, RefundReasonUpdate_Set
-from .service_line_allocation_target import ServiceLineAllocationTarget
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .account_type import AccountType
+    from .allocation import Allocation
+    from .allocation_create import AllocationCreate
+    from .allocation_earmark_type import (
+        AllocationEarmarkType,
+        AllocationEarmarkType_DateOfService,
+        AllocationEarmarkType_ExternalEncounterId,
+    )
+    from .allocation_target import (
+        AllocationTarget,
+        AllocationTarget_Appointment,
+        AllocationTarget_BillingProviderId,
+        AllocationTarget_Claim,
+        AllocationTarget_ServiceLine,
+        AllocationTarget_Unattributed,
+    )
+    from .allocation_target_create import (
+        AllocationTargetCreate,
+        AllocationTargetCreate_AppointmentByIdAndPatientExternalId,
+        AllocationTargetCreate_BillingProviderById,
+        AllocationTargetCreate_ClaimByEncounterExternalId,
+        AllocationTargetCreate_ClaimById,
+        AllocationTargetCreate_ServiceLineById,
+        AllocationTargetCreate_Unattributed,
+    )
+    from .appointment_allocation_target import AppointmentAllocationTarget
+    from .appointment_by_id_and_patient_external_id import AppointmentByIdAndPatientExternalId
+    from .balance_earmark import BalanceEarmark
+    from .billing_provider_allocation_target import BillingProviderAllocationTarget
+    from .claim_allocation_target import ClaimAllocationTarget
+    from .invoice_update import InvoiceUpdate, InvoiceUpdate_Remove, InvoiceUpdate_Set
+    from .note_update import NoteUpdate, NoteUpdate_Remove, NoteUpdate_Set
+    from .patient_transaction_source import PatientTransactionSource
+    from .refund_reason import RefundReason
+    from .refund_reason_update import RefundReasonUpdate, RefundReasonUpdate_Remove, RefundReasonUpdate_Set
+    from .service_line_allocation_target import ServiceLineAllocationTarget
+_dynamic_imports: typing.Dict[str, str] = {
+    "AccountType": ".account_type",
+    "Allocation": ".allocation",
+    "AllocationCreate": ".allocation_create",
+    "AllocationEarmarkType": ".allocation_earmark_type",
+    "AllocationEarmarkType_DateOfService": ".allocation_earmark_type",
+    "AllocationEarmarkType_ExternalEncounterId": ".allocation_earmark_type",
+    "AllocationTarget": ".allocation_target",
+    "AllocationTargetCreate": ".allocation_target_create",
+    "AllocationTargetCreate_AppointmentByIdAndPatientExternalId": ".allocation_target_create",
+    "AllocationTargetCreate_BillingProviderById": ".allocation_target_create",
+    "AllocationTargetCreate_ClaimByEncounterExternalId": ".allocation_target_create",
+    "AllocationTargetCreate_ClaimById": ".allocation_target_create",
+    "AllocationTargetCreate_ServiceLineById": ".allocation_target_create",
+    "AllocationTargetCreate_Unattributed": ".allocation_target_create",
+    "AllocationTarget_Appointment": ".allocation_target",
+    "AllocationTarget_BillingProviderId": ".allocation_target",
+    "AllocationTarget_Claim": ".allocation_target",
+    "AllocationTarget_ServiceLine": ".allocation_target",
+    "AllocationTarget_Unattributed": ".allocation_target",
+    "AppointmentAllocationTarget": ".appointment_allocation_target",
+    "AppointmentByIdAndPatientExternalId": ".appointment_by_id_and_patient_external_id",
+    "BalanceEarmark": ".balance_earmark",
+    "BillingProviderAllocationTarget": ".billing_provider_allocation_target",
+    "ClaimAllocationTarget": ".claim_allocation_target",
+    "InvoiceUpdate": ".invoice_update",
+    "InvoiceUpdate_Remove": ".invoice_update",
+    "InvoiceUpdate_Set": ".invoice_update",
+    "NoteUpdate": ".note_update",
+    "NoteUpdate_Remove": ".note_update",
+    "NoteUpdate_Set": ".note_update",
+    "PatientTransactionSource": ".patient_transaction_source",
+    "RefundReason": ".refund_reason",
+    "RefundReasonUpdate": ".refund_reason_update",
+    "RefundReasonUpdate_Remove": ".refund_reason_update",
+    "RefundReasonUpdate_Set": ".refund_reason_update",
+    "ServiceLineAllocationTarget": ".service_line_allocation_target",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AccountType",

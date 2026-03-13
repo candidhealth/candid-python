@@ -44,6 +44,11 @@ class ClearinghousePayerInfo(UniversalBaseModel):
     The support state for remittance
     """
 
+    claim_attachment_support: SupportState = pydantic.Field()
+    """
+    The support state for claim attachment submission
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

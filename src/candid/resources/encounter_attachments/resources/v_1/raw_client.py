@@ -12,6 +12,7 @@ from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
 from ....commons.types.encounter_id import EncounterId
 from .types.attachment_id import AttachmentId
+from .types.charge_capture_attachment import ChargeCaptureAttachment
 from .types.encounter_attachment import EncounterAttachment
 from .types.encounter_attachment_type import EncounterAttachmentType
 
@@ -238,6 +239,85 @@ class RawV1Client:
                 ),
             )
             return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_by_charge_capture_external_id(
+        self, charge_capture_external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[typing.List[ChargeCaptureAttachment]]:
+        """
+        Returns all attachments associated with the given charge capture external ID.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[typing.List[ChargeCaptureAttachment]]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/encounter-attachments/v1/by-charge-capture-external-id/{jsonable_encoder(charge_capture_external_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[ChargeCaptureAttachment],
+                parse_obj_as(
+                    type_=typing.List[ChargeCaptureAttachment],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def delete_by_charge_capture_external_id(
+        self,
+        charge_capture_external_id: str,
+        *,
+        attachment_id: AttachmentId,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[None]:
+        """
+        Deletes an attachment associated with the given charge capture external ID.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        attachment_id : AttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[None]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/encounter-attachments/v1/by-charge-capture-external-id/{jsonable_encoder(charge_capture_external_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            json={
+                "attachment_id": attachment_id,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        if 200 <= _response.status_code < 300:
+            return HttpResponse(response=_response, data=None)
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def delete(
@@ -499,6 +579,85 @@ class AsyncRawV1Client:
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_by_charge_capture_external_id(
+        self, charge_capture_external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[typing.List[ChargeCaptureAttachment]]:
+        """
+        Returns all attachments associated with the given charge capture external ID.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[typing.List[ChargeCaptureAttachment]]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/encounter-attachments/v1/by-charge-capture-external-id/{jsonable_encoder(charge_capture_external_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[ChargeCaptureAttachment],
+                parse_obj_as(
+                    type_=typing.List[ChargeCaptureAttachment],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def delete_by_charge_capture_external_id(
+        self,
+        charge_capture_external_id: str,
+        *,
+        attachment_id: AttachmentId,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[None]:
+        """
+        Deletes an attachment associated with the given charge capture external ID.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        attachment_id : AttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[None]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/encounter-attachments/v1/by-charge-capture-external-id/{jsonable_encoder(charge_capture_external_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            json={
+                "attachment_id": attachment_id,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        if 200 <= _response.status_code < 300:
+            return AsyncHttpResponse(response=_response, data=None)
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def delete(

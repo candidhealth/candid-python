@@ -31,6 +31,7 @@ from .types.patient_payment import PatientPayment
 from .types.patient_payment_id import PatientPaymentId
 from .types.patient_payment_sort_field import PatientPaymentSortField
 from .types.patient_payments_page import PatientPaymentsPage
+from .types.payment_method_detail_create import PaymentMethodDetailCreate
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -53,6 +54,7 @@ class RawV4Client:
         sources: typing.Optional[
             typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]
         ] = None,
+        source_internal_id: typing.Optional[str] = None,
         sort: typing.Optional[PatientPaymentSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
@@ -82,6 +84,8 @@ class RawV4Client:
 
         sources : typing.Optional[typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]]
 
+        source_internal_id : typing.Optional[str]
+
         sort : typing.Optional[PatientPaymentSortField]
             Defaults to payment_timestamp
 
@@ -110,6 +114,7 @@ class RawV4Client:
                 "unattributed": unattributed,
                 "invoice_id": invoice_id,
                 "sources": sources,
+                "source_internal_id": source_internal_id,
                 "sort": sort,
                 "sort_direction": sort_direction,
                 "page_token": page_token,
@@ -224,6 +229,7 @@ class RawV4Client:
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
+        payment_method_detail: typing.Optional[PaymentMethodDetailCreate] = OMIT,
         source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PatientPayment]:
@@ -246,6 +252,8 @@ class RawV4Client:
 
         invoice : typing.Optional[InvoiceId]
 
+        payment_method_detail : typing.Optional[PaymentMethodDetailCreate]
+
         source_internal_id : typing.Optional[str]
 
         request_options : typing.Optional[RequestOptions]
@@ -266,6 +274,7 @@ class RawV4Client:
                 "patient_external_id": patient_external_id,
                 "allocations": allocations,
                 "invoice": invoice,
+                "payment_method_detail": payment_method_detail,
                 "source_internal_id": source_internal_id,
             },
             request_options=request_options,
@@ -493,6 +502,7 @@ class AsyncRawV4Client:
         sources: typing.Optional[
             typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]
         ] = None,
+        source_internal_id: typing.Optional[str] = None,
         sort: typing.Optional[PatientPaymentSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
@@ -522,6 +532,8 @@ class AsyncRawV4Client:
 
         sources : typing.Optional[typing.Union[PatientTransactionSource, typing.Sequence[PatientTransactionSource]]]
 
+        source_internal_id : typing.Optional[str]
+
         sort : typing.Optional[PatientPaymentSortField]
             Defaults to payment_timestamp
 
@@ -550,6 +562,7 @@ class AsyncRawV4Client:
                 "unattributed": unattributed,
                 "invoice_id": invoice_id,
                 "sources": sources,
+                "source_internal_id": source_internal_id,
                 "sort": sort,
                 "sort_direction": sort_direction,
                 "page_token": page_token,
@@ -664,6 +677,7 @@ class AsyncRawV4Client:
         payment_timestamp: typing.Optional[dt.datetime] = OMIT,
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
+        payment_method_detail: typing.Optional[PaymentMethodDetailCreate] = OMIT,
         source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PatientPayment]:
@@ -686,6 +700,8 @@ class AsyncRawV4Client:
 
         invoice : typing.Optional[InvoiceId]
 
+        payment_method_detail : typing.Optional[PaymentMethodDetailCreate]
+
         source_internal_id : typing.Optional[str]
 
         request_options : typing.Optional[RequestOptions]
@@ -706,6 +722,7 @@ class AsyncRawV4Client:
                 "patient_external_id": patient_external_id,
                 "allocations": allocations,
                 "invoice": invoice,
+                "payment_method_detail": payment_method_detail,
                 "source_internal_id": source_internal_id,
             },
             request_options=request_options,

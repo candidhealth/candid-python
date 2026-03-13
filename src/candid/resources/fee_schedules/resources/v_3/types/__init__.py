@@ -2,46 +2,114 @@
 
 # isort: skip_file
 
-from .dimension_match import DimensionMatch
-from .dimension_name import DimensionName
-from .dimensions import Dimensions
-from .dimensions_page import DimensionsPage
-from .match_cpt_code import MatchCptCode
-from .match_date import MatchDate
-from .match_facility_type_code import MatchFacilityTypeCode
-from .match_geo import MatchGeo
-from .match_license_type import MatchLicenseType
-from .match_modifiers import MatchModifiers
-from .match_network_types import MatchNetworkTypes
-from .match_payer import MatchPayer
-from .match_payer_plan_groups import MatchPayerPlanGroups
-from .match_provider import MatchProvider
-from .match_result import MatchResult
-from .match_test_result import MatchTestResult
-from .new_rate import NewRate
-from .new_rate_version import NewRateVersion
-from .optional_dimensions import OptionalDimensions
-from .overlapping_rate_entries_error import OverlappingRateEntriesError
-from .payer_plan_group_does_not_match_rate_payer_error import PayerPlanGroupDoesNotMatchRatePayerError
-from .payer_threshold import PayerThreshold
-from .payer_thresholds_page import PayerThresholdsPage
-from .rate import Rate
-from .rate_entry import RateEntry
-from .rate_upload import RateUpload, RateUpload_NewRate, RateUpload_NewVersion
-from .rate_upload_with_possible_errors import RateUploadWithPossibleErrors
-from .rates_page import RatesPage
-from .threshold_match import ThresholdMatch
-from .validation_error import (
-    ValidationError,
-    ValidationError_DuplicateRate,
-    ValidationError_EmptyEntries,
-    ValidationError_OrganizationProviderNotFound,
-    ValidationError_OverlappingRateEntries,
-    ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
-    ValidationError_PayerPlanGroupNetworkTypeMutualExclusion,
-    ValidationError_PayerPlanGroupNotFound,
-    ValidationError_VersionConflict,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .dimension_match import DimensionMatch
+    from .dimension_name import DimensionName
+    from .dimensions import Dimensions
+    from .dimensions_page import DimensionsPage
+    from .match_cpt_code import MatchCptCode
+    from .match_date import MatchDate
+    from .match_facility_type_code import MatchFacilityTypeCode
+    from .match_geo import MatchGeo
+    from .match_license_type import MatchLicenseType
+    from .match_modifiers import MatchModifiers
+    from .match_network_types import MatchNetworkTypes
+    from .match_payer import MatchPayer
+    from .match_payer_plan_groups import MatchPayerPlanGroups
+    from .match_provider import MatchProvider
+    from .match_result import MatchResult
+    from .match_test_result import MatchTestResult
+    from .new_rate import NewRate
+    from .new_rate_version import NewRateVersion
+    from .optional_dimensions import OptionalDimensions
+    from .overlapping_rate_entries_error import OverlappingRateEntriesError
+    from .payer_plan_group_does_not_match_rate_payer_error import PayerPlanGroupDoesNotMatchRatePayerError
+    from .payer_threshold import PayerThreshold
+    from .payer_thresholds_page import PayerThresholdsPage
+    from .rate import Rate
+    from .rate_entry import RateEntry
+    from .rate_upload import RateUpload, RateUpload_NewRate, RateUpload_NewVersion
+    from .rate_upload_with_possible_errors import RateUploadWithPossibleErrors
+    from .rates_page import RatesPage
+    from .threshold_match import ThresholdMatch
+    from .validation_error import (
+        ValidationError,
+        ValidationError_DuplicateRate,
+        ValidationError_EmptyEntries,
+        ValidationError_OrganizationProviderNotFound,
+        ValidationError_OverlappingRateEntries,
+        ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
+        ValidationError_PayerPlanGroupNetworkTypeMutualExclusion,
+        ValidationError_PayerPlanGroupNotFound,
+        ValidationError_VersionConflict,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "DimensionMatch": ".dimension_match",
+    "DimensionName": ".dimension_name",
+    "Dimensions": ".dimensions",
+    "DimensionsPage": ".dimensions_page",
+    "MatchCptCode": ".match_cpt_code",
+    "MatchDate": ".match_date",
+    "MatchFacilityTypeCode": ".match_facility_type_code",
+    "MatchGeo": ".match_geo",
+    "MatchLicenseType": ".match_license_type",
+    "MatchModifiers": ".match_modifiers",
+    "MatchNetworkTypes": ".match_network_types",
+    "MatchPayer": ".match_payer",
+    "MatchPayerPlanGroups": ".match_payer_plan_groups",
+    "MatchProvider": ".match_provider",
+    "MatchResult": ".match_result",
+    "MatchTestResult": ".match_test_result",
+    "NewRate": ".new_rate",
+    "NewRateVersion": ".new_rate_version",
+    "OptionalDimensions": ".optional_dimensions",
+    "OverlappingRateEntriesError": ".overlapping_rate_entries_error",
+    "PayerPlanGroupDoesNotMatchRatePayerError": ".payer_plan_group_does_not_match_rate_payer_error",
+    "PayerThreshold": ".payer_threshold",
+    "PayerThresholdsPage": ".payer_thresholds_page",
+    "Rate": ".rate",
+    "RateEntry": ".rate_entry",
+    "RateUpload": ".rate_upload",
+    "RateUploadWithPossibleErrors": ".rate_upload_with_possible_errors",
+    "RateUpload_NewRate": ".rate_upload",
+    "RateUpload_NewVersion": ".rate_upload",
+    "RatesPage": ".rates_page",
+    "ThresholdMatch": ".threshold_match",
+    "ValidationError": ".validation_error",
+    "ValidationError_DuplicateRate": ".validation_error",
+    "ValidationError_EmptyEntries": ".validation_error",
+    "ValidationError_OrganizationProviderNotFound": ".validation_error",
+    "ValidationError_OverlappingRateEntries": ".validation_error",
+    "ValidationError_PayerPlanGroupDoesNotMatchRatePayer": ".validation_error",
+    "ValidationError_PayerPlanGroupNetworkTypeMutualExclusion": ".validation_error",
+    "ValidationError_PayerPlanGroupNotFound": ".validation_error",
+    "ValidationError_VersionConflict": ".validation_error",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "DimensionMatch",

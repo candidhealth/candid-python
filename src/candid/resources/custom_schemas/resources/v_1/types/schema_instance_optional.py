@@ -33,7 +33,7 @@ class SchemaInstanceOptional(UniversalBaseModel):
     The schema to which the content must adhere.
     """
 
-    content: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    content: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     A set of key-value pairs that adhere to the naming and type convention of the schema. Not all keys in the schema must be included, but attaching any key that does not exist in the schema or attaching a key with the incorrect value type will result in errors.
     """

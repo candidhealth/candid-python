@@ -2,15 +2,52 @@
 
 # isort: skip_file
 
-from .address_type import AddressType
-from .employment_status import EmploymentStatus
-from .license_type import LicenseType
-from .organization_provider import OrganizationProvider
-from .organization_provider_address import OrganizationProviderAddress
-from .organization_provider_base import OrganizationProviderBase
-from .organization_provider_id import OrganizationProviderId
-from .organization_provider_sort_options import OrganizationProviderSortOptions
-from .provider_type import ProviderType
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .address_type import AddressType
+    from .employment_status import EmploymentStatus
+    from .license_type import LicenseType
+    from .organization_provider import OrganizationProvider
+    from .organization_provider_address import OrganizationProviderAddress
+    from .organization_provider_base import OrganizationProviderBase
+    from .organization_provider_id import OrganizationProviderId
+    from .organization_provider_sort_options import OrganizationProviderSortOptions
+    from .provider_type import ProviderType
+_dynamic_imports: typing.Dict[str, str] = {
+    "AddressType": ".address_type",
+    "EmploymentStatus": ".employment_status",
+    "LicenseType": ".license_type",
+    "OrganizationProvider": ".organization_provider",
+    "OrganizationProviderAddress": ".organization_provider_address",
+    "OrganizationProviderBase": ".organization_provider_base",
+    "OrganizationProviderId": ".organization_provider_id",
+    "OrganizationProviderSortOptions": ".organization_provider_sort_options",
+    "ProviderType": ".provider_type",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AddressType",

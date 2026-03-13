@@ -7,6 +7,7 @@ class CandidApiClientEnvironment:
     PRODUCTION: CandidApiClientEnvironment
     STAGING: CandidApiClientEnvironment
     CANDID_STAGING: CandidApiClientEnvironment
+    LOCAL: CandidApiClientEnvironment
 
     def __init__(self, *, candid_api: str, pre_encounter: str):
         self.candid_api = candid_api
@@ -21,4 +22,7 @@ CandidApiClientEnvironment.STAGING = CandidApiClientEnvironment(
 )
 CandidApiClientEnvironment.CANDID_STAGING = CandidApiClientEnvironment(
     candid_api="https://staging-api.joincandidhealth.com", pre_encounter="https://staging-pre-api.joincandidhealth.com"
+)
+CandidApiClientEnvironment.LOCAL = CandidApiClientEnvironment(
+    candid_api="http://localhost:5050", pre_encounter="http://localhost:4000"
 )

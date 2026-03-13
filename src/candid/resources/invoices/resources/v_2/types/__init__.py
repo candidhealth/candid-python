@@ -2,24 +2,68 @@
 
 # isort: skip_file
 
-from .claim_invoice_item import ClaimInvoiceItem
-from .claim_invoice_item_info import ClaimInvoiceItemInfo
-from .invoice import Invoice
-from .invoice_destination import InvoiceDestination
-from .invoice_destination_metadata import InvoiceDestinationMetadata
-from .invoice_info import InvoiceInfo
-from .invoice_item_attribution_create import (
-    InvoiceItemAttributionCreate,
-    InvoiceItemAttributionCreate_ClaimId,
-    InvoiceItemAttributionCreate_ServiceLineId,
-    InvoiceItemAttributionCreate_Unattributed,
-)
-from .invoice_item_create import InvoiceItemCreate
-from .invoice_item_info import InvoiceItemInfo
-from .invoice_sort_field import InvoiceSortField
-from .invoice_status import InvoiceStatus
-from .service_line_invoice_item import ServiceLineInvoiceItem
-from .unattributed_invoice_item import UnattributedInvoiceItem
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .claim_invoice_item import ClaimInvoiceItem
+    from .claim_invoice_item_info import ClaimInvoiceItemInfo
+    from .invoice import Invoice
+    from .invoice_destination import InvoiceDestination
+    from .invoice_destination_metadata import InvoiceDestinationMetadata
+    from .invoice_info import InvoiceInfo
+    from .invoice_item_attribution_create import (
+        InvoiceItemAttributionCreate,
+        InvoiceItemAttributionCreate_ClaimId,
+        InvoiceItemAttributionCreate_ServiceLineId,
+        InvoiceItemAttributionCreate_Unattributed,
+    )
+    from .invoice_item_create import InvoiceItemCreate
+    from .invoice_item_info import InvoiceItemInfo
+    from .invoice_sort_field import InvoiceSortField
+    from .invoice_status import InvoiceStatus
+    from .service_line_invoice_item import ServiceLineInvoiceItem
+    from .unattributed_invoice_item import UnattributedInvoiceItem
+_dynamic_imports: typing.Dict[str, str] = {
+    "ClaimInvoiceItem": ".claim_invoice_item",
+    "ClaimInvoiceItemInfo": ".claim_invoice_item_info",
+    "Invoice": ".invoice",
+    "InvoiceDestination": ".invoice_destination",
+    "InvoiceDestinationMetadata": ".invoice_destination_metadata",
+    "InvoiceInfo": ".invoice_info",
+    "InvoiceItemAttributionCreate": ".invoice_item_attribution_create",
+    "InvoiceItemAttributionCreate_ClaimId": ".invoice_item_attribution_create",
+    "InvoiceItemAttributionCreate_ServiceLineId": ".invoice_item_attribution_create",
+    "InvoiceItemAttributionCreate_Unattributed": ".invoice_item_attribution_create",
+    "InvoiceItemCreate": ".invoice_item_create",
+    "InvoiceItemInfo": ".invoice_item_info",
+    "InvoiceSortField": ".invoice_sort_field",
+    "InvoiceStatus": ".invoice_status",
+    "ServiceLineInvoiceItem": ".service_line_invoice_item",
+    "UnattributedInvoiceItem": ".unattributed_invoice_item",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "ClaimInvoiceItem",

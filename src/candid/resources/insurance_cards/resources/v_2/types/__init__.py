@@ -2,11 +2,44 @@
 
 # isort: skip_file
 
-from .insurance_card import InsuranceCard
-from .insurance_card_base import InsuranceCardBase
-from .insurance_card_create import InsuranceCardCreate
-from .insurance_card_create_optional import InsuranceCardCreateOptional
-from .insurance_card_id import InsuranceCardId
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .insurance_card import InsuranceCard
+    from .insurance_card_base import InsuranceCardBase
+    from .insurance_card_create import InsuranceCardCreate
+    from .insurance_card_create_optional import InsuranceCardCreateOptional
+    from .insurance_card_id import InsuranceCardId
+_dynamic_imports: typing.Dict[str, str] = {
+    "InsuranceCard": ".insurance_card",
+    "InsuranceCardBase": ".insurance_card_base",
+    "InsuranceCardCreate": ".insurance_card_create",
+    "InsuranceCardCreateOptional": ".insurance_card_create_optional",
+    "InsuranceCardId": ".insurance_card_id",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "InsuranceCard",

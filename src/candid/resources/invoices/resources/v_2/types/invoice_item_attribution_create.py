@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.claim_id import ClaimId
 from .....commons.types.service_line_id import ServiceLineId
@@ -53,8 +54,11 @@ class InvoiceItemAttributionCreate_Unattributed(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-InvoiceItemAttributionCreate = typing.Union[
-    InvoiceItemAttributionCreate_ServiceLineId,
-    InvoiceItemAttributionCreate_ClaimId,
-    InvoiceItemAttributionCreate_Unattributed,
+InvoiceItemAttributionCreate = typing_extensions.Annotated[
+    typing.Union[
+        InvoiceItemAttributionCreate_ServiceLineId,
+        InvoiceItemAttributionCreate_ClaimId,
+        InvoiceItemAttributionCreate_Unattributed,
+    ],
+    pydantic.Field(discriminator="type"),
 ]

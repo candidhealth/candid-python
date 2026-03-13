@@ -2,34 +2,97 @@
 
 # isort: skip_file
 
-from .types import (
-    BillingProvider,
-    BillingProviderUpdate,
-    BillingProviderUpdateWithOptionalAddress,
-    EncounterProvider,
-    EncounterProviderBase,
-    InitialReferringProvider,
-    InitialReferringProviderUpdate,
-    InitialReferringProviderUpdateWithOptionalAddress,
-    OrderingProvider,
-    OrderingProviderOptional,
-    OrderingProviderUpdate,
-    ProviderId,
-    ProviderSecondaryIdentification,
-    ProviderSecondaryIdentificationQualifier,
-    ReferringProvider,
-    ReferringProviderUpdate,
-    ReferringProviderUpdateWithOptionalAddress,
-    RenderingProvider,
-    RenderingProviderUpdate,
-    RenderingProviderUpdateWithOptionalAddress,
-    SupervisingProvider,
-    SupervisingProviderUpdate,
-    SupervisingProviderUpdateWithOptionalAddress,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        BillingProvider,
+        BillingProviderSecondaryIdentification,
+        BillingProviderSecondaryIdentificationQualifier,
+        BillingProviderUpdate,
+        BillingProviderUpdateWithOptionalAddress,
+        EncounterProvider,
+        EncounterProviderBase,
+        InitialReferringProvider,
+        InitialReferringProviderUpdate,
+        InitialReferringProviderUpdateWithOptionalAddress,
+        OrderingProvider,
+        OrderingProviderOptional,
+        OrderingProviderUpdate,
+        ProviderId,
+        ProviderSecondaryIdentification,
+        ProviderSecondaryIdentificationQualifier,
+        ReferringProvider,
+        ReferringProviderSecondaryIdentification,
+        ReferringProviderSecondaryIdentificationQualifier,
+        ReferringProviderUpdate,
+        ReferringProviderUpdateWithOptionalAddress,
+        RenderingProvider,
+        RenderingProviderUpdate,
+        RenderingProviderUpdateWithOptionalAddress,
+        SupervisingProvider,
+        SupervisingProviderSecondaryIdentification,
+        SupervisingProviderUpdate,
+        SupervisingProviderUpdateWithOptionalAddress,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "BillingProvider": ".types",
+    "BillingProviderSecondaryIdentification": ".types",
+    "BillingProviderSecondaryIdentificationQualifier": ".types",
+    "BillingProviderUpdate": ".types",
+    "BillingProviderUpdateWithOptionalAddress": ".types",
+    "EncounterProvider": ".types",
+    "EncounterProviderBase": ".types",
+    "InitialReferringProvider": ".types",
+    "InitialReferringProviderUpdate": ".types",
+    "InitialReferringProviderUpdateWithOptionalAddress": ".types",
+    "OrderingProvider": ".types",
+    "OrderingProviderOptional": ".types",
+    "OrderingProviderUpdate": ".types",
+    "ProviderId": ".types",
+    "ProviderSecondaryIdentification": ".types",
+    "ProviderSecondaryIdentificationQualifier": ".types",
+    "ReferringProvider": ".types",
+    "ReferringProviderSecondaryIdentification": ".types",
+    "ReferringProviderSecondaryIdentificationQualifier": ".types",
+    "ReferringProviderUpdate": ".types",
+    "ReferringProviderUpdateWithOptionalAddress": ".types",
+    "RenderingProvider": ".types",
+    "RenderingProviderUpdate": ".types",
+    "RenderingProviderUpdateWithOptionalAddress": ".types",
+    "SupervisingProvider": ".types",
+    "SupervisingProviderSecondaryIdentification": ".types",
+    "SupervisingProviderUpdate": ".types",
+    "SupervisingProviderUpdateWithOptionalAddress": ".types",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "BillingProvider",
+    "BillingProviderSecondaryIdentification",
+    "BillingProviderSecondaryIdentificationQualifier",
     "BillingProviderUpdate",
     "BillingProviderUpdateWithOptionalAddress",
     "EncounterProvider",
@@ -44,12 +107,15 @@ __all__ = [
     "ProviderSecondaryIdentification",
     "ProviderSecondaryIdentificationQualifier",
     "ReferringProvider",
+    "ReferringProviderSecondaryIdentification",
+    "ReferringProviderSecondaryIdentificationQualifier",
     "ReferringProviderUpdate",
     "ReferringProviderUpdateWithOptionalAddress",
     "RenderingProvider",
     "RenderingProviderUpdate",
     "RenderingProviderUpdateWithOptionalAddress",
     "SupervisingProvider",
+    "SupervisingProviderSecondaryIdentification",
     "SupervisingProviderUpdate",
     "SupervisingProviderUpdateWithOptionalAddress",
 ]

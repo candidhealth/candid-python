@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.insurance_type_code import InsuranceTypeCode
 
@@ -48,4 +49,7 @@ class InsuranceTypes_TheseApply(UniversalBaseModel):
             smart_union = True
 
 
-InsuranceTypes = typing.Union[InsuranceTypes_AllApply, InsuranceTypes_NoneApply, InsuranceTypes_TheseApply]
+InsuranceTypes = typing_extensions.Annotated[
+    typing.Union[InsuranceTypes_AllApply, InsuranceTypes_NoneApply, InsuranceTypes_TheseApply],
+    pydantic.Field(discriminator="type"),
+]

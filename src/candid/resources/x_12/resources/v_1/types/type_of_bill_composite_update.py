@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .type_of_bill_frequency_code import TypeOfBillFrequencyCode
 from .type_of_care_code import TypeOfCareCode
@@ -51,4 +52,7 @@ class TypeOfBillCompositeUpdate_CompositeCodes(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-TypeOfBillCompositeUpdate = typing.Union[TypeOfBillCompositeUpdate_RawCode, TypeOfBillCompositeUpdate_CompositeCodes]
+TypeOfBillCompositeUpdate = typing_extensions.Annotated[
+    typing.Union[TypeOfBillCompositeUpdate_RawCode, TypeOfBillCompositeUpdate_CompositeCodes],
+    pydantic.Field(discriminator="type"),
+]

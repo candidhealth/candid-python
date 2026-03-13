@@ -2,25 +2,72 @@
 
 # isort: skip_file
 
-from .gender import Gender
-from .individual_base import IndividualBase
-from .individual_base_optional import IndividualBaseOptional
-from .individual_id import IndividualId
-from .patient import Patient
-from .patient_base import PatientBase
-from .patient_clinical_trial_info import PatientClinicalTrialInfo
-from .patient_clinical_trial_info_create import PatientClinicalTrialInfoCreate
-from .patient_create import PatientCreate
-from .patient_non_insurance_payer_info import PatientNonInsurancePayerInfo
-from .patient_non_insurance_payer_info_create import PatientNonInsurancePayerInfoCreate
-from .patient_non_insurance_payer_info_create_optional import PatientNonInsurancePayerInfoCreateOptional
-from .patient_update import PatientUpdate
-from .patient_update_with_optional_address import PatientUpdateWithOptionalAddress
-from .subscriber import Subscriber
-from .subscriber_base import SubscriberBase
-from .subscriber_base_optional import SubscriberBaseOptional
-from .subscriber_create import SubscriberCreate
-from .subscriber_create_optional import SubscriberCreateOptional
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .gender import Gender
+    from .individual_base import IndividualBase
+    from .individual_base_optional import IndividualBaseOptional
+    from .individual_id import IndividualId
+    from .patient import Patient
+    from .patient_base import PatientBase
+    from .patient_clinical_trial_info import PatientClinicalTrialInfo
+    from .patient_clinical_trial_info_create import PatientClinicalTrialInfoCreate
+    from .patient_create import PatientCreate
+    from .patient_non_insurance_payer_info import PatientNonInsurancePayerInfo
+    from .patient_non_insurance_payer_info_create import PatientNonInsurancePayerInfoCreate
+    from .patient_non_insurance_payer_info_create_optional import PatientNonInsurancePayerInfoCreateOptional
+    from .patient_update import PatientUpdate
+    from .patient_update_with_optional_address import PatientUpdateWithOptionalAddress
+    from .subscriber import Subscriber
+    from .subscriber_base import SubscriberBase
+    from .subscriber_base_optional import SubscriberBaseOptional
+    from .subscriber_create import SubscriberCreate
+    from .subscriber_create_optional import SubscriberCreateOptional
+_dynamic_imports: typing.Dict[str, str] = {
+    "Gender": ".gender",
+    "IndividualBase": ".individual_base",
+    "IndividualBaseOptional": ".individual_base_optional",
+    "IndividualId": ".individual_id",
+    "Patient": ".patient",
+    "PatientBase": ".patient_base",
+    "PatientClinicalTrialInfo": ".patient_clinical_trial_info",
+    "PatientClinicalTrialInfoCreate": ".patient_clinical_trial_info_create",
+    "PatientCreate": ".patient_create",
+    "PatientNonInsurancePayerInfo": ".patient_non_insurance_payer_info",
+    "PatientNonInsurancePayerInfoCreate": ".patient_non_insurance_payer_info_create",
+    "PatientNonInsurancePayerInfoCreateOptional": ".patient_non_insurance_payer_info_create_optional",
+    "PatientUpdate": ".patient_update",
+    "PatientUpdateWithOptionalAddress": ".patient_update_with_optional_address",
+    "Subscriber": ".subscriber",
+    "SubscriberBase": ".subscriber_base",
+    "SubscriberBaseOptional": ".subscriber_base_optional",
+    "SubscriberCreate": ".subscriber_create",
+    "SubscriberCreateOptional": ".subscriber_create_optional",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Gender",

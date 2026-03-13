@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.rate_id import RateId
 from .dimensions import Dimensions
@@ -42,4 +43,6 @@ class RateUpload_NewVersion(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-RateUpload = typing.Union[RateUpload_NewRate, RateUpload_NewVersion]
+RateUpload = typing_extensions.Annotated[
+    typing.Union[RateUpload_NewRate, RateUpload_NewVersion], pydantic.Field(discriminator="type")
+]

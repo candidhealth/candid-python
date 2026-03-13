@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...commons.types.date_range_optional_end import DateRangeOptionalEnd
 from ...commons.types.removable_date_range_optional_end import RemovableDateRangeOptionalEnd
@@ -59,4 +60,7 @@ class UpdatableIdentifier_Remove(UniversalBaseModel):
             smart_union = True
 
 
-UpdatableIdentifier = typing.Union[UpdatableIdentifier_Add, UpdatableIdentifier_Update, UpdatableIdentifier_Remove]
+UpdatableIdentifier = typing_extensions.Annotated[
+    typing.Union[UpdatableIdentifier_Add, UpdatableIdentifier_Update, UpdatableIdentifier_Remove],
+    pydantic.Field(discriminator="type"),
+]

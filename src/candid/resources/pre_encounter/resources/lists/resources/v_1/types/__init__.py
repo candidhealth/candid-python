@@ -2,10 +2,43 @@
 
 # isort: skip_file
 
-from .appointment_list_item import AppointmentListItem
-from .appointment_list_page import AppointmentListPage
-from .patient_list_item import PatientListItem
-from .patient_list_page import PatientListPage
-from .sort_field_string import SortFieldString
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .appointment_list_item import AppointmentListItem
+    from .appointment_list_page import AppointmentListPage
+    from .patient_list_item import PatientListItem
+    from .patient_list_page import PatientListPage
+    from .sort_field_string import SortFieldString
+_dynamic_imports: typing.Dict[str, str] = {
+    "AppointmentListItem": ".appointment_list_item",
+    "AppointmentListPage": ".appointment_list_page",
+    "PatientListItem": ".patient_list_item",
+    "PatientListPage": ".patient_list_page",
+    "SortFieldString": ".sort_field_string",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = ["AppointmentListItem", "AppointmentListPage", "PatientListItem", "PatientListPage", "SortFieldString"]

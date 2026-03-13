@@ -2,44 +2,108 @@
 
 # isort: skip_file
 
-from .types import (
-    AccountType,
-    Allocation,
-    AllocationCreate,
-    AllocationEarmarkType,
-    AllocationEarmarkType_DateOfService,
-    AllocationEarmarkType_ExternalEncounterId,
-    AllocationTarget,
-    AllocationTargetCreate,
-    AllocationTargetCreate_AppointmentByIdAndPatientExternalId,
-    AllocationTargetCreate_BillingProviderById,
-    AllocationTargetCreate_ClaimByEncounterExternalId,
-    AllocationTargetCreate_ClaimById,
-    AllocationTargetCreate_ServiceLineById,
-    AllocationTargetCreate_Unattributed,
-    AllocationTarget_Appointment,
-    AllocationTarget_BillingProviderId,
-    AllocationTarget_Claim,
-    AllocationTarget_ServiceLine,
-    AllocationTarget_Unattributed,
-    AppointmentAllocationTarget,
-    AppointmentByIdAndPatientExternalId,
-    BalanceEarmark,
-    BillingProviderAllocationTarget,
-    ClaimAllocationTarget,
-    InvoiceUpdate,
-    InvoiceUpdate_Remove,
-    InvoiceUpdate_Set,
-    NoteUpdate,
-    NoteUpdate_Remove,
-    NoteUpdate_Set,
-    PatientTransactionSource,
-    RefundReason,
-    RefundReasonUpdate,
-    RefundReasonUpdate_Remove,
-    RefundReasonUpdate_Set,
-    ServiceLineAllocationTarget,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        AccountType,
+        Allocation,
+        AllocationCreate,
+        AllocationEarmarkType,
+        AllocationEarmarkType_DateOfService,
+        AllocationEarmarkType_ExternalEncounterId,
+        AllocationTarget,
+        AllocationTargetCreate,
+        AllocationTargetCreate_AppointmentByIdAndPatientExternalId,
+        AllocationTargetCreate_BillingProviderById,
+        AllocationTargetCreate_ClaimByEncounterExternalId,
+        AllocationTargetCreate_ClaimById,
+        AllocationTargetCreate_ServiceLineById,
+        AllocationTargetCreate_Unattributed,
+        AllocationTarget_Appointment,
+        AllocationTarget_BillingProviderId,
+        AllocationTarget_Claim,
+        AllocationTarget_ServiceLine,
+        AllocationTarget_Unattributed,
+        AppointmentAllocationTarget,
+        AppointmentByIdAndPatientExternalId,
+        BalanceEarmark,
+        BillingProviderAllocationTarget,
+        ClaimAllocationTarget,
+        InvoiceUpdate,
+        InvoiceUpdate_Remove,
+        InvoiceUpdate_Set,
+        NoteUpdate,
+        NoteUpdate_Remove,
+        NoteUpdate_Set,
+        PatientTransactionSource,
+        RefundReason,
+        RefundReasonUpdate,
+        RefundReasonUpdate_Remove,
+        RefundReasonUpdate_Set,
+        ServiceLineAllocationTarget,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "AccountType": ".types",
+    "Allocation": ".types",
+    "AllocationCreate": ".types",
+    "AllocationEarmarkType": ".types",
+    "AllocationEarmarkType_DateOfService": ".types",
+    "AllocationEarmarkType_ExternalEncounterId": ".types",
+    "AllocationTarget": ".types",
+    "AllocationTargetCreate": ".types",
+    "AllocationTargetCreate_AppointmentByIdAndPatientExternalId": ".types",
+    "AllocationTargetCreate_BillingProviderById": ".types",
+    "AllocationTargetCreate_ClaimByEncounterExternalId": ".types",
+    "AllocationTargetCreate_ClaimById": ".types",
+    "AllocationTargetCreate_ServiceLineById": ".types",
+    "AllocationTargetCreate_Unattributed": ".types",
+    "AllocationTarget_Appointment": ".types",
+    "AllocationTarget_BillingProviderId": ".types",
+    "AllocationTarget_Claim": ".types",
+    "AllocationTarget_ServiceLine": ".types",
+    "AllocationTarget_Unattributed": ".types",
+    "AppointmentAllocationTarget": ".types",
+    "AppointmentByIdAndPatientExternalId": ".types",
+    "BalanceEarmark": ".types",
+    "BillingProviderAllocationTarget": ".types",
+    "ClaimAllocationTarget": ".types",
+    "InvoiceUpdate": ".types",
+    "InvoiceUpdate_Remove": ".types",
+    "InvoiceUpdate_Set": ".types",
+    "NoteUpdate": ".types",
+    "NoteUpdate_Remove": ".types",
+    "NoteUpdate_Set": ".types",
+    "PatientTransactionSource": ".types",
+    "RefundReason": ".types",
+    "RefundReasonUpdate": ".types",
+    "RefundReasonUpdate_Remove": ".types",
+    "RefundReasonUpdate_Set": ".types",
+    "ServiceLineAllocationTarget": ".types",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AccountType",

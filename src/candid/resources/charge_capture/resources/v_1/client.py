@@ -235,6 +235,59 @@ class V1Client:
         )
         return _response.data
 
+    def update_post_billed_changes(
+        self,
+        *,
+        charge_capture_change_ids: typing.Sequence[ChargeCapturePostBilledChangeId],
+        resolved: bool,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.List[ChargeCapturePostBilledChange]:
+        """
+        Parameters
+        ----------
+        charge_capture_change_ids : typing.Sequence[ChargeCapturePostBilledChangeId]
+            A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
+            All of the charges sent will be marked as resolved
+
+        resolved : bool
+            Whether the change has been resolved. If true, the change will be marked as resolved.
+            If false, the change will be marked as unresolved.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[ChargeCapturePostBilledChange]
+            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.charge_capture.v_1.update_post_billed_changes(
+            charge_capture_change_ids=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            ],
+            resolved=True,
+        )
+        """
+        _response = self._raw_client.update_post_billed_changes(
+            charge_capture_change_ids=charge_capture_change_ids, resolved=resolved, request_options=request_options
+        )
+        return _response.data
+
     def update(
         self,
         charge_capture_id: ChargeCaptureId,
@@ -619,59 +672,6 @@ class V1Client:
         )
         return _response.data
 
-    def update_post_billed_changes(
-        self,
-        *,
-        charge_capture_change_ids: typing.Sequence[ChargeCapturePostBilledChangeId],
-        resolved: bool,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.List[ChargeCapturePostBilledChange]:
-        """
-        Parameters
-        ----------
-        charge_capture_change_ids : typing.Sequence[ChargeCapturePostBilledChangeId]
-            A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
-            All of the charges sent will be marked as resolved
-
-        resolved : bool
-            Whether the change has been resolved. If true, the change will be marked as resolved.
-            If false, the change will be marked as unresolved.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        typing.List[ChargeCapturePostBilledChange]
-            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
-
-        Examples
-        --------
-        import uuid
-
-        from candid import CandidApiClient
-
-        client = CandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-        client.charge_capture.v_1.update_post_billed_changes(
-            charge_capture_change_ids=[
-                uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-                uuid.UUID(
-                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                ),
-            ],
-            resolved=True,
-        )
-        """
-        _response = self._raw_client.update_post_billed_changes(
-            charge_capture_change_ids=charge_capture_change_ids, resolved=resolved, request_options=request_options
-        )
-        return _response.data
-
 
 class AsyncV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -892,6 +892,66 @@ class AsyncV1Client:
             ehr_source_url=ehr_source_url,
             attachment_external_document_ids=attachment_external_document_ids,
             request_options=request_options,
+        )
+        return _response.data
+
+    async def update_post_billed_changes(
+        self,
+        *,
+        charge_capture_change_ids: typing.Sequence[ChargeCapturePostBilledChangeId],
+        resolved: bool,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.List[ChargeCapturePostBilledChange]:
+        """
+        Parameters
+        ----------
+        charge_capture_change_ids : typing.Sequence[ChargeCapturePostBilledChangeId]
+            A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
+            All of the charges sent will be marked as resolved
+
+        resolved : bool
+            Whether the change has been resolved. If true, the change will be marked as resolved.
+            If false, the change will be marked as unresolved.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[ChargeCapturePostBilledChange]
+            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.charge_capture.v_1.update_post_billed_changes(
+                charge_capture_change_ids=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                ],
+                resolved=True,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.update_post_billed_changes(
+            charge_capture_change_ids=charge_capture_change_ids, resolved=resolved, request_options=request_options
         )
         return _response.data
 
@@ -1298,65 +1358,5 @@ class AsyncV1Client:
             primary_payer_names_ranked_sort=primary_payer_names_ranked_sort,
             patient_names_ranked_sort=patient_names_ranked_sort,
             request_options=request_options,
-        )
-        return _response.data
-
-    async def update_post_billed_changes(
-        self,
-        *,
-        charge_capture_change_ids: typing.Sequence[ChargeCapturePostBilledChangeId],
-        resolved: bool,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.List[ChargeCapturePostBilledChange]:
-        """
-        Parameters
-        ----------
-        charge_capture_change_ids : typing.Sequence[ChargeCapturePostBilledChangeId]
-            A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
-            All of the charges sent will be marked as resolved
-
-        resolved : bool
-            Whether the change has been resolved. If true, the change will be marked as resolved.
-            If false, the change will be marked as unresolved.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        typing.List[ChargeCapturePostBilledChange]
-            This list of updates will always return at most 1 update that is not resolved. The singular update will contain the difference between the updated charge and the created encounter.
-
-        Examples
-        --------
-        import asyncio
-        import uuid
-
-        from candid import AsyncCandidApiClient
-
-        client = AsyncCandidApiClient(
-            client_id="YOUR_CLIENT_ID",
-            client_secret="YOUR_CLIENT_SECRET",
-        )
-
-
-        async def main() -> None:
-            await client.charge_capture.v_1.update_post_billed_changes(
-                charge_capture_change_ids=[
-                    uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                    uuid.UUID(
-                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-                    ),
-                ],
-                resolved=True,
-            )
-
-
-        asyncio.run(main())
-        """
-        _response = await self._raw_client.update_post_billed_changes(
-            charge_capture_change_ids=charge_capture_change_ids, resolved=resolved, request_options=request_options
         )
         return _response.data

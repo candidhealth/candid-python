@@ -1052,6 +1052,87 @@ client.charge_capture.v_1.create_from_pre_encounter_patient(
 </dl>
 </details>
 
+<details><summary><code>client.charge_capture.v_1.<a href="src/candid/resources/charge_capture/resources/v_1/client.py">update_post_billed_changes</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.charge_capture.v_1.update_post_billed_changes(
+    charge_capture_change_ids=[
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+    ],
+    resolved=True,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**charge_capture_change_ids:** `typing.Sequence[ChargeCapturePostBilledChangeId]` 
+
+A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
+All of the charges sent will be marked as resolved
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**resolved:** `bool` 
+
+Whether the change has been resolved. If true, the change will be marked as resolved.
+If false, the change will be marked as unresolved.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.charge_capture.v_1.<a href="src/candid/resources/charge_capture/resources/v_1/client.py">update</a>(...)</code></summary>
 <dl>
 <dd>
@@ -1667,87 +1748,6 @@ or charge external id.
 <dd>
 
 **patient_names_ranked_sort:** `typing.Optional[typing.Union[str, typing.Sequence[str]]]` — A list of patient names to sort by. This will return all charge captures with one of the names.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.charge_capture.v_1.<a href="src/candid/resources/charge_capture/resources/v_1/client.py">update_post_billed_changes</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-import uuid
-
-from candid import CandidApiClient
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.charge_capture.v_1.update_post_billed_changes(
-    charge_capture_change_ids=[
-        uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-    ],
-    resolved=True,
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**charge_capture_change_ids:** `typing.Sequence[ChargeCapturePostBilledChangeId]` 
-
-A list of UUIDs corresponding to ChargeCapturePostBilledChanges.
-All of the charges sent will be marked as resolved
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**resolved:** `bool` 
-
-Whether the change has been resolved. If true, the change will be marked as resolved.
-If false, the change will be marked as unresolved.
     
 </dd>
 </dl>
@@ -4389,7 +4389,7 @@ client.eligibility.v_2.submit_eligibility_check_availity_post(
 <dl>
 <dd>
 
-**request:** `typing.Optional[typing.Any]` 
+**request:** `typing.Any` 
     
 </dd>
 </dl>
@@ -4452,6 +4452,161 @@ client.encounter_attachments.v_1.get(
 <dd>
 
 **encounter_id:** `EncounterId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_attachments.v_1.<a href="src/candid/resources/encounter_attachments/resources/v_1/client.py">get_by_charge_capture_external_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns all attachments associated with the given charge capture external ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_attachments.v_1.get_by_charge_capture_external_id(
+    charge_capture_external_id="charge_capture_external_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**charge_capture_external_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.encounter_attachments.v_1.<a href="src/candid/resources/encounter_attachments/resources/v_1/client.py">delete_by_charge_capture_external_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes an attachment associated with the given charge capture external ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.encounter_attachments.v_1.delete_by_charge_capture_external_id(
+    charge_capture_external_id="charge_capture_external_id",
+    attachment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**charge_capture_external_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**attachment_id:** `AttachmentId` 
     
 </dd>
 </dl>
@@ -12242,6 +12397,14 @@ client.patient_payments.v_4.get_multi()
 <dl>
 <dd>
 
+**source_internal_id:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **sort:** `typing.Optional[PatientPaymentSortField]` — Defaults to payment_timestamp
     
 </dd>
@@ -12472,6 +12635,14 @@ client.patient_payments.v_4.create(
 <dd>
 
 **invoice:** `typing.Optional[InvoiceId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**payment_method_detail:** `typing.Optional[PaymentMethodDetailCreate]` 
     
 </dd>
 </dl>

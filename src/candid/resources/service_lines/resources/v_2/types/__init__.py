@@ -2,30 +2,82 @@
 
 # isort: skip_file
 
-from .denial_reason_content import DenialReasonContent
-from .drug_identification import DrugIdentification
-from .drug_identification_optional import DrugIdentificationOptional
-from .measurement_unit_code import MeasurementUnitCode
-from .service_id_qualifier import ServiceIdQualifier
-from .service_line import ServiceLine
-from .service_line_adjustment import ServiceLineAdjustment
-from .service_line_create import ServiceLineCreate
-from .service_line_create_base import ServiceLineCreateBase
-from .service_line_create_base_base import ServiceLineCreateBaseBase
-from .service_line_create_optional import ServiceLineCreateOptional
-from .service_line_create_standalone import ServiceLineCreateStandalone
-from .service_line_create_standalone_base import ServiceLineCreateStandaloneBase
-from .service_line_create_standalone_base_base import ServiceLineCreateStandaloneBaseBase
-from .service_line_denial_reason import ServiceLineDenialReason
-from .service_line_era_data import ServiceLineEraData
-from .service_line_update import ServiceLineUpdate
-from .service_line_update_base import ServiceLineUpdateBase
-from .test_result import TestResult
-from .test_result_optional import TestResultOptional
-from .test_result_type import TestResultType
-from .universal_service_line_create import UniversalServiceLineCreate
-from .universal_service_line_create_standalone import UniversalServiceLineCreateStandalone
-from .universal_service_line_update import UniversalServiceLineUpdate
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .denial_reason_content import DenialReasonContent
+    from .drug_identification import DrugIdentification
+    from .drug_identification_optional import DrugIdentificationOptional
+    from .measurement_unit_code import MeasurementUnitCode
+    from .service_id_qualifier import ServiceIdQualifier
+    from .service_line import ServiceLine
+    from .service_line_adjustment import ServiceLineAdjustment
+    from .service_line_create import ServiceLineCreate
+    from .service_line_create_base import ServiceLineCreateBase
+    from .service_line_create_base_base import ServiceLineCreateBaseBase
+    from .service_line_create_optional import ServiceLineCreateOptional
+    from .service_line_create_standalone import ServiceLineCreateStandalone
+    from .service_line_create_standalone_base import ServiceLineCreateStandaloneBase
+    from .service_line_create_standalone_base_base import ServiceLineCreateStandaloneBaseBase
+    from .service_line_denial_reason import ServiceLineDenialReason
+    from .service_line_era_data import ServiceLineEraData
+    from .service_line_update import ServiceLineUpdate
+    from .service_line_update_base import ServiceLineUpdateBase
+    from .test_result import TestResult
+    from .test_result_optional import TestResultOptional
+    from .test_result_type import TestResultType
+    from .universal_service_line_create import UniversalServiceLineCreate
+    from .universal_service_line_create_standalone import UniversalServiceLineCreateStandalone
+    from .universal_service_line_update import UniversalServiceLineUpdate
+_dynamic_imports: typing.Dict[str, str] = {
+    "DenialReasonContent": ".denial_reason_content",
+    "DrugIdentification": ".drug_identification",
+    "DrugIdentificationOptional": ".drug_identification_optional",
+    "MeasurementUnitCode": ".measurement_unit_code",
+    "ServiceIdQualifier": ".service_id_qualifier",
+    "ServiceLine": ".service_line",
+    "ServiceLineAdjustment": ".service_line_adjustment",
+    "ServiceLineCreate": ".service_line_create",
+    "ServiceLineCreateBase": ".service_line_create_base",
+    "ServiceLineCreateBaseBase": ".service_line_create_base_base",
+    "ServiceLineCreateOptional": ".service_line_create_optional",
+    "ServiceLineCreateStandalone": ".service_line_create_standalone",
+    "ServiceLineCreateStandaloneBase": ".service_line_create_standalone_base",
+    "ServiceLineCreateStandaloneBaseBase": ".service_line_create_standalone_base_base",
+    "ServiceLineDenialReason": ".service_line_denial_reason",
+    "ServiceLineEraData": ".service_line_era_data",
+    "ServiceLineUpdate": ".service_line_update",
+    "ServiceLineUpdateBase": ".service_line_update_base",
+    "TestResult": ".test_result",
+    "TestResultOptional": ".test_result_optional",
+    "TestResultType": ".test_result_type",
+    "UniversalServiceLineCreate": ".universal_service_line_create",
+    "UniversalServiceLineCreateStandalone": ".universal_service_line_create_standalone",
+    "UniversalServiceLineUpdate": ".universal_service_line_update",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "DenialReasonContent",

@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.primitive import Primitive
 from .....commons.types.schema_id import SchemaId
@@ -40,6 +41,7 @@ class SchemaValidationError_KeyNameAlreadyExists(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-SchemaValidationError = typing.Union[
-    SchemaValidationError_SchemaNameAlreadyExists, SchemaValidationError_KeyNameAlreadyExists
+SchemaValidationError = typing_extensions.Annotated[
+    typing.Union[SchemaValidationError_SchemaNameAlreadyExists, SchemaValidationError_KeyNameAlreadyExists],
+    pydantic.Field(discriminator="type"),
 ]

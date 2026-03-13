@@ -2,77 +2,174 @@
 
 # isort: skip_file
 
-from .billable_status_type import BillableStatusType
-from .cash_pay_payer_error_message import CashPayPayerErrorMessage
-from .claim_supplemental_information import ClaimSupplementalInformation
-from .claim_supplemental_information_optional import ClaimSupplementalInformationOptional
-from .clinical_note import ClinicalNote
-from .clinical_note_category import ClinicalNoteCategory
-from .clinical_note_category_create import ClinicalNoteCategoryCreate
-from .clinical_note_category_create_optional import ClinicalNoteCategoryCreateOptional
-from .clinical_note_optional import ClinicalNoteOptional
-from .coding_attribution_type import CodingAttributionType
-from .encounter import Encounter
-from .encounter_base import EncounterBase
-from .encounter_create import EncounterCreate
-from .encounter_create_from_pre_encounter import EncounterCreateFromPreEncounter
-from .encounter_deep_optional import EncounterDeepOptional
-from .encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
-from .encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
-from .encounter_optional import EncounterOptional
-from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
-from .encounter_page import EncounterPage
-from .encounter_patient_control_number_uniqueness_error_type import EncounterPatientControlNumberUniquenessErrorType
-from .encounter_rendering_or_attending_provider_required_error import EncounterRenderingOrAttendingProviderRequiredError
-from .encounter_sort_options import EncounterSortOptions
-from .encounter_submission_expectation import EncounterSubmissionExpectation
-from .encounter_submission_origin_type import EncounterSubmissionOriginType
-from .encounter_update import EncounterUpdate
-from .epsdt_referral import EpsdtReferral
-from .epsdt_referral_optional import EpsdtReferralOptional
-from .intake_follow_up import IntakeFollowUp
-from .intake_follow_up_id import IntakeFollowUpId
-from .intake_question import IntakeQuestion
-from .intake_question_id import IntakeQuestionId
-from .intake_question_optional import IntakeQuestionOptional
-from .intake_response_and_follow_ups import IntakeResponseAndFollowUps
-from .intervention import Intervention
-from .intervention_category import InterventionCategory
-from .intervention_optional import InterventionOptional
-from .invalid_tag_names_error_type import InvalidTagNamesErrorType
-from .key_does_not_exist_error import KeyDoesNotExistError
-from .lab import Lab
-from .lab_code_type import LabCodeType
-from .lab_optional import LabOptional
-from .medication import Medication
-from .medication_optional import MedicationOptional
-from .multiple_instances_for_schema_error import MultipleInstancesForSchemaError
-from .note_category import NoteCategory
-from .patient_history_category import PatientHistoryCategory
-from .patient_history_category_enum import PatientHistoryCategoryEnum
-from .patient_history_category_optional import PatientHistoryCategoryOptional
-from .payer_plan_group_payer_does_not_match_insurance_card_error import (
-    PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
-)
-from .prior_authorization_number import PriorAuthorizationNumber
-from .responsible_party_type import ResponsiblePartyType
-from .rx_cui import RxCui
-from .schema_does_not_exist_error import SchemaDoesNotExistError
-from .schema_instance_validation_error import (
-    SchemaInstanceValidationError,
-    SchemaInstanceValidationError_KeyDoesNotExist,
-    SchemaInstanceValidationError_MultipleInstancesForSchema,
-    SchemaInstanceValidationError_SchemaDoesNotExist,
-    SchemaInstanceValidationError_SchemaUnauthorizedAccess,
-    SchemaInstanceValidationError_ValueDoesNotMatchKeyType,
-)
-from .schema_instance_validation_failure import SchemaInstanceValidationFailure
-from .schema_unauthorized_access_error import SchemaUnauthorizedAccessError
-from .service_authorization_exception_code import ServiceAuthorizationExceptionCode
-from .synchronicity_type import SynchronicityType
-from .value_does_not_match_key_type_error import ValueDoesNotMatchKeyTypeError
-from .vitals import Vitals
-from .vitals_update import VitalsUpdate
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .billable_status_type import BillableStatusType
+    from .cash_pay_payer_error_message import CashPayPayerErrorMessage
+    from .claim_supplemental_information import ClaimSupplementalInformation
+    from .claim_supplemental_information_optional import ClaimSupplementalInformationOptional
+    from .clinical_note import ClinicalNote
+    from .clinical_note_category import ClinicalNoteCategory
+    from .clinical_note_category_create import ClinicalNoteCategoryCreate
+    from .clinical_note_category_create_optional import ClinicalNoteCategoryCreateOptional
+    from .clinical_note_optional import ClinicalNoteOptional
+    from .coding_attribution_type import CodingAttributionType
+    from .encounter import Encounter
+    from .encounter_base import EncounterBase
+    from .encounter_create import EncounterCreate
+    from .encounter_create_from_pre_encounter import EncounterCreateFromPreEncounter
+    from .encounter_deep_optional import EncounterDeepOptional
+    from .encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
+    from .encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
+    from .encounter_optional import EncounterOptional
+    from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
+    from .encounter_page import EncounterPage
+    from .encounter_patient_control_number_uniqueness_error_type import EncounterPatientControlNumberUniquenessErrorType
+    from .encounter_rendering_or_attending_provider_required_error import (
+        EncounterRenderingOrAttendingProviderRequiredError,
+    )
+    from .encounter_sort_options import EncounterSortOptions
+    from .encounter_submission_expectation import EncounterSubmissionExpectation
+    from .encounter_submission_origin_type import EncounterSubmissionOriginType
+    from .encounter_update import EncounterUpdate
+    from .epsdt_referral import EpsdtReferral
+    from .epsdt_referral_optional import EpsdtReferralOptional
+    from .intake_follow_up import IntakeFollowUp
+    from .intake_follow_up_id import IntakeFollowUpId
+    from .intake_question import IntakeQuestion
+    from .intake_question_id import IntakeQuestionId
+    from .intake_question_optional import IntakeQuestionOptional
+    from .intake_response_and_follow_ups import IntakeResponseAndFollowUps
+    from .intervention import Intervention
+    from .intervention_category import InterventionCategory
+    from .intervention_optional import InterventionOptional
+    from .invalid_tag_names_error_type import InvalidTagNamesErrorType
+    from .key_does_not_exist_error import KeyDoesNotExistError
+    from .lab import Lab
+    from .lab_code_type import LabCodeType
+    from .lab_optional import LabOptional
+    from .medication import Medication
+    from .medication_optional import MedicationOptional
+    from .multiple_instances_for_schema_error import MultipleInstancesForSchemaError
+    from .note_category import NoteCategory
+    from .patient_history_category import PatientHistoryCategory
+    from .patient_history_category_enum import PatientHistoryCategoryEnum
+    from .patient_history_category_optional import PatientHistoryCategoryOptional
+    from .payer_plan_group_payer_does_not_match_insurance_card_error import (
+        PayerPlanGroupPayerDoesNotMatchInsuranceCardError,
+    )
+    from .prior_authorization_number import PriorAuthorizationNumber
+    from .responsible_party_type import ResponsiblePartyType
+    from .rx_cui import RxCui
+    from .schema_does_not_exist_error import SchemaDoesNotExistError
+    from .schema_instance_validation_error import (
+        SchemaInstanceValidationError,
+        SchemaInstanceValidationError_KeyDoesNotExist,
+        SchemaInstanceValidationError_MultipleInstancesForSchema,
+        SchemaInstanceValidationError_SchemaDoesNotExist,
+        SchemaInstanceValidationError_SchemaUnauthorizedAccess,
+        SchemaInstanceValidationError_ValueDoesNotMatchKeyType,
+    )
+    from .schema_instance_validation_failure import SchemaInstanceValidationFailure
+    from .schema_unauthorized_access_error import SchemaUnauthorizedAccessError
+    from .service_authorization_exception_code import ServiceAuthorizationExceptionCode
+    from .synchronicity_type import SynchronicityType
+    from .value_does_not_match_key_type_error import ValueDoesNotMatchKeyTypeError
+    from .vitals import Vitals
+    from .vitals_update import VitalsUpdate
+_dynamic_imports: typing.Dict[str, str] = {
+    "BillableStatusType": ".billable_status_type",
+    "CashPayPayerErrorMessage": ".cash_pay_payer_error_message",
+    "ClaimSupplementalInformation": ".claim_supplemental_information",
+    "ClaimSupplementalInformationOptional": ".claim_supplemental_information_optional",
+    "ClinicalNote": ".clinical_note",
+    "ClinicalNoteCategory": ".clinical_note_category",
+    "ClinicalNoteCategoryCreate": ".clinical_note_category_create",
+    "ClinicalNoteCategoryCreateOptional": ".clinical_note_category_create_optional",
+    "ClinicalNoteOptional": ".clinical_note_optional",
+    "CodingAttributionType": ".coding_attribution_type",
+    "Encounter": ".encounter",
+    "EncounterBase": ".encounter_base",
+    "EncounterCreate": ".encounter_create",
+    "EncounterCreateFromPreEncounter": ".encounter_create_from_pre_encounter",
+    "EncounterDeepOptional": ".encounter_deep_optional",
+    "EncounterExternalIdUniquenessErrorType": ".encounter_external_id_uniqueness_error_type",
+    "EncounterGuarantorMissingContactInfoErrorType": ".encounter_guarantor_missing_contact_info_error_type",
+    "EncounterOptional": ".encounter_optional",
+    "EncounterOwnerOfNextActionType": ".encounter_owner_of_next_action_type",
+    "EncounterPage": ".encounter_page",
+    "EncounterPatientControlNumberUniquenessErrorType": ".encounter_patient_control_number_uniqueness_error_type",
+    "EncounterRenderingOrAttendingProviderRequiredError": ".encounter_rendering_or_attending_provider_required_error",
+    "EncounterSortOptions": ".encounter_sort_options",
+    "EncounterSubmissionExpectation": ".encounter_submission_expectation",
+    "EncounterSubmissionOriginType": ".encounter_submission_origin_type",
+    "EncounterUpdate": ".encounter_update",
+    "EpsdtReferral": ".epsdt_referral",
+    "EpsdtReferralOptional": ".epsdt_referral_optional",
+    "IntakeFollowUp": ".intake_follow_up",
+    "IntakeFollowUpId": ".intake_follow_up_id",
+    "IntakeQuestion": ".intake_question",
+    "IntakeQuestionId": ".intake_question_id",
+    "IntakeQuestionOptional": ".intake_question_optional",
+    "IntakeResponseAndFollowUps": ".intake_response_and_follow_ups",
+    "Intervention": ".intervention",
+    "InterventionCategory": ".intervention_category",
+    "InterventionOptional": ".intervention_optional",
+    "InvalidTagNamesErrorType": ".invalid_tag_names_error_type",
+    "KeyDoesNotExistError": ".key_does_not_exist_error",
+    "Lab": ".lab",
+    "LabCodeType": ".lab_code_type",
+    "LabOptional": ".lab_optional",
+    "Medication": ".medication",
+    "MedicationOptional": ".medication_optional",
+    "MultipleInstancesForSchemaError": ".multiple_instances_for_schema_error",
+    "NoteCategory": ".note_category",
+    "PatientHistoryCategory": ".patient_history_category",
+    "PatientHistoryCategoryEnum": ".patient_history_category_enum",
+    "PatientHistoryCategoryOptional": ".patient_history_category_optional",
+    "PayerPlanGroupPayerDoesNotMatchInsuranceCardError": ".payer_plan_group_payer_does_not_match_insurance_card_error",
+    "PriorAuthorizationNumber": ".prior_authorization_number",
+    "ResponsiblePartyType": ".responsible_party_type",
+    "RxCui": ".rx_cui",
+    "SchemaDoesNotExistError": ".schema_does_not_exist_error",
+    "SchemaInstanceValidationError": ".schema_instance_validation_error",
+    "SchemaInstanceValidationError_KeyDoesNotExist": ".schema_instance_validation_error",
+    "SchemaInstanceValidationError_MultipleInstancesForSchema": ".schema_instance_validation_error",
+    "SchemaInstanceValidationError_SchemaDoesNotExist": ".schema_instance_validation_error",
+    "SchemaInstanceValidationError_SchemaUnauthorizedAccess": ".schema_instance_validation_error",
+    "SchemaInstanceValidationError_ValueDoesNotMatchKeyType": ".schema_instance_validation_error",
+    "SchemaInstanceValidationFailure": ".schema_instance_validation_failure",
+    "SchemaUnauthorizedAccessError": ".schema_unauthorized_access_error",
+    "ServiceAuthorizationExceptionCode": ".service_authorization_exception_code",
+    "SynchronicityType": ".synchronicity_type",
+    "ValueDoesNotMatchKeyTypeError": ".value_does_not_match_key_type_error",
+    "Vitals": ".vitals",
+    "VitalsUpdate": ".vitals_update",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "BillableStatusType",

@@ -2,64 +2,150 @@
 
 # isort: skip_file
 
-from .admitting_diagnosis import AdmittingDiagnosis
-from .admitting_diagnosis_code_qualifier import AdmittingDiagnosisCodeQualifier
-from .admitting_diagnosis_new import AdmittingDiagnosisNew
-from .condition_code import ConditionCode
-from .condition_information import ConditionInformation
-from .condition_information_code_qualifier import ConditionInformationCodeQualifier
-from .condition_information_new import ConditionInformationNew
-from .d_8_date import D8Date
-from .diagnosis_related_group import DiagnosisRelatedGroup
-from .diagnosis_related_group_code_qualifier import DiagnosisRelatedGroupCodeQualifier
-from .diagnosis_related_group_new import DiagnosisRelatedGroupNew
-from .external_cause_of_injury import ExternalCauseOfInjury
-from .external_cause_of_injury_code_qualifier import ExternalCauseOfInjuryCodeQualifier
-from .external_cause_of_injury_new import ExternalCauseOfInjuryNew
-from .health_care_code_information import HealthCareCodeInformation
-from .health_care_code_information_create import HealthCareCodeInformationCreate
-from .health_care_code_information_get_all_response import HealthCareCodeInformationGetAllResponse
-from .health_care_code_information_new import HealthCareCodeInformationNew
-from .health_care_code_information_update import HealthCareCodeInformationUpdate
-from .icd_code import IcdCode
-from .msdrg_code import MsdrgCode
-from .occurrence_code import OccurrenceCode
-from .occurrence_information import OccurrenceInformation
-from .occurrence_information_code_qualifier import OccurrenceInformationCodeQualifier
-from .occurrence_information_new import OccurrenceInformationNew
-from .occurrence_span_code import OccurrenceSpanCode
-from .occurrence_span_code_qualifier import OccurrenceSpanCodeQualifier
-from .occurrence_span_information import OccurrenceSpanInformation
-from .occurrence_span_information_new import OccurrenceSpanInformationNew
-from .other_diagnosis_information import OtherDiagnosisInformation
-from .other_diagnosis_information_code_qualifier import OtherDiagnosisInformationCodeQualifier
-from .other_diagnosis_information_new import OtherDiagnosisInformationNew
-from .other_procedure_information import OtherProcedureInformation
-from .other_procedure_information_code_qualifier import OtherProcedureInformationCodeQualifier
-from .other_procedure_information_new import OtherProcedureInformationNew
-from .patient_reason_for_visit import PatientReasonForVisit
-from .patient_reason_for_visit_code_qualifier import PatientReasonForVisitCodeQualifier
-from .patient_reason_for_visit_new import PatientReasonForVisitNew
-from .present_on_admission_indicator_code import PresentOnAdmissionIndicatorCode
-from .principal_diagnosis import PrincipalDiagnosis
-from .principal_diagnosis_code_qualifier import PrincipalDiagnosisCodeQualifier
-from .principal_diagnosis_new import PrincipalDiagnosisNew
-from .principal_procedure_information import PrincipalProcedureInformation
-from .principal_procedure_information_code_qualifier import PrincipalProcedureInformationCodeQualifier
-from .principal_procedure_information_new import PrincipalProcedureInformationNew
-from .rd_8_date import Rd8Date
-from .set_or_clear_admitting_diagnosis import SetOrClearAdmittingDiagnosis
-from .set_or_clear_diagnosis_related_group import SetOrClearDiagnosisRelatedGroup
-from .set_or_clear_principal_diagnosis import SetOrClearPrincipalDiagnosis
-from .set_or_clear_principal_procedure_information import SetOrClearPrincipalProcedureInformation
-from .treatment_code import TreatmentCode
-from .treatment_code_information import TreatmentCodeInformation
-from .treatment_code_information_new import TreatmentCodeInformationNew
-from .treatment_code_qualifier import TreatmentCodeQualifier
-from .value_code import ValueCode
-from .value_code_qualifier import ValueCodeQualifier
-from .value_information import ValueInformation
-from .value_information_new import ValueInformationNew
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .admitting_diagnosis import AdmittingDiagnosis
+    from .admitting_diagnosis_code_qualifier import AdmittingDiagnosisCodeQualifier
+    from .admitting_diagnosis_new import AdmittingDiagnosisNew
+    from .condition_code import ConditionCode
+    from .condition_information import ConditionInformation
+    from .condition_information_code_qualifier import ConditionInformationCodeQualifier
+    from .condition_information_new import ConditionInformationNew
+    from .d_8_date import D8Date
+    from .diagnosis_related_group import DiagnosisRelatedGroup
+    from .diagnosis_related_group_code_qualifier import DiagnosisRelatedGroupCodeQualifier
+    from .diagnosis_related_group_new import DiagnosisRelatedGroupNew
+    from .external_cause_of_injury import ExternalCauseOfInjury
+    from .external_cause_of_injury_code_qualifier import ExternalCauseOfInjuryCodeQualifier
+    from .external_cause_of_injury_new import ExternalCauseOfInjuryNew
+    from .health_care_code_information import HealthCareCodeInformation
+    from .health_care_code_information_create import HealthCareCodeInformationCreate
+    from .health_care_code_information_get_all_response import HealthCareCodeInformationGetAllResponse
+    from .health_care_code_information_new import HealthCareCodeInformationNew
+    from .health_care_code_information_update import HealthCareCodeInformationUpdate
+    from .icd_code import IcdCode
+    from .msdrg_code import MsdrgCode
+    from .occurrence_code import OccurrenceCode
+    from .occurrence_information import OccurrenceInformation
+    from .occurrence_information_code_qualifier import OccurrenceInformationCodeQualifier
+    from .occurrence_information_new import OccurrenceInformationNew
+    from .occurrence_span_code import OccurrenceSpanCode
+    from .occurrence_span_code_qualifier import OccurrenceSpanCodeQualifier
+    from .occurrence_span_information import OccurrenceSpanInformation
+    from .occurrence_span_information_new import OccurrenceSpanInformationNew
+    from .other_diagnosis_information import OtherDiagnosisInformation
+    from .other_diagnosis_information_code_qualifier import OtherDiagnosisInformationCodeQualifier
+    from .other_diagnosis_information_new import OtherDiagnosisInformationNew
+    from .other_procedure_information import OtherProcedureInformation
+    from .other_procedure_information_code_qualifier import OtherProcedureInformationCodeQualifier
+    from .other_procedure_information_new import OtherProcedureInformationNew
+    from .patient_reason_for_visit import PatientReasonForVisit
+    from .patient_reason_for_visit_code_qualifier import PatientReasonForVisitCodeQualifier
+    from .patient_reason_for_visit_new import PatientReasonForVisitNew
+    from .present_on_admission_indicator_code import PresentOnAdmissionIndicatorCode
+    from .principal_diagnosis import PrincipalDiagnosis
+    from .principal_diagnosis_code_qualifier import PrincipalDiagnosisCodeQualifier
+    from .principal_diagnosis_new import PrincipalDiagnosisNew
+    from .principal_procedure_information import PrincipalProcedureInformation
+    from .principal_procedure_information_code_qualifier import PrincipalProcedureInformationCodeQualifier
+    from .principal_procedure_information_new import PrincipalProcedureInformationNew
+    from .rd_8_date import Rd8Date
+    from .set_or_clear_admitting_diagnosis import SetOrClearAdmittingDiagnosis
+    from .set_or_clear_diagnosis_related_group import SetOrClearDiagnosisRelatedGroup
+    from .set_or_clear_principal_diagnosis import SetOrClearPrincipalDiagnosis
+    from .set_or_clear_principal_procedure_information import SetOrClearPrincipalProcedureInformation
+    from .treatment_code import TreatmentCode
+    from .treatment_code_information import TreatmentCodeInformation
+    from .treatment_code_information_new import TreatmentCodeInformationNew
+    from .treatment_code_qualifier import TreatmentCodeQualifier
+    from .value_code import ValueCode
+    from .value_code_qualifier import ValueCodeQualifier
+    from .value_information import ValueInformation
+    from .value_information_new import ValueInformationNew
+_dynamic_imports: typing.Dict[str, str] = {
+    "AdmittingDiagnosis": ".admitting_diagnosis",
+    "AdmittingDiagnosisCodeQualifier": ".admitting_diagnosis_code_qualifier",
+    "AdmittingDiagnosisNew": ".admitting_diagnosis_new",
+    "ConditionCode": ".condition_code",
+    "ConditionInformation": ".condition_information",
+    "ConditionInformationCodeQualifier": ".condition_information_code_qualifier",
+    "ConditionInformationNew": ".condition_information_new",
+    "D8Date": ".d_8_date",
+    "DiagnosisRelatedGroup": ".diagnosis_related_group",
+    "DiagnosisRelatedGroupCodeQualifier": ".diagnosis_related_group_code_qualifier",
+    "DiagnosisRelatedGroupNew": ".diagnosis_related_group_new",
+    "ExternalCauseOfInjury": ".external_cause_of_injury",
+    "ExternalCauseOfInjuryCodeQualifier": ".external_cause_of_injury_code_qualifier",
+    "ExternalCauseOfInjuryNew": ".external_cause_of_injury_new",
+    "HealthCareCodeInformation": ".health_care_code_information",
+    "HealthCareCodeInformationCreate": ".health_care_code_information_create",
+    "HealthCareCodeInformationGetAllResponse": ".health_care_code_information_get_all_response",
+    "HealthCareCodeInformationNew": ".health_care_code_information_new",
+    "HealthCareCodeInformationUpdate": ".health_care_code_information_update",
+    "IcdCode": ".icd_code",
+    "MsdrgCode": ".msdrg_code",
+    "OccurrenceCode": ".occurrence_code",
+    "OccurrenceInformation": ".occurrence_information",
+    "OccurrenceInformationCodeQualifier": ".occurrence_information_code_qualifier",
+    "OccurrenceInformationNew": ".occurrence_information_new",
+    "OccurrenceSpanCode": ".occurrence_span_code",
+    "OccurrenceSpanCodeQualifier": ".occurrence_span_code_qualifier",
+    "OccurrenceSpanInformation": ".occurrence_span_information",
+    "OccurrenceSpanInformationNew": ".occurrence_span_information_new",
+    "OtherDiagnosisInformation": ".other_diagnosis_information",
+    "OtherDiagnosisInformationCodeQualifier": ".other_diagnosis_information_code_qualifier",
+    "OtherDiagnosisInformationNew": ".other_diagnosis_information_new",
+    "OtherProcedureInformation": ".other_procedure_information",
+    "OtherProcedureInformationCodeQualifier": ".other_procedure_information_code_qualifier",
+    "OtherProcedureInformationNew": ".other_procedure_information_new",
+    "PatientReasonForVisit": ".patient_reason_for_visit",
+    "PatientReasonForVisitCodeQualifier": ".patient_reason_for_visit_code_qualifier",
+    "PatientReasonForVisitNew": ".patient_reason_for_visit_new",
+    "PresentOnAdmissionIndicatorCode": ".present_on_admission_indicator_code",
+    "PrincipalDiagnosis": ".principal_diagnosis",
+    "PrincipalDiagnosisCodeQualifier": ".principal_diagnosis_code_qualifier",
+    "PrincipalDiagnosisNew": ".principal_diagnosis_new",
+    "PrincipalProcedureInformation": ".principal_procedure_information",
+    "PrincipalProcedureInformationCodeQualifier": ".principal_procedure_information_code_qualifier",
+    "PrincipalProcedureInformationNew": ".principal_procedure_information_new",
+    "Rd8Date": ".rd_8_date",
+    "SetOrClearAdmittingDiagnosis": ".set_or_clear_admitting_diagnosis",
+    "SetOrClearDiagnosisRelatedGroup": ".set_or_clear_diagnosis_related_group",
+    "SetOrClearPrincipalDiagnosis": ".set_or_clear_principal_diagnosis",
+    "SetOrClearPrincipalProcedureInformation": ".set_or_clear_principal_procedure_information",
+    "TreatmentCode": ".treatment_code",
+    "TreatmentCodeInformation": ".treatment_code_information",
+    "TreatmentCodeInformationNew": ".treatment_code_information_new",
+    "TreatmentCodeQualifier": ".treatment_code_qualifier",
+    "ValueCode": ".value_code",
+    "ValueCodeQualifier": ".value_code_qualifier",
+    "ValueInformation": ".value_information",
+    "ValueInformationNew": ".value_information_new",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AdmittingDiagnosis",

@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
@@ -95,6 +96,9 @@ IdpUserMetadata_AuthZeroMetadata(
     auth_0_id="auth0|5f9b3b5a7b0b0d006a2b0b0b",
 )
 """
-IdpUserMetadata = typing.Union[
-    IdpUserMetadata_AuthZeroMetadata, IdpUserMetadata_GoogleAppsMetadata, IdpUserMetadata_OtherIdpMetadata
+IdpUserMetadata = typing_extensions.Annotated[
+    typing.Union[
+        IdpUserMetadata_AuthZeroMetadata, IdpUserMetadata_GoogleAppsMetadata, IdpUserMetadata_OtherIdpMetadata
+    ],
+    pydantic.Field(discriminator="type"),
 ]

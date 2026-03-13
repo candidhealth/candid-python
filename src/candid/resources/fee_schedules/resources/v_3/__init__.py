@@ -2,49 +2,119 @@
 
 # isort: skip_file
 
-from .types import (
-    DimensionMatch,
-    DimensionName,
-    Dimensions,
-    DimensionsPage,
-    MatchCptCode,
-    MatchDate,
-    MatchFacilityTypeCode,
-    MatchGeo,
-    MatchLicenseType,
-    MatchModifiers,
-    MatchNetworkTypes,
-    MatchPayer,
-    MatchPayerPlanGroups,
-    MatchProvider,
-    MatchResult,
-    MatchTestResult,
-    NewRate,
-    NewRateVersion,
-    OptionalDimensions,
-    OverlappingRateEntriesError,
-    PayerPlanGroupDoesNotMatchRatePayerError,
-    PayerThreshold,
-    PayerThresholdsPage,
-    Rate,
-    RateEntry,
-    RateUpload,
-    RateUploadWithPossibleErrors,
-    RateUpload_NewRate,
-    RateUpload_NewVersion,
-    RatesPage,
-    ThresholdMatch,
-    ValidationError,
-    ValidationError_DuplicateRate,
-    ValidationError_EmptyEntries,
-    ValidationError_OrganizationProviderNotFound,
-    ValidationError_OverlappingRateEntries,
-    ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
-    ValidationError_PayerPlanGroupNetworkTypeMutualExclusion,
-    ValidationError_PayerPlanGroupNotFound,
-    ValidationError_VersionConflict,
-)
-from .errors import FailedToBuildServiceLineDimensions, FeeScheduleValidationHttpError
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        DimensionMatch,
+        DimensionName,
+        Dimensions,
+        DimensionsPage,
+        MatchCptCode,
+        MatchDate,
+        MatchFacilityTypeCode,
+        MatchGeo,
+        MatchLicenseType,
+        MatchModifiers,
+        MatchNetworkTypes,
+        MatchPayer,
+        MatchPayerPlanGroups,
+        MatchProvider,
+        MatchResult,
+        MatchTestResult,
+        NewRate,
+        NewRateVersion,
+        OptionalDimensions,
+        OverlappingRateEntriesError,
+        PayerPlanGroupDoesNotMatchRatePayerError,
+        PayerThreshold,
+        PayerThresholdsPage,
+        Rate,
+        RateEntry,
+        RateUpload,
+        RateUploadWithPossibleErrors,
+        RateUpload_NewRate,
+        RateUpload_NewVersion,
+        RatesPage,
+        ThresholdMatch,
+        ValidationError,
+        ValidationError_DuplicateRate,
+        ValidationError_EmptyEntries,
+        ValidationError_OrganizationProviderNotFound,
+        ValidationError_OverlappingRateEntries,
+        ValidationError_PayerPlanGroupDoesNotMatchRatePayer,
+        ValidationError_PayerPlanGroupNetworkTypeMutualExclusion,
+        ValidationError_PayerPlanGroupNotFound,
+        ValidationError_VersionConflict,
+    )
+    from .errors import FailedToBuildServiceLineDimensions, FeeScheduleValidationHttpError
+_dynamic_imports: typing.Dict[str, str] = {
+    "DimensionMatch": ".types",
+    "DimensionName": ".types",
+    "Dimensions": ".types",
+    "DimensionsPage": ".types",
+    "FailedToBuildServiceLineDimensions": ".errors",
+    "FeeScheduleValidationHttpError": ".errors",
+    "MatchCptCode": ".types",
+    "MatchDate": ".types",
+    "MatchFacilityTypeCode": ".types",
+    "MatchGeo": ".types",
+    "MatchLicenseType": ".types",
+    "MatchModifiers": ".types",
+    "MatchNetworkTypes": ".types",
+    "MatchPayer": ".types",
+    "MatchPayerPlanGroups": ".types",
+    "MatchProvider": ".types",
+    "MatchResult": ".types",
+    "MatchTestResult": ".types",
+    "NewRate": ".types",
+    "NewRateVersion": ".types",
+    "OptionalDimensions": ".types",
+    "OverlappingRateEntriesError": ".types",
+    "PayerPlanGroupDoesNotMatchRatePayerError": ".types",
+    "PayerThreshold": ".types",
+    "PayerThresholdsPage": ".types",
+    "Rate": ".types",
+    "RateEntry": ".types",
+    "RateUpload": ".types",
+    "RateUploadWithPossibleErrors": ".types",
+    "RateUpload_NewRate": ".types",
+    "RateUpload_NewVersion": ".types",
+    "RatesPage": ".types",
+    "ThresholdMatch": ".types",
+    "ValidationError": ".types",
+    "ValidationError_DuplicateRate": ".types",
+    "ValidationError_EmptyEntries": ".types",
+    "ValidationError_OrganizationProviderNotFound": ".types",
+    "ValidationError_OverlappingRateEntries": ".types",
+    "ValidationError_PayerPlanGroupDoesNotMatchRatePayer": ".types",
+    "ValidationError_PayerPlanGroupNetworkTypeMutualExclusion": ".types",
+    "ValidationError_PayerPlanGroupNotFound": ".types",
+    "ValidationError_VersionConflict": ".types",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "DimensionMatch",

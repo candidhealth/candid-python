@@ -21,7 +21,7 @@ class RawV2Client:
 
     def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[typing.Optional[typing.Any]]:
+    ) -> HttpResponse[typing.Any]:
         """
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
         For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
@@ -50,7 +50,7 @@ class RawV2Client:
 
         Returns
         -------
-        HttpResponse[typing.Optional[typing.Any]]
+        HttpResponse[typing.Any]
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/eligibility/v2/availity",
@@ -64,9 +64,9 @@ class RawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                typing.Optional[typing.Any],
+                typing.Any,
                 parse_obj_as(
-                    type_=typing.Optional[typing.Any],  # type: ignore
+                    type_=typing.Any,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -86,8 +86,8 @@ class RawV2Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def submit_eligibility_check_availity_post(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[typing.Optional[typing.Any]]:
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[typing.Any]:
         """
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
         For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
@@ -107,14 +107,14 @@ class RawV2Client:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[typing.Optional[typing.Any]]
+        HttpResponse[typing.Any]
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/eligibility/v2/availity",
@@ -130,9 +130,9 @@ class RawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                typing.Optional[typing.Any],
+                typing.Any,
                 parse_obj_as(
-                    type_=typing.Optional[typing.Any],  # type: ignore
+                    type_=typing.Any,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -158,7 +158,7 @@ class AsyncRawV2Client:
 
     async def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[typing.Optional[typing.Any]]:
+    ) -> AsyncHttpResponse[typing.Any]:
         """
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
         For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
@@ -187,7 +187,7 @@ class AsyncRawV2Client:
 
         Returns
         -------
-        AsyncHttpResponse[typing.Optional[typing.Any]]
+        AsyncHttpResponse[typing.Any]
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/eligibility/v2/availity",
@@ -201,9 +201,9 @@ class AsyncRawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                typing.Optional[typing.Any],
+                typing.Any,
                 parse_obj_as(
-                    type_=typing.Optional[typing.Any],  # type: ignore
+                    type_=typing.Any,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -223,8 +223,8 @@ class AsyncRawV2Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def submit_eligibility_check_availity_post(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[typing.Optional[typing.Any]]:
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[typing.Any]:
         """
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
         For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
@@ -244,14 +244,14 @@ class AsyncRawV2Client:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[typing.Optional[typing.Any]]
+        AsyncHttpResponse[typing.Any]
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/eligibility/v2/availity",
@@ -267,9 +267,9 @@ class AsyncRawV2Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                typing.Optional[typing.Any],
+                typing.Any,
                 parse_obj_as(
-                    type_=typing.Optional[typing.Any],  # type: ignore
+                    type_=typing.Any,  # type: ignore
                     object_=_response_json,
                 ),
             )

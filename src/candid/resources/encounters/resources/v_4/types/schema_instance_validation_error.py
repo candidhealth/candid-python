@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.primitive import Primitive
 from .....commons.types.schema_id import SchemaId
@@ -29,7 +30,7 @@ class SchemaInstanceValidationError_ValueDoesNotMatchKeyType(UniversalBaseModel)
     schema_id: SchemaId
     key: str
     expected_value_type: Primitive
-    value: typing.Optional[typing.Any] = None
+    value: typing.Any
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
@@ -84,10 +85,13 @@ class SchemaInstanceValidationError_SchemaUnauthorizedAccess(UniversalBaseModel)
             extra = pydantic.Extra.allow
 
 
-SchemaInstanceValidationError = typing.Union[
-    SchemaInstanceValidationError_MultipleInstancesForSchema,
-    SchemaInstanceValidationError_ValueDoesNotMatchKeyType,
-    SchemaInstanceValidationError_KeyDoesNotExist,
-    SchemaInstanceValidationError_SchemaDoesNotExist,
-    SchemaInstanceValidationError_SchemaUnauthorizedAccess,
+SchemaInstanceValidationError = typing_extensions.Annotated[
+    typing.Union[
+        SchemaInstanceValidationError_MultipleInstancesForSchema,
+        SchemaInstanceValidationError_ValueDoesNotMatchKeyType,
+        SchemaInstanceValidationError_KeyDoesNotExist,
+        SchemaInstanceValidationError_SchemaDoesNotExist,
+        SchemaInstanceValidationError_SchemaUnauthorizedAccess,
+    ],
+    pydantic.Field(discriminator="type"),
 ]

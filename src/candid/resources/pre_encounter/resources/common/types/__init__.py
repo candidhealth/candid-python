@@ -2,47 +2,116 @@
 
 # isort: skip_file
 
-from .additional_payer_information import AdditionalPayerInformation
-from .address import Address
-from .address_use import AddressUse
-from .appointment_id import AppointmentId
-from .base_model import BaseModel
-from .canonical_clinical_trial_association import CanonicalClinicalTrialAssociation
-from .canonical_clinical_trial_id import CanonicalClinicalTrialId
-from .canonical_non_insurance_payer_association import CanonicalNonInsurancePayerAssociation
-from .canonical_non_insurance_payer_id import CanonicalNonInsurancePayerId
-from .canonical_provider_id import CanonicalProviderId
-from .canonical_service_facility_id import CanonicalServiceFacilityId
-from .contact_point import ContactPoint
-from .contact_point_use import ContactPointUse
-from .coverage_id import CoverageId
-from .disability_status import DisabilityStatus
-from .error_base_4_xx import ErrorBase4Xx
-from .ethnicity import Ethnicity
-from .external_identifier import ExternalIdentifier
-from .external_provider import ExternalProvider
-from .external_provider_type import ExternalProviderType
-from .filter_query_string import FilterQueryString
-from .gender import Gender
-from .human_name import HumanName
-from .name_use import NameUse
-from .note_id import NoteId
-from .organization_id import OrganizationId
-from .page_token import PageToken
-from .patient_id import PatientId
-from .patient_service_facility import PatientServiceFacility
-from .payer_id import PayerId
-from .payer_plan_group_id import PayerPlanGroupId
-from .period import Period
-from .race import Race
-from .relationship import Relationship
-from .resource_page import ResourcePage
-from .sex import Sex
-from .sexual_orientation import SexualOrientation
-from .sort_direction import SortDirection
-from .tag_id import TagId
-from .user_id import UserId
-from .version_conflict_error_body import VersionConflictErrorBody
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .additional_payer_information import AdditionalPayerInformation
+    from .address import Address
+    from .address_use import AddressUse
+    from .appointment_id import AppointmentId
+    from .base_model import BaseModel
+    from .canonical_clinical_trial_association import CanonicalClinicalTrialAssociation
+    from .canonical_clinical_trial_id import CanonicalClinicalTrialId
+    from .canonical_non_insurance_payer_association import CanonicalNonInsurancePayerAssociation
+    from .canonical_non_insurance_payer_id import CanonicalNonInsurancePayerId
+    from .canonical_provider_id import CanonicalProviderId
+    from .canonical_service_facility_id import CanonicalServiceFacilityId
+    from .contact_point import ContactPoint
+    from .contact_point_use import ContactPointUse
+    from .coverage_id import CoverageId
+    from .disability_status import DisabilityStatus
+    from .error_base_4_xx import ErrorBase4Xx
+    from .ethnicity import Ethnicity
+    from .external_identifier import ExternalIdentifier
+    from .external_provider import ExternalProvider
+    from .external_provider_type import ExternalProviderType
+    from .filter_query_string import FilterQueryString
+    from .gender import Gender
+    from .human_name import HumanName
+    from .name_use import NameUse
+    from .note_id import NoteId
+    from .organization_id import OrganizationId
+    from .page_token import PageToken
+    from .patient_id import PatientId
+    from .patient_service_facility import PatientServiceFacility
+    from .payer_id import PayerId
+    from .payer_plan_group_id import PayerPlanGroupId
+    from .period import Period
+    from .race import Race
+    from .relationship import Relationship
+    from .resource_page import ResourcePage
+    from .sex import Sex
+    from .sexual_orientation import SexualOrientation
+    from .sort_direction import SortDirection
+    from .tag_id import TagId
+    from .user_id import UserId
+    from .version_conflict_error_body import VersionConflictErrorBody
+_dynamic_imports: typing.Dict[str, str] = {
+    "AdditionalPayerInformation": ".additional_payer_information",
+    "Address": ".address",
+    "AddressUse": ".address_use",
+    "AppointmentId": ".appointment_id",
+    "BaseModel": ".base_model",
+    "CanonicalClinicalTrialAssociation": ".canonical_clinical_trial_association",
+    "CanonicalClinicalTrialId": ".canonical_clinical_trial_id",
+    "CanonicalNonInsurancePayerAssociation": ".canonical_non_insurance_payer_association",
+    "CanonicalNonInsurancePayerId": ".canonical_non_insurance_payer_id",
+    "CanonicalProviderId": ".canonical_provider_id",
+    "CanonicalServiceFacilityId": ".canonical_service_facility_id",
+    "ContactPoint": ".contact_point",
+    "ContactPointUse": ".contact_point_use",
+    "CoverageId": ".coverage_id",
+    "DisabilityStatus": ".disability_status",
+    "ErrorBase4Xx": ".error_base_4_xx",
+    "Ethnicity": ".ethnicity",
+    "ExternalIdentifier": ".external_identifier",
+    "ExternalProvider": ".external_provider",
+    "ExternalProviderType": ".external_provider_type",
+    "FilterQueryString": ".filter_query_string",
+    "Gender": ".gender",
+    "HumanName": ".human_name",
+    "NameUse": ".name_use",
+    "NoteId": ".note_id",
+    "OrganizationId": ".organization_id",
+    "PageToken": ".page_token",
+    "PatientId": ".patient_id",
+    "PatientServiceFacility": ".patient_service_facility",
+    "PayerId": ".payer_id",
+    "PayerPlanGroupId": ".payer_plan_group_id",
+    "Period": ".period",
+    "Race": ".race",
+    "Relationship": ".relationship",
+    "ResourcePage": ".resource_page",
+    "Sex": ".sex",
+    "SexualOrientation": ".sexual_orientation",
+    "SortDirection": ".sort_direction",
+    "TagId": ".tag_id",
+    "UserId": ".user_id",
+    "VersionConflictErrorBody": ".version_conflict_error_body",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AdditionalPayerInformation",

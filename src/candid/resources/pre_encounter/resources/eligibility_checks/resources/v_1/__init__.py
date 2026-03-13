@@ -2,46 +2,112 @@
 
 # isort: skip_file
 
-from .types import (
-    BatchEligibilityResponse,
-    CoordinationOfBenefitsRecommendation,
-    CopayEstimationRecommendation,
-    CopayEstimationRecommendationPayload,
-    EligibilityCheck,
-    EligibilityCheckError,
-    EligibilityCheckErrorDetails,
-    EligibilityCheckErrorSource,
-    EligibilityCheckMetadata,
-    EligibilityCheckPage,
-    EligibilityCheckStatus,
-    EligibilityRecommendation,
-    EligibilityRecommendationPatientInfo,
-    EligibilityRecommendationPayload,
-    EligibilityRecommendationPayload_CoordinationOfBenefits,
-    EligibilityRecommendationPayload_CopayEstimation,
-    EligibilityRecommendationPayload_MedicareAdvantage,
-    EligibilityRecommendationPayload_UserConfiguredPrompts,
-    EligibilityRequest,
-    EligibilityResponse,
-    EligibilityStatus,
-    Encounter,
-    IndividualProvider,
-    MedicareAdvantageRecommendation,
-    MedicareAdvantageRecommendationPayload,
-    OrganizationProvider,
-    ParsedResponse,
-    PayerSearchResponse,
-    PostEligibilityRecommendationRequest,
-    Provider,
-    RequestCorrection,
-    StediPayer,
-    StediPayerItem,
-    UserConfiguredPromptsRecommendation,
-    UserConfiguredPromptsRecommendationPayload,
-    UserConfiguredPromptsResult,
-    Vote,
-    VoteValue,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        BatchEligibilityResponse,
+        CoordinationOfBenefitsRecommendation,
+        CopayEstimationRecommendation,
+        CopayEstimationRecommendationPayload,
+        EligibilityCheck,
+        EligibilityCheckError,
+        EligibilityCheckErrorDetails,
+        EligibilityCheckErrorSource,
+        EligibilityCheckMetadata,
+        EligibilityCheckPage,
+        EligibilityCheckStatus,
+        EligibilityRecommendation,
+        EligibilityRecommendationPatientInfo,
+        EligibilityRecommendationPayload,
+        EligibilityRecommendationPayload_CoordinationOfBenefits,
+        EligibilityRecommendationPayload_CopayEstimation,
+        EligibilityRecommendationPayload_MedicareAdvantage,
+        EligibilityRecommendationPayload_UserConfiguredPrompts,
+        EligibilityRequest,
+        EligibilityResponse,
+        EligibilityStatus,
+        Encounter,
+        IndividualProvider,
+        MedicareAdvantageRecommendation,
+        MedicareAdvantageRecommendationPayload,
+        OrganizationProvider,
+        ParsedResponse,
+        PayerSearchResponse,
+        PostEligibilityRecommendationRequest,
+        Provider,
+        RequestCorrection,
+        StediPayer,
+        StediPayerItem,
+        UserConfiguredPromptsRecommendation,
+        UserConfiguredPromptsRecommendationPayload,
+        UserConfiguredPromptsResult,
+        Vote,
+        VoteValue,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "BatchEligibilityResponse": ".types",
+    "CoordinationOfBenefitsRecommendation": ".types",
+    "CopayEstimationRecommendation": ".types",
+    "CopayEstimationRecommendationPayload": ".types",
+    "EligibilityCheck": ".types",
+    "EligibilityCheckError": ".types",
+    "EligibilityCheckErrorDetails": ".types",
+    "EligibilityCheckErrorSource": ".types",
+    "EligibilityCheckMetadata": ".types",
+    "EligibilityCheckPage": ".types",
+    "EligibilityCheckStatus": ".types",
+    "EligibilityRecommendation": ".types",
+    "EligibilityRecommendationPatientInfo": ".types",
+    "EligibilityRecommendationPayload": ".types",
+    "EligibilityRecommendationPayload_CoordinationOfBenefits": ".types",
+    "EligibilityRecommendationPayload_CopayEstimation": ".types",
+    "EligibilityRecommendationPayload_MedicareAdvantage": ".types",
+    "EligibilityRecommendationPayload_UserConfiguredPrompts": ".types",
+    "EligibilityRequest": ".types",
+    "EligibilityResponse": ".types",
+    "EligibilityStatus": ".types",
+    "Encounter": ".types",
+    "IndividualProvider": ".types",
+    "MedicareAdvantageRecommendation": ".types",
+    "MedicareAdvantageRecommendationPayload": ".types",
+    "OrganizationProvider": ".types",
+    "ParsedResponse": ".types",
+    "PayerSearchResponse": ".types",
+    "PostEligibilityRecommendationRequest": ".types",
+    "Provider": ".types",
+    "RequestCorrection": ".types",
+    "StediPayer": ".types",
+    "StediPayerItem": ".types",
+    "UserConfiguredPromptsRecommendation": ".types",
+    "UserConfiguredPromptsRecommendationPayload": ".types",
+    "UserConfiguredPromptsResult": ".types",
+    "Vote": ".types",
+    "VoteValue": ".types",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "BatchEligibilityResponse",

@@ -2,12 +2,46 @@
 
 # isort: skip_file
 
-from .create_import_invoice_request import CreateImportInvoiceRequest
-from .import_invoice import ImportInvoice
-from .import_invoice_update_request import ImportInvoiceUpdateRequest
-from .import_invoices_page import ImportInvoicesPage
-from .invoice_item_info_update import InvoiceItemInfoUpdate
-from .invoice_item_update_type import InvoiceItemUpdateType
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .create_import_invoice_request import CreateImportInvoiceRequest
+    from .import_invoice import ImportInvoice
+    from .import_invoice_update_request import ImportInvoiceUpdateRequest
+    from .import_invoices_page import ImportInvoicesPage
+    from .invoice_item_info_update import InvoiceItemInfoUpdate
+    from .invoice_item_update_type import InvoiceItemUpdateType
+_dynamic_imports: typing.Dict[str, str] = {
+    "CreateImportInvoiceRequest": ".create_import_invoice_request",
+    "ImportInvoice": ".import_invoice",
+    "ImportInvoiceUpdateRequest": ".import_invoice_update_request",
+    "ImportInvoicesPage": ".import_invoices_page",
+    "InvoiceItemInfoUpdate": ".invoice_item_info_update",
+    "InvoiceItemUpdateType": ".invoice_item_update_type",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "CreateImportInvoiceRequest",

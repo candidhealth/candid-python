@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...commons.types.invoice_id import InvoiceId
 
@@ -35,4 +36,6 @@ class InvoiceUpdate_Remove(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-InvoiceUpdate = typing.Union[InvoiceUpdate_Set, InvoiceUpdate_Remove]
+InvoiceUpdate = typing_extensions.Annotated[
+    typing.Union[InvoiceUpdate_Set, InvoiceUpdate_Remove], pydantic.Field(discriminator="type")
+]

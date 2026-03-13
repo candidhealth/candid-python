@@ -7,6 +7,7 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2
 from .....commons.types.qualifier_code import QualifierCode
 from .....commons.types.street_address_short_zip_optional import StreetAddressShortZipOptional
 from .encounter_provider_base import EncounterProviderBase
+from .referring_provider_secondary_identification import ReferringProviderSecondaryIdentification
 
 
 class InitialReferringProviderUpdateWithOptionalAddress(EncounterProviderBase):
@@ -19,6 +20,7 @@ class InitialReferringProviderUpdateWithOptionalAddress(EncounterProviderBase):
     taxonomy_code: typing.Optional[str] = None
     address: typing.Optional[StreetAddressShortZipOptional] = None
     qualifier: typing.Optional[QualifierCode] = None
+    secondary_identification: typing.Optional[ReferringProviderSecondaryIdentification] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

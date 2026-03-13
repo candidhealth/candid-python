@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .payer_id import PayerId
 from .payer_name import PayerName
@@ -39,4 +40,6 @@ class PayerIdentifier_PayerUuid(UniversalBaseModel):
             smart_union = True
 
 
-PayerIdentifier = typing.Union[PayerIdentifier_PayerInfo, PayerIdentifier_PayerUuid]
+PayerIdentifier = typing_extensions.Annotated[
+    typing.Union[PayerIdentifier_PayerInfo, PayerIdentifier_PayerUuid], pydantic.Field(discriminator="type")
+]

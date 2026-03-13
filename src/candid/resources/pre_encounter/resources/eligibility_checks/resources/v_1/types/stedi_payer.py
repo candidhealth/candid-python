@@ -12,9 +12,9 @@ class StediPayer(UniversalBaseModel):
     primary_payer_id: str
     aliases: typing.List[str]
     names: typing.List[str]
-    transaction_support: typing.Optional[typing.Any] = None
+    transaction_support: typing.Any
     employer_identification_numbers: typing.Optional[typing.List[str]] = None
-    payer_enrollment: typing.Optional[typing.Any] = None
+    payer_enrollment: typing.Any
     parent_payer_group: typing.Optional[str] = None
     coverage_types: typing.Optional[typing.List[str]] = None
 

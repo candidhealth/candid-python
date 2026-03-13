@@ -2,18 +2,56 @@
 
 # isort: skip_file
 
-from .bad_request_error import BadRequestError
-from .entity_conflict_error import EntityConflictError
-from .entity_not_found_error import EntityNotFoundError
-from .http_request_validation_error import HttpRequestValidationError
-from .http_request_validations_error import HttpRequestValidationsError
-from .internal_error import InternalError
-from .organization_not_authorized_error import OrganizationNotAuthorizedError
-from .unauthorized_error import UnauthorizedError
-from .unprocessable_entity_error import UnprocessableEntityError
-from .updates_disabled_due_to_external_system_integration_error import (
-    UpdatesDisabledDueToExternalSystemIntegrationError,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .bad_request_error import BadRequestError
+    from .entity_conflict_error import EntityConflictError
+    from .entity_not_found_error import EntityNotFoundError
+    from .http_request_validation_error import HttpRequestValidationError
+    from .http_request_validations_error import HttpRequestValidationsError
+    from .internal_error import InternalError
+    from .organization_not_authorized_error import OrganizationNotAuthorizedError
+    from .unauthorized_error import UnauthorizedError
+    from .unprocessable_entity_error import UnprocessableEntityError
+    from .updates_disabled_due_to_external_system_integration_error import (
+        UpdatesDisabledDueToExternalSystemIntegrationError,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "BadRequestError": ".bad_request_error",
+    "EntityConflictError": ".entity_conflict_error",
+    "EntityNotFoundError": ".entity_not_found_error",
+    "HttpRequestValidationError": ".http_request_validation_error",
+    "HttpRequestValidationsError": ".http_request_validations_error",
+    "InternalError": ".internal_error",
+    "OrganizationNotAuthorizedError": ".organization_not_authorized_error",
+    "UnauthorizedError": ".unauthorized_error",
+    "UnprocessableEntityError": ".unprocessable_entity_error",
+    "UpdatesDisabledDueToExternalSystemIntegrationError": ".updates_disabled_due_to_external_system_integration_error",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "BadRequestError",

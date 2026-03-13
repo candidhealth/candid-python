@@ -2,14 +2,50 @@
 
 # isort: skip_file
 
-from .base_credentialing_span import BaseCredentialingSpan
-from .credentialing_span_status import CredentialingSpanStatus
-from .facility_credentialing_span import FacilityCredentialingSpan
-from .facility_credentialing_span_id import FacilityCredentialingSpanId
-from .facility_credentialing_span_page import FacilityCredentialingSpanPage
-from .provider_credentialing_span import ProviderCredentialingSpan
-from .provider_credentialing_span_id import ProviderCredentialingSpanId
-from .provider_credentialing_span_page import ProviderCredentialingSpanPage
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .base_credentialing_span import BaseCredentialingSpan
+    from .credentialing_span_status import CredentialingSpanStatus
+    from .facility_credentialing_span import FacilityCredentialingSpan
+    from .facility_credentialing_span_id import FacilityCredentialingSpanId
+    from .facility_credentialing_span_page import FacilityCredentialingSpanPage
+    from .provider_credentialing_span import ProviderCredentialingSpan
+    from .provider_credentialing_span_id import ProviderCredentialingSpanId
+    from .provider_credentialing_span_page import ProviderCredentialingSpanPage
+_dynamic_imports: typing.Dict[str, str] = {
+    "BaseCredentialingSpan": ".base_credentialing_span",
+    "CredentialingSpanStatus": ".credentialing_span_status",
+    "FacilityCredentialingSpan": ".facility_credentialing_span",
+    "FacilityCredentialingSpanId": ".facility_credentialing_span_id",
+    "FacilityCredentialingSpanPage": ".facility_credentialing_span_page",
+    "ProviderCredentialingSpan": ".provider_credentialing_span",
+    "ProviderCredentialingSpanId": ".provider_credentialing_span_id",
+    "ProviderCredentialingSpanPage": ".provider_credentialing_span_page",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "BaseCredentialingSpan",

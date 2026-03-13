@@ -2,46 +2,112 @@
 
 # isort: skip_file
 
-from .batch_eligibility_response import BatchEligibilityResponse
-from .coordination_of_benefits_recommendation import CoordinationOfBenefitsRecommendation
-from .copay_estimation_recommendation import CopayEstimationRecommendation
-from .copay_estimation_recommendation_payload import CopayEstimationRecommendationPayload
-from .eligibility_check import EligibilityCheck
-from .eligibility_check_error import EligibilityCheckError
-from .eligibility_check_error_details import EligibilityCheckErrorDetails
-from .eligibility_check_error_source import EligibilityCheckErrorSource
-from .eligibility_check_metadata import EligibilityCheckMetadata
-from .eligibility_check_page import EligibilityCheckPage
-from .eligibility_check_status import EligibilityCheckStatus
-from .eligibility_recommendation import EligibilityRecommendation
-from .eligibility_recommendation_patient_info import EligibilityRecommendationPatientInfo
-from .eligibility_recommendation_payload import (
-    EligibilityRecommendationPayload,
-    EligibilityRecommendationPayload_CoordinationOfBenefits,
-    EligibilityRecommendationPayload_CopayEstimation,
-    EligibilityRecommendationPayload_MedicareAdvantage,
-    EligibilityRecommendationPayload_UserConfiguredPrompts,
-)
-from .eligibility_request import EligibilityRequest
-from .eligibility_response import EligibilityResponse
-from .eligibility_status import EligibilityStatus
-from .encounter import Encounter
-from .individual_provider import IndividualProvider
-from .medicare_advantage_recommendation import MedicareAdvantageRecommendation
-from .medicare_advantage_recommendation_payload import MedicareAdvantageRecommendationPayload
-from .organization_provider import OrganizationProvider
-from .parsed_response import ParsedResponse
-from .payer_search_response import PayerSearchResponse
-from .post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
-from .provider import Provider
-from .request_correction import RequestCorrection
-from .stedi_payer import StediPayer
-from .stedi_payer_item import StediPayerItem
-from .user_configured_prompts_recommendation import UserConfiguredPromptsRecommendation
-from .user_configured_prompts_recommendation_payload import UserConfiguredPromptsRecommendationPayload
-from .user_configured_prompts_result import UserConfiguredPromptsResult
-from .vote import Vote
-from .vote_value import VoteValue
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .batch_eligibility_response import BatchEligibilityResponse
+    from .coordination_of_benefits_recommendation import CoordinationOfBenefitsRecommendation
+    from .copay_estimation_recommendation import CopayEstimationRecommendation
+    from .copay_estimation_recommendation_payload import CopayEstimationRecommendationPayload
+    from .eligibility_check import EligibilityCheck
+    from .eligibility_check_error import EligibilityCheckError
+    from .eligibility_check_error_details import EligibilityCheckErrorDetails
+    from .eligibility_check_error_source import EligibilityCheckErrorSource
+    from .eligibility_check_metadata import EligibilityCheckMetadata
+    from .eligibility_check_page import EligibilityCheckPage
+    from .eligibility_check_status import EligibilityCheckStatus
+    from .eligibility_recommendation import EligibilityRecommendation
+    from .eligibility_recommendation_patient_info import EligibilityRecommendationPatientInfo
+    from .eligibility_recommendation_payload import (
+        EligibilityRecommendationPayload,
+        EligibilityRecommendationPayload_CoordinationOfBenefits,
+        EligibilityRecommendationPayload_CopayEstimation,
+        EligibilityRecommendationPayload_MedicareAdvantage,
+        EligibilityRecommendationPayload_UserConfiguredPrompts,
+    )
+    from .eligibility_request import EligibilityRequest
+    from .eligibility_response import EligibilityResponse
+    from .eligibility_status import EligibilityStatus
+    from .encounter import Encounter
+    from .individual_provider import IndividualProvider
+    from .medicare_advantage_recommendation import MedicareAdvantageRecommendation
+    from .medicare_advantage_recommendation_payload import MedicareAdvantageRecommendationPayload
+    from .organization_provider import OrganizationProvider
+    from .parsed_response import ParsedResponse
+    from .payer_search_response import PayerSearchResponse
+    from .post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
+    from .provider import Provider
+    from .request_correction import RequestCorrection
+    from .stedi_payer import StediPayer
+    from .stedi_payer_item import StediPayerItem
+    from .user_configured_prompts_recommendation import UserConfiguredPromptsRecommendation
+    from .user_configured_prompts_recommendation_payload import UserConfiguredPromptsRecommendationPayload
+    from .user_configured_prompts_result import UserConfiguredPromptsResult
+    from .vote import Vote
+    from .vote_value import VoteValue
+_dynamic_imports: typing.Dict[str, str] = {
+    "BatchEligibilityResponse": ".batch_eligibility_response",
+    "CoordinationOfBenefitsRecommendation": ".coordination_of_benefits_recommendation",
+    "CopayEstimationRecommendation": ".copay_estimation_recommendation",
+    "CopayEstimationRecommendationPayload": ".copay_estimation_recommendation_payload",
+    "EligibilityCheck": ".eligibility_check",
+    "EligibilityCheckError": ".eligibility_check_error",
+    "EligibilityCheckErrorDetails": ".eligibility_check_error_details",
+    "EligibilityCheckErrorSource": ".eligibility_check_error_source",
+    "EligibilityCheckMetadata": ".eligibility_check_metadata",
+    "EligibilityCheckPage": ".eligibility_check_page",
+    "EligibilityCheckStatus": ".eligibility_check_status",
+    "EligibilityRecommendation": ".eligibility_recommendation",
+    "EligibilityRecommendationPatientInfo": ".eligibility_recommendation_patient_info",
+    "EligibilityRecommendationPayload": ".eligibility_recommendation_payload",
+    "EligibilityRecommendationPayload_CoordinationOfBenefits": ".eligibility_recommendation_payload",
+    "EligibilityRecommendationPayload_CopayEstimation": ".eligibility_recommendation_payload",
+    "EligibilityRecommendationPayload_MedicareAdvantage": ".eligibility_recommendation_payload",
+    "EligibilityRecommendationPayload_UserConfiguredPrompts": ".eligibility_recommendation_payload",
+    "EligibilityRequest": ".eligibility_request",
+    "EligibilityResponse": ".eligibility_response",
+    "EligibilityStatus": ".eligibility_status",
+    "Encounter": ".encounter",
+    "IndividualProvider": ".individual_provider",
+    "MedicareAdvantageRecommendation": ".medicare_advantage_recommendation",
+    "MedicareAdvantageRecommendationPayload": ".medicare_advantage_recommendation_payload",
+    "OrganizationProvider": ".organization_provider",
+    "ParsedResponse": ".parsed_response",
+    "PayerSearchResponse": ".payer_search_response",
+    "PostEligibilityRecommendationRequest": ".post_eligibility_recommendation_request",
+    "Provider": ".provider",
+    "RequestCorrection": ".request_correction",
+    "StediPayer": ".stedi_payer",
+    "StediPayerItem": ".stedi_payer_item",
+    "UserConfiguredPromptsRecommendation": ".user_configured_prompts_recommendation",
+    "UserConfiguredPromptsRecommendationPayload": ".user_configured_prompts_recommendation_payload",
+    "UserConfiguredPromptsResult": ".user_configured_prompts_result",
+    "Vote": ".vote",
+    "VoteValue": ".vote_value",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "BatchEligibilityResponse",

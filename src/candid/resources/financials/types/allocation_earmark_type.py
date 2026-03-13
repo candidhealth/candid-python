@@ -5,6 +5,7 @@ from __future__ import annotations
 import typing
 
 import pydantic
+import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...commons.types.date import Date
 from ...commons.types.encounter_external_id import EncounterExternalId
@@ -36,4 +37,7 @@ class AllocationEarmarkType_ExternalEncounterId(UniversalBaseModel):
             smart_union = True
 
 
-AllocationEarmarkType = typing.Union[AllocationEarmarkType_DateOfService, AllocationEarmarkType_ExternalEncounterId]
+AllocationEarmarkType = typing_extensions.Annotated[
+    typing.Union[AllocationEarmarkType_DateOfService, AllocationEarmarkType_ExternalEncounterId],
+    pydantic.Field(discriminator="type"),
+]

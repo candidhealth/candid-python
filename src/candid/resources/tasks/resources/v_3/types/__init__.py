@@ -2,18 +2,59 @@
 
 # isort: skip_file
 
-from .task import Task
-from .task_action import TaskAction
-from .task_action_execution_method import TaskActionExecutionMethod, TaskActionExecutionMethod_CloseTask
-from .task_action_type import TaskActionType
-from .task_actions import TaskActions
-from .task_assignment import TaskAssignment
-from .task_create_v_3 import TaskCreateV3
-from .task_note import TaskNote
-from .task_page import TaskPage
-from .task_sort_options import TaskSortOptions
-from .task_update_v_3 import TaskUpdateV3
-from .task_updated_to_deprecated_status_error_type import TaskUpdatedToDeprecatedStatusErrorType
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .task import Task
+    from .task_action import TaskAction
+    from .task_action_execution_method import TaskActionExecutionMethod, TaskActionExecutionMethod_CloseTask
+    from .task_action_type import TaskActionType
+    from .task_actions import TaskActions
+    from .task_assignment import TaskAssignment
+    from .task_create_v_3 import TaskCreateV3
+    from .task_note import TaskNote
+    from .task_page import TaskPage
+    from .task_sort_options import TaskSortOptions
+    from .task_update_v_3 import TaskUpdateV3
+    from .task_updated_to_deprecated_status_error_type import TaskUpdatedToDeprecatedStatusErrorType
+_dynamic_imports: typing.Dict[str, str] = {
+    "Task": ".task",
+    "TaskAction": ".task_action",
+    "TaskActionExecutionMethod": ".task_action_execution_method",
+    "TaskActionExecutionMethod_CloseTask": ".task_action_execution_method",
+    "TaskActionType": ".task_action_type",
+    "TaskActions": ".task_actions",
+    "TaskAssignment": ".task_assignment",
+    "TaskCreateV3": ".task_create_v_3",
+    "TaskNote": ".task_note",
+    "TaskPage": ".task_page",
+    "TaskSortOptions": ".task_sort_options",
+    "TaskUpdateV3": ".task_update_v_3",
+    "TaskUpdatedToDeprecatedStatusErrorType": ".task_updated_to_deprecated_status_error_type",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Task",

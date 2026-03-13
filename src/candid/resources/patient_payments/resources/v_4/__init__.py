@@ -2,34 +2,106 @@
 
 # isort: skip_file
 
-from .types import (
-    CardPaymentMethod,
-    CashPaymentMethod,
-    CheckPaymentMethod,
-    MoneyOrderPaymentMethod,
-    PatientPayment,
-    PatientPaymentId,
-    PatientPaymentSortField,
-    PatientPaymentsPage,
-    PaymentMethod,
-    PaymentMethodDetail,
-    PaymentMethod_Card,
-    PaymentMethod_Cash,
-    PaymentMethod_Check,
-    PaymentMethod_MoneyOrder,
-)
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        CardPaymentMethod,
+        CardPaymentMethodCreate,
+        CashPaymentMethod,
+        CashPaymentMethodCreate,
+        CheckPaymentMethod,
+        CheckPaymentMethodCreate,
+        MoneyOrderPaymentMethod,
+        MoneyOrderPaymentMethodCreate,
+        PatientPayment,
+        PatientPaymentId,
+        PatientPaymentSortField,
+        PatientPaymentsPage,
+        PaymentMethod,
+        PaymentMethodCreate,
+        PaymentMethodCreate_Card,
+        PaymentMethodCreate_Cash,
+        PaymentMethodCreate_Check,
+        PaymentMethodCreate_MoneyOrder,
+        PaymentMethodDetail,
+        PaymentMethodDetailCreate,
+        PaymentMethod_Card,
+        PaymentMethod_Cash,
+        PaymentMethod_Check,
+        PaymentMethod_MoneyOrder,
+    )
+_dynamic_imports: typing.Dict[str, str] = {
+    "CardPaymentMethod": ".types",
+    "CardPaymentMethodCreate": ".types",
+    "CashPaymentMethod": ".types",
+    "CashPaymentMethodCreate": ".types",
+    "CheckPaymentMethod": ".types",
+    "CheckPaymentMethodCreate": ".types",
+    "MoneyOrderPaymentMethod": ".types",
+    "MoneyOrderPaymentMethodCreate": ".types",
+    "PatientPayment": ".types",
+    "PatientPaymentId": ".types",
+    "PatientPaymentSortField": ".types",
+    "PatientPaymentsPage": ".types",
+    "PaymentMethod": ".types",
+    "PaymentMethodCreate": ".types",
+    "PaymentMethodCreate_Card": ".types",
+    "PaymentMethodCreate_Cash": ".types",
+    "PaymentMethodCreate_Check": ".types",
+    "PaymentMethodCreate_MoneyOrder": ".types",
+    "PaymentMethodDetail": ".types",
+    "PaymentMethodDetailCreate": ".types",
+    "PaymentMethod_Card": ".types",
+    "PaymentMethod_Cash": ".types",
+    "PaymentMethod_Check": ".types",
+    "PaymentMethod_MoneyOrder": ".types",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "CardPaymentMethod",
+    "CardPaymentMethodCreate",
     "CashPaymentMethod",
+    "CashPaymentMethodCreate",
     "CheckPaymentMethod",
+    "CheckPaymentMethodCreate",
     "MoneyOrderPaymentMethod",
+    "MoneyOrderPaymentMethodCreate",
     "PatientPayment",
     "PatientPaymentId",
     "PatientPaymentSortField",
     "PatientPaymentsPage",
     "PaymentMethod",
+    "PaymentMethodCreate",
+    "PaymentMethodCreate_Card",
+    "PaymentMethodCreate_Cash",
+    "PaymentMethodCreate_Check",
+    "PaymentMethodCreate_MoneyOrder",
     "PaymentMethodDetail",
+    "PaymentMethodDetailCreate",
     "PaymentMethod_Card",
     "PaymentMethod_Cash",
     "PaymentMethod_Check",

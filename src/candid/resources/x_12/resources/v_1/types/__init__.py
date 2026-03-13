@@ -2,23 +2,66 @@
 
 # isort: skip_file
 
-from .carc import Carc
-from .claim_adjustment_reason_code import ClaimAdjustmentReasonCode
-from .patient_discharge_status_code import PatientDischargeStatusCode
-from .point_of_origin_for_admission_or_visit_code import PointOfOriginForAdmissionOrVisitCode
-from .rarc import Rarc
-from .remittance_advice_remark_code import RemittanceAdviceRemarkCode
-from .type_of_admission_or_visit_code import TypeOfAdmissionOrVisitCode
-from .type_of_bill_composite import TypeOfBillComposite
-from .type_of_bill_composite_base import TypeOfBillCompositeBase
-from .type_of_bill_composite_update import (
-    TypeOfBillCompositeUpdate,
-    TypeOfBillCompositeUpdate_CompositeCodes,
-    TypeOfBillCompositeUpdate_RawCode,
-)
-from .type_of_bill_frequency_code import TypeOfBillFrequencyCode
-from .type_of_care_code import TypeOfCareCode
-from .type_of_facility_code import TypeOfFacilityCode
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .carc import Carc
+    from .claim_adjustment_reason_code import ClaimAdjustmentReasonCode
+    from .patient_discharge_status_code import PatientDischargeStatusCode
+    from .point_of_origin_for_admission_or_visit_code import PointOfOriginForAdmissionOrVisitCode
+    from .rarc import Rarc
+    from .remittance_advice_remark_code import RemittanceAdviceRemarkCode
+    from .type_of_admission_or_visit_code import TypeOfAdmissionOrVisitCode
+    from .type_of_bill_composite import TypeOfBillComposite
+    from .type_of_bill_composite_base import TypeOfBillCompositeBase
+    from .type_of_bill_composite_update import (
+        TypeOfBillCompositeUpdate,
+        TypeOfBillCompositeUpdate_CompositeCodes,
+        TypeOfBillCompositeUpdate_RawCode,
+    )
+    from .type_of_bill_frequency_code import TypeOfBillFrequencyCode
+    from .type_of_care_code import TypeOfCareCode
+    from .type_of_facility_code import TypeOfFacilityCode
+_dynamic_imports: typing.Dict[str, str] = {
+    "Carc": ".carc",
+    "ClaimAdjustmentReasonCode": ".claim_adjustment_reason_code",
+    "PatientDischargeStatusCode": ".patient_discharge_status_code",
+    "PointOfOriginForAdmissionOrVisitCode": ".point_of_origin_for_admission_or_visit_code",
+    "Rarc": ".rarc",
+    "RemittanceAdviceRemarkCode": ".remittance_advice_remark_code",
+    "TypeOfAdmissionOrVisitCode": ".type_of_admission_or_visit_code",
+    "TypeOfBillComposite": ".type_of_bill_composite",
+    "TypeOfBillCompositeBase": ".type_of_bill_composite_base",
+    "TypeOfBillCompositeUpdate": ".type_of_bill_composite_update",
+    "TypeOfBillCompositeUpdate_CompositeCodes": ".type_of_bill_composite_update",
+    "TypeOfBillCompositeUpdate_RawCode": ".type_of_bill_composite_update",
+    "TypeOfBillFrequencyCode": ".type_of_bill_frequency_code",
+    "TypeOfCareCode": ".type_of_care_code",
+    "TypeOfFacilityCode": ".type_of_facility_code",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Carc",

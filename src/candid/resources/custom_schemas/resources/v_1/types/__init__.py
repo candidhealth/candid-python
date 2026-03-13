@@ -2,19 +2,58 @@
 
 # isort: skip_file
 
-from .key_with_name_already_exists_error import KeyWithNameAlreadyExistsError
-from .schema import Schema
-from .schema_field import SchemaField
-from .schema_get_multi_response import SchemaGetMultiResponse
-from .schema_instance import SchemaInstance
-from .schema_instance_optional import SchemaInstanceOptional
-from .schema_validation_error import (
-    SchemaValidationError,
-    SchemaValidationError_KeyNameAlreadyExists,
-    SchemaValidationError_SchemaNameAlreadyExists,
-)
-from .schema_validation_failure import SchemaValidationFailure
-from .schema_with_name_already_exists_error import SchemaWithNameAlreadyExistsError
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .key_with_name_already_exists_error import KeyWithNameAlreadyExistsError
+    from .schema import Schema
+    from .schema_field import SchemaField
+    from .schema_get_multi_response import SchemaGetMultiResponse
+    from .schema_instance import SchemaInstance
+    from .schema_instance_optional import SchemaInstanceOptional
+    from .schema_validation_error import (
+        SchemaValidationError,
+        SchemaValidationError_KeyNameAlreadyExists,
+        SchemaValidationError_SchemaNameAlreadyExists,
+    )
+    from .schema_validation_failure import SchemaValidationFailure
+    from .schema_with_name_already_exists_error import SchemaWithNameAlreadyExistsError
+_dynamic_imports: typing.Dict[str, str] = {
+    "KeyWithNameAlreadyExistsError": ".key_with_name_already_exists_error",
+    "Schema": ".schema",
+    "SchemaField": ".schema_field",
+    "SchemaGetMultiResponse": ".schema_get_multi_response",
+    "SchemaInstance": ".schema_instance",
+    "SchemaInstanceOptional": ".schema_instance_optional",
+    "SchemaValidationError": ".schema_validation_error",
+    "SchemaValidationError_KeyNameAlreadyExists": ".schema_validation_error",
+    "SchemaValidationError_SchemaNameAlreadyExists": ".schema_validation_error",
+    "SchemaValidationFailure": ".schema_validation_failure",
+    "SchemaWithNameAlreadyExistsError": ".schema_with_name_already_exists_error",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "KeyWithNameAlreadyExistsError",

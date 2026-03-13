@@ -8,6 +8,7 @@ from .....core.request_options import RequestOptions
 from ....commons.types.encounter_id import EncounterId
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.attachment_id import AttachmentId
+from .types.charge_capture_attachment import ChargeCaptureAttachment
 from .types.encounter_attachment import EncounterAttachment
 from .types.encounter_attachment_type import EncounterAttachmentType
 
@@ -178,6 +179,85 @@ class V1Client:
             attachment_type=attachment_type,
             description=description,
             request_options=request_options,
+        )
+        return _response.data
+
+    def get_by_charge_capture_external_id(
+        self, charge_capture_external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[ChargeCaptureAttachment]:
+        """
+        Returns all attachments associated with the given charge capture external ID.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[ChargeCaptureAttachment]
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.encounter_attachments.v_1.get_by_charge_capture_external_id(
+            charge_capture_external_id="charge_capture_external_id",
+        )
+        """
+        _response = self._raw_client.get_by_charge_capture_external_id(
+            charge_capture_external_id, request_options=request_options
+        )
+        return _response.data
+
+    def delete_by_charge_capture_external_id(
+        self,
+        charge_capture_external_id: str,
+        *,
+        attachment_id: AttachmentId,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
+        """
+        Deletes an attachment associated with the given charge capture external ID.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        attachment_id : AttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.encounter_attachments.v_1.delete_by_charge_capture_external_id(
+            charge_capture_external_id="charge_capture_external_id",
+            attachment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.delete_by_charge_capture_external_id(
+            charge_capture_external_id, attachment_id=attachment_id, request_options=request_options
         )
         return _response.data
 
@@ -395,6 +475,100 @@ class AsyncV1Client:
             attachment_type=attachment_type,
             description=description,
             request_options=request_options,
+        )
+        return _response.data
+
+    async def get_by_charge_capture_external_id(
+        self, charge_capture_external_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[ChargeCaptureAttachment]:
+        """
+        Returns all attachments associated with the given charge capture external ID.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[ChargeCaptureAttachment]
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.encounter_attachments.v_1.get_by_charge_capture_external_id(
+                charge_capture_external_id="charge_capture_external_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_by_charge_capture_external_id(
+            charge_capture_external_id, request_options=request_options
+        )
+        return _response.data
+
+    async def delete_by_charge_capture_external_id(
+        self,
+        charge_capture_external_id: str,
+        *,
+        attachment_id: AttachmentId,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> None:
+        """
+        Deletes an attachment associated with the given charge capture external ID.
+
+        Parameters
+        ----------
+        charge_capture_external_id : str
+
+        attachment_id : AttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.encounter_attachments.v_1.delete_by_charge_capture_external_id(
+                charge_capture_external_id="charge_capture_external_id",
+                attachment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.delete_by_charge_capture_external_id(
+            charge_capture_external_id, attachment_id=attachment_id, request_options=request_options
         )
         return _response.data
 

@@ -2,35 +2,92 @@
 
 # isort: skip_file
 
-from .address import Address
-from .benefit_type import BenefitType
-from .benefits_related_entity import BenefitsRelatedEntity
-from .coverage import Coverage
-from .coverage_benefits import CoverageBenefits
-from .coverage_details import CoverageDetails
-from .coverage_eligibility_check_response import CoverageEligibilityCheckResponse
-from .coverage_level import CoverageLevel
-from .coverage_status import CoverageStatus
-from .coverage_value import CoverageValue
-from .coverage_value_unit import CoverageValueUnit
-from .coverages_page import CoveragesPage
-from .expanded_member_info import ExpandedMemberInfo
-from .insurance_plan import InsurancePlan
-from .insurance_type_code import InsuranceTypeCode
-from .latest_eligibility_check import LatestEligibilityCheck
-from .member_info import MemberInfo
-from .mutable_coverage import MutableCoverage
-from .network_type import NetworkType
-from .payer_plan_group_fields import PayerPlanGroupFields
-from .plan_coverage import PlanCoverage
-from .plan_coverage_details import PlanCoverageDetails
-from .plan_date import PlanDate
-from .plan_metadata import PlanMetadata
-from .related_entity_contact import RelatedEntityContact
-from .service_coverage import ServiceCoverage
-from .service_coverage_details import ServiceCoverageDetails
-from .service_type_code import ServiceTypeCode
-from .subscriber import Subscriber
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .address import Address
+    from .benefit_type import BenefitType
+    from .benefits_related_entity import BenefitsRelatedEntity
+    from .coverage import Coverage
+    from .coverage_benefits import CoverageBenefits
+    from .coverage_details import CoverageDetails
+    from .coverage_eligibility_check_response import CoverageEligibilityCheckResponse
+    from .coverage_level import CoverageLevel
+    from .coverage_status import CoverageStatus
+    from .coverage_value import CoverageValue
+    from .coverage_value_unit import CoverageValueUnit
+    from .coverages_page import CoveragesPage
+    from .expanded_member_info import ExpandedMemberInfo
+    from .insurance_plan import InsurancePlan
+    from .insurance_type_code import InsuranceTypeCode
+    from .latest_eligibility_check import LatestEligibilityCheck
+    from .member_info import MemberInfo
+    from .mutable_coverage import MutableCoverage
+    from .network_type import NetworkType
+    from .payer_plan_group_fields import PayerPlanGroupFields
+    from .plan_coverage import PlanCoverage
+    from .plan_coverage_details import PlanCoverageDetails
+    from .plan_date import PlanDate
+    from .plan_metadata import PlanMetadata
+    from .related_entity_contact import RelatedEntityContact
+    from .service_coverage import ServiceCoverage
+    from .service_coverage_details import ServiceCoverageDetails
+    from .service_type_code import ServiceTypeCode
+    from .subscriber import Subscriber
+_dynamic_imports: typing.Dict[str, str] = {
+    "Address": ".address",
+    "BenefitType": ".benefit_type",
+    "BenefitsRelatedEntity": ".benefits_related_entity",
+    "Coverage": ".coverage",
+    "CoverageBenefits": ".coverage_benefits",
+    "CoverageDetails": ".coverage_details",
+    "CoverageEligibilityCheckResponse": ".coverage_eligibility_check_response",
+    "CoverageLevel": ".coverage_level",
+    "CoverageStatus": ".coverage_status",
+    "CoverageValue": ".coverage_value",
+    "CoverageValueUnit": ".coverage_value_unit",
+    "CoveragesPage": ".coverages_page",
+    "ExpandedMemberInfo": ".expanded_member_info",
+    "InsurancePlan": ".insurance_plan",
+    "InsuranceTypeCode": ".insurance_type_code",
+    "LatestEligibilityCheck": ".latest_eligibility_check",
+    "MemberInfo": ".member_info",
+    "MutableCoverage": ".mutable_coverage",
+    "NetworkType": ".network_type",
+    "PayerPlanGroupFields": ".payer_plan_group_fields",
+    "PlanCoverage": ".plan_coverage",
+    "PlanCoverageDetails": ".plan_coverage_details",
+    "PlanDate": ".plan_date",
+    "PlanMetadata": ".plan_metadata",
+    "RelatedEntityContact": ".related_entity_contact",
+    "ServiceCoverage": ".service_coverage",
+    "ServiceCoverageDetails": ".service_coverage_details",
+    "ServiceTypeCode": ".service_type_code",
+    "Subscriber": ".subscriber",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "Address",

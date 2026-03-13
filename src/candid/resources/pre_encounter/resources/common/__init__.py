@@ -2,50 +2,122 @@
 
 # isort: skip_file
 
-from .types import (
-    AdditionalPayerInformation,
-    Address,
-    AddressUse,
-    AppointmentId,
-    BaseModel,
-    CanonicalClinicalTrialAssociation,
-    CanonicalClinicalTrialId,
-    CanonicalNonInsurancePayerAssociation,
-    CanonicalNonInsurancePayerId,
-    CanonicalProviderId,
-    CanonicalServiceFacilityId,
-    ContactPoint,
-    ContactPointUse,
-    CoverageId,
-    DisabilityStatus,
-    ErrorBase4Xx,
-    Ethnicity,
-    ExternalIdentifier,
-    ExternalProvider,
-    ExternalProviderType,
-    FilterQueryString,
-    Gender,
-    HumanName,
-    NameUse,
-    NoteId,
-    OrganizationId,
-    PageToken,
-    PatientId,
-    PatientServiceFacility,
-    PayerId,
-    PayerPlanGroupId,
-    Period,
-    Race,
-    Relationship,
-    ResourcePage,
-    Sex,
-    SexualOrientation,
-    SortDirection,
-    TagId,
-    UserId,
-    VersionConflictErrorBody,
-)
-from .errors import BadRequestError, NotFoundError, VersionConflictError
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .types import (
+        AdditionalPayerInformation,
+        Address,
+        AddressUse,
+        AppointmentId,
+        BaseModel,
+        CanonicalClinicalTrialAssociation,
+        CanonicalClinicalTrialId,
+        CanonicalNonInsurancePayerAssociation,
+        CanonicalNonInsurancePayerId,
+        CanonicalProviderId,
+        CanonicalServiceFacilityId,
+        ContactPoint,
+        ContactPointUse,
+        CoverageId,
+        DisabilityStatus,
+        ErrorBase4Xx,
+        Ethnicity,
+        ExternalIdentifier,
+        ExternalProvider,
+        ExternalProviderType,
+        FilterQueryString,
+        Gender,
+        HumanName,
+        NameUse,
+        NoteId,
+        OrganizationId,
+        PageToken,
+        PatientId,
+        PatientServiceFacility,
+        PayerId,
+        PayerPlanGroupId,
+        Period,
+        Race,
+        Relationship,
+        ResourcePage,
+        Sex,
+        SexualOrientation,
+        SortDirection,
+        TagId,
+        UserId,
+        VersionConflictErrorBody,
+    )
+    from .errors import BadRequestError, NotFoundError, VersionConflictError
+_dynamic_imports: typing.Dict[str, str] = {
+    "AdditionalPayerInformation": ".types",
+    "Address": ".types",
+    "AddressUse": ".types",
+    "AppointmentId": ".types",
+    "BadRequestError": ".errors",
+    "BaseModel": ".types",
+    "CanonicalClinicalTrialAssociation": ".types",
+    "CanonicalClinicalTrialId": ".types",
+    "CanonicalNonInsurancePayerAssociation": ".types",
+    "CanonicalNonInsurancePayerId": ".types",
+    "CanonicalProviderId": ".types",
+    "CanonicalServiceFacilityId": ".types",
+    "ContactPoint": ".types",
+    "ContactPointUse": ".types",
+    "CoverageId": ".types",
+    "DisabilityStatus": ".types",
+    "ErrorBase4Xx": ".types",
+    "Ethnicity": ".types",
+    "ExternalIdentifier": ".types",
+    "ExternalProvider": ".types",
+    "ExternalProviderType": ".types",
+    "FilterQueryString": ".types",
+    "Gender": ".types",
+    "HumanName": ".types",
+    "NameUse": ".types",
+    "NotFoundError": ".errors",
+    "NoteId": ".types",
+    "OrganizationId": ".types",
+    "PageToken": ".types",
+    "PatientId": ".types",
+    "PatientServiceFacility": ".types",
+    "PayerId": ".types",
+    "PayerPlanGroupId": ".types",
+    "Period": ".types",
+    "Race": ".types",
+    "Relationship": ".types",
+    "ResourcePage": ".types",
+    "Sex": ".types",
+    "SexualOrientation": ".types",
+    "SortDirection": ".types",
+    "TagId": ".types",
+    "UserId": ".types",
+    "VersionConflictError": ".errors",
+    "VersionConflictErrorBody": ".types",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AdditionalPayerInformation",

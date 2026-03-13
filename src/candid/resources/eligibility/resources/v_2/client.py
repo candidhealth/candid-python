@@ -27,7 +27,7 @@ class V2Client:
 
     def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> typing.Optional[typing.Any]:
+    ) -> typing.Any:
         """
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
         For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
@@ -56,7 +56,7 @@ class V2Client:
 
         Returns
         -------
-        typing.Optional[typing.Any]
+        typing.Any
 
         Examples
         --------
@@ -72,8 +72,8 @@ class V2Client:
         return _response.data
 
     def submit_eligibility_check_availity_post(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
-    ) -> typing.Optional[typing.Any]:
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
         """
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
         For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
@@ -93,14 +93,14 @@ class V2Client:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        typing.Optional[typing.Any]
+        typing.Any
 
         Examples
         --------
@@ -137,7 +137,7 @@ class AsyncV2Client:
 
     async def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> typing.Optional[typing.Any]:
+    ) -> typing.Any:
         """
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
         For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
@@ -166,7 +166,7 @@ class AsyncV2Client:
 
         Returns
         -------
-        typing.Optional[typing.Any]
+        typing.Any
 
         Examples
         --------
@@ -190,8 +190,8 @@ class AsyncV2Client:
         return _response.data
 
     async def submit_eligibility_check_availity_post(
-        self, *, request: typing.Optional[typing.Any] = None, request_options: typing.Optional[RequestOptions] = None
-    ) -> typing.Optional[typing.Any]:
+        self, *, request: typing.Any, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.Any:
         """
         <Tip>Candid is deprecating support for this endpoint. It is instead recommended to use [Candid's Stedi passthrough endpoint](https://docs.joincandidhealth.com/api-reference/pre-encounter/eligibility-checks/v-1/post).
         For assistance with the transition, please reference the [Transitioning to Candid's New Eligibility Endpoint](https://support.joincandidhealth.com/hc/en-us/articles/34918552872980) document in the Candid Support Center.</Tip>
@@ -211,14 +211,14 @@ class AsyncV2Client:
 
         Parameters
         ----------
-        request : typing.Optional[typing.Any]
+        request : typing.Any
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        typing.Optional[typing.Any]
+        typing.Any
 
         Examples
         --------
