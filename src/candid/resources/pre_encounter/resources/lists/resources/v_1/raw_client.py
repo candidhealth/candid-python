@@ -32,6 +32,7 @@ class RawV1Client:
         filters: typing.Optional[FilterQueryString] = None,
         include_deactivated: typing.Optional[bool] = None,
         redirect_to_primary: typing.Optional[bool] = None,
+        hide_alternatives: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PatientListPage]:
         """
@@ -57,6 +58,9 @@ class RawV1Client:
         redirect_to_primary : typing.Optional[bool]
             If true, and filtering by mrn equals, then only return the primary version of the patient requested
 
+        hide_alternatives : typing.Optional[bool]
+            If true, then do not show alternative patients
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -76,6 +80,7 @@ class RawV1Client:
                 "filters": filters,
                 "include_deactivated": include_deactivated,
                 "redirect_to_primary": redirect_to_primary,
+                "hide_alternatives": hide_alternatives,
             },
             request_options=request_options,
         )
@@ -194,6 +199,7 @@ class AsyncRawV1Client:
         filters: typing.Optional[FilterQueryString] = None,
         include_deactivated: typing.Optional[bool] = None,
         redirect_to_primary: typing.Optional[bool] = None,
+        hide_alternatives: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PatientListPage]:
         """
@@ -219,6 +225,9 @@ class AsyncRawV1Client:
         redirect_to_primary : typing.Optional[bool]
             If true, and filtering by mrn equals, then only return the primary version of the patient requested
 
+        hide_alternatives : typing.Optional[bool]
+            If true, then do not show alternative patients
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -238,6 +247,7 @@ class AsyncRawV1Client:
                 "filters": filters,
                 "include_deactivated": include_deactivated,
                 "redirect_to_primary": redirect_to_primary,
+                "hide_alternatives": hide_alternatives,
             },
             request_options=request_options,
         )

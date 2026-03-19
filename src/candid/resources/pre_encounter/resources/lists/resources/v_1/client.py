@@ -38,6 +38,7 @@ class V1Client:
         filters: typing.Optional[FilterQueryString] = None,
         include_deactivated: typing.Optional[bool] = None,
         redirect_to_primary: typing.Optional[bool] = None,
+        hide_alternatives: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientListPage:
         """
@@ -62,6 +63,9 @@ class V1Client:
 
         redirect_to_primary : typing.Optional[bool]
             If true, and filtering by mrn equals, then only return the primary version of the patient requested
+
+        hide_alternatives : typing.Optional[bool]
+            If true, then do not show alternative patients
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -88,6 +92,7 @@ class V1Client:
             filters=filters,
             include_deactivated=include_deactivated,
             redirect_to_primary=redirect_to_primary,
+            hide_alternatives=hide_alternatives,
             request_options=request_options,
         )
         return _response.data
@@ -183,6 +188,7 @@ class AsyncV1Client:
         filters: typing.Optional[FilterQueryString] = None,
         include_deactivated: typing.Optional[bool] = None,
         redirect_to_primary: typing.Optional[bool] = None,
+        hide_alternatives: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientListPage:
         """
@@ -207,6 +213,9 @@ class AsyncV1Client:
 
         redirect_to_primary : typing.Optional[bool]
             If true, and filtering by mrn equals, then only return the primary version of the patient requested
+
+        hide_alternatives : typing.Optional[bool]
+            If true, then do not show alternative patients
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -241,6 +250,7 @@ class AsyncV1Client:
             filters=filters,
             include_deactivated=include_deactivated,
             redirect_to_primary=redirect_to_primary,
+            hide_alternatives=hide_alternatives,
             request_options=request_options,
         )
         return _response.data

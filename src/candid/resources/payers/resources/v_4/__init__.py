@@ -6,10 +6,20 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .types import ClearinghousePayerInfo, Payer, PayerIds, PayerPage, PayerUuid, PrimaryPayerIds, SupportState
+    from .types import (
+        ClearinghousePayerInfo,
+        Payer,
+        PayerCategory,
+        PayerIds,
+        PayerPage,
+        PayerUuid,
+        PrimaryPayerIds,
+        SupportState,
+    )
 _dynamic_imports: typing.Dict[str, str] = {
     "ClearinghousePayerInfo": ".types",
     "Payer": ".types",
+    "PayerCategory": ".types",
     "PayerIds": ".types",
     "PayerPage": ".types",
     "PayerUuid": ".types",
@@ -39,4 +49,13 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["ClearinghousePayerInfo", "Payer", "PayerIds", "PayerPage", "PayerUuid", "PrimaryPayerIds", "SupportState"]
+__all__ = [
+    "ClearinghousePayerInfo",
+    "Payer",
+    "PayerCategory",
+    "PayerIds",
+    "PayerPage",
+    "PayerUuid",
+    "PrimaryPayerIds",
+    "SupportState",
+]

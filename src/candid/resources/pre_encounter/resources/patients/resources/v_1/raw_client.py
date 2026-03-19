@@ -176,6 +176,7 @@ class RawV1Client:
         page_token: typing.Optional[PageToken] = None,
         sort_field: typing.Optional[PatientSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
+        redirect_to_primary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PatientPage]:
         """
@@ -194,6 +195,9 @@ class RawV1Client:
         sort_direction : typing.Optional[SortDirection]
             Defaults to ascending.
 
+        redirect_to_primary : typing.Optional[bool]
+            If true, then only return the primary version of any patients requested
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -211,6 +215,7 @@ class RawV1Client:
                 "page_token": page_token,
                 "sort_field": sort_field,
                 "sort_direction": sort_direction,
+                "redirect_to_primary": redirect_to_primary,
             },
             request_options=request_options,
         )
@@ -915,6 +920,7 @@ class AsyncRawV1Client:
         page_token: typing.Optional[PageToken] = None,
         sort_field: typing.Optional[PatientSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
+        redirect_to_primary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PatientPage]:
         """
@@ -933,6 +939,9 @@ class AsyncRawV1Client:
         sort_direction : typing.Optional[SortDirection]
             Defaults to ascending.
 
+        redirect_to_primary : typing.Optional[bool]
+            If true, then only return the primary version of any patients requested
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -950,6 +959,7 @@ class AsyncRawV1Client:
                 "page_token": page_token,
                 "sort_field": sort_field,
                 "sort_direction": sort_direction,
+                "redirect_to_primary": redirect_to_primary,
             },
             request_options=request_options,
         )

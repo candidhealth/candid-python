@@ -18339,6 +18339,14 @@ client.pre_encounter.lists.v_1.get_patient_list()
 <dl>
 <dd>
 
+**hide_alternatives:** `typing.Optional[bool]` — If true, then do not show alternative patients
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -19426,6 +19434,14 @@ client.pre_encounter.patients.v_1.get_multi()
 <dd>
 
 **sort_direction:** `typing.Optional[SortDirection]` — Defaults to ascending.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**redirect_to_primary:** `typing.Optional[bool]` — If true, then only return the primary version of any patients requested
     
 </dd>
 </dl>

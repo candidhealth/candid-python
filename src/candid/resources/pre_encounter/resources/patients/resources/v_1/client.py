@@ -519,6 +519,7 @@ class V1Client:
         page_token: typing.Optional[PageToken] = None,
         sort_field: typing.Optional[PatientSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
+        redirect_to_primary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPage:
         """
@@ -536,6 +537,9 @@ class V1Client:
 
         sort_direction : typing.Optional[SortDirection]
             Defaults to ascending.
+
+        redirect_to_primary : typing.Optional[bool]
+            If true, then only return the primary version of any patients requested
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -560,6 +564,7 @@ class V1Client:
             page_token=page_token,
             sort_field=sort_field,
             sort_direction=sort_direction,
+            redirect_to_primary=redirect_to_primary,
             request_options=request_options,
         )
         return _response.data
@@ -1643,6 +1648,7 @@ class AsyncV1Client:
         page_token: typing.Optional[PageToken] = None,
         sort_field: typing.Optional[PatientSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
+        redirect_to_primary: typing.Optional[bool] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPage:
         """
@@ -1660,6 +1666,9 @@ class AsyncV1Client:
 
         sort_direction : typing.Optional[SortDirection]
             Defaults to ascending.
+
+        redirect_to_primary : typing.Optional[bool]
+            If true, then only return the primary version of any patients requested
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1692,6 +1701,7 @@ class AsyncV1Client:
             page_token=page_token,
             sort_field=sort_field,
             sort_direction=sort_direction,
+            redirect_to_primary=redirect_to_primary,
             request_options=request_options,
         )
         return _response.data

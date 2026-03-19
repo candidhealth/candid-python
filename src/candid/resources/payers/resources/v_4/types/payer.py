@@ -7,6 +7,7 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.clearinghouse import Clearinghouse
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .clearinghouse_payer_info import ClearinghousePayerInfo
+from .payer_category import PayerCategory
 from .payer_uuid import PayerUuid
 from .primary_payer_ids import PrimaryPayerIds
 
@@ -25,6 +26,11 @@ class Payer(UniversalBaseModel):
     payer_name: str = pydantic.Field()
     """
     The primary display name of the payer.
+    """
+
+    payer_category: typing.Optional[PayerCategory] = pydantic.Field(default=None)
+    """
+    The category of the payer.
     """
 
     alternate_payer_names: typing.List[str] = pydantic.Field()

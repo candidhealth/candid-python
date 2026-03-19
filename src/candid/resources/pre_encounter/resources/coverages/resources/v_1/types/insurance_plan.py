@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.additional_payer_information import AdditionalPayerInformation
+from .....common.types.address import Address
 from .....common.types.payer_id import PayerId
 from .....common.types.payer_plan_group_id import PayerPlanGroupId
 from .....common.types.period import Period
@@ -23,6 +24,7 @@ class InsurancePlan(UniversalBaseModel):
     type: typing.Optional[InsuranceTypeCode] = None
     period: typing.Optional[Period] = None
     insurance_card_image_locator: typing.Optional[str] = None
+    address: typing.Optional[Address] = None
     payer_plan_group_id: typing.Optional[PayerPlanGroupId] = pydantic.Field(default=None)
     """
     The ID of the Candid configured payer plan group associated with this coverage

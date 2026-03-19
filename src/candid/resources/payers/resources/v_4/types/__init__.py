@@ -8,6 +8,7 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .clearinghouse_payer_info import ClearinghousePayerInfo
     from .payer import Payer
+    from .payer_category import PayerCategory
     from .payer_ids import PayerIds
     from .payer_page import PayerPage
     from .payer_uuid import PayerUuid
@@ -16,6 +17,7 @@ if typing.TYPE_CHECKING:
 _dynamic_imports: typing.Dict[str, str] = {
     "ClearinghousePayerInfo": ".clearinghouse_payer_info",
     "Payer": ".payer",
+    "PayerCategory": ".payer_category",
     "PayerIds": ".payer_ids",
     "PayerPage": ".payer_page",
     "PayerUuid": ".payer_uuid",
@@ -45,4 +47,13 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["ClearinghousePayerInfo", "Payer", "PayerIds", "PayerPage", "PayerUuid", "PrimaryPayerIds", "SupportState"]
+__all__ = [
+    "ClearinghousePayerInfo",
+    "Payer",
+    "PayerCategory",
+    "PayerIds",
+    "PayerPage",
+    "PayerUuid",
+    "PrimaryPayerIds",
+    "SupportState",
+]
