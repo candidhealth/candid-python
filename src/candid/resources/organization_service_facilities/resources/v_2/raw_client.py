@@ -15,6 +15,7 @@ from ....commons.errors.http_request_validation_error import HttpRequestValidati
 from ....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.facility_type_code import FacilityTypeCode
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from ....commons.types.request_validation_error import RequestValidationError
 from .types.organization_service_facility import OrganizationServiceFacility
@@ -93,6 +94,7 @@ class RawV2Client:
         external_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         place_of_service_code: typing.Optional[FacilityTypeCode] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[OrganizationServiceFacilityPage]:
         """
@@ -116,6 +118,9 @@ class RawV2Client:
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
 
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's service facilities. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -134,6 +139,7 @@ class RawV2Client:
                 "external_ids": external_ids,
                 "place_of_service_code": place_of_service_code,
                 "page_token": page_token,
+                "organization_id": organization_id,
             },
             request_options=request_options,
         )
@@ -454,6 +460,7 @@ class AsyncRawV2Client:
         external_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         place_of_service_code: typing.Optional[FacilityTypeCode] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[OrganizationServiceFacilityPage]:
         """
@@ -477,6 +484,9 @@ class AsyncRawV2Client:
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
 
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's service facilities. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -495,6 +505,7 @@ class AsyncRawV2Client:
                 "external_ids": external_ids,
                 "place_of_service_code": place_of_service_code,
                 "page_token": page_token,
+                "organization_id": organization_id,
             },
             request_options=request_options,
         )

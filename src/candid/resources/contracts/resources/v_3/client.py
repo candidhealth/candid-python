@@ -11,8 +11,11 @@ from ....commons.types.state import State
 from ..v_2.types.contract_sort_field import ContractSortField
 from ..v_2.types.contract_status import ContractStatus
 from .raw_client import AsyncRawV3Client, RawV3Client
+from .types.add_contract_providers_response import AddContractProvidersResponse
 from .types.contract_create_union import ContractCreateUnion
 from .types.contract_id import ContractId
+from .types.contract_provider_count import ContractProviderCount
+from .types.contract_providers_page import ContractProvidersPage
 from .types.contract_service_facility import ContractServiceFacility
 from .types.contract_service_facility_id import ContractServiceFacilityId
 from .types.contract_type import ContractType
@@ -287,6 +290,152 @@ class V3Client:
         )
         """
         _response = self._raw_client.update(contract_id, request=request, request_options=request_options)
+        return _response.data
+
+    def get_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ContractProvidersPage:
+        """
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+            Max number of providers returned per page. Defaults to 100. Max is 1000.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractProvidersPage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.contracts.v_3.get_contract_providers(
+            contract_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.get_contract_providers(
+            contract_id, page_token=page_token, limit=limit, request_options=request_options
+        )
+        return _response.data
+
+    def add_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        rendering_provider_ids: typing.Set[RenderingProviderid],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AddContractProvidersResponse:
+        """
+        Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently ignored.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            Provider IDs to add to the contract. Max 100,000 per request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AddContractProvidersResponse
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.contracts.v_3.add_contract_providers(
+            contract_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rendering_provider_ids=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+        )
+        """
+        _response = self._raw_client.add_contract_providers(
+            contract_id, rendering_provider_ids=rendering_provider_ids, request_options=request_options
+        )
+        return _response.data
+
+    def remove_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        rendering_provider_ids: typing.Set[RenderingProviderid],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ContractProviderCount:
+        """
+        Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not currently in the contract.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            Provider IDs to remove from the contract. Max 100,000 per request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractProviderCount
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.contracts.v_3.remove_contract_providers(
+            contract_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            rendering_provider_ids=[
+                uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                )
+            ],
+        )
+        """
+        _response = self._raw_client.remove_contract_providers(
+            contract_id, rendering_provider_ids=rendering_provider_ids, request_options=request_options
+        )
         return _response.data
 
     def create_contract_service_facility(
@@ -702,6 +851,173 @@ class AsyncV3Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.update(contract_id, request=request, request_options=request_options)
+        return _response.data
+
+    async def get_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ContractProvidersPage:
+        """
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+            Max number of providers returned per page. Defaults to 100. Max is 1000.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractProvidersPage
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.contracts.v_3.get_contract_providers(
+                contract_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_contract_providers(
+            contract_id, page_token=page_token, limit=limit, request_options=request_options
+        )
+        return _response.data
+
+    async def add_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        rendering_provider_ids: typing.Set[RenderingProviderid],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AddContractProvidersResponse:
+        """
+        Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently ignored.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            Provider IDs to add to the contract. Max 100,000 per request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AddContractProvidersResponse
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.contracts.v_3.add_contract_providers(
+                contract_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                rendering_provider_ids=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ],
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.add_contract_providers(
+            contract_id, rendering_provider_ids=rendering_provider_ids, request_options=request_options
+        )
+        return _response.data
+
+    async def remove_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        rendering_provider_ids: typing.Set[RenderingProviderid],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ContractProviderCount:
+        """
+        Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not currently in the contract.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            Provider IDs to remove from the contract. Max 100,000 per request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ContractProviderCount
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.contracts.v_3.remove_contract_providers(
+                contract_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+                rendering_provider_ids=[
+                    uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    )
+                ],
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.remove_contract_providers(
+            contract_id, rendering_provider_ids=rendering_provider_ids, request_options=request_options
+        )
         return _response.data
 
     async def create_contract_service_facility(

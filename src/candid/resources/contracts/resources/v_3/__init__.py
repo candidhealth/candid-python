@@ -7,6 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
+        AddContractProvidersResponse,
         Contract,
         ContractBase,
         ContractCreate,
@@ -14,6 +15,8 @@ if typing.TYPE_CHECKING:
         ContractCreateUnion_Institutional,
         ContractCreateUnion_Professional,
         ContractId,
+        ContractProviderCount,
+        ContractProvidersPage,
         ContractServiceFacility,
         ContractServiceFacilityBase,
         ContractServiceFacilityId,
@@ -39,6 +42,7 @@ if typing.TYPE_CHECKING:
         RenderingProviderid,
     )
 _dynamic_imports: typing.Dict[str, str] = {
+    "AddContractProvidersResponse": ".types",
     "Contract": ".types",
     "ContractBase": ".types",
     "ContractCreate": ".types",
@@ -46,6 +50,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ContractCreateUnion_Institutional": ".types",
     "ContractCreateUnion_Professional": ".types",
     "ContractId": ".types",
+    "ContractProviderCount": ".types",
+    "ContractProvidersPage": ".types",
     "ContractServiceFacility": ".types",
     "ContractServiceFacilityBase": ".types",
     "ContractServiceFacilityId": ".types",
@@ -94,6 +100,7 @@ def __dir__():
 
 
 __all__ = [
+    "AddContractProvidersResponse",
     "Contract",
     "ContractBase",
     "ContractCreate",
@@ -101,6 +108,8 @@ __all__ = [
     "ContractCreateUnion_Institutional",
     "ContractCreateUnion_Professional",
     "ContractId",
+    "ContractProviderCount",
+    "ContractProvidersPage",
     "ContractServiceFacility",
     "ContractServiceFacilityBase",
     "ContractServiceFacilityId",

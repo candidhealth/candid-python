@@ -14,6 +14,7 @@ from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.date import Date
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from ....commons.types.regions import Regions
 from ....commons.types.sort_direction import SortDirection
@@ -45,7 +46,11 @@ class RawV2Client:
         self._client_wrapper = client_wrapper
 
     def get(
-        self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        contract_id: ContractId,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ContractWithProviders]:
         """
         This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
@@ -53,6 +58,9 @@ class RawV2Client:
         Parameters
         ----------
         contract_id : ContractId
+
+        organization_id : typing.Optional[OrganizationId]
+            Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -65,6 +73,9 @@ class RawV2Client:
             f"api/contracts/v2/{jsonable_encoder(contract_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
+            params={
+                "organization_id": organization_id,
+            },
             request_options=request_options,
         )
         try:
@@ -429,7 +440,11 @@ class AsyncRawV2Client:
         self._client_wrapper = client_wrapper
 
     async def get(
-        self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        contract_id: ContractId,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ContractWithProviders]:
         """
         This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
@@ -437,6 +452,9 @@ class AsyncRawV2Client:
         Parameters
         ----------
         contract_id : ContractId
+
+        organization_id : typing.Optional[OrganizationId]
+            Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -449,6 +467,9 @@ class AsyncRawV2Client:
             f"api/contracts/v2/{jsonable_encoder(contract_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
+            params={
+                "organization_id": organization_id,
+            },
             request_options=request_options,
         )
         try:

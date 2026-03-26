@@ -27,6 +27,7 @@ from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
+from ....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from ....encounters.resources.v_4.errors.schema_instance_validation_http_failure import (
     SchemaInstanceValidationHttpFailure,
 )
@@ -61,6 +62,7 @@ class RawV1Client:
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ChargeCapture]:
         """
@@ -90,6 +92,10 @@ class RawV1Client:
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
 
+        metadata : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that adhere to metadata schemas.
+            Multiple metadata instances can be associated with a charge capture.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -110,6 +116,7 @@ class RawV1Client:
                 "patient_external_id": patient_external_id,
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
+                "metadata": metadata,
             },
             request_options=request_options,
             omit=OMIT,
@@ -451,6 +458,7 @@ class RawV1Client:
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ChargeCapture]:
         """
@@ -484,6 +492,10 @@ class RawV1Client:
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
 
+        metadata : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that adhere to metadata schemas.
+            Multiple metadata instances can be associated with a charge capture.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -504,6 +516,7 @@ class RawV1Client:
                 "patient_external_id": patient_external_id,
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
+                "metadata": metadata,
             },
             request_options=request_options,
             omit=OMIT,
@@ -895,6 +908,60 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def find_by_metadata(
+        self,
+        *,
+        metadata: typing.Sequence[SchemaInstance],
+        limit: typing.Optional[int] = OMIT,
+        page_token: typing.Optional[PageToken] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ChargeCapturePage]:
+        """
+        Parameters
+        ----------
+        metadata : typing.Sequence[SchemaInstance]
+            Filter by metadata schema instances. This will return all charge captures
+            that match any of the provided schema instances.
+
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ChargeCapturePage]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/charge_captures/v1/find-by-metadata",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "metadata": metadata,
+                "limit": limit,
+                "page_token": page_token,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ChargeCapturePage,
+                parse_obj_as(
+                    type_=ChargeCapturePage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -911,6 +978,7 @@ class AsyncRawV1Client:
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ChargeCapture]:
         """
@@ -940,6 +1008,10 @@ class AsyncRawV1Client:
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
 
+        metadata : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that adhere to metadata schemas.
+            Multiple metadata instances can be associated with a charge capture.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -960,6 +1032,7 @@ class AsyncRawV1Client:
                 "patient_external_id": patient_external_id,
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
+                "metadata": metadata,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1301,6 +1374,7 @@ class AsyncRawV1Client:
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ChargeCapture]:
         """
@@ -1334,6 +1408,10 @@ class AsyncRawV1Client:
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
 
+        metadata : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that adhere to metadata schemas.
+            Multiple metadata instances can be associated with a charge capture.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1354,6 +1432,7 @@ class AsyncRawV1Client:
                 "patient_external_id": patient_external_id,
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
+                "metadata": metadata,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1729,6 +1808,60 @@ class AsyncRawV1Client:
                 "patient_names_ranked_sort": patient_names_ranked_sort,
             },
             request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ChargeCapturePage,
+                parse_obj_as(
+                    type_=ChargeCapturePage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def find_by_metadata(
+        self,
+        *,
+        metadata: typing.Sequence[SchemaInstance],
+        limit: typing.Optional[int] = OMIT,
+        page_token: typing.Optional[PageToken] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ChargeCapturePage]:
+        """
+        Parameters
+        ----------
+        metadata : typing.Sequence[SchemaInstance]
+            Filter by metadata schema instances. This will return all charge captures
+            that match any of the provided schema instances.
+
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ChargeCapturePage]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/charge_captures/v1/find-by-metadata",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "metadata": metadata,
+                "limit": limit,
+                "page_token": page_token,
+            },
+            request_options=request_options,
+            omit=OMIT,
         )
         try:
             _response_json = _response.json()

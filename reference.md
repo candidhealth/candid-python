@@ -869,6 +869,17 @@ client.charge_capture.v_1.create(
 <dl>
 <dd>
 
+**metadata:** `typing.Optional[typing.Sequence[SchemaInstance]]` 
+
+Key-value pairs that adhere to metadata schemas.
+Multiple metadata instances can be associated with a charge capture.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -1246,6 +1257,17 @@ Send full URL format for the external link (e.g. https://emr_charge_capture_url.
 <dd>
 
 **attachment_external_document_ids:** `typing.Optional[typing.Sequence[str]]` — Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**metadata:** `typing.Optional[typing.Sequence[SchemaInstance]]` 
+
+Key-value pairs that adhere to metadata schemas.
+Multiple metadata instances can be associated with a charge capture.
     
 </dd>
 </dl>
@@ -1767,6 +1789,98 @@ or charge external id.
 </dl>
 </details>
 
+<details><summary><code>client.charge_capture.v_1.<a href="src/candid/resources/charge_capture/resources/v_1/client.py">find_by_metadata</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.custom_schemas.resources.v_1 import SchemaInstance
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.charge_capture.v_1.find_by_metadata(
+    metadata=[
+        SchemaInstance(
+            schema_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            content={"content": {"key": "value"}},
+        ),
+        SchemaInstance(
+            schema_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+            content={"content": {"key": "value"}},
+        ),
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**metadata:** `typing.Sequence[SchemaInstance]` 
+
+Filter by metadata schema instances. This will return all charge captures
+that match any of the provided schema instances.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Maximum number of entities per page, defaults to 100.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Contracts V2
 <details><summary><code>client.contracts.v_2.<a href="src/candid/resources/contracts/resources/v_2/client.py">get</a>(...)</code></summary>
 <dl>
@@ -1824,6 +1938,14 @@ client.contracts.v_2.get(
 <dd>
 
 **contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**organization_id:** `typing.Optional[OrganizationId]` — Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
     
 </dd>
 </dl>
@@ -2763,6 +2885,259 @@ client.contracts.v_3.update(
 <dd>
 
 **request:** `ContractUpdateUnion` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">get_contract_providers</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.get_contract_providers(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Max number of providers returned per page. Defaults to 100. Max is 1000.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">add_contract_providers</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently ignored.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.add_contract_providers(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    rendering_provider_ids=[
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rendering_provider_ids:** `typing.Set[RenderingProviderid]` — Provider IDs to add to the contract. Max 100,000 per request.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">remove_contract_providers</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not currently in the contract.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.remove_contract_providers(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    rendering_provider_ids=[
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        )
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**rendering_provider_ids:** `typing.Set[RenderingProviderid]` — Provider IDs to remove from the contract. Max 100,000 per request.
     
 </dd>
 </dl>
@@ -3890,7 +4265,7 @@ client.credentialing.v_2.update(
 </details>
 
 ## CustomSchemas V1
-<details><summary><code>client.custom_schemas.v_1.<a href="src/candid/resources/custom_schemas/resources/v_1/client.py">get_multi</a>()</code></summary>
+<details><summary><code>client.custom_schemas.v_1.<a href="src/candid/resources/custom_schemas/resources/v_1/client.py">get_multi</a>(...)</code></summary>
 <dl>
 <dd>
 
@@ -3935,6 +4310,14 @@ client.custom_schemas.v_1.get_multi()
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**organization_id:** `typing.Optional[OrganizationId]` — Filter to a specific organization's schemas. If not provided, defaults to the requesting user's organization.
+    
+</dd>
+</dl>
 
 <dl>
 <dd>
@@ -11136,6 +11519,14 @@ client.non_insurance_payers.v_1.get(
 <dl>
 <dd>
 
+**organization_id:** `typing.Optional[OrganizationId]` — Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -11451,6 +11842,14 @@ client.organization_providers.v_3.get_multi(
 <dd>
 
 **sort:** `typing.Optional[OrganizationProviderSortOptions]` — Defaults to PROVIDER_NAME_ASC.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**organization_id:** `typing.Optional[OrganizationId]` — Filter to a specific organization's providers. If not provided, defaults to the requesting user's organization.
     
 </dd>
 </dl>
@@ -11782,6 +12181,14 @@ client.organization_service_facilities.v_2.get_multi(
 <dd>
 
 **page_token:** `typing.Optional[PageToken]` — The page token to continue paging through a previous request.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**organization_id:** `typing.Optional[OrganizationId]` — Filter to a specific organization's service facilities. If not provided, defaults to the requesting user's organization.
     
 </dd>
 </dl>

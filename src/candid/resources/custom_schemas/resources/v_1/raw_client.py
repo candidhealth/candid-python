@@ -12,6 +12,7 @@ from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.schema_id import SchemaId
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from .errors.schema_validation_http_failure import SchemaValidationHttpFailure
@@ -29,13 +30,19 @@ class RawV1Client:
         self._client_wrapper = client_wrapper
 
     def get_multi(
-        self, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[SchemaGetMultiResponse]:
         """
         Returns all custom schemas.
 
         Parameters
         ----------
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's schemas. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -47,6 +54,9 @@ class RawV1Client:
             "api/custom-schemas/v1",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
+            params={
+                "organization_id": organization_id,
+            },
             request_options=request_options,
         )
         try:
@@ -300,13 +310,19 @@ class AsyncRawV1Client:
         self._client_wrapper = client_wrapper
 
     async def get_multi(
-        self, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[SchemaGetMultiResponse]:
         """
         Returns all custom schemas.
 
         Parameters
         ----------
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's schemas. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -318,6 +334,9 @@ class AsyncRawV1Client:
             "api/custom-schemas/v1",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
+            params={
+                "organization_id": organization_id,
+            },
             request_options=request_options,
         )
         try:

@@ -4,6 +4,7 @@ import typing
 
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from ..v_2.types.organization_provider_id import OrganizationProviderId
 from ..v_2.types.organization_provider_sort_options import OrganizationProviderSortOptions
@@ -82,6 +83,7 @@ class V3Client:
         ] = None,
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationProviderPageV2:
         """
@@ -110,6 +112,9 @@ class V3Client:
 
         sort : typing.Optional[OrganizationProviderSortOptions]
             Defaults to PROVIDER_NAME_ASC.
+
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's providers. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -148,6 +153,7 @@ class V3Client:
             organization_provider_ids=organization_provider_ids,
             page_token=page_token,
             sort=sort,
+            organization_id=organization_id,
             request_options=request_options,
         )
         return _response.data
@@ -334,6 +340,7 @@ class AsyncV3Client:
         ] = None,
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationProviderPageV2:
         """
@@ -362,6 +369,9 @@ class AsyncV3Client:
 
         sort : typing.Optional[OrganizationProviderSortOptions]
             Defaults to PROVIDER_NAME_ASC.
+
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's providers. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -408,6 +418,7 @@ class AsyncV3Client:
             organization_provider_ids=organization_provider_ids,
             page_token=page_token,
             sort=sort,
+            organization_id=organization_id,
             request_options=request_options,
         )
         return _response.data

@@ -4,6 +4,7 @@ import typing
 
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.schema_id import SchemaId
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.schema import Schema
@@ -29,12 +30,20 @@ class V1Client:
         """
         return self._raw_client
 
-    def get_multi(self, *, request_options: typing.Optional[RequestOptions] = None) -> SchemaGetMultiResponse:
+    def get_multi(
+        self,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> SchemaGetMultiResponse:
         """
         Returns all custom schemas.
 
         Parameters
         ----------
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's schemas. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -52,7 +61,7 @@ class V1Client:
         )
         client.custom_schemas.v_1.get_multi()
         """
-        _response = self._raw_client.get_multi(request_options=request_options)
+        _response = self._raw_client.get_multi(organization_id=organization_id, request_options=request_options)
         return _response.data
 
     def get(self, schema_id: SchemaId, *, request_options: typing.Optional[RequestOptions] = None) -> Schema:
@@ -231,12 +240,20 @@ class AsyncV1Client:
         """
         return self._raw_client
 
-    async def get_multi(self, *, request_options: typing.Optional[RequestOptions] = None) -> SchemaGetMultiResponse:
+    async def get_multi(
+        self,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> SchemaGetMultiResponse:
         """
         Returns all custom schemas.
 
         Parameters
         ----------
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's schemas. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -262,7 +279,7 @@ class AsyncV1Client:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get_multi(request_options=request_options)
+        _response = await self._raw_client.get_multi(organization_id=organization_id, request_options=request_options)
         return _response.data
 
     async def get(self, schema_id: SchemaId, *, request_options: typing.Optional[RequestOptions] = None) -> Schema:

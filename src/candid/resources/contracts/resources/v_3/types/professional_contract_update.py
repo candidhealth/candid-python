@@ -9,7 +9,12 @@ from .rendering_providerid import RenderingProviderid
 
 
 class ProfessionalContractUpdate(ContractUpdate):
-    rendering_provider_ids: typing.Optional[typing.Set[RenderingProviderid]] = None
+    rendering_provider_ids: typing.Optional[typing.Set[RenderingProviderid]] = pydantic.Field(default=None)
+    """
+    Deprecated. Use the dedicated providers endpoints to manage rendering providers
+    (GET/POST/DELETE /api/contracts/v3/{contract_id}/providers).
+    Attempting to set this property will raise an error if the contract already has more than 4,000 rendering providers.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

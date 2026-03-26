@@ -8,6 +8,7 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from .....commons.types.charge_capture_id import ChargeCaptureId
 from .....commons.types.patient_external_id import PatientExternalId
+from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from .charge_capture_data import ChargeCaptureData
 from .charge_capture_error import ChargeCaptureError
 from .charge_capture_post_billed_change import ChargeCapturePostBilledChange
@@ -24,6 +25,12 @@ class ChargeCapture(UniversalBaseModel):
     ehr_source_url: typing.Optional[str] = None
     originating_system: typing.Optional[str] = None
     claim_creation_category: typing.Optional[str] = None
+    metadata: typing.Optional[typing.List[SchemaInstance]] = pydantic.Field(default=None)
+    """
+    Key-value pairs that adhere to metadata schemas.
+    Multiple metadata instances can be associated with a charge capture.
+    """
+
     error: typing.Optional[ChargeCaptureError] = None
     updates: typing.List[ChargeCapturePostBilledChange] = pydantic.Field()
     """

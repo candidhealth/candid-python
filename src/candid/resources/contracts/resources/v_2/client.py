@@ -6,6 +6,7 @@ import uuid
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
 from ....commons.types.date import Date
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from ....commons.types.regions import Regions
 from ....commons.types.sort_direction import SortDirection
@@ -44,7 +45,11 @@ class V2Client:
         return self._raw_client
 
     def get(
-        self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        contract_id: ContractId,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractWithProviders:
         """
         This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
@@ -52,6 +57,9 @@ class V2Client:
         Parameters
         ----------
         contract_id : ContractId
+
+        organization_id : typing.Optional[OrganizationId]
+            Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -76,7 +84,7 @@ class V2Client:
             ),
         )
         """
-        _response = self._raw_client.get(contract_id, request_options=request_options)
+        _response = self._raw_client.get(contract_id, organization_id=organization_id, request_options=request_options)
         return _response.data
 
     def get_multi(
@@ -397,7 +405,11 @@ class AsyncV2Client:
         return self._raw_client
 
     async def get(
-        self, contract_id: ContractId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        contract_id: ContractId,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ContractWithProviders:
         """
         This API provides access to Professional Contracts. For Professional and Institutional Contracts use Contracts V3.
@@ -405,6 +417,9 @@ class AsyncV2Client:
         Parameters
         ----------
         contract_id : ContractId
+
+        organization_id : typing.Optional[OrganizationId]
+            Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -436,7 +451,9 @@ class AsyncV2Client:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get(contract_id, request_options=request_options)
+        _response = await self._raw_client.get(
+            contract_id, organization_id=organization_id, request_options=request_options
+        )
         return _response.data
 
     async def get_multi(

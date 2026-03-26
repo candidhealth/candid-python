@@ -15,6 +15,7 @@ from ....commons.errors.updates_disabled_due_to_external_system_integration_erro
     UpdatesDisabledDueToExternalSystemIntegrationError,
 )
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from ....commons.types.request_validation_error import RequestValidationError
 from ....commons.types.updates_disabled_due_to_external_system_integration_error_message import (
@@ -99,6 +100,7 @@ class RawV3Client:
         ] = None,
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[OrganizationProviderPageV2]:
         """
@@ -128,6 +130,9 @@ class RawV3Client:
         sort : typing.Optional[OrganizationProviderSortOptions]
             Defaults to PROVIDER_NAME_ASC.
 
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's providers. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -148,6 +153,7 @@ class RawV3Client:
                 "organization_provider_ids": organization_provider_ids,
                 "page_token": page_token,
                 "sort": sort,
+                "organization_id": organization_id,
             },
             request_options=request_options,
         )
@@ -374,6 +380,7 @@ class AsyncRawV3Client:
         ] = None,
         page_token: typing.Optional[PageToken] = None,
         sort: typing.Optional[OrganizationProviderSortOptions] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[OrganizationProviderPageV2]:
         """
@@ -403,6 +410,9 @@ class AsyncRawV3Client:
         sort : typing.Optional[OrganizationProviderSortOptions]
             Defaults to PROVIDER_NAME_ASC.
 
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's providers. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -423,6 +433,7 @@ class AsyncRawV3Client:
                 "organization_provider_ids": organization_provider_ids,
                 "page_token": page_token,
                 "sort": sort,
+                "organization_id": organization_id,
             },
             request_options=request_options,
         )

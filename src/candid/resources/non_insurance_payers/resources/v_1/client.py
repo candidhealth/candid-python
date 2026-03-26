@@ -5,6 +5,7 @@ import typing
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
 from ....commons.types.clinical_trial_id import ClinicalTrialId
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from ....commons.types.sort_direction import SortDirection
 from .raw_client import AsyncRawV1Client, RawV1Client
@@ -243,12 +244,19 @@ class V1Client:
         return _response.data
 
     def get(
-        self, non_insurance_payer_id: NonInsurancePayerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        non_insurance_payer_id: NonInsurancePayerId,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> NonInsurancePayer:
         """
         Parameters
         ----------
         non_insurance_payer_id : NonInsurancePayerId
+
+        organization_id : typing.Optional[OrganizationId]
+            Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -273,7 +281,9 @@ class V1Client:
             ),
         )
         """
-        _response = self._raw_client.get(non_insurance_payer_id, request_options=request_options)
+        _response = self._raw_client.get(
+            non_insurance_payer_id, organization_id=organization_id, request_options=request_options
+        )
         return _response.data
 
     def update(
@@ -608,12 +618,19 @@ class AsyncV1Client:
         return _response.data
 
     async def get(
-        self, non_insurance_payer_id: NonInsurancePayerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        non_insurance_payer_id: NonInsurancePayerId,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> NonInsurancePayer:
         """
         Parameters
         ----------
         non_insurance_payer_id : NonInsurancePayerId
+
+        organization_id : typing.Optional[OrganizationId]
+            Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -645,7 +662,9 @@ class AsyncV1Client:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get(non_insurance_payer_id, request_options=request_options)
+        _response = await self._raw_client.get(
+            non_insurance_payer_id, organization_id=organization_id, request_options=request_options
+        )
         return _response.data
 
     async def update(

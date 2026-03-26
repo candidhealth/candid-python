@@ -14,6 +14,7 @@ from ....commons.types.page_token import PageToken
 from ....commons.types.pre_encounter_appointment_id import PreEncounterAppointmentId
 from ....commons.types.pre_encounter_patient_id import PreEncounterPatientId
 from ....commons.types.sort_direction import SortDirection
+from ....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from ....encounters.resources.v_4.types.billable_status_type import BillableStatusType
 from ....encounters.resources.v_4.types.responsible_party_type import ResponsiblePartyType
 from .raw_client import AsyncRawV1Client, RawV1Client
@@ -54,6 +55,7 @@ class V1Client:
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapture:
         """
@@ -82,6 +84,10 @@ class V1Client:
 
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
+        metadata : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that adhere to metadata schemas.
+            Multiple metadata instances can be associated with a charge capture.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -118,6 +124,7 @@ class V1Client:
             claim_creation_category=claim_creation_category,
             ehr_source_url=ehr_source_url,
             attachment_external_document_ids=attachment_external_document_ids,
+            metadata=metadata,
             request_options=request_options,
         )
         return _response.data
@@ -300,6 +307,7 @@ class V1Client:
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapture:
         """
@@ -332,6 +340,10 @@ class V1Client:
 
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
+        metadata : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that adhere to metadata schemas.
+            Multiple metadata instances can be associated with a charge capture.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -366,6 +378,7 @@ class V1Client:
             patient_external_id=patient_external_id,
             status=status,
             attachment_external_document_ids=attachment_external_document_ids,
+            metadata=metadata,
             request_options=request_options,
         )
         return _response.data
@@ -672,6 +685,66 @@ class V1Client:
         )
         return _response.data
 
+    def find_by_metadata(
+        self,
+        *,
+        metadata: typing.Sequence[SchemaInstance],
+        limit: typing.Optional[int] = OMIT,
+        page_token: typing.Optional[PageToken] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ChargeCapturePage:
+        """
+        Parameters
+        ----------
+        metadata : typing.Sequence[SchemaInstance]
+            Filter by metadata schema instances. This will return all charge captures
+            that match any of the provided schema instances.
+
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ChargeCapturePage
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.custom_schemas.resources.v_1 import SchemaInstance
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.charge_capture.v_1.find_by_metadata(
+            metadata=[
+                SchemaInstance(
+                    schema_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    content={"content": {"key": "value"}},
+                ),
+                SchemaInstance(
+                    schema_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    content={"content": {"key": "value"}},
+                ),
+            ],
+        )
+        """
+        _response = self._raw_client.find_by_metadata(
+            metadata=metadata, limit=limit, page_token=page_token, request_options=request_options
+        )
+        return _response.data
+
 
 class AsyncV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -699,6 +772,7 @@ class AsyncV1Client:
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapture:
         """
@@ -727,6 +801,10 @@ class AsyncV1Client:
 
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
+        metadata : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that adhere to metadata schemas.
+            Multiple metadata instances can be associated with a charge capture.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -771,6 +849,7 @@ class AsyncV1Client:
             claim_creation_category=claim_creation_category,
             ehr_source_url=ehr_source_url,
             attachment_external_document_ids=attachment_external_document_ids,
+            metadata=metadata,
             request_options=request_options,
         )
         return _response.data
@@ -967,6 +1046,7 @@ class AsyncV1Client:
         patient_external_id: typing.Optional[str] = OMIT,
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ChargeCapture:
         """
@@ -999,6 +1079,10 @@ class AsyncV1Client:
 
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+
+        metadata : typing.Optional[typing.Sequence[SchemaInstance]]
+            Key-value pairs that adhere to metadata schemas.
+            Multiple metadata instances can be associated with a charge capture.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1040,6 +1124,7 @@ class AsyncV1Client:
             patient_external_id=patient_external_id,
             status=status,
             attachment_external_document_ids=attachment_external_document_ids,
+            metadata=metadata,
             request_options=request_options,
         )
         return _response.data
@@ -1358,5 +1443,72 @@ class AsyncV1Client:
             primary_payer_names_ranked_sort=primary_payer_names_ranked_sort,
             patient_names_ranked_sort=patient_names_ranked_sort,
             request_options=request_options,
+        )
+        return _response.data
+
+    async def find_by_metadata(
+        self,
+        *,
+        metadata: typing.Sequence[SchemaInstance],
+        limit: typing.Optional[int] = OMIT,
+        page_token: typing.Optional[PageToken] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ChargeCapturePage:
+        """
+        Parameters
+        ----------
+        metadata : typing.Sequence[SchemaInstance]
+            Filter by metadata schema instances. This will return all charge captures
+            that match any of the provided schema instances.
+
+        limit : typing.Optional[int]
+            Maximum number of entities per page, defaults to 100.
+
+        page_token : typing.Optional[PageToken]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ChargeCapturePage
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.custom_schemas.resources.v_1 import SchemaInstance
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.charge_capture.v_1.find_by_metadata(
+                metadata=[
+                    SchemaInstance(
+                        schema_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        content={"content": {"key": "value"}},
+                    ),
+                    SchemaInstance(
+                        schema_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        content={"content": {"key": "value"}},
+                    ),
+                ],
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.find_by_metadata(
+            metadata=metadata, limit=limit, page_token=page_token, request_options=request_options
         )
         return _response.data

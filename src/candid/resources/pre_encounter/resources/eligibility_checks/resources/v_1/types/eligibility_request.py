@@ -44,6 +44,15 @@ class EligibilityRequest(UniversalBaseModel):
     """
 
     source: typing.Optional[str] = None
+    portal_password: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The password that the provider uses to log in to the payer's portal. This is not commonly used.
+    """
+
+    portal_username: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The username that the provider uses to log in to the payer's portal. This is not commonly used.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

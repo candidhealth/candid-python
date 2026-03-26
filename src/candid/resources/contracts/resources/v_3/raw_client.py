@@ -23,8 +23,11 @@ from ..v_2.types.contract_invalid_expiration_date_error import ContractInvalidEx
 from ..v_2.types.contract_is_linked_to_fee_schedule_error import ContractIsLinkedToFeeScheduleError
 from ..v_2.types.contract_sort_field import ContractSortField
 from ..v_2.types.contract_status import ContractStatus
+from .types.add_contract_providers_response import AddContractProvidersResponse
 from .types.contract_create_union import ContractCreateUnion
 from .types.contract_id import ContractId
+from .types.contract_provider_count import ContractProviderCount
+from .types.contract_providers_page import ContractProvidersPage
 from .types.contract_service_facility import ContractServiceFacility
 from .types.contract_service_facility_id import ContractServiceFacilityId
 from .types.contract_type import ContractType
@@ -318,6 +321,223 @@ class RawV3Client:
                         ContractInvalidExpirationDateError,
                         parse_obj_as(
                             type_=ContractInvalidExpirationDateError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ContractProvidersPage]:
+        """
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+            Max number of providers returned per page. Defaults to 100. Max is 1000.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ContractProvidersPage]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/providers",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "page_token": page_token,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractProvidersPage,
+                parse_obj_as(
+                    type_=ContractProvidersPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def add_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        rendering_provider_ids: typing.Set[RenderingProviderid],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[AddContractProvidersResponse]:
+        """
+        Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently ignored.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            Provider IDs to add to the contract. Max 100,000 per request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AddContractProvidersResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/providers",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "rendering_provider_ids": rendering_provider_ids,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AddContractProvidersResponse,
+                parse_obj_as(
+                    type_=AddContractProvidersResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def remove_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        rendering_provider_ids: typing.Set[RenderingProviderid],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ContractProviderCount]:
+        """
+        Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not currently in the contract.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            Provider IDs to remove from the contract. Max 100,000 per request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ContractProviderCount]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/providers",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            json={
+                "rendering_provider_ids": rendering_provider_ids,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractProviderCount,
+                parse_obj_as(
+                    type_=ContractProviderCount,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -736,6 +956,223 @@ class AsyncRawV3Client:
                         ContractInvalidExpirationDateError,
                         parse_obj_as(
                             type_=ContractInvalidExpirationDateError,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ContractProvidersPage]:
+        """
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+            Max number of providers returned per page. Defaults to 100. Max is 1000.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ContractProvidersPage]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/providers",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "page_token": page_token,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractProvidersPage,
+                parse_obj_as(
+                    type_=ContractProvidersPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def add_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        rendering_provider_ids: typing.Set[RenderingProviderid],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[AddContractProvidersResponse]:
+        """
+        Appends a list of rendering provider IDs to the contract. Provider IDs already on the contract are silently ignored.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            Provider IDs to add to the contract. Max 100,000 per request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AddContractProvidersResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/providers",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json={
+                "rendering_provider_ids": rendering_provider_ids,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AddContractProvidersResponse,
+                parse_obj_as(
+                    type_=AddContractProvidersResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def remove_contract_providers(
+        self,
+        contract_id: ContractId,
+        *,
+        rendering_provider_ids: typing.Set[RenderingProviderid],
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ContractProviderCount]:
+        """
+        Removes the specified rendering provider IDs from the contract. Returns a 404 if any of the provided IDs are not currently in the contract.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        rendering_provider_ids : typing.Set[RenderingProviderid]
+            Provider IDs to remove from the contract. Max 100,000 per request.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ContractProviderCount]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/providers",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            json={
+                "rendering_provider_ids": rendering_provider_ids,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractProviderCount,
+                parse_obj_as(
+                    type_=ContractProviderCount,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

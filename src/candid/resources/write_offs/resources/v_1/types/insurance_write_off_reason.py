@@ -25,6 +25,7 @@ class InsuranceWriteOffReason(enum.StrEnum):
     UNKNOWN = "UNKNOWN"
     CONTRACTUAL_ADJUSTMENT = "CONTRACTUAL_ADJUSTMENT"
     PRIMARY_PAID_MAX_BENEFITS = "PRIMARY_PAID_MAX_BENEFITS"
+    INTEREST = "INTEREST"
     _UNKNOWN = "__INSURANCEWRITEOFFREASON_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -55,6 +56,7 @@ class InsuranceWriteOffReason(enum.StrEnum):
         unknown: typing.Callable[[], T_Result],
         contractual_adjustment: typing.Callable[[], T_Result],
         primary_paid_max_benefits: typing.Callable[[], T_Result],
+        interest: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is InsuranceWriteOffReason.SMALL_BALANCE:
@@ -91,4 +93,6 @@ class InsuranceWriteOffReason(enum.StrEnum):
             return contractual_adjustment()
         if self is InsuranceWriteOffReason.PRIMARY_PAID_MAX_BENEFITS:
             return primary_paid_max_benefits()
+        if self is InsuranceWriteOffReason.INTEREST:
+            return interest()
         return _unknown_member(self._value_)

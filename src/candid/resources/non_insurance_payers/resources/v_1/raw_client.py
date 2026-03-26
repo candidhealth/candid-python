@@ -15,6 +15,7 @@ from ....commons.errors.unprocessable_entity_error import UnprocessableEntityErr
 from ....commons.types.clinical_trial_id import ClinicalTrialId
 from ....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
@@ -307,12 +308,19 @@ class RawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get(
-        self, non_insurance_payer_id: NonInsurancePayerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        non_insurance_payer_id: NonInsurancePayerId,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[NonInsurancePayer]:
         """
         Parameters
         ----------
         non_insurance_payer_id : NonInsurancePayerId
+
+        organization_id : typing.Optional[OrganizationId]
+            Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -325,6 +333,9 @@ class RawV1Client:
             f"api/non-insurance-payers/v1/{jsonable_encoder(non_insurance_payer_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
+            params={
+                "organization_id": organization_id,
+            },
             request_options=request_options,
         )
         try:
@@ -739,12 +750,19 @@ class AsyncRawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get(
-        self, non_insurance_payer_id: NonInsurancePayerId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        non_insurance_payer_id: NonInsurancePayerId,
+        *,
+        organization_id: typing.Optional[OrganizationId] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[NonInsurancePayer]:
         """
         Parameters
         ----------
         non_insurance_payer_id : NonInsurancePayerId
+
+        organization_id : typing.Optional[OrganizationId]
+            Organization context for cross-org access. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -757,6 +775,9 @@ class AsyncRawV1Client:
             f"api/non-insurance-payers/v1/{jsonable_encoder(non_insurance_payer_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
+            params={
+                "organization_id": organization_id,
+            },
             request_options=request_options,
         )
         try:

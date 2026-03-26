@@ -5,6 +5,7 @@ import typing
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
 from ....commons.types.facility_type_code import FacilityTypeCode
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from .raw_client import AsyncRawV2Client, RawV2Client
 from .types.organization_service_facility import OrganizationServiceFacility
@@ -80,6 +81,7 @@ class V2Client:
         external_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         place_of_service_code: typing.Optional[FacilityTypeCode] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationServiceFacilityPage:
         """
@@ -102,6 +104,9 @@ class V2Client:
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
+
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's service facilities. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -131,6 +136,7 @@ class V2Client:
             external_ids=external_ids,
             place_of_service_code=place_of_service_code,
             page_token=page_token,
+            organization_id=organization_id,
             request_options=request_options,
         )
         return _response.data
@@ -404,6 +410,7 @@ class AsyncV2Client:
         external_ids: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         place_of_service_code: typing.Optional[FacilityTypeCode] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> OrganizationServiceFacilityPage:
         """
@@ -426,6 +433,9 @@ class AsyncV2Client:
 
         page_token : typing.Optional[PageToken]
             The page token to continue paging through a previous request.
+
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's service facilities. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -463,6 +473,7 @@ class AsyncV2Client:
             external_ids=external_ids,
             place_of_service_code=place_of_service_code,
             page_token=page_token,
+            organization_id=organization_id,
             request_options=request_options,
         )
         return _response.data
