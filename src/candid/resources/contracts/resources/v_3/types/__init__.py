@@ -17,6 +17,8 @@ if typing.TYPE_CHECKING:
     )
     from .contract_id import ContractId
     from .contract_provider_count import ContractProviderCount
+    from .contract_provider_credentialing import ContractProviderCredentialing
+    from .contract_provider_credentialing_page import ContractProviderCredentialingPage
     from .contract_providers_page import ContractProvidersPage
     from .contract_service_facility import ContractServiceFacility
     from .contract_service_facility_base import ContractServiceFacilityBase
@@ -53,6 +55,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ContractCreateUnion_Professional": ".contract_create_union",
     "ContractId": ".contract_id",
     "ContractProviderCount": ".contract_provider_count",
+    "ContractProviderCredentialing": ".contract_provider_credentialing",
+    "ContractProviderCredentialingPage": ".contract_provider_credentialing_page",
     "ContractProvidersPage": ".contract_providers_page",
     "ContractServiceFacility": ".contract_service_facility",
     "ContractServiceFacilityBase": ".contract_service_facility_base",
@@ -111,6 +115,8 @@ __all__ = [
     "ContractCreateUnion_Professional",
     "ContractId",
     "ContractProviderCount",
+    "ContractProviderCredentialing",
+    "ContractProviderCredentialingPage",
     "ContractProvidersPage",
     "ContractServiceFacility",
     "ContractServiceFacilityBase",

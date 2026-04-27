@@ -14,7 +14,6 @@ class ConditionCode(enum.StrEnum):
     Source: UB-04 Manual 2025, Pages 64-81 (FL18-28, Pages 1-18)
     Excludes codes designated as "Payer Codes" or "FOR PUBLIC HEALTH DATA REPORTING ONLY"
     unless usage on claims is indicated.
-
     """
 
     C_01 = "01"

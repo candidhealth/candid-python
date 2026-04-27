@@ -14,6 +14,7 @@ class InvoiceDestination(enum.StrEnum):
     COLLECTLY = "COLLECTLY"
     THIRD_PARTY_PAYERS = "THIRD_PARTY_PAYERS"
     INSTAMED = "INSTAMED"
+    REVSPRING = "REVSPRING"
     _UNKNOWN = "__INVOICEDESTINATION_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -33,6 +34,7 @@ class InvoiceDestination(enum.StrEnum):
         collectly: typing.Callable[[], T_Result],
         third_party_payers: typing.Callable[[], T_Result],
         instamed: typing.Callable[[], T_Result],
+        revspring: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is InvoiceDestination.STRIPE:
@@ -47,4 +49,6 @@ class InvoiceDestination(enum.StrEnum):
             return third_party_payers()
         if self is InvoiceDestination.INSTAMED:
             return instamed()
+        if self is InvoiceDestination.REVSPRING:
+            return revspring()
         return _unknown_member(self._value_)

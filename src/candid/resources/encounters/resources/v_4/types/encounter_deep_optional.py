@@ -27,6 +27,7 @@ from .....encounter_providers.resources.v_2.types.rendering_provider_update_with
 from .....encounter_providers.resources.v_2.types.supervising_provider_update_with_optional_address import (
     SupervisingProviderUpdateWithOptionalAddress,
 )
+from .....encounter_providers.resources.v_2.types.treating_provider import TreatingProvider
 from .....guarantor.resources.v_1.types.guarantor_optional import GuarantorOptional
 from .....individual.types.patient_update_with_optional_address import PatientUpdateWithOptionalAddress
 from .....individual.types.subscriber_create_optional import SubscriberCreateOptional
@@ -168,6 +169,11 @@ class EncounterDeepOptional(EncounterOptional):
     supervising_provider: typing.Optional[SupervisingProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)
     """
     Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
+    """
+
+    treating_provider: typing.Optional[TreatingProvider] = pydantic.Field(default=None)
+    """
+    The treating provider is the provider who treats the patient. This is supported for professional and institutional encounters.
     """
 
     billing_provider: typing.Optional[BillingProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)

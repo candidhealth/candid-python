@@ -13,6 +13,7 @@ from ....commons.errors.entity_not_found_error import EntityNotFoundError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
+from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from ....commons.types.payer_plan_group_id import PayerPlanGroupId
 from ....commons.types.sort_direction import SortDirection
@@ -50,6 +51,7 @@ class RawV1Client:
         sort: typing.Optional[PayerPlanGroupSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PayerPlanGroupPage]:
         """
@@ -85,6 +87,9 @@ class RawV1Client:
 
         page_token : typing.Optional[PageToken]
 
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's payer plan groups. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -108,6 +113,7 @@ class RawV1Client:
                 "sort": sort,
                 "sort_direction": sort_direction,
                 "page_token": page_token,
+                "organization_id": organization_id,
             },
             request_options=request_options,
         )
@@ -132,6 +138,17 @@ class RawV1Client:
                         UnprocessableEntityErrorMessage,
                         parse_obj_as(
                             type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -422,6 +439,7 @@ class AsyncRawV1Client:
         sort: typing.Optional[PayerPlanGroupSortField] = None,
         sort_direction: typing.Optional[SortDirection] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PayerPlanGroupPage]:
         """
@@ -457,6 +475,9 @@ class AsyncRawV1Client:
 
         page_token : typing.Optional[PageToken]
 
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's payer plan groups. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -480,6 +501,7 @@ class AsyncRawV1Client:
                 "sort": sort,
                 "sort_direction": sort_direction,
                 "page_token": page_token,
+                "organization_id": organization_id,
             },
             request_options=request_options,
         )
@@ -504,6 +526,17 @@ class AsyncRawV1Client:
                         UnprocessableEntityErrorMessage,
                         parse_obj_as(
                             type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

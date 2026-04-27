@@ -17,6 +17,7 @@ class InsuranceCardCreateOptional(InsuranceCardBase):
     image_url_front: typing.Optional[str] = None
     image_url_back: typing.Optional[str] = None
     emr_payer_crosswalk: typing.Optional[EmrPayerCrosswalk] = None
+    payer_plan_group_name: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

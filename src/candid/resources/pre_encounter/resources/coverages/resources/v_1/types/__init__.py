@@ -6,6 +6,7 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .additional_detail import AdditionalDetail
     from .address import Address
     from .benefit_type import BenefitType
     from .benefits_related_entity import BenefitsRelatedEntity
@@ -36,6 +37,7 @@ if typing.TYPE_CHECKING:
     from .service_type_code import ServiceTypeCode
     from .subscriber import Subscriber
 _dynamic_imports: typing.Dict[str, str] = {
+    "AdditionalDetail": ".additional_detail",
     "Address": ".address",
     "BenefitType": ".benefit_type",
     "BenefitsRelatedEntity": ".benefits_related_entity",
@@ -90,6 +92,7 @@ def __dir__():
 
 
 __all__ = [
+    "AdditionalDetail",
     "Address",
     "BenefitType",
     "BenefitsRelatedEntity",

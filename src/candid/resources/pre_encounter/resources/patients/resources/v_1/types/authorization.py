@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.additional_payer_information import AdditionalPayerInformation
+from .....common.types.patient_service_facility import PatientServiceFacility
 from .....common.types.payer_id import PayerId
 from .....common.types.period import Period
 from .authorization_unit import AuthorizationUnit
@@ -33,6 +34,11 @@ class Authorization(UniversalBaseModel):
     billing_provider_npi: typing.Optional[str] = pydantic.Field(default=None)
     """
     The NPI of the billing provider for which this authorization applies.
+    """
+
+    service_facility: typing.Optional[PatientServiceFacility] = pydantic.Field(default=None)
+    """
+    When set, specifies the service facility for which this authorization applies.
     """
 
     if IS_PYDANTIC_V2:

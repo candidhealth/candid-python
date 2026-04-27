@@ -58,6 +58,7 @@ if typing.TYPE_CHECKING:
         images,
         lists,
         notes,
+        organization_external_providers,
         patients,
         tags,
     )
@@ -113,6 +114,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "images": ".resources",
     "lists": ".resources",
     "notes": ".resources",
+    "organization_external_providers": ".resources",
     "patients": ".resources",
     "tags": ".resources",
 }
@@ -191,6 +193,7 @@ __all__ = [
     "images",
     "lists",
     "notes",
+    "organization_external_providers",
     "patients",
     "tags",
 ]

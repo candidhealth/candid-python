@@ -23,10 +23,12 @@ from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
+from ....financials.errors.reallocation_would_overdraft_error import ReallocationWouldOverdraftError
 from ....financials.types.allocation_create import AllocationCreate
 from ....financials.types.invoice_update import InvoiceUpdate
 from ....financials.types.note_update import NoteUpdate
 from ....financials.types.patient_transaction_source import PatientTransactionSource
+from ....financials.types.reallocation_would_overdraft_error_content import ReallocationWouldOverdraftErrorContent
 from ....financials.types.refund_reason import RefundReason
 from ....financials.types.refund_reason_update import RefundReasonUpdate
 from .types.patient_refund import PatientRefund
@@ -227,6 +229,7 @@ class RawV1Client:
         refund_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         refund_reason: typing.Optional[RefundReason] = OMIT,
+        raise_on_overdraft: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PatientRefund]:
         """
@@ -250,6 +253,9 @@ class RawV1Client:
 
         refund_reason : typing.Optional[RefundReason]
 
+        raise_on_overdraft : typing.Optional[bool]
+            If true, the refund will be rejected if it would cause any account to be overdrafted. Defaults to false.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -269,6 +275,7 @@ class RawV1Client:
                 "allocations": allocations,
                 "invoice": invoice,
                 "refund_reason": refund_reason,
+                "raise_on_overdraft": raise_on_overdraft,
             },
             request_options=request_options,
             omit=OMIT,
@@ -316,6 +323,17 @@ class RawV1Client:
                         UnprocessableEntityErrorMessage,
                         parse_obj_as(
                             type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "ReallocationWouldOverdraftError":
+                raise ReallocationWouldOverdraftError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ReallocationWouldOverdraftErrorContent,
+                        parse_obj_as(
+                            type_=ReallocationWouldOverdraftErrorContent,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -671,6 +689,7 @@ class AsyncRawV1Client:
         refund_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         refund_reason: typing.Optional[RefundReason] = OMIT,
+        raise_on_overdraft: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PatientRefund]:
         """
@@ -694,6 +713,9 @@ class AsyncRawV1Client:
 
         refund_reason : typing.Optional[RefundReason]
 
+        raise_on_overdraft : typing.Optional[bool]
+            If true, the refund will be rejected if it would cause any account to be overdrafted. Defaults to false.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -713,6 +735,7 @@ class AsyncRawV1Client:
                 "allocations": allocations,
                 "invoice": invoice,
                 "refund_reason": refund_reason,
+                "raise_on_overdraft": raise_on_overdraft,
             },
             request_options=request_options,
             omit=OMIT,
@@ -760,6 +783,17 @@ class AsyncRawV1Client:
                         UnprocessableEntityErrorMessage,
                         parse_obj_as(
                             type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "ReallocationWouldOverdraftError":
+                raise ReallocationWouldOverdraftError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ReallocationWouldOverdraftErrorContent,
+                        parse_obj_as(
+                            type_=ReallocationWouldOverdraftErrorContent,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

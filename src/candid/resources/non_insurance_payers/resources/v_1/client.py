@@ -132,6 +132,7 @@ class V1Client:
         sort_direction: typing.Optional[SortDirection] = None,
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> NonInsurancePayerPage:
         """
@@ -163,6 +164,9 @@ class V1Client:
 
         page_token : typing.Optional[PageToken]
 
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's non-insurance payers. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -190,6 +194,7 @@ class V1Client:
             sort_direction=sort_direction,
             limit=limit,
             page_token=page_token,
+            organization_id=organization_id,
             request_options=request_options,
         )
         return _response.data
@@ -490,6 +495,7 @@ class AsyncV1Client:
         sort_direction: typing.Optional[SortDirection] = None,
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> NonInsurancePayerPage:
         """
@@ -520,6 +526,9 @@ class AsyncV1Client:
             Defaults to 100
 
         page_token : typing.Optional[PageToken]
+
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's non-insurance payers. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -556,6 +565,7 @@ class AsyncV1Client:
             sort_direction=sort_direction,
             limit=limit,
             page_token=page_token,
+            organization_id=organization_id,
             request_options=request_options,
         )
         return _response.data

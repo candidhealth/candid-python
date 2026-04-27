@@ -14,6 +14,7 @@ if typing.TYPE_CHECKING:
         AllocationEarmarkType_DateOfService,
         AllocationEarmarkType_ExternalEncounterId,
     )
+    from .allocation_overdraft_detail import AllocationOverdraftDetail
     from .allocation_target import (
         AllocationTarget,
         AllocationTarget_Appointment,
@@ -39,6 +40,7 @@ if typing.TYPE_CHECKING:
     from .invoice_update import InvoiceUpdate, InvoiceUpdate_Remove, InvoiceUpdate_Set
     from .note_update import NoteUpdate, NoteUpdate_Remove, NoteUpdate_Set
     from .patient_transaction_source import PatientTransactionSource
+    from .reallocation_would_overdraft_error_content import ReallocationWouldOverdraftErrorContent
     from .refund_reason import RefundReason
     from .refund_reason_update import RefundReasonUpdate, RefundReasonUpdate_Remove, RefundReasonUpdate_Set
     from .service_line_allocation_target import ServiceLineAllocationTarget
@@ -49,6 +51,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AllocationEarmarkType": ".allocation_earmark_type",
     "AllocationEarmarkType_DateOfService": ".allocation_earmark_type",
     "AllocationEarmarkType_ExternalEncounterId": ".allocation_earmark_type",
+    "AllocationOverdraftDetail": ".allocation_overdraft_detail",
     "AllocationTarget": ".allocation_target",
     "AllocationTargetCreate": ".allocation_target_create",
     "AllocationTargetCreate_AppointmentByIdAndPatientExternalId": ".allocation_target_create",
@@ -74,6 +77,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "NoteUpdate_Remove": ".note_update",
     "NoteUpdate_Set": ".note_update",
     "PatientTransactionSource": ".patient_transaction_source",
+    "ReallocationWouldOverdraftErrorContent": ".reallocation_would_overdraft_error_content",
     "RefundReason": ".refund_reason",
     "RefundReasonUpdate": ".refund_reason_update",
     "RefundReasonUpdate_Remove": ".refund_reason_update",
@@ -110,6 +114,7 @@ __all__ = [
     "AllocationEarmarkType",
     "AllocationEarmarkType_DateOfService",
     "AllocationEarmarkType_ExternalEncounterId",
+    "AllocationOverdraftDetail",
     "AllocationTarget",
     "AllocationTargetCreate",
     "AllocationTargetCreate_AppointmentByIdAndPatientExternalId",
@@ -135,6 +140,7 @@ __all__ = [
     "NoteUpdate_Remove",
     "NoteUpdate_Set",
     "PatientTransactionSource",
+    "ReallocationWouldOverdraftErrorContent",
     "RefundReason",
     "RefundReasonUpdate",
     "RefundReasonUpdate_Remove",

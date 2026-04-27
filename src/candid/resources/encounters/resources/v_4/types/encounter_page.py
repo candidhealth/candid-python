@@ -669,6 +669,9 @@ class EncounterPage(ResourcePage):
                     "2023-01-01 00:00:00+00:00",
                 ),
                 next_responsible_party=NextResponsibleParty.PRIMARY,
+                organization_id=uuid.UUID(
+                    "6df0c51d-2b4c-4af8-acc1-5c0b589e9b26",
+                ),
             )
         ],
     )

@@ -11,6 +11,7 @@ if typing.TYPE_CHECKING:
     from .contact import Contact
     from .coverages_for_related_causes import CoveragesForRelatedCauses
     from .do_not_invoice_reason import DoNotInvoiceReason
+    from .electronic_communication_consent import ElectronicCommunicationConsent
     from .external_provenance import ExternalProvenance
     from .filing_order import FilingOrder
     from .guarantor import Guarantor
@@ -34,6 +35,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Contact": ".contact",
     "CoveragesForRelatedCauses": ".coverages_for_related_causes",
     "DoNotInvoiceReason": ".do_not_invoice_reason",
+    "ElectronicCommunicationConsent": ".electronic_communication_consent",
     "ExternalProvenance": ".external_provenance",
     "FilingOrder": ".filing_order",
     "Guarantor": ".guarantor",
@@ -81,6 +83,7 @@ __all__ = [
     "Contact",
     "CoveragesForRelatedCauses",
     "DoNotInvoiceReason",
+    "ElectronicCommunicationConsent",
     "ExternalProvenance",
     "FilingOrder",
     "Guarantor",

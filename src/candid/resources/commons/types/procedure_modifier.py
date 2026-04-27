@@ -23,6 +23,11 @@ class ProcedureModifier(enum.StrEnum):
     Item furnished in conjunction with dialysis services
     """
 
+    AY = "AY"
+    """
+    Item or service furnished to an ESRD patient that is not for the treatment of ESRD
+    """
+
     SEVEN = "07"
     EIGHT = "08"
     NINE = "09"
@@ -2040,6 +2045,7 @@ class ProcedureModifier(enum.StrEnum):
         av: typing.Callable[[], T_Result],
         au: typing.Callable[[], T_Result],
         aw: typing.Callable[[], T_Result],
+        ay: typing.Callable[[], T_Result],
         seven: typing.Callable[[], T_Result],
         eight: typing.Callable[[], T_Result],
         nine: typing.Callable[[], T_Result],
@@ -2457,6 +2463,8 @@ class ProcedureModifier(enum.StrEnum):
             return au()
         if self is ProcedureModifier.AW:
             return aw()
+        if self is ProcedureModifier.AY:
+            return ay()
         if self is ProcedureModifier.SEVEN:
             return seven()
         if self is ProcedureModifier.EIGHT:

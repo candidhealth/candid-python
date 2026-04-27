@@ -12,6 +12,7 @@ if typing.TYPE_CHECKING:
         BillingProviderSecondaryIdentificationQualifier,
         BillingProviderUpdate,
         BillingProviderUpdateWithOptionalAddress,
+        EncounterAdditionalProvider,
         EncounterProvider,
         EncounterProviderBase,
         InitialReferringProvider,
@@ -35,6 +36,8 @@ if typing.TYPE_CHECKING:
         SupervisingProviderSecondaryIdentification,
         SupervisingProviderUpdate,
         SupervisingProviderUpdateWithOptionalAddress,
+        TreatingProvider,
+        TreatingProviderUpdate,
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "BillingProvider": ".types",
@@ -42,6 +45,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "BillingProviderSecondaryIdentificationQualifier": ".types",
     "BillingProviderUpdate": ".types",
     "BillingProviderUpdateWithOptionalAddress": ".types",
+    "EncounterAdditionalProvider": ".types",
     "EncounterProvider": ".types",
     "EncounterProviderBase": ".types",
     "InitialReferringProvider": ".types",
@@ -65,6 +69,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "SupervisingProviderSecondaryIdentification": ".types",
     "SupervisingProviderUpdate": ".types",
     "SupervisingProviderUpdateWithOptionalAddress": ".types",
+    "TreatingProvider": ".types",
+    "TreatingProviderUpdate": ".types",
 }
 
 
@@ -95,6 +101,7 @@ __all__ = [
     "BillingProviderSecondaryIdentificationQualifier",
     "BillingProviderUpdate",
     "BillingProviderUpdateWithOptionalAddress",
+    "EncounterAdditionalProvider",
     "EncounterProvider",
     "EncounterProviderBase",
     "InitialReferringProvider",
@@ -118,4 +125,6 @@ __all__ = [
     "SupervisingProviderSecondaryIdentification",
     "SupervisingProviderUpdate",
     "SupervisingProviderUpdateWithOptionalAddress",
+    "TreatingProvider",
+    "TreatingProviderUpdate",
 ]

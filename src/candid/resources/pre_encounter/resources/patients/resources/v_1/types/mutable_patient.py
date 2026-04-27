@@ -25,6 +25,7 @@ from .authorization import Authorization
 from .contact import Contact
 from .coverages_for_related_causes import CoveragesForRelatedCauses
 from .do_not_invoice_reason import DoNotInvoiceReason
+from .electronic_communication_consent import ElectronicCommunicationConsent
 from .external_provenance import ExternalProvenance
 from .filing_order import FilingOrder
 from .guarantor import Guarantor
@@ -103,7 +104,16 @@ class MutablePatient(UniversalBaseModel):
     """
 
     email: typing.Optional[str] = None
-    electronic_communication_opt_in: typing.Optional[bool] = None
+    electronic_communication_opt_in: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Use electronic_communication_consent for granular channel-level consent. This field is kept in sync automatically but should not be used for new integrations.
+    """
+
+    electronic_communication_consent: typing.Optional[ElectronicCommunicationConsent] = pydantic.Field(default=None)
+    """
+    Granular consent for electronic communication channels.
+    """
+
     photo: typing.Optional[str] = None
     language: typing.Optional[str] = None
     external_provenance: typing.Optional[ExternalProvenance] = pydantic.Field(default=None)

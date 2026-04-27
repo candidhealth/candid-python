@@ -236,6 +236,64 @@ class V2Client:
         _response = self._raw_client.delete(service_line_id, request_options=request_options)
         return _response.data
 
+    def upsert_by_external_id(
+        self,
+        external_id: str,
+        *,
+        request: ServiceLineCreateStandalone,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ServiceLine:
+        """
+        Creates or updates a service line based on the combination of external_id and claim_id.
+
+        - If a service line with the given external_id and claim_id already exists for the organization, it will be updated.
+        - If no service line exists with that combination, a new service line will be created with the provided external_id.
+
+        Parameters
+        ----------
+        external_id : str
+            The external_id of the service line to create or update.
+
+        request : ServiceLineCreateStandalone
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ServiceLine
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.commons import ServiceLineUnits
+        from candid.resources.service_lines.resources.v_2 import (
+            ServiceLineCreateStandalone,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.service_lines.v_2.upsert_by_external_id(
+            external_id="external_id",
+            request=ServiceLineCreateStandalone(
+                procedure_code="procedure_code",
+                quantity="quantity",
+                units=ServiceLineUnits.MJ,
+                claim_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            ),
+        )
+        """
+        _response = self._raw_client.upsert_by_external_id(
+            external_id, request=request, request_options=request_options
+        )
+        return _response.data
+
 
 class AsyncV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -492,4 +550,69 @@ class AsyncV2Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.delete(service_line_id, request_options=request_options)
+        return _response.data
+
+    async def upsert_by_external_id(
+        self,
+        external_id: str,
+        *,
+        request: ServiceLineCreateStandalone,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ServiceLine:
+        """
+        Creates or updates a service line based on the combination of external_id and claim_id.
+
+        - If a service line with the given external_id and claim_id already exists for the organization, it will be updated.
+        - If no service line exists with that combination, a new service line will be created with the provided external_id.
+
+        Parameters
+        ----------
+        external_id : str
+            The external_id of the service line to create or update.
+
+        request : ServiceLineCreateStandalone
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ServiceLine
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.commons import ServiceLineUnits
+        from candid.resources.service_lines.resources.v_2 import (
+            ServiceLineCreateStandalone,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.service_lines.v_2.upsert_by_external_id(
+                external_id="external_id",
+                request=ServiceLineCreateStandalone(
+                    procedure_code="procedure_code",
+                    quantity="quantity",
+                    units=ServiceLineUnits.MJ,
+                    claim_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.upsert_by_external_id(
+            external_id, request=request, request_options=request_options
+        )
         return _response.data

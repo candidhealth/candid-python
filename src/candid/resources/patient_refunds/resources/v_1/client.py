@@ -172,6 +172,7 @@ class V1Client:
         refund_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         refund_reason: typing.Optional[RefundReason] = OMIT,
+        raise_on_overdraft: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefund:
         """
@@ -194,6 +195,9 @@ class V1Client:
         invoice : typing.Optional[InvoiceId]
 
         refund_reason : typing.Optional[RefundReason]
+
+        raise_on_overdraft : typing.Optional[bool]
+            If true, the refund will be rejected if it would cause any account to be overdrafted. Defaults to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -247,6 +251,7 @@ class V1Client:
             refund_note=refund_note,
             invoice=invoice,
             refund_reason=refund_reason,
+            raise_on_overdraft=raise_on_overdraft,
             request_options=request_options,
         )
         return _response.data
@@ -505,6 +510,7 @@ class AsyncV1Client:
         refund_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         refund_reason: typing.Optional[RefundReason] = OMIT,
+        raise_on_overdraft: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefund:
         """
@@ -527,6 +533,9 @@ class AsyncV1Client:
         invoice : typing.Optional[InvoiceId]
 
         refund_reason : typing.Optional[RefundReason]
+
+        raise_on_overdraft : typing.Optional[bool]
+            If true, the refund will be rejected if it would cause any account to be overdrafted. Defaults to false.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -587,6 +596,7 @@ class AsyncV1Client:
             refund_note=refund_note,
             invoice=invoice,
             refund_reason=refund_reason,
+            raise_on_overdraft=raise_on_overdraft,
             request_options=request_options,
         )
         return _response.data

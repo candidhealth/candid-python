@@ -6,7 +6,18 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from . import appointments, common, coverages, eligibility_checks, images, lists, notes, patients, tags
+    from . import (
+        appointments,
+        common,
+        coverages,
+        eligibility_checks,
+        images,
+        lists,
+        notes,
+        organization_external_providers,
+        patients,
+        tags,
+    )
     from .common import (
         AdditionalPayerInformation,
         Address,
@@ -105,6 +116,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "images": ".images",
     "lists": ".lists",
     "notes": ".notes",
+    "organization_external_providers": ".organization_external_providers",
     "patients": ".patients",
     "tags": ".tags",
 }
@@ -183,6 +195,7 @@ __all__ = [
     "images",
     "lists",
     "notes",
+    "organization_external_providers",
     "patients",
     "tags",
 ]

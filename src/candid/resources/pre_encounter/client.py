@@ -14,6 +14,10 @@ if typing.TYPE_CHECKING:
     from .resources.images.client import AsyncImagesClient, ImagesClient
     from .resources.lists.client import AsyncListsClient, ListsClient
     from .resources.notes.client import AsyncNotesClient, NotesClient
+    from .resources.organization_external_providers.client import (
+        AsyncOrganizationExternalProvidersClient,
+        OrganizationExternalProvidersClient,
+    )
     from .resources.patients.client import AsyncPatientsClient, PatientsClient
     from .resources.tags.client import AsyncTagsClient, TagsClient
 
@@ -28,6 +32,7 @@ class PreEncounterClient:
         self._images: typing.Optional[ImagesClient] = None
         self._lists: typing.Optional[ListsClient] = None
         self._notes: typing.Optional[NotesClient] = None
+        self._organization_external_providers: typing.Optional[OrganizationExternalProvidersClient] = None
         self._patients: typing.Optional[PatientsClient] = None
         self._tags: typing.Optional[TagsClient] = None
 
@@ -91,6 +96,18 @@ class PreEncounterClient:
         return self._notes
 
     @property
+    def organization_external_providers(self):
+        if self._organization_external_providers is None:
+            from .resources.organization_external_providers.client import (
+                OrganizationExternalProvidersClient,  # noqa: E402
+            )
+
+            self._organization_external_providers = OrganizationExternalProvidersClient(
+                client_wrapper=self._client_wrapper
+            )
+        return self._organization_external_providers
+
+    @property
     def patients(self):
         if self._patients is None:
             from .resources.patients.client import PatientsClient  # noqa: E402
@@ -117,6 +134,7 @@ class AsyncPreEncounterClient:
         self._images: typing.Optional[AsyncImagesClient] = None
         self._lists: typing.Optional[AsyncListsClient] = None
         self._notes: typing.Optional[AsyncNotesClient] = None
+        self._organization_external_providers: typing.Optional[AsyncOrganizationExternalProvidersClient] = None
         self._patients: typing.Optional[AsyncPatientsClient] = None
         self._tags: typing.Optional[AsyncTagsClient] = None
 
@@ -178,6 +196,18 @@ class AsyncPreEncounterClient:
 
             self._notes = AsyncNotesClient(client_wrapper=self._client_wrapper)
         return self._notes
+
+    @property
+    def organization_external_providers(self):
+        if self._organization_external_providers is None:
+            from .resources.organization_external_providers.client import (
+                AsyncOrganizationExternalProvidersClient,  # noqa: E402
+            )
+
+            self._organization_external_providers = AsyncOrganizationExternalProvidersClient(
+                client_wrapper=self._client_wrapper
+            )
+        return self._organization_external_providers
 
     @property
     def patients(self):

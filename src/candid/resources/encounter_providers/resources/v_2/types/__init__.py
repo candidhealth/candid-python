@@ -11,6 +11,7 @@ if typing.TYPE_CHECKING:
     from .billing_provider_secondary_identification_qualifier import BillingProviderSecondaryIdentificationQualifier
     from .billing_provider_update import BillingProviderUpdate
     from .billing_provider_update_with_optional_address import BillingProviderUpdateWithOptionalAddress
+    from .encounter_additional_provider import EncounterAdditionalProvider
     from .encounter_provider import EncounterProvider
     from .encounter_provider_base import EncounterProviderBase
     from .initial_referring_provider import InitialReferringProvider
@@ -36,12 +37,15 @@ if typing.TYPE_CHECKING:
     from .supervising_provider_secondary_identification import SupervisingProviderSecondaryIdentification
     from .supervising_provider_update import SupervisingProviderUpdate
     from .supervising_provider_update_with_optional_address import SupervisingProviderUpdateWithOptionalAddress
+    from .treating_provider import TreatingProvider
+    from .treating_provider_update import TreatingProviderUpdate
 _dynamic_imports: typing.Dict[str, str] = {
     "BillingProvider": ".billing_provider",
     "BillingProviderSecondaryIdentification": ".billing_provider_secondary_identification",
     "BillingProviderSecondaryIdentificationQualifier": ".billing_provider_secondary_identification_qualifier",
     "BillingProviderUpdate": ".billing_provider_update",
     "BillingProviderUpdateWithOptionalAddress": ".billing_provider_update_with_optional_address",
+    "EncounterAdditionalProvider": ".encounter_additional_provider",
     "EncounterProvider": ".encounter_provider",
     "EncounterProviderBase": ".encounter_provider_base",
     "InitialReferringProvider": ".initial_referring_provider",
@@ -65,6 +69,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "SupervisingProviderSecondaryIdentification": ".supervising_provider_secondary_identification",
     "SupervisingProviderUpdate": ".supervising_provider_update",
     "SupervisingProviderUpdateWithOptionalAddress": ".supervising_provider_update_with_optional_address",
+    "TreatingProvider": ".treating_provider",
+    "TreatingProviderUpdate": ".treating_provider_update",
 }
 
 
@@ -95,6 +101,7 @@ __all__ = [
     "BillingProviderSecondaryIdentificationQualifier",
     "BillingProviderUpdate",
     "BillingProviderUpdateWithOptionalAddress",
+    "EncounterAdditionalProvider",
     "EncounterProvider",
     "EncounterProviderBase",
     "InitialReferringProvider",
@@ -118,4 +125,6 @@ __all__ = [
     "SupervisingProviderSecondaryIdentification",
     "SupervisingProviderUpdate",
     "SupervisingProviderUpdateWithOptionalAddress",
+    "TreatingProvider",
+    "TreatingProviderUpdate",
 ]

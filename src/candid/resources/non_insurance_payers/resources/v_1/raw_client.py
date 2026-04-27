@@ -11,6 +11,7 @@ from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
 from ....commons.errors.entity_conflict_error import EntityConflictError
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
+from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.clinical_trial_id import ClinicalTrialId
 from ....commons.types.entity_conflict_error_message import EntityConflictErrorMessage
@@ -18,6 +19,7 @@ from ....commons.types.entity_not_found_error_message import EntityNotFoundError
 from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
 from ....commons.types.sort_direction import SortDirection
+from ....commons.types.unauthorized_error_message import UnauthorizedErrorMessage
 from ....commons.types.unprocessable_entity_error_message import UnprocessableEntityErrorMessage
 from .types.create_non_insurance_payer_request import CreateNonInsurancePayerRequest
 from .types.non_insurance_payer import NonInsurancePayer
@@ -165,6 +167,7 @@ class RawV1Client:
         sort_direction: typing.Optional[SortDirection] = None,
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[NonInsurancePayerPage]:
         """
@@ -196,6 +199,9 @@ class RawV1Client:
 
         page_token : typing.Optional[PageToken]
 
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's non-insurance payers. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -217,6 +223,7 @@ class RawV1Client:
                 "sort_direction": sort_direction,
                 "limit": limit,
                 "page_token": page_token,
+                "organization_id": organization_id,
             },
             request_options=request_options,
         )
@@ -241,6 +248,17 @@ class RawV1Client:
                         UnprocessableEntityErrorMessage,
                         parse_obj_as(
                             type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -607,6 +625,7 @@ class AsyncRawV1Client:
         sort_direction: typing.Optional[SortDirection] = None,
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
+        organization_id: typing.Optional[OrganizationId] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[NonInsurancePayerPage]:
         """
@@ -638,6 +657,9 @@ class AsyncRawV1Client:
 
         page_token : typing.Optional[PageToken]
 
+        organization_id : typing.Optional[OrganizationId]
+            Filter to a specific organization's non-insurance payers. If not provided, defaults to the requesting user's organization.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -659,6 +681,7 @@ class AsyncRawV1Client:
                 "sort_direction": sort_direction,
                 "limit": limit,
                 "page_token": page_token,
+                "organization_id": organization_id,
             },
             request_options=request_options,
         )
@@ -683,6 +706,17 @@ class AsyncRawV1Client:
                         UnprocessableEntityErrorMessage,
                         parse_obj_as(
                             type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnauthorizedError":
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnauthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=UnauthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

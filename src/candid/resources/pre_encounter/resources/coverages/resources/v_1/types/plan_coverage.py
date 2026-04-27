@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .additional_detail import AdditionalDetail
 from .coverage_details import CoverageDetails
 from .plan_coverage_details import PlanCoverageDetails
 
@@ -13,6 +14,7 @@ class PlanCoverage(UniversalBaseModel):
     in_network_flat: typing.Optional[typing.List[CoverageDetails]] = None
     out_of_network: typing.Optional[PlanCoverageDetails] = None
     out_of_network_flat: typing.Optional[typing.List[CoverageDetails]] = None
+    additional_details: typing.Optional[typing.List[AdditionalDetail]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

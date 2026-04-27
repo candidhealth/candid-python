@@ -2981,6 +2981,97 @@ client.contracts.v_3.get_contract_providers(
 </dl>
 </details>
 
+<details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">get_contract_provider_credentialing_spans</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns rendering providers linked to a contract with their credentialing spans, scoped to the contract's contracting provider and payer. Providers with no matching spans are included with an empty list.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.contracts.v_3.get_contract_provider_credentialing_spans(
+    contract_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**contract_id:** `ContractId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Max number of providers returned per page. Defaults to 100. Max is 1000.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.contracts.v_3.<a href="src/candid/resources/contracts/resources/v_3/client.py">add_contract_providers</a>(...)</code></summary>
 <dl>
 <dd>
@@ -11368,6 +11459,14 @@ clinical trials will be matched.
 <dl>
 <dd>
 
+**organization_id:** `typing.Optional[OrganizationId]` — Filter to a specific organization's non-insurance payers. If not provided, defaults to the requesting user's organization.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -13615,6 +13714,14 @@ client.patient_refunds.v_1.create(
 <dl>
 <dd>
 
+**raise_on_overdraft:** `typing.Optional[bool]` — If true, the refund will be rejected if it would cause any account to be overdrafted. Defaults to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -13948,6 +14055,14 @@ will always sort in order of most similar to least similar.
 <dd>
 
 **page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**organization_id:** `typing.Optional[OrganizationId]` — Filter to a specific organization's payer plan groups. If not provided, defaults to the requesting user's organization.
     
 </dd>
 </dl>
@@ -14890,6 +15005,102 @@ client.service_lines.v_2.delete(
 <dd>
 
 **service_line_id:** `ServiceLineId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.service_lines.v_2.<a href="src/candid/resources/service_lines/resources/v_2/client.py">upsert_by_external_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates or updates a service line based on the combination of external_id and claim_id.
+
+- If a service line with the given external_id and claim_id already exists for the organization, it will be updated.
+- If no service line exists with that combination, a new service line will be created with the provided external_id.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.commons import ServiceLineUnits
+from candid.resources.service_lines.resources.v_2 import (
+    ServiceLineCreateStandalone,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.service_lines.v_2.upsert_by_external_id(
+    external_id="external_id",
+    request=ServiceLineCreateStandalone(
+        procedure_code="procedure_code",
+        quantity="quantity",
+        units=ServiceLineUnits.MJ,
+        claim_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**external_id:** `str` — The external_id of the service line to create or update.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `ServiceLineCreateStandalone` 
     
 </dd>
 </dl>
@@ -19186,6 +19397,581 @@ client.pre_encounter.notes.v_1.deactivate(
 <dd>
 
 **version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## PreEncounter OrganizationExternalProviders V1
+<details><summary><code>client.pre_encounter.organization_external_providers.v_1.<a href="src/candid/resources/pre_encounter/resources/organization_external_providers/resources/v_1/client.py">get</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets an organization external provider by ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.organization_external_providers.v_1.get(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `OrganizationExternalProviderId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.organization_external_providers.v_1.<a href="src/candid/resources/pre_encounter/resources/organization_external_providers/resources/v_1/client.py">get_multi</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Searches for organization external providers that match the query parameters.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.organization_external_providers.v_1.get_multi()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_field:** `typing.Optional[OrganizationExternalProviderSortField]` — Defaults to name.family.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort_direction:** `typing.Optional[SortDirection]` — Defaults to ascending.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**npi:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**type:** `typing.Optional[OrganizationExternalProviderType]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**first_name:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**last_name:** `typing.Optional[str]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.organization_external_providers.v_1.<a href="src/candid/resources/pre_encounter/resources/organization_external_providers/resources/v_1/client.py">create</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a new organization external provider. BadRequestError is returned when the NPI is already in use.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.common import HumanName, NameUse
+from candid.resources.pre_encounter.resources.organization_external_providers.resources.v_1 import (
+    MutableOrganizationExternalProvider,
+    OrganizationExternalProviderType,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.organization_external_providers.v_1.create(
+    request=MutableOrganizationExternalProvider(
+        name=HumanName(
+            family="family",
+            given=["given", "given"],
+            use=NameUse.USUAL,
+        ),
+        types=[
+            OrganizationExternalProviderType.REFERRING,
+            OrganizationExternalProviderType.REFERRING,
+        ],
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `MutableOrganizationExternalProvider` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.organization_external_providers.v_1.<a href="src/candid/resources/pre_encounter/resources/organization_external_providers/resources/v_1/client.py">update</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates an organization external provider. The path must contain the next version number to prevent race conditions. For example, if the current version of the provider is n, you will need to send a request to this endpoint with `/{id}/n+1` to update the provider. Updating historic versions is not supported. BadRequestError is returned when the NPI is already in use by another provider.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.common import HumanName, NameUse
+from candid.resources.pre_encounter.resources.organization_external_providers.resources.v_1 import (
+    MutableOrganizationExternalProvider,
+    OrganizationExternalProviderType,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.organization_external_providers.v_1.update(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    version="version",
+    request=MutableOrganizationExternalProvider(
+        name=HumanName(
+            family="family",
+            given=["given", "given"],
+            use=NameUse.USUAL,
+        ),
+        types=[
+            OrganizationExternalProviderType.REFERRING,
+            OrganizationExternalProviderType.REFERRING,
+        ],
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `OrganizationExternalProviderId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request:** `MutableOrganizationExternalProvider` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.organization_external_providers.v_1.<a href="src/candid/resources/pre_encounter/resources/organization_external_providers/resources/v_1/client.py">deactivate</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Sets an organization external provider as deactivated. The path must contain the most recent version plus 1 to prevent race conditions. Deactivating historic versions is not supported.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.organization_external_providers.v_1.deactivate(
+    id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+    version="version",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `OrganizationExternalProviderId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.organization_external_providers.v_1.<a href="src/candid/resources/pre_encounter/resources/organization_external_providers/resources/v_1/client.py">scan</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Scans up to 1000 organization external provider updates. The since query parameter is inclusive, and the result list is ordered by updatedAt ascending.
+
+**Polling Pattern:**
+To continuously poll for updates without gaps:
+1. Make your initial request with a `since` timestamp (e.g., `since=2020-01-01T13:00:00.000Z`)
+2. The API returns 100 by default and up to 1000 records, sorted by `updated_at` ascending
+3. Find the `updated_at` value from the last record in the response
+4. Use that `updated_at` value as the `since` parameter in your next request
+5. Repeat steps 2-4 to ingest updates until you receive an empty list
+
+**Important Notes:**
+- The `since` parameter is inclusive, so you may receive the last record from the previous batch again (you can deduplicate by ID and version)
+- All records include `updated_at`, `id`, `version`, `deactivated`, and `updating_user` fields for tracking changes
+- Timestamps have millisecond resolution for precise ordering
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.organization_external_providers.v_1.scan(
+    since=datetime.datetime.fromisoformat(
+        "2024-01-15 09:30:00+00:00",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**since:** `dt.datetime` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**max_results:** `typing.Optional[int]` 
     
 </dd>
 </dl>

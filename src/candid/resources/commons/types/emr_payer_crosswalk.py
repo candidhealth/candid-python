@@ -11,6 +11,7 @@ class EmrPayerCrosswalk(enum.StrEnum):
     HEALTHIE = "HEALTHIE"
     CANVAS = "CANVAS"
     WAYSTAR = "WAYSTAR"
+    PAYER_PLAN_GROUP = "PAYER_PLAN_GROUP"
     _UNKNOWN = "__EMRPAYERCROSSWALK_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -27,6 +28,7 @@ class EmrPayerCrosswalk(enum.StrEnum):
         healthie: typing.Callable[[], T_Result],
         canvas: typing.Callable[[], T_Result],
         waystar: typing.Callable[[], T_Result],
+        payer_plan_group: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is EmrPayerCrosswalk.HEALTHIE:
@@ -35,4 +37,6 @@ class EmrPayerCrosswalk(enum.StrEnum):
             return canvas()
         if self is EmrPayerCrosswalk.WAYSTAR:
             return waystar()
+        if self is EmrPayerCrosswalk.PAYER_PLAN_GROUP:
+            return payer_plan_group()
         return _unknown_member(self._value_)

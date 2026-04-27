@@ -12,10 +12,12 @@ from .....commons.types.encounter_id import EncounterId
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.link_url import LinkUrl
 from .....commons.types.next_responsible_party import NextResponsibleParty
+from .....commons.types.organization_id import OrganizationId
 from .....commons.types.state import State
 from .....commons.types.work_queue_id import WorkQueueId
 from .....custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from .....diagnoses.types.diagnosis import Diagnosis
+from .....encounter_providers.resources.v_2.types.encounter_additional_provider import EncounterAdditionalProvider
 from .....encounter_providers.resources.v_2.types.encounter_provider import EncounterProvider
 from .....guarantor.resources.v_1.types.guarantor import Guarantor
 from .....individual.types.patient import Patient
@@ -704,6 +706,9 @@ class Encounter(EncounterBase):
             "2023-01-01 00:00:00+00:00",
         ),
         next_responsible_party=NextResponsibleParty.PRIMARY,
+        organization_id=uuid.UUID(
+            "6df0c51d-2b4c-4af8-acc1-5c0b589e9b26",
+        ),
     )
     """
 
@@ -788,6 +793,11 @@ class Encounter(EncounterBase):
     other_operating_provider: typing.Optional[EncounterProvider] = pydantic.Field(default=None)
     """
     837i NM1 2500 variant for Loop ID-2310.  Used to indicate the individual whom has secondary responsibility for surgical procedures in institutional claims processing.  Only used when operating_provider is also set.
+    """
+
+    treating_provider: typing.Optional[EncounterAdditionalProvider] = pydantic.Field(default=None)
+    """
+    The treating provider is the provider who treats the patient. This is only supported for professional encounters.
     """
 
     related_causes_information: typing.Optional[RelatedCausesInformation] = None
@@ -950,6 +960,8 @@ class Encounter(EncounterBase):
     """
     The party (payer, patient, etc.) responsible for the remainder of the balance on the claim.
     """
+
+    organization_id: typing.Optional[OrganizationId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

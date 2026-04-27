@@ -5,6 +5,7 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .....common.types.organization_id import OrganizationId
 from .....common.types.patient_id import PatientId
 from .....coverages.resources.v_1.types.coverage_status import CoverageStatus
 from .....patients.resources.v_1.types.mutable_patient_with_mrn import MutablePatientWithMrn
@@ -17,6 +18,7 @@ class Visit(UniversalBaseModel):
     """
 
     patient_id: PatientId
+    organization_id: OrganizationId
     patient: MutablePatientWithMrn
     start_time: dt.datetime
     status: AppointmentStatus

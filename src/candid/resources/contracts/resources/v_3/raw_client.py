@@ -27,6 +27,7 @@ from .types.add_contract_providers_response import AddContractProvidersResponse
 from .types.contract_create_union import ContractCreateUnion
 from .types.contract_id import ContractId
 from .types.contract_provider_count import ContractProviderCount
+from .types.contract_provider_credentialing_page import ContractProviderCredentialingPage
 from .types.contract_providers_page import ContractProvidersPage
 from .types.contract_service_facility import ContractServiceFacility
 from .types.contract_service_facility_id import ContractServiceFacilityId
@@ -371,6 +372,81 @@ class RawV3Client:
                 ContractProvidersPage,
                 parse_obj_as(
                     type_=ContractProvidersPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_contract_provider_credentialing_spans(
+        self,
+        contract_id: ContractId,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ContractProviderCredentialingPage]:
+        """
+        Returns rendering providers linked to a contract with their credentialing spans, scoped to the contract's contracting provider and payer. Providers with no matching spans are included with an empty list.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+            Max number of providers returned per page. Defaults to 100. Max is 1000.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ContractProviderCredentialingPage]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/providers/credentialing",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "page_token": page_token,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractProviderCredentialingPage,
+                parse_obj_as(
+                    type_=ContractProviderCredentialingPage,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -1006,6 +1082,81 @@ class AsyncRawV3Client:
                 ContractProvidersPage,
                 parse_obj_as(
                     type_=ContractProvidersPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "EntityNotFoundError":
+                raise EntityNotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        EntityNotFoundErrorMessage,
+                        parse_obj_as(
+                            type_=EntityNotFoundErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "UnprocessableEntityError":
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        UnprocessableEntityErrorMessage,
+                        parse_obj_as(
+                            type_=UnprocessableEntityErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_contract_provider_credentialing_spans(
+        self,
+        contract_id: ContractId,
+        *,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ContractProviderCredentialingPage]:
+        """
+        Returns rendering providers linked to a contract with their credentialing spans, scoped to the contract's contracting provider and payer. Providers with no matching spans are included with an empty list.
+
+        Parameters
+        ----------
+        contract_id : ContractId
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+            Max number of providers returned per page. Defaults to 100. Max is 1000.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ContractProviderCredentialingPage]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/contracts/v3/{jsonable_encoder(contract_id)}/providers/credentialing",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "page_token": page_token,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ContractProviderCredentialingPage,
+                parse_obj_as(
+                    type_=ContractProviderCredentialingPage,  # type: ignore
                     object_=_response_json,
                 ),
             )

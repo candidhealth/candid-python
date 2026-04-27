@@ -11,6 +11,7 @@ from ...custom_schemas.resources.v_1.types.schema_instance import SchemaInstance
 from ...encounter_providers.resources.v_2.types.initial_referring_provider import InitialReferringProvider
 from ...encounter_providers.resources.v_2.types.referring_provider import ReferringProvider
 from ...encounter_providers.resources.v_2.types.supervising_provider import SupervisingProvider
+from ...encounter_providers.resources.v_2.types.treating_provider import TreatingProvider
 from ...encounters.resources.v_4.types.claim_supplemental_information import ClaimSupplementalInformation
 from ...encounters.resources.v_4.types.clinical_note_category_create import ClinicalNoteCategoryCreate
 from ...encounters.resources.v_4.types.encounter_base import EncounterBase
@@ -52,6 +53,11 @@ class UniversalEncounterCreateBase(EncounterBase):
     supervising_provider: typing.Optional[SupervisingProvider] = pydantic.Field(default=None)
     """
     Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
+    """
+
+    treating_provider: typing.Optional[TreatingProvider] = pydantic.Field(default=None)
+    """
+    The treating provider is the provider who treats the patient. This is only supported for professional encounters.
     """
 
     service_facility: typing.Optional[EncounterServiceFacilityBase] = pydantic.Field(default=None)

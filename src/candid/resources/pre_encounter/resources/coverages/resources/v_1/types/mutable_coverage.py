@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .....appointments.resources.v_1.types.universal_service_identifier import UniversalServiceIdentifier
 from .....common.types.patient_id import PatientId
 from .....common.types.relationship import Relationship
 from .....eligibility_checks.resources.v_1.types.eligibility_check_metadata import EligibilityCheckMetadata
@@ -64,6 +65,13 @@ class MutableCoverage(UniversalBaseModel):
     auto_update_enabled: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Default to true. When set to true, the Candid system will automatically update this coverage with the latest eligibility check benefits information. Auto update behavior is also set at the eligibilityConfig org level configuration.
+    """
+
+    previous_appointment_copays: typing.Optional[typing.Dict[UniversalServiceIdentifier, int]] = pydantic.Field(
+        default=None
+    )
+    """
+    A map of UniversalServiceIdentifier (MD_Visit, Treatment, Tests, Activity) to copay values in cents. This is used to track copay values for each service type to handle OOP max resets correctly.
     """
 
     if IS_PYDANTIC_V2:
