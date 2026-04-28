@@ -18,6 +18,8 @@ class BenefitType(enum.StrEnum):
     OOP_MAX_YEAR_TO_DATE = "OOP_MAX_YEAR_TO_DATE"
     COPAY = "COPAY"
     COINSURANCE = "COINSURANCE"
+    NON_COVERED = "NON_COVERED"
+    LIMITATION = "LIMITATION"
     _UNKNOWN = "__BENEFITTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -41,6 +43,8 @@ class BenefitType(enum.StrEnum):
         oop_max_year_to_date: typing.Callable[[], T_Result],
         copay: typing.Callable[[], T_Result],
         coinsurance: typing.Callable[[], T_Result],
+        non_covered: typing.Callable[[], T_Result],
+        limitation: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is BenefitType.DEDUCTIBLE:
@@ -63,4 +67,8 @@ class BenefitType(enum.StrEnum):
             return copay()
         if self is BenefitType.COINSURANCE:
             return coinsurance()
+        if self is BenefitType.NON_COVERED:
+            return non_covered()
+        if self is BenefitType.LIMITATION:
+            return limitation()
         return _unknown_member(self._value_)

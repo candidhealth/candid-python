@@ -4,17 +4,19 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .coverage_details import CoverageDetails
-from .service_coverage_details import ServiceCoverageDetails
+from .benefit_type import BenefitType
+from .coverage_level import CoverageLevel
+from .coverage_value_unit import CoverageValueUnit
 from .service_type_code import ServiceTypeCode
 
 
-class ServiceCoverage(UniversalBaseModel):
-    service_code: ServiceTypeCode
-    in_network: typing.Optional[ServiceCoverageDetails] = None
-    in_network_flat: typing.Optional[typing.List[CoverageDetails]] = None
-    out_of_network: typing.Optional[ServiceCoverageDetails] = None
-    out_of_network_flat: typing.Optional[typing.List[CoverageDetails]] = None
+class NonCoveredDetail(UniversalBaseModel):
+    type: BenefitType
+    coverage_level: CoverageLevel = pydantic.Field(alias="coverageLevel")
+    unit: CoverageValueUnit
+    value: float
+    additional_notes: typing.Optional[str] = None
+    service_type_codes: typing.Optional[typing.List[ServiceTypeCode]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

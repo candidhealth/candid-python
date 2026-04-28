@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .benefits_related_entity import BenefitsRelatedEntity
+from .non_covered_detail import NonCoveredDetail
 from .plan_coverage import PlanCoverage
 from .service_coverage import ServiceCoverage
 
@@ -13,6 +14,7 @@ class CoverageBenefits(UniversalBaseModel):
     plan_coverage: typing.Optional[PlanCoverage] = None
     service_specific_coverage: typing.Optional[typing.List[ServiceCoverage]] = None
     benefits_related_entities: typing.Optional[typing.List[BenefitsRelatedEntity]] = None
+    non_covered_details: typing.Optional[typing.List[NonCoveredDetail]] = None
     notes: typing.Optional[str] = None
     auto_updated_eligibility_check_id: typing.Optional[str] = pydantic.Field(
         alias="autoUpdatedEligibilityCheckId", default=None

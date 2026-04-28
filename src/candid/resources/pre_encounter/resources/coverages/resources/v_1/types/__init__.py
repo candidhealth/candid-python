@@ -6,7 +6,6 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .additional_detail import AdditionalDetail
     from .address import Address
     from .benefit_type import BenefitType
     from .benefits_related_entity import BenefitsRelatedEntity
@@ -26,6 +25,7 @@ if typing.TYPE_CHECKING:
     from .member_info import MemberInfo
     from .mutable_coverage import MutableCoverage
     from .network_type import NetworkType
+    from .non_covered_detail import NonCoveredDetail
     from .payer_plan_group_fields import PayerPlanGroupFields
     from .plan_coverage import PlanCoverage
     from .plan_coverage_details import PlanCoverageDetails
@@ -37,7 +37,6 @@ if typing.TYPE_CHECKING:
     from .service_type_code import ServiceTypeCode
     from .subscriber import Subscriber
 _dynamic_imports: typing.Dict[str, str] = {
-    "AdditionalDetail": ".additional_detail",
     "Address": ".address",
     "BenefitType": ".benefit_type",
     "BenefitsRelatedEntity": ".benefits_related_entity",
@@ -57,6 +56,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "MemberInfo": ".member_info",
     "MutableCoverage": ".mutable_coverage",
     "NetworkType": ".network_type",
+    "NonCoveredDetail": ".non_covered_detail",
     "PayerPlanGroupFields": ".payer_plan_group_fields",
     "PlanCoverage": ".plan_coverage",
     "PlanCoverageDetails": ".plan_coverage_details",
@@ -92,7 +92,6 @@ def __dir__():
 
 
 __all__ = [
-    "AdditionalDetail",
     "Address",
     "BenefitType",
     "BenefitsRelatedEntity",
@@ -112,6 +111,7 @@ __all__ = [
     "MemberInfo",
     "MutableCoverage",
     "NetworkType",
+    "NonCoveredDetail",
     "PayerPlanGroupFields",
     "PlanCoverage",
     "PlanCoverageDetails",

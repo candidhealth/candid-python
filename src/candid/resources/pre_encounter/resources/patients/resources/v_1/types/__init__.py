@@ -6,6 +6,7 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .advanced_directive import AdvancedDirective
     from .authorization import Authorization
     from .authorization_unit import AuthorizationUnit
     from .contact import Contact
@@ -30,6 +31,7 @@ if typing.TYPE_CHECKING:
     from .referral_unit import ReferralUnit
     from .specialization_category import SpecializationCategory
 _dynamic_imports: typing.Dict[str, str] = {
+    "AdvancedDirective": ".advanced_directive",
     "Authorization": ".authorization",
     "AuthorizationUnit": ".authorization_unit",
     "Contact": ".contact",
@@ -78,6 +80,7 @@ def __dir__():
 
 
 __all__ = [
+    "AdvancedDirective",
     "Authorization",
     "AuthorizationUnit",
     "Contact",

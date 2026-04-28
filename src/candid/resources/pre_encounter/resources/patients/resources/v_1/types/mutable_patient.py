@@ -21,6 +21,7 @@ from .....common.types.race import Race
 from .....common.types.sex import Sex
 from .....common.types.sexual_orientation import SexualOrientation
 from .....common.types.tag_id import TagId
+from .advanced_directive import AdvancedDirective
 from .authorization import Authorization
 from .contact import Contact
 from .coverages_for_related_causes import CoveragesForRelatedCauses
@@ -162,6 +163,9 @@ class MutablePatient(UniversalBaseModel):
     """
     ORCON (Originator Controlled) - When set to true, the Candid system will hide this patient from downstream integrations. Updates made in the Candid UI will unset this flag. Defaults to false.
     """
+
+    advanced_directives: typing.Optional[typing.List[AdvancedDirective]] = None
+    hipaa_code: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
