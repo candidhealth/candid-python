@@ -5,13 +5,13 @@ import typing
 import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...non_insurance_payers.resources.v_1.types.non_insurance_payer_id import NonInsurancePayerId
-from .patient_clinical_trial_info_create import PatientClinicalTrialInfoCreate
+from .patient_clinical_trial_info_create_optional import PatientClinicalTrialInfoCreateOptional
 
 
 class PatientNonInsurancePayerInfoCreateOptional(UniversalBaseModel):
     non_insurance_payer_id: typing.Optional[NonInsurancePayerId] = None
     member_id: typing.Optional[str] = None
-    clinical_trial_info: typing.Optional[typing.List[PatientClinicalTrialInfoCreate]] = None
+    clinical_trial_info: typing.Optional[typing.List[PatientClinicalTrialInfoCreateOptional]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -3,12 +3,29 @@
 import typing
 
 import pydantic
-from ......core.pydantic_utilities import IS_PYDANTIC_V2
+from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.emr_payer_crosswalk import EmrPayerCrosswalk
-from .insurance_card_base import InsuranceCardBase
+from .....commons.types.insurance_type_code import InsuranceTypeCode
+from .....commons.types.payer_plan_group_id import PayerPlanGroupId
+from .....commons.types.source_of_payment_code import SourceOfPaymentCode
+from .....commons.types.street_address_long_zip_optional import StreetAddressLongZipOptional
 
 
-class InsuranceCardCreateOptional(InsuranceCardBase):
+class InsuranceCardCreateOptional(UniversalBaseModel):
+    group_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Box 11 on the CMS-1500 claim form.
+    """
+
+    plan_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Box 11c on the CMS-1500 claim form.
+    """
+
+    plan_type: typing.Optional[SourceOfPaymentCode] = None
+    insurance_type: typing.Optional[InsuranceTypeCode] = None
+    payer_plan_group_id: typing.Optional[PayerPlanGroupId] = None
+    payer_address: typing.Optional[StreetAddressLongZipOptional] = None
     member_id: typing.Optional[str] = None
     payer_name: typing.Optional[str] = None
     payer_id: typing.Optional[str] = None

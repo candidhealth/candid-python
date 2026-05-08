@@ -10,12 +10,14 @@ if typing.TYPE_CHECKING:
         RelatedCausesCode,
         RelatedCausesInformation,
         RelatedCausesInformationCreate,
+        RelatedCausesInformationCreateOptional,
         RelatedCausesInformationUpdate,
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "RelatedCausesCode": ".types",
     "RelatedCausesInformation": ".types",
     "RelatedCausesInformationCreate": ".types",
+    "RelatedCausesInformationCreateOptional": ".types",
     "RelatedCausesInformationUpdate": ".types",
 }
 
@@ -45,5 +47,6 @@ __all__ = [
     "RelatedCausesCode",
     "RelatedCausesInformation",
     "RelatedCausesInformationCreate",
+    "RelatedCausesInformationCreateOptional",
     "RelatedCausesInformationUpdate",
 ]

@@ -9,12 +9,14 @@ if typing.TYPE_CHECKING:
     from .types import (
         PropertyCasualtyPatientIdentifier,
         PropertyCasualtyPatientIdentifierCreate,
+        PropertyCasualtyPatientIdentifierCreateOptional,
         PropertyCasualtyPatientIdentifierQualifier,
         PropertyCasualtyPatientIdentifierUpdate,
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "PropertyCasualtyPatientIdentifier": ".types",
     "PropertyCasualtyPatientIdentifierCreate": ".types",
+    "PropertyCasualtyPatientIdentifierCreateOptional": ".types",
     "PropertyCasualtyPatientIdentifierQualifier": ".types",
     "PropertyCasualtyPatientIdentifierUpdate": ".types",
 }
@@ -44,6 +46,7 @@ def __dir__():
 __all__ = [
     "PropertyCasualtyPatientIdentifier",
     "PropertyCasualtyPatientIdentifierCreate",
+    "PropertyCasualtyPatientIdentifierCreateOptional",
     "PropertyCasualtyPatientIdentifierQualifier",
     "PropertyCasualtyPatientIdentifierUpdate",
 ]

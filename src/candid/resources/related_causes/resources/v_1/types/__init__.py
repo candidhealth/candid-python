@@ -9,11 +9,13 @@ if typing.TYPE_CHECKING:
     from .related_causes_code import RelatedCausesCode
     from .related_causes_information import RelatedCausesInformation
     from .related_causes_information_create import RelatedCausesInformationCreate
+    from .related_causes_information_create_optional import RelatedCausesInformationCreateOptional
     from .related_causes_information_update import RelatedCausesInformationUpdate
 _dynamic_imports: typing.Dict[str, str] = {
     "RelatedCausesCode": ".related_causes_code",
     "RelatedCausesInformation": ".related_causes_information",
     "RelatedCausesInformationCreate": ".related_causes_information_create",
+    "RelatedCausesInformationCreateOptional": ".related_causes_information_create_optional",
     "RelatedCausesInformationUpdate": ".related_causes_information_update",
 }
 
@@ -43,5 +45,6 @@ __all__ = [
     "RelatedCausesCode",
     "RelatedCausesInformation",
     "RelatedCausesInformationCreate",
+    "RelatedCausesInformationCreateOptional",
     "RelatedCausesInformationUpdate",
 ]

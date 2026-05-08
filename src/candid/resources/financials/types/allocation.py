@@ -5,11 +5,13 @@ import typing
 
 import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ...commons.types.allocation_id import AllocationId
 from .allocation_target import AllocationTarget
 from .balance_earmark import BalanceEarmark
 
 
 class Allocation(UniversalBaseModel):
+    allocation_id: typing.Optional[AllocationId] = None
     amount_cents: int
     target: AllocationTarget
     earmark: typing.Optional[BalanceEarmark] = pydantic.Field(default=None)

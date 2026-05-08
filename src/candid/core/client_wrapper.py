@@ -23,10 +23,10 @@ class BaseClientWrapper:
 
     def get_headers(self) -> typing.Dict[str, str]:
         headers: typing.Dict[str, str] = {
-            "User-Agent": "candidhealth/1.22.3",
+            "User-Agent": "candidhealth/1.22.4",
             "X-Fern-Language": "Python",
             "X-Fern-SDK-Name": "candidhealth",
-            "X-Fern-SDK-Version": "1.22.3",
+            "X-Fern-SDK-Version": "1.22.4",
             **(self.get_custom_headers() or {}),
         }
         token = self._get_token()

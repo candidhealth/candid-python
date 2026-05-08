@@ -38,10 +38,12 @@ if typing.TYPE_CHECKING:
     from .epsdt_referral_optional import EpsdtReferralOptional
     from .intake_follow_up import IntakeFollowUp
     from .intake_follow_up_id import IntakeFollowUpId
+    from .intake_follow_up_optional import IntakeFollowUpOptional
     from .intake_question import IntakeQuestion
     from .intake_question_id import IntakeQuestionId
     from .intake_question_optional import IntakeQuestionOptional
     from .intake_response_and_follow_ups import IntakeResponseAndFollowUps
+    from .intake_response_and_follow_ups_optional import IntakeResponseAndFollowUpsOptional
     from .intervention import Intervention
     from .intervention_category import InterventionCategory
     from .intervention_optional import InterventionOptional
@@ -110,10 +112,12 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EpsdtReferralOptional": ".epsdt_referral_optional",
     "IntakeFollowUp": ".intake_follow_up",
     "IntakeFollowUpId": ".intake_follow_up_id",
+    "IntakeFollowUpOptional": ".intake_follow_up_optional",
     "IntakeQuestion": ".intake_question",
     "IntakeQuestionId": ".intake_question_id",
     "IntakeQuestionOptional": ".intake_question_optional",
     "IntakeResponseAndFollowUps": ".intake_response_and_follow_ups",
+    "IntakeResponseAndFollowUpsOptional": ".intake_response_and_follow_ups_optional",
     "Intervention": ".intervention",
     "InterventionCategory": ".intervention_category",
     "InterventionOptional": ".intervention_optional",
@@ -202,10 +206,12 @@ __all__ = [
     "EpsdtReferralOptional",
     "IntakeFollowUp",
     "IntakeFollowUpId",
+    "IntakeFollowUpOptional",
     "IntakeQuestion",
     "IntakeQuestionId",
     "IntakeQuestionOptional",
     "IntakeResponseAndFollowUps",
+    "IntakeResponseAndFollowUpsOptional",
     "Intervention",
     "InterventionCategory",
     "InterventionOptional",

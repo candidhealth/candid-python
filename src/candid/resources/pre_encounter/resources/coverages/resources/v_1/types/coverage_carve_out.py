@@ -4,34 +4,25 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .....common.types.additional_payer_information import AdditionalPayerInformation
-from .....common.types.address import Address
 from .....common.types.payer_id import PayerId
 from .....common.types.payer_plan_group_id import PayerPlanGroupId
-from .....common.types.period import Period
-from .coverage_carve_out import CoverageCarveOut
+from .carve_out_type import CarveOutType
 from .insurance_type_code import InsuranceTypeCode
 from .network_type import NetworkType
 
 
-class InsurancePlan(UniversalBaseModel):
+class CoverageCarveOut(UniversalBaseModel):
+    carve_out: CarveOutType
     member_id: str
     payer_id: PayerId
     payer_name: str
-    additional_payer_information: typing.Optional[AdditionalPayerInformation] = None
     group_number: typing.Optional[str] = None
-    name: typing.Optional[str] = None
     plan_type: typing.Optional[NetworkType] = None
     type: typing.Optional[InsuranceTypeCode] = None
-    period: typing.Optional[Period] = None
-    insurance_card_image_locator: typing.Optional[str] = None
-    address: typing.Optional[Address] = None
     payer_plan_group_id: typing.Optional[PayerPlanGroupId] = pydantic.Field(default=None)
     """
     The ID of the Candid configured payer plan group associated with this coverage
     """
-
-    carve_outs: typing.Optional[typing.List[CoverageCarveOut]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

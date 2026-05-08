@@ -27,14 +27,18 @@ from .....encounter_providers.resources.v_2.types.rendering_provider_update_with
 from .....encounter_providers.resources.v_2.types.supervising_provider_update_with_optional_address import (
     SupervisingProviderUpdateWithOptionalAddress,
 )
-from .....encounter_providers.resources.v_2.types.treating_provider import TreatingProvider
+from .....encounter_providers.resources.v_2.types.treating_provider_update_with_optional_address import (
+    TreatingProviderUpdateWithOptionalAddress,
+)
 from .....guarantor.resources.v_1.types.guarantor_optional import GuarantorOptional
 from .....individual.types.patient_update_with_optional_address import PatientUpdateWithOptionalAddress
 from .....individual.types.subscriber_create_optional import SubscriberCreateOptional
-from .....property_and_casualty.resources.v_1.types.property_casualty_patient_identifier_create import (
-    PropertyCasualtyPatientIdentifierCreate,
+from .....property_and_casualty.resources.v_1.types.property_casualty_patient_identifier_create_optional import (
+    PropertyCasualtyPatientIdentifierCreateOptional,
 )
-from .....related_causes.resources.v_1.types.related_causes_information_create import RelatedCausesInformationCreate
+from .....related_causes.resources.v_1.types.related_causes_information_create_optional import (
+    RelatedCausesInformationCreateOptional,
+)
 from .....service_facility.types.encounter_service_facility_update_with_optional_address import (
     EncounterServiceFacilityUpdateWithOptionalAddress,
 )
@@ -171,7 +175,7 @@ class EncounterDeepOptional(EncounterOptional):
     Required when the rendering provider is supervised by a physician. If not required by this implementation guide, do not send.
     """
 
-    treating_provider: typing.Optional[TreatingProvider] = pydantic.Field(default=None)
+    treating_provider: typing.Optional[TreatingProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)
     """
     The treating provider is the provider who treats the patient. This is supported for professional and institutional encounters.
     """
@@ -186,7 +190,7 @@ class EncounterDeepOptional(EncounterOptional):
     Specifies the address to which payments for the claim should be sent.
     """
 
-    related_causes_information: typing.Optional[RelatedCausesInformationCreate] = pydantic.Field(default=None)
+    related_causes_information: typing.Optional[RelatedCausesInformationCreateOptional] = pydantic.Field(default=None)
     """
     Corresponds to box 10a on the CMS-1500 (Loop 2300 on 837)
     """
@@ -201,8 +205,8 @@ class EncounterDeepOptional(EncounterOptional):
     837p Loop2300 DTP*439, CMS1500 Box 15
     """
 
-    property_casualty_patient_identifier: typing.Optional[PropertyCasualtyPatientIdentifierCreate] = pydantic.Field(
-        default=None
+    property_casualty_patient_identifier: typing.Optional[PropertyCasualtyPatientIdentifierCreateOptional] = (
+        pydantic.Field(default=None)
     )
     """
     Patient identifier for Property and Casualty claims.

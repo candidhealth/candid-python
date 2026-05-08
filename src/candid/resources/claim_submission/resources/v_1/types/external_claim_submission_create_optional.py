@@ -61,7 +61,7 @@ class ExternalClaimSubmissionCreateOptional(UniversalBaseModel):
     only of uppercase letters and numbers and be no more than 14 characters long.
     """
 
-    submission_records: typing.List[ClaimSubmissionRecordCreateOptional] = pydantic.Field()
+    submission_records: typing.Optional[typing.List[ClaimSubmissionRecordCreateOptional]] = pydantic.Field(default=None)
     """
     A successful claim submission record will be created for each value provided.
     An empty list may be provided for cases where the claim originated in an external system but was never submitted to a payer.

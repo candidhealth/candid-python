@@ -5,7 +5,7 @@ import typing
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .intake_question_id import IntakeQuestionId
-from .intake_response_and_follow_ups import IntakeResponseAndFollowUps
+from .intake_response_and_follow_ups_optional import IntakeResponseAndFollowUpsOptional
 
 
 class IntakeQuestionOptional(UniversalBaseModel):
@@ -13,19 +13,19 @@ class IntakeQuestionOptional(UniversalBaseModel):
     Examples
     --------
     from candid.resources.encounters.resources.v_4 import (
-        IntakeFollowUp,
+        IntakeFollowUpOptional,
         IntakeQuestionOptional,
-        IntakeResponseAndFollowUps,
+        IntakeResponseAndFollowUpsOptional,
     )
 
     IntakeQuestionOptional(
         id="6E7FBCE4-A8EA-46D0-A8D8-FF83CA3BB176",
         text="Do you have any allergies?",
         responses=[
-            IntakeResponseAndFollowUps(
+            IntakeResponseAndFollowUpsOptional(
                 response="No allergies",
                 follow_ups=[
-                    IntakeFollowUp(
+                    IntakeFollowUpOptional(
                         id="4F3D57F9-AC94-49D6-87E4-E804B709917A",
                         text="Do you have any allergies?",
                         response="No allergies",
@@ -38,7 +38,7 @@ class IntakeQuestionOptional(UniversalBaseModel):
 
     id: typing.Optional[IntakeQuestionId] = None
     text: typing.Optional[str] = None
-    responses: typing.Optional[typing.List[IntakeResponseAndFollowUps]] = None
+    responses: typing.Optional[typing.List[IntakeResponseAndFollowUpsOptional]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

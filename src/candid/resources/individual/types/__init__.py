@@ -14,6 +14,7 @@ if typing.TYPE_CHECKING:
     from .patient_base import PatientBase
     from .patient_clinical_trial_info import PatientClinicalTrialInfo
     from .patient_clinical_trial_info_create import PatientClinicalTrialInfoCreate
+    from .patient_clinical_trial_info_create_optional import PatientClinicalTrialInfoCreateOptional
     from .patient_create import PatientCreate
     from .patient_non_insurance_payer_info import PatientNonInsurancePayerInfo
     from .patient_non_insurance_payer_info_create import PatientNonInsurancePayerInfoCreate
@@ -34,6 +35,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PatientBase": ".patient_base",
     "PatientClinicalTrialInfo": ".patient_clinical_trial_info",
     "PatientClinicalTrialInfoCreate": ".patient_clinical_trial_info_create",
+    "PatientClinicalTrialInfoCreateOptional": ".patient_clinical_trial_info_create_optional",
     "PatientCreate": ".patient_create",
     "PatientNonInsurancePayerInfo": ".patient_non_insurance_payer_info",
     "PatientNonInsurancePayerInfoCreate": ".patient_non_insurance_payer_info_create",
@@ -78,6 +80,7 @@ __all__ = [
     "PatientBase",
     "PatientClinicalTrialInfo",
     "PatientClinicalTrialInfoCreate",
+    "PatientClinicalTrialInfoCreateOptional",
     "PatientCreate",
     "PatientNonInsurancePayerInfo",
     "PatientNonInsurancePayerInfoCreate",

@@ -8,11 +8,13 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .property_casualty_patient_identifier import PropertyCasualtyPatientIdentifier
     from .property_casualty_patient_identifier_create import PropertyCasualtyPatientIdentifierCreate
+    from .property_casualty_patient_identifier_create_optional import PropertyCasualtyPatientIdentifierCreateOptional
     from .property_casualty_patient_identifier_qualifier import PropertyCasualtyPatientIdentifierQualifier
     from .property_casualty_patient_identifier_update import PropertyCasualtyPatientIdentifierUpdate
 _dynamic_imports: typing.Dict[str, str] = {
     "PropertyCasualtyPatientIdentifier": ".property_casualty_patient_identifier",
     "PropertyCasualtyPatientIdentifierCreate": ".property_casualty_patient_identifier_create",
+    "PropertyCasualtyPatientIdentifierCreateOptional": ".property_casualty_patient_identifier_create_optional",
     "PropertyCasualtyPatientIdentifierQualifier": ".property_casualty_patient_identifier_qualifier",
     "PropertyCasualtyPatientIdentifierUpdate": ".property_casualty_patient_identifier_update",
 }
@@ -42,6 +44,7 @@ def __dir__():
 __all__ = [
     "PropertyCasualtyPatientIdentifier",
     "PropertyCasualtyPatientIdentifierCreate",
+    "PropertyCasualtyPatientIdentifierCreateOptional",
     "PropertyCasualtyPatientIdentifierQualifier",
     "PropertyCasualtyPatientIdentifierUpdate",
 ]

@@ -5,6 +5,7 @@ import uuid
 
 import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ...commons.types.allocation_id import AllocationId
 from .allocation_earmark_type import AllocationEarmarkType
 
 
@@ -26,7 +27,7 @@ class BalanceEarmark(UniversalBaseModel):
     The amount earmarked in cents for future allocation
     """
 
-    created_by_allocation_id: typing.Optional[uuid.UUID] = pydantic.Field(default=None)
+    created_by_allocation_id: typing.Optional[AllocationId] = pydantic.Field(default=None)
     """
     The ID of the allocation that created this earmark
     """

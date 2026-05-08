@@ -9,8 +9,10 @@ if typing.TYPE_CHECKING:
     from .address import Address
     from .benefit_type import BenefitType
     from .benefits_related_entity import BenefitsRelatedEntity
+    from .carve_out_type import CarveOutType
     from .coverage import Coverage
     from .coverage_benefits import CoverageBenefits
+    from .coverage_carve_out import CoverageCarveOut
     from .coverage_details import CoverageDetails
     from .coverage_eligibility_check_response import CoverageEligibilityCheckResponse
     from .coverage_level import CoverageLevel
@@ -40,8 +42,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Address": ".address",
     "BenefitType": ".benefit_type",
     "BenefitsRelatedEntity": ".benefits_related_entity",
+    "CarveOutType": ".carve_out_type",
     "Coverage": ".coverage",
     "CoverageBenefits": ".coverage_benefits",
+    "CoverageCarveOut": ".coverage_carve_out",
     "CoverageDetails": ".coverage_details",
     "CoverageEligibilityCheckResponse": ".coverage_eligibility_check_response",
     "CoverageLevel": ".coverage_level",
@@ -95,8 +99,10 @@ __all__ = [
     "Address",
     "BenefitType",
     "BenefitsRelatedEntity",
+    "CarveOutType",
     "Coverage",
     "CoverageBenefits",
+    "CoverageCarveOut",
     "CoverageDetails",
     "CoverageEligibilityCheckResponse",
     "CoverageLevel",
