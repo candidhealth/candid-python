@@ -39,6 +39,7 @@ if typing.TYPE_CHECKING:
     from .claim_allocation_target import ClaimAllocationTarget
     from .invoice_update import InvoiceUpdate, InvoiceUpdate_Remove, InvoiceUpdate_Set
     from .note_update import NoteUpdate, NoteUpdate_Remove, NoteUpdate_Set
+    from .patient_payment_create_source import PatientPaymentCreateSource
     from .patient_transaction_source import PatientTransactionSource
     from .reallocation_would_overdraft_error_content import ReallocationWouldOverdraftErrorContent
     from .refund_reason import RefundReason
@@ -76,6 +77,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "NoteUpdate": ".note_update",
     "NoteUpdate_Remove": ".note_update",
     "NoteUpdate_Set": ".note_update",
+    "PatientPaymentCreateSource": ".patient_payment_create_source",
     "PatientTransactionSource": ".patient_transaction_source",
     "ReallocationWouldOverdraftErrorContent": ".reallocation_would_overdraft_error_content",
     "RefundReason": ".refund_reason",
@@ -139,6 +141,7 @@ __all__ = [
     "NoteUpdate",
     "NoteUpdate_Remove",
     "NoteUpdate_Set",
+    "PatientPaymentCreateSource",
     "PatientTransactionSource",
     "ReallocationWouldOverdraftErrorContent",
     "RefundReason",

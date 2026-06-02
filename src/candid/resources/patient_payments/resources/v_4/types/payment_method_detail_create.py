@@ -5,12 +5,16 @@ import typing
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.street_address_short_zip import StreetAddressShortZip
+from .....organization_service_facilities.resources.v_2.types.organization_service_facility_id import (
+    OrganizationServiceFacilityId,
+)
 from .payment_method_create import PaymentMethodCreate
 
 
 class PaymentMethodDetailCreate(UniversalBaseModel):
     payment_method: PaymentMethodCreate
     collected_at_address: typing.Optional[StreetAddressShortZip] = None
+    organization_service_facility_id: typing.Optional[OrganizationServiceFacilityId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

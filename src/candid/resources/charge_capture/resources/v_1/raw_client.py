@@ -42,6 +42,7 @@ from .types.charge_capture_post_billed_change import ChargeCapturePostBilledChan
 from .types.charge_capture_sort_field import ChargeCaptureSortField
 from .types.charge_capture_status import ChargeCaptureStatus
 from .types.charge_external_id_conflict_error_message import ChargeExternalIdConflictErrorMessage
+from .types.hl_7_message_type import Hl7MessageType
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -63,6 +64,7 @@ class RawV1Client:
         ehr_source_url: typing.Optional[str] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        hl_7_message_type: typing.Optional[Hl7MessageType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ChargeCapture]:
         """
@@ -96,6 +98,9 @@ class RawV1Client:
             Key-value pairs that adhere to metadata schemas.
             Multiple metadata instances can be associated with a charge capture.
 
+        hl_7_message_type : typing.Optional[Hl7MessageType]
+            The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -117,6 +122,7 @@ class RawV1Client:
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
                 "metadata": metadata,
+                "hl7_message_type": hl_7_message_type,
             },
             request_options=request_options,
             omit=OMIT,
@@ -215,6 +221,7 @@ class RawV1Client:
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        hl_7_message_type: typing.Optional[Hl7MessageType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ChargeCapture]:
         """
@@ -264,6 +271,9 @@ class RawV1Client:
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
 
+        hl_7_message_type : typing.Optional[Hl7MessageType]
+            The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -285,6 +295,7 @@ class RawV1Client:
                 "ehr_source_url": ehr_source_url,
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
+                "hl7_message_type": hl_7_message_type,
             },
             request_options=request_options,
             omit=OMIT,
@@ -459,6 +470,7 @@ class RawV1Client:
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        hl_7_message_type: typing.Optional[Hl7MessageType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ChargeCapture]:
         """
@@ -496,6 +508,9 @@ class RawV1Client:
             Key-value pairs that adhere to metadata schemas.
             Multiple metadata instances can be associated with a charge capture.
 
+        hl_7_message_type : typing.Optional[Hl7MessageType]
+            The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -517,6 +532,7 @@ class RawV1Client:
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
                 "metadata": metadata,
+                "hl7_message_type": hl_7_message_type,
             },
             request_options=request_options,
             omit=OMIT,
@@ -979,6 +995,7 @@ class AsyncRawV1Client:
         ehr_source_url: typing.Optional[str] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        hl_7_message_type: typing.Optional[Hl7MessageType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ChargeCapture]:
         """
@@ -1012,6 +1029,9 @@ class AsyncRawV1Client:
             Key-value pairs that adhere to metadata schemas.
             Multiple metadata instances can be associated with a charge capture.
 
+        hl_7_message_type : typing.Optional[Hl7MessageType]
+            The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1033,6 +1053,7 @@ class AsyncRawV1Client:
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
                 "metadata": metadata,
+                "hl7_message_type": hl_7_message_type,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1131,6 +1152,7 @@ class AsyncRawV1Client:
         claim_creation_category: typing.Optional[str] = OMIT,
         ehr_source_url: typing.Optional[str] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        hl_7_message_type: typing.Optional[Hl7MessageType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ChargeCapture]:
         """
@@ -1180,6 +1202,9 @@ class AsyncRawV1Client:
         attachment_external_document_ids : typing.Optional[typing.Sequence[str]]
             Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
 
+        hl_7_message_type : typing.Optional[Hl7MessageType]
+            The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1201,6 +1226,7 @@ class AsyncRawV1Client:
                 "ehr_source_url": ehr_source_url,
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
+                "hl7_message_type": hl_7_message_type,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1375,6 +1401,7 @@ class AsyncRawV1Client:
         status: typing.Optional[ChargeCaptureStatus] = OMIT,
         attachment_external_document_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         metadata: typing.Optional[typing.Sequence[SchemaInstance]] = OMIT,
+        hl_7_message_type: typing.Optional[Hl7MessageType] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ChargeCapture]:
         """
@@ -1412,6 +1439,9 @@ class AsyncRawV1Client:
             Key-value pairs that adhere to metadata schemas.
             Multiple metadata instances can be associated with a charge capture.
 
+        hl_7_message_type : typing.Optional[Hl7MessageType]
+            The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1433,6 +1463,7 @@ class AsyncRawV1Client:
                 "status": status,
                 "attachment_external_document_ids": attachment_external_document_ids,
                 "metadata": metadata,
+                "hl7_message_type": hl_7_message_type,
             },
             request_options=request_options,
             omit=OMIT,

@@ -10,11 +10,29 @@ if typing.TYPE_CHECKING:
     from .billing_note_base import BillingNoteBase
     from .billing_note_base_optional import BillingNoteBaseOptional
     from .billing_note_id import BillingNoteId
+    from .billing_note_metadata import (
+        BillingNoteMetadata,
+        BillingNoteMetadata_QueueAdded,
+        BillingNoteMetadata_QueueMoved,
+        BillingNoteMetadata_TaskCreated,
+    )
+    from .billing_note_type import BillingNoteType
+    from .queue_added_metadata import QueueAddedMetadata
+    from .queue_moved_metadata import QueueMovedMetadata
+    from .task_created_metadata import TaskCreatedMetadata
 _dynamic_imports: typing.Dict[str, str] = {
     "BillingNote": ".billing_note",
     "BillingNoteBase": ".billing_note_base",
     "BillingNoteBaseOptional": ".billing_note_base_optional",
     "BillingNoteId": ".billing_note_id",
+    "BillingNoteMetadata": ".billing_note_metadata",
+    "BillingNoteMetadata_QueueAdded": ".billing_note_metadata",
+    "BillingNoteMetadata_QueueMoved": ".billing_note_metadata",
+    "BillingNoteMetadata_TaskCreated": ".billing_note_metadata",
+    "BillingNoteType": ".billing_note_type",
+    "QueueAddedMetadata": ".queue_added_metadata",
+    "QueueMovedMetadata": ".queue_moved_metadata",
+    "TaskCreatedMetadata": ".task_created_metadata",
 }
 
 
@@ -39,4 +57,17 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["BillingNote", "BillingNoteBase", "BillingNoteBaseOptional", "BillingNoteId"]
+__all__ = [
+    "BillingNote",
+    "BillingNoteBase",
+    "BillingNoteBaseOptional",
+    "BillingNoteId",
+    "BillingNoteMetadata",
+    "BillingNoteMetadata_QueueAdded",
+    "BillingNoteMetadata_QueueMoved",
+    "BillingNoteMetadata_TaskCreated",
+    "BillingNoteType",
+    "QueueAddedMetadata",
+    "QueueMovedMetadata",
+    "TaskCreatedMetadata",
+]

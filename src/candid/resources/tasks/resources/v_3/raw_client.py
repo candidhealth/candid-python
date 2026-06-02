@@ -82,7 +82,9 @@ class RawV3Client:
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
         status: typing.Optional[TaskStatus] = None,
+        statuses: typing.Optional[str] = None,
         task_type: typing.Optional[TaskType] = None,
+        task_types: typing.Optional[str] = None,
         categories: typing.Optional[str] = None,
         updated_since: typing.Optional[dt.datetime] = None,
         encounter_id: typing.Optional[EncounterId] = None,
@@ -104,7 +106,13 @@ class RawV3Client:
 
         status : typing.Optional[TaskStatus]
 
+        statuses : typing.Optional[str]
+            Only return tasks with a status that matches one in this comma-separated list.
+
         task_type : typing.Optional[TaskType]
+
+        task_types : typing.Optional[str]
+            Only return tasks with a task_type that matches one in this comma-separated list.
 
         categories : typing.Optional[str]
             Only return tasks with categories that match one in this comma-separated list.
@@ -148,7 +156,9 @@ class RawV3Client:
                 "limit": limit,
                 "page_token": page_token,
                 "status": status,
+                "statuses": statuses,
                 "task_type": task_type,
+                "task_types": task_types,
                 "categories": categories,
                 "updated_since": serialize_datetime(updated_since) if updated_since is not None else None,
                 "encounter_id": encounter_id,
@@ -404,7 +414,9 @@ class AsyncRawV3Client:
         limit: typing.Optional[int] = None,
         page_token: typing.Optional[PageToken] = None,
         status: typing.Optional[TaskStatus] = None,
+        statuses: typing.Optional[str] = None,
         task_type: typing.Optional[TaskType] = None,
+        task_types: typing.Optional[str] = None,
         categories: typing.Optional[str] = None,
         updated_since: typing.Optional[dt.datetime] = None,
         encounter_id: typing.Optional[EncounterId] = None,
@@ -426,7 +438,13 @@ class AsyncRawV3Client:
 
         status : typing.Optional[TaskStatus]
 
+        statuses : typing.Optional[str]
+            Only return tasks with a status that matches one in this comma-separated list.
+
         task_type : typing.Optional[TaskType]
+
+        task_types : typing.Optional[str]
+            Only return tasks with a task_type that matches one in this comma-separated list.
 
         categories : typing.Optional[str]
             Only return tasks with categories that match one in this comma-separated list.
@@ -470,7 +488,9 @@ class AsyncRawV3Client:
                 "limit": limit,
                 "page_token": page_token,
                 "status": status,
+                "statuses": statuses,
                 "task_type": task_type,
+                "task_types": task_types,
                 "categories": categories,
                 "updated_since": serialize_datetime(updated_since) if updated_since is not None else None,
                 "encounter_id": encounter_id,

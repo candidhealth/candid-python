@@ -345,7 +345,6 @@ class RawV2Client:
         payer_uuid: typing.Optional[uuid.UUID] = OMIT,
         start_date: typing.Optional[dt.date] = OMIT,
         end_date: typing.Optional[dt.date] = OMIT,
-        regions: typing.Optional[Regions] = OMIT,
         submitted_date: typing.Optional[dt.date] = OMIT,
         payer_loaded_date: typing.Optional[dt.date] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -366,9 +365,6 @@ class RawV2Client:
 
         end_date : typing.Optional[dt.date]
             End date of the credentialing span.
-
-        regions : typing.Optional[Regions]
-            The states covered by the credentialing span. A span may be national and cover all states.
 
         submitted_date : typing.Optional[dt.date]
             Date that the credential paperwork was submitted.
@@ -392,7 +388,6 @@ class RawV2Client:
                 "payer_uuid": payer_uuid,
                 "start_date": start_date,
                 "end_date": end_date,
-                "regions": regions,
                 "submitted_date": submitted_date,
                 "payer_loaded_date": payer_loaded_date,
             },
@@ -1206,7 +1201,6 @@ class AsyncRawV2Client:
         payer_uuid: typing.Optional[uuid.UUID] = OMIT,
         start_date: typing.Optional[dt.date] = OMIT,
         end_date: typing.Optional[dt.date] = OMIT,
-        regions: typing.Optional[Regions] = OMIT,
         submitted_date: typing.Optional[dt.date] = OMIT,
         payer_loaded_date: typing.Optional[dt.date] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1227,9 +1221,6 @@ class AsyncRawV2Client:
 
         end_date : typing.Optional[dt.date]
             End date of the credentialing span.
-
-        regions : typing.Optional[Regions]
-            The states covered by the credentialing span. A span may be national and cover all states.
 
         submitted_date : typing.Optional[dt.date]
             Date that the credential paperwork was submitted.
@@ -1253,7 +1244,6 @@ class AsyncRawV2Client:
                 "payer_uuid": payer_uuid,
                 "start_date": start_date,
                 "end_date": end_date,
-                "regions": regions,
                 "submitted_date": submitted_date,
                 "payer_loaded_date": payer_loaded_date,
             },

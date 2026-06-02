@@ -15,6 +15,7 @@ if typing.TYPE_CHECKING:
         ChargeCaptureSortField,
         ChargeCaptureStatus,
         ChargeExternalIdConflictErrorMessage,
+        Hl7MessageType,
     )
     from .errors import ChargeExternalIdConflictError
 _dynamic_imports: typing.Dict[str, str] = {
@@ -27,6 +28,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ChargeCaptureStatus": ".types",
     "ChargeExternalIdConflictError": ".errors",
     "ChargeExternalIdConflictErrorMessage": ".types",
+    "Hl7MessageType": ".types",
 }
 
 
@@ -61,4 +63,5 @@ __all__ = [
     "ChargeCaptureStatus",
     "ChargeExternalIdConflictError",
     "ChargeExternalIdConflictErrorMessage",
+    "Hl7MessageType",
 ]

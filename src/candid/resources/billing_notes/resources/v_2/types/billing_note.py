@@ -8,6 +8,8 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2
 from .....commons.types.encounter_id import EncounterId
 from .billing_note_base import BillingNoteBase
 from .billing_note_id import BillingNoteId
+from .billing_note_metadata import BillingNoteMetadata
+from .billing_note_type import BillingNoteType
 
 
 class BillingNote(BillingNoteBase):
@@ -45,6 +47,8 @@ class BillingNote(BillingNoteBase):
 
     author_auth_0_id: typing.Optional[str] = pydantic.Field(alias="author_auth0_id", default=None)
     author_name: typing.Optional[str] = None
+    billing_note_type: typing.Optional[BillingNoteType] = None
+    billing_note_metadata: typing.Optional[BillingNoteMetadata] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

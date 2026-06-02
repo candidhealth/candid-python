@@ -14,6 +14,7 @@ if typing.TYPE_CHECKING:
     from .charge_capture_sort_field import ChargeCaptureSortField
     from .charge_capture_status import ChargeCaptureStatus
     from .charge_external_id_conflict_error_message import ChargeExternalIdConflictErrorMessage
+    from .hl_7_message_type import Hl7MessageType
 _dynamic_imports: typing.Dict[str, str] = {
     "ChargeCapture": ".charge_capture",
     "ChargeCaptureData": ".charge_capture_data",
@@ -23,6 +24,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ChargeCaptureSortField": ".charge_capture_sort_field",
     "ChargeCaptureStatus": ".charge_capture_status",
     "ChargeExternalIdConflictErrorMessage": ".charge_external_id_conflict_error_message",
+    "Hl7MessageType": ".hl_7_message_type",
 }
 
 
@@ -56,4 +58,5 @@ __all__ = [
     "ChargeCaptureSortField",
     "ChargeCaptureStatus",
     "ChargeExternalIdConflictErrorMessage",
+    "Hl7MessageType",
 ]

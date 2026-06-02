@@ -26,6 +26,7 @@ from ....commons.types.unprocessable_entity_error_message import UnprocessableEn
 from ....financials.types.allocation_create import AllocationCreate
 from ....financials.types.invoice_update import InvoiceUpdate
 from ....financials.types.note_update import NoteUpdate
+from ....financials.types.patient_payment_create_source import PatientPaymentCreateSource
 from ....financials.types.patient_transaction_source import PatientTransactionSource
 from .types.patient_payment import PatientPayment
 from .types.patient_payment_id import PatientPaymentId
@@ -230,6 +231,7 @@ class RawV4Client:
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         payment_method_detail: typing.Optional[PaymentMethodDetailCreate] = OMIT,
+        payment_source: typing.Optional[PatientPaymentCreateSource] = OMIT,
         source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PatientPayment]:
@@ -254,6 +256,8 @@ class RawV4Client:
 
         payment_method_detail : typing.Optional[PaymentMethodDetailCreate]
 
+        payment_source : typing.Optional[PatientPaymentCreateSource]
+
         source_internal_id : typing.Optional[str]
 
         request_options : typing.Optional[RequestOptions]
@@ -275,6 +279,7 @@ class RawV4Client:
                 "allocations": allocations,
                 "invoice": invoice,
                 "payment_method_detail": payment_method_detail,
+                "payment_source": payment_source,
                 "source_internal_id": source_internal_id,
             },
             request_options=request_options,
@@ -678,6 +683,7 @@ class AsyncRawV4Client:
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         payment_method_detail: typing.Optional[PaymentMethodDetailCreate] = OMIT,
+        payment_source: typing.Optional[PatientPaymentCreateSource] = OMIT,
         source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PatientPayment]:
@@ -702,6 +708,8 @@ class AsyncRawV4Client:
 
         payment_method_detail : typing.Optional[PaymentMethodDetailCreate]
 
+        payment_source : typing.Optional[PatientPaymentCreateSource]
+
         source_internal_id : typing.Optional[str]
 
         request_options : typing.Optional[RequestOptions]
@@ -723,6 +731,7 @@ class AsyncRawV4Client:
                 "allocations": allocations,
                 "invoice": invoice,
                 "payment_method_detail": payment_method_detail,
+                "payment_source": payment_source,
                 "source_internal_id": source_internal_id,
             },
             request_options=request_options,

@@ -15,6 +15,7 @@ from ....commons.types.sort_direction import SortDirection
 from ....financials.types.allocation_create import AllocationCreate
 from ....financials.types.invoice_update import InvoiceUpdate
 from ....financials.types.note_update import NoteUpdate
+from ....financials.types.patient_payment_create_source import PatientPaymentCreateSource
 from ....financials.types.patient_transaction_source import PatientTransactionSource
 from .raw_client import AsyncRawV4Client, RawV4Client
 from .types.patient_payment import PatientPayment
@@ -175,6 +176,7 @@ class V4Client:
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         payment_method_detail: typing.Optional[PaymentMethodDetailCreate] = OMIT,
+        payment_source: typing.Optional[PatientPaymentCreateSource] = OMIT,
         source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
@@ -198,6 +200,8 @@ class V4Client:
         invoice : typing.Optional[InvoiceId]
 
         payment_method_detail : typing.Optional[PaymentMethodDetailCreate]
+
+        payment_source : typing.Optional[PatientPaymentCreateSource]
 
         source_internal_id : typing.Optional[str]
 
@@ -253,6 +257,7 @@ class V4Client:
             payment_note=payment_note,
             invoice=invoice,
             payment_method_detail=payment_method_detail,
+            payment_source=payment_source,
             source_internal_id=source_internal_id,
             request_options=request_options,
         )
@@ -512,6 +517,7 @@ class AsyncV4Client:
         payment_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         payment_method_detail: typing.Optional[PaymentMethodDetailCreate] = OMIT,
+        payment_source: typing.Optional[PatientPaymentCreateSource] = OMIT,
         source_internal_id: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
@@ -535,6 +541,8 @@ class AsyncV4Client:
         invoice : typing.Optional[InvoiceId]
 
         payment_method_detail : typing.Optional[PaymentMethodDetailCreate]
+
+        payment_source : typing.Optional[PatientPaymentCreateSource]
 
         source_internal_id : typing.Optional[str]
 
@@ -597,6 +605,7 @@ class AsyncV4Client:
             payment_note=payment_note,
             invoice=invoice,
             payment_method_detail=payment_method_detail,
+            payment_source=payment_source,
             source_internal_id=source_internal_id,
             request_options=request_options,
         )

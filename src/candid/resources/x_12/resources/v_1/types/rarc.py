@@ -1195,6 +1195,7 @@ class Rarc(enum.StrEnum):
     N_909 = "N909"
     N_910 = "N910"
     N_911 = "N911"
+    UNKNOWN = "UNKNOWN"
     _UNKNOWN = "__RARC_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -2395,6 +2396,7 @@ class Rarc(enum.StrEnum):
         n_909: typing.Callable[[], T_Result],
         n_910: typing.Callable[[], T_Result],
         n_911: typing.Callable[[], T_Result],
+        unknown: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is Rarc.M_1:
@@ -4771,4 +4773,6 @@ class Rarc(enum.StrEnum):
             return n_910()
         if self is Rarc.N_911:
             return n_911()
+        if self is Rarc.UNKNOWN:
+            return unknown()
         return _unknown_member(self._value_)

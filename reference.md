@@ -880,6 +880,14 @@ Multiple metadata instances can be associated with a charge capture.
 <dl>
 <dd>
 
+**hl_7_message_type:** `typing.Optional[Hl7MessageType]` — The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -1044,6 +1052,14 @@ client.charge_capture.v_1.create_from_pre_encounter_patient(
 <dd>
 
 **attachment_external_document_ids:** `typing.Optional[typing.Sequence[str]]` — Provide external attachment IDs which have been uploaded to Candid. They will be associated with the Encounter at Encounter creation time.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**hl_7_message_type:** `typing.Optional[Hl7MessageType]` — The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
     
 </dd>
 </dl>
@@ -1268,6 +1284,14 @@ Send full URL format for the external link (e.g. https://emr_charge_capture_url.
 
 Key-value pairs that adhere to metadata schemas.
 Multiple metadata instances can be associated with a charge capture.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**hl_7_message_type:** `typing.Optional[Hl7MessageType]` — The HL7 message type that produced this write. Used to differentiate post-submission update behavior. Sent by HL7 producers (conduit); null for manual / script writes.
     
 </dd>
 </dl>
@@ -3837,14 +3861,6 @@ client.credentialing.v_2.update_facility(
 <dd>
 
 **end_date:** `typing.Optional[dt.date]` — End date of the credentialing span.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**regions:** `typing.Optional[Regions]` — The states covered by the credentialing span. A span may be national and cover all states.
     
 </dd>
 </dl>
@@ -13156,6 +13172,14 @@ client.patient_payments.v_4.create(
 <dl>
 <dd>
 
+**payment_source:** `typing.Optional[PatientPaymentCreateSource]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **source_internal_id:** `typing.Optional[str]` 
     
 </dd>
@@ -15347,7 +15371,23 @@ client.tasks.v_3.get_multi()
 <dl>
 <dd>
 
+**statuses:** `typing.Optional[str]` — Only return tasks with a status that matches one in this comma-separated list.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **task_type:** `typing.Optional[TaskType]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**task_types:** `typing.Optional[str]` — Only return tasks with a task_type that matches one in this comma-separated list.
     
 </dd>
 </dl>
