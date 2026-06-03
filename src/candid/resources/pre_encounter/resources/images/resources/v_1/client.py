@@ -4,9 +4,11 @@ import typing
 
 from .......core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .......core.request_options import RequestOptions
+from ....common.types.sort_direction import SortDirection
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.image import Image
 from .types.image_id import ImageId
+from .types.image_sort_field import ImageSortField
 from .types.mutable_image import MutableImage
 
 # this is used as the default value for optional parameters
@@ -187,6 +189,10 @@ class V1Client:
         *,
         patient_id: typing.Optional[str] = None,
         coverage_id: typing.Optional[str] = None,
+        file_type: typing.Optional[str] = None,
+        patient_notes: typing.Optional[str] = None,
+        sort_field: typing.Optional[ImageSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[Image]:
         """
@@ -197,6 +203,16 @@ class V1Client:
         patient_id : typing.Optional[str]
 
         coverage_id : typing.Optional[str]
+
+        file_type : typing.Optional[str]
+
+        patient_notes : typing.Optional[str]
+
+        sort_field : typing.Optional[ImageSortField]
+            The field to order by. Defaults to updatedAt.
+
+        sort_direction : typing.Optional[SortDirection]
+            The direction to order by. Defaults to desc.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -216,7 +232,13 @@ class V1Client:
         client.pre_encounter.images.v_1.get_multi()
         """
         _response = self._raw_client.get_multi(
-            patient_id=patient_id, coverage_id=coverage_id, request_options=request_options
+            patient_id=patient_id,
+            coverage_id=coverage_id,
+            file_type=file_type,
+            patient_notes=patient_notes,
+            sort_field=sort_field,
+            sort_direction=sort_direction,
+            request_options=request_options,
         )
         return _response.data
 
@@ -429,6 +451,10 @@ class AsyncV1Client:
         *,
         patient_id: typing.Optional[str] = None,
         coverage_id: typing.Optional[str] = None,
+        file_type: typing.Optional[str] = None,
+        patient_notes: typing.Optional[str] = None,
+        sort_field: typing.Optional[ImageSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.List[Image]:
         """
@@ -439,6 +465,16 @@ class AsyncV1Client:
         patient_id : typing.Optional[str]
 
         coverage_id : typing.Optional[str]
+
+        file_type : typing.Optional[str]
+
+        patient_notes : typing.Optional[str]
+
+        sort_field : typing.Optional[ImageSortField]
+            The field to order by. Defaults to updatedAt.
+
+        sort_direction : typing.Optional[SortDirection]
+            The direction to order by. Defaults to desc.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -466,6 +502,12 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.get_multi(
-            patient_id=patient_id, coverage_id=coverage_id, request_options=request_options
+            patient_id=patient_id,
+            coverage_id=coverage_id,
+            file_type=file_type,
+            patient_notes=patient_notes,
+            sort_field=sort_field,
+            sort_direction=sort_direction,
+            request_options=request_options,
         )
         return _response.data

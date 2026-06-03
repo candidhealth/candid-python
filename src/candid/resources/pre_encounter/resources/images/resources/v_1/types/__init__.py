@@ -10,6 +10,7 @@ if typing.TYPE_CHECKING:
     from .coverage_image_side import CoverageImageSide
     from .image import Image
     from .image_id import ImageId
+    from .image_sort_field import ImageSortField
     from .image_status import ImageStatus
     from .mutable_image import MutableImage
     from .patient_association import PatientAssociation
@@ -18,6 +19,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CoverageImageSide": ".coverage_image_side",
     "Image": ".image",
     "ImageId": ".image_id",
+    "ImageSortField": ".image_sort_field",
     "ImageStatus": ".image_status",
     "MutableImage": ".mutable_image",
     "PatientAssociation": ".patient_association",
@@ -50,6 +52,7 @@ __all__ = [
     "CoverageImageSide",
     "Image",
     "ImageId",
+    "ImageSortField",
     "ImageStatus",
     "MutableImage",
     "PatientAssociation",

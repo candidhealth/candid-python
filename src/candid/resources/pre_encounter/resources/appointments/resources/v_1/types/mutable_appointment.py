@@ -9,6 +9,7 @@ from .....common.types.external_provider import ExternalProvider
 from .....common.types.patient_id import PatientId
 from .appointment_status import AppointmentStatus
 from .appointment_work_queue import AppointmentWorkQueue
+from .not_ready_reason import NotReadyReason
 from .service import Service
 
 
@@ -26,6 +27,11 @@ class MutableAppointment(UniversalBaseModel):
     status: typing.Optional[AppointmentStatus] = pydantic.Field(default=None)
     """
     Defaults to PENDING. If status is NOT_READY, work_queue must be set. If status is READY or CHECKED_IN, work_queue must be null. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.
+    """
+
+    not_ready_reason: typing.Optional[NotReadyReason] = pydantic.Field(default=None)
+    """
+    The reason the appointment is NOT_READY. Must only be set when status is NOT_READY; it is cleared otherwise. MANUAL is the only value that may be set via the API.
     """
 
     service_duration: int = pydantic.Field()

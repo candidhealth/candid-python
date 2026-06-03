@@ -16,6 +16,9 @@ from ...encounter_providers.resources.v_2.types.supervising_provider import Supe
 from ...encounters.resources.v_4.types.clinical_note_category_create import ClinicalNoteCategoryCreate
 from ...encounters.resources.v_4.types.encounter_base import EncounterBase
 from ...encounters.resources.v_4.types.patient_history_category import PatientHistoryCategory
+from ...organization_service_facilities.resources.v_2.types.organization_service_facility_id import (
+    OrganizationServiceFacilityId,
+)
 from ...property_and_casualty.resources.v_1.types.property_casualty_patient_identifier_create import (
     PropertyCasualtyPatientIdentifierCreate,
 )
@@ -46,7 +49,12 @@ class UniversalEncounterCreateFromPreEncounterBase(EncounterBase):
 
     service_facility: typing.Optional[EncounterServiceFacilityBase] = pydantic.Field(default=None)
     """
-    Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. There is no equivalent on the paper UB-04 claim form, but this field is equivalent to Loop 2310E Service Facility Location details on an 837i form, and is used when this is different to the entity identified as the Billing Provider. Note that for an in-network claim to be successfully adjudicated, the service facility address listed
+    Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. There is no equivalent on the paper UB-04 claim form, but this field is equivalent to Loop 2310E Service Facility Location details on an 837i form, and is used when this is different to the entity identified as the Billing Provider. Note that for an in-network claim to be successfully adjudicated, the service facility address listed. This field is mutually exclusive with service_facility_id — providing both will result in a 422 error.
+    """
+
+    service_facility_id: typing.Optional[OrganizationServiceFacilityId] = pydantic.Field(default=None)
+    """
+    The ID of an existing Organization Service Facility to use for this encounter. The service facility's canonical data (name, address, NPI, etc.) will be populated automatically. If the value does not match an existing Organization Service Facility, the request will fail with a 422 error. This field is mutually exclusive with service_facility — providing both will result in a 422 error.
     """
 
     clinical_notes: typing.Optional[typing.List[ClinicalNoteCategoryCreate]] = pydantic.Field(default=None)

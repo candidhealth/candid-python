@@ -12,9 +12,11 @@ from .......core.request_options import RequestOptions
 from ....common.errors.not_found_error import NotFoundError
 from ....common.errors.version_conflict_error import VersionConflictError
 from ....common.types.error_base_4_xx import ErrorBase4Xx
+from ....common.types.sort_direction import SortDirection
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from .types.image import Image
 from .types.image_id import ImageId
+from .types.image_sort_field import ImageSortField
 from .types.mutable_image import MutableImage
 
 # this is used as the default value for optional parameters
@@ -258,6 +260,10 @@ class RawV1Client:
         *,
         patient_id: typing.Optional[str] = None,
         coverage_id: typing.Optional[str] = None,
+        file_type: typing.Optional[str] = None,
+        patient_notes: typing.Optional[str] = None,
+        sort_field: typing.Optional[ImageSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[typing.List[Image]]:
         """
@@ -268,6 +274,16 @@ class RawV1Client:
         patient_id : typing.Optional[str]
 
         coverage_id : typing.Optional[str]
+
+        file_type : typing.Optional[str]
+
+        patient_notes : typing.Optional[str]
+
+        sort_field : typing.Optional[ImageSortField]
+            The field to order by. Defaults to updatedAt.
+
+        sort_direction : typing.Optional[SortDirection]
+            The direction to order by. Defaults to desc.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -283,6 +299,10 @@ class RawV1Client:
             params={
                 "patient_id": patient_id,
                 "coverage_id": coverage_id,
+                "file_type": file_type,
+                "patient_notes": patient_notes,
+                "sort_field": sort_field,
+                "sort_direction": sort_direction,
             },
             request_options=request_options,
         )
@@ -541,6 +561,10 @@ class AsyncRawV1Client:
         *,
         patient_id: typing.Optional[str] = None,
         coverage_id: typing.Optional[str] = None,
+        file_type: typing.Optional[str] = None,
+        patient_notes: typing.Optional[str] = None,
+        sort_field: typing.Optional[ImageSortField] = None,
+        sort_direction: typing.Optional[SortDirection] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[typing.List[Image]]:
         """
@@ -551,6 +575,16 @@ class AsyncRawV1Client:
         patient_id : typing.Optional[str]
 
         coverage_id : typing.Optional[str]
+
+        file_type : typing.Optional[str]
+
+        patient_notes : typing.Optional[str]
+
+        sort_field : typing.Optional[ImageSortField]
+            The field to order by. Defaults to updatedAt.
+
+        sort_direction : typing.Optional[SortDirection]
+            The direction to order by. Defaults to desc.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -566,6 +600,10 @@ class AsyncRawV1Client:
             params={
                 "patient_id": patient_id,
                 "coverage_id": coverage_id,
+                "file_type": file_type,
+                "patient_notes": patient_notes,
+                "sort_field": sort_field,
+                "sort_direction": sort_direction,
             },
             request_options=request_options,
         )

@@ -15,6 +15,7 @@ class Address(UniversalBaseModel):
     state: str
     postal_code: str
     country: str
+    county: typing.Optional[str] = None
     period: typing.Optional[Period] = None
 
     if IS_PYDANTIC_V2:

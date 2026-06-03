@@ -5,6 +5,7 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .....eligibility_checks.resources.v_1.types.eligibility_check_error_details import EligibilityCheckErrorDetails
 from .....eligibility_checks.resources.v_1.types.eligibility_status import EligibilityStatus
 
 
@@ -16,6 +17,7 @@ class LatestEligibilityCheck(UniversalBaseModel):
     check_id: str
     status: EligibilityStatus
     initiated_at: dt.datetime
+    errors: typing.Optional[typing.List[EligibilityCheckErrorDetails]] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

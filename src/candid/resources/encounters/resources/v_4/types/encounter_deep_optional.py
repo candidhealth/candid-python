@@ -33,6 +33,9 @@ from .....encounter_providers.resources.v_2.types.treating_provider_update_with_
 from .....guarantor.resources.v_1.types.guarantor_optional import GuarantorOptional
 from .....individual.types.patient_update_with_optional_address import PatientUpdateWithOptionalAddress
 from .....individual.types.subscriber_create_optional import SubscriberCreateOptional
+from .....organization_service_facilities.resources.v_2.types.organization_service_facility_id import (
+    OrganizationServiceFacilityId,
+)
 from .....property_and_casualty.resources.v_1.types.property_casualty_patient_identifier_create_optional import (
     PropertyCasualtyPatientIdentifierCreateOptional,
 )
@@ -148,6 +151,11 @@ class EncounterDeepOptional(EncounterOptional):
     service_facility: typing.Optional[EncounterServiceFacilityUpdateWithOptionalAddress] = pydantic.Field(default=None)
     """
     Encounter Service facility is typically the location a medical service was rendered, such as a provider office or hospital. For telehealth, service facility can represent the provider's location when the service was delivered (e.g., home), or the location where an in-person visit would have taken place, whichever is easier to identify. If the provider is in-network, service facility may be defined in payer contracts. Box 32 on the CMS-1500 claim form. There is no equivalent on the paper UB-04 claim form, but this field is equivalent to Loop 2310E Service Facility Location details on an 837i form, and is used when this is different to the entity identified as the Billing Provider. Note that for an in-network claim to be successfully adjudicated, the service facility address listed
+    """
+
+    service_facility_id: typing.Optional[OrganizationServiceFacilityId] = pydantic.Field(default=None)
+    """
+    The ID of an existing Organization Service Facility to use for this encounter. The service facility's canonical data (name, address, NPI, etc.) will be populated automatically. If the value does not match an existing Organization Service Facility, the request will fail with a 422 error. This field is mutually exclusive with service_facility — providing both will result in a 422 error.
     """
 
     rendering_provider: typing.Optional[RenderingProviderUpdateWithOptionalAddress] = pydantic.Field(default=None)

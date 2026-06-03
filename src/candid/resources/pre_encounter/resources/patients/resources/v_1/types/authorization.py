@@ -41,6 +41,11 @@ class Authorization(UniversalBaseModel):
     When set, specifies the service facility for which this authorization applies.
     """
 
+    dx_codes: typing.Optional[typing.Set[str]] = pydantic.Field(default=None)
+    """
+    When set, the authorization will only apply when at least one of these diagnosis codes is found on the claim/service lines (in addition to other criteria).
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
