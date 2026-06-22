@@ -18,10 +18,14 @@ from ....common.types.filter_query_string import FilterQueryString
 from ....common.types.page_token import PageToken
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from .types.batch_eligibility_response import BatchEligibilityResponse
+from .types.coordination_of_benefits_request import CoordinationOfBenefitsRequest
+from .types.coordination_of_benefits_response import CoordinationOfBenefitsResponse
 from .types.eligibility_check_page import EligibilityCheckPage
 from .types.eligibility_recommendation import EligibilityRecommendation
 from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
+from .types.insurance_discovery_request import InsuranceDiscoveryRequest
+from .types.insurance_discovery_response import InsuranceDiscoveryResponse
 from .types.payer_search_response import PayerSearchResponse
 from .types.post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
 from .types.vote import Vote
@@ -440,6 +444,89 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def insurance_discovery(
+        self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[InsuranceDiscoveryResponse]:
+        """
+        Sends an insurance discovery check to find potential coverage matches for a patient through Stedi.
+        Given patient demographics, this endpoint discovers what insurance coverages exist for the patient.
+
+        Parameters
+        ----------
+        request : InsuranceDiscoveryRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[InsuranceDiscoveryResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/insurance-discovery",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                InsuranceDiscoveryResponse,
+                parse_obj_as(
+                    type_=InsuranceDiscoveryResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def coordination_of_benefits(
+        self, *, request: CoordinationOfBenefitsRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[CoordinationOfBenefitsResponse]:
+        """
+        Sends a coordination of benefits check through Stedi to determine whether a patient has
+        coverage overlap across multiple payers and, if so, which payer is primary.
+        Medicare and Medicare Advantage plans are not supported.
+
+        Parameters
+        ----------
+        request : CoordinationOfBenefitsRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[CoordinationOfBenefitsResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/coordination-of-benefits",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                CoordinationOfBenefitsResponse,
+                parse_obj_as(
+                    type_=CoordinationOfBenefitsResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -845,6 +932,89 @@ class AsyncRawV1Client:
                 EligibilityCheckPage,
                 parse_obj_as(
                     type_=EligibilityCheckPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def insurance_discovery(
+        self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[InsuranceDiscoveryResponse]:
+        """
+        Sends an insurance discovery check to find potential coverage matches for a patient through Stedi.
+        Given patient demographics, this endpoint discovers what insurance coverages exist for the patient.
+
+        Parameters
+        ----------
+        request : InsuranceDiscoveryRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[InsuranceDiscoveryResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/insurance-discovery",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                InsuranceDiscoveryResponse,
+                parse_obj_as(
+                    type_=InsuranceDiscoveryResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def coordination_of_benefits(
+        self, *, request: CoordinationOfBenefitsRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[CoordinationOfBenefitsResponse]:
+        """
+        Sends a coordination of benefits check through Stedi to determine whether a patient has
+        coverage overlap across multiple payers and, if so, which payer is primary.
+        Medicare and Medicare Advantage plans are not supported.
+
+        Parameters
+        ----------
+        request : CoordinationOfBenefitsRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[CoordinationOfBenefitsResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/coordination-of-benefits",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                CoordinationOfBenefitsResponse,
+                parse_obj_as(
+                    type_=CoordinationOfBenefitsResponse,  # type: ignore
                     object_=_response_json,
                 ),
             )

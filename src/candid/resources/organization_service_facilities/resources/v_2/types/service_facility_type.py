@@ -450,7 +450,7 @@ class ServiceFacilityType(enum.StrEnum):
 
     OPTHALMOLOGY_CLINIC = "OPH"
     """
-    Opthalmology clinic.
+    Ophthalmology clinic.
     """
 
     OPTOMETRY_CLINIC = "OPTC"

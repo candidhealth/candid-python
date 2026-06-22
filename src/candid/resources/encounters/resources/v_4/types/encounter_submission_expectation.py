@@ -9,7 +9,7 @@ T_Result = typing.TypeVar("T_Result")
 
 class EncounterSubmissionExpectation(enum.StrEnum):
     """
-    Used to describe the currently expected target form for this encounter.  This effects what
+    Used to describe the currently expected target form for this encounter.  This affects what
     validations and queues the form is processed under.  Before submission,
     this value will be required by some rules or user intervention.  It can be changed
     at any time, although doing so may incur other rules.

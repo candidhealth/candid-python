@@ -121,7 +121,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ImportInvoicesPage:
         """
-        Returns all Invoices for the authenticated user's organziation with all filters applied.
+        Returns all Invoices for the authenticated user's organization with all filters applied.
 
         Parameters
         ----------
@@ -372,7 +372,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ImportInvoicesPage:
         """
-        Returns all Invoices for the authenticated user's organziation with all filters applied.
+        Returns all Invoices for the authenticated user's organization with all filters applied.
 
         Parameters
         ----------

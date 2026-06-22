@@ -12,7 +12,7 @@ class NewRateVersion(UniversalBaseModel):
     rate_id: RateId
     previous_version: int = pydantic.Field()
     """
-    New versions of rates must indicate the exact version they modify. When the system attempts to save this new version, if the latest version in the system does not equal this previos_version, the request will be rejected with a EntityConflictError.
+    New versions of rates must indicate the exact version they modify. When the system attempts to save this new version, if the latest version in the system does not equal this previous_version, the request will be rejected with a EntityConflictError.
     """
 
     entries: typing.List[RateEntry]

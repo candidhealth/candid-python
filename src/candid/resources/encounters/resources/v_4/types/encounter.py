@@ -821,7 +821,7 @@ class Encounter(EncounterBase):
 
     submission_expectation: typing.Optional[EncounterSubmissionExpectation] = pydantic.Field(default=None)
     """
-    Describes the currently expected target form for this encounter.  This effects what validations and queues the form is processed under.  When this value is not set, it should be assumed to be TARGET_PROFESSIONAL.
+    Describes the currently expected target form for this encounter.  This affects what validations and queues the form is processed under.  When this value is not set, it should be assumed to be TARGET_PROFESSIONAL.
     """
 
     type_of_bill: typing.Optional[TypeOfBillComposite] = pydantic.Field(default=None)

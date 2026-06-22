@@ -21,7 +21,10 @@ class MutableOrganizationExternalProvider(UniversalBaseModel):
     tax_id: typing.Optional[str] = None
     taxonomy_code: typing.Optional[str] = None
     phone_number: typing.Optional[str] = None
+    other_phone_numbers: typing.Optional[typing.List[str]] = None
     fax_number: typing.Optional[str] = None
+    other_fax_numbers: typing.Optional[typing.List[str]] = None
+    emails: typing.Optional[typing.List[str]] = None
     license_type: typing.Optional[LicenseType] = None
     addresses: typing.Optional[typing.List[Address]] = None
 

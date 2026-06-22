@@ -22,6 +22,7 @@ from ....common.types.sort_direction import SortDirection
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from ....lists.resources.v_1.types.sort_field_string import SortFieldString
 from .types.appointment import Appointment
+from .types.counts_response import CountsResponse
 from .types.mutable_appointment import MutableAppointment
 from .types.visits_page import VisitsPage
 
@@ -165,6 +166,70 @@ class RawV1Client:
                 VisitsPage,
                 parse_obj_as(
                     type_=VisitsPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_counts(
+        self,
+        *,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[CountsResponse]:
+        """
+        Gets aggregate counts for the visits matching the given filters.
+
+        The counts respect all provided filters but are independent of pagination, so this can be fetched
+        once when filters change instead of on every page of `get_visits`.
+
+        **IMPORTANT:** Like `get_visits`, this endpoint requires a date filter on `appointment.startTimestamp`
+        to ensure acceptable query performance.
+
+        Parameters
+        ----------
+        filters : typing.Optional[FilterQueryString]
+            **Required:** Must include a date filter on appointment.startTimestamp (using gt, lt, or eq operators).
+            Example: appointment.startTimestamp|gt|2024-01-01
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[CountsResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "appointments/v1/visits/counts",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "filters": filters,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                CountsResponse,
+                parse_obj_as(
+                    type_=CountsResponse,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -589,6 +654,70 @@ class AsyncRawV1Client:
                 VisitsPage,
                 parse_obj_as(
                     type_=VisitsPage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_counts(
+        self,
+        *,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[CountsResponse]:
+        """
+        Gets aggregate counts for the visits matching the given filters.
+
+        The counts respect all provided filters but are independent of pagination, so this can be fetched
+        once when filters change instead of on every page of `get_visits`.
+
+        **IMPORTANT:** Like `get_visits`, this endpoint requires a date filter on `appointment.startTimestamp`
+        to ensure acceptable query performance.
+
+        Parameters
+        ----------
+        filters : typing.Optional[FilterQueryString]
+            **Required:** Must include a date filter on appointment.startTimestamp (using gt, lt, or eq operators).
+            Example: appointment.startTimestamp|gt|2024-01-01
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[CountsResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "appointments/v1/visits/counts",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "filters": filters,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                CountsResponse,
+                parse_obj_as(
+                    type_=CountsResponse,  # type: ignore
                     object_=_response_json,
                 ),
             )

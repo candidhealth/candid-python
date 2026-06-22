@@ -30,7 +30,7 @@ class ServiceFacilityStatus(enum.StrEnum):
 
     SUSPENDED = "suspended"
     """
-    TThe location is temporarily closed.
+    The location is temporarily closed.
     """
 
     _UNKNOWN = "__SERVICEFACILITYSTATUS_UNKNOWN__"

@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
+from .....payers.resources.v_4.types.payer_uuid import PayerUuid
 from .insurance_card_base import InsuranceCardBase
 from .insurance_card_id import InsuranceCardId
 
@@ -43,6 +44,7 @@ class InsuranceCard(InsuranceCardBase):
     rx_pcn: typing.Optional[str] = None
     image_url_front: typing.Optional[str] = None
     image_url_back: typing.Optional[str] = None
+    payer_uuid: typing.Optional[PayerUuid] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

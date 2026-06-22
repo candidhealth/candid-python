@@ -12,6 +12,7 @@ from ....common.types.sort_direction import SortDirection
 from ....lists.resources.v_1.types.sort_field_string import SortFieldString
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.appointment import Appointment
+from .types.counts_response import CountsResponse
 from .types.mutable_appointment import MutableAppointment
 from .types.visits_page import VisitsPage
 
@@ -144,6 +145,47 @@ class V1Client:
             filters=filters,
             request_options=request_options,
         )
+        return _response.data
+
+    def get_counts(
+        self,
+        *,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> CountsResponse:
+        """
+        Gets aggregate counts for the visits matching the given filters.
+
+        The counts respect all provided filters but are independent of pagination, so this can be fetched
+        once when filters change instead of on every page of `get_visits`.
+
+        **IMPORTANT:** Like `get_visits`, this endpoint requires a date filter on `appointment.startTimestamp`
+        to ensure acceptable query performance.
+
+        Parameters
+        ----------
+        filters : typing.Optional[FilterQueryString]
+            **Required:** Must include a date filter on appointment.startTimestamp (using gt, lt, or eq operators).
+            Example: appointment.startTimestamp|gt|2024-01-01
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CountsResponse
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.appointments.v_1.get_counts()
+        """
+        _response = self._raw_client.get_counts(filters=filters, request_options=request_options)
         return _response.data
 
     def get(self, id: AppointmentId, *, request_options: typing.Optional[RequestOptions] = None) -> Appointment:
@@ -476,6 +518,55 @@ class AsyncV1Client:
             filters=filters,
             request_options=request_options,
         )
+        return _response.data
+
+    async def get_counts(
+        self,
+        *,
+        filters: typing.Optional[FilterQueryString] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> CountsResponse:
+        """
+        Gets aggregate counts for the visits matching the given filters.
+
+        The counts respect all provided filters but are independent of pagination, so this can be fetched
+        once when filters change instead of on every page of `get_visits`.
+
+        **IMPORTANT:** Like `get_visits`, this endpoint requires a date filter on `appointment.startTimestamp`
+        to ensure acceptable query performance.
+
+        Parameters
+        ----------
+        filters : typing.Optional[FilterQueryString]
+            **Required:** Must include a date filter on appointment.startTimestamp (using gt, lt, or eq operators).
+            Example: appointment.startTimestamp|gt|2024-01-01
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CountsResponse
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.appointments.v_1.get_counts()
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_counts(filters=filters, request_options=request_options)
         return _response.data
 
     async def get(self, id: AppointmentId, *, request_options: typing.Optional[RequestOptions] = None) -> Appointment:

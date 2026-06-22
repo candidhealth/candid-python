@@ -7,7 +7,20 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .batch_eligibility_response import BatchEligibilityResponse
+    from .cob import Cob
+    from .cob_address import CobAddress
+    from .cob_dependent import CobDependent
+    from .cob_encounter import CobEncounter
+    from .cob_payer import CobPayer
+    from .cob_plan_date_information import CobPlanDateInformation
+    from .cob_provider import CobProvider
+    from .cob_response_dependent import CobResponseDependent
+    from .cob_response_provider import CobResponseProvider
+    from .cob_response_subscriber import CobResponseSubscriber
+    from .cob_subscriber import CobSubscriber
     from .coordination_of_benefits_recommendation import CoordinationOfBenefitsRecommendation
+    from .coordination_of_benefits_request import CoordinationOfBenefitsRequest
+    from .coordination_of_benefits_response import CoordinationOfBenefitsResponse
     from .copay_estimation_recommendation import CopayEstimationRecommendation
     from .copay_estimation_recommendation_payload import CopayEstimationRecommendationPayload
     from .eligibility_check import EligibilityCheck
@@ -31,6 +44,15 @@ if typing.TYPE_CHECKING:
     from .eligibility_status import EligibilityStatus
     from .encounter import Encounter
     from .individual_provider import IndividualProvider
+    from .insurance_discovery_address import InsuranceDiscoveryAddress
+    from .insurance_discovery_dependent import InsuranceDiscoveryDependent
+    from .insurance_discovery_encounter import InsuranceDiscoveryEncounter
+    from .insurance_discovery_gender import InsuranceDiscoveryGender
+    from .insurance_discovery_provider import InsuranceDiscoveryProvider
+    from .insurance_discovery_request import InsuranceDiscoveryRequest
+    from .insurance_discovery_response import InsuranceDiscoveryResponse
+    from .insurance_discovery_status import InsuranceDiscoveryStatus
+    from .insurance_discovery_subscriber import InsuranceDiscoverySubscriber
     from .medicare_advantage_recommendation import MedicareAdvantageRecommendation
     from .medicare_advantage_recommendation_payload import MedicareAdvantageRecommendationPayload
     from .organization_provider import OrganizationProvider
@@ -48,7 +70,20 @@ if typing.TYPE_CHECKING:
     from .vote_value import VoteValue
 _dynamic_imports: typing.Dict[str, str] = {
     "BatchEligibilityResponse": ".batch_eligibility_response",
+    "Cob": ".cob",
+    "CobAddress": ".cob_address",
+    "CobDependent": ".cob_dependent",
+    "CobEncounter": ".cob_encounter",
+    "CobPayer": ".cob_payer",
+    "CobPlanDateInformation": ".cob_plan_date_information",
+    "CobProvider": ".cob_provider",
+    "CobResponseDependent": ".cob_response_dependent",
+    "CobResponseProvider": ".cob_response_provider",
+    "CobResponseSubscriber": ".cob_response_subscriber",
+    "CobSubscriber": ".cob_subscriber",
     "CoordinationOfBenefitsRecommendation": ".coordination_of_benefits_recommendation",
+    "CoordinationOfBenefitsRequest": ".coordination_of_benefits_request",
+    "CoordinationOfBenefitsResponse": ".coordination_of_benefits_response",
     "CopayEstimationRecommendation": ".copay_estimation_recommendation",
     "CopayEstimationRecommendationPayload": ".copay_estimation_recommendation_payload",
     "EligibilityCheck": ".eligibility_check",
@@ -70,6 +105,15 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EligibilityStatus": ".eligibility_status",
     "Encounter": ".encounter",
     "IndividualProvider": ".individual_provider",
+    "InsuranceDiscoveryAddress": ".insurance_discovery_address",
+    "InsuranceDiscoveryDependent": ".insurance_discovery_dependent",
+    "InsuranceDiscoveryEncounter": ".insurance_discovery_encounter",
+    "InsuranceDiscoveryGender": ".insurance_discovery_gender",
+    "InsuranceDiscoveryProvider": ".insurance_discovery_provider",
+    "InsuranceDiscoveryRequest": ".insurance_discovery_request",
+    "InsuranceDiscoveryResponse": ".insurance_discovery_response",
+    "InsuranceDiscoveryStatus": ".insurance_discovery_status",
+    "InsuranceDiscoverySubscriber": ".insurance_discovery_subscriber",
     "MedicareAdvantageRecommendation": ".medicare_advantage_recommendation",
     "MedicareAdvantageRecommendationPayload": ".medicare_advantage_recommendation_payload",
     "OrganizationProvider": ".organization_provider",
@@ -111,7 +155,20 @@ def __dir__():
 
 __all__ = [
     "BatchEligibilityResponse",
+    "Cob",
+    "CobAddress",
+    "CobDependent",
+    "CobEncounter",
+    "CobPayer",
+    "CobPlanDateInformation",
+    "CobProvider",
+    "CobResponseDependent",
+    "CobResponseProvider",
+    "CobResponseSubscriber",
+    "CobSubscriber",
     "CoordinationOfBenefitsRecommendation",
+    "CoordinationOfBenefitsRequest",
+    "CoordinationOfBenefitsResponse",
     "CopayEstimationRecommendation",
     "CopayEstimationRecommendationPayload",
     "EligibilityCheck",
@@ -133,6 +190,15 @@ __all__ = [
     "EligibilityStatus",
     "Encounter",
     "IndividualProvider",
+    "InsuranceDiscoveryAddress",
+    "InsuranceDiscoveryDependent",
+    "InsuranceDiscoveryEncounter",
+    "InsuranceDiscoveryGender",
+    "InsuranceDiscoveryProvider",
+    "InsuranceDiscoveryRequest",
+    "InsuranceDiscoveryResponse",
+    "InsuranceDiscoveryStatus",
+    "InsuranceDiscoverySubscriber",
     "MedicareAdvantageRecommendation",
     "MedicareAdvantageRecommendationPayload",
     "OrganizationProvider",

@@ -45,7 +45,7 @@ class UniversalEncounterCreate(UniversalEncounterCreateBase):
 
     submission_expectation: EncounterSubmissionExpectation = pydantic.Field()
     """
-    Describes the currently expected target form for this encounter.  This can change later, but it orients this encounter in the pipeline and effects reporting.
+    Describes the currently expected target form for this encounter.  This can change later, but it orients this encounter in the pipeline and affects reporting.
     """
 
     attending_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)

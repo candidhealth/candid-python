@@ -5,11 +5,18 @@ import typing
 import pydantic
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...commons.types.state import State
+from ...organization_service_facilities.resources.v_2.types.organization_service_facility_id import (
+    OrganizationServiceFacilityId,
+)
 
 
 class MedicaidProviderIdentifier(UniversalBaseModel):
     state: State
     provider_number: str
+    organization_service_facility_id: typing.Optional[OrganizationServiceFacilityId] = pydantic.Field(default=None)
+    """
+    When set, this identifier applies only to the given service facility.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

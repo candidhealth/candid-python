@@ -8,12 +8,16 @@ import pydantic
 import typing_extensions
 from ....core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...commons.types.state import State
+from ...organization_service_facilities.resources.v_2.types.organization_service_facility_id import (
+    OrganizationServiceFacilityId,
+)
 
 
 class IdentifierValue_MedicareProviderIdentifier(UniversalBaseModel):
     type: typing.Literal["medicare_provider_identifier"] = "medicare_provider_identifier"
     state: State
     provider_number: str
+    organization_service_facility_id: typing.Optional[OrganizationServiceFacilityId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
@@ -29,6 +33,7 @@ class IdentifierValue_MedicaidProviderIdentifier(UniversalBaseModel):
     type: typing.Literal["medicaid_provider_identifier"] = "medicaid_provider_identifier"
     state: State
     provider_number: str
+    organization_service_facility_id: typing.Optional[OrganizationServiceFacilityId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

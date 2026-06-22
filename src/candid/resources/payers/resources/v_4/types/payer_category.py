@@ -21,6 +21,10 @@ class PayerCategory(enum.StrEnum):
     WORKERS_COMP = "WORKERS_COMP"
     OTHER_GOVERNMENT = "OTHER_GOVERNMENT"
     AUTO_TPL = "AUTO_TPL"
+    LIEN = "LIEN"
+    HUMANA = "HUMANA"
+    MOLINA = "MOLINA"
+    OTHER_FACILITY = "OTHER_FACILITY"
     _UNKNOWN = "__PAYERCATEGORY_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -47,6 +51,10 @@ class PayerCategory(enum.StrEnum):
         workers_comp: typing.Callable[[], T_Result],
         other_government: typing.Callable[[], T_Result],
         auto_tpl: typing.Callable[[], T_Result],
+        lien: typing.Callable[[], T_Result],
+        humana: typing.Callable[[], T_Result],
+        molina: typing.Callable[[], T_Result],
+        other_facility: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is PayerCategory.BCBS:
@@ -75,4 +83,12 @@ class PayerCategory(enum.StrEnum):
             return other_government()
         if self is PayerCategory.AUTO_TPL:
             return auto_tpl()
+        if self is PayerCategory.LIEN:
+            return lien()
+        if self is PayerCategory.HUMANA:
+            return humana()
+        if self is PayerCategory.MOLINA:
+            return molina()
+        if self is PayerCategory.OTHER_FACILITY:
+            return other_facility()
         return _unknown_member(self._value_)

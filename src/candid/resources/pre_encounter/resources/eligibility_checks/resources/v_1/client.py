@@ -9,10 +9,14 @@ from ....common.types.filter_query_string import FilterQueryString
 from ....common.types.page_token import PageToken
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.batch_eligibility_response import BatchEligibilityResponse
+from .types.coordination_of_benefits_request import CoordinationOfBenefitsRequest
+from .types.coordination_of_benefits_response import CoordinationOfBenefitsResponse
 from .types.eligibility_check_page import EligibilityCheckPage
 from .types.eligibility_recommendation import EligibilityRecommendation
 from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
+from .types.insurance_discovery_request import InsuranceDiscoveryRequest
+from .types.insurance_discovery_response import InsuranceDiscoveryResponse
 from .types.payer_search_response import PayerSearchResponse
 from .types.post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
 from .types.vote import Vote
@@ -413,6 +417,103 @@ class V1Client:
             initiated_at_max=initiated_at_max,
             request_options=request_options,
         )
+        return _response.data
+
+    def insurance_discovery(
+        self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> InsuranceDiscoveryResponse:
+        """
+        Sends an insurance discovery check to find potential coverage matches for a patient through Stedi.
+        Given patient demographics, this endpoint discovers what insurance coverages exist for the patient.
+
+        Parameters
+        ----------
+        request : InsuranceDiscoveryRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsuranceDiscoveryResponse
+
+        Examples
+        --------
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            InsuranceDiscoveryProvider,
+            InsuranceDiscoveryRequest,
+            InsuranceDiscoverySubscriber,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.insurance_discovery(
+            request=InsuranceDiscoveryRequest(
+                provider=InsuranceDiscoveryProvider(
+                    npi="npi",
+                ),
+                subscriber=InsuranceDiscoverySubscriber(
+                    first_name="first_name",
+                    last_name="last_name",
+                ),
+            ),
+        )
+        """
+        _response = self._raw_client.insurance_discovery(request=request, request_options=request_options)
+        return _response.data
+
+    def coordination_of_benefits(
+        self, *, request: CoordinationOfBenefitsRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> CoordinationOfBenefitsResponse:
+        """
+        Sends a coordination of benefits check through Stedi to determine whether a patient has
+        coverage overlap across multiple payers and, if so, which payer is primary.
+        Medicare and Medicare Advantage plans are not supported.
+
+        Parameters
+        ----------
+        request : CoordinationOfBenefitsRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CoordinationOfBenefitsResponse
+
+        Examples
+        --------
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            CobEncounter,
+            CobProvider,
+            CobSubscriber,
+            CoordinationOfBenefitsRequest,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.coordination_of_benefits(
+            request=CoordinationOfBenefitsRequest(
+                trading_partner_service_id="trading_partner_service_id",
+                provider=CobProvider(
+                    npi="npi",
+                ),
+                subscriber=CobSubscriber(
+                    first_name="first_name",
+                    last_name="last_name",
+                    date_of_birth="date_of_birth",
+                ),
+                encounter=CobEncounter(),
+            ),
+        )
+        """
+        _response = self._raw_client.coordination_of_benefits(request=request, request_options=request_options)
         return _response.data
 
 
@@ -872,4 +973,117 @@ class AsyncV1Client:
             initiated_at_max=initiated_at_max,
             request_options=request_options,
         )
+        return _response.data
+
+    async def insurance_discovery(
+        self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> InsuranceDiscoveryResponse:
+        """
+        Sends an insurance discovery check to find potential coverage matches for a patient through Stedi.
+        Given patient demographics, this endpoint discovers what insurance coverages exist for the patient.
+
+        Parameters
+        ----------
+        request : InsuranceDiscoveryRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsuranceDiscoveryResponse
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            InsuranceDiscoveryProvider,
+            InsuranceDiscoveryRequest,
+            InsuranceDiscoverySubscriber,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.insurance_discovery(
+                request=InsuranceDiscoveryRequest(
+                    provider=InsuranceDiscoveryProvider(
+                        npi="npi",
+                    ),
+                    subscriber=InsuranceDiscoverySubscriber(
+                        first_name="first_name",
+                        last_name="last_name",
+                    ),
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.insurance_discovery(request=request, request_options=request_options)
+        return _response.data
+
+    async def coordination_of_benefits(
+        self, *, request: CoordinationOfBenefitsRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> CoordinationOfBenefitsResponse:
+        """
+        Sends a coordination of benefits check through Stedi to determine whether a patient has
+        coverage overlap across multiple payers and, if so, which payer is primary.
+        Medicare and Medicare Advantage plans are not supported.
+
+        Parameters
+        ----------
+        request : CoordinationOfBenefitsRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        CoordinationOfBenefitsResponse
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            CobEncounter,
+            CobProvider,
+            CobSubscriber,
+            CoordinationOfBenefitsRequest,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.coordination_of_benefits(
+                request=CoordinationOfBenefitsRequest(
+                    trading_partner_service_id="trading_partner_service_id",
+                    provider=CobProvider(
+                        npi="npi",
+                    ),
+                    subscriber=CobSubscriber(
+                        first_name="first_name",
+                        last_name="last_name",
+                        date_of_birth="date_of_birth",
+                    ),
+                    encounter=CobEncounter(),
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.coordination_of_benefits(request=request, request_options=request_options)
         return _response.data

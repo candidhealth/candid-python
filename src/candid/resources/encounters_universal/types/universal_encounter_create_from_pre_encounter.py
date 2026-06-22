@@ -22,7 +22,7 @@ from .universal_encounter_create_from_pre_encounter_base import UniversalEncount
 class UniversalEncounterCreateFromPreEncounter(UniversalEncounterCreateFromPreEncounterBase):
     submission_expectation: EncounterSubmissionExpectation = pydantic.Field()
     """
-    Describes the currently expected target form for this encounter.  This effects what validations and queues the form is processed under.
+    Describes the currently expected target form for this encounter.  This affects what validations and queues the form is processed under.
     """
 
     rendering_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)

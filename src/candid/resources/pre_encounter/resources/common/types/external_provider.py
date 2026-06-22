@@ -26,6 +26,8 @@ class ExternalProvider(UniversalBaseModel):
     period: typing.Optional[Period] = None
     canonical_id: typing.Optional[CanonicalProviderId] = None
     fax: typing.Optional[str] = None
+    other_fax_numbers: typing.Optional[typing.List[str]] = None
+    emails: typing.Optional[typing.List[str]] = None
     service_facilities: typing.Optional[typing.List[PatientServiceFacility]] = pydantic.Field(default=None)
     """
     Associated service facilities for this provider.

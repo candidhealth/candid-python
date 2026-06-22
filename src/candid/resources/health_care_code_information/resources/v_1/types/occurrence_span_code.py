@@ -50,12 +50,12 @@ class OccurrenceSpanCode(enum.StrEnum):
 
     C_78 = "78"
     """
-    SNF PROIR STAY DATES
+    SNF PRIOR STAY DATES
     """
 
     C_80 = "80"
     """
-    PRIOR SAME-SNF STAY DATES FOR PAYMENT BAN PRUPOSES
+    PRIOR SAME-SNF STAY DATES FOR PAYMENT BAN PURPOSES
     """
 
     C_81 = "81"
