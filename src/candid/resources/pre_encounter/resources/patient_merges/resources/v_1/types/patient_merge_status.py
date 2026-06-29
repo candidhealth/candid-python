@@ -6,25 +6,15 @@ import typing
 
 import pydantic
 import typing_extensions
-from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class PaymentMethod_Cash(UniversalBaseModel):
-    type: typing.Literal["cash"] = "cash"
+class PatientMergeStatus_None(UniversalBaseModel):
+    """
+    The merge status of a patient.
+    """
 
-    if IS_PYDANTIC_V2:
-        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
-    else:
-
-        class Config:
-            frozen = True
-            smart_union = True
-            extra = pydantic.Extra.allow
-
-
-class PaymentMethod_Check(UniversalBaseModel):
-    type: typing.Literal["check"] = "check"
-    check_number: str
+    merge_status: typing.Literal["none"] = "none"
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
@@ -36,9 +26,13 @@ class PaymentMethod_Check(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-class PaymentMethod_Card(UniversalBaseModel):
-    type: typing.Literal["card"] = "card"
-    authorization_number: typing.Optional[str] = None
+class PatientMergeStatus_Alternative(UniversalBaseModel):
+    """
+    The merge status of a patient.
+    """
+
+    merge_status: typing.Literal["alternative"] = "alternative"
+    primary_mrn: str
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
@@ -50,9 +44,13 @@ class PaymentMethod_Card(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-class PaymentMethod_MoneyOrder(UniversalBaseModel):
-    type: typing.Literal["money_order"] = "money_order"
-    money_order_serial_number: str
+class PatientMergeStatus_Primary(UniversalBaseModel):
+    """
+    The merge status of a patient.
+    """
+
+    merge_status: typing.Literal["primary"] = "primary"
+    alternative_mrns: typing.List[str]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
@@ -64,7 +62,7 @@ class PaymentMethod_MoneyOrder(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
-PaymentMethod = typing_extensions.Annotated[
-    typing.Union[PaymentMethod_Cash, PaymentMethod_Check, PaymentMethod_Card, PaymentMethod_MoneyOrder],
-    pydantic.Field(discriminator="type"),
+PatientMergeStatus = typing_extensions.Annotated[
+    typing.Union[PatientMergeStatus_None, PatientMergeStatus_Alternative, PatientMergeStatus_Primary],
+    pydantic.Field(discriminator="merge_status"),
 ]

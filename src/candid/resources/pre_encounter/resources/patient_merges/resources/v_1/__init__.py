@@ -7,30 +7,26 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
-        Appointment,
-        AppointmentStatus,
-        AppointmentWorkQueue,
-        CountsResponse,
-        MutableAppointment,
-        NotReadyReason,
-        ReadySource,
-        Service,
-        UniversalServiceIdentifier,
-        Visit,
-        VisitsPage,
+        AlternativeStatus,
+        MutablePatientMerge,
+        NoneStatus,
+        PatientMerge,
+        PatientMergeStatus,
+        PatientMergeStatus_Alternative,
+        PatientMergeStatus_None,
+        PatientMergeStatus_Primary,
+        PrimaryStatus,
     )
 _dynamic_imports: typing.Dict[str, str] = {
-    "Appointment": ".types",
-    "AppointmentStatus": ".types",
-    "AppointmentWorkQueue": ".types",
-    "CountsResponse": ".types",
-    "MutableAppointment": ".types",
-    "NotReadyReason": ".types",
-    "ReadySource": ".types",
-    "Service": ".types",
-    "UniversalServiceIdentifier": ".types",
-    "Visit": ".types",
-    "VisitsPage": ".types",
+    "AlternativeStatus": ".types",
+    "MutablePatientMerge": ".types",
+    "NoneStatus": ".types",
+    "PatientMerge": ".types",
+    "PatientMergeStatus": ".types",
+    "PatientMergeStatus_Alternative": ".types",
+    "PatientMergeStatus_None": ".types",
+    "PatientMergeStatus_Primary": ".types",
+    "PrimaryStatus": ".types",
 }
 
 
@@ -56,15 +52,13 @@ def __dir__():
 
 
 __all__ = [
-    "Appointment",
-    "AppointmentStatus",
-    "AppointmentWorkQueue",
-    "CountsResponse",
-    "MutableAppointment",
-    "NotReadyReason",
-    "ReadySource",
-    "Service",
-    "UniversalServiceIdentifier",
-    "Visit",
-    "VisitsPage",
+    "AlternativeStatus",
+    "MutablePatientMerge",
+    "NoneStatus",
+    "PatientMerge",
+    "PatientMergeStatus",
+    "PatientMergeStatus_Alternative",
+    "PatientMergeStatus_None",
+    "PatientMergeStatus_Primary",
+    "PrimaryStatus",
 ]

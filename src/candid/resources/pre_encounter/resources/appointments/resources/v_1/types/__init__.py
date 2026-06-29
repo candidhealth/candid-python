@@ -12,6 +12,7 @@ if typing.TYPE_CHECKING:
     from .counts_response import CountsResponse
     from .mutable_appointment import MutableAppointment
     from .not_ready_reason import NotReadyReason
+    from .ready_source import ReadySource
     from .service import Service
     from .universal_service_identifier import UniversalServiceIdentifier
     from .visit import Visit
@@ -23,6 +24,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CountsResponse": ".counts_response",
     "MutableAppointment": ".mutable_appointment",
     "NotReadyReason": ".not_ready_reason",
+    "ReadySource": ".ready_source",
     "Service": ".service",
     "UniversalServiceIdentifier": ".universal_service_identifier",
     "Visit": ".visit",
@@ -58,6 +60,7 @@ __all__ = [
     "CountsResponse",
     "MutableAppointment",
     "NotReadyReason",
+    "ReadySource",
     "Service",
     "UniversalServiceIdentifier",
     "Visit",

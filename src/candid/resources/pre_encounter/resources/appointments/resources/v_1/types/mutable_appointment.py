@@ -10,6 +10,7 @@ from .....common.types.patient_id import PatientId
 from .appointment_status import AppointmentStatus
 from .appointment_work_queue import AppointmentWorkQueue
 from .not_ready_reason import NotReadyReason
+from .ready_source import ReadySource
 from .service import Service
 
 
@@ -31,7 +32,12 @@ class MutableAppointment(UniversalBaseModel):
 
     not_ready_reason: typing.Optional[NotReadyReason] = pydantic.Field(default=None)
     """
-    The reason the appointment is NOT_READY. Must only be set when status is NOT_READY; it is cleared otherwise. MANUAL is the only value that may be set via the API.
+    The reason the appointment is NOT_READY. Must only be set when status is NOT_READY; it is cleared otherwise. It is not recommended to change this value manually via API.
+    """
+
+    ready_source: typing.Optional[ReadySource] = pydantic.Field(default=None)
+    """
+    The method that set the appointment status to READY. It is not recommended to change this value manually via API. Must only be set when the status is READY or CHECKED_IN, it is cleared otherwise.
     """
 
     service_duration: int = pydantic.Field()

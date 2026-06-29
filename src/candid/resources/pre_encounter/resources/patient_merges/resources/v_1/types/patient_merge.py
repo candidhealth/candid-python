@@ -3,11 +3,18 @@
 import typing
 
 import pydantic
-from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ........core.pydantic_utilities import IS_PYDANTIC_V2
+from .....common.types.base_model import BaseModel
+from .....common.types.patient_merge_id import PatientMergeId
+from .mutable_patient_merge import MutablePatientMerge
 
 
-class CardPaymentMethodCreate(UniversalBaseModel):
-    authorization_number: typing.Optional[str] = None
+class PatientMerge(BaseModel, MutablePatientMerge):
+    """
+    A PatientMerge object with immutable server-owned properties.
+    """
+
+    id: PatientMergeId
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

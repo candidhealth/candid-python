@@ -18,6 +18,7 @@ if typing.TYPE_CHECKING:
         AsyncOrganizationExternalProvidersClient,
         OrganizationExternalProvidersClient,
     )
+    from .resources.patient_merges.client import AsyncPatientMergesClient, PatientMergesClient
     from .resources.patients.client import AsyncPatientsClient, PatientsClient
     from .resources.tags.client import AsyncTagsClient, TagsClient
 
@@ -33,6 +34,7 @@ class PreEncounterClient:
         self._lists: typing.Optional[ListsClient] = None
         self._notes: typing.Optional[NotesClient] = None
         self._organization_external_providers: typing.Optional[OrganizationExternalProvidersClient] = None
+        self._patient_merges: typing.Optional[PatientMergesClient] = None
         self._patients: typing.Optional[PatientsClient] = None
         self._tags: typing.Optional[TagsClient] = None
 
@@ -108,6 +110,14 @@ class PreEncounterClient:
         return self._organization_external_providers
 
     @property
+    def patient_merges(self):
+        if self._patient_merges is None:
+            from .resources.patient_merges.client import PatientMergesClient  # noqa: E402
+
+            self._patient_merges = PatientMergesClient(client_wrapper=self._client_wrapper)
+        return self._patient_merges
+
+    @property
     def patients(self):
         if self._patients is None:
             from .resources.patients.client import PatientsClient  # noqa: E402
@@ -135,6 +145,7 @@ class AsyncPreEncounterClient:
         self._lists: typing.Optional[AsyncListsClient] = None
         self._notes: typing.Optional[AsyncNotesClient] = None
         self._organization_external_providers: typing.Optional[AsyncOrganizationExternalProvidersClient] = None
+        self._patient_merges: typing.Optional[AsyncPatientMergesClient] = None
         self._patients: typing.Optional[AsyncPatientsClient] = None
         self._tags: typing.Optional[AsyncTagsClient] = None
 
@@ -208,6 +219,14 @@ class AsyncPreEncounterClient:
                 client_wrapper=self._client_wrapper
             )
         return self._organization_external_providers
+
+    @property
+    def patient_merges(self):
+        if self._patient_merges is None:
+            from .resources.patient_merges.client import AsyncPatientMergesClient  # noqa: E402
+
+            self._patient_merges = AsyncPatientMergesClient(client_wrapper=self._client_wrapper)
+        return self._patient_merges
 
     @property
     def patients(self):

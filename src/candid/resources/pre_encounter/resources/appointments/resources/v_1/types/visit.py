@@ -7,6 +7,7 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.organization_id import OrganizationId
 from .....common.types.patient_id import PatientId
+from .....common.types.payer_plan_group_id import PayerPlanGroupId
 from .....coverages.resources.v_1.types.coverage_status import CoverageStatus
 from .....patients.resources.v_1.types.mutable_patient_with_mrn import MutablePatientWithMrn
 from .appointment_status import AppointmentStatus
@@ -24,6 +25,8 @@ class Visit(UniversalBaseModel):
     status: AppointmentStatus
     primary_coverage_status: typing.Optional[CoverageStatus] = None
     secondary_coverage_status: typing.Optional[CoverageStatus] = None
+    primary_payer_name: typing.Optional[str] = None
+    primary_payer_plan_group_id: typing.Optional[PayerPlanGroupId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

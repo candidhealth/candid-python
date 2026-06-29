@@ -22,6 +22,7 @@ if typing.TYPE_CHECKING:
     from .coverage_id import CoverageId
     from .disability_status import DisabilityStatus
     from .error_base_4_xx import ErrorBase4Xx
+    from .error_base_5_xx import ErrorBase5Xx
     from .ethnicity import Ethnicity
     from .external_identifier import ExternalIdentifier
     from .external_provider import ExternalProvider
@@ -34,6 +35,7 @@ if typing.TYPE_CHECKING:
     from .organization_id import OrganizationId
     from .page_token import PageToken
     from .patient_id import PatientId
+    from .patient_merge_id import PatientMergeId
     from .patient_service_facility import PatientServiceFacility
     from .payer_id import PayerId
     from .payer_plan_group_id import PayerPlanGroupId
@@ -64,6 +66,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CoverageId": ".coverage_id",
     "DisabilityStatus": ".disability_status",
     "ErrorBase4Xx": ".error_base_4_xx",
+    "ErrorBase5Xx": ".error_base_5_xx",
     "Ethnicity": ".ethnicity",
     "ExternalIdentifier": ".external_identifier",
     "ExternalProvider": ".external_provider",
@@ -76,6 +79,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OrganizationId": ".organization_id",
     "PageToken": ".page_token",
     "PatientId": ".patient_id",
+    "PatientMergeId": ".patient_merge_id",
     "PatientServiceFacility": ".patient_service_facility",
     "PayerId": ".payer_id",
     "PayerPlanGroupId": ".payer_plan_group_id",
@@ -130,6 +134,7 @@ __all__ = [
     "CoverageId",
     "DisabilityStatus",
     "ErrorBase4Xx",
+    "ErrorBase5Xx",
     "Ethnicity",
     "ExternalIdentifier",
     "ExternalProvider",
@@ -142,6 +147,7 @@ __all__ = [
     "OrganizationId",
     "PageToken",
     "PatientId",
+    "PatientMergeId",
     "PatientServiceFacility",
     "PayerId",
     "PayerPlanGroupId",

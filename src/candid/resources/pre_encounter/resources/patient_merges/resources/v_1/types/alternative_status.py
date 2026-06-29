@@ -3,11 +3,15 @@
 import typing
 
 import pydantic
-from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class CardPaymentMethodCreate(UniversalBaseModel):
-    authorization_number: typing.Optional[str] = None
+class AlternativeStatus(UniversalBaseModel):
+    """
+    Patient has been merged into another patient.
+    """
+
+    primary_mrn: str
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

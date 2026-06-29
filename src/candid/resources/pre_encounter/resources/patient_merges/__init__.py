@@ -6,16 +6,8 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .bad_request_error import BadRequestError
-    from .internal_error import InternalError
-    from .not_found_error import NotFoundError
-    from .version_conflict_error import VersionConflictError
-_dynamic_imports: typing.Dict[str, str] = {
-    "BadRequestError": ".bad_request_error",
-    "InternalError": ".internal_error",
-    "NotFoundError": ".not_found_error",
-    "VersionConflictError": ".version_conflict_error",
-}
+    from .resources import v_1
+_dynamic_imports: typing.Dict[str, str] = {"v_1": ".resources"}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -39,4 +31,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["BadRequestError", "InternalError", "NotFoundError", "VersionConflictError"]
+__all__ = ["v_1"]

@@ -6,8 +6,9 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class CardPaymentMethodCreate(UniversalBaseModel):
-    authorization_number: typing.Optional[str] = None
+class ErrorBase5Xx(UniversalBaseModel):
+    message: str
+    data: typing.Optional[typing.Any] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
