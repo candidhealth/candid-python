@@ -34,6 +34,7 @@ if typing.TYPE_CHECKING:
     )
     from .payment_method_detail import PaymentMethodDetail
     from .payment_method_detail_create import PaymentMethodDetailCreate
+    from .payment_method_provider_info import PaymentMethodProviderInfo
 _dynamic_imports: typing.Dict[str, str] = {
     "CardPaymentMethod": ".card_payment_method",
     "CardPaymentMethodCreate": ".card_payment_method_create",
@@ -55,6 +56,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PaymentMethodCreate_MoneyOrder": ".payment_method_create",
     "PaymentMethodDetail": ".payment_method_detail",
     "PaymentMethodDetailCreate": ".payment_method_detail_create",
+    "PaymentMethodProviderInfo": ".payment_method_provider_info",
     "PaymentMethod_Card": ".payment_method",
     "PaymentMethod_Cash": ".payment_method",
     "PaymentMethod_Check": ".payment_method",
@@ -104,6 +106,7 @@ __all__ = [
     "PaymentMethodCreate_MoneyOrder",
     "PaymentMethodDetail",
     "PaymentMethodDetailCreate",
+    "PaymentMethodProviderInfo",
     "PaymentMethod_Card",
     "PaymentMethod_Cash",
     "PaymentMethod_Check",

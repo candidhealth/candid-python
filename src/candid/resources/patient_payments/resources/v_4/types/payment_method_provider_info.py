@@ -4,15 +4,13 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .....commons.types.street_address_short_zip import StreetAddressShortZip
-from .payment_method import PaymentMethod
-from .payment_method_provider_info import PaymentMethodProviderInfo
+from .....commons.types.npi import Npi
 
 
-class PaymentMethodDetail(UniversalBaseModel):
-    payment_method: PaymentMethod
-    collected_at_address: typing.Optional[StreetAddressShortZip] = None
-    provider_info: typing.Optional[PaymentMethodProviderInfo] = None
+class PaymentMethodProviderInfo(UniversalBaseModel):
+    npi: typing.Optional[Npi] = None
+    first_name: typing.Optional[str] = None
+    last_name: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

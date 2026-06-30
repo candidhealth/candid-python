@@ -9,12 +9,14 @@ from .....organization_service_facilities.resources.v_2.types.organization_servi
     OrganizationServiceFacilityId,
 )
 from .payment_method_create import PaymentMethodCreate
+from .payment_method_provider_info import PaymentMethodProviderInfo
 
 
 class PaymentMethodDetailCreate(UniversalBaseModel):
     payment_method: PaymentMethodCreate
     collected_at_address: typing.Optional[StreetAddressShortZip] = None
     organization_service_facility_id: typing.Optional[OrganizationServiceFacilityId] = None
+    provider_info: typing.Optional[PaymentMethodProviderInfo] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
