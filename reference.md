@@ -13953,7 +13953,7 @@ client.patient_refunds.v_1.delete(
 <dl>
 <dd>
 
-Returns all payer plan groups matching filter criteria.
+Returns all payer plans matching filter criteria.
 </dd>
 </dl>
 </dd>
@@ -14086,7 +14086,7 @@ will always sort in order of most similar to least similar.
 <dl>
 <dd>
 
-**organization_id:** `typing.Optional[OrganizationId]` — Filter to a specific organization's payer plan groups. If not provided, defaults to the requesting user's organization.
+**organization_id:** `typing.Optional[OrganizationId]` — Filter to a specific organization's payer plans. If not provided, defaults to the requesting user's organization.
     
 </dd>
 </dl>
@@ -14118,7 +14118,7 @@ will always sort in order of most similar to least similar.
 <dl>
 <dd>
 
-Return a plan group with a given ID.
+Return a payer plan with a given ID.
 </dd>
 </dl>
 </dd>
@@ -14193,7 +14193,7 @@ client.payer_plan_groups.v_1.get(
 <dl>
 <dd>
 
-Create a payer plan group
+Create a payer plan
 </dd>
 </dl>
 </dd>
@@ -14276,7 +14276,7 @@ client.payer_plan_groups.v_1.create(
 <dl>
 <dd>
 
-Update any of the fields on a payer plan group
+Update any of the fields on a payer plan
 </dd>
 </dl>
 </dd>
@@ -14370,7 +14370,7 @@ client.payer_plan_groups.v_1.update(
 <dl>
 <dd>
 
-Marks the payer plan group as deactivated
+Marks the payer plan as deactivated
 </dd>
 </dl>
 </dd>

@@ -55,7 +55,7 @@ class RawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PayerPlanGroupPage]:
         """
-        Returns all payer plan groups matching filter criteria.
+        Returns all payer plans matching filter criteria.
 
         Parameters
         ----------
@@ -88,7 +88,7 @@ class RawV1Client:
         page_token : typing.Optional[PageToken]
 
         organization_id : typing.Optional[OrganizationId]
-            Filter to a specific organization's payer plan groups. If not provided, defaults to the requesting user's organization.
+            Filter to a specific organization's payer plans. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -159,7 +159,7 @@ class RawV1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[PayerPlanGroup]:
         """
-        Return a plan group with a given ID.
+        Return a payer plan with a given ID.
 
         Parameters
         ----------
@@ -220,7 +220,7 @@ class RawV1Client:
         self, *, request: MutablePayerPlanGroup, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[PayerPlanGroup]:
         """
-        Create a payer plan group
+        Create a payer plan
 
         Parameters
         ----------
@@ -287,7 +287,7 @@ class RawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PayerPlanGroup]:
         """
-        Update any of the fields on a payer plan group
+        Update any of the fields on a payer plan
 
         Parameters
         ----------
@@ -363,7 +363,7 @@ class RawV1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[PayerPlanGroup]:
         """
-        Marks the payer plan group as deactivated
+        Marks the payer plan as deactivated
 
         Parameters
         ----------
@@ -443,7 +443,7 @@ class AsyncRawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PayerPlanGroupPage]:
         """
-        Returns all payer plan groups matching filter criteria.
+        Returns all payer plans matching filter criteria.
 
         Parameters
         ----------
@@ -476,7 +476,7 @@ class AsyncRawV1Client:
         page_token : typing.Optional[PageToken]
 
         organization_id : typing.Optional[OrganizationId]
-            Filter to a specific organization's payer plan groups. If not provided, defaults to the requesting user's organization.
+            Filter to a specific organization's payer plans. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -547,7 +547,7 @@ class AsyncRawV1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[PayerPlanGroup]:
         """
-        Return a plan group with a given ID.
+        Return a payer plan with a given ID.
 
         Parameters
         ----------
@@ -608,7 +608,7 @@ class AsyncRawV1Client:
         self, *, request: MutablePayerPlanGroup, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[PayerPlanGroup]:
         """
-        Create a payer plan group
+        Create a payer plan
 
         Parameters
         ----------
@@ -675,7 +675,7 @@ class AsyncRawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PayerPlanGroup]:
         """
-        Update any of the fields on a payer plan group
+        Update any of the fields on a payer plan
 
         Parameters
         ----------
@@ -751,7 +751,7 @@ class AsyncRawV1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[PayerPlanGroup]:
         """
-        Marks the payer plan group as deactivated
+        Marks the payer plan as deactivated
 
         Parameters
         ----------

@@ -35,12 +35,12 @@ class InsuranceCardCreateOptional(UniversalBaseModel):
     image_url_back: typing.Optional[str] = None
     emr_payer_crosswalk: typing.Optional[EmrPayerCrosswalk] = pydantic.Field(default=None)
     """
-    Set to PAYER_PLAN_GROUP to use Payer Plan Groups for automatic payer resolution. See Payer Information documentation for details.
+    Set to PAYER_PLAN_GROUP to use Payer Plans for automatic payer resolution. See Payer Information documentation for details.
     """
 
     payer_plan_group_name: typing.Optional[str] = pydantic.Field(default=None)
     """
-    When using emr_payer_crosswalk set to PAYER_PLAN_GROUP, specify the payer plan group name here. See Payer Information documentation for details.
+    When using emr_payer_crosswalk set to PAYER_PLAN_GROUP, specify the payer plan name here. See Payer Information documentation for details.
     """
 
     if IS_PYDANTIC_V2:

@@ -9,7 +9,7 @@ from .....commons.types.payer_plan_group_id import PayerPlanGroupId
 
 class MatchPayerPlanGroups(UniversalBaseModel):
     """
-    Match information for a payer plan group
+    Match information for a payer plan
     """
 
     value: typing.Set[PayerPlanGroupId]

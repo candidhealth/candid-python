@@ -33,6 +33,8 @@ class ServiceLineUpdateBase(UniversalBaseModel):
     procedure_code: typing.Optional[str] = pydantic.Field(default=None)
     """
     If `procedure_code` is updated, and `charge_amount_cents` is not, then `charge_amount_cents` will be set by the system.
+    Pass `null` to uncode the service line, which is valid for institutional (837i) claims that bill by revenue code
+    rather than a CPT/HCPCS code.
     """
 
     quantity: typing.Optional[Decimal] = pydantic.Field(default=None)

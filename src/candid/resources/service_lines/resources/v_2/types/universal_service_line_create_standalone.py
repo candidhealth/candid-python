@@ -18,7 +18,12 @@ class UniversalServiceLineCreateStandalone(ServiceLineCreateStandaloneBaseBase):
     A 4 digit code that specifies facility department or type of service arrangement for institutional service line items (837i). This code is not required for professional claim billing (837p).
     """
 
-    procedure_code: typing.Optional[str] = None
+    procedure_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Pass `null` to create the service line as uncoded, which is valid for institutional (837i) claims that bill by
+    revenue code rather than a CPT/HCPCS code.
+    """
+
     prior_authorization_number: typing.Optional[str] = pydantic.Field(default=None)
     """
     Prior authorization number for this service line. Maps to the appropriate REF segment on Loop 2400 of the EDI 837p. This is not used for institutional claims (EDI 837i).

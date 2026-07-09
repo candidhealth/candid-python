@@ -149,6 +149,11 @@ class ProcedureModifier(enum.StrEnum):
     Surgical Team
     """
 
+    SEVENTY_THREE = "73"
+    """
+    Discontinued Outpatient Hospital/Ambulatory Surgery Center (ASC) Procedure Prior to Administration of Anesthesia
+    """
+
     SEVENTY_FOUR = "74"
     """
     Discontinued Outpatient Hospital/Ambulatory Surgery Center (ASC) Procedure After Administration of Anesthesia
@@ -2079,6 +2084,7 @@ class ProcedureModifier(enum.StrEnum):
         sixty_two: typing.Callable[[], T_Result],
         sixty_three: typing.Callable[[], T_Result],
         sixty_six: typing.Callable[[], T_Result],
+        seventy_three: typing.Callable[[], T_Result],
         seventy_four: typing.Callable[[], T_Result],
         seventy_six: typing.Callable[[], T_Result],
         seventy_seven: typing.Callable[[], T_Result],
@@ -2531,6 +2537,8 @@ class ProcedureModifier(enum.StrEnum):
             return sixty_three()
         if self is ProcedureModifier.SIXTY_SIX:
             return sixty_six()
+        if self is ProcedureModifier.SEVENTY_THREE:
+            return seventy_three()
         if self is ProcedureModifier.SEVENTY_FOUR:
             return seventy_four()
         if self is ProcedureModifier.SEVENTY_SIX:

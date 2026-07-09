@@ -54,7 +54,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PayerPlanGroupPage:
         """
-        Returns all payer plan groups matching filter criteria.
+        Returns all payer plans matching filter criteria.
 
         Parameters
         ----------
@@ -87,7 +87,7 @@ class V1Client:
         page_token : typing.Optional[PageToken]
 
         organization_id : typing.Optional[OrganizationId]
-            Filter to a specific organization's payer plan groups. If not provided, defaults to the requesting user's organization.
+            Filter to a specific organization's payer plans. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -127,7 +127,7 @@ class V1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> PayerPlanGroup:
         """
-        Return a plan group with a given ID.
+        Return a payer plan with a given ID.
 
         Parameters
         ----------
@@ -163,7 +163,7 @@ class V1Client:
         self, *, request: MutablePayerPlanGroup, request_options: typing.Optional[RequestOptions] = None
     ) -> PayerPlanGroup:
         """
-        Create a payer plan group
+        Create a payer plan
 
         Parameters
         ----------
@@ -211,7 +211,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PayerPlanGroup:
         """
-        Update any of the fields on a payer plan group
+        Update any of the fields on a payer plan
 
         Parameters
         ----------
@@ -260,7 +260,7 @@ class V1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> PayerPlanGroup:
         """
-        Marks the payer plan group as deactivated
+        Marks the payer plan as deactivated
 
         Parameters
         ----------
@@ -326,7 +326,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PayerPlanGroupPage:
         """
-        Returns all payer plan groups matching filter criteria.
+        Returns all payer plans matching filter criteria.
 
         Parameters
         ----------
@@ -359,7 +359,7 @@ class AsyncV1Client:
         page_token : typing.Optional[PageToken]
 
         organization_id : typing.Optional[OrganizationId]
-            Filter to a specific organization's payer plan groups. If not provided, defaults to the requesting user's organization.
+            Filter to a specific organization's payer plans. If not provided, defaults to the requesting user's organization.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -407,7 +407,7 @@ class AsyncV1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> PayerPlanGroup:
         """
-        Return a plan group with a given ID.
+        Return a payer plan with a given ID.
 
         Parameters
         ----------
@@ -450,7 +450,7 @@ class AsyncV1Client:
         self, *, request: MutablePayerPlanGroup, request_options: typing.Optional[RequestOptions] = None
     ) -> PayerPlanGroup:
         """
-        Create a payer plan group
+        Create a payer plan
 
         Parameters
         ----------
@@ -505,7 +505,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PayerPlanGroup:
         """
-        Update any of the fields on a payer plan group
+        Update any of the fields on a payer plan
 
         Parameters
         ----------
@@ -561,7 +561,7 @@ class AsyncV1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> PayerPlanGroup:
         """
-        Marks the payer plan group as deactivated
+        Marks the payer plan as deactivated
 
         Parameters
         ----------
