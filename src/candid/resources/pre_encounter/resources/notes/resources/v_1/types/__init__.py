@@ -8,7 +8,8 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .mutable_note import MutableNote
     from .note import Note
-_dynamic_imports: typing.Dict[str, str] = {"MutableNote": ".mutable_note", "Note": ".note"}
+    from .note_type import NoteType
+_dynamic_imports: typing.Dict[str, str] = {"MutableNote": ".mutable_note", "Note": ".note", "NoteType": ".note_type"}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -32,4 +33,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["MutableNote", "Note"]
+__all__ = ["MutableNote", "Note", "NoteType"]

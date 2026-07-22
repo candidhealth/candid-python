@@ -106,7 +106,7 @@ class V1Client:
             ),
             request=CreateSupplementalInformationRequest(
                 attachment_report_type_code=ReportTypeCode.C_03,
-                attachment_transmission_code=ReportTransmissionCode.CBM,
+                attachment_transmission_code=ReportTransmissionCode.CAA,
                 attachment_inclusion=AttachmentInclusion.NOT_INCLUDED,
             ),
         )
@@ -312,7 +312,7 @@ class AsyncV1Client:
                 ),
                 request=CreateSupplementalInformationRequest(
                     attachment_report_type_code=ReportTypeCode.C_03,
-                    attachment_transmission_code=ReportTransmissionCode.CBM,
+                    attachment_transmission_code=ReportTransmissionCode.CAA,
                     attachment_inclusion=AttachmentInclusion.NOT_INCLUDED,
                 ),
             )

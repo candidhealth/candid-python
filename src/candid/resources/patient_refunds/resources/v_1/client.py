@@ -13,6 +13,7 @@ from ....commons.types.provider_id import ProviderId
 from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.sort_direction import SortDirection
 from ....financials.types.allocation_create import AllocationCreate
+from ....financials.types.allocation_restriction_create import AllocationRestrictionCreate
 from ....financials.types.invoice_update import InvoiceUpdate
 from ....financials.types.note_update import NoteUpdate
 from ....financials.types.patient_transaction_source import PatientTransactionSource
@@ -172,6 +173,7 @@ class V1Client:
         refund_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         refund_reason: typing.Optional[RefundReason] = OMIT,
+        allocation_restrictions: typing.Optional[typing.Sequence[AllocationRestrictionCreate]] = OMIT,
         raise_on_overdraft: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefund:
@@ -195,6 +197,12 @@ class V1Client:
         invoice : typing.Optional[InvoiceId]
 
         refund_reason : typing.Optional[RefundReason]
+
+        allocation_restrictions : typing.Optional[typing.Sequence[AllocationRestrictionCreate]]
+            Optional restrictions constraining which claims this refund's credit can be
+            auto-allocated to (e.g. billing provider NPI). Restriction (type, value) pairs must be
+            unique. When omitted, the refund is unrestricted. Refunds created from an existing
+            payment inherit that payment's restrictions instead.
 
         raise_on_overdraft : typing.Optional[bool]
             If true, the refund will be rejected if it would cause any account to be overdrafted. Defaults to false.
@@ -251,6 +259,7 @@ class V1Client:
             refund_note=refund_note,
             invoice=invoice,
             refund_reason=refund_reason,
+            allocation_restrictions=allocation_restrictions,
             raise_on_overdraft=raise_on_overdraft,
             request_options=request_options,
         )
@@ -510,6 +519,7 @@ class AsyncV1Client:
         refund_note: typing.Optional[str] = OMIT,
         invoice: typing.Optional[InvoiceId] = OMIT,
         refund_reason: typing.Optional[RefundReason] = OMIT,
+        allocation_restrictions: typing.Optional[typing.Sequence[AllocationRestrictionCreate]] = OMIT,
         raise_on_overdraft: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientRefund:
@@ -533,6 +543,12 @@ class AsyncV1Client:
         invoice : typing.Optional[InvoiceId]
 
         refund_reason : typing.Optional[RefundReason]
+
+        allocation_restrictions : typing.Optional[typing.Sequence[AllocationRestrictionCreate]]
+            Optional restrictions constraining which claims this refund's credit can be
+            auto-allocated to (e.g. billing provider NPI). Restriction (type, value) pairs must be
+            unique. When omitted, the refund is unrestricted. Refunds created from an existing
+            payment inherit that payment's restrictions instead.
 
         raise_on_overdraft : typing.Optional[bool]
             If true, the refund will be rejected if it would cause any account to be overdrafted. Defaults to false.
@@ -596,6 +612,7 @@ class AsyncV1Client:
             refund_note=refund_note,
             invoice=invoice,
             refund_reason=refund_reason,
+            allocation_restrictions=allocation_restrictions,
             raise_on_overdraft=raise_on_overdraft,
             request_options=request_options,
         )

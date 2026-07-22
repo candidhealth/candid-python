@@ -36,6 +36,7 @@ if typing.TYPE_CHECKING:
         EligibilityRecommendationPayload,
         EligibilityRecommendationPayload_CoordinationOfBenefits,
         EligibilityRecommendationPayload_CopayEstimation,
+        EligibilityRecommendationPayload_MedicaidManagedCare,
         EligibilityRecommendationPayload_MedicareAdvantage,
         EligibilityRecommendationPayload_UserConfiguredPrompts,
     )
@@ -98,6 +99,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EligibilityRecommendationPayload": ".eligibility_recommendation_payload",
     "EligibilityRecommendationPayload_CoordinationOfBenefits": ".eligibility_recommendation_payload",
     "EligibilityRecommendationPayload_CopayEstimation": ".eligibility_recommendation_payload",
+    "EligibilityRecommendationPayload_MedicaidManagedCare": ".eligibility_recommendation_payload",
     "EligibilityRecommendationPayload_MedicareAdvantage": ".eligibility_recommendation_payload",
     "EligibilityRecommendationPayload_UserConfiguredPrompts": ".eligibility_recommendation_payload",
     "EligibilityRequest": ".eligibility_request",
@@ -183,6 +185,7 @@ __all__ = [
     "EligibilityRecommendationPayload",
     "EligibilityRecommendationPayload_CoordinationOfBenefits",
     "EligibilityRecommendationPayload_CopayEstimation",
+    "EligibilityRecommendationPayload_MedicaidManagedCare",
     "EligibilityRecommendationPayload_MedicareAdvantage",
     "EligibilityRecommendationPayload_UserConfiguredPrompts",
     "EligibilityRequest",

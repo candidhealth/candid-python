@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .note_type import NoteType
 
 
 class MutableNote(UniversalBaseModel):
@@ -12,6 +13,11 @@ class MutableNote(UniversalBaseModel):
     """
 
     value: str
+    type: typing.Optional[NoteType] = pydantic.Field(default=None)
+    """
+    Defaults to GENERAL when omitted.
+    """
+
     author_email: typing.Optional[str] = None
     author_name: typing.Optional[str] = None
 

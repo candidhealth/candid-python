@@ -14,12 +14,16 @@ from .......core.request_options import RequestOptions
 from ....common.errors.bad_request_error import BadRequestError
 from ....common.errors.not_found_error import NotFoundError
 from ....common.errors.version_conflict_error import VersionConflictError
+from ....common.types.appointment_id import AppointmentId
+from ....common.types.coverage_id import CoverageId
 from ....common.types.error_base_4_xx import ErrorBase4Xx
 from ....common.types.external_provider import ExternalProvider
 from ....common.types.page_token import PageToken
 from ....common.types.patient_id import PatientId
 from ....common.types.sort_direction import SortDirection
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
+from .types.eligibility_audit_event_type import EligibilityAuditEventType
+from .types.eligibility_timeline_page import EligibilityTimelinePage
 from .types.mutable_patient import MutablePatient
 from .types.mutable_patient_with_mrn import MutablePatientWithMrn
 from .types.patient import Patient
@@ -478,6 +482,71 @@ class RawV1Client:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_eligibility_timeline(
+        self,
+        id: PatientId,
+        *,
+        event_types: typing.Optional[
+            typing.Union[EligibilityAuditEventType, typing.Sequence[EligibilityAuditEventType]]
+        ] = None,
+        coverage_id: typing.Optional[CoverageId] = None,
+        appointment_id: typing.Optional[AppointmentId] = None,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[EligibilityTimelinePage]:
+        """
+        Gets a patient's eligibility audit timeline, newest-first.  Org-scoped and keyset-paginated.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        event_types : typing.Optional[typing.Union[EligibilityAuditEventType, typing.Sequence[EligibilityAuditEventType]]]
+
+        coverage_id : typing.Optional[CoverageId]
+
+        appointment_id : typing.Optional[AppointmentId]
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[EligibilityTimelinePage]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"patients/v1/{jsonable_encoder(id)}/eligibility-timeline",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "event_types": event_types,
+                "coverage_id": coverage_id,
+                "appointment_id": appointment_id,
+                "page_token": page_token,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityTimelinePage,
+                parse_obj_as(
+                    type_=EligibilityTimelinePage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update(
@@ -1226,6 +1295,71 @@ class AsyncRawV1Client:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_eligibility_timeline(
+        self,
+        id: PatientId,
+        *,
+        event_types: typing.Optional[
+            typing.Union[EligibilityAuditEventType, typing.Sequence[EligibilityAuditEventType]]
+        ] = None,
+        coverage_id: typing.Optional[CoverageId] = None,
+        appointment_id: typing.Optional[AppointmentId] = None,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[EligibilityTimelinePage]:
+        """
+        Gets a patient's eligibility audit timeline, newest-first.  Org-scoped and keyset-paginated.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        event_types : typing.Optional[typing.Union[EligibilityAuditEventType, typing.Sequence[EligibilityAuditEventType]]]
+
+        coverage_id : typing.Optional[CoverageId]
+
+        appointment_id : typing.Optional[AppointmentId]
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[EligibilityTimelinePage]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"patients/v1/{jsonable_encoder(id)}/eligibility-timeline",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "event_types": event_types,
+                "coverage_id": coverage_id,
+                "appointment_id": appointment_id,
+                "page_token": page_token,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityTimelinePage,
+                parse_obj_as(
+                    type_=EligibilityTimelinePage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update(

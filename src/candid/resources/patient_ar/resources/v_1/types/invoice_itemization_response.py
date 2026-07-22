@@ -5,6 +5,9 @@ import typing
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.claim_id import ClaimId
+from .....organization_service_facilities.resources.v_2.types.organization_service_facility_id import (
+    OrganizationServiceFacilityId,
+)
 from .patient_payment_info import PatientPaymentInfo
 from .service_line_itemization import ServiceLineItemization
 
@@ -18,6 +21,11 @@ class InvoiceItemizationResponse(UniversalBaseModel):
     patient_balance_cents: int = pydantic.Field()
     """
     The total patient balance in cents for the claim. Negative values indicate a credit balance.
+    """
+
+    organization_service_facility_id: typing.Optional[OrganizationServiceFacilityId] = pydantic.Field(default=None)
+    """
+    The organization service facility ID from the claim's encounter.
     """
 
     claim_level_patient_payments: PatientPaymentInfo

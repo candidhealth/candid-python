@@ -27,6 +27,8 @@ class Visit(UniversalBaseModel):
     secondary_coverage_status: typing.Optional[CoverageStatus] = None
     primary_payer_name: typing.Optional[str] = None
     primary_payer_plan_group_id: typing.Optional[PayerPlanGroupId] = None
+    secondary_payer_name: typing.Optional[str] = None
+    secondary_payer_plan_group_id: typing.Optional[PayerPlanGroupId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

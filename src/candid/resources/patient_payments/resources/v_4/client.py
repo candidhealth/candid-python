@@ -13,6 +13,7 @@ from ....commons.types.provider_id import ProviderId
 from ....commons.types.service_line_id import ServiceLineId
 from ....commons.types.sort_direction import SortDirection
 from ....financials.types.allocation_create import AllocationCreate
+from ....financials.types.allocation_restriction_create import AllocationRestrictionCreate
 from ....financials.types.invoice_update import InvoiceUpdate
 from ....financials.types.note_update import NoteUpdate
 from ....financials.types.patient_payment_create_source import PatientPaymentCreateSource
@@ -178,6 +179,7 @@ class V4Client:
         payment_method_detail: typing.Optional[PaymentMethodDetailCreate] = OMIT,
         payment_source: typing.Optional[PatientPaymentCreateSource] = OMIT,
         source_internal_id: typing.Optional[str] = OMIT,
+        allocation_restrictions: typing.Optional[typing.Sequence[AllocationRestrictionCreate]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
         """
@@ -204,6 +206,11 @@ class V4Client:
         payment_source : typing.Optional[PatientPaymentCreateSource]
 
         source_internal_id : typing.Optional[str]
+
+        allocation_restrictions : typing.Optional[typing.Sequence[AllocationRestrictionCreate]]
+            Optional restrictions constraining which claims this payment's credit can be
+            auto-allocated to (e.g. billing provider NPI). Restriction (type, value) pairs must be
+            unique. When omitted, the payment is unrestricted.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -259,6 +266,7 @@ class V4Client:
             payment_method_detail=payment_method_detail,
             payment_source=payment_source,
             source_internal_id=source_internal_id,
+            allocation_restrictions=allocation_restrictions,
             request_options=request_options,
         )
         return _response.data
@@ -519,6 +527,7 @@ class AsyncV4Client:
         payment_method_detail: typing.Optional[PaymentMethodDetailCreate] = OMIT,
         payment_source: typing.Optional[PatientPaymentCreateSource] = OMIT,
         source_internal_id: typing.Optional[str] = OMIT,
+        allocation_restrictions: typing.Optional[typing.Sequence[AllocationRestrictionCreate]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> PatientPayment:
         """
@@ -545,6 +554,11 @@ class AsyncV4Client:
         payment_source : typing.Optional[PatientPaymentCreateSource]
 
         source_internal_id : typing.Optional[str]
+
+        allocation_restrictions : typing.Optional[typing.Sequence[AllocationRestrictionCreate]]
+            Optional restrictions constraining which claims this payment's credit can be
+            auto-allocated to (e.g. billing provider NPI). Restriction (type, value) pairs must be
+            unique. When omitted, the payment is unrestricted.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -607,6 +621,7 @@ class AsyncV4Client:
             payment_method_detail=payment_method_detail,
             payment_source=payment_source,
             source_internal_id=source_internal_id,
+            allocation_restrictions=allocation_restrictions,
             request_options=request_options,
         )
         return _response.data

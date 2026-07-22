@@ -5,11 +5,15 @@ import typing
 
 from .......core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .......core.request_options import RequestOptions
+from ....common.types.appointment_id import AppointmentId
+from ....common.types.coverage_id import CoverageId
 from ....common.types.external_provider import ExternalProvider
 from ....common.types.page_token import PageToken
 from ....common.types.patient_id import PatientId
 from ....common.types.sort_direction import SortDirection
 from .raw_client import AsyncRawV1Client, RawV1Client
+from .types.eligibility_audit_event_type import EligibilityAuditEventType
+from .types.eligibility_timeline_page import EligibilityTimelinePage
 from .types.mutable_patient import MutablePatient
 from .types.mutable_patient_with_mrn import MutablePatientWithMrn
 from .types.patient import Patient
@@ -729,6 +733,66 @@ class V1Client:
         )
         """
         _response = self._raw_client.get_coverage_snapshot(id, date=date, request_options=request_options)
+        return _response.data
+
+    def get_eligibility_timeline(
+        self,
+        id: PatientId,
+        *,
+        event_types: typing.Optional[
+            typing.Union[EligibilityAuditEventType, typing.Sequence[EligibilityAuditEventType]]
+        ] = None,
+        coverage_id: typing.Optional[CoverageId] = None,
+        appointment_id: typing.Optional[AppointmentId] = None,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> EligibilityTimelinePage:
+        """
+        Gets a patient's eligibility audit timeline, newest-first.  Org-scoped and keyset-paginated.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        event_types : typing.Optional[typing.Union[EligibilityAuditEventType, typing.Sequence[EligibilityAuditEventType]]]
+
+        coverage_id : typing.Optional[CoverageId]
+
+        appointment_id : typing.Optional[AppointmentId]
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityTimelinePage
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.patients.v_1.get_eligibility_timeline(
+            id="id",
+        )
+        """
+        _response = self._raw_client.get_eligibility_timeline(
+            id,
+            event_types=event_types,
+            coverage_id=coverage_id,
+            appointment_id=appointment_id,
+            page_token=page_token,
+            limit=limit,
+            request_options=request_options,
+        )
         return _response.data
 
     def update(
@@ -1908,6 +1972,74 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.get_coverage_snapshot(id, date=date, request_options=request_options)
+        return _response.data
+
+    async def get_eligibility_timeline(
+        self,
+        id: PatientId,
+        *,
+        event_types: typing.Optional[
+            typing.Union[EligibilityAuditEventType, typing.Sequence[EligibilityAuditEventType]]
+        ] = None,
+        coverage_id: typing.Optional[CoverageId] = None,
+        appointment_id: typing.Optional[AppointmentId] = None,
+        page_token: typing.Optional[PageToken] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> EligibilityTimelinePage:
+        """
+        Gets a patient's eligibility audit timeline, newest-first.  Org-scoped and keyset-paginated.
+
+        Parameters
+        ----------
+        id : PatientId
+
+        event_types : typing.Optional[typing.Union[EligibilityAuditEventType, typing.Sequence[EligibilityAuditEventType]]]
+
+        coverage_id : typing.Optional[CoverageId]
+
+        appointment_id : typing.Optional[AppointmentId]
+
+        page_token : typing.Optional[PageToken]
+
+        limit : typing.Optional[int]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityTimelinePage
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.patients.v_1.get_eligibility_timeline(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_eligibility_timeline(
+            id,
+            event_types=event_types,
+            coverage_id=coverage_id,
+            appointment_id=appointment_id,
+            page_token=page_token,
+            limit=limit,
+            request_options=request_options,
+        )
         return _response.data
 
     async def update(

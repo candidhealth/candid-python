@@ -15,6 +15,8 @@ if typing.TYPE_CHECKING:
         AllocationEarmarkType_ExternalEncounterId,
     )
     from .allocation_overdraft_detail import AllocationOverdraftDetail
+    from .allocation_restriction_create import AllocationRestrictionCreate
+    from .allocation_restriction_type import AllocationRestrictionType
     from .allocation_target import (
         AllocationTarget,
         AllocationTarget_Appointment,
@@ -53,6 +55,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AllocationEarmarkType_DateOfService": ".allocation_earmark_type",
     "AllocationEarmarkType_ExternalEncounterId": ".allocation_earmark_type",
     "AllocationOverdraftDetail": ".allocation_overdraft_detail",
+    "AllocationRestrictionCreate": ".allocation_restriction_create",
+    "AllocationRestrictionType": ".allocation_restriction_type",
     "AllocationTarget": ".allocation_target",
     "AllocationTargetCreate": ".allocation_target_create",
     "AllocationTargetCreate_AppointmentByIdAndPatientExternalId": ".allocation_target_create",
@@ -117,6 +121,8 @@ __all__ = [
     "AllocationEarmarkType_DateOfService",
     "AllocationEarmarkType_ExternalEncounterId",
     "AllocationOverdraftDetail",
+    "AllocationRestrictionCreate",
+    "AllocationRestrictionType",
     "AllocationTarget",
     "AllocationTargetCreate",
     "AllocationTargetCreate_AppointmentByIdAndPatientExternalId",

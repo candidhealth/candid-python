@@ -26,6 +26,20 @@ class EligibilityRecommendationPayload_MedicareAdvantage(UniversalBaseModel):
             extra = pydantic.Extra.allow
 
 
+class EligibilityRecommendationPayload_MedicaidManagedCare(UniversalBaseModel):
+    type: typing.Literal["MEDICAID_MANAGED_CARE"] = "MEDICAID_MANAGED_CARE"
+    payload: MedicareAdvantageRecommendationPayload
+
+    if IS_PYDANTIC_V2:
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
+    else:
+
+        class Config:
+            frozen = True
+            smart_union = True
+            extra = pydantic.Extra.allow
+
+
 class EligibilityRecommendationPayload_CoordinationOfBenefits(UniversalBaseModel):
     type: typing.Literal["COORDINATION_OF_BENEFITS"] = "COORDINATION_OF_BENEFITS"
     payload: typing.Any
@@ -71,6 +85,7 @@ class EligibilityRecommendationPayload_UserConfiguredPrompts(UniversalBaseModel)
 EligibilityRecommendationPayload = typing_extensions.Annotated[
     typing.Union[
         EligibilityRecommendationPayload_MedicareAdvantage,
+        EligibilityRecommendationPayload_MedicaidManagedCare,
         EligibilityRecommendationPayload_CoordinationOfBenefits,
         EligibilityRecommendationPayload_CopayEstimation,
         EligibilityRecommendationPayload_UserConfiguredPrompts,

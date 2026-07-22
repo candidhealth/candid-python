@@ -8,6 +8,7 @@ from .....core.request_options import RequestOptions
 from ....claims.types.claim_status import ClaimStatus
 from ....commons.types.encounter_external_id import EncounterExternalId
 from ....commons.types.encounter_id import EncounterId
+from ....commons.types.npi import Npi
 from ....commons.types.page_token import PageToken
 from ....commons.types.work_queue_id import WorkQueueId
 from ....encounters_universal.types.universal_encounter_create import UniversalEncounterCreate
@@ -66,6 +67,7 @@ class V4Client:
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
         patient_external_id: typing.Optional[str] = None,
         include_merged_patient_data: typing.Optional[bool] = None,
+        billing_provider_npis: typing.Optional[typing.Union[Npi, typing.Sequence[Npi]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterPage:
         """
@@ -121,6 +123,9 @@ class V4Client:
 
         include_merged_patient_data : typing.Optional[bool]
             If true and patient_external_id is set, then also include the encounters of all alternative patients.
+
+        billing_provider_npis : typing.Optional[typing.Union[Npi, typing.Sequence[Npi]]]
+            Filter to encounters whose billing provider matches any of these NPIs.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -178,6 +183,7 @@ class V4Client:
             owner_of_next_action=owner_of_next_action,
             patient_external_id=patient_external_id,
             include_merged_patient_data=include_merged_patient_data,
+            billing_provider_npis=billing_provider_npis,
             request_options=request_options,
         )
         return _response.data
@@ -719,6 +725,7 @@ class AsyncV4Client:
         owner_of_next_action: typing.Optional[EncounterOwnerOfNextActionType] = None,
         patient_external_id: typing.Optional[str] = None,
         include_merged_patient_data: typing.Optional[bool] = None,
+        billing_provider_npis: typing.Optional[typing.Union[Npi, typing.Sequence[Npi]]] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> EncounterPage:
         """
@@ -774,6 +781,9 @@ class AsyncV4Client:
 
         include_merged_patient_data : typing.Optional[bool]
             If true and patient_external_id is set, then also include the encounters of all alternative patients.
+
+        billing_provider_npis : typing.Optional[typing.Union[Npi, typing.Sequence[Npi]]]
+            Filter to encounters whose billing provider matches any of these NPIs.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -838,6 +848,7 @@ class AsyncV4Client:
             owner_of_next_action=owner_of_next_action,
             patient_external_id=patient_external_id,
             include_merged_patient_data=include_merged_patient_data,
+            billing_provider_npis=billing_provider_npis,
             request_options=request_options,
         )
         return _response.data

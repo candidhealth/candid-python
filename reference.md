@@ -3501,7 +3501,7 @@ client.credentialing.v_2.create_facility(
 <dl>
 <dd>
 
-**contracting_provider_id:** `uuid.UUID` — The ID of the billing provider for which the service facility is covered by the credentialing span.
+**contracting_provider_id:** `uuid.UUID` — The ID of the billing provider for which the rendering provider is covered by the credentialing span.
     
 </dd>
 </dl>
@@ -3836,7 +3836,7 @@ client.credentialing.v_2.update_facility(
 <dl>
 <dd>
 
-**contracting_provider_id:** `uuid.UUID` — The ID of the billing provider for which the service facility is covered by the credentialing span.
+**contracting_provider_id:** `uuid.UUID` — The ID of the billing provider for which the rendering provider is covered by the credentialing span.
     
 </dd>
 </dl>
@@ -3955,7 +3955,7 @@ client.credentialing.v_2.create(
 <dl>
 <dd>
 
-**contracting_provider_id:** `uuid.UUID` — The ID of the billing provider for which the service facility is covered by the credentialing span.
+**contracting_provider_id:** `uuid.UUID` — The ID of the billing provider for which the rendering provider is covered by the credentialing span.
     
 </dd>
 </dl>
@@ -4303,7 +4303,7 @@ client.credentialing.v_2.update(
 <dl>
 <dd>
 
-**contracting_provider_id:** `typing.Optional[uuid.UUID]` — The ID of the billing provider for which the service facility is covered by the credentialing span.
+**contracting_provider_id:** `typing.Optional[uuid.UUID]` — The ID of the billing provider for which the rendering provider is covered by the credentialing span.
     
 </dd>
 </dl>
@@ -6115,7 +6115,7 @@ client.encounter_supplemental_information.v_1.create(
     ),
     request=CreateSupplementalInformationRequest(
         attachment_report_type_code=ReportTypeCode.C_03,
-        attachment_transmission_code=ReportTransmissionCode.CBM,
+        attachment_transmission_code=ReportTransmissionCode.CAA,
         attachment_inclusion=AttachmentInclusion.NOT_INCLUDED,
     ),
 )
@@ -6508,6 +6508,14 @@ or encounter external id.
 <dd>
 
 **include_merged_patient_data:** `typing.Optional[bool]` — If true and patient_external_id is set, then also include the encounters of all alternative patients.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**billing_provider_npis:** `typing.Optional[typing.Union[Npi, typing.Sequence[Npi]]]` — Filter to encounters whose billing provider matches any of these NPIs.
     
 </dd>
 </dl>
@@ -13188,6 +13196,18 @@ client.patient_payments.v_4.create(
 <dl>
 <dd>
 
+**allocation_restrictions:** `typing.Optional[typing.Sequence[AllocationRestrictionCreate]]` 
+
+Optional restrictions constraining which claims this payment's credit can be
+auto-allocated to (e.g. billing provider NPI). Restriction (type, value) pairs must be
+unique. When omitted, the payment is unrestricted.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -13731,6 +13751,19 @@ client.patient_refunds.v_1.create(
 <dd>
 
 **refund_reason:** `typing.Optional[RefundReason]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**allocation_restrictions:** `typing.Optional[typing.Sequence[AllocationRestrictionCreate]]` 
+
+Optional restrictions constraining which claims this refund's credit can be
+auto-allocated to (e.g. billing provider NPI). Restriction (type, value) pairs must be
+unique. When omitted, the refund is unrestricted. Refunds created from an existing
+payment inherit that payment's restrictions instead.
     
 </dd>
 </dl>
@@ -21719,6 +21752,121 @@ client.pre_encounter.patients.v_1.get_coverage_snapshot(
 <dd>
 
 **date:** `typing.Optional[dt.datetime]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.patients.v_1.<a href="src/candid/resources/pre_encounter/resources/patients/resources/v_1/client.py">get_eligibility_timeline</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets a patient's eligibility audit timeline, newest-first.  Org-scoped and keyset-paginated.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.patients.v_1.get_eligibility_timeline(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `PatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**event_types:** `typing.Optional[
+    typing.Union[
+        EligibilityAuditEventType, typing.Sequence[EligibilityAuditEventType]
+    ]
+]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**coverage_id:** `typing.Optional[CoverageId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**appointment_id:** `typing.Optional[AppointmentId]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` 
     
 </dd>
 </dl>

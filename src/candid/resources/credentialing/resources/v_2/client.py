@@ -54,7 +54,7 @@ class V2Client:
             The ID of the service facility covered by the credentialing span.
 
         contracting_provider_id : uuid.UUID
-            The ID of the billing provider for which the service facility is covered by the credentialing span.
+            The ID of the billing provider for which the rendering provider is covered by the credentialing span.
 
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
@@ -260,7 +260,7 @@ class V2Client:
         facility_credentialing_id : FacilityCredentialingSpanId
 
         contracting_provider_id : uuid.UUID
-            The ID of the billing provider for which the service facility is covered by the credentialing span.
+            The ID of the billing provider for which the rendering provider is covered by the credentialing span.
 
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.
@@ -335,7 +335,7 @@ class V2Client:
             The ID of the rendering provider covered by the credentialing span.
 
         contracting_provider_id : uuid.UUID
-            The ID of the billing provider for which the service facility is covered by the credentialing span.
+            The ID of the billing provider for which the rendering provider is covered by the credentialing span.
 
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
@@ -555,7 +555,7 @@ class V2Client:
         provider_credentialing_id : ProviderCredentialingSpanId
 
         contracting_provider_id : typing.Optional[uuid.UUID]
-            The ID of the billing provider for which the service facility is covered by the credentialing span.
+            The ID of the billing provider for which the rendering provider is covered by the credentialing span.
 
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.
@@ -646,7 +646,7 @@ class AsyncV2Client:
             The ID of the service facility covered by the credentialing span.
 
         contracting_provider_id : uuid.UUID
-            The ID of the billing provider for which the service facility is covered by the credentialing span.
+            The ID of the billing provider for which the rendering provider is covered by the credentialing span.
 
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
@@ -881,7 +881,7 @@ class AsyncV2Client:
         facility_credentialing_id : FacilityCredentialingSpanId
 
         contracting_provider_id : uuid.UUID
-            The ID of the billing provider for which the service facility is covered by the credentialing span.
+            The ID of the billing provider for which the rendering provider is covered by the credentialing span.
 
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.
@@ -963,7 +963,7 @@ class AsyncV2Client:
             The ID of the rendering provider covered by the credentialing span.
 
         contracting_provider_id : uuid.UUID
-            The ID of the billing provider for which the service facility is covered by the credentialing span.
+            The ID of the billing provider for which the rendering provider is covered by the credentialing span.
 
         payer_uuid : uuid.UUID
             The ID of the payer covered by the credentialing span.
@@ -1212,7 +1212,7 @@ class AsyncV2Client:
         provider_credentialing_id : ProviderCredentialingSpanId
 
         contracting_provider_id : typing.Optional[uuid.UUID]
-            The ID of the billing provider for which the service facility is covered by the credentialing span.
+            The ID of the billing provider for which the rendering provider is covered by the credentialing span.
 
         payer_uuid : typing.Optional[uuid.UUID]
             The ID of the payer doing the credentialing.

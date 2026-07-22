@@ -13,6 +13,9 @@ if typing.TYPE_CHECKING:
     from .coverages_for_related_causes import CoveragesForRelatedCauses
     from .do_not_invoice_reason import DoNotInvoiceReason
     from .electronic_communication_consent import ElectronicCommunicationConsent
+    from .eligibility_audit_event_type import EligibilityAuditEventType
+    from .eligibility_timeline_event import EligibilityTimelineEvent
+    from .eligibility_timeline_page import EligibilityTimelinePage
     from .external_provenance import ExternalProvenance
     from .filing_order import FilingOrder
     from .guarantor import Guarantor
@@ -38,6 +41,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CoveragesForRelatedCauses": ".coverages_for_related_causes",
     "DoNotInvoiceReason": ".do_not_invoice_reason",
     "ElectronicCommunicationConsent": ".electronic_communication_consent",
+    "EligibilityAuditEventType": ".eligibility_audit_event_type",
+    "EligibilityTimelineEvent": ".eligibility_timeline_event",
+    "EligibilityTimelinePage": ".eligibility_timeline_page",
     "ExternalProvenance": ".external_provenance",
     "FilingOrder": ".filing_order",
     "Guarantor": ".guarantor",
@@ -87,6 +93,9 @@ __all__ = [
     "CoveragesForRelatedCauses",
     "DoNotInvoiceReason",
     "ElectronicCommunicationConsent",
+    "EligibilityAuditEventType",
+    "EligibilityTimelineEvent",
+    "EligibilityTimelinePage",
     "ExternalProvenance",
     "FilingOrder",
     "Guarantor",

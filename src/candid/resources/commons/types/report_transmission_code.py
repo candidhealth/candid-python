@@ -8,6 +8,11 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class ReportTransmissionCode(enum.StrEnum):
+    CAA = "AA"
+    """
+    Available on Request at Provider Site
+    """
+
     CBM = "BM"
     """
     By Mail
@@ -36,11 +41,14 @@ class ReportTransmissionCode(enum.StrEnum):
 
     def visit(
         self,
+        caa: typing.Callable[[], T_Result],
         cbm: typing.Callable[[], T_Result],
         cel: typing.Callable[[], T_Result],
         cfx: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
+        if self is ReportTransmissionCode.CAA:
+            return caa()
         if self is ReportTransmissionCode.CBM:
             return cbm()
         if self is ReportTransmissionCode.CEL:
