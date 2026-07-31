@@ -10,11 +10,19 @@ if typing.TYPE_CHECKING:
     from .organization_provider_page_v_2 import OrganizationProviderPageV2
     from .organization_provider_update_v_2 import OrganizationProviderUpdateV2
     from .organization_provider_v_2 import OrganizationProviderV2
+    from .provider_attachment import ProviderAttachment
+    from .provider_attachment_file_type import ProviderAttachmentFileType
+    from .provider_attachment_id import ProviderAttachmentId
+    from .provider_attachment_response import ProviderAttachmentResponse
 _dynamic_imports: typing.Dict[str, str] = {
     "OrganizationProviderCreateV2": ".organization_provider_create_v_2",
     "OrganizationProviderPageV2": ".organization_provider_page_v_2",
     "OrganizationProviderUpdateV2": ".organization_provider_update_v_2",
     "OrganizationProviderV2": ".organization_provider_v_2",
+    "ProviderAttachment": ".provider_attachment",
+    "ProviderAttachmentFileType": ".provider_attachment_file_type",
+    "ProviderAttachmentId": ".provider_attachment_id",
+    "ProviderAttachmentResponse": ".provider_attachment_response",
 }
 
 
@@ -44,4 +52,8 @@ __all__ = [
     "OrganizationProviderPageV2",
     "OrganizationProviderUpdateV2",
     "OrganizationProviderV2",
+    "ProviderAttachment",
+    "ProviderAttachmentFileType",
+    "ProviderAttachmentId",
+    "ProviderAttachmentResponse",
 ]

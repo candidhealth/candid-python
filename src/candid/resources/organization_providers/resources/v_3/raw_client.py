@@ -3,6 +3,7 @@
 import typing
 from json.decoder import JSONDecodeError
 
+from ..... import core
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.http_response import AsyncHttpResponse, HttpResponse
@@ -27,6 +28,10 @@ from .types.organization_provider_create_v_2 import OrganizationProviderCreateV2
 from .types.organization_provider_page_v_2 import OrganizationProviderPageV2
 from .types.organization_provider_update_v_2 import OrganizationProviderUpdateV2
 from .types.organization_provider_v_2 import OrganizationProviderV2
+from .types.provider_attachment import ProviderAttachment
+from .types.provider_attachment_file_type import ProviderAttachmentFileType
+from .types.provider_attachment_id import ProviderAttachmentId
+from .types.provider_attachment_response import ProviderAttachmentResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -311,6 +316,170 @@ class RawV3Client:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def upload_attachment(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        attachment_file: core.File,
+        file_type: ProviderAttachmentFileType,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ProviderAttachmentId]:
+        """
+        Uploads a file to the provider. Accepted file types are W9, PECOS_RECORD, and BANK_LETTER_OR_VOIDED_CHECK.
+        Only one file per type is allowed per provider — uploading when a file of the same type already exists returns a 409.
+
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        file_type : ProviderAttachmentFileType
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ProviderAttachmentId]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}/attachments",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PUT",
+            data={
+                "file_type": file_type,
+            },
+            files={
+                "attachment_file": attachment_file,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ProviderAttachmentId,
+                parse_obj_as(
+                    type_=ProviderAttachmentId,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def list_attachments(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[typing.List[ProviderAttachment]]:
+        """
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[typing.List[ProviderAttachment]]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}/attachments",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[ProviderAttachment],
+                parse_obj_as(
+                    type_=typing.List[ProviderAttachment],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def download_attachment(
+        self, *, attachment_id: ProviderAttachmentId, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ProviderAttachmentResponse]:
+        """
+        Parameters
+        ----------
+        attachment_id : ProviderAttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ProviderAttachmentResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/organization-providers/v3/attachments/download",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "attachment_id": attachment_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ProviderAttachmentResponse,
+                parse_obj_as(
+                    type_=ProviderAttachmentResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def delete_attachment(
+        self, attachment_id: ProviderAttachmentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[None]:
+        """
+        Parameters
+        ----------
+        attachment_id : ProviderAttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[None]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/organization-providers/v3/attachments/{jsonable_encoder(attachment_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return HttpResponse(response=_response, data=None)
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV3Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -589,4 +758,168 @@ class AsyncRawV3Client:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def upload_attachment(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        attachment_file: core.File,
+        file_type: ProviderAttachmentFileType,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ProviderAttachmentId]:
+        """
+        Uploads a file to the provider. Accepted file types are W9, PECOS_RECORD, and BANK_LETTER_OR_VOIDED_CHECK.
+        Only one file per type is allowed per provider — uploading when a file of the same type already exists returns a 409.
+
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        file_type : ProviderAttachmentFileType
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ProviderAttachmentId]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}/attachments",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="PUT",
+            data={
+                "file_type": file_type,
+            },
+            files={
+                "attachment_file": attachment_file,
+            },
+            request_options=request_options,
+            omit=OMIT,
+            force_multipart=True,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ProviderAttachmentId,
+                parse_obj_as(
+                    type_=ProviderAttachmentId,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def list_attachments(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[typing.List[ProviderAttachment]]:
+        """
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[typing.List[ProviderAttachment]]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/organization-providers/v3/{jsonable_encoder(organization_provider_id)}/attachments",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[ProviderAttachment],
+                parse_obj_as(
+                    type_=typing.List[ProviderAttachment],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def download_attachment(
+        self, *, attachment_id: ProviderAttachmentId, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ProviderAttachmentResponse]:
+        """
+        Parameters
+        ----------
+        attachment_id : ProviderAttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ProviderAttachmentResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/organization-providers/v3/attachments/download",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            params={
+                "attachment_id": attachment_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                ProviderAttachmentResponse,
+                parse_obj_as(
+                    type_=ProviderAttachmentResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def delete_attachment(
+        self, attachment_id: ProviderAttachmentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[None]:
+        """
+        Parameters
+        ----------
+        attachment_id : ProviderAttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[None]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/organization-providers/v3/attachments/{jsonable_encoder(attachment_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="DELETE",
+            request_options=request_options,
+        )
+        if 200 <= _response.status_code < 300:
+            return AsyncHttpResponse(response=_response, data=None)
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

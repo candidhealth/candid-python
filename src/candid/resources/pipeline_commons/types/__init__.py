@@ -7,7 +7,8 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .configurable_rule_id import ConfigurableRuleId
-_dynamic_imports: typing.Dict[str, str] = {"ConfigurableRuleId": ".configurable_rule_id"}
+    from .rule_id import RuleId
+_dynamic_imports: typing.Dict[str, str] = {"ConfigurableRuleId": ".configurable_rule_id", "RuleId": ".rule_id"}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -31,4 +32,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["ConfigurableRuleId"]
+__all__ = ["ConfigurableRuleId", "RuleId"]

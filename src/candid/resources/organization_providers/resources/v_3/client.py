@@ -2,6 +2,7 @@
 
 import typing
 
+from ..... import core
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
 from ....commons.types.organization_id import OrganizationId
@@ -13,6 +14,10 @@ from .types.organization_provider_create_v_2 import OrganizationProviderCreateV2
 from .types.organization_provider_page_v_2 import OrganizationProviderPageV2
 from .types.organization_provider_update_v_2 import OrganizationProviderUpdateV2
 from .types.organization_provider_v_2 import OrganizationProviderV2
+from .types.provider_attachment import ProviderAttachment
+from .types.provider_attachment_file_type import ProviderAttachmentFileType
+from .types.provider_attachment_id import ProviderAttachmentId
+from .types.provider_attachment_response import ProviderAttachmentResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -265,6 +270,147 @@ class V3Client:
         )
         """
         _response = self._raw_client.update(organization_provider_id, request=request, request_options=request_options)
+        return _response.data
+
+    def upload_attachment(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        attachment_file: core.File,
+        file_type: ProviderAttachmentFileType,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ProviderAttachmentId:
+        """
+        Uploads a file to the provider. Accepted file types are W9, PECOS_RECORD, and BANK_LETTER_OR_VOIDED_CHECK.
+        Only one file per type is allowed per provider — uploading when a file of the same type already exists returns a 409.
+
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        file_type : ProviderAttachmentFileType
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProviderAttachmentId
+        """
+        _response = self._raw_client.upload_attachment(
+            organization_provider_id,
+            attachment_file=attachment_file,
+            file_type=file_type,
+            request_options=request_options,
+        )
+        return _response.data
+
+    def list_attachments(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.List[ProviderAttachment]:
+        """
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[ProviderAttachment]
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_providers.v_3.list_attachments(
+            organization_provider_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.list_attachments(organization_provider_id, request_options=request_options)
+        return _response.data
+
+    def download_attachment(
+        self, *, attachment_id: ProviderAttachmentId, request_options: typing.Optional[RequestOptions] = None
+    ) -> ProviderAttachmentResponse:
+        """
+        Parameters
+        ----------
+        attachment_id : ProviderAttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProviderAttachmentResponse
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_providers.v_3.download_attachment(
+            attachment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.download_attachment(attachment_id=attachment_id, request_options=request_options)
+        return _response.data
+
+    def delete_attachment(
+        self, attachment_id: ProviderAttachmentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        attachment_id : ProviderAttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.organization_providers.v_3.delete_attachment(
+            attachment_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.delete_attachment(attachment_id, request_options=request_options)
         return _response.data
 
 
@@ -547,4 +693,168 @@ class AsyncV3Client:
         _response = await self._raw_client.update(
             organization_provider_id, request=request, request_options=request_options
         )
+        return _response.data
+
+    async def upload_attachment(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        attachment_file: core.File,
+        file_type: ProviderAttachmentFileType,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ProviderAttachmentId:
+        """
+        Uploads a file to the provider. Accepted file types are W9, PECOS_RECORD, and BANK_LETTER_OR_VOIDED_CHECK.
+        Only one file per type is allowed per provider — uploading when a file of the same type already exists returns a 409.
+
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        attachment_file : core.File
+            See core.File for more documentation
+
+        file_type : ProviderAttachmentFileType
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProviderAttachmentId
+        """
+        _response = await self._raw_client.upload_attachment(
+            organization_provider_id,
+            attachment_file=attachment_file,
+            file_type=file_type,
+            request_options=request_options,
+        )
+        return _response.data
+
+    async def list_attachments(
+        self,
+        organization_provider_id: OrganizationProviderId,
+        *,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.List[ProviderAttachment]:
+        """
+        Parameters
+        ----------
+        organization_provider_id : OrganizationProviderId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[ProviderAttachment]
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.organization_providers.v_3.list_attachments(
+                organization_provider_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.list_attachments(organization_provider_id, request_options=request_options)
+        return _response.data
+
+    async def download_attachment(
+        self, *, attachment_id: ProviderAttachmentId, request_options: typing.Optional[RequestOptions] = None
+    ) -> ProviderAttachmentResponse:
+        """
+        Parameters
+        ----------
+        attachment_id : ProviderAttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProviderAttachmentResponse
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.organization_providers.v_3.download_attachment(
+                attachment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.download_attachment(
+            attachment_id=attachment_id, request_options=request_options
+        )
+        return _response.data
+
+    async def delete_attachment(
+        self, attachment_id: ProviderAttachmentId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> None:
+        """
+        Parameters
+        ----------
+        attachment_id : ProviderAttachmentId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.organization_providers.v_3.delete_attachment(
+                attachment_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.delete_attachment(attachment_id, request_options=request_options)
         return _response.data

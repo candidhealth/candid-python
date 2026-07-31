@@ -60,6 +60,8 @@ class V1Client:
             | `PreEncounter.Coverage.Updated` | When a patient's coverage has been updated |
             | `PreEncounter.Tag.Created` | When a new tag has been created for a patient |
             | `PreEncounter.Tag.Updated` | When a patient's tag has been updated |
+            | `CandidApi.OrganizationProvider.Created` | When a new organization provider has been created |
+            | `CandidApi.OrganizationProvider.Updated` | When an organization provider has been updated |
 
         created_before : typing.Optional[dt.datetime]
             Filters for only events created before this time (inclusive).
@@ -175,6 +177,8 @@ class AsyncV1Client:
             | `PreEncounter.Coverage.Updated` | When a patient's coverage has been updated |
             | `PreEncounter.Tag.Created` | When a new tag has been created for a patient |
             | `PreEncounter.Tag.Updated` | When a patient's tag has been updated |
+            | `CandidApi.OrganizationProvider.Created` | When a new organization provider has been created |
+            | `CandidApi.OrganizationProvider.Updated` | When an organization provider has been updated |
 
         created_before : typing.Optional[dt.datetime]
             Filters for only events created before this time (inclusive).

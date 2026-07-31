@@ -262,7 +262,7 @@ if typing.TYPE_CHECKING:
     )
     from .invoices import Invoice, InvoiceItem, InvoiceStatus
     from .payment_account_configs import PaymentAccountConfigId
-    from .pipeline_commons import ConfigurableRuleId
+    from .pipeline_commons import ConfigurableRuleId, RuleId
     from .service_facility import (
         EncounterServiceFacility,
         EncounterServiceFacilityBase,
@@ -433,6 +433,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReportTypeCode": ".commons",
     "RequestValidationError": ".commons",
     "ResourcePage": ".commons",
+    "RuleId": ".pipeline_commons",
     "SchemaId": ".commons",
     "ServiceFacilityId": ".service_facility",
     "ServiceLineAllocationTarget": ".financials",
@@ -718,6 +719,7 @@ __all__ = [
     "ReportTypeCode",
     "RequestValidationError",
     "ResourcePage",
+    "RuleId",
     "SchemaId",
     "ServiceFacilityId",
     "ServiceLineAllocationTarget",

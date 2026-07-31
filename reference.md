@@ -7356,6 +7356,8 @@ Event types to filter on. Defaults to showing all event types.
 | `PreEncounter.Coverage.Updated` | When a patient's coverage has been updated |
 | `PreEncounter.Tag.Created` | When a new tag has been created for a patient |
 | `PreEncounter.Tag.Updated` | When a patient's tag has been updated |
+| `CandidApi.OrganizationProvider.Created` | When a new organization provider has been created |
+| `CandidApi.OrganizationProvider.Updated` | When an organization provider has been updated |
     
 </dd>
 </dl>
@@ -12138,6 +12140,189 @@ client.organization_providers.v_3.update(
 <dd>
 
 **request:** `OrganizationProviderUpdateV2` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">list_attachments</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.list_attachments(
+    organization_provider_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**organization_provider_id:** `OrganizationProviderId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">download_attachment</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.download_attachment(
+    attachment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**attachment_id:** `ProviderAttachmentId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.organization_providers.v_3.<a href="src/candid/resources/organization_providers/resources/v_3/client.py">delete_attachment</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.organization_providers.v_3.delete_attachment(
+    attachment_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**attachment_id:** `ProviderAttachmentId` 
     
 </dd>
 </dl>

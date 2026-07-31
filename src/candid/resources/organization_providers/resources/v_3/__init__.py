@@ -11,12 +11,20 @@ if typing.TYPE_CHECKING:
         OrganizationProviderPageV2,
         OrganizationProviderUpdateV2,
         OrganizationProviderV2,
+        ProviderAttachment,
+        ProviderAttachmentFileType,
+        ProviderAttachmentId,
+        ProviderAttachmentResponse,
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "OrganizationProviderCreateV2": ".types",
     "OrganizationProviderPageV2": ".types",
     "OrganizationProviderUpdateV2": ".types",
     "OrganizationProviderV2": ".types",
+    "ProviderAttachment": ".types",
+    "ProviderAttachmentFileType": ".types",
+    "ProviderAttachmentId": ".types",
+    "ProviderAttachmentResponse": ".types",
 }
 
 
@@ -46,4 +54,8 @@ __all__ = [
     "OrganizationProviderPageV2",
     "OrganizationProviderUpdateV2",
     "OrganizationProviderV2",
+    "ProviderAttachment",
+    "ProviderAttachmentFileType",
+    "ProviderAttachmentId",
+    "ProviderAttachmentResponse",
 ]

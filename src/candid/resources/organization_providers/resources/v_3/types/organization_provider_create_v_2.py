@@ -29,17 +29,17 @@ class OrganizationProviderCreateV2(UniversalBaseModel):
 
     first_name: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The first name of the provider, if the provider is an individual.
+    The first name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when provider_type is ORGANIZATION.
     """
 
     last_name: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The last name of the provider, if the provider is an individual.
+    The last name of the provider. Required when provider_type is INDIVIDUAL. Must not be set when provider_type is ORGANIZATION.
     """
 
     organization_name: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The name of the provider, if the provider is an organization.
+    The name of the provider. Required when provider_type is ORGANIZATION. Must not be set when provider_type is INDIVIDUAL.
     """
 
     provider_type: ProviderType = pydantic.Field()
@@ -49,7 +49,7 @@ class OrganizationProviderCreateV2(UniversalBaseModel):
 
     tax_id: typing.Optional[str] = pydantic.Field(default=None)
     """
-    If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
+    Required when is_billing is true. If the provider has a contract with insurance, this must be the same tax ID given to the payer on an IRS W-9 form completed during contracting.
     """
 
     taxonomy_code: typing.Optional[str] = pydantic.Field(default=None)

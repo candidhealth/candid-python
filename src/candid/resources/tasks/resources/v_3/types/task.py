@@ -8,6 +8,7 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.encounter_id import EncounterId
 from .....commons.types.task_id import TaskId
 from .....pipeline_commons.types.configurable_rule_id import ConfigurableRuleId
+from .....pipeline_commons.types.rule_id import RuleId
 from ...commons.types.task_category import TaskCategory
 from ...commons.types.task_status import TaskStatus
 from ...commons.types.task_type import TaskType
@@ -43,6 +44,7 @@ class Task(UniversalBaseModel):
     assignments: typing.List[TaskAssignment]
     category: typing.Optional[TaskCategory] = None
     configurable_rule_id: typing.Optional[ConfigurableRuleId] = None
+    persisted_rule_id: typing.Optional[RuleId] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

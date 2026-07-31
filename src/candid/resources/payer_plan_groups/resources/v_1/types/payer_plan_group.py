@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2
+from .....commons.types.organization_id import OrganizationId
 from .....commons.types.payer_plan_group_id import PayerPlanGroupId
 from .....payers.resources.v_3.types.payer import Payer
 from .mutable_payer_plan_group import MutablePayerPlanGroup
@@ -13,6 +14,7 @@ class PayerPlanGroup(MutablePayerPlanGroup):
     payer_plan_group_id: PayerPlanGroupId
     payer: Payer
     is_active: bool
+    organization_id: OrganizationId
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
