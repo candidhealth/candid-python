@@ -15,6 +15,10 @@ if typing.TYPE_CHECKING:
         IdpUserMetadata_GoogleAppsMetadata,
         IdpUserMetadata_OtherIdpMetadata,
     )
+    from .m_2_m_user_create_v_2 import M2MUserCreateV2
+    from .m_2_m_user_failed_to_create_error import M2MUserFailedToCreateError
+    from .m_2_m_user_limit_reached_error import M2MUserLimitReachedError
+    from .m_2_m_user_response import M2MUserResponse
     from .machine_user_metadata import MachineUserMetadata
     from .other_idp_metadata import OtherIdpMetadata
     from .user_metadata import UserMetadata, UserMetadata_HumanUserMetadata, UserMetadata_MachineUserMetadata
@@ -27,6 +31,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "IdpUserMetadata_AuthZeroMetadata": ".idp_user_metadata",
     "IdpUserMetadata_GoogleAppsMetadata": ".idp_user_metadata",
     "IdpUserMetadata_OtherIdpMetadata": ".idp_user_metadata",
+    "M2MUserCreateV2": ".m_2_m_user_create_v_2",
+    "M2MUserFailedToCreateError": ".m_2_m_user_failed_to_create_error",
+    "M2MUserLimitReachedError": ".m_2_m_user_limit_reached_error",
+    "M2MUserResponse": ".m_2_m_user_response",
     "MachineUserMetadata": ".machine_user_metadata",
     "OtherIdpMetadata": ".other_idp_metadata",
     "UserMetadata": ".user_metadata",
@@ -65,6 +73,10 @@ __all__ = [
     "IdpUserMetadata_AuthZeroMetadata",
     "IdpUserMetadata_GoogleAppsMetadata",
     "IdpUserMetadata_OtherIdpMetadata",
+    "M2MUserCreateV2",
+    "M2MUserFailedToCreateError",
+    "M2MUserLimitReachedError",
+    "M2MUserResponse",
     "MachineUserMetadata",
     "OtherIdpMetadata",
     "UserMetadata",

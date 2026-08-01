@@ -69,6 +69,7 @@ if typing.TYPE_CHECKING:
     from .resources.service_lines.client import AsyncServiceLinesClient, ServiceLinesClient
     from .resources.superbills.client import AsyncSuperbillsClient, SuperbillsClient
     from .resources.tasks.client import AsyncTasksClient, TasksClient
+    from .resources.users.client import AsyncUsersClient, UsersClient
     from .resources.write_offs.client import AsyncWriteOffsClient, WriteOffsClient
 
 
@@ -235,6 +236,7 @@ class CandidApiClient:
         self._service_lines: typing.Optional[ServiceLinesClient] = None
         self._superbills: typing.Optional[SuperbillsClient] = None
         self._tasks: typing.Optional[TasksClient] = None
+        self._users: typing.Optional[UsersClient] = None
         self._write_offs: typing.Optional[WriteOffsClient] = None
         self._pre_encounter: typing.Optional[PreEncounterClient] = None
         self._diagnoses: typing.Optional[DiagnosesClient] = None
@@ -532,6 +534,14 @@ class CandidApiClient:
         return self._tasks
 
     @property
+    def users(self):
+        if self._users is None:
+            from .resources.users.client import UsersClient  # noqa: E402
+
+            self._users = UsersClient(client_wrapper=self._client_wrapper)
+        return self._users
+
+    @property
     def write_offs(self):
         if self._write_offs is None:
             from .resources.write_offs.client import WriteOffsClient  # noqa: E402
@@ -720,6 +730,7 @@ class AsyncCandidApiClient:
         self._service_lines: typing.Optional[AsyncServiceLinesClient] = None
         self._superbills: typing.Optional[AsyncSuperbillsClient] = None
         self._tasks: typing.Optional[AsyncTasksClient] = None
+        self._users: typing.Optional[AsyncUsersClient] = None
         self._write_offs: typing.Optional[AsyncWriteOffsClient] = None
         self._pre_encounter: typing.Optional[AsyncPreEncounterClient] = None
         self._diagnoses: typing.Optional[AsyncDiagnosesClient] = None
@@ -1023,6 +1034,14 @@ class AsyncCandidApiClient:
 
             self._tasks = AsyncTasksClient(client_wrapper=self._client_wrapper)
         return self._tasks
+
+    @property
+    def users(self):
+        if self._users is None:
+            from .resources.users.client import AsyncUsersClient  # noqa: E402
+
+            self._users = AsyncUsersClient(client_wrapper=self._client_wrapper)
+        return self._users
 
     @property
     def write_offs(self):

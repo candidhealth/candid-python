@@ -15897,6 +15897,86 @@ client.tasks.v_3.update(
 </dl>
 </details>
 
+## Users V2
+<details><summary><code>client.users.v_2.<a href="src/candid/resources/users/resources/v_2/client.py">create_m_2_m_user_v_2</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Provisions a machine-to-machine (M2M) API user. Requires `organization_id`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.users.resources.v_2 import M2MUserCreateV2
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.users.v_2.create_m_2_m_user_v_2(
+    request=M2MUserCreateV2(
+        name="name",
+        organization_id=uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `M2MUserCreateV2` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## WriteOffs V1
 <details><summary><code>client.write_offs.v_1.<a href="src/candid/resources/write_offs/resources/v_1/client.py">get_multi</a>(...)</code></summary>
 <dl>
