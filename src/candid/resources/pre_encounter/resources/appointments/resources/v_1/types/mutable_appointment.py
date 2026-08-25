@@ -51,6 +51,11 @@ class MutableAppointment(UniversalBaseModel):
     ID for the appointment/order for the event.
     """
 
+    placer_system_name: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The name of the upstream system that placed this appointment.
+    """
+
     attending_doctor: typing.Optional[ExternalProvider] = pydantic.Field(default=None)
     """
     Attending physician information. The attending physician will be stored as the Current MD for the patient.

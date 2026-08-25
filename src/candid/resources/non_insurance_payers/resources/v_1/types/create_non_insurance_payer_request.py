@@ -24,6 +24,11 @@ class CreateNonInsurancePayerRequest(UniversalBaseModel):
     Max 255 characters allowed
     """
 
+    payer_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The identifier used to route claims to this payer. Required in order to submit an 837 to this payer. Must be between 2 and 80 characters.
+    """
+
     address: typing.Optional[StreetAddressShortZip] = None
     clinical_trials: typing.Optional[typing.List[MutableClinicalTrial]] = pydantic.Field(default=None)
     """

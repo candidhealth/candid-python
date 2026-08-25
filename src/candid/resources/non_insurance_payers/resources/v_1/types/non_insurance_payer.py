@@ -27,6 +27,7 @@ class NonInsurancePayer(UniversalBaseModel):
         name="Sunrise Foundation",
         category="Foundation",
         description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
+        payer_id="SUNRISE01",
         enabled=True,
         address=StreetAddressShortZip(
             address_1="123 Main St",
@@ -42,6 +43,11 @@ class NonInsurancePayer(UniversalBaseModel):
     name: str
     description: typing.Optional[str] = None
     category: typing.Optional[str] = None
+    payer_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The identifier used to route claims to this payer. Required in order to submit an 837 to this payer. Must be between 2 and 80 characters.
+    """
+
     enabled: bool
     address: typing.Optional[StreetAddressShortZip] = None
     clinical_trials: typing.List[ClinicalTrial]

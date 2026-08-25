@@ -13,6 +13,7 @@ if typing.TYPE_CHECKING:
     from .resources.eligibility_checks.client import AsyncEligibilityChecksClient, EligibilityChecksClient
     from .resources.images.client import AsyncImagesClient, ImagesClient
     from .resources.lists.client import AsyncListsClient, ListsClient
+    from .resources.metadata_schemas.client import AsyncMetadataSchemasClient, MetadataSchemasClient
     from .resources.notes.client import AsyncNotesClient, NotesClient
     from .resources.organization_external_providers.client import (
         AsyncOrganizationExternalProvidersClient,
@@ -32,6 +33,7 @@ class PreEncounterClient:
         self._eligibility_checks: typing.Optional[EligibilityChecksClient] = None
         self._images: typing.Optional[ImagesClient] = None
         self._lists: typing.Optional[ListsClient] = None
+        self._metadata_schemas: typing.Optional[MetadataSchemasClient] = None
         self._notes: typing.Optional[NotesClient] = None
         self._organization_external_providers: typing.Optional[OrganizationExternalProvidersClient] = None
         self._patient_merges: typing.Optional[PatientMergesClient] = None
@@ -90,6 +92,14 @@ class PreEncounterClient:
         return self._lists
 
     @property
+    def metadata_schemas(self):
+        if self._metadata_schemas is None:
+            from .resources.metadata_schemas.client import MetadataSchemasClient  # noqa: E402
+
+            self._metadata_schemas = MetadataSchemasClient(client_wrapper=self._client_wrapper)
+        return self._metadata_schemas
+
+    @property
     def notes(self):
         if self._notes is None:
             from .resources.notes.client import NotesClient  # noqa: E402
@@ -143,6 +153,7 @@ class AsyncPreEncounterClient:
         self._eligibility_checks: typing.Optional[AsyncEligibilityChecksClient] = None
         self._images: typing.Optional[AsyncImagesClient] = None
         self._lists: typing.Optional[AsyncListsClient] = None
+        self._metadata_schemas: typing.Optional[AsyncMetadataSchemasClient] = None
         self._notes: typing.Optional[AsyncNotesClient] = None
         self._organization_external_providers: typing.Optional[AsyncOrganizationExternalProvidersClient] = None
         self._patient_merges: typing.Optional[AsyncPatientMergesClient] = None
@@ -199,6 +210,14 @@ class AsyncPreEncounterClient:
 
             self._lists = AsyncListsClient(client_wrapper=self._client_wrapper)
         return self._lists
+
+    @property
+    def metadata_schemas(self):
+        if self._metadata_schemas is None:
+            from .resources.metadata_schemas.client import AsyncMetadataSchemasClient  # noqa: E402
+
+            self._metadata_schemas = AsyncMetadataSchemasClient(client_wrapper=self._client_wrapper)
+        return self._metadata_schemas
 
     @property
     def notes(self):

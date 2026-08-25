@@ -6,6 +6,7 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....charge_capture.resources.v_1.types.charge_capture_data import ChargeCaptureData
 from .....charge_capture.resources.v_1.types.charge_capture_error import ChargeCaptureError
+from .....claim_preview.resources.v_1.types.claim_preview_id import ClaimPreviewId
 from .....commons.types.charge_capture_claim_creation_id import ChargeCaptureClaimCreationId
 from .....commons.types.encounter_id import EncounterId
 from .charge_capture_claim_creation_status import ChargeCaptureClaimCreationStatus
@@ -34,6 +35,11 @@ class ChargeCaptureClaimCreation(UniversalBaseModel):
     encounter_creation_input: typing.Optional[ChargeCaptureData] = pydantic.Field(default=None)
     """
     If a ChargeCaptureBundle attempts creation, this is the input that was created from the underlying charges and used to attempt encounter creation.
+    """
+
+    most_recent_claim_preview_id: typing.Optional[ClaimPreviewId] = pydantic.Field(default=None)
+    """
+    The ID of the most recently created claim preview associated with this bundle, if any exists.
     """
 
     if IS_PYDANTIC_V2:

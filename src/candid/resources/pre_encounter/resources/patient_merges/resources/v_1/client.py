@@ -9,6 +9,8 @@ from ....common.types.patient_merge_id import PatientMergeId
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.mutable_patient_merge import MutablePatientMerge
 from .types.patient_merge import PatientMerge
+from .types.patient_merge_page import PatientMergePage
+from .types.patient_merge_search_request import PatientMergeSearchRequest
 from .types.patient_merge_status import PatientMergeStatus
 
 # this is used as the default value for optional parameters
@@ -220,6 +222,44 @@ class V1Client:
         )
         """
         _response = self._raw_client.scan(since=since, max_results=max_results, request_options=request_options)
+        return _response.data
+
+    def search(
+        self, *, request: PatientMergeSearchRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> PatientMergePage:
+        """
+        Returns a page of patient merge records for the given MRNs. A merge is included
+        when the MRN matches either the alternative or the primary patient MRN.
+
+        Parameters
+        ----------
+        request : PatientMergeSearchRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientMergePage
+
+        Examples
+        --------
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.patient_merges.resources.v_1 import (
+            PatientMergeSearchRequest,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.patient_merges.v_1.search(
+            request=PatientMergeSearchRequest(
+                mrns=["mrns", "mrns"],
+            ),
+        )
+        """
+        _response = self._raw_client.search(request=request, request_options=request_options)
         return _response.data
 
 
@@ -467,4 +507,50 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.scan(since=since, max_results=max_results, request_options=request_options)
+        return _response.data
+
+    async def search(
+        self, *, request: PatientMergeSearchRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> PatientMergePage:
+        """
+        Returns a page of patient merge records for the given MRNs. A merge is included
+        when the MRN matches either the alternative or the primary patient MRN.
+
+        Parameters
+        ----------
+        request : PatientMergeSearchRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PatientMergePage
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.patient_merges.resources.v_1 import (
+            PatientMergeSearchRequest,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.patient_merges.v_1.search(
+                request=PatientMergeSearchRequest(
+                    mrns=["mrns", "mrns"],
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.search(request=request, request_options=request_options)
         return _response.data

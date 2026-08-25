@@ -114,6 +114,9 @@ class LicenseType(enum.StrEnum):
     AUD = "AuD"
     ATC = "ATC"
     LAT = "LAT"
+    OTA = "OTA"
+    LSSP = "LSSP"
+    SLPA = "SLPA"
     _UNKNOWN = "__LICENSETYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -233,6 +236,9 @@ class LicenseType(enum.StrEnum):
         aud: typing.Callable[[], T_Result],
         atc: typing.Callable[[], T_Result],
         lat: typing.Callable[[], T_Result],
+        ota: typing.Callable[[], T_Result],
+        lssp: typing.Callable[[], T_Result],
+        slpa: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is LicenseType.MD:
@@ -447,4 +453,10 @@ class LicenseType(enum.StrEnum):
             return atc()
         if self is LicenseType.LAT:
             return lat()
+        if self is LicenseType.OTA:
+            return ota()
+        if self is LicenseType.LSSP:
+            return lssp()
+        if self is LicenseType.SLPA:
+            return slpa()
         return _unknown_member(self._value_)

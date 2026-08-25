@@ -11,6 +11,7 @@ class CarveOutType(enum.StrEnum):
     BEHAVIORAL = "BEHAVIORAL"
     MEDICAL = "MEDICAL"
     THERAPY = "THERAPY"
+    OTHER = "OTHER"
     _UNKNOWN = "__CARVEOUTTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -27,6 +28,7 @@ class CarveOutType(enum.StrEnum):
         behavioral: typing.Callable[[], T_Result],
         medical: typing.Callable[[], T_Result],
         therapy: typing.Callable[[], T_Result],
+        other: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is CarveOutType.BEHAVIORAL:
@@ -35,4 +37,6 @@ class CarveOutType(enum.StrEnum):
             return medical()
         if self is CarveOutType.THERAPY:
             return therapy()
+        if self is CarveOutType.OTHER:
+            return other()
         return _unknown_member(self._value_)

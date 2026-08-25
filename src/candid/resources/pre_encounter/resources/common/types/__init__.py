@@ -30,6 +30,7 @@ if typing.TYPE_CHECKING:
     from .filter_query_string import FilterQueryString
     from .gender import Gender
     from .human_name import HumanName
+    from .metadata_schema_id import MetadataSchemaId
     from .name_use import NameUse
     from .note_id import NoteId
     from .organization_id import OrganizationId
@@ -74,6 +75,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "FilterQueryString": ".filter_query_string",
     "Gender": ".gender",
     "HumanName": ".human_name",
+    "MetadataSchemaId": ".metadata_schema_id",
     "NameUse": ".name_use",
     "NoteId": ".note_id",
     "OrganizationId": ".organization_id",
@@ -142,6 +144,7 @@ __all__ = [
     "FilterQueryString",
     "Gender",
     "HumanName",
+    "MetadataSchemaId",
     "NameUse",
     "NoteId",
     "OrganizationId",

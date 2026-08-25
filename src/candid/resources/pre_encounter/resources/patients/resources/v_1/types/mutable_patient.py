@@ -25,6 +25,7 @@ from .advanced_directive import AdvancedDirective
 from .authorization import Authorization
 from .contact import Contact
 from .coverages_for_related_causes import CoveragesForRelatedCauses
+from .custom_metadata_entry import CustomMetadataEntry
 from .do_not_invoice_reason import DoNotInvoiceReason
 from .electronic_communication_consent import ElectronicCommunicationConsent
 from .external_provenance import ExternalProvenance
@@ -166,6 +167,10 @@ class MutablePatient(UniversalBaseModel):
 
     advanced_directives: typing.Optional[typing.List[AdvancedDirective]] = None
     hipaa_code: typing.Optional[str] = None
+    custom_metadata: typing.Optional[typing.List[CustomMetadataEntry]] = pydantic.Field(default=None)
+    """
+    Custom key/value metadata attached to this patient, grouped by the MetadataSchema that defines the keys' types. Configure schemas via the metadata-schemas API. Values are validated against the referenced schema on write.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

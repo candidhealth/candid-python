@@ -21,6 +21,7 @@ class EligibilityTimelineEvent(UniversalBaseModel):
     patient_id: PatientId
     coverage_id: typing.Optional[CoverageId] = None
     appointment_id: typing.Optional[AppointmentId] = None
+    appointment_date: typing.Optional[dt.datetime] = None
     timestamp: dt.datetime
     user_id: str
     user_name: str = pydantic.Field()

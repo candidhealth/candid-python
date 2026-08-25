@@ -286,6 +286,7 @@ class Encounter(EncounterBase):
                     name="Sunrise Foundation",
                     category="Foundation",
                     description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
+                    payer_id="SUNRISE01",
                     enabled=True,
                     address=StreetAddressShortZip(
                         address_1="123 Main St",
@@ -305,6 +306,7 @@ class Encounter(EncounterBase):
                         name="Sunrise Foundation",
                         category="Foundation",
                         description="Sunrise Foundation is a non-profit organization that provides financial assistance to patients in need.",
+                        payer_id="SUNRISE01",
                         enabled=True,
                         address=StreetAddressShortZip(
                             address_1="123 Main St",

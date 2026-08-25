@@ -11,6 +11,7 @@ if typing.TYPE_CHECKING:
     from .authorization_unit import AuthorizationUnit
     from .contact import Contact
     from .coverages_for_related_causes import CoveragesForRelatedCauses
+    from .custom_metadata_entry import CustomMetadataEntry
     from .do_not_invoice_reason import DoNotInvoiceReason
     from .electronic_communication_consent import ElectronicCommunicationConsent
     from .eligibility_audit_event_type import EligibilityAuditEventType
@@ -39,6 +40,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AuthorizationUnit": ".authorization_unit",
     "Contact": ".contact",
     "CoveragesForRelatedCauses": ".coverages_for_related_causes",
+    "CustomMetadataEntry": ".custom_metadata_entry",
     "DoNotInvoiceReason": ".do_not_invoice_reason",
     "ElectronicCommunicationConsent": ".electronic_communication_consent",
     "EligibilityAuditEventType": ".eligibility_audit_event_type",
@@ -91,6 +93,7 @@ __all__ = [
     "AuthorizationUnit",
     "Contact",
     "CoveragesForRelatedCauses",
+    "CustomMetadataEntry",
     "DoNotInvoiceReason",
     "ElectronicCommunicationConsent",
     "EligibilityAuditEventType",

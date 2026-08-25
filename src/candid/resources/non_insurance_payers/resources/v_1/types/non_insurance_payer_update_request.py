@@ -7,6 +7,7 @@ from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .non_insurance_payer_address_update import NonInsurancePayerAddressUpdate
 from .non_insurance_payer_category_update import NonInsurancePayerCategoryUpdate
 from .non_insurance_payer_description_update import NonInsurancePayerDescriptionUpdate
+from .non_insurance_payer_payer_id_update import NonInsurancePayerPayerIdUpdate
 
 
 class NonInsurancePayerUpdateRequest(UniversalBaseModel):
@@ -17,6 +18,7 @@ class NonInsurancePayerUpdateRequest(UniversalBaseModel):
 
     description: typing.Optional[NonInsurancePayerDescriptionUpdate] = None
     category: typing.Optional[NonInsurancePayerCategoryUpdate] = None
+    payer_id: typing.Optional[NonInsurancePayerPayerIdUpdate] = None
     address: typing.Optional[NonInsurancePayerAddressUpdate] = None
 
     if IS_PYDANTIC_V2:

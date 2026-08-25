@@ -10,6 +10,8 @@ if typing.TYPE_CHECKING:
     from .mutable_patient_merge import MutablePatientMerge
     from .none_status import NoneStatus
     from .patient_merge import PatientMerge
+    from .patient_merge_page import PatientMergePage
+    from .patient_merge_search_request import PatientMergeSearchRequest
     from .patient_merge_status import (
         PatientMergeStatus,
         PatientMergeStatus_Alternative,
@@ -22,6 +24,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "MutablePatientMerge": ".mutable_patient_merge",
     "NoneStatus": ".none_status",
     "PatientMerge": ".patient_merge",
+    "PatientMergePage": ".patient_merge_page",
+    "PatientMergeSearchRequest": ".patient_merge_search_request",
     "PatientMergeStatus": ".patient_merge_status",
     "PatientMergeStatus_Alternative": ".patient_merge_status",
     "PatientMergeStatus_None": ".patient_merge_status",
@@ -56,6 +60,8 @@ __all__ = [
     "MutablePatientMerge",
     "NoneStatus",
     "PatientMerge",
+    "PatientMergePage",
+    "PatientMergeSearchRequest",
     "PatientMergeStatus",
     "PatientMergeStatus_Alternative",
     "PatientMergeStatus_None",

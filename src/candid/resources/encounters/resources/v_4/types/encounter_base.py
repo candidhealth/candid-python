@@ -7,6 +7,7 @@ import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.delay_reason_code import DelayReasonCode
 from .....commons.types.encounter_external_id import EncounterExternalId
+from .....commons.types.npi import Npi
 from .....commons.types.street_address_long_zip import StreetAddressLongZip
 from .billable_status_type import BillableStatusType
 from .intervention import Intervention
@@ -97,6 +98,24 @@ class EncounterBase(UniversalBaseModel):
     """
     Defines additional information on the claim needed by the payer.
     Box 19 on the CMS-1500 claim form or Form Locator 80 on a UB-04 claim form.
+    """
+
+    outside_lab: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Indicates whether lab services were performed outside the billing entity.
+    Box 20 (Yes/No) on the CMS-1500 claim form.
+    """
+
+    outside_lab_charges_amount_cents: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    The charges associated with outside lab services, in cents.
+    Box 20 (Charges) on the CMS-1500 claim form. Applicable when outside_lab is true.
+    """
+
+    purchased_service_provider_npi: typing.Optional[Npi] = pydantic.Field(default=None)
+    """
+    NPI of the provider that performed the outside lab service.
+    Box 20 on the CMS-1500 claim form. Required to record outside lab charges.
     """
 
     service_authorization_exception_code: typing.Optional[ServiceAuthorizationExceptionCode] = pydantic.Field(

@@ -23,6 +23,8 @@ class NotReadyReason(enum.StrEnum):
     ELIGIBILITY_CHECK_FAILED_PRIMARY = "ELIGIBILITY_CHECK_FAILED_PRIMARY"
     ELIGIBILITY_CHECK_FAILED_SECONDARY = "ELIGIBILITY_CHECK_FAILED_SECONDARY"
     NEW_COMBO = "NEW_COMBO"
+    NEW_INSURANCE = "NEW_INSURANCE"
+    PRIOR_APPOINTMENT_NOT_READY = "PRIOR_APPOINTMENT_NOT_READY"
     NO_COVERAGE = "NO_COVERAGE"
     ERROR = "ERROR"
     MANUAL = "MANUAL"
@@ -50,6 +52,8 @@ class NotReadyReason(enum.StrEnum):
         eligibility_check_failed_primary: typing.Callable[[], T_Result],
         eligibility_check_failed_secondary: typing.Callable[[], T_Result],
         new_combo: typing.Callable[[], T_Result],
+        new_insurance: typing.Callable[[], T_Result],
+        prior_appointment_not_ready: typing.Callable[[], T_Result],
         no_coverage: typing.Callable[[], T_Result],
         error: typing.Callable[[], T_Result],
         manual: typing.Callable[[], T_Result],
@@ -77,6 +81,10 @@ class NotReadyReason(enum.StrEnum):
             return eligibility_check_failed_secondary()
         if self is NotReadyReason.NEW_COMBO:
             return new_combo()
+        if self is NotReadyReason.NEW_INSURANCE:
+            return new_insurance()
+        if self is NotReadyReason.PRIOR_APPOINTMENT_NOT_READY:
+            return prior_appointment_not_ready()
         if self is NotReadyReason.NO_COVERAGE:
             return no_coverage()
         if self is NotReadyReason.ERROR:

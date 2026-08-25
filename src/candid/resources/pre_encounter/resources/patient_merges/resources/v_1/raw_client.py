@@ -21,6 +21,8 @@ from ....common.types.patient_merge_id import PatientMergeId
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
 from .types.mutable_patient_merge import MutablePatientMerge
 from .types.patient_merge import PatientMerge
+from .types.patient_merge_page import PatientMergePage
+from .types.patient_merge_search_request import PatientMergeSearchRequest
 from .types.patient_merge_status import PatientMergeStatus
 
 # this is used as the default value for optional parameters
@@ -311,6 +313,59 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def search(
+        self, *, request: PatientMergeSearchRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[PatientMergePage]:
+        """
+        Returns a page of patient merge records for the given MRNs. A merge is included
+        when the MRN matches either the alternative or the primary patient MRN.
+
+        Parameters
+        ----------
+        request : PatientMergeSearchRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[PatientMergePage]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "patient-merge/v1/search",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                PatientMergePage,
+                parse_obj_as(
+                    type_=PatientMergePage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -594,4 +649,57 @@ class AsyncRawV1Client:
                 ),
             )
             return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def search(
+        self, *, request: PatientMergeSearchRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[PatientMergePage]:
+        """
+        Returns a page of patient merge records for the given MRNs. A merge is included
+        when the MRN matches either the alternative or the primary patient MRN.
+
+        Parameters
+        ----------
+        request : PatientMergeSearchRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[PatientMergePage]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "patient-merge/v1/search",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                PatientMergePage,
+                parse_obj_as(
+                    type_=PatientMergePage,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        if "errorName" in _response_json:
+            if _response_json["errorName"] == "BadRequestError":
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        ErrorBase4Xx,
+                        parse_obj_as(
+                            type_=ErrorBase4Xx,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

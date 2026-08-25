@@ -26,6 +26,11 @@ if typing.TYPE_CHECKING:
     )
     from .non_insurance_payer_id import NonInsurancePayerId
     from .non_insurance_payer_page import NonInsurancePayerPage
+    from .non_insurance_payer_payer_id_update import (
+        NonInsurancePayerPayerIdUpdate,
+        NonInsurancePayerPayerIdUpdate_Remove,
+        NonInsurancePayerPayerIdUpdate_Set,
+    )
     from .non_insurance_payer_sort_field import NonInsurancePayerSortField
     from .non_insurance_payer_update_request import NonInsurancePayerUpdateRequest
     from .toggle_non_insurance_payer_enablement_request import ToggleNonInsurancePayerEnablementRequest
@@ -44,6 +49,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "NonInsurancePayerDescriptionUpdate_Set": ".non_insurance_payer_description_update",
     "NonInsurancePayerId": ".non_insurance_payer_id",
     "NonInsurancePayerPage": ".non_insurance_payer_page",
+    "NonInsurancePayerPayerIdUpdate": ".non_insurance_payer_payer_id_update",
+    "NonInsurancePayerPayerIdUpdate_Remove": ".non_insurance_payer_payer_id_update",
+    "NonInsurancePayerPayerIdUpdate_Set": ".non_insurance_payer_payer_id_update",
     "NonInsurancePayerSortField": ".non_insurance_payer_sort_field",
     "NonInsurancePayerUpdateRequest": ".non_insurance_payer_update_request",
     "ToggleNonInsurancePayerEnablementRequest": ".toggle_non_insurance_payer_enablement_request",
@@ -86,6 +94,9 @@ __all__ = [
     "NonInsurancePayerDescriptionUpdate_Set",
     "NonInsurancePayerId",
     "NonInsurancePayerPage",
+    "NonInsurancePayerPayerIdUpdate",
+    "NonInsurancePayerPayerIdUpdate_Remove",
+    "NonInsurancePayerPayerIdUpdate_Set",
     "NonInsurancePayerSortField",
     "NonInsurancePayerUpdateRequest",
     "ToggleNonInsurancePayerEnablementRequest",

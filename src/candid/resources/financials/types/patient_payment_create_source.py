@@ -15,6 +15,7 @@ class PatientPaymentCreateSource(enum.StrEnum):
     MANUAL_ENTRY = "MANUAL_ENTRY"
     PHREESIA = "PHREESIA"
     SHERPA_HEALTH = "SHERPA_HEALTH"
+    LOCKBOX = "LOCKBOX"
     _UNKNOWN = "__PATIENTPAYMENTCREATESOURCE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -31,6 +32,7 @@ class PatientPaymentCreateSource(enum.StrEnum):
         manual_entry: typing.Callable[[], T_Result],
         phreesia: typing.Callable[[], T_Result],
         sherpa_health: typing.Callable[[], T_Result],
+        lockbox: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is PatientPaymentCreateSource.MANUAL_ENTRY:
@@ -39,4 +41,6 @@ class PatientPaymentCreateSource(enum.StrEnum):
             return phreesia()
         if self is PatientPaymentCreateSource.SHERPA_HEALTH:
             return sherpa_health()
+        if self is PatientPaymentCreateSource.LOCKBOX:
+            return lockbox()
         return _unknown_member(self._value_)
