@@ -70,6 +70,11 @@ class State(enum.StrEnum):
     WV = "WV"
     WI = "WI"
     WY = "WY"
+    FC = "FC"
+    """
+    Indicates an international (non-US) address.
+    """
+
     _UNKNOWN = "__STATE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -145,6 +150,7 @@ class State(enum.StrEnum):
         wv: typing.Callable[[], T_Result],
         wi: typing.Callable[[], T_Result],
         wy: typing.Callable[[], T_Result],
+        fc: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is State.AA:
@@ -271,4 +277,6 @@ class State(enum.StrEnum):
             return wi()
         if self is State.WY:
             return wy()
+        if self is State.FC:
+            return fc()
         return _unknown_member(self._value_)

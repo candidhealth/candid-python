@@ -32,6 +32,7 @@ if typing.TYPE_CHECKING:
     from .epsdt_referral_condition_indicator_code import EpsdtReferralConditionIndicatorCode
     from .error_message import ErrorMessage
     from .facility_type_code import FacilityTypeCode
+    from .http_service_unavailable_error_message import HttpServiceUnavailableErrorMessage
     from .insurance_type_code import InsuranceTypeCode
     from .intended_submission_medium import IntendedSubmissionMedium
     from .internal_error_message import InternalErrorMessage
@@ -118,6 +119,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EpsdtReferralConditionIndicatorCode": ".epsdt_referral_condition_indicator_code",
     "ErrorMessage": ".error_message",
     "FacilityTypeCode": ".facility_type_code",
+    "HttpServiceUnavailableErrorMessage": ".http_service_unavailable_error_message",
     "InsuranceTypeCode": ".insurance_type_code",
     "IntendedSubmissionMedium": ".intended_submission_medium",
     "InternalErrorMessage": ".internal_error_message",
@@ -226,6 +228,7 @@ __all__ = [
     "EpsdtReferralConditionIndicatorCode",
     "ErrorMessage",
     "FacilityTypeCode",
+    "HttpServiceUnavailableErrorMessage",
     "InsuranceTypeCode",
     "IntendedSubmissionMedium",
     "InternalErrorMessage",

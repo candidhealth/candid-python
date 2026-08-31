@@ -21,6 +21,10 @@ class PlanMetadata(UniversalBaseModel):
     plan_dates: typing.Optional[typing.List[PlanDate]] = None
     subscriber: typing.Optional[ExpandedMemberInfo] = None
     dependent: typing.Optional[ExpandedMemberInfo] = None
+    trading_partner: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The payer's own identifier as returned on the Stedi eligibility response (271) `tradingPartnerServiceId`. Reflects the payer's internal concept of their ID, which may differ from the ID Stedi routes on.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

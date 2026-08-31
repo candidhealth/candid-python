@@ -7,6 +7,7 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....eligibility_checks.resources.v_1.types.eligibility_check_error_details import EligibilityCheckErrorDetails
 from .....eligibility_checks.resources.v_1.types.eligibility_status import EligibilityStatus
+from .....eligibility_checks.resources.v_1.types.request_correction import RequestCorrection
 
 
 class LatestEligibilityCheck(UniversalBaseModel):
@@ -18,6 +19,10 @@ class LatestEligibilityCheck(UniversalBaseModel):
     status: EligibilityStatus
     initiated_at: dt.datetime
     errors: typing.Optional[typing.List[EligibilityCheckErrorDetails]] = None
+    request_corrections: typing.Optional[typing.List[RequestCorrection]] = pydantic.Field(default=None)
+    """
+    Fields where the payer's 271 response disagreed with what we sent on the request, surfaced from the check so consumers can detect that the eligibility response contradicted the coverage on file. Empty when the payer echoed everything we sent.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

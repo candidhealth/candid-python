@@ -18,6 +18,7 @@ if typing.TYPE_CHECKING:
     from .resources.contracts.client import AsyncContractsClient, ContractsClient
     from .resources.credentialing.client import AsyncCredentialingClient, CredentialingClient
     from .resources.custom_schemas.client import AsyncCustomSchemasClient, CustomSchemasClient
+    from .resources.dashboarding.client import AsyncDashboardingClient, DashboardingClient
     from .resources.diagnoses.client import AsyncDiagnosesClient, DiagnosesClient
     from .resources.eligibility.client import AsyncEligibilityClient, EligibilityClient
     from .resources.encounter_attachments.client import AsyncEncounterAttachmentsClient, EncounterAttachmentsClient
@@ -27,6 +28,7 @@ if typing.TYPE_CHECKING:
         EncounterSupplementalInformationClient,
     )
     from .resources.encounters.client import AsyncEncountersClient, EncountersClient
+    from .resources.enterprise_config.client import AsyncEnterpriseConfigClient, EnterpriseConfigClient
     from .resources.events.client import AsyncEventsClient, EventsClient
     from .resources.exports.client import AsyncExportsClient, ExportsClient
     from .resources.external_payment_account_config.client import (
@@ -208,11 +210,13 @@ class CandidApiClient:
         self._contracts: typing.Optional[ContractsClient] = None
         self._credentialing: typing.Optional[CredentialingClient] = None
         self._custom_schemas: typing.Optional[CustomSchemasClient] = None
+        self._dashboarding: typing.Optional[DashboardingClient] = None
         self._eligibility: typing.Optional[EligibilityClient] = None
         self._encounter_attachments: typing.Optional[EncounterAttachmentsClient] = None
         self._encounter_providers: typing.Optional[EncounterProvidersClient] = None
         self._encounter_supplemental_information: typing.Optional[EncounterSupplementalInformationClient] = None
         self._encounters: typing.Optional[EncountersClient] = None
+        self._enterprise_config: typing.Optional[EnterpriseConfigClient] = None
         self._events: typing.Optional[EventsClient] = None
         self._exports: typing.Optional[ExportsClient] = None
         self._external_payment_account_config: typing.Optional[ExternalPaymentAccountConfigClient] = None
@@ -298,6 +302,14 @@ class CandidApiClient:
         return self._custom_schemas
 
     @property
+    def dashboarding(self):
+        if self._dashboarding is None:
+            from .resources.dashboarding.client import DashboardingClient  # noqa: E402
+
+            self._dashboarding = DashboardingClient(client_wrapper=self._client_wrapper)
+        return self._dashboarding
+
+    @property
     def eligibility(self):
         if self._eligibility is None:
             from .resources.eligibility.client import EligibilityClient  # noqa: E402
@@ -340,6 +352,14 @@ class CandidApiClient:
 
             self._encounters = EncountersClient(client_wrapper=self._client_wrapper)
         return self._encounters
+
+    @property
+    def enterprise_config(self):
+        if self._enterprise_config is None:
+            from .resources.enterprise_config.client import EnterpriseConfigClient  # noqa: E402
+
+            self._enterprise_config = EnterpriseConfigClient(client_wrapper=self._client_wrapper)
+        return self._enterprise_config
 
     @property
     def events(self):
@@ -702,11 +722,13 @@ class AsyncCandidApiClient:
         self._contracts: typing.Optional[AsyncContractsClient] = None
         self._credentialing: typing.Optional[AsyncCredentialingClient] = None
         self._custom_schemas: typing.Optional[AsyncCustomSchemasClient] = None
+        self._dashboarding: typing.Optional[AsyncDashboardingClient] = None
         self._eligibility: typing.Optional[AsyncEligibilityClient] = None
         self._encounter_attachments: typing.Optional[AsyncEncounterAttachmentsClient] = None
         self._encounter_providers: typing.Optional[AsyncEncounterProvidersClient] = None
         self._encounter_supplemental_information: typing.Optional[AsyncEncounterSupplementalInformationClient] = None
         self._encounters: typing.Optional[AsyncEncountersClient] = None
+        self._enterprise_config: typing.Optional[AsyncEnterpriseConfigClient] = None
         self._events: typing.Optional[AsyncEventsClient] = None
         self._exports: typing.Optional[AsyncExportsClient] = None
         self._external_payment_account_config: typing.Optional[AsyncExternalPaymentAccountConfigClient] = None
@@ -792,6 +814,14 @@ class AsyncCandidApiClient:
         return self._custom_schemas
 
     @property
+    def dashboarding(self):
+        if self._dashboarding is None:
+            from .resources.dashboarding.client import AsyncDashboardingClient  # noqa: E402
+
+            self._dashboarding = AsyncDashboardingClient(client_wrapper=self._client_wrapper)
+        return self._dashboarding
+
+    @property
     def eligibility(self):
         if self._eligibility is None:
             from .resources.eligibility.client import AsyncEligibilityClient  # noqa: E402
@@ -834,6 +864,14 @@ class AsyncCandidApiClient:
 
             self._encounters = AsyncEncountersClient(client_wrapper=self._client_wrapper)
         return self._encounters
+
+    @property
+    def enterprise_config(self):
+        if self._enterprise_config is None:
+            from .resources.enterprise_config.client import AsyncEnterpriseConfigClient  # noqa: E402
+
+            self._enterprise_config = AsyncEnterpriseConfigClient(client_wrapper=self._client_wrapper)
+        return self._enterprise_config
 
     @property
     def events(self):

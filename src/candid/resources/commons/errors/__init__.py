@@ -11,6 +11,7 @@ if typing.TYPE_CHECKING:
     from .entity_not_found_error import EntityNotFoundError
     from .http_request_validation_error import HttpRequestValidationError
     from .http_request_validations_error import HttpRequestValidationsError
+    from .http_service_unavailable_error import HttpServiceUnavailableError
     from .internal_error import InternalError
     from .organization_not_authorized_error import OrganizationNotAuthorizedError
     from .unauthorized_error import UnauthorizedError
@@ -24,6 +25,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EntityNotFoundError": ".entity_not_found_error",
     "HttpRequestValidationError": ".http_request_validation_error",
     "HttpRequestValidationsError": ".http_request_validations_error",
+    "HttpServiceUnavailableError": ".http_service_unavailable_error",
     "InternalError": ".internal_error",
     "OrganizationNotAuthorizedError": ".organization_not_authorized_error",
     "UnauthorizedError": ".unauthorized_error",
@@ -59,6 +61,7 @@ __all__ = [
     "EntityNotFoundError",
     "HttpRequestValidationError",
     "HttpRequestValidationsError",
+    "HttpServiceUnavailableError",
     "InternalError",
     "OrganizationNotAuthorizedError",
     "UnauthorizedError",
