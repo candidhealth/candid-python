@@ -23,6 +23,7 @@ if typing.TYPE_CHECKING:
     from .coordination_of_benefits_response import CoordinationOfBenefitsResponse
     from .copay_estimation_recommendation import CopayEstimationRecommendation
     from .copay_estimation_recommendation_payload import CopayEstimationRecommendationPayload
+    from .dependent import Dependent
     from .eligibility_check import EligibilityCheck
     from .eligibility_check_error import EligibilityCheckError
     from .eligibility_check_error_details import EligibilityCheckErrorDetails
@@ -42,8 +43,12 @@ if typing.TYPE_CHECKING:
     )
     from .eligibility_request import EligibilityRequest
     from .eligibility_response import EligibilityResponse
+    from .eligibility_source import EligibilitySource
     from .eligibility_status import EligibilityStatus
     from .encounter import Encounter
+    from .encounter_eligibility import EncounterEligibility
+    from .encounter_eligibility_request import EncounterEligibilityRequest
+    from .encounter_eligibility_response import EncounterEligibilityResponse
     from .individual_provider import IndividualProvider
     from .insurance_discovery_address import InsuranceDiscoveryAddress
     from .insurance_discovery_dependent import InsuranceDiscoveryDependent
@@ -87,6 +92,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CoordinationOfBenefitsResponse": ".coordination_of_benefits_response",
     "CopayEstimationRecommendation": ".copay_estimation_recommendation",
     "CopayEstimationRecommendationPayload": ".copay_estimation_recommendation_payload",
+    "Dependent": ".dependent",
     "EligibilityCheck": ".eligibility_check",
     "EligibilityCheckError": ".eligibility_check_error",
     "EligibilityCheckErrorDetails": ".eligibility_check_error_details",
@@ -104,8 +110,12 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EligibilityRecommendationPayload_UserConfiguredPrompts": ".eligibility_recommendation_payload",
     "EligibilityRequest": ".eligibility_request",
     "EligibilityResponse": ".eligibility_response",
+    "EligibilitySource": ".eligibility_source",
     "EligibilityStatus": ".eligibility_status",
     "Encounter": ".encounter",
+    "EncounterEligibility": ".encounter_eligibility",
+    "EncounterEligibilityRequest": ".encounter_eligibility_request",
+    "EncounterEligibilityResponse": ".encounter_eligibility_response",
     "IndividualProvider": ".individual_provider",
     "InsuranceDiscoveryAddress": ".insurance_discovery_address",
     "InsuranceDiscoveryDependent": ".insurance_discovery_dependent",
@@ -173,6 +183,7 @@ __all__ = [
     "CoordinationOfBenefitsResponse",
     "CopayEstimationRecommendation",
     "CopayEstimationRecommendationPayload",
+    "Dependent",
     "EligibilityCheck",
     "EligibilityCheckError",
     "EligibilityCheckErrorDetails",
@@ -190,8 +201,12 @@ __all__ = [
     "EligibilityRecommendationPayload_UserConfiguredPrompts",
     "EligibilityRequest",
     "EligibilityResponse",
+    "EligibilitySource",
     "EligibilityStatus",
     "Encounter",
+    "EncounterEligibility",
+    "EncounterEligibilityRequest",
+    "EncounterEligibilityResponse",
     "IndividualProvider",
     "InsuranceDiscoveryAddress",
     "InsuranceDiscoveryDependent",

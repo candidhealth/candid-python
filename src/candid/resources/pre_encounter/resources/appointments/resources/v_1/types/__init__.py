@@ -7,11 +7,15 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .appointment import Appointment
+    from .appointment_reason_detail import AppointmentReasonDetail
     from .appointment_status import AppointmentStatus
     from .appointment_work_queue import AppointmentWorkQueue
     from .counts_response import CountsResponse
+    from .diagnosis_code import DiagnosisCode
     from .mutable_appointment import MutableAppointment
     from .not_ready_reason import NotReadyReason
+    from .prior_authorization_status import PriorAuthorizationStatus
+    from .procedure_code import ProcedureCode
     from .ready_source import ReadySource
     from .service import Service
     from .universal_service_identifier import UniversalServiceIdentifier
@@ -19,11 +23,15 @@ if typing.TYPE_CHECKING:
     from .visits_page import VisitsPage
 _dynamic_imports: typing.Dict[str, str] = {
     "Appointment": ".appointment",
+    "AppointmentReasonDetail": ".appointment_reason_detail",
     "AppointmentStatus": ".appointment_status",
     "AppointmentWorkQueue": ".appointment_work_queue",
     "CountsResponse": ".counts_response",
+    "DiagnosisCode": ".diagnosis_code",
     "MutableAppointment": ".mutable_appointment",
     "NotReadyReason": ".not_ready_reason",
+    "PriorAuthorizationStatus": ".prior_authorization_status",
+    "ProcedureCode": ".procedure_code",
     "ReadySource": ".ready_source",
     "Service": ".service",
     "UniversalServiceIdentifier": ".universal_service_identifier",
@@ -55,11 +63,15 @@ def __dir__():
 
 __all__ = [
     "Appointment",
+    "AppointmentReasonDetail",
     "AppointmentStatus",
     "AppointmentWorkQueue",
     "CountsResponse",
+    "DiagnosisCode",
     "MutableAppointment",
     "NotReadyReason",
+    "PriorAuthorizationStatus",
+    "ProcedureCode",
     "ReadySource",
     "Service",
     "UniversalServiceIdentifier",

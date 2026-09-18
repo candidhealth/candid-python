@@ -7,9 +7,18 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .advanced_directive import AdvancedDirective
+    from .audit_appointment_copay_updated import AuditAppointmentCopayUpdated
+    from .audit_appointment_status_changed import AuditAppointmentStatusChanged
+    from .audit_appointment_work_queue_changed import AuditAppointmentWorkQueueChanged
+    from .audit_coverage_created import AuditCoverageCreated
+    from .audit_coverage_updated import AuditCoverageUpdated
+    from .audit_elig_check_completed import AuditEligCheckCompleted
+    from .audit_patient_tags_updated import AuditPatientTagsUpdated
     from .authorization import Authorization
     from .authorization_unit import AuthorizationUnit
     from .contact import Contact
+    from .coverage_type import CoverageType
+    from .coverage_update_source import CoverageUpdateSource
     from .coverages_for_related_causes import CoveragesForRelatedCauses
     from .custom_metadata_entry import CustomMetadataEntry
     from .do_not_invoice_reason import DoNotInvoiceReason
@@ -29,6 +38,7 @@ if typing.TYPE_CHECKING:
     from .patient_coverage_snapshot import PatientCoverageSnapshot
     from .patient_page import PatientPage
     from .patient_sort_field import PatientSortField
+    from .potential_duplicate_patient import PotentialDuplicatePatient
     from .referral import Referral
     from .referral_source import ReferralSource
     from .referral_type import ReferralType
@@ -36,9 +46,18 @@ if typing.TYPE_CHECKING:
     from .specialization_category import SpecializationCategory
 _dynamic_imports: typing.Dict[str, str] = {
     "AdvancedDirective": ".advanced_directive",
+    "AuditAppointmentCopayUpdated": ".audit_appointment_copay_updated",
+    "AuditAppointmentStatusChanged": ".audit_appointment_status_changed",
+    "AuditAppointmentWorkQueueChanged": ".audit_appointment_work_queue_changed",
+    "AuditCoverageCreated": ".audit_coverage_created",
+    "AuditCoverageUpdated": ".audit_coverage_updated",
+    "AuditEligCheckCompleted": ".audit_elig_check_completed",
+    "AuditPatientTagsUpdated": ".audit_patient_tags_updated",
     "Authorization": ".authorization",
     "AuthorizationUnit": ".authorization_unit",
     "Contact": ".contact",
+    "CoverageType": ".coverage_type",
+    "CoverageUpdateSource": ".coverage_update_source",
     "CoveragesForRelatedCauses": ".coverages_for_related_causes",
     "CustomMetadataEntry": ".custom_metadata_entry",
     "DoNotInvoiceReason": ".do_not_invoice_reason",
@@ -58,6 +77,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PatientCoverageSnapshot": ".patient_coverage_snapshot",
     "PatientPage": ".patient_page",
     "PatientSortField": ".patient_sort_field",
+    "PotentialDuplicatePatient": ".potential_duplicate_patient",
     "Referral": ".referral",
     "ReferralSource": ".referral_source",
     "ReferralType": ".referral_type",
@@ -89,9 +109,18 @@ def __dir__():
 
 __all__ = [
     "AdvancedDirective",
+    "AuditAppointmentCopayUpdated",
+    "AuditAppointmentStatusChanged",
+    "AuditAppointmentWorkQueueChanged",
+    "AuditCoverageCreated",
+    "AuditCoverageUpdated",
+    "AuditEligCheckCompleted",
+    "AuditPatientTagsUpdated",
     "Authorization",
     "AuthorizationUnit",
     "Contact",
+    "CoverageType",
+    "CoverageUpdateSource",
     "CoveragesForRelatedCauses",
     "CustomMetadataEntry",
     "DoNotInvoiceReason",
@@ -111,6 +140,7 @@ __all__ = [
     "PatientCoverageSnapshot",
     "PatientPage",
     "PatientSortField",
+    "PotentialDuplicatePatient",
     "Referral",
     "ReferralSource",
     "ReferralType",

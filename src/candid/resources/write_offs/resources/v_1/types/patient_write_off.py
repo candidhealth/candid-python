@@ -17,6 +17,11 @@ class PatientWriteOff(UniversalBaseModel):
     write_off_timestamp: dt.datetime
     write_off_note: typing.Optional[str] = None
     write_off_reason: PatientWriteOffReason
+    custom_write_off_reason: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    An organization-specific sub-reason
+    """
+
     patient_external_id: PatientExternalId
     claim_id: ClaimId
     service_line_id: ServiceLineId

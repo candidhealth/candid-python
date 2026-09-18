@@ -24,6 +24,9 @@ from .types.eligibility_check_page import EligibilityCheckPage
 from .types.eligibility_recommendation import EligibilityRecommendation
 from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
+from .types.encounter_eligibility import EncounterEligibility
+from .types.encounter_eligibility_request import EncounterEligibilityRequest
+from .types.encounter_eligibility_response import EncounterEligibilityResponse
 from .types.insurance_discovery_request import InsuranceDiscoveryRequest
 from .types.insurance_discovery_response import InsuranceDiscoveryResponse
 from .types.payer_search_response import PayerSearchResponse
@@ -527,6 +530,87 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def encounter_eligibility(
+        self, *, encounter_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[EncounterEligibilityResponse]:
+        """
+        Returns patient eligibility data regardless of clearinghouse. Uses the encounter id to get needed patient, date of service, etc data.
+
+        Parameters
+        ----------
+        encounter_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[EncounterEligibilityResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/encounter_eligibility",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "encounter_id": encounter_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EncounterEligibilityResponse,
+                parse_obj_as(
+                    type_=EncounterEligibilityResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def create_encounter_eligibility(
+        self, *, request: EncounterEligibilityRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[EncounterEligibility]:
+        """
+        Fetch an eligibility check for the patient for the date of service, npi, and payer
+
+        Parameters
+        ----------
+        request : EncounterEligibilityRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[EncounterEligibility]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/eligibility",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EncounterEligibility,
+                parse_obj_as(
+                    type_=EncounterEligibility,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1015,6 +1099,87 @@ class AsyncRawV1Client:
                 CoordinationOfBenefitsResponse,
                 parse_obj_as(
                     type_=CoordinationOfBenefitsResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def encounter_eligibility(
+        self, *, encounter_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[EncounterEligibilityResponse]:
+        """
+        Returns patient eligibility data regardless of clearinghouse. Uses the encounter id to get needed patient, date of service, etc data.
+
+        Parameters
+        ----------
+        encounter_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[EncounterEligibilityResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/encounter_eligibility",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "encounter_id": encounter_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EncounterEligibilityResponse,
+                parse_obj_as(
+                    type_=EncounterEligibilityResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def create_encounter_eligibility(
+        self, *, request: EncounterEligibilityRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[EncounterEligibility]:
+        """
+        Fetch an eligibility check for the patient for the date of service, npi, and payer
+
+        Parameters
+        ----------
+        request : EncounterEligibilityRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[EncounterEligibility]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "eligibility-checks/v1/eligibility",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EncounterEligibility,
+                parse_obj_as(
+                    type_=EncounterEligibility,  # type: ignore
                     object_=_response_json,
                 ),
             )

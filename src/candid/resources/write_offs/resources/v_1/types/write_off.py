@@ -25,6 +25,7 @@ class WriteOff_Patient(UniversalBaseModel):
     write_off_timestamp: dt.datetime
     write_off_note: typing.Optional[str] = None
     write_off_reason: PatientWriteOffReason
+    custom_write_off_reason: typing.Optional[str] = None
     patient_external_id: PatientExternalId
     claim_id: ClaimId
     service_line_id: ServiceLineId
@@ -50,6 +51,7 @@ class WriteOff_Insurance(UniversalBaseModel):
     write_off_timestamp: dt.datetime
     write_off_note: typing.Optional[str] = None
     write_off_reason: InsuranceWriteOffReason
+    custom_write_off_reason: typing.Optional[str] = None
     reverts_write_off_id: typing.Optional[WriteOffId] = None
     reverted_by_write_off_id: typing.Optional[WriteOffId] = None
     amount_cents: int
@@ -72,6 +74,7 @@ class WriteOff_NonInsurancePayer(UniversalBaseModel):
     write_off_timestamp: dt.datetime
     write_off_note: typing.Optional[str] = None
     write_off_reason: InsuranceWriteOffReason
+    custom_write_off_reason: typing.Optional[str] = None
     reverts_write_off_id: typing.Optional[WriteOffId] = None
     reverted_by_write_off_id: typing.Optional[WriteOffId] = None
     amount_cents: int

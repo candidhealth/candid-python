@@ -7,9 +7,11 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.external_provider import ExternalProvider
 from .....common.types.patient_id import PatientId
+from .appointment_reason_detail import AppointmentReasonDetail
 from .appointment_status import AppointmentStatus
 from .appointment_work_queue import AppointmentWorkQueue
 from .not_ready_reason import NotReadyReason
+from .prior_authorization_status import PriorAuthorizationStatus
 from .ready_source import ReadySource
 from .service import Service
 
@@ -27,7 +29,7 @@ class MutableAppointment(UniversalBaseModel):
     start_timestamp: dt.datetime
     status: typing.Optional[AppointmentStatus] = pydantic.Field(default=None)
     """
-    Defaults to PENDING. If status is NOT_READY, work_queue must be set. If status is READY or CHECKED_IN, work_queue must be null. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.
+    Defaults to PENDING. If status is NOT_READY, work_queue must be set. If status is READY, CHECKED_OUT, or NO_SHOW, work_queue must be null. checked_in_timestamp must be set if and only if status is CHECKED_IN or CHECKED_OUT, and checked_out_timestamp must be set if and only if status is CHECKED_OUT.
     """
 
     not_ready_reason: typing.Optional[NotReadyReason] = pydantic.Field(default=None)
@@ -37,7 +39,7 @@ class MutableAppointment(UniversalBaseModel):
 
     ready_source: typing.Optional[ReadySource] = pydantic.Field(default=None)
     """
-    The method that set the appointment status to READY. It is not recommended to change this value manually via API. Must only be set when the status is READY or CHECKED_IN, it is cleared otherwise.
+    The method that set the appointment status to READY. It is not recommended to change this value manually via API. Must only be set when the status is READY, CHECKED_IN, CHECKED_OUT or NO_SHOW, it is cleared otherwise.
     """
 
     service_duration: int = pydantic.Field()
@@ -71,7 +73,27 @@ class MutableAppointment(UniversalBaseModel):
     appointment_details: typing.Optional[str] = None
     checked_in_timestamp: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
-    The timestamp when the patient checked in for their appointment. If status is CHECKED_IN, checked_in_timestamp must be set. If checked_in_timestamp is set, status must be CHECKED_IN.
+    The timestamp when the patient checked in for their appointment. Must be set when status is CHECKED_IN or CHECKED_OUT, and must be unset otherwise.
+    """
+
+    checked_out_timestamp: typing.Optional[dt.datetime] = pydantic.Field(default=None)
+    """
+    The timestamp when the patient checked out of their appointment. Must be set when status is CHECKED_OUT, and must be unset otherwise.
+    """
+
+    appointment_reason_detail: typing.Optional[AppointmentReasonDetail] = pydantic.Field(default=None)
+    """
+    The clinical context for the appointment.
+    """
+
+    medical_necessity_verified: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    True if medical necessity for this appointment has been verified.
+    """
+
+    prior_authorization_status: typing.Optional[PriorAuthorizationStatus] = pydantic.Field(default=None)
+    """
+    The prior authorization status for this appointment.
     """
 
     notes: typing.Optional[str] = None
@@ -87,7 +109,7 @@ class MutableAppointment(UniversalBaseModel):
 
     work_queue: typing.Optional[AppointmentWorkQueue] = pydantic.Field(default=None)
     """
-    The work queue that the appointment belongs to. It is not recommended to change this value manually via API. If status is NOT_READY, work_queue must be set. If status is READY, work_queue must be null.
+    The work queue that the appointment belongs to. It is not recommended to change this value manually via API. If status is NOT_READY, work_queue must be set. If status is READY, CHECKED_OUT or NO_SHOW, work_queue must be null.
     """
 
     if IS_PYDANTIC_V2:

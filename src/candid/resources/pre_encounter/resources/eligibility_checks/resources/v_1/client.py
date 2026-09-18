@@ -15,6 +15,9 @@ from .types.eligibility_check_page import EligibilityCheckPage
 from .types.eligibility_recommendation import EligibilityRecommendation
 from .types.eligibility_request import EligibilityRequest
 from .types.eligibility_response import EligibilityResponse
+from .types.encounter_eligibility import EncounterEligibility
+from .types.encounter_eligibility_request import EncounterEligibilityRequest
+from .types.encounter_eligibility_response import EncounterEligibilityResponse
 from .types.insurance_discovery_request import InsuranceDiscoveryRequest
 from .types.insurance_discovery_response import InsuranceDiscoveryResponse
 from .types.payer_search_response import PayerSearchResponse
@@ -514,6 +517,75 @@ class V1Client:
         )
         """
         _response = self._raw_client.coordination_of_benefits(request=request, request_options=request_options)
+        return _response.data
+
+    def encounter_eligibility(
+        self, *, encounter_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> EncounterEligibilityResponse:
+        """
+        Returns patient eligibility data regardless of clearinghouse. Uses the encounter id to get needed patient, date of service, etc data.
+
+        Parameters
+        ----------
+        encounter_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterEligibilityResponse
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.encounter_eligibility(
+            encounter_id="encounter_id",
+        )
+        """
+        _response = self._raw_client.encounter_eligibility(encounter_id=encounter_id, request_options=request_options)
+        return _response.data
+
+    def create_encounter_eligibility(
+        self, *, request: EncounterEligibilityRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> EncounterEligibility:
+        """
+        Fetch an eligibility check for the patient for the date of service, npi, and payer
+
+        Parameters
+        ----------
+        request : EncounterEligibilityRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterEligibility
+
+        Examples
+        --------
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            EncounterEligibilityRequest,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.create_encounter_eligibility(
+            request=EncounterEligibilityRequest(
+                encounter_id="encounter_id",
+            ),
+        )
+        """
+        _response = self._raw_client.create_encounter_eligibility(request=request, request_options=request_options)
         return _response.data
 
 
@@ -1086,4 +1158,93 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.coordination_of_benefits(request=request, request_options=request_options)
+        return _response.data
+
+    async def encounter_eligibility(
+        self, *, encounter_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> EncounterEligibilityResponse:
+        """
+        Returns patient eligibility data regardless of clearinghouse. Uses the encounter id to get needed patient, date of service, etc data.
+
+        Parameters
+        ----------
+        encounter_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterEligibilityResponse
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.encounter_eligibility(
+                encounter_id="encounter_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.encounter_eligibility(
+            encounter_id=encounter_id, request_options=request_options
+        )
+        return _response.data
+
+    async def create_encounter_eligibility(
+        self, *, request: EncounterEligibilityRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> EncounterEligibility:
+        """
+        Fetch an eligibility check for the patient for the date of service, npi, and payer
+
+        Parameters
+        ----------
+        request : EncounterEligibilityRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterEligibility
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            EncounterEligibilityRequest,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.create_encounter_eligibility(
+                request=EncounterEligibilityRequest(
+                    encounter_id="encounter_id",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create_encounter_eligibility(
+            request=request, request_options=request_options
+        )
         return _response.data

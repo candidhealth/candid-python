@@ -5,6 +5,8 @@ import typing
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
 from .raw_client import AsyncRawV2Client, RawV2Client
+from .types.find_availity_eligibility_results_request import FindAvailityEligibilityResultsRequest
+from .types.find_availity_eligibility_results_response import FindAvailityEligibilityResultsResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -117,6 +119,48 @@ class V2Client:
         _response = self._raw_client.submit_eligibility_check_availity_post(
             request=request, request_options=request_options
         )
+        return _response.data
+
+    def find_availity_eligibility_results(
+        self, *, request: FindAvailityEligibilityResultsRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> FindAvailityEligibilityResultsResponse:
+        """
+        Parameters
+        ----------
+        request : FindAvailityEligibilityResultsRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FindAvailityEligibilityResultsResponse
+
+        Examples
+        --------
+        import datetime
+
+        from candid import CandidApiClient
+        from candid.resources.eligibility.resources.v_2 import (
+            FindAvailityEligibilityResultsRequest,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.eligibility.v_2.find_availity_eligibility_results(
+            request=FindAvailityEligibilityResultsRequest(
+                member_id="member_id",
+                payer_id="payer_id",
+                date_of_service=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                provider_npi="provider_npi",
+            ),
+        )
+        """
+        _response = self._raw_client.find_availity_eligibility_results(request=request, request_options=request_options)
         return _response.data
 
 
@@ -241,6 +285,57 @@ class AsyncV2Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.submit_eligibility_check_availity_post(
+            request=request, request_options=request_options
+        )
+        return _response.data
+
+    async def find_availity_eligibility_results(
+        self, *, request: FindAvailityEligibilityResultsRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> FindAvailityEligibilityResultsResponse:
+        """
+        Parameters
+        ----------
+        request : FindAvailityEligibilityResultsRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        FindAvailityEligibilityResultsResponse
+
+        Examples
+        --------
+        import asyncio
+        import datetime
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.eligibility.resources.v_2 import (
+            FindAvailityEligibilityResultsRequest,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.eligibility.v_2.find_availity_eligibility_results(
+                request=FindAvailityEligibilityResultsRequest(
+                    member_id="member_id",
+                    payer_id="payer_id",
+                    date_of_service=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                    provider_npi="provider_npi",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.find_availity_eligibility_results(
             request=request, request_options=request_options
         )
         return _response.data

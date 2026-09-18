@@ -8,11 +8,15 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .types import (
         Appointment,
+        AppointmentReasonDetail,
         AppointmentStatus,
         AppointmentWorkQueue,
         CountsResponse,
+        DiagnosisCode,
         MutableAppointment,
         NotReadyReason,
+        PriorAuthorizationStatus,
+        ProcedureCode,
         ReadySource,
         Service,
         UniversalServiceIdentifier,
@@ -21,11 +25,15 @@ if typing.TYPE_CHECKING:
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "Appointment": ".types",
+    "AppointmentReasonDetail": ".types",
     "AppointmentStatus": ".types",
     "AppointmentWorkQueue": ".types",
     "CountsResponse": ".types",
+    "DiagnosisCode": ".types",
     "MutableAppointment": ".types",
     "NotReadyReason": ".types",
+    "PriorAuthorizationStatus": ".types",
+    "ProcedureCode": ".types",
     "ReadySource": ".types",
     "Service": ".types",
     "UniversalServiceIdentifier": ".types",
@@ -57,11 +65,15 @@ def __dir__():
 
 __all__ = [
     "Appointment",
+    "AppointmentReasonDetail",
     "AppointmentStatus",
     "AppointmentWorkQueue",
     "CountsResponse",
+    "DiagnosisCode",
     "MutableAppointment",
     "NotReadyReason",
+    "PriorAuthorizationStatus",
+    "ProcedureCode",
     "ReadySource",
     "Service",
     "UniversalServiceIdentifier",

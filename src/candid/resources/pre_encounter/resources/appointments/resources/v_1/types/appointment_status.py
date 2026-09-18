@@ -12,6 +12,8 @@ class AppointmentStatus(enum.StrEnum):
     NOT_READY = "NOT_READY"
     READY = "READY"
     CHECKED_IN = "CHECKED_IN"
+    CHECKED_OUT = "CHECKED_OUT"
+    NO_SHOW = "NO_SHOW"
     _UNKNOWN = "__APPOINTMENTSTATUS_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -29,6 +31,8 @@ class AppointmentStatus(enum.StrEnum):
         not_ready: typing.Callable[[], T_Result],
         ready: typing.Callable[[], T_Result],
         checked_in: typing.Callable[[], T_Result],
+        checked_out: typing.Callable[[], T_Result],
+        no_show: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is AppointmentStatus.PENDING:
@@ -39,4 +43,8 @@ class AppointmentStatus(enum.StrEnum):
             return ready()
         if self is AppointmentStatus.CHECKED_IN:
             return checked_in()
+        if self is AppointmentStatus.CHECKED_OUT:
+            return checked_out()
+        if self is AppointmentStatus.NO_SHOW:
+            return no_show()
         return _unknown_member(self._value_)

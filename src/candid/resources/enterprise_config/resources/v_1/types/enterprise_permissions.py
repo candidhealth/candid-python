@@ -21,6 +21,11 @@ class EnterprisePermissions(UniversalBaseModel):
     Whether the requesting organization may create and manage rules and rule variables.
     """
 
+    write_cross_customer_rules: bool = pydantic.Field()
+    """
+    Whether the requesting organization may create and manage cross customer rules.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

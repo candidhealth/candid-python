@@ -28,6 +28,7 @@ if typing.TYPE_CHECKING:
         EmrPayerCrosswalk,
         EncounterExternalId,
         EncounterId,
+        EncounterWorkQueueSnooze,
         EntityConflictErrorMessage,
         EntityNotFoundErrorMessage,
         EpsdtReferralConditionIndicatorCode,
@@ -64,6 +65,7 @@ if typing.TYPE_CHECKING:
         Regions,
         Regions_National,
         Regions_States,
+        RejectionReason,
         RemovableDateRangeOptionalEnd,
         RemovableDateRangeOptionalEnd_DateRange,
         RemovableDateRangeOptionalEnd_Remove,
@@ -74,6 +76,7 @@ if typing.TYPE_CHECKING:
         SchemaId,
         ServiceLineId,
         ServiceLineUnits,
+        SnoozeReason,
         SortDirection,
         SourceOfPaymentCode,
         State,
@@ -91,6 +94,7 @@ if typing.TYPE_CHECKING:
         UpdatesDisabledDueToExternalSystemIntegrationErrorMessage,
         UserId,
         WorkQueueId,
+        WorkQueueSnoozeId,
     )
     from .errors import (
         BadRequestError,
@@ -128,6 +132,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EmrPayerCrosswalk": ".types",
     "EncounterExternalId": ".types",
     "EncounterId": ".types",
+    "EncounterWorkQueueSnooze": ".types",
     "EntityConflictError": ".errors",
     "EntityConflictErrorMessage": ".types",
     "EntityNotFoundError": ".errors",
@@ -171,6 +176,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Regions": ".types",
     "Regions_National": ".types",
     "Regions_States": ".types",
+    "RejectionReason": ".types",
     "RemovableDateRangeOptionalEnd": ".types",
     "RemovableDateRangeOptionalEnd_DateRange": ".types",
     "RemovableDateRangeOptionalEnd_Remove": ".types",
@@ -181,6 +187,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "SchemaId": ".types",
     "ServiceLineId": ".types",
     "ServiceLineUnits": ".types",
+    "SnoozeReason": ".types",
     "SortDirection": ".types",
     "SourceOfPaymentCode": ".types",
     "State": ".types",
@@ -201,6 +208,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage": ".types",
     "UserId": ".types",
     "WorkQueueId": ".types",
+    "WorkQueueSnoozeId": ".types",
 }
 
 
@@ -248,6 +256,7 @@ __all__ = [
     "EmrPayerCrosswalk",
     "EncounterExternalId",
     "EncounterId",
+    "EncounterWorkQueueSnooze",
     "EntityConflictError",
     "EntityConflictErrorMessage",
     "EntityNotFoundError",
@@ -291,6 +300,7 @@ __all__ = [
     "Regions",
     "Regions_National",
     "Regions_States",
+    "RejectionReason",
     "RemovableDateRangeOptionalEnd",
     "RemovableDateRangeOptionalEnd_DateRange",
     "RemovableDateRangeOptionalEnd_Remove",
@@ -301,6 +311,7 @@ __all__ = [
     "SchemaId",
     "ServiceLineId",
     "ServiceLineUnits",
+    "SnoozeReason",
     "SortDirection",
     "SourceOfPaymentCode",
     "State",
@@ -321,4 +332,5 @@ __all__ = [
     "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage",
     "UserId",
     "WorkQueueId",
+    "WorkQueueSnoozeId",
 ]

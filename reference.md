@@ -4987,6 +4987,75 @@ client.eligibility.v_2.submit_eligibility_check_availity_post(
 </dl>
 </details>
 
+<details><summary><code>client.eligibility.v_2.<a href="src/candid/resources/eligibility/resources/v_2/client.py">find_availity_eligibility_results</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid import CandidApiClient
+from candid.resources.eligibility.resources.v_2 import (
+    FindAvailityEligibilityResultsRequest,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.eligibility.v_2.find_availity_eligibility_results(
+    request=FindAvailityEligibilityResultsRequest(
+        member_id="member_id",
+        payer_id="payer_id",
+        date_of_service=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        provider_npi="provider_npi",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `FindAvailityEligibilityResultsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## EncounterAttachments V1
 <details><summary><code>client.encounter_attachments.v_1.<a href="src/candid/resources/encounter_attachments/resources/v_1/client.py">get</a>(...)</code></summary>
 <dl>
@@ -15057,6 +15126,315 @@ client.payers.v_4.get_all()
 </dl>
 </details>
 
+## PreServiceRules V1
+<details><summary><code>client.pre_service_rules.v_1.<a href="src/candid/resources/pre_service_rules/resources/v_1/client.py">create_encounter_run</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Submit a representation of an encounter to the Candid rules engine. Note that this encounter will not be created in Candid.
+Returns a run_id that can be polled via GET /runs/{run_id} to retrieve the results once complete.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+import uuid
+
+from candid import CandidApiClient
+from candid.resources.commons import (
+    State,
+    StreetAddressLongZip,
+    StreetAddressShortZip,
+)
+from candid.resources.encounter_providers.resources.v_2 import BillingProvider
+from candid.resources.encounters.resources.v_4 import (
+    EncounterSubmissionExpectation,
+    ResponsiblePartyType,
+)
+from candid.resources.individual import Gender, PatientCreate
+from candid.resources.pre_service_rules.resources.v_1 import (
+    PreServiceEncounterCreate,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_service_rules.v_1.create_encounter_run(
+    entity=PreServiceEncounterCreate(
+        external_id="external_id",
+        patient_authorized_release=True,
+        benefits_assigned_to_provider=True,
+        provider_accepts_assignment=True,
+        patient=PatientCreate(
+            external_id="external_id",
+            date_of_birth=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            address=StreetAddressShortZip(
+                address_1="address1",
+                city="city",
+                state=State.AA,
+                zip_code="zip_code",
+            ),
+            first_name="first_name",
+            last_name="last_name",
+            gender=Gender.MALE,
+        ),
+        responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+        billing_provider=BillingProvider(
+            address=StreetAddressLongZip(
+                zip_plus_four_code="zip_plus_four_code",
+                address_1="address1",
+                city="city",
+                state=State.AA,
+                zip_code="zip_code",
+            ),
+            tax_id="tax_id",
+            npi="npi",
+        ),
+        submission_expectation=EncounterSubmissionExpectation.TARGET_PROFESSIONAL,
+    ),
+    pipeline_id="pipeline_id",
+    enabled_rule_ids=[
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+    ],
+    disabled_rule_ids=[
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+        uuid.UUID(
+            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+        ),
+    ],
+    idempotency_key="idempotency_key",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**entity:** `PreServiceEncounterCreate` — The encounter to evaluate against the rules engine.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pipeline_id:** `str` — Identifies the set of rules to run against the encounter.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**enabled_rule_ids:** `typing.Sequence[uuid.UUID]` — IDs of disabled rules to force-enable for this run (e.g. for testing new rules).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**disabled_rule_ids:** `typing.Sequence[uuid.UUID]` — IDs of enabled rules to force-disable for this run (e.g., to "override" or skip certain rules).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**idempotency_key:** `str` — Prevents multiple rule runs from being dispatched in response to duplicate requests.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_service_rules.v_1.<a href="src/candid/resources/pre_service_rules/resources/v_1/client.py">get_run</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve the result of a pre-service run. This endpoint supports long-polling.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_service_rules.v_1.get_run(
+    run_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**run_id:** `PreServiceRunId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_service_rules.v_1.<a href="src/candid/resources/pre_service_rules/resources/v_1/client.py">get_pipelines</a>()</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List the pre-service pipelines available to the authenticated organization.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_service_rules.v_1.get_pipelines()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## ServiceLines V2
 <details><summary><code>client.service_lines.v_2.<a href="src/candid/resources/service_lines/resources/v_2/client.py">create</a>(...)</code></summary>
 <dl>
@@ -16094,6 +16472,115 @@ client.users.v_2.create_m_2_m_user_v_2(
 <dd>
 
 **request:** `M2MUserCreateV2` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Views Dynamic V1
+<details><summary><code>client.views.dynamic.v_1.<a href="src/candid/resources/views/resources/dynamic/resources/v_1/client.py">resolve</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Resolves a dynamic view to the EncounterSummaries currently present in this view.
+Body parameters can include sorting controls.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.views.dynamic.v_1.resolve(
+    claim_dynamic_view_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**claim_dynamic_view_id:** `ClaimDynamicViewId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**limit:** `typing.Optional[int]` — Defaults to 100
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**filters:** `typing.Optional[EncounterFilter]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**page_token:** `typing.Optional[PageToken]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sort:** `typing.Optional[typing.Sequence[SortCriterion]]` — Sort criteria applied in order. Defaults to created_at descending.
     
 </dd>
 </dl>
@@ -19152,6 +19639,153 @@ client.pre_encounter.eligibility_checks.v_1.coordination_of_benefits(
 <dd>
 
 **request:** `CoordinationOfBenefitsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">encounter_eligibility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns patient eligibility data regardless of clearinghouse. Uses the encounter id to get needed patient, date of service, etc data.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.eligibility_checks.v_1.encounter_eligibility(
+    encounter_id="encounter_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**encounter_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">create_encounter_eligibility</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetch an eligibility check for the patient for the date of service, npi, and payer
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+    EncounterEligibilityRequest,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.eligibility_checks.v_1.create_encounter_eligibility(
+    request=EncounterEligibilityRequest(
+        encounter_id="encounter_id",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `EncounterEligibilityRequest` 
     
 </dd>
 </dl>

@@ -27,6 +27,7 @@ if typing.TYPE_CHECKING:
     from .emr_payer_crosswalk import EmrPayerCrosswalk
     from .encounter_external_id import EncounterExternalId
     from .encounter_id import EncounterId
+    from .encounter_work_queue_snooze import EncounterWorkQueueSnooze
     from .entity_conflict_error_message import EntityConflictErrorMessage
     from .entity_not_found_error_message import EntityNotFoundErrorMessage
     from .epsdt_referral_condition_indicator_code import EpsdtReferralConditionIndicatorCode
@@ -61,6 +62,7 @@ if typing.TYPE_CHECKING:
     from .region_national import RegionNational
     from .region_states import RegionStates
     from .regions import Regions, Regions_National, Regions_States
+    from .rejection_reason import RejectionReason
     from .removable_date_range_optional_end import (
         RemovableDateRangeOptionalEnd,
         RemovableDateRangeOptionalEnd_DateRange,
@@ -73,6 +75,7 @@ if typing.TYPE_CHECKING:
     from .schema_id import SchemaId
     from .service_line_id import ServiceLineId
     from .service_line_units import ServiceLineUnits
+    from .snooze_reason import SnoozeReason
     from .sort_direction import SortDirection
     from .source_of_payment_code import SourceOfPaymentCode
     from .state import State
@@ -92,6 +95,7 @@ if typing.TYPE_CHECKING:
     )
     from .user_id import UserId
     from .work_queue_id import WorkQueueId
+    from .work_queue_snooze_id import WorkQueueSnoozeId
 _dynamic_imports: typing.Dict[str, str] = {
     "AdjustmentId": ".adjustment_id",
     "AllocationId": ".allocation_id",
@@ -114,6 +118,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EmrPayerCrosswalk": ".emr_payer_crosswalk",
     "EncounterExternalId": ".encounter_external_id",
     "EncounterId": ".encounter_id",
+    "EncounterWorkQueueSnooze": ".encounter_work_queue_snooze",
     "EntityConflictErrorMessage": ".entity_conflict_error_message",
     "EntityNotFoundErrorMessage": ".entity_not_found_error_message",
     "EpsdtReferralConditionIndicatorCode": ".epsdt_referral_condition_indicator_code",
@@ -150,6 +155,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Regions": ".regions",
     "Regions_National": ".regions",
     "Regions_States": ".regions",
+    "RejectionReason": ".rejection_reason",
     "RemovableDateRangeOptionalEnd": ".removable_date_range_optional_end",
     "RemovableDateRangeOptionalEnd_DateRange": ".removable_date_range_optional_end",
     "RemovableDateRangeOptionalEnd_Remove": ".removable_date_range_optional_end",
@@ -160,6 +166,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "SchemaId": ".schema_id",
     "ServiceLineId": ".service_line_id",
     "ServiceLineUnits": ".service_line_units",
+    "SnoozeReason": ".snooze_reason",
     "SortDirection": ".sort_direction",
     "SourceOfPaymentCode": ".source_of_payment_code",
     "State": ".state",
@@ -177,6 +184,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage": ".updates_disabled_due_to_external_system_integration_error_message",
     "UserId": ".user_id",
     "WorkQueueId": ".work_queue_id",
+    "WorkQueueSnoozeId": ".work_queue_snooze_id",
 }
 
 
@@ -223,6 +231,7 @@ __all__ = [
     "EmrPayerCrosswalk",
     "EncounterExternalId",
     "EncounterId",
+    "EncounterWorkQueueSnooze",
     "EntityConflictErrorMessage",
     "EntityNotFoundErrorMessage",
     "EpsdtReferralConditionIndicatorCode",
@@ -259,6 +268,7 @@ __all__ = [
     "Regions",
     "Regions_National",
     "Regions_States",
+    "RejectionReason",
     "RemovableDateRangeOptionalEnd",
     "RemovableDateRangeOptionalEnd_DateRange",
     "RemovableDateRangeOptionalEnd_Remove",
@@ -269,6 +279,7 @@ __all__ = [
     "SchemaId",
     "ServiceLineId",
     "ServiceLineUnits",
+    "SnoozeReason",
     "SortDirection",
     "SourceOfPaymentCode",
     "State",
@@ -286,4 +297,5 @@ __all__ = [
     "UpdatesDisabledDueToExternalSystemIntegrationErrorMessage",
     "UserId",
     "WorkQueueId",
+    "WorkQueueSnoozeId",
 ]

@@ -24,6 +24,11 @@ class LatestEligibilityCheck(UniversalBaseModel):
     Fields where the payer's 271 response disagreed with what we sent on the request, surfaced from the check so consumers can detect that the eligibility response contradicted the coverage on file. Empty when the payer echoed everything we sent.
     """
 
+    trading_partner: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The payer's own identifier as returned on the Stedi eligibility response (271) `tradingPartnerServiceId`, surfaced from the latest check's plan metadata so it is readable off the coverage. Can differ from the ID we submitted.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

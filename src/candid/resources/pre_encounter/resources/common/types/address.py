@@ -13,6 +13,11 @@ class Address(UniversalBaseModel):
     line: typing.List[str]
     city: str
     state: str
+    administrative_area: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The top-level administrative subdivision of the country for addresses outside the US — for example a Canadian province, a UK county, or a Japanese prefecture. Only permitted on international addresses: `country` must be present and non-US, and `state` must be "FC" (the X12 foreign-country sentinel). For US addresses use `state` instead.
+    """
+
     postal_code: str
     country: str
     county: typing.Optional[str] = None

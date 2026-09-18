@@ -18,6 +18,11 @@ class InsuranceWriteOff(UniversalBaseModel):
     write_off_timestamp: dt.datetime
     write_off_note: typing.Optional[str] = None
     write_off_reason: InsuranceWriteOffReason
+    custom_write_off_reason: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    An organization-specific sub-reason
+    """
+
     reverts_write_off_id: typing.Optional[WriteOffId] = None
     reverted_by_write_off_id: typing.Optional[WriteOffId] = None
     amount_cents: int

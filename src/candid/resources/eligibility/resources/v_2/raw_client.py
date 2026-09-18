@@ -10,6 +10,8 @@ from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.types.request_validation_error import RequestValidationError
+from .types.find_availity_eligibility_results_request import FindAvailityEligibilityResultsRequest
+from .types.find_availity_eligibility_results_response import FindAvailityEligibilityResultsResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -151,6 +153,44 @@ class RawV2Client:
                 )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def find_availity_eligibility_results(
+        self, *, request: FindAvailityEligibilityResultsRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[FindAvailityEligibilityResultsResponse]:
+        """
+        Parameters
+        ----------
+        request : FindAvailityEligibilityResultsRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[FindAvailityEligibilityResultsResponse]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/eligibility/v2/existing-checks",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FindAvailityEligibilityResultsResponse,
+                parse_obj_as(
+                    type_=FindAvailityEligibilityResultsResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -286,4 +326,42 @@ class AsyncRawV2Client:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def find_availity_eligibility_results(
+        self, *, request: FindAvailityEligibilityResultsRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[FindAvailityEligibilityResultsResponse]:
+        """
+        Parameters
+        ----------
+        request : FindAvailityEligibilityResultsRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[FindAvailityEligibilityResultsResponse]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/eligibility/v2/existing-checks",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                FindAvailityEligibilityResultsResponse,
+                parse_obj_as(
+                    type_=FindAvailityEligibilityResultsResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)

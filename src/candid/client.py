@@ -68,10 +68,12 @@ if typing.TYPE_CHECKING:
     from .resources.payer_plan_groups.client import AsyncPayerPlanGroupsClient, PayerPlanGroupsClient
     from .resources.payers.client import AsyncPayersClient, PayersClient
     from .resources.pre_encounter.client import AsyncPreEncounterClient, PreEncounterClient
+    from .resources.pre_service_rules.client import AsyncPreServiceRulesClient, PreServiceRulesClient
     from .resources.service_lines.client import AsyncServiceLinesClient, ServiceLinesClient
     from .resources.superbills.client import AsyncSuperbillsClient, SuperbillsClient
     from .resources.tasks.client import AsyncTasksClient, TasksClient
     from .resources.users.client import AsyncUsersClient, UsersClient
+    from .resources.views.client import AsyncViewsClient, ViewsClient
     from .resources.write_offs.client import AsyncWriteOffsClient, WriteOffsClient
 
 
@@ -237,10 +239,12 @@ class CandidApiClient:
         self._patient_refunds: typing.Optional[PatientRefundsClient] = None
         self._payer_plan_groups: typing.Optional[PayerPlanGroupsClient] = None
         self._payers: typing.Optional[PayersClient] = None
+        self._pre_service_rules: typing.Optional[PreServiceRulesClient] = None
         self._service_lines: typing.Optional[ServiceLinesClient] = None
         self._superbills: typing.Optional[SuperbillsClient] = None
         self._tasks: typing.Optional[TasksClient] = None
         self._users: typing.Optional[UsersClient] = None
+        self._views: typing.Optional[ViewsClient] = None
         self._write_offs: typing.Optional[WriteOffsClient] = None
         self._pre_encounter: typing.Optional[PreEncounterClient] = None
         self._diagnoses: typing.Optional[DiagnosesClient] = None
@@ -530,6 +534,14 @@ class CandidApiClient:
         return self._payers
 
     @property
+    def pre_service_rules(self):
+        if self._pre_service_rules is None:
+            from .resources.pre_service_rules.client import PreServiceRulesClient  # noqa: E402
+
+            self._pre_service_rules = PreServiceRulesClient(client_wrapper=self._client_wrapper)
+        return self._pre_service_rules
+
+    @property
     def service_lines(self):
         if self._service_lines is None:
             from .resources.service_lines.client import ServiceLinesClient  # noqa: E402
@@ -560,6 +572,14 @@ class CandidApiClient:
 
             self._users = UsersClient(client_wrapper=self._client_wrapper)
         return self._users
+
+    @property
+    def views(self):
+        if self._views is None:
+            from .resources.views.client import ViewsClient  # noqa: E402
+
+            self._views = ViewsClient(client_wrapper=self._client_wrapper)
+        return self._views
 
     @property
     def write_offs(self):
@@ -749,10 +769,12 @@ class AsyncCandidApiClient:
         self._patient_refunds: typing.Optional[AsyncPatientRefundsClient] = None
         self._payer_plan_groups: typing.Optional[AsyncPayerPlanGroupsClient] = None
         self._payers: typing.Optional[AsyncPayersClient] = None
+        self._pre_service_rules: typing.Optional[AsyncPreServiceRulesClient] = None
         self._service_lines: typing.Optional[AsyncServiceLinesClient] = None
         self._superbills: typing.Optional[AsyncSuperbillsClient] = None
         self._tasks: typing.Optional[AsyncTasksClient] = None
         self._users: typing.Optional[AsyncUsersClient] = None
+        self._views: typing.Optional[AsyncViewsClient] = None
         self._write_offs: typing.Optional[AsyncWriteOffsClient] = None
         self._pre_encounter: typing.Optional[AsyncPreEncounterClient] = None
         self._diagnoses: typing.Optional[AsyncDiagnosesClient] = None
@@ -1050,6 +1072,14 @@ class AsyncCandidApiClient:
         return self._payers
 
     @property
+    def pre_service_rules(self):
+        if self._pre_service_rules is None:
+            from .resources.pre_service_rules.client import AsyncPreServiceRulesClient  # noqa: E402
+
+            self._pre_service_rules = AsyncPreServiceRulesClient(client_wrapper=self._client_wrapper)
+        return self._pre_service_rules
+
+    @property
     def service_lines(self):
         if self._service_lines is None:
             from .resources.service_lines.client import AsyncServiceLinesClient  # noqa: E402
@@ -1080,6 +1110,14 @@ class AsyncCandidApiClient:
 
             self._users = AsyncUsersClient(client_wrapper=self._client_wrapper)
         return self._users
+
+    @property
+    def views(self):
+        if self._views is None:
+            from .resources.views.client import AsyncViewsClient  # noqa: E402
+
+            self._views = AsyncViewsClient(client_wrapper=self._client_wrapper)
+        return self._views
 
     @property
     def write_offs(self):
