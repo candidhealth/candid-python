@@ -14,7 +14,7 @@ class PrefixableSetFilter(UniversalBaseModel):
 
     mode: typing.Optional[PrefixableSetMatchMode] = pydantic.Field(default=None)
     """
-    Defaults to in
+    Defaults to IN
     """
 
     values: typing.List[str]

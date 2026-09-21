@@ -199,6 +199,11 @@ class ServiceLine(UniversalBaseModel):
 
     service_line_id: ServiceLineId
     procedure_code: str
+    custom_procedure_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Represents and preserves the custom CPT code received on this service line. Custom CPT codes are specific to your organization and are used for rules and reporting purposes.
+    """
+
     ordering_provider: typing.Optional[EncounterProvider] = None
     revenue_code: typing.Optional[str] = pydantic.Field(default=None)
     """

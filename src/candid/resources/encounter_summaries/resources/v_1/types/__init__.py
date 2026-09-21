@@ -32,6 +32,7 @@ if typing.TYPE_CHECKING:
     from .string_range_match_mode import StringRangeMatchMode
     from .uuid_set_filter import UuidSetFilter
     from .uuid_set_match_mode import UuidSetMatchMode
+    from .work_queue_category_set_filter import WorkQueueCategorySetFilter
 _dynamic_imports: typing.Dict[str, str] = {
     "BooleanFilter": ".boolean_filter",
     "DateRangeFilter": ".date_range_filter",
@@ -59,6 +60,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "StringRangeMatchMode": ".string_range_match_mode",
     "UuidSetFilter": ".uuid_set_filter",
     "UuidSetMatchMode": ".uuid_set_match_mode",
+    "WorkQueueCategorySetFilter": ".work_queue_category_set_filter",
 }
 
 
@@ -110,4 +112,5 @@ __all__ = [
     "StringRangeMatchMode",
     "UuidSetFilter",
     "UuidSetMatchMode",
+    "WorkQueueCategorySetFilter",
 ]

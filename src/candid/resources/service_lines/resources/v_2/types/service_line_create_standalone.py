@@ -24,6 +24,11 @@ class ServiceLineCreateStandalone(ServiceLineCreateStandaloneBase):
     This field should not contain PHI. Must be unique on a given claim.
     """
 
+    custom_procedure_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Represents and preserves the custom CPT code received on this service line. Custom CPT codes are specific to your organization and are primarily used for rules and reporting purposes.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

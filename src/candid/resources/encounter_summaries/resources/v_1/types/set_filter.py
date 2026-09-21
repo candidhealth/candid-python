@@ -14,7 +14,7 @@ class SetFilter(UniversalBaseModel):
 
     mode: typing.Optional[SetMatchMode] = pydantic.Field(default=None)
     """
-    Defaults to in
+    Defaults to IN
     """
 
     values: typing.List[str]

@@ -19,7 +19,6 @@ from ....commons.types.unprocessable_entity_error_message import UnprocessableEn
 from .types.pre_service_encounter_create import PreServiceEncounterCreate
 from .types.pre_service_pipeline_summary import PreServicePipelineSummary
 from .types.pre_service_run import PreServiceRun
-from .types.pre_service_run_create_response import PreServiceRunCreateResponse
 from .types.pre_service_run_id import PreServiceRunId
 
 # this is used as the default value for optional parameters
@@ -39,7 +38,7 @@ class RawV1Client:
         disabled_rule_ids: typing.Sequence[uuid.UUID],
         idempotency_key: str,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[PreServiceRunCreateResponse]:
+    ) -> HttpResponse[PreServiceRunId]:
         """
         Submit a representation of an encounter to the Candid rules engine. Note that this encounter will not be created in Candid.
         Returns a run_id that can be polled via GET /runs/{run_id} to retrieve the results once complete.
@@ -66,7 +65,7 @@ class RawV1Client:
 
         Returns
         -------
-        HttpResponse[PreServiceRunCreateResponse]
+        HttpResponse[PreServiceRunId]
         """
         _response = self._client_wrapper.httpx_client.request(
             "api/pre-service/v1/runs/encounter",
@@ -88,9 +87,9 @@ class RawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                PreServiceRunCreateResponse,
+                PreServiceRunId,
                 parse_obj_as(
-                    type_=PreServiceRunCreateResponse,  # type: ignore
+                    type_=PreServiceRunId,  # type: ignore
                     object_=_response_json,
                 ),
             )
@@ -231,7 +230,7 @@ class AsyncRawV1Client:
         disabled_rule_ids: typing.Sequence[uuid.UUID],
         idempotency_key: str,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[PreServiceRunCreateResponse]:
+    ) -> AsyncHttpResponse[PreServiceRunId]:
         """
         Submit a representation of an encounter to the Candid rules engine. Note that this encounter will not be created in Candid.
         Returns a run_id that can be polled via GET /runs/{run_id} to retrieve the results once complete.
@@ -258,7 +257,7 @@ class AsyncRawV1Client:
 
         Returns
         -------
-        AsyncHttpResponse[PreServiceRunCreateResponse]
+        AsyncHttpResponse[PreServiceRunId]
         """
         _response = await self._client_wrapper.httpx_client.request(
             "api/pre-service/v1/runs/encounter",
@@ -280,9 +279,9 @@ class AsyncRawV1Client:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         if 200 <= _response.status_code < 300:
             _data = typing.cast(
-                PreServiceRunCreateResponse,
+                PreServiceRunId,
                 parse_obj_as(
-                    type_=PreServiceRunCreateResponse,  # type: ignore
+                    type_=PreServiceRunId,  # type: ignore
                     object_=_response_json,
                 ),
             )

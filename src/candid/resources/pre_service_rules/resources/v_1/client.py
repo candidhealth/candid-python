@@ -9,7 +9,6 @@ from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.pre_service_encounter_create import PreServiceEncounterCreate
 from .types.pre_service_pipeline_summary import PreServicePipelineSummary
 from .types.pre_service_run import PreServiceRun
-from .types.pre_service_run_create_response import PreServiceRunCreateResponse
 from .types.pre_service_run_id import PreServiceRunId
 
 # this is used as the default value for optional parameters
@@ -40,7 +39,7 @@ class V1Client:
         disabled_rule_ids: typing.Sequence[uuid.UUID],
         idempotency_key: str,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> PreServiceRunCreateResponse:
+    ) -> PreServiceRunId:
         """
         Submit a representation of an encounter to the Candid rules engine. Note that this encounter will not be created in Candid.
         Returns a run_id that can be polled via GET /runs/{run_id} to retrieve the results once complete.
@@ -67,7 +66,7 @@ class V1Client:
 
         Returns
         -------
-        PreServiceRunCreateResponse
+        PreServiceRunId
 
         Examples
         --------
@@ -248,7 +247,7 @@ class AsyncV1Client:
         disabled_rule_ids: typing.Sequence[uuid.UUID],
         idempotency_key: str,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> PreServiceRunCreateResponse:
+    ) -> PreServiceRunId:
         """
         Submit a representation of an encounter to the Candid rules engine. Note that this encounter will not be created in Candid.
         Returns a run_id that can be polled via GET /runs/{run_id} to retrieve the results once complete.
@@ -275,7 +274,7 @@ class AsyncV1Client:
 
         Returns
         -------
-        PreServiceRunCreateResponse
+        PreServiceRunId
 
         Examples
         --------

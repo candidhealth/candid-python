@@ -37,6 +37,11 @@ class ServiceLineUpdateBase(UniversalBaseModel):
     rather than a CPT/HCPCS code.
     """
 
+    custom_procedure_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Updates and preserves the custom CPT code received on this service line. Custom CPT codes are specific to your organization and are used for rules and reporting purposes.
+    """
+
     quantity: typing.Optional[Decimal] = pydantic.Field(default=None)
     """
     String representation of a Decimal that can be parsed by most libraries.

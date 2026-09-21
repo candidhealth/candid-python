@@ -6,24 +6,8 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .types import (
-        EncounterEdits,
-        PreServiceEncounterCreate,
-        PreServiceError,
-        PreServicePipelineSummary,
-        PreServiceRun,
-        PreServiceRunId,
-        PreServiceRunType,
-    )
-_dynamic_imports: typing.Dict[str, str] = {
-    "EncounterEdits": ".types",
-    "PreServiceEncounterCreate": ".types",
-    "PreServiceError": ".types",
-    "PreServicePipelineSummary": ".types",
-    "PreServiceRun": ".types",
-    "PreServiceRunId": ".types",
-    "PreServiceRunType": ".types",
-}
+    from .types import WorkQueueCategory
+_dynamic_imports: typing.Dict[str, str] = {"WorkQueueCategory": ".types"}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -47,12 +31,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = [
-    "EncounterEdits",
-    "PreServiceEncounterCreate",
-    "PreServiceError",
-    "PreServicePipelineSummary",
-    "PreServiceRun",
-    "PreServiceRunId",
-    "PreServiceRunType",
-]
+__all__ = ["WorkQueueCategory"]

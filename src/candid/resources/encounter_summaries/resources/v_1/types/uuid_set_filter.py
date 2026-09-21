@@ -15,7 +15,7 @@ class UuidSetFilter(UniversalBaseModel):
 
     mode: typing.Optional[UuidSetMatchMode] = pydantic.Field(default=None)
     """
-    Defaults to in
+    Defaults to IN
     """
 
     values: typing.List[uuid.UUID]

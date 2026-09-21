@@ -15,6 +15,7 @@ from .set_filter import SetFilter
 from .string_filter import StringFilter
 from .string_range_filter import StringRangeFilter
 from .uuid_set_filter import UuidSetFilter
+from .work_queue_category_set_filter import WorkQueueCategorySetFilter
 
 
 class EncounterFilter(UniversalBaseModel):
@@ -76,6 +77,7 @@ class EncounterFilter(UniversalBaseModel):
     owner_of_next_action: typing.Optional[SetFilter] = None
     submission_expectation: typing.Optional[SetFilter] = None
     work_queue_id: typing.Optional[SetFilter] = None
+    work_queue_category: typing.Optional[WorkQueueCategorySetFilter] = None
     days_in_queue: typing.Optional[IntRangeFilter] = None
     tag_ids: typing.Optional[SetFilter] = None
     static_view_id: typing.Optional[uuid.UUID] = None

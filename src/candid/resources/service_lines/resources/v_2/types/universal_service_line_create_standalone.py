@@ -13,6 +13,11 @@ class UniversalServiceLineCreateStandalone(ServiceLineCreateStandaloneBaseBase):
     diagnosis_id_one: typing.Optional[DiagnosisId] = None
     diagnosis_id_two: typing.Optional[DiagnosisId] = None
     diagnosis_id_three: typing.Optional[DiagnosisId] = None
+    custom_procedure_code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Represents and preserves the custom CPT code received on this service line. Custom CPT codes are specific to your organization and are primarily used for rules and reporting purposes.
+    """
+
     revenue_code: typing.Optional[str] = pydantic.Field(default=None)
     """
     A 4 digit code that specifies facility department or type of service arrangement for institutional service line items (837i). This code is not required for professional claim billing (837p).

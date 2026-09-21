@@ -4,15 +4,22 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from .pre_service_run_id import PreServiceRunId
+from .....work_queues.resources.v_2.types.work_queue_category import WorkQueueCategory
+from .set_match_mode import SetMatchMode
 
 
-class PreServiceRunCreateResponse(UniversalBaseModel):
+class WorkQueueCategorySetFilter(UniversalBaseModel):
     """
-    Returned after a successful pre-service run submission.
+    Filter on work queue category by matching against a set of allowed categories, with optional
+    negation.
     """
 
-    run_id: PreServiceRunId
+    mode: typing.Optional[SetMatchMode] = pydantic.Field(default=None)
+    """
+    Defaults to IN
+    """
+
+    values: typing.List[WorkQueueCategory]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
