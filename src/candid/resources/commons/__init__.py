@@ -8,6 +8,7 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .types import (
         AdjustmentId,
+        AdjustmentReasonCode,
         AllocationId,
         AppointmentId,
         BadRequestErrorMessage,
@@ -111,6 +112,7 @@ if typing.TYPE_CHECKING:
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "AdjustmentId": ".types",
+    "AdjustmentReasonCode": ".types",
     "AllocationId": ".types",
     "AppointmentId": ".types",
     "BadRequestError": ".errors",
@@ -235,6 +237,7 @@ def __dir__():
 
 __all__ = [
     "AdjustmentId",
+    "AdjustmentReasonCode",
     "AllocationId",
     "AppointmentId",
     "BadRequestError",

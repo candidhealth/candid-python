@@ -5,6 +5,9 @@ import typing
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.request_options import RequestOptions
 from .raw_client import AsyncRawV2Client, RawV2Client
+from .types.availity_eligibility_result import AvailityEligibilityResult
+from .types.eligibility_check_id import EligibilityCheckId
+from .types.eligibility_request import EligibilityRequest
 from .types.find_availity_eligibility_results_request import FindAvailityEligibilityResultsRequest
 from .types.find_availity_eligibility_results_response import FindAvailityEligibilityResultsResponse
 
@@ -26,6 +29,47 @@ class V2Client:
         RawV2Client
         """
         return self._raw_client
+
+    def create_availity_eligibility_check(
+        self, *, request: EligibilityRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> EligibilityCheckId:
+        """
+        Parameters
+        ----------
+        request : EligibilityRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityCheckId
+
+        Examples
+        --------
+        import datetime
+
+        from candid import CandidApiClient
+        from candid.resources.eligibility.resources.v_2 import EligibilityRequest
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.eligibility.v_2.create_availity_eligibility_check(
+            request=EligibilityRequest(
+                member_id="member_id",
+                payer_id="payer_id",
+                provider_npi="provider_npi",
+                date_of_service=datetime.datetime.fromisoformat(
+                    "2024-01-15 09:30:00+00:00",
+                ),
+                service_type_codes=["service_type_codes", "service_type_codes"],
+            ),
+        )
+        """
+        _response = self._raw_client.create_availity_eligibility_check(request=request, request_options=request_options)
+        return _response.data
 
     def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None
@@ -163,6 +207,40 @@ class V2Client:
         _response = self._raw_client.find_availity_eligibility_results(request=request, request_options=request_options)
         return _response.data
 
+    def get_by_id(
+        self, eligibility_check_id: EligibilityCheckId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AvailityEligibilityResult:
+        """
+        Parameters
+        ----------
+        eligibility_check_id : EligibilityCheckId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AvailityEligibilityResult
+
+        Examples
+        --------
+        import uuid
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.eligibility.v_2.get_by_id(
+            eligibility_check_id=uuid.UUID(
+                "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+            ),
+        )
+        """
+        _response = self._raw_client.get_by_id(eligibility_check_id, request_options=request_options)
+        return _response.data
+
 
 class AsyncV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -178,6 +256,56 @@ class AsyncV2Client:
         AsyncRawV2Client
         """
         return self._raw_client
+
+    async def create_availity_eligibility_check(
+        self, *, request: EligibilityRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> EligibilityCheckId:
+        """
+        Parameters
+        ----------
+        request : EligibilityRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EligibilityCheckId
+
+        Examples
+        --------
+        import asyncio
+        import datetime
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.eligibility.resources.v_2 import EligibilityRequest
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.eligibility.v_2.create_availity_eligibility_check(
+                request=EligibilityRequest(
+                    member_id="member_id",
+                    payer_id="payer_id",
+                    provider_npi="provider_npi",
+                    date_of_service=datetime.datetime.fromisoformat(
+                        "2024-01-15 09:30:00+00:00",
+                    ),
+                    service_type_codes=["service_type_codes", "service_type_codes"],
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create_availity_eligibility_check(
+            request=request, request_options=request_options
+        )
+        return _response.data
 
     async def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None
@@ -338,4 +466,45 @@ class AsyncV2Client:
         _response = await self._raw_client.find_availity_eligibility_results(
             request=request, request_options=request_options
         )
+        return _response.data
+
+    async def get_by_id(
+        self, eligibility_check_id: EligibilityCheckId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AvailityEligibilityResult:
+        """
+        Parameters
+        ----------
+        eligibility_check_id : EligibilityCheckId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AvailityEligibilityResult
+
+        Examples
+        --------
+        import asyncio
+        import uuid
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.eligibility.v_2.get_by_id(
+                eligibility_check_id=uuid.UUID(
+                    "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_by_id(eligibility_check_id, request_options=request_options)
         return _response.data

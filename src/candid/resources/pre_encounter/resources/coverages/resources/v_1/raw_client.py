@@ -17,10 +17,17 @@ from ....common.errors.version_conflict_error import VersionConflictError
 from ....common.types.coverage_id import CoverageId
 from ....common.types.error_base_4_xx import ErrorBase4Xx
 from ....common.types.page_token import PageToken
+from ....common.types.patient_id import PatientId
 from ....common.types.payer_plan_group_id import PayerPlanGroupId
 from ....common.types.sort_direction import SortDirection
 from ....common.types.version_conflict_error_body import VersionConflictErrorBody
+from ....eligibility_checks.resources.v_1.types.async_insurance_discovery_check_result import (
+    AsyncInsuranceDiscoveryCheckResult,
+)
 from ....eligibility_checks.resources.v_1.types.eligibility_check_metadata import EligibilityCheckMetadata
+from ....eligibility_checks.resources.v_1.types.insurance_discovery_check_metadata import (
+    InsuranceDiscoveryCheckMetadata,
+)
 from .types.coverage import Coverage
 from .types.coverage_eligibility_check_response import CoverageEligibilityCheckResponse
 from .types.coverages_page import CoveragesPage
@@ -573,6 +580,97 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def check_insurance_discovery(
+        self,
+        *,
+        patient_id: PatientId,
+        date_of_service: dt.date,
+        npi: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[InsuranceDiscoveryCheckMetadata]:
+        """
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        patient_id : PatientId
+
+        date_of_service : dt.date
+
+        npi : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[InsuranceDiscoveryCheckMetadata]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "coverages/v1/insurance-discovery",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json={
+                "patient_id": patient_id,
+                "date_of_service": date_of_service,
+                "npi": npi,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                InsuranceDiscoveryCheckMetadata,
+                parse_obj_as(
+                    type_=InsuranceDiscoveryCheckMetadata,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_insurance_discovery(
+        self, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[AsyncInsuranceDiscoveryCheckResult]:
+        """
+        Gets the insurance discovery of a patient if successful.
+
+        Parameters
+        ----------
+        check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AsyncInsuranceDiscoveryCheckResult]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"coverages/v1/insurance-discovery/{jsonable_encoder(check_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AsyncInsuranceDiscoveryCheckResult,
+                parse_obj_as(
+                    type_=AsyncInsuranceDiscoveryCheckResult,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1111,6 +1209,97 @@ class AsyncRawV1Client:
                 CoverageEligibilityCheckResponse,
                 parse_obj_as(
                     type_=CoverageEligibilityCheckResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def check_insurance_discovery(
+        self,
+        *,
+        patient_id: PatientId,
+        date_of_service: dt.date,
+        npi: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[InsuranceDiscoveryCheckMetadata]:
+        """
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        patient_id : PatientId
+
+        date_of_service : dt.date
+
+        npi : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[InsuranceDiscoveryCheckMetadata]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "coverages/v1/insurance-discovery",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json={
+                "patient_id": patient_id,
+                "date_of_service": date_of_service,
+                "npi": npi,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                InsuranceDiscoveryCheckMetadata,
+                parse_obj_as(
+                    type_=InsuranceDiscoveryCheckMetadata,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_insurance_discovery(
+        self, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[AsyncInsuranceDiscoveryCheckResult]:
+        """
+        Gets the insurance discovery of a patient if successful.
+
+        Parameters
+        ----------
+        check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AsyncInsuranceDiscoveryCheckResult]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"coverages/v1/insurance-discovery/{jsonable_encoder(check_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AsyncInsuranceDiscoveryCheckResult,
+                parse_obj_as(
+                    type_=AsyncInsuranceDiscoveryCheckResult,  # type: ignore
                     object_=_response_json,
                 ),
             )

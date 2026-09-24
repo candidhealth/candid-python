@@ -213,6 +213,11 @@ class EncounterDeepOptional(EncounterOptional):
     837p Loop2300 DTP*439, CMS1500 Box 15
     """
 
+    initial_treatment_date: typing.Optional[dt.date] = pydantic.Field(default=None)
+    """
+    837p Loop2300 DTP*454, CMS1500 Box 15
+    """
+
     property_casualty_patient_identifier: typing.Optional[PropertyCasualtyPatientIdentifierCreateOptional] = (
         pydantic.Field(default=None)
     )

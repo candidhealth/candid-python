@@ -7,9 +7,16 @@ from .......core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .......core.request_options import RequestOptions
 from ....common.types.coverage_id import CoverageId
 from ....common.types.page_token import PageToken
+from ....common.types.patient_id import PatientId
 from ....common.types.payer_plan_group_id import PayerPlanGroupId
 from ....common.types.sort_direction import SortDirection
+from ....eligibility_checks.resources.v_1.types.async_insurance_discovery_check_result import (
+    AsyncInsuranceDiscoveryCheckResult,
+)
 from ....eligibility_checks.resources.v_1.types.eligibility_check_metadata import EligibilityCheckMetadata
+from ....eligibility_checks.resources.v_1.types.insurance_discovery_check_metadata import (
+    InsuranceDiscoveryCheckMetadata,
+)
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.coverage import Coverage
 from .types.coverage_eligibility_check_response import CoverageEligibilityCheckResponse
@@ -552,6 +559,87 @@ class V1Client:
         )
         """
         _response = self._raw_client.get_eligibility(id, check_id, request_options=request_options)
+        return _response.data
+
+    def check_insurance_discovery(
+        self,
+        *,
+        patient_id: PatientId,
+        date_of_service: dt.date,
+        npi: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> InsuranceDiscoveryCheckMetadata:
+        """
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        patient_id : PatientId
+
+        date_of_service : dt.date
+
+        npi : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsuranceDiscoveryCheckMetadata
+
+        Examples
+        --------
+        import datetime
+
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.check_insurance_discovery(
+            patient_id="patient_id",
+            date_of_service=datetime.date.fromisoformat(
+                "2023-01-15",
+            ),
+            npi="npi",
+        )
+        """
+        _response = self._raw_client.check_insurance_discovery(
+            patient_id=patient_id, date_of_service=date_of_service, npi=npi, request_options=request_options
+        )
+        return _response.data
+
+    def get_insurance_discovery(
+        self, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncInsuranceDiscoveryCheckResult:
+        """
+        Gets the insurance discovery of a patient if successful.
+
+        Parameters
+        ----------
+        check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncInsuranceDiscoveryCheckResult
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.get_insurance_discovery(
+            check_id="check_id",
+        )
+        """
+        _response = self._raw_client.get_insurance_discovery(check_id, request_options=request_options)
         return _response.data
 
 
@@ -1160,4 +1248,100 @@ class AsyncV1Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.get_eligibility(id, check_id, request_options=request_options)
+        return _response.data
+
+    async def check_insurance_discovery(
+        self,
+        *,
+        patient_id: PatientId,
+        date_of_service: dt.date,
+        npi: str,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> InsuranceDiscoveryCheckMetadata:
+        """
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        patient_id : PatientId
+
+        date_of_service : dt.date
+
+        npi : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsuranceDiscoveryCheckMetadata
+
+        Examples
+        --------
+        import asyncio
+        import datetime
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.coverages.v_1.check_insurance_discovery(
+                patient_id="patient_id",
+                date_of_service=datetime.date.fromisoformat(
+                    "2023-01-15",
+                ),
+                npi="npi",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.check_insurance_discovery(
+            patient_id=patient_id, date_of_service=date_of_service, npi=npi, request_options=request_options
+        )
+        return _response.data
+
+    async def get_insurance_discovery(
+        self, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncInsuranceDiscoveryCheckResult:
+        """
+        Gets the insurance discovery of a patient if successful.
+
+        Parameters
+        ----------
+        check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncInsuranceDiscoveryCheckResult
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.coverages.v_1.get_insurance_discovery(
+                check_id="check_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_insurance_discovery(check_id, request_options=request_options)
         return _response.data

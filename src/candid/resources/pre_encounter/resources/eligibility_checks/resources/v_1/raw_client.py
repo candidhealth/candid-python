@@ -611,6 +611,44 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def get_eligibility_check_by_id(
+        self, eligibility_check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[EncounterEligibility]:
+        """
+        Fetch an eligibility check by it's primary key
+
+        Parameters
+        ----------
+        eligibility_check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[EncounterEligibility]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"eligibility-checks/v1/{jsonable_encoder(eligibility_check_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EncounterEligibility,
+                parse_obj_as(
+                    type_=EncounterEligibility,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1170,6 +1208,44 @@ class AsyncRawV1Client:
             json=request,
             request_options=request_options,
             omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EncounterEligibility,
+                parse_obj_as(
+                    type_=EncounterEligibility,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_eligibility_check_by_id(
+        self, eligibility_check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[EncounterEligibility]:
+        """
+        Fetch an eligibility check by it's primary key
+
+        Parameters
+        ----------
+        eligibility_check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[EncounterEligibility]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"eligibility-checks/v1/{jsonable_encoder(eligibility_check_id)}",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            request_options=request_options,
         )
         try:
             _response_json = _response.json()

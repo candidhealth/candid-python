@@ -14,6 +14,8 @@ class InsuranceDiscoveryStatus(enum.StrEnum):
 
     PENDING = "PENDING"
     COMPLETE = "COMPLETE"
+    ERROR = "ERROR"
+    UNKNOWN = "UNKNOWN"
     _UNKNOWN = "__INSURANCEDISCOVERYSTATUS_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -29,10 +31,16 @@ class InsuranceDiscoveryStatus(enum.StrEnum):
         self,
         pending: typing.Callable[[], T_Result],
         complete: typing.Callable[[], T_Result],
+        error: typing.Callable[[], T_Result],
+        unknown: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is InsuranceDiscoveryStatus.PENDING:
             return pending()
         if self is InsuranceDiscoveryStatus.COMPLETE:
             return complete()
+        if self is InsuranceDiscoveryStatus.ERROR:
+            return error()
+        if self is InsuranceDiscoveryStatus.UNKNOWN:
+            return unknown()
         return _unknown_member(self._value_)

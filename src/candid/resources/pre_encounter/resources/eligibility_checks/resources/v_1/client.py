@@ -588,6 +588,38 @@ class V1Client:
         _response = self._raw_client.create_encounter_eligibility(request=request, request_options=request_options)
         return _response.data
 
+    def get_eligibility_check_by_id(
+        self, eligibility_check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> EncounterEligibility:
+        """
+        Fetch an eligibility check by it's primary key
+
+        Parameters
+        ----------
+        eligibility_check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterEligibility
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.eligibility_checks.v_1.get_eligibility_check_by_id(
+            eligibility_check_id="eligibility_check_id",
+        )
+        """
+        _response = self._raw_client.get_eligibility_check_by_id(eligibility_check_id, request_options=request_options)
+        return _response.data
+
 
 class AsyncV1Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1246,5 +1278,47 @@ class AsyncV1Client:
         """
         _response = await self._raw_client.create_encounter_eligibility(
             request=request, request_options=request_options
+        )
+        return _response.data
+
+    async def get_eligibility_check_by_id(
+        self, eligibility_check_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> EncounterEligibility:
+        """
+        Fetch an eligibility check by it's primary key
+
+        Parameters
+        ----------
+        eligibility_check_id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        EncounterEligibility
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.eligibility_checks.v_1.get_eligibility_check_by_id(
+                eligibility_check_id="eligibility_check_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_eligibility_check_by_id(
+            eligibility_check_id, request_options=request_options
         )
         return _response.data

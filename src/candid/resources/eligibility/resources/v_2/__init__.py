@@ -8,12 +8,16 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .types import (
         AvailityEligibilityResult,
+        EligibilityCheckId,
+        EligibilityRequest,
         EligibilityStatus,
         FindAvailityEligibilityResultsRequest,
         FindAvailityEligibilityResultsResponse,
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "AvailityEligibilityResult": ".types",
+    "EligibilityCheckId": ".types",
+    "EligibilityRequest": ".types",
     "EligibilityStatus": ".types",
     "FindAvailityEligibilityResultsRequest": ".types",
     "FindAvailityEligibilityResultsResponse": ".types",
@@ -43,6 +47,8 @@ def __dir__():
 
 __all__ = [
     "AvailityEligibilityResult",
+    "EligibilityCheckId",
+    "EligibilityRequest",
     "EligibilityStatus",
     "FindAvailityEligibilityResultsRequest",
     "FindAvailityEligibilityResultsResponse",

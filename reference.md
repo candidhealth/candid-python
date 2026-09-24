@@ -4823,6 +4823,74 @@ client.dashboarding.v_1.query_metrics(
 </details>
 
 ## Eligibility V2
+<details><summary><code>client.eligibility.v_2.<a href="src/candid/resources/eligibility/resources/v_2/client.py">create_availity_eligibility_check</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid import CandidApiClient
+from candid.resources.eligibility.resources.v_2 import EligibilityRequest
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.eligibility.v_2.create_availity_eligibility_check(
+    request=EligibilityRequest(
+        member_id="member_id",
+        payer_id="payer_id",
+        provider_npi="provider_npi",
+        date_of_service=datetime.datetime.fromisoformat(
+            "2024-01-15 09:30:00+00:00",
+        ),
+        service_type_codes=["service_type_codes", "service_type_codes"],
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `EligibilityRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.eligibility.v_2.<a href="src/candid/resources/eligibility/resources/v_2/client.py">submit_eligibility_check_availity</a>()</code></summary>
 <dl>
 <dd>
@@ -5037,6 +5105,67 @@ client.eligibility.v_2.find_availity_eligibility_results(
 <dd>
 
 **request:** `FindAvailityEligibilityResultsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.eligibility.v_2.<a href="src/candid/resources/eligibility/resources/v_2/client.py">get_by_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import uuid
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.eligibility.v_2.get_by_id(
+    eligibility_check_id=uuid.UUID(
+        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**eligibility_check_id:** `EligibilityCheckId` 
     
 </dd>
 </dl>
@@ -17751,7 +17880,7 @@ client.pre_encounter.appointments.v_1.scan(
 <dl>
 <dd>
 
-Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment, set the deactivated flag to false, and clear the cancellation reason.
 </dd>
 </dl>
 </dd>
@@ -17800,6 +17929,14 @@ client.pre_encounter.appointments.v_1.deactivate(
 <dd>
 
 **version:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**cancellation_reason:** `typing.Optional[str]` — The reason the appointment is being cancelled.
     
 </dd>
 </dl>
@@ -18748,6 +18885,170 @@ client.pre_encounter.coverages.v_1.get_eligibility(
     
 </dd>
 </dl>
+
+<dl>
+<dd>
+
+**check_id:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">check_insurance_discovery</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+import datetime
+
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.check_insurance_discovery(
+    patient_id="patient_id",
+    date_of_service=datetime.date.fromisoformat(
+        "2023-01-15",
+    ),
+    npi="npi",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**patient_id:** `PatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date_of_service:** `dt.date` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**npi:** `str` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">get_insurance_discovery</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Gets the insurance discovery of a patient if successful.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.get_insurance_discovery(
+    check_id="check_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
 
 <dl>
 <dd>
@@ -19786,6 +20087,77 @@ client.pre_encounter.eligibility_checks.v_1.create_encounter_eligibility(
 <dd>
 
 **request:** `EncounterEligibilityRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">get_eligibility_check_by_id</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Fetch an eligibility check by it's primary key
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.eligibility_checks.v_1.get_eligibility_check_by_id(
+    eligibility_check_id="eligibility_check_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**eligibility_check_id:** `str` 
     
 </dd>
 </dl>

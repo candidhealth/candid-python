@@ -76,6 +76,7 @@ if typing.TYPE_CHECKING:
     from .claims import Claim, ClaimStatus
     from .commons import (
         AdjustmentId,
+        AdjustmentReasonCode,
         AllocationId,
         AppointmentId,
         BadRequestError,
@@ -189,7 +190,7 @@ if typing.TYPE_CHECKING:
         ServiceLinesMustHaveAtLeastOneDiagnosisHttpError,
         StandaloneDiagnosisCreate,
     )
-    from .eras import Era, EraBase, EraId
+    from .eras import Era, EraBase, EraId, ProviderLevelAdjustment
     from .financials import (
         AccountType,
         Allocation,
@@ -288,6 +289,7 @@ if typing.TYPE_CHECKING:
 _dynamic_imports: typing.Dict[str, str] = {
     "AccountType": ".financials",
     "AdjustmentId": ".commons",
+    "AdjustmentReasonCode": ".commons",
     "Allocation": ".financials",
     "AllocationCreate": ".financials",
     "AllocationEarmarkType": ".financials",
@@ -429,6 +431,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProcedureModifier": ".commons",
     "ProviderCredentialingSpanId": ".commons",
     "ProviderId": ".commons",
+    "ProviderLevelAdjustment": ".eras",
     "QualifierCode": ".commons",
     "RateId": ".commons",
     "ReallocationWouldOverdraftError": ".financials",
@@ -587,6 +590,7 @@ def __dir__():
 __all__ = [
     "AccountType",
     "AdjustmentId",
+    "AdjustmentReasonCode",
     "Allocation",
     "AllocationCreate",
     "AllocationEarmarkType",
@@ -728,6 +732,7 @@ __all__ = [
     "ProcedureModifier",
     "ProviderCredentialingSpanId",
     "ProviderId",
+    "ProviderLevelAdjustment",
     "QualifierCode",
     "RateId",
     "ReallocationWouldOverdraftError",

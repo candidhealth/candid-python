@@ -112,6 +112,11 @@ class MutableAppointment(UniversalBaseModel):
     The work queue that the appointment belongs to. It is not recommended to change this value manually via API. If status is NOT_READY, work_queue must be set. If status is READY, CHECKED_OUT or NO_SHOW, work_queue must be null.
     """
 
+    cancellation_reason: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The reason the appointment was cancelled. This value cannot be set on create or update; it is only set by the deactivate endpoint, and is cleared if the appointment is reactivated.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

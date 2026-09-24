@@ -6,6 +6,7 @@ import typing
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....commons.types.claim_id import ClaimId
+from .....eras.types.provider_level_adjustment import ProviderLevelAdjustment
 from .....payers.resources.v_3.types.payer_uuid import PayerUuid
 from .claim_adjudication import ClaimAdjudication
 from .insurance_adjudication_id import InsuranceAdjudicationId
@@ -19,6 +20,7 @@ class InsuranceAdjudication(UniversalBaseModel):
     check_date: dt.date
     note: typing.Optional[str] = None
     claims: typing.Dict[ClaimId, typing.List[ClaimAdjudication]]
+    provider_level_adjustments: typing.List[ProviderLevelAdjustment]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -462,16 +462,24 @@ class RawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def deactivate(
-        self, id: AppointmentId, version: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: AppointmentId,
+        version: str,
+        *,
+        cancellation_reason: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[None]:
         """
-        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment, set the deactivated flag to false, and clear the cancellation reason.
 
         Parameters
         ----------
         id : AppointmentId
 
         version : str
+
+        cancellation_reason : typing.Optional[str]
+            The reason the appointment is being cancelled.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -484,6 +492,9 @@ class RawV1Client:
             f"appointments/v1/{jsonable_encoder(id)}/{jsonable_encoder(version)}",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="DELETE",
+            params={
+                "cancellation_reason": cancellation_reason,
+            },
             request_options=request_options,
         )
         if 200 <= _response.status_code < 300:
@@ -950,16 +961,24 @@ class AsyncRawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def deactivate(
-        self, id: AppointmentId, version: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: AppointmentId,
+        version: str,
+        *,
+        cancellation_reason: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[None]:
         """
-        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment, set the deactivated flag to false, and clear the cancellation reason.
 
         Parameters
         ----------
         id : AppointmentId
 
         version : str
+
+        cancellation_reason : typing.Optional[str]
+            The reason the appointment is being cancelled.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -972,6 +991,9 @@ class AsyncRawV1Client:
             f"appointments/v1/{jsonable_encoder(id)}/{jsonable_encoder(version)}",
             base_url=self._client_wrapper.get_environment().pre_encounter,
             method="DELETE",
+            params={
+                "cancellation_reason": cancellation_reason,
+            },
             request_options=request_options,
         )
         if 200 <= _response.status_code < 300:

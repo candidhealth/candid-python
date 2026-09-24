@@ -9,6 +9,7 @@ if typing.TYPE_CHECKING:
     from .resources import (
         AccountType,
         AdjustmentId,
+        AdjustmentReasonCode,
         Allocation,
         AllocationCreate,
         AllocationEarmarkType,
@@ -150,6 +151,7 @@ if typing.TYPE_CHECKING:
         ProcedureModifier,
         ProviderCredentialingSpanId,
         ProviderId,
+        ProviderLevelAdjustment,
         QualifierCode,
         RateId,
         ReallocationWouldOverdraftError,
@@ -288,6 +290,7 @@ if typing.TYPE_CHECKING:
 _dynamic_imports: typing.Dict[str, str] = {
     "AccountType": ".resources",
     "AdjustmentId": ".resources",
+    "AdjustmentReasonCode": ".resources",
     "Allocation": ".resources",
     "AllocationCreate": ".resources",
     "AllocationEarmarkType": ".resources",
@@ -432,6 +435,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProcedureModifier": ".resources",
     "ProviderCredentialingSpanId": ".resources",
     "ProviderId": ".resources",
+    "ProviderLevelAdjustment": ".resources",
     "QualifierCode": ".resources",
     "RateId": ".resources",
     "ReallocationWouldOverdraftError": ".resources",
@@ -591,6 +595,7 @@ def __dir__():
 __all__ = [
     "AccountType",
     "AdjustmentId",
+    "AdjustmentReasonCode",
     "Allocation",
     "AllocationCreate",
     "AllocationEarmarkType",
@@ -735,6 +740,7 @@ __all__ = [
     "ProcedureModifier",
     "ProviderCredentialingSpanId",
     "ProviderId",
+    "ProviderLevelAdjustment",
     "QualifierCode",
     "RateId",
     "ReallocationWouldOverdraftError",

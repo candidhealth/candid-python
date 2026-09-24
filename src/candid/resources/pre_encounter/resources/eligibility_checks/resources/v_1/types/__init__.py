@@ -6,6 +6,7 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .async_insurance_discovery_check_result import AsyncInsuranceDiscoveryCheckResult
     from .batch_eligibility_response import BatchEligibilityResponse
     from .cob import Cob
     from .cob_address import CobAddress
@@ -51,6 +52,7 @@ if typing.TYPE_CHECKING:
     from .encounter_eligibility_response import EncounterEligibilityResponse
     from .individual_provider import IndividualProvider
     from .insurance_discovery_address import InsuranceDiscoveryAddress
+    from .insurance_discovery_check_metadata import InsuranceDiscoveryCheckMetadata
     from .insurance_discovery_dependent import InsuranceDiscoveryDependent
     from .insurance_discovery_encounter import InsuranceDiscoveryEncounter
     from .insurance_discovery_gender import InsuranceDiscoveryGender
@@ -75,6 +77,7 @@ if typing.TYPE_CHECKING:
     from .vote import Vote
     from .vote_value import VoteValue
 _dynamic_imports: typing.Dict[str, str] = {
+    "AsyncInsuranceDiscoveryCheckResult": ".async_insurance_discovery_check_result",
     "BatchEligibilityResponse": ".batch_eligibility_response",
     "Cob": ".cob",
     "CobAddress": ".cob_address",
@@ -118,6 +121,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EncounterEligibilityResponse": ".encounter_eligibility_response",
     "IndividualProvider": ".individual_provider",
     "InsuranceDiscoveryAddress": ".insurance_discovery_address",
+    "InsuranceDiscoveryCheckMetadata": ".insurance_discovery_check_metadata",
     "InsuranceDiscoveryDependent": ".insurance_discovery_dependent",
     "InsuranceDiscoveryEncounter": ".insurance_discovery_encounter",
     "InsuranceDiscoveryGender": ".insurance_discovery_gender",
@@ -166,6 +170,7 @@ def __dir__():
 
 
 __all__ = [
+    "AsyncInsuranceDiscoveryCheckResult",
     "BatchEligibilityResponse",
     "Cob",
     "CobAddress",
@@ -209,6 +214,7 @@ __all__ = [
     "EncounterEligibilityResponse",
     "IndividualProvider",
     "InsuranceDiscoveryAddress",
+    "InsuranceDiscoveryCheckMetadata",
     "InsuranceDiscoveryDependent",
     "InsuranceDiscoveryEncounter",
     "InsuranceDiscoveryGender",

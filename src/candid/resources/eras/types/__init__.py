@@ -9,7 +9,13 @@ if typing.TYPE_CHECKING:
     from .era import Era
     from .era_base import EraBase
     from .era_id import EraId
-_dynamic_imports: typing.Dict[str, str] = {"Era": ".era", "EraBase": ".era_base", "EraId": ".era_id"}
+    from .provider_level_adjustment import ProviderLevelAdjustment
+_dynamic_imports: typing.Dict[str, str] = {
+    "Era": ".era",
+    "EraBase": ".era_base",
+    "EraId": ".era_id",
+    "ProviderLevelAdjustment": ".provider_level_adjustment",
+}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -33,4 +39,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["Era", "EraBase", "EraId"]
+__all__ = ["Era", "EraBase", "EraId", "ProviderLevelAdjustment"]

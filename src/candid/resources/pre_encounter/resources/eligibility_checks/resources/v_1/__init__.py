@@ -7,6 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
+        AsyncInsuranceDiscoveryCheckResult,
         BatchEligibilityResponse,
         Cob,
         CobAddress,
@@ -50,6 +51,7 @@ if typing.TYPE_CHECKING:
         EncounterEligibilityResponse,
         IndividualProvider,
         InsuranceDiscoveryAddress,
+        InsuranceDiscoveryCheckMetadata,
         InsuranceDiscoveryDependent,
         InsuranceDiscoveryEncounter,
         InsuranceDiscoveryGender,
@@ -75,6 +77,7 @@ if typing.TYPE_CHECKING:
         VoteValue,
     )
 _dynamic_imports: typing.Dict[str, str] = {
+    "AsyncInsuranceDiscoveryCheckResult": ".types",
     "BatchEligibilityResponse": ".types",
     "Cob": ".types",
     "CobAddress": ".types",
@@ -118,6 +121,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EncounterEligibilityResponse": ".types",
     "IndividualProvider": ".types",
     "InsuranceDiscoveryAddress": ".types",
+    "InsuranceDiscoveryCheckMetadata": ".types",
     "InsuranceDiscoveryDependent": ".types",
     "InsuranceDiscoveryEncounter": ".types",
     "InsuranceDiscoveryGender": ".types",
@@ -166,6 +170,7 @@ def __dir__():
 
 
 __all__ = [
+    "AsyncInsuranceDiscoveryCheckResult",
     "BatchEligibilityResponse",
     "Cob",
     "CobAddress",
@@ -209,6 +214,7 @@ __all__ = [
     "EncounterEligibilityResponse",
     "IndividualProvider",
     "InsuranceDiscoveryAddress",
+    "InsuranceDiscoveryCheckMetadata",
     "InsuranceDiscoveryDependent",
     "InsuranceDiscoveryEncounter",
     "InsuranceDiscoveryGender",

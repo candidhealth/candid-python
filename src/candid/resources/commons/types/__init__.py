@@ -7,6 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .adjustment_id import AdjustmentId
+    from .adjustment_reason_code import AdjustmentReasonCode
     from .allocation_id import AllocationId
     from .appointment_id import AppointmentId
     from .bad_request_error_message import BadRequestErrorMessage
@@ -98,6 +99,7 @@ if typing.TYPE_CHECKING:
     from .work_queue_snooze_id import WorkQueueSnoozeId
 _dynamic_imports: typing.Dict[str, str] = {
     "AdjustmentId": ".adjustment_id",
+    "AdjustmentReasonCode": ".adjustment_reason_code",
     "AllocationId": ".allocation_id",
     "AppointmentId": ".appointment_id",
     "BadRequestErrorMessage": ".bad_request_error_message",
@@ -211,6 +213,7 @@ def __dir__():
 
 __all__ = [
     "AdjustmentId",
+    "AdjustmentReasonCode",
     "AllocationId",
     "AppointmentId",
     "BadRequestErrorMessage",

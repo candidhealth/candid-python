@@ -6,10 +6,14 @@ from json.decoder import JSONDecodeError
 from .....core.api_error import ApiError
 from .....core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .....core.http_response import AsyncHttpResponse, HttpResponse
+from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
 from ....commons.errors.http_request_validation_error import HttpRequestValidationError
 from ....commons.types.request_validation_error import RequestValidationError
+from .types.availity_eligibility_result import AvailityEligibilityResult
+from .types.eligibility_check_id import EligibilityCheckId
+from .types.eligibility_request import EligibilityRequest
 from .types.find_availity_eligibility_results_request import FindAvailityEligibilityResultsRequest
 from .types.find_availity_eligibility_results_response import FindAvailityEligibilityResultsResponse
 
@@ -20,6 +24,44 @@ OMIT = typing.cast(typing.Any, ...)
 class RawV2Client:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    def create_availity_eligibility_check(
+        self, *, request: EligibilityRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[EligibilityCheckId]:
+        """
+        Parameters
+        ----------
+        request : EligibilityRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[EligibilityCheckId]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/eligibility/v2/avality-eligibility-check",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityCheckId,
+                parse_obj_as(
+                    type_=EligibilityCheckId,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None
@@ -191,10 +233,84 @@ class RawV2Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def get_by_id(
+        self, eligibility_check_id: EligibilityCheckId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[AvailityEligibilityResult]:
+        """
+        Parameters
+        ----------
+        eligibility_check_id : EligibilityCheckId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AvailityEligibilityResult]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"api/eligibility/v2/{jsonable_encoder(eligibility_check_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AvailityEligibilityResult,
+                parse_obj_as(
+                    type_=AvailityEligibilityResult,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawV2Client:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
+
+    async def create_availity_eligibility_check(
+        self, *, request: EligibilityRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[EligibilityCheckId]:
+        """
+        Parameters
+        ----------
+        request : EligibilityRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[EligibilityCheckId]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/eligibility/v2/avality-eligibility-check",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                EligibilityCheckId,
+                parse_obj_as(
+                    type_=EligibilityCheckId,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def submit_eligibility_check_availity(
         self, *, request_options: typing.Optional[RequestOptions] = None
@@ -360,6 +476,42 @@ class AsyncRawV2Client:
                 FindAvailityEligibilityResultsResponse,
                 parse_obj_as(
                     type_=FindAvailityEligibilityResultsResponse,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_by_id(
+        self, eligibility_check_id: EligibilityCheckId, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[AvailityEligibilityResult]:
+        """
+        Parameters
+        ----------
+        eligibility_check_id : EligibilityCheckId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AvailityEligibilityResult]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"api/eligibility/v2/{jsonable_encoder(eligibility_check_id)}",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                AvailityEligibilityResult,
+                parse_obj_as(
+                    type_=AvailityEligibilityResult,  # type: ignore
                     object_=_response_json,
                 ),
             )

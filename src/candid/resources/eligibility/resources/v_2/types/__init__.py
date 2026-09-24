@@ -7,11 +7,15 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .availity_eligibility_result import AvailityEligibilityResult
+    from .eligibility_check_id import EligibilityCheckId
+    from .eligibility_request import EligibilityRequest
     from .eligibility_status import EligibilityStatus
     from .find_availity_eligibility_results_request import FindAvailityEligibilityResultsRequest
     from .find_availity_eligibility_results_response import FindAvailityEligibilityResultsResponse
 _dynamic_imports: typing.Dict[str, str] = {
     "AvailityEligibilityResult": ".availity_eligibility_result",
+    "EligibilityCheckId": ".eligibility_check_id",
+    "EligibilityRequest": ".eligibility_request",
     "EligibilityStatus": ".eligibility_status",
     "FindAvailityEligibilityResultsRequest": ".find_availity_eligibility_results_request",
     "FindAvailityEligibilityResultsResponse": ".find_availity_eligibility_results_response",
@@ -41,6 +45,8 @@ def __dir__():
 
 __all__ = [
     "AvailityEligibilityResult",
+    "EligibilityCheckId",
+    "EligibilityRequest",
     "EligibilityStatus",
     "FindAvailityEligibilityResultsRequest",
     "FindAvailityEligibilityResultsResponse",

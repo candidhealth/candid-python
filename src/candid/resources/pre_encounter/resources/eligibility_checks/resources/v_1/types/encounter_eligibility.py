@@ -14,7 +14,7 @@ from .eligibility_status import EligibilityStatus
 class EncounterEligibility(UniversalBaseModel):
     id: str
     source: EligibilitySource
-    date_of_service: dt.datetime = pydantic.Field(alias="dateOfService")
+    date_of_service: typing.Optional[dt.datetime] = pydantic.Field(alias="dateOfService", default=None)
     payer_id: str = pydantic.Field(alias="payerId")
     provider_npi: str = pydantic.Field(alias="providerNPI")
     dependent: typing.Optional[Dependent] = None

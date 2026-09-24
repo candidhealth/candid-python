@@ -343,16 +343,24 @@ class V1Client:
         return _response.data
 
     def deactivate(
-        self, id: AppointmentId, version: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: AppointmentId,
+        version: str,
+        *,
+        cancellation_reason: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> None:
         """
-        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment, set the deactivated flag to false, and clear the cancellation reason.
 
         Parameters
         ----------
         id : AppointmentId
 
         version : str
+
+        cancellation_reason : typing.Optional[str]
+            The reason the appointment is being cancelled.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -374,7 +382,9 @@ class V1Client:
             version="version",
         )
         """
-        _response = self._raw_client.deactivate(id, version, request_options=request_options)
+        _response = self._raw_client.deactivate(
+            id, version, cancellation_reason=cancellation_reason, request_options=request_options
+        )
         return _response.data
 
 
@@ -754,16 +764,24 @@ class AsyncV1Client:
         return _response.data
 
     async def deactivate(
-        self, id: AppointmentId, version: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: AppointmentId,
+        version: str,
+        *,
+        cancellation_reason: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> None:
         """
-        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment and set the deactivated flag to false.
+        Sets an appointment as deactivated.  The path must contain the most recent version to prevent race conditions.  Deactivating historic versions is not supported. Subsequent updates via PUT to the appointment will "reactivate" the appointment, set the deactivated flag to false, and clear the cancellation reason.
 
         Parameters
         ----------
         id : AppointmentId
 
         version : str
+
+        cancellation_reason : typing.Optional[str]
+            The reason the appointment is being cancelled.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -793,5 +811,7 @@ class AsyncV1Client:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.deactivate(id, version, request_options=request_options)
+        _response = await self._raw_client.deactivate(
+            id, version, cancellation_reason=cancellation_reason, request_options=request_options
+        )
         return _response.data
