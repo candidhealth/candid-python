@@ -28,6 +28,7 @@ from ....eligibility_checks.resources.v_1.types.eligibility_check_metadata impor
 from ....eligibility_checks.resources.v_1.types.insurance_discovery_check_metadata import (
     InsuranceDiscoveryCheckMetadata,
 )
+from ....eligibility_checks.resources.v_1.types.insurance_discovery_request import InsuranceDiscoveryRequest
 from .types.coverage import Coverage
 from .types.coverage_eligibility_check_response import CoverageEligibilityCheckResponse
 from .types.coverages_page import CoveragesPage
@@ -589,7 +590,7 @@ class RawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[InsuranceDiscoveryCheckMetadata]:
         """
-        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+        Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated. Prefer to use the eligibilityChecks insurance-discovery api as it will allow long running discovery requests to complete.
 
         Parameters
         ----------
@@ -633,11 +634,92 @@ class RawV1Client:
             return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def check_insurance_discovery_passthrough(
+        self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[InsuranceDiscoveryCheckMetadata]:
+        """
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        request : InsuranceDiscoveryRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[InsuranceDiscoveryCheckMetadata]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "coverages/v1/insurance-discovery-passthrough",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                InsuranceDiscoveryCheckMetadata,
+                parse_obj_as(
+                    type_=InsuranceDiscoveryCheckMetadata,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_insurance_discovery_check_metadata(
+        self, *, patient_id: PatientId, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[typing.List[InsuranceDiscoveryCheckMetadata]]:
+        """
+        Returns insurance discovery check metadata, filterable by patient.
+
+        Parameters
+        ----------
+        patient_id : PatientId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[typing.List[InsuranceDiscoveryCheckMetadata]]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "coverages/v1/insurance-discovery/check-metadata",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "patient_id": patient_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[InsuranceDiscoveryCheckMetadata],
+                parse_obj_as(
+                    type_=typing.List[InsuranceDiscoveryCheckMetadata],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def get_insurance_discovery(
         self, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[AsyncInsuranceDiscoveryCheckResult]:
         """
-        Gets the insurance discovery of a patient if successful.
+        Gets the insurance discovery of a check id if successful.
 
         Parameters
         ----------
@@ -1224,7 +1306,7 @@ class AsyncRawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[InsuranceDiscoveryCheckMetadata]:
         """
-        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+        Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated. Prefer to use the eligibilityChecks insurance-discovery api as it will allow long running discovery requests to complete.
 
         Parameters
         ----------
@@ -1268,11 +1350,92 @@ class AsyncRawV1Client:
             return AsyncHttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    async def check_insurance_discovery_passthrough(
+        self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[InsuranceDiscoveryCheckMetadata]:
+        """
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        request : InsuranceDiscoveryRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[InsuranceDiscoveryCheckMetadata]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "coverages/v1/insurance-discovery-passthrough",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                InsuranceDiscoveryCheckMetadata,
+                parse_obj_as(
+                    type_=InsuranceDiscoveryCheckMetadata,  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_insurance_discovery_check_metadata(
+        self, *, patient_id: PatientId, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[typing.List[InsuranceDiscoveryCheckMetadata]]:
+        """
+        Returns insurance discovery check metadata, filterable by patient.
+
+        Parameters
+        ----------
+        patient_id : PatientId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[typing.List[InsuranceDiscoveryCheckMetadata]]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "coverages/v1/insurance-discovery/check-metadata",
+            base_url=self._client_wrapper.get_environment().pre_encounter,
+            method="GET",
+            params={
+                "patient_id": patient_id,
+            },
+            request_options=request_options,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[InsuranceDiscoveryCheckMetadata],
+                parse_obj_as(
+                    type_=typing.List[InsuranceDiscoveryCheckMetadata],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     async def get_insurance_discovery(
         self, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[AsyncInsuranceDiscoveryCheckResult]:
         """
-        Gets the insurance discovery of a patient if successful.
+        Gets the insurance discovery of a check id if successful.
 
         Parameters
         ----------

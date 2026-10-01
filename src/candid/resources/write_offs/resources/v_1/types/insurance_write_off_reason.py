@@ -9,6 +9,7 @@ T_Result = typing.TypeVar("T_Result")
 
 class InsuranceWriteOffReason(enum.StrEnum):
     SMALL_BALANCE = "SMALL_BALANCE"
+    OON_WRITE_OFF = "OON_WRITE_OFF"
     NO_AUTHORIZATION_REFERRAL = "NO_AUTHORIZATION_REFERRAL"
     TIMELY_FILING = "TIMELY_FILING"
     STALE_DATE = "STALE_DATE"
@@ -40,6 +41,7 @@ class InsuranceWriteOffReason(enum.StrEnum):
     def visit(
         self,
         small_balance: typing.Callable[[], T_Result],
+        oon_write_off: typing.Callable[[], T_Result],
         no_authorization_referral: typing.Callable[[], T_Result],
         timely_filing: typing.Callable[[], T_Result],
         stale_date: typing.Callable[[], T_Result],
@@ -61,6 +63,8 @@ class InsuranceWriteOffReason(enum.StrEnum):
     ) -> T_Result:
         if self is InsuranceWriteOffReason.SMALL_BALANCE:
             return small_balance()
+        if self is InsuranceWriteOffReason.OON_WRITE_OFF:
+            return oon_write_off()
         if self is InsuranceWriteOffReason.NO_AUTHORIZATION_REFERRAL:
             return no_authorization_referral()
         if self is InsuranceWriteOffReason.TIMELY_FILING:

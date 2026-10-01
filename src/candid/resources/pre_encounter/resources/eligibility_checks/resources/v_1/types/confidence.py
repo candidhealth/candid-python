@@ -4,10 +4,12 @@ import typing
 
 import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .confidence_level import ConfidenceLevel
 
 
-class EncounterEligibilityRequest(UniversalBaseModel):
-    encounter_id: str
+class Confidence(UniversalBaseModel):
+    level: typing.Optional[ConfidenceLevel] = None
+    reason: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

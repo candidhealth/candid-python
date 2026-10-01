@@ -19,7 +19,11 @@ class ReferringProvider(EncounterProviderBase):
 
     taxonomy_code: typing.Optional[str] = None
     address: typing.Optional[StreetAddressLongZip] = None
-    qualifier: typing.Optional[QualifierCode] = None
+    qualifier: typing.Optional[QualifierCode] = pydantic.Field(default=None)
+    """
+    Deprecated. This field will be removed in a future release.
+    """
+
     secondary_identification: typing.Optional[ReferringProviderSecondaryIdentification] = None
 
     if IS_PYDANTIC_V2:

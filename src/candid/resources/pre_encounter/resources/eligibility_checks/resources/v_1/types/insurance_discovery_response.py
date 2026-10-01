@@ -6,6 +6,7 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .eligibility_check_error_details import EligibilityCheckErrorDetails
 from .insurance_discovery_status import InsuranceDiscoveryStatus
+from .parsed_discovery_item import ParsedDiscoveryItem
 
 
 class InsuranceDiscoveryResponse(UniversalBaseModel):
@@ -30,6 +31,7 @@ class InsuranceDiscoveryResponse(UniversalBaseModel):
     payer, plan, and benefits details).
     """
 
+    parsed_items: typing.Optional[typing.List[ParsedDiscoveryItem]] = None
     coverages_found: typing.Optional[int] = pydantic.Field(default=None)
     """
     The number of potential coverage matches found. 0 if no matching coverage was found.

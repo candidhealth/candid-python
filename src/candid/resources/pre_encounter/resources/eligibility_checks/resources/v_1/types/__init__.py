@@ -19,12 +19,13 @@ if typing.TYPE_CHECKING:
     from .cob_response_provider import CobResponseProvider
     from .cob_response_subscriber import CobResponseSubscriber
     from .cob_subscriber import CobSubscriber
+    from .confidence import Confidence
+    from .confidence_level import ConfidenceLevel
     from .coordination_of_benefits_recommendation import CoordinationOfBenefitsRecommendation
     from .coordination_of_benefits_request import CoordinationOfBenefitsRequest
     from .coordination_of_benefits_response import CoordinationOfBenefitsResponse
     from .copay_estimation_recommendation import CopayEstimationRecommendation
     from .copay_estimation_recommendation_payload import CopayEstimationRecommendationPayload
-    from .dependent import Dependent
     from .eligibility_check import EligibilityCheck
     from .eligibility_check_error import EligibilityCheckError
     from .eligibility_check_error_details import EligibilityCheckErrorDetails
@@ -44,12 +45,8 @@ if typing.TYPE_CHECKING:
     )
     from .eligibility_request import EligibilityRequest
     from .eligibility_response import EligibilityResponse
-    from .eligibility_source import EligibilitySource
     from .eligibility_status import EligibilityStatus
     from .encounter import Encounter
-    from .encounter_eligibility import EncounterEligibility
-    from .encounter_eligibility_request import EncounterEligibilityRequest
-    from .encounter_eligibility_response import EncounterEligibilityResponse
     from .individual_provider import IndividualProvider
     from .insurance_discovery_address import InsuranceDiscoveryAddress
     from .insurance_discovery_check_metadata import InsuranceDiscoveryCheckMetadata
@@ -64,9 +61,9 @@ if typing.TYPE_CHECKING:
     from .medicare_advantage_recommendation import MedicareAdvantageRecommendation
     from .medicare_advantage_recommendation_payload import MedicareAdvantageRecommendationPayload
     from .organization_provider import OrganizationProvider
+    from .parsed_discovery_item import ParsedDiscoveryItem
     from .parsed_response import ParsedResponse
     from .payer_search_response import PayerSearchResponse
-    from .post_eligibility_recommendation_request import PostEligibilityRecommendationRequest
     from .provider import Provider
     from .request_correction import RequestCorrection
     from .stedi_payer import StediPayer
@@ -90,12 +87,13 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CobResponseProvider": ".cob_response_provider",
     "CobResponseSubscriber": ".cob_response_subscriber",
     "CobSubscriber": ".cob_subscriber",
+    "Confidence": ".confidence",
+    "ConfidenceLevel": ".confidence_level",
     "CoordinationOfBenefitsRecommendation": ".coordination_of_benefits_recommendation",
     "CoordinationOfBenefitsRequest": ".coordination_of_benefits_request",
     "CoordinationOfBenefitsResponse": ".coordination_of_benefits_response",
     "CopayEstimationRecommendation": ".copay_estimation_recommendation",
     "CopayEstimationRecommendationPayload": ".copay_estimation_recommendation_payload",
-    "Dependent": ".dependent",
     "EligibilityCheck": ".eligibility_check",
     "EligibilityCheckError": ".eligibility_check_error",
     "EligibilityCheckErrorDetails": ".eligibility_check_error_details",
@@ -113,12 +111,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EligibilityRecommendationPayload_UserConfiguredPrompts": ".eligibility_recommendation_payload",
     "EligibilityRequest": ".eligibility_request",
     "EligibilityResponse": ".eligibility_response",
-    "EligibilitySource": ".eligibility_source",
     "EligibilityStatus": ".eligibility_status",
     "Encounter": ".encounter",
-    "EncounterEligibility": ".encounter_eligibility",
-    "EncounterEligibilityRequest": ".encounter_eligibility_request",
-    "EncounterEligibilityResponse": ".encounter_eligibility_response",
     "IndividualProvider": ".individual_provider",
     "InsuranceDiscoveryAddress": ".insurance_discovery_address",
     "InsuranceDiscoveryCheckMetadata": ".insurance_discovery_check_metadata",
@@ -133,9 +127,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "MedicareAdvantageRecommendation": ".medicare_advantage_recommendation",
     "MedicareAdvantageRecommendationPayload": ".medicare_advantage_recommendation_payload",
     "OrganizationProvider": ".organization_provider",
+    "ParsedDiscoveryItem": ".parsed_discovery_item",
     "ParsedResponse": ".parsed_response",
     "PayerSearchResponse": ".payer_search_response",
-    "PostEligibilityRecommendationRequest": ".post_eligibility_recommendation_request",
     "Provider": ".provider",
     "RequestCorrection": ".request_correction",
     "StediPayer": ".stedi_payer",
@@ -183,12 +177,13 @@ __all__ = [
     "CobResponseProvider",
     "CobResponseSubscriber",
     "CobSubscriber",
+    "Confidence",
+    "ConfidenceLevel",
     "CoordinationOfBenefitsRecommendation",
     "CoordinationOfBenefitsRequest",
     "CoordinationOfBenefitsResponse",
     "CopayEstimationRecommendation",
     "CopayEstimationRecommendationPayload",
-    "Dependent",
     "EligibilityCheck",
     "EligibilityCheckError",
     "EligibilityCheckErrorDetails",
@@ -206,12 +201,8 @@ __all__ = [
     "EligibilityRecommendationPayload_UserConfiguredPrompts",
     "EligibilityRequest",
     "EligibilityResponse",
-    "EligibilitySource",
     "EligibilityStatus",
     "Encounter",
-    "EncounterEligibility",
-    "EncounterEligibilityRequest",
-    "EncounterEligibilityResponse",
     "IndividualProvider",
     "InsuranceDiscoveryAddress",
     "InsuranceDiscoveryCheckMetadata",
@@ -226,9 +217,9 @@ __all__ = [
     "MedicareAdvantageRecommendation",
     "MedicareAdvantageRecommendationPayload",
     "OrganizationProvider",
+    "ParsedDiscoveryItem",
     "ParsedResponse",
     "PayerSearchResponse",
-    "PostEligibilityRecommendationRequest",
     "Provider",
     "RequestCorrection",
     "StediPayer",

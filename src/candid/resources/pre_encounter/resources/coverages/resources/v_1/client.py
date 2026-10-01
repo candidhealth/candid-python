@@ -17,6 +17,7 @@ from ....eligibility_checks.resources.v_1.types.eligibility_check_metadata impor
 from ....eligibility_checks.resources.v_1.types.insurance_discovery_check_metadata import (
     InsuranceDiscoveryCheckMetadata,
 )
+from ....eligibility_checks.resources.v_1.types.insurance_discovery_request import InsuranceDiscoveryRequest
 from .raw_client import AsyncRawV1Client, RawV1Client
 from .types.coverage import Coverage
 from .types.coverage_eligibility_check_response import CoverageEligibilityCheckResponse
@@ -570,7 +571,7 @@ class V1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> InsuranceDiscoveryCheckMetadata:
         """
-        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+        Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated. Prefer to use the eligibilityChecks insurance-discovery api as it will allow long running discovery requests to complete.
 
         Parameters
         ----------
@@ -610,11 +611,92 @@ class V1Client:
         )
         return _response.data
 
+    def check_insurance_discovery_passthrough(
+        self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> InsuranceDiscoveryCheckMetadata:
+        """
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        request : InsuranceDiscoveryRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsuranceDiscoveryCheckMetadata
+
+        Examples
+        --------
+        from candid import CandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            InsuranceDiscoveryProvider,
+            InsuranceDiscoveryRequest,
+            InsuranceDiscoverySubscriber,
+        )
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.check_insurance_discovery_passthrough(
+            request=InsuranceDiscoveryRequest(
+                provider=InsuranceDiscoveryProvider(
+                    npi="npi",
+                ),
+                subscriber=InsuranceDiscoverySubscriber(
+                    first_name="first_name",
+                    last_name="last_name",
+                ),
+            ),
+        )
+        """
+        _response = self._raw_client.check_insurance_discovery_passthrough(
+            request=request, request_options=request_options
+        )
+        return _response.data
+
+    def get_insurance_discovery_check_metadata(
+        self, *, patient_id: PatientId, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[InsuranceDiscoveryCheckMetadata]:
+        """
+        Returns insurance discovery check metadata, filterable by patient.
+
+        Parameters
+        ----------
+        patient_id : PatientId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[InsuranceDiscoveryCheckMetadata]
+
+        Examples
+        --------
+        from candid import CandidApiClient
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.pre_encounter.coverages.v_1.get_insurance_discovery_check_metadata(
+            patient_id="patient_id",
+        )
+        """
+        _response = self._raw_client.get_insurance_discovery_check_metadata(
+            patient_id=patient_id, request_options=request_options
+        )
+        return _response.data
+
     def get_insurance_discovery(
         self, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncInsuranceDiscoveryCheckResult:
         """
-        Gets the insurance discovery of a patient if successful.
+        Gets the insurance discovery of a check id if successful.
 
         Parameters
         ----------
@@ -1259,7 +1341,7 @@ class AsyncV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> InsuranceDiscoveryCheckMetadata:
         """
-        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+        Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated. Prefer to use the eligibilityChecks insurance-discovery api as it will allow long running discovery requests to complete.
 
         Parameters
         ----------
@@ -1306,11 +1388,108 @@ class AsyncV1Client:
         )
         return _response.data
 
+    async def check_insurance_discovery_passthrough(
+        self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
+    ) -> InsuranceDiscoveryCheckMetadata:
+        """
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+
+        Parameters
+        ----------
+        request : InsuranceDiscoveryRequest
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        InsuranceDiscoveryCheckMetadata
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+            InsuranceDiscoveryProvider,
+            InsuranceDiscoveryRequest,
+            InsuranceDiscoverySubscriber,
+        )
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.coverages.v_1.check_insurance_discovery_passthrough(
+                request=InsuranceDiscoveryRequest(
+                    provider=InsuranceDiscoveryProvider(
+                        npi="npi",
+                    ),
+                    subscriber=InsuranceDiscoverySubscriber(
+                        first_name="first_name",
+                        last_name="last_name",
+                    ),
+                ),
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.check_insurance_discovery_passthrough(
+            request=request, request_options=request_options
+        )
+        return _response.data
+
+    async def get_insurance_discovery_check_metadata(
+        self, *, patient_id: PatientId, request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[InsuranceDiscoveryCheckMetadata]:
+        """
+        Returns insurance discovery check metadata, filterable by patient.
+
+        Parameters
+        ----------
+        patient_id : PatientId
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[InsuranceDiscoveryCheckMetadata]
+
+        Examples
+        --------
+        import asyncio
+
+        from candid import AsyncCandidApiClient
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.pre_encounter.coverages.v_1.get_insurance_discovery_check_metadata(
+                patient_id="patient_id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_insurance_discovery_check_metadata(
+            patient_id=patient_id, request_options=request_options
+        )
+        return _response.data
+
     async def get_insurance_discovery(
         self, check_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncInsuranceDiscoveryCheckResult:
         """
-        Gets the insurance discovery of a patient if successful.
+        Gets the insurance discovery of a check id if successful.
 
         Parameters
         ----------

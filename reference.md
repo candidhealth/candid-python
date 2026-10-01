@@ -18921,7 +18921,7 @@ client.pre_encounter.coverages.v_1.get_eligibility(
 <dl>
 <dd>
 
-Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated. Prefer to use the eligibilityChecks insurance-discovery api as it will allow long running discovery requests to complete.
 </dd>
 </dl>
 </dd>
@@ -19002,6 +19002,161 @@ client.pre_encounter.coverages.v_1.check_insurance_discovery(
 </dl>
 </details>
 
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">check_insurance_discovery_passthrough</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
+    InsuranceDiscoveryProvider,
+    InsuranceDiscoveryRequest,
+    InsuranceDiscoverySubscriber,
+)
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.check_insurance_discovery_passthrough(
+    request=InsuranceDiscoveryRequest(
+        provider=InsuranceDiscoveryProvider(
+            npi="npi",
+        ),
+        subscriber=InsuranceDiscoverySubscriber(
+            first_name="first_name",
+            last_name="last_name",
+        ),
+    ),
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `InsuranceDiscoveryRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">get_insurance_discovery_check_metadata</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns insurance discovery check metadata, filterable by patient.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from candid import CandidApiClient
+
+client = CandidApiClient(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+)
+client.pre_encounter.coverages.v_1.get_insurance_discovery_check_metadata(
+    patient_id="patient_id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**patient_id:** `PatientId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.pre_encounter.coverages.v_1.<a href="src/candid/resources/pre_encounter/resources/coverages/resources/v_1/client.py">get_insurance_discovery</a>(...)</code></summary>
 <dl>
 <dd>
@@ -19014,7 +19169,7 @@ client.pre_encounter.coverages.v_1.check_insurance_discovery(
 <dl>
 <dd>
 
-Gets the insurance discovery of a patient if successful.
+Gets the insurance discovery of a check id if successful.
 </dd>
 </dl>
 </dd>
@@ -19494,89 +19649,6 @@ client.pre_encounter.eligibility_checks.v_1.recommendation()
 </dl>
 </details>
 
-<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">create_recommendation</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Create an eligibiilty recommendation based on the request.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from candid import CandidApiClient
-from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
-    EligibilityRecommendationPatientInfo,
-    EligibilityRecommendationPayload_MedicareAdvantage,
-    MedicareAdvantageRecommendationPayload,
-    PostEligibilityRecommendationRequest,
-)
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.pre_encounter.eligibility_checks.v_1.create_recommendation(
-    request=PostEligibilityRecommendationRequest(
-        eligibility_check_id="eligibility_check_id",
-        patient=EligibilityRecommendationPatientInfo(),
-        recommendation=EligibilityRecommendationPayload_MedicareAdvantage(
-            payload=MedicareAdvantageRecommendationPayload(),
-        ),
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `PostEligibilityRecommendationRequest` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 <details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">vote_recommendation</a>(...)</code></summary>
 <dl>
 <dd>
@@ -19654,117 +19726,6 @@ client.pre_encounter.eligibility_checks.v_1.vote_recommendation(
 <dd>
 
 **request:** `Vote` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">get_multi</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from candid import CandidApiClient
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.pre_encounter.eligibility_checks.v_1.get_multi()
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**page_token:** `typing.Optional[PageToken]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**limit:** `typing.Optional[int]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**subscriber_member_id:** `typing.Optional[str]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**payer_id:** `typing.Optional[str]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**provider_npi:** `typing.Optional[str]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**date_of_service:** `typing.Optional[str]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**initiated_at_min:** `typing.Optional[dt.datetime]` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**initiated_at_max:** `typing.Optional[dt.datetime]` 
     
 </dd>
 </dl>
@@ -19940,224 +19901,6 @@ client.pre_encounter.eligibility_checks.v_1.coordination_of_benefits(
 <dd>
 
 **request:** `CoordinationOfBenefitsRequest` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">encounter_eligibility</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Returns patient eligibility data regardless of clearinghouse. Uses the encounter id to get needed patient, date of service, etc data.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from candid import CandidApiClient
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.pre_encounter.eligibility_checks.v_1.encounter_eligibility(
-    encounter_id="encounter_id",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**encounter_id:** `str` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">create_encounter_eligibility</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetch an eligibility check for the patient for the date of service, npi, and payer
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from candid import CandidApiClient
-from candid.resources.pre_encounter.resources.eligibility_checks.resources.v_1 import (
-    EncounterEligibilityRequest,
-)
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.pre_encounter.eligibility_checks.v_1.create_encounter_eligibility(
-    request=EncounterEligibilityRequest(
-        encounter_id="encounter_id",
-    ),
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**request:** `EncounterEligibilityRequest` 
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.pre_encounter.eligibility_checks.v_1.<a href="src/candid/resources/pre_encounter/resources/eligibility_checks/resources/v_1/client.py">get_eligibility_check_by_id</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Fetch an eligibility check by it's primary key
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from candid import CandidApiClient
-
-client = CandidApiClient(
-    client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-)
-client.pre_encounter.eligibility_checks.v_1.get_eligibility_check_by_id(
-    eligibility_check_id="eligibility_check_id",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**eligibility_check_id:** `str` 
     
 </dd>
 </dl>

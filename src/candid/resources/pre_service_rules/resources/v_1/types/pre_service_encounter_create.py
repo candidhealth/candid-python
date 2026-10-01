@@ -164,6 +164,7 @@ class PreServiceEncounterCreate(UniversalBaseModel):
     """
     The practitioner performing the service.
     For telehealth services, the rendering provider performs the visit or asynchronous communication.
+    Required on professional claims; not required on institutional claims.
     """
 
     service_lines: typing.Optional[typing.List[UniversalServiceLineCreate]] = pydantic.Field(default=None)
