@@ -6,6 +6,7 @@ import typing
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .encounter_edits import EncounterEdits
+from .initial_entity_state import InitialEntityState
 from .pre_service_error import PreServiceError
 from .pre_service_run_id import PreServiceRunId
 
@@ -20,6 +21,11 @@ class PreServiceRun(UniversalBaseModel):
     entity_external_id: str = pydantic.Field()
     """
     The client's internal ID for the entity that was submitted for pre-service rule processing.
+    """
+
+    initial_entity_state: typing.Optional[InitialEntityState] = pydantic.Field(default=None)
+    """
+    The submitted entity. Only set if the request asked for it via `include_initial_entity_state`.
     """
 
     edits: typing.Optional[EncounterEdits] = pydantic.Field(default=None)

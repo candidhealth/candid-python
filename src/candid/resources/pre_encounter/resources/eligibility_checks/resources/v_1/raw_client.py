@@ -337,6 +337,7 @@ class RawV1Client:
         """
         Sends an insurance discovery check to find potential coverage matches for a patient through Stedi.
         Given patient demographics, this endpoint discovers what insurance coverages exist for the patient.
+        We recommend using the coverages check_insurance_discovery_passthrough API, as it allows long-running discovery requests to complete.
 
         Parameters
         ----------
@@ -721,6 +722,7 @@ class AsyncRawV1Client:
         """
         Sends an insurance discovery check to find potential coverage matches for a patient through Stedi.
         Given patient demographics, this endpoint discovers what insurance coverages exist for the patient.
+        We recommend using the coverages check_insurance_discovery_passthrough API, as it allows long-running discovery requests to complete.
 
         Parameters
         ----------

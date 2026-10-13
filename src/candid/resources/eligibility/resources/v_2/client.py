@@ -60,6 +60,7 @@ class V2Client:
             request=EligibilityRequest(
                 member_id="member_id",
                 payer_id="payer_id",
+                payer_name="payer_name",
                 provider_npi="provider_npi",
                 date_of_service=datetime.datetime.fromisoformat(
                     "2024-01-15 09:30:00+00:00",
@@ -291,6 +292,7 @@ class AsyncV2Client:
                 request=EligibilityRequest(
                     member_id="member_id",
                     payer_id="payer_id",
+                    payer_name="payer_name",
                     provider_npi="provider_npi",
                     date_of_service=datetime.datetime.fromisoformat(
                         "2024-01-15 09:30:00+00:00",

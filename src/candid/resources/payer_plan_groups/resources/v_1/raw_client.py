@@ -15,6 +15,7 @@ from ....commons.errors.unprocessable_entity_error import UnprocessableEntityErr
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.organization_id import OrganizationId
 from ....commons.types.page_token import PageToken
+from ....commons.types.payer_group_id import PayerGroupId
 from ....commons.types.payer_plan_group_id import PayerPlanGroupId
 from ....commons.types.sort_direction import SortDirection
 from ....commons.types.source_of_payment_code import SourceOfPaymentCode
@@ -42,6 +43,7 @@ class RawV1Client:
         *,
         plan_group_name: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         payer_uuid: typing.Optional[typing.Union[PayerUuid, typing.Sequence[PayerUuid]]] = None,
+        payer_group_id: typing.Optional[PayerGroupId] = None,
         payer_id: typing.Optional[typing.Union[PayerId, typing.Sequence[PayerId]]] = None,
         plan_type: typing.Optional[typing.Union[SourceOfPaymentCode, typing.Sequence[SourceOfPaymentCode]]] = None,
         is_active: typing.Optional[bool] = None,
@@ -62,6 +64,9 @@ class RawV1Client:
         plan_group_name : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
         payer_uuid : typing.Optional[typing.Union[PayerUuid, typing.Sequence[PayerUuid]]]
+
+        payer_group_id : typing.Optional[PayerGroupId]
+            Filter to payer plans under the provided payer group.
 
         payer_id : typing.Optional[typing.Union[PayerId, typing.Sequence[PayerId]]]
 
@@ -104,6 +109,7 @@ class RawV1Client:
             params={
                 "plan_group_name": plan_group_name,
                 "payer_uuid": payer_uuid,
+                "payer_group_id": payer_group_id,
                 "payer_id": payer_id,
                 "plan_type": plan_type,
                 "is_active": is_active,
@@ -430,6 +436,7 @@ class AsyncRawV1Client:
         *,
         plan_group_name: typing.Optional[typing.Union[str, typing.Sequence[str]]] = None,
         payer_uuid: typing.Optional[typing.Union[PayerUuid, typing.Sequence[PayerUuid]]] = None,
+        payer_group_id: typing.Optional[PayerGroupId] = None,
         payer_id: typing.Optional[typing.Union[PayerId, typing.Sequence[PayerId]]] = None,
         plan_type: typing.Optional[typing.Union[SourceOfPaymentCode, typing.Sequence[SourceOfPaymentCode]]] = None,
         is_active: typing.Optional[bool] = None,
@@ -450,6 +457,9 @@ class AsyncRawV1Client:
         plan_group_name : typing.Optional[typing.Union[str, typing.Sequence[str]]]
 
         payer_uuid : typing.Optional[typing.Union[PayerUuid, typing.Sequence[PayerUuid]]]
+
+        payer_group_id : typing.Optional[PayerGroupId]
+            Filter to payer plans under the provided payer group.
 
         payer_id : typing.Optional[typing.Union[PayerId, typing.Sequence[PayerId]]]
 
@@ -492,6 +502,7 @@ class AsyncRawV1Client:
             params={
                 "plan_group_name": plan_group_name,
                 "payer_uuid": payer_uuid,
+                "payer_group_id": payer_group_id,
                 "payer_id": payer_id,
                 "plan_type": plan_type,
                 "is_active": is_active,

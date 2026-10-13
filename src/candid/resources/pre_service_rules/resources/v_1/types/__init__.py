@@ -7,6 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .encounter_edits import EncounterEdits
+    from .initial_entity_state import InitialEntityState
     from .pre_service_encounter_create import PreServiceEncounterCreate
     from .pre_service_error import PreServiceError
     from .pre_service_pipeline_summary import PreServicePipelineSummary
@@ -15,6 +16,7 @@ if typing.TYPE_CHECKING:
     from .pre_service_run_type import PreServiceRunType
 _dynamic_imports: typing.Dict[str, str] = {
     "EncounterEdits": ".encounter_edits",
+    "InitialEntityState": ".initial_entity_state",
     "PreServiceEncounterCreate": ".pre_service_encounter_create",
     "PreServiceError": ".pre_service_error",
     "PreServicePipelineSummary": ".pre_service_pipeline_summary",
@@ -47,6 +49,7 @@ def __dir__():
 
 __all__ = [
     "EncounterEdits",
+    "InitialEntityState",
     "PreServiceEncounterCreate",
     "PreServiceError",
     "PreServicePipelineSummary",

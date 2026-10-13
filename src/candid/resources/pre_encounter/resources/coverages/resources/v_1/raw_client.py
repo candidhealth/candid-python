@@ -590,7 +590,7 @@ class RawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[InsuranceDiscoveryCheckMetadata]:
         """
-        Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated. Prefer to use the eligibilityChecks insurance-discovery api as it will allow long running discovery requests to complete.
+        Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated.
 
         Parameters
         ----------
@@ -638,7 +638,7 @@ class RawV1Client:
         self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[InsuranceDiscoveryCheckMetadata]:
         """
-        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated. We recommend using this API over the eligibilityChecks insurance-discovery API, as it allows long-running discovery requests to complete.
 
         Parameters
         ----------
@@ -1306,7 +1306,7 @@ class AsyncRawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[InsuranceDiscoveryCheckMetadata]:
         """
-        Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated. Prefer to use the eligibilityChecks insurance-discovery api as it will allow long running discovery requests to complete.
+        Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated.
 
         Parameters
         ----------
@@ -1354,7 +1354,7 @@ class AsyncRawV1Client:
         self, *, request: InsuranceDiscoveryRequest, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[InsuranceDiscoveryCheckMetadata]:
         """
-        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+        Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated. We recommend using this API over the eligibilityChecks insurance-discovery API, as it allows long-running discovery requests to complete.
 
         Parameters
         ----------

@@ -8,6 +8,7 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .types import (
         EncounterEdits,
+        InitialEntityState,
         PreServiceEncounterCreate,
         PreServiceError,
         PreServicePipelineSummary,
@@ -17,6 +18,7 @@ if typing.TYPE_CHECKING:
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "EncounterEdits": ".types",
+    "InitialEntityState": ".types",
     "PreServiceEncounterCreate": ".types",
     "PreServiceError": ".types",
     "PreServicePipelineSummary": ".types",
@@ -49,6 +51,7 @@ def __dir__():
 
 __all__ = [
     "EncounterEdits",
+    "InitialEntityState",
     "PreServiceEncounterCreate",
     "PreServiceError",
     "PreServicePipelineSummary",

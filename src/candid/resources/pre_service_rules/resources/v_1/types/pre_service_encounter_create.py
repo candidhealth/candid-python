@@ -99,15 +99,17 @@ class PreServiceEncounterCreate(UniversalBaseModel):
     Describes the currently expected target form for this encounter (professional or institutional).
     """
 
-    date_of_service: typing.Optional[dt.date] = pydantic.Field(default=None)
+    date_of_service: dt.date = pydantic.Field()
     """
     Date formatted as YYYY-MM-DD. Box 24a on the CMS-1500 claim form.
     If service occurred over a range of dates, this should be the start date.
+    Must be on or after 2010-01-01.
     """
 
     end_date_of_service: typing.Optional[dt.date] = pydantic.Field(default=None)
     """
     Date formatted as YYYY-MM-DD. If omitted, assumed to be a single-day encounter.
+    Must be on or after date_of_service.
     """
 
     pay_to_address: typing.Optional[StreetAddressLongZip] = pydantic.Field(default=None)
@@ -164,18 +166,22 @@ class PreServiceEncounterCreate(UniversalBaseModel):
     """
     The practitioner performing the service.
     For telehealth services, the rendering provider performs the visit or asynchronous communication.
-    Required on professional claims; not required on institutional claims.
+    Required unless submission_expectation is TARGET_INSTITUTIONAL.
     """
 
-    service_lines: typing.Optional[typing.List[UniversalServiceLineCreate]] = pydantic.Field(default=None)
+    service_lines: typing.List[UniversalServiceLineCreate] = pydantic.Field()
     """
-    Service lines for this encounter.
+    Service lines for this encounter. On professional encounters each line needs a procedure_code.
+    revenue_code must be 4 characters. diagnosis_pointers must be unique and reference diagnoses submitted in
+    health_care_code_information.
     """
 
-    health_care_code_information: typing.Optional[HealthCareCodeInformationCreate] = pydantic.Field(default=None)
+    health_care_code_information: HealthCareCodeInformationCreate = pydantic.Field()
     """
     Health care code information associated with this encounter, including diagnoses,
     vitals, procedures, occurrences, reason for visit, and other code-related fields.
+    Must include principal_diagnosis with principal_diagnosis_code_qualifier ABK.
+    When responsible_party is INSURANCE_PAY, ICD-10 diagnosis codes must be valid.
     """
 
     attending_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)

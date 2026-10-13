@@ -11,9 +11,15 @@ class EligibilityRequest(UniversalBaseModel):
     member_id: str
     dependent_member_id: typing.Optional[str] = None
     payer_id: str
+    payer_name: str
     provider_npi: str
     date_of_service: dt.datetime
     service_type_codes: typing.List[str]
+    patient_gender: typing.Optional[str] = None
+    patient_first_name: typing.Optional[str] = None
+    patient_last_name: typing.Optional[str] = None
+    patient_date_of_birth: typing.Optional[dt.datetime] = None
+    patient_state: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

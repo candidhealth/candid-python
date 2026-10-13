@@ -4849,6 +4849,7 @@ client.eligibility.v_2.create_availity_eligibility_check(
     request=EligibilityRequest(
         member_id="member_id",
         payer_id="payer_id",
+        payer_name="payer_name",
         provider_npi="provider_npi",
         date_of_service=datetime.datetime.fromisoformat(
             "2024-01-15 09:30:00+00:00",
@@ -14558,6 +14559,14 @@ client.payer_plan_groups.v_1.get_multi()
 <dl>
 <dd>
 
+**payer_group_id:** `typing.Optional[PayerGroupId]` — Filter to payer plans under the provided payer group.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **payer_id:** `typing.Optional[typing.Union[PayerId, typing.Sequence[PayerId]]]` 
     
 </dd>
@@ -15285,22 +15294,35 @@ Returns a run_id that can be polled via GET /runs/{run_id} to retrieve the resul
 
 ```python
 import datetime
-import uuid
 
 from candid import CandidApiClient
 from candid.resources.commons import (
+    PatientRelationshipToInsuredCodeAll,
+    ServiceLineUnits,
     State,
     StreetAddressLongZip,
     StreetAddressShortZip,
 )
-from candid.resources.encounter_providers.resources.v_2 import BillingProvider
+from candid.resources.encounter_providers.resources.v_2 import (
+    BillingProvider,
+    RenderingProvider,
+)
 from candid.resources.encounters.resources.v_4 import (
     EncounterSubmissionExpectation,
     ResponsiblePartyType,
 )
-from candid.resources.individual import Gender, PatientCreate
+from candid.resources.health_care_code_information.resources.v_1 import (
+    HealthCareCodeInformationCreate,
+    PrincipalDiagnosisCodeQualifier,
+    PrincipalDiagnosisNew,
+)
+from candid.resources.individual import Gender, PatientCreate, SubscriberCreate
+from candid.resources.insurance_cards.resources.v_2 import InsuranceCardCreate
 from candid.resources.pre_service_rules.resources.v_1 import (
     PreServiceEncounterCreate,
+)
+from candid.resources.service_lines.resources.v_2 import (
+    UniversalServiceLineCreate,
 )
 
 client = CandidApiClient(
@@ -15309,57 +15331,78 @@ client = CandidApiClient(
 )
 client.pre_service_rules.v_1.create_encounter_run(
     entity=PreServiceEncounterCreate(
-        external_id="external_id",
+        external_id="enc-123",
         patient_authorized_release=True,
         benefits_assigned_to_provider=True,
         provider_accepts_assignment=True,
+        responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+        submission_expectation=EncounterSubmissionExpectation.TARGET_PROFESSIONAL,
+        date_of_service=datetime.date.fromisoformat(
+            "2026-10-15",
+        ),
         patient=PatientCreate(
-            external_id="external_id",
+            external_id="p-456",
+            first_name="Jane",
+            last_name="Doe",
+            gender=Gender.FEMALE,
             date_of_birth=datetime.date.fromisoformat(
-                "2023-01-15",
+                "1960-01-01",
             ),
             address=StreetAddressShortZip(
-                address_1="address1",
-                city="city",
-                state=State.AA,
-                zip_code="zip_code",
+                address_1="1 Main St",
+                city="Fairfax",
+                state=State.VA,
+                zip_code="22031",
             ),
-            first_name="first_name",
-            last_name="last_name",
-            gender=Gender.MALE,
         ),
-        responsible_party=ResponsiblePartyType.INSURANCE_PAY,
+        rendering_provider=RenderingProvider(
+            first_name="Ada",
+            last_name="Lovelace",
+            npi="1234567893",
+        ),
         billing_provider=BillingProvider(
+            npi="1558375857",
+            tax_id="202265068",
+            organization_name="Example Clinic",
             address=StreetAddressLongZip(
-                zip_plus_four_code="zip_plus_four_code",
-                address_1="address1",
-                city="city",
-                state=State.AA,
-                zip_code="zip_code",
+                address_1="1 Main St",
+                city="Fairfax",
+                state=State.VA,
+                zip_code="22031",
+                zip_plus_four_code="4634",
             ),
-            tax_id="tax_id",
-            npi="npi",
         ),
-        submission_expectation=EncounterSubmissionExpectation.TARGET_PROFESSIONAL,
+        subscriber_primary=SubscriberCreate(
+            first_name="Jane",
+            last_name="Doe",
+            gender=Gender.FEMALE,
+            patient_relationship_to_subscriber_code=PatientRelationshipToInsuredCodeAll.SELF,
+            insurance_card=InsuranceCardCreate(
+                member_id="123456789",
+                payer_name="Example Payer",
+                payer_id="12345",
+            ),
+        ),
+        health_care_code_information=HealthCareCodeInformationCreate(
+            principal_diagnosis=PrincipalDiagnosisNew(
+                primary_diagnosis_code="Z01.411",
+                principal_diagnosis_code_qualifier=PrincipalDiagnosisCodeQualifier.CABK,
+            ),
+        ),
+        service_lines=[
+            UniversalServiceLineCreate(
+                procedure_code="99213",
+                quantity="1",
+                units=ServiceLineUnits.UN,
+                charge_amount_cents=20600,
+                diagnosis_pointers=[0],
+            )
+        ],
     ),
-    pipeline_id="pipeline_id",
-    enabled_rule_ids=[
-        uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-    ],
-    disabled_rule_ids=[
-        uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-        uuid.UUID(
-            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
-        ),
-    ],
-    idempotency_key="idempotency_key",
+    pipeline_id="pre-service-claim-athena",
+    enabled_rule_ids=[],
+    disabled_rule_ids=[],
+    idempotency_key="enc-123-run-1",
 )
 
 ```
@@ -15484,6 +15527,14 @@ client.pre_service_rules.v_1.get_run(
 <dd>
 
 **run_id:** `PreServiceRunId` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include_initial_entity_state:** `typing.Optional[bool]` — If true, the run result includes the entity exactly as it was submitted. Default = False
     
 </dd>
 </dl>
@@ -18921,7 +18972,7 @@ client.pre_encounter.coverages.v_1.get_eligibility(
 <dl>
 <dd>
 
-Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated. Prefer to use the eligibilityChecks insurance-discovery api as it will allow long running discovery requests to complete.
+Initiates an insurance discovery check via patientId. Returns the metadata of the check if successfully initiated.
 </dd>
 </dl>
 </dd>
@@ -19014,7 +19065,7 @@ client.pre_encounter.coverages.v_1.check_insurance_discovery(
 <dl>
 <dd>
 
-Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated.
+Initiates an insurance discovery check. Returns the metadata of the check if successfully initiated. We recommend using this API over the eligibilityChecks insurance-discovery API, as it allows long-running discovery requests to complete.
 </dd>
 </dl>
 </dd>
@@ -19759,6 +19810,7 @@ client.pre_encounter.eligibility_checks.v_1.vote_recommendation(
 
 Sends an insurance discovery check to find potential coverage matches for a patient through Stedi.
 Given patient demographics, this endpoint discovers what insurance coverages exist for the patient.
+We recommend using the coverages check_insurance_discovery_passthrough API, as it allows long-running discovery requests to complete.
 </dd>
 </dl>
 </dd>

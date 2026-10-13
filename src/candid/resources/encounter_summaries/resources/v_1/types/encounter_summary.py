@@ -23,6 +23,7 @@ from .....commons.types.work_queue_id import WorkQueueId
 from .....encounters.resources.v_4.types.billable_status_type import BillableStatusType
 from .....encounters.resources.v_4.types.encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
 from .....encounters.resources.v_4.types.encounter_submission_expectation import EncounterSubmissionExpectation
+from .....encounters.resources.v_4.types.prior_authorization_number import PriorAuthorizationNumber
 from .....encounters.resources.v_4.types.responsible_party_type import ResponsiblePartyType
 from .....payers.resources.v_3.types.payer_id import PayerId
 from .....service_facility.types.encounter_service_facility import EncounterServiceFacility
@@ -61,6 +62,11 @@ class EncounterSummary(UniversalBaseModel):
     secondary_payer_plan_name: typing.Optional[str] = None
     secondary_group_number: typing.Optional[str] = None
     primary_member_id: typing.Optional[str] = None
+    prior_authorization_number: typing.Optional[PriorAuthorizationNumber] = pydantic.Field(default=None)
+    """
+    Box 23 on the CMS-1500 claim form or Form Locator 63 on a UB-04 claim form.
+    """
+
     sum_allowed_amount_cents: int
     sum_charge_amount_cents: int
     sum_paid_amount_cents: int

@@ -120,7 +120,11 @@ class RawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_run(
-        self, run_id: PreServiceRunId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        run_id: PreServiceRunId,
+        *,
+        include_initial_entity_state: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PreServiceRun]:
         """
         Retrieve the result of a pre-service run. This endpoint supports long-polling.
@@ -128,6 +132,9 @@ class RawV1Client:
         Parameters
         ----------
         run_id : PreServiceRunId
+
+        include_initial_entity_state : typing.Optional[bool]
+            If true, the run result includes the entity exactly as it was submitted. Default = False
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -140,6 +147,9 @@ class RawV1Client:
             f"api/pre-service/v1/runs/{jsonable_encoder(run_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
+            params={
+                "include_initial_entity_state": include_initial_entity_state,
+            },
             request_options=request_options,
         )
         try:
@@ -312,7 +322,11 @@ class AsyncRawV1Client:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_run(
-        self, run_id: PreServiceRunId, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        run_id: PreServiceRunId,
+        *,
+        include_initial_entity_state: typing.Optional[bool] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PreServiceRun]:
         """
         Retrieve the result of a pre-service run. This endpoint supports long-polling.
@@ -320,6 +334,9 @@ class AsyncRawV1Client:
         Parameters
         ----------
         run_id : PreServiceRunId
+
+        include_initial_entity_state : typing.Optional[bool]
+            If true, the run result includes the entity exactly as it was submitted. Default = False
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -332,6 +349,9 @@ class AsyncRawV1Client:
             f"api/pre-service/v1/runs/{jsonable_encoder(run_id)}",
             base_url=self._client_wrapper.get_environment().candid_api,
             method="GET",
+            params={
+                "include_initial_entity_state": include_initial_entity_state,
+            },
             request_options=request_options,
         )
         try:

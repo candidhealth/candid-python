@@ -48,6 +48,7 @@ if typing.TYPE_CHECKING:
     from .page_token import PageToken
     from .patient_external_id import PatientExternalId
     from .patient_relationship_to_insured_code_all import PatientRelationshipToInsuredCodeAll
+    from .payer_group_id import PayerGroupId
     from .payer_plan_group_id import PayerPlanGroupId
     from .phone_number import PhoneNumber
     from .phone_number_optional import PhoneNumberOptional
@@ -140,6 +141,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PageToken": ".page_token",
     "PatientExternalId": ".patient_external_id",
     "PatientRelationshipToInsuredCodeAll": ".patient_relationship_to_insured_code_all",
+    "PayerGroupId": ".payer_group_id",
     "PayerPlanGroupId": ".payer_plan_group_id",
     "PhoneNumber": ".phone_number",
     "PhoneNumberOptional": ".phone_number_optional",
@@ -254,6 +256,7 @@ __all__ = [
     "PageToken",
     "PatientExternalId",
     "PatientRelationshipToInsuredCodeAll",
+    "PayerGroupId",
     "PayerPlanGroupId",
     "PhoneNumber",
     "PhoneNumberOptional",
