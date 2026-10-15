@@ -7,6 +7,8 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
+        BatchMatchPoint,
+        BatchMatchResult,
         DimensionMatch,
         DimensionName,
         Dimensions,
@@ -23,6 +25,7 @@ if typing.TYPE_CHECKING:
         MatchProvider,
         MatchResult,
         MatchTestResult,
+        MatchedRate,
         NewRate,
         NewRateVersion,
         OptionalDimensions,
@@ -50,6 +53,8 @@ if typing.TYPE_CHECKING:
     )
     from .errors import FailedToBuildServiceLineDimensions, FeeScheduleValidationHttpError
 _dynamic_imports: typing.Dict[str, str] = {
+    "BatchMatchPoint": ".types",
+    "BatchMatchResult": ".types",
     "DimensionMatch": ".types",
     "DimensionName": ".types",
     "Dimensions": ".types",
@@ -68,6 +73,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "MatchProvider": ".types",
     "MatchResult": ".types",
     "MatchTestResult": ".types",
+    "MatchedRate": ".types",
     "NewRate": ".types",
     "NewRateVersion": ".types",
     "OptionalDimensions": ".types",
@@ -117,6 +123,8 @@ def __dir__():
 
 
 __all__ = [
+    "BatchMatchPoint",
+    "BatchMatchResult",
     "DimensionMatch",
     "DimensionName",
     "Dimensions",
@@ -135,6 +143,7 @@ __all__ = [
     "MatchProvider",
     "MatchResult",
     "MatchTestResult",
+    "MatchedRate",
     "NewRate",
     "NewRateVersion",
     "OptionalDimensions",

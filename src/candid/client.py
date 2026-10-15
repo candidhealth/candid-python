@@ -31,6 +31,10 @@ if typing.TYPE_CHECKING:
     from .resources.enterprise_config.client import AsyncEnterpriseConfigClient, EnterpriseConfigClient
     from .resources.events.client import AsyncEventsClient, EventsClient
     from .resources.exports.client import AsyncExportsClient, ExportsClient
+    from .resources.external_consolidated_remit.client import (
+        AsyncExternalConsolidatedRemitClient,
+        ExternalConsolidatedRemitClient,
+    )
     from .resources.external_payment_account_config.client import (
         AsyncExternalPaymentAccountConfigClient,
         ExternalPaymentAccountConfigClient,
@@ -221,6 +225,7 @@ class CandidApiClient:
         self._enterprise_config: typing.Optional[EnterpriseConfigClient] = None
         self._events: typing.Optional[EventsClient] = None
         self._exports: typing.Optional[ExportsClient] = None
+        self._external_consolidated_remit: typing.Optional[ExternalConsolidatedRemitClient] = None
         self._external_payment_account_config: typing.Optional[ExternalPaymentAccountConfigClient] = None
         self._fee_schedules: typing.Optional[FeeSchedulesClient] = None
         self._guarantor: typing.Optional[GuarantorClient] = None
@@ -380,6 +385,14 @@ class CandidApiClient:
 
             self._exports = ExportsClient(client_wrapper=self._client_wrapper)
         return self._exports
+
+    @property
+    def external_consolidated_remit(self):
+        if self._external_consolidated_remit is None:
+            from .resources.external_consolidated_remit.client import ExternalConsolidatedRemitClient  # noqa: E402
+
+            self._external_consolidated_remit = ExternalConsolidatedRemitClient(client_wrapper=self._client_wrapper)
+        return self._external_consolidated_remit
 
     @property
     def external_payment_account_config(self):
@@ -751,6 +764,7 @@ class AsyncCandidApiClient:
         self._enterprise_config: typing.Optional[AsyncEnterpriseConfigClient] = None
         self._events: typing.Optional[AsyncEventsClient] = None
         self._exports: typing.Optional[AsyncExportsClient] = None
+        self._external_consolidated_remit: typing.Optional[AsyncExternalConsolidatedRemitClient] = None
         self._external_payment_account_config: typing.Optional[AsyncExternalPaymentAccountConfigClient] = None
         self._fee_schedules: typing.Optional[AsyncFeeSchedulesClient] = None
         self._guarantor: typing.Optional[AsyncGuarantorClient] = None
@@ -910,6 +924,16 @@ class AsyncCandidApiClient:
 
             self._exports = AsyncExportsClient(client_wrapper=self._client_wrapper)
         return self._exports
+
+    @property
+    def external_consolidated_remit(self):
+        if self._external_consolidated_remit is None:
+            from .resources.external_consolidated_remit.client import AsyncExternalConsolidatedRemitClient  # noqa: E402
+
+            self._external_consolidated_remit = AsyncExternalConsolidatedRemitClient(
+                client_wrapper=self._client_wrapper
+            )
+        return self._external_consolidated_remit
 
     @property
     def external_payment_account_config(self):

@@ -17,6 +17,8 @@ from ....organization_providers.resources.v_2.types.license_type import LicenseT
 from ....organization_providers.resources.v_2.types.organization_provider_id import OrganizationProviderId
 from ....payers.resources.v_3.types.payer_uuid import PayerUuid
 from .raw_client import AsyncRawV3Client, RawV3Client
+from .types.batch_match_point import BatchMatchPoint
+from .types.batch_match_result import BatchMatchResult
 from .types.dimension_name import DimensionName
 from .types.dimensions_page import DimensionsPage
 from .types.match_result import MatchResult
@@ -126,6 +128,73 @@ class V3Client:
         )
         """
         _response = self._raw_client.test_match(service_line_id, rate_id, request_options=request_options)
+        return _response.data
+
+    def batch_match(
+        self, *, request: typing.Sequence[BatchMatchPoint], request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[BatchMatchResult]:
+        """
+        Gets the rate that matches each of a list of dimension points, using the same matching as the service line match endpoint.
+        Useful for showing rates before a service line exists in Candid.
+
+        Results are returned in request order, one per point. A point with no matching rate has a null `match`.
+
+        An omitted optional dimension only matches rates that have no restriction on that dimension. CPT codes are matched
+        case-insensitively, and ZIP codes are matched on their first 5 digits.
+
+        Parameters
+        ----------
+        request : typing.Sequence[BatchMatchPoint]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[BatchMatchResult]
+
+        Examples
+        --------
+        import datetime
+        import uuid
+
+        from candid import CandidApiClient
+        from candid.resources.fee_schedules.resources.v_3 import BatchMatchPoint
+
+        client = CandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+        client.fee_schedules.v_3.batch_match(
+            request=[
+                BatchMatchPoint(
+                    payer_uuid=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    organization_billing_provider_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    cpt_code="cpt_code",
+                    date_of_service=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                ),
+                BatchMatchPoint(
+                    payer_uuid=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    organization_billing_provider_id=uuid.UUID(
+                        "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                    ),
+                    cpt_code="cpt_code",
+                    date_of_service=datetime.date.fromisoformat(
+                        "2023-01-15",
+                    ),
+                ),
+            ],
+        )
+        """
+        _response = self._raw_client.batch_match(request=request, request_options=request_options)
         return _response.data
 
     def get_multi(
@@ -829,6 +898,80 @@ class AsyncV3Client:
         asyncio.run(main())
         """
         _response = await self._raw_client.test_match(service_line_id, rate_id, request_options=request_options)
+        return _response.data
+
+    async def batch_match(
+        self, *, request: typing.Sequence[BatchMatchPoint], request_options: typing.Optional[RequestOptions] = None
+    ) -> typing.List[BatchMatchResult]:
+        """
+        Gets the rate that matches each of a list of dimension points, using the same matching as the service line match endpoint.
+        Useful for showing rates before a service line exists in Candid.
+
+        Results are returned in request order, one per point. A point with no matching rate has a null `match`.
+
+        An omitted optional dimension only matches rates that have no restriction on that dimension. CPT codes are matched
+        case-insensitively, and ZIP codes are matched on their first 5 digits.
+
+        Parameters
+        ----------
+        request : typing.Sequence[BatchMatchPoint]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        typing.List[BatchMatchResult]
+
+        Examples
+        --------
+        import asyncio
+        import datetime
+        import uuid
+
+        from candid import AsyncCandidApiClient
+        from candid.resources.fee_schedules.resources.v_3 import BatchMatchPoint
+
+        client = AsyncCandidApiClient(
+            client_id="YOUR_CLIENT_ID",
+            client_secret="YOUR_CLIENT_SECRET",
+        )
+
+
+        async def main() -> None:
+            await client.fee_schedules.v_3.batch_match(
+                request=[
+                    BatchMatchPoint(
+                        payer_uuid=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        organization_billing_provider_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        cpt_code="cpt_code",
+                        date_of_service=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                    ),
+                    BatchMatchPoint(
+                        payer_uuid=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        organization_billing_provider_id=uuid.UUID(
+                            "d5e9c84f-c2b2-4bf4-b4b0-7ffd7a9ffc32",
+                        ),
+                        cpt_code="cpt_code",
+                        date_of_service=datetime.date.fromisoformat(
+                            "2023-01-15",
+                        ),
+                    ),
+                ],
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.batch_match(request=request, request_options=request_options)
         return _response.data
 
     async def get_multi(

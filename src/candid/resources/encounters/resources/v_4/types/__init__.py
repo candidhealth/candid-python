@@ -24,6 +24,7 @@ if typing.TYPE_CHECKING:
     from .encounter_external_id_uniqueness_error_type import EncounterExternalIdUniquenessErrorType
     from .encounter_guarantor_missing_contact_info_error_type import EncounterGuarantorMissingContactInfoErrorType
     from .encounter_optional import EncounterOptional
+    from .encounter_optional_base import EncounterOptionalBase
     from .encounter_owner_of_next_action_type import EncounterOwnerOfNextActionType
     from .encounter_page import EncounterPage
     from .encounter_patient_control_number_uniqueness_error_type import EncounterPatientControlNumberUniquenessErrorType
@@ -100,6 +101,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "EncounterExternalIdUniquenessErrorType": ".encounter_external_id_uniqueness_error_type",
     "EncounterGuarantorMissingContactInfoErrorType": ".encounter_guarantor_missing_contact_info_error_type",
     "EncounterOptional": ".encounter_optional",
+    "EncounterOptionalBase": ".encounter_optional_base",
     "EncounterOwnerOfNextActionType": ".encounter_owner_of_next_action_type",
     "EncounterPage": ".encounter_page",
     "EncounterPatientControlNumberUniquenessErrorType": ".encounter_patient_control_number_uniqueness_error_type",
@@ -194,6 +196,7 @@ __all__ = [
     "EncounterExternalIdUniquenessErrorType",
     "EncounterGuarantorMissingContactInfoErrorType",
     "EncounterOptional",
+    "EncounterOptionalBase",
     "EncounterOwnerOfNextActionType",
     "EncounterPage",
     "EncounterPatientControlNumberUniquenessErrorType",

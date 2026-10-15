@@ -6,6 +6,8 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .batch_match_point import BatchMatchPoint
+    from .batch_match_result import BatchMatchResult
     from .dimension_match import DimensionMatch
     from .dimension_name import DimensionName
     from .dimensions import Dimensions
@@ -22,6 +24,7 @@ if typing.TYPE_CHECKING:
     from .match_provider import MatchProvider
     from .match_result import MatchResult
     from .match_test_result import MatchTestResult
+    from .matched_rate import MatchedRate
     from .new_rate import NewRate
     from .new_rate_version import NewRateVersion
     from .optional_dimensions import OptionalDimensions
@@ -47,6 +50,8 @@ if typing.TYPE_CHECKING:
         ValidationError_VersionConflict,
     )
 _dynamic_imports: typing.Dict[str, str] = {
+    "BatchMatchPoint": ".batch_match_point",
+    "BatchMatchResult": ".batch_match_result",
     "DimensionMatch": ".dimension_match",
     "DimensionName": ".dimension_name",
     "Dimensions": ".dimensions",
@@ -63,6 +68,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "MatchProvider": ".match_provider",
     "MatchResult": ".match_result",
     "MatchTestResult": ".match_test_result",
+    "MatchedRate": ".matched_rate",
     "NewRate": ".new_rate",
     "NewRateVersion": ".new_rate_version",
     "OptionalDimensions": ".optional_dimensions",
@@ -112,6 +118,8 @@ def __dir__():
 
 
 __all__ = [
+    "BatchMatchPoint",
+    "BatchMatchResult",
     "DimensionMatch",
     "DimensionName",
     "Dimensions",
@@ -128,6 +136,7 @@ __all__ = [
     "MatchProvider",
     "MatchResult",
     "MatchTestResult",
+    "MatchedRate",
     "NewRate",
     "NewRateVersion",
     "OptionalDimensions",

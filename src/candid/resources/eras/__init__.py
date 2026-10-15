@@ -6,11 +6,38 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .types import Era, EraBase, EraId, ProviderLevelAdjustment
+    from .types import (
+        Era,
+        EraAdjustment,
+        EraBase,
+        EraClaimPaymentId,
+        EraDocument,
+        EraDocumentId,
+        EraId,
+        EraPayer,
+        EraPayerId,
+        EraPayment,
+        EraPaymentId,
+        EraServicePayment,
+        EraServicePaymentId,
+        PaymentBundleId,
+        ProviderLevelAdjustment,
+    )
 _dynamic_imports: typing.Dict[str, str] = {
     "Era": ".types",
+    "EraAdjustment": ".types",
     "EraBase": ".types",
+    "EraClaimPaymentId": ".types",
+    "EraDocument": ".types",
+    "EraDocumentId": ".types",
     "EraId": ".types",
+    "EraPayer": ".types",
+    "EraPayerId": ".types",
+    "EraPayment": ".types",
+    "EraPaymentId": ".types",
+    "EraServicePayment": ".types",
+    "EraServicePaymentId": ".types",
+    "PaymentBundleId": ".types",
     "ProviderLevelAdjustment": ".types",
 }
 
@@ -36,4 +63,20 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["Era", "EraBase", "EraId", "ProviderLevelAdjustment"]
+__all__ = [
+    "Era",
+    "EraAdjustment",
+    "EraBase",
+    "EraClaimPaymentId",
+    "EraDocument",
+    "EraDocumentId",
+    "EraId",
+    "EraPayer",
+    "EraPayerId",
+    "EraPayment",
+    "EraPaymentId",
+    "EraServicePayment",
+    "EraServicePaymentId",
+    "PaymentBundleId",
+    "ProviderLevelAdjustment",
+]

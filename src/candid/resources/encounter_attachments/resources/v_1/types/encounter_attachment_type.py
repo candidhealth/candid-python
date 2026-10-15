@@ -8,9 +8,19 @@ T_Result = typing.TypeVar("T_Result")
 
 
 class EncounterAttachmentType(enum.StrEnum):
+    APPEAL_LETTER = "APPEAL_LETTER"
+    CERTIFICATION = "CERTIFICATION"
+    CONSENT_FORM = "CONSENT_FORM"
     DOCUMENTATION = "DOCUMENTATION"
     EOB = "EOB"
+    JUSTIFICATION_OF_ADMISSION = "JUSTIFICATION_OF_ADMISSION"
+    LABORATORY_RESULTS = "LABORATORY_RESULTS"
+    MEDICAL_RECORD_ATTACHMENT = "MEDICAL_RECORD_ATTACHMENT"
+    OPERATIVE_NOTE = "OPERATIVE_NOTE"
     OTHER = "OTHER"
+    PHYSICAL_THERAPY_NOTE = "PHYSICAL_THERAPY_NOTE"
+    REFERRAL_FORM = "REFERRAL_FORM"
+    SUPPORT_DATA_FOR_CLAIM = "SUPPORT_DATA_FOR_CLAIM"
     _UNKNOWN = "__ENCOUNTERATTACHMENTTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -24,15 +34,45 @@ class EncounterAttachmentType(enum.StrEnum):
 
     def visit(
         self,
+        appeal_letter: typing.Callable[[], T_Result],
+        certification: typing.Callable[[], T_Result],
+        consent_form: typing.Callable[[], T_Result],
         documentation: typing.Callable[[], T_Result],
         eob: typing.Callable[[], T_Result],
+        justification_of_admission: typing.Callable[[], T_Result],
+        laboratory_results: typing.Callable[[], T_Result],
+        medical_record_attachment: typing.Callable[[], T_Result],
+        operative_note: typing.Callable[[], T_Result],
         other: typing.Callable[[], T_Result],
+        physical_therapy_note: typing.Callable[[], T_Result],
+        referral_form: typing.Callable[[], T_Result],
+        support_data_for_claim: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
+        if self is EncounterAttachmentType.APPEAL_LETTER:
+            return appeal_letter()
+        if self is EncounterAttachmentType.CERTIFICATION:
+            return certification()
+        if self is EncounterAttachmentType.CONSENT_FORM:
+            return consent_form()
         if self is EncounterAttachmentType.DOCUMENTATION:
             return documentation()
         if self is EncounterAttachmentType.EOB:
             return eob()
+        if self is EncounterAttachmentType.JUSTIFICATION_OF_ADMISSION:
+            return justification_of_admission()
+        if self is EncounterAttachmentType.LABORATORY_RESULTS:
+            return laboratory_results()
+        if self is EncounterAttachmentType.MEDICAL_RECORD_ATTACHMENT:
+            return medical_record_attachment()
+        if self is EncounterAttachmentType.OPERATIVE_NOTE:
+            return operative_note()
         if self is EncounterAttachmentType.OTHER:
             return other()
+        if self is EncounterAttachmentType.PHYSICAL_THERAPY_NOTE:
+            return physical_therapy_note()
+        if self is EncounterAttachmentType.REFERRAL_FORM:
+            return referral_form()
+        if self is EncounterAttachmentType.SUPPORT_DATA_FOR_CLAIM:
+            return support_data_for_claim()
         return _unknown_member(self._value_)

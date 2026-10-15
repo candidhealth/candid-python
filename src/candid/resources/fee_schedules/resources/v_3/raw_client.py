@@ -28,6 +28,8 @@ from ....organization_providers.resources.v_2.types.organization_provider_id imp
 from ....payers.resources.v_3.types.payer_uuid import PayerUuid
 from .errors.failed_to_build_service_line_dimensions import FailedToBuildServiceLineDimensions
 from .errors.fee_schedule_validation_http_error import FeeScheduleValidationHttpError
+from .types.batch_match_point import BatchMatchPoint
+from .types.batch_match_result import BatchMatchResult
 from .types.dimension_name import DimensionName
 from .types.dimensions_page import DimensionsPage
 from .types.match_result import MatchResult
@@ -174,6 +176,52 @@ class RawV3Client:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def batch_match(
+        self, *, request: typing.Sequence[BatchMatchPoint], request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[typing.List[BatchMatchResult]]:
+        """
+        Gets the rate that matches each of a list of dimension points, using the same matching as the service line match endpoint.
+        Useful for showing rates before a service line exists in Candid.
+
+        Results are returned in request order, one per point. A point with no matching rate has a null `match`.
+
+        An omitted optional dimension only matches rates that have no restriction on that dimension. CPT codes are matched
+        case-insensitively, and ZIP codes are matched on their first 5 digits.
+
+        Parameters
+        ----------
+        request : typing.Sequence[BatchMatchPoint]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[typing.List[BatchMatchResult]]
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "api/fee-schedules/v3/batch-match",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[BatchMatchResult],
+                parse_obj_as(
+                    type_=typing.List[BatchMatchResult],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return HttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get_multi(
@@ -885,6 +933,52 @@ class AsyncRawV3Client:
                         ),
                     ),
                 )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def batch_match(
+        self, *, request: typing.Sequence[BatchMatchPoint], request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[typing.List[BatchMatchResult]]:
+        """
+        Gets the rate that matches each of a list of dimension points, using the same matching as the service line match endpoint.
+        Useful for showing rates before a service line exists in Candid.
+
+        Results are returned in request order, one per point. A point with no matching rate has a null `match`.
+
+        An omitted optional dimension only matches rates that have no restriction on that dimension. CPT codes are matched
+        case-insensitively, and ZIP codes are matched on their first 5 digits.
+
+        Parameters
+        ----------
+        request : typing.Sequence[BatchMatchPoint]
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[typing.List[BatchMatchResult]]
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "api/fee-schedules/v3/batch-match",
+            base_url=self._client_wrapper.get_environment().candid_api,
+            method="POST",
+            json=request,
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        if 200 <= _response.status_code < 300:
+            _data = typing.cast(
+                typing.List[BatchMatchResult],
+                parse_obj_as(
+                    type_=typing.List[BatchMatchResult],  # type: ignore
+                    object_=_response_json,
+                ),
+            )
+            return AsyncHttpResponse(response=_response, data=_data)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get_multi(
