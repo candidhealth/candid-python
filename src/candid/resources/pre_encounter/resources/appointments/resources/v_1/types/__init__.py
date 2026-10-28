@@ -7,7 +7,9 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .appointment import Appointment
+    from .appointment_device import AppointmentDevice
     from .appointment_reason_detail import AppointmentReasonDetail
+    from .appointment_room import AppointmentRoom
     from .appointment_status import AppointmentStatus
     from .appointment_work_queue import AppointmentWorkQueue
     from .counts_response import CountsResponse
@@ -16,6 +18,7 @@ if typing.TYPE_CHECKING:
     from .not_ready_reason import NotReadyReason
     from .prior_authorization_status import PriorAuthorizationStatus
     from .procedure_code import ProcedureCode
+    from .ready_reason import ReadyReason
     from .ready_source import ReadySource
     from .service import Service
     from .universal_service_identifier import UniversalServiceIdentifier
@@ -23,7 +26,9 @@ if typing.TYPE_CHECKING:
     from .visits_page import VisitsPage
 _dynamic_imports: typing.Dict[str, str] = {
     "Appointment": ".appointment",
+    "AppointmentDevice": ".appointment_device",
     "AppointmentReasonDetail": ".appointment_reason_detail",
+    "AppointmentRoom": ".appointment_room",
     "AppointmentStatus": ".appointment_status",
     "AppointmentWorkQueue": ".appointment_work_queue",
     "CountsResponse": ".counts_response",
@@ -32,6 +37,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "NotReadyReason": ".not_ready_reason",
     "PriorAuthorizationStatus": ".prior_authorization_status",
     "ProcedureCode": ".procedure_code",
+    "ReadyReason": ".ready_reason",
     "ReadySource": ".ready_source",
     "Service": ".service",
     "UniversalServiceIdentifier": ".universal_service_identifier",
@@ -63,7 +69,9 @@ def __dir__():
 
 __all__ = [
     "Appointment",
+    "AppointmentDevice",
     "AppointmentReasonDetail",
+    "AppointmentRoom",
     "AppointmentStatus",
     "AppointmentWorkQueue",
     "CountsResponse",
@@ -72,6 +80,7 @@ __all__ = [
     "NotReadyReason",
     "PriorAuthorizationStatus",
     "ProcedureCode",
+    "ReadyReason",
     "ReadySource",
     "Service",
     "UniversalServiceIdentifier",

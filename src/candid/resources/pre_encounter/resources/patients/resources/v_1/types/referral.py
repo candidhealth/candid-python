@@ -6,6 +6,7 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.external_provider import ExternalProvider
 from .....common.types.patient_service_facility import PatientServiceFacility
+from .....common.types.payer_id import PayerId
 from .....common.types.period import Period
 from .referral_unit import ReferralUnit
 
@@ -20,6 +21,12 @@ class Referral(UniversalBaseModel):
     quantity: typing.Optional[int] = None
     cpt_codes: typing.Optional[typing.List[str]] = pydantic.Field(alias="cptCodes", default=None)
     apply_for_all_cpt_codes: typing.Optional[bool] = pydantic.Field(alias="applyForAllCptCodes", default=None)
+    payer_id: typing.Optional[PayerId] = pydantic.Field(default=None)
+    """
+    When set, the referral will only apply to claims for this payer.
+    """
+
+    payer_name: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

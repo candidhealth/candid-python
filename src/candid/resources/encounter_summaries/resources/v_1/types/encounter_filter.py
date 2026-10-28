@@ -67,6 +67,12 @@ class EncounterFilter(UniversalBaseModel):
     attending_provider_npi: typing.Optional[StringFilter] = None
     attending_provider_name: typing.Optional[StringFilter] = None
     claim_status: typing.Optional[SetFilter] = None
+    claim_appeal_status: typing.Optional[SetFilter] = pydantic.Field(default=None)
+    """
+    Filter on the status of the claim's most recent appeal. Values must be claim appeal statuses.
+    Claims without an appeal never match, including with not_in.
+    """
+
     external_id: typing.Optional[StringFilter] = None
     claim_id: typing.Optional[UuidSetFilter] = None
     patient_external_id: typing.Optional[StringFilter] = None

@@ -5,6 +5,7 @@ import typing
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .....claim_appeals.resources.v_1.types.claim_appeal_status import ClaimAppealStatus
 from .....claims.types.claim_status import ClaimStatus
 from .....clinical_trials.resources.v_1.types.clinical_trial_phase import ClinicalTrialPhase
 from .....commons.types.claim_id import ClaimId
@@ -39,6 +40,11 @@ class EncounterSummary(UniversalBaseModel):
     patient_control_number: typing.Optional[str] = None
     claim_id: ClaimId
     claim_status: ClaimStatus
+    claim_appeal_status: typing.Optional[ClaimAppealStatus] = pydantic.Field(default=None)
+    """
+    The status of the claim's most recent appeal. Unset if the claim has no appeals.
+    """
+
     billing_provider_npi: Npi
     billing_provider_name: str
     billing_provider_tin: typing.Optional[str] = None

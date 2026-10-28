@@ -13,6 +13,7 @@ if typing.TYPE_CHECKING:
     from .audit_coverage_created import AuditCoverageCreated
     from .audit_coverage_updated import AuditCoverageUpdated
     from .audit_elig_check_completed import AuditEligCheckCompleted
+    from .audit_patient_self_pay_updated import AuditPatientSelfPayUpdated
     from .audit_patient_tags_updated import AuditPatientTagsUpdated
     from .authorization import Authorization
     from .authorization_unit import AuthorizationUnit
@@ -52,6 +53,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AuditCoverageCreated": ".audit_coverage_created",
     "AuditCoverageUpdated": ".audit_coverage_updated",
     "AuditEligCheckCompleted": ".audit_elig_check_completed",
+    "AuditPatientSelfPayUpdated": ".audit_patient_self_pay_updated",
     "AuditPatientTagsUpdated": ".audit_patient_tags_updated",
     "Authorization": ".authorization",
     "AuthorizationUnit": ".authorization_unit",
@@ -115,6 +117,7 @@ __all__ = [
     "AuditCoverageCreated",
     "AuditCoverageUpdated",
     "AuditEligCheckCompleted",
+    "AuditPatientSelfPayUpdated",
     "AuditPatientTagsUpdated",
     "Authorization",
     "AuthorizationUnit",

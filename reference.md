@@ -16460,6 +16460,14 @@ client.superbills.v_1.create_superbill(
 <dl>
 <dd>
 
+**include_unfinalized_claim_financials:** `typing.Optional[bool]` — If true, adjustment, insurance paid, patient responsibility, and balance amounts are shown for claims that are not yet finalized, reflecting their current state. These amounts may change as remaining payers adjudicate. Defaults to false, which shows these amounts only for finalized claims.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>

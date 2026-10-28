@@ -8,7 +8,9 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .types import (
         Appointment,
+        AppointmentDevice,
         AppointmentReasonDetail,
+        AppointmentRoom,
         AppointmentStatus,
         AppointmentWorkQueue,
         CountsResponse,
@@ -17,6 +19,7 @@ if typing.TYPE_CHECKING:
         NotReadyReason,
         PriorAuthorizationStatus,
         ProcedureCode,
+        ReadyReason,
         ReadySource,
         Service,
         UniversalServiceIdentifier,
@@ -25,7 +28,9 @@ if typing.TYPE_CHECKING:
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "Appointment": ".types",
+    "AppointmentDevice": ".types",
     "AppointmentReasonDetail": ".types",
+    "AppointmentRoom": ".types",
     "AppointmentStatus": ".types",
     "AppointmentWorkQueue": ".types",
     "CountsResponse": ".types",
@@ -34,6 +39,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "NotReadyReason": ".types",
     "PriorAuthorizationStatus": ".types",
     "ProcedureCode": ".types",
+    "ReadyReason": ".types",
     "ReadySource": ".types",
     "Service": ".types",
     "UniversalServiceIdentifier": ".types",
@@ -65,7 +71,9 @@ def __dir__():
 
 __all__ = [
     "Appointment",
+    "AppointmentDevice",
     "AppointmentReasonDetail",
+    "AppointmentRoom",
     "AppointmentStatus",
     "AppointmentWorkQueue",
     "CountsResponse",
@@ -74,6 +82,7 @@ __all__ = [
     "NotReadyReason",
     "PriorAuthorizationStatus",
     "ProcedureCode",
+    "ReadyReason",
     "ReadySource",
     "Service",
     "UniversalServiceIdentifier",

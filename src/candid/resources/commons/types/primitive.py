@@ -11,12 +11,14 @@ class Primitive(enum.StrEnum):
     """
     The BOOLEAN and STRING primitives respectively map to the `boolean` and `string` JSON data types.
     The DOUBLE and INTEGER primitives must be written as a JSON `number` type.
+    The DATE primitive must be written as a JSON `string` containing an ISO 8601 date, formatted YYYY-MM-DD (i.e. 2012-02-01).
     """
 
     BOOLEAN = "BOOLEAN"
     DOUBLE = "DOUBLE"
     INTEGER = "INTEGER"
     STRING = "STRING"
+    DATE = "DATE"
     _UNKNOWN = "__PRIMITIVE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -34,6 +36,7 @@ class Primitive(enum.StrEnum):
         double: typing.Callable[[], T_Result],
         integer: typing.Callable[[], T_Result],
         string: typing.Callable[[], T_Result],
+        date: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is Primitive.BOOLEAN:
@@ -44,4 +47,6 @@ class Primitive(enum.StrEnum):
             return integer()
         if self is Primitive.STRING:
             return string()
+        if self is Primitive.DATE:
+            return date()
         return _unknown_member(self._value_)

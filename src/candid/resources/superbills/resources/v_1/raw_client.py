@@ -33,6 +33,7 @@ class RawV1Client:
         pay_to_address: typing.Optional[StreetAddressShortZip] = OMIT,
         output_format: typing.Optional[SuperbillOutputFormat] = OMIT,
         include_merged_patient_data: typing.Optional[bool] = OMIT,
+        include_unfinalized_claim_financials: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[SuperbillResponse]:
         """
@@ -56,6 +57,9 @@ class RawV1Client:
         include_merged_patient_data : typing.Optional[bool]
             If true will include claims from any alternative patients the given patient_external_id has.
 
+        include_unfinalized_claim_financials : typing.Optional[bool]
+            If true, adjustment, insurance paid, patient responsibility, and balance amounts are shown for claims that are not yet finalized, reflecting their current state. These amounts may change as remaining payers adjudicate. Defaults to false, which shows these amounts only for finalized claims.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -74,6 +78,7 @@ class RawV1Client:
                 "pay_to_address": pay_to_address,
                 "output_format": output_format,
                 "include_merged_patient_data": include_merged_patient_data,
+                "include_unfinalized_claim_financials": include_unfinalized_claim_financials,
             },
             request_options=request_options,
             omit=OMIT,
@@ -119,6 +124,7 @@ class AsyncRawV1Client:
         pay_to_address: typing.Optional[StreetAddressShortZip] = OMIT,
         output_format: typing.Optional[SuperbillOutputFormat] = OMIT,
         include_merged_patient_data: typing.Optional[bool] = OMIT,
+        include_unfinalized_claim_financials: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[SuperbillResponse]:
         """
@@ -142,6 +148,9 @@ class AsyncRawV1Client:
         include_merged_patient_data : typing.Optional[bool]
             If true will include claims from any alternative patients the given patient_external_id has.
 
+        include_unfinalized_claim_financials : typing.Optional[bool]
+            If true, adjustment, insurance paid, patient responsibility, and balance amounts are shown for claims that are not yet finalized, reflecting their current state. These amounts may change as remaining payers adjudicate. Defaults to false, which shows these amounts only for finalized claims.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -160,6 +169,7 @@ class AsyncRawV1Client:
                 "pay_to_address": pay_to_address,
                 "output_format": output_format,
                 "include_merged_patient_data": include_merged_patient_data,
+                "include_unfinalized_claim_financials": include_unfinalized_claim_financials,
             },
             request_options=request_options,
             omit=OMIT,

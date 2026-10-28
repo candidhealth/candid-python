@@ -10,10 +10,12 @@ from .....core.jsonable_encoder import jsonable_encoder
 from .....core.pydantic_utilities import parse_obj_as
 from .....core.request_options import RequestOptions
 from ....commons.errors.entity_not_found_error import EntityNotFoundError
+from ....commons.errors.organization_not_authorized_error import OrganizationNotAuthorizedError
 from ....commons.errors.unauthorized_error import UnauthorizedError
 from ....commons.errors.unprocessable_entity_error import UnprocessableEntityError
 from ....commons.types.entity_not_found_error_message import EntityNotFoundErrorMessage
 from ....commons.types.organization_id import OrganizationId
+from ....commons.types.organization_not_authorized_error_message import OrganizationNotAuthorizedErrorMessage
 from ....commons.types.page_token import PageToken
 from ....commons.types.payer_group_id import PayerGroupId
 from ....commons.types.payer_plan_group_id import PayerPlanGroupId
@@ -283,6 +285,17 @@ class RawV1Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        OrganizationNotAuthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=OrganizationNotAuthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update(
@@ -363,6 +376,17 @@ class RawV1Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        OrganizationNotAuthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=OrganizationNotAuthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def deactivate(
@@ -420,6 +444,17 @@ class RawV1Client:
                         UnauthorizedErrorMessage,
                         parse_obj_as(
                             type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        OrganizationNotAuthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=OrganizationNotAuthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),
@@ -676,6 +711,17 @@ class AsyncRawV1Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        OrganizationNotAuthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=OrganizationNotAuthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update(
@@ -756,6 +802,17 @@ class AsyncRawV1Client:
                         ),
                     ),
                 )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        OrganizationNotAuthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=OrganizationNotAuthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def deactivate(
@@ -813,6 +870,17 @@ class AsyncRawV1Client:
                         UnauthorizedErrorMessage,
                         parse_obj_as(
                             type_=UnauthorizedErrorMessage,  # type: ignore
+                            object_=_response_json["content"],
+                        ),
+                    ),
+                )
+            if _response_json["errorName"] == "OrganizationNotAuthorizedError":
+                raise OrganizationNotAuthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        OrganizationNotAuthorizedErrorMessage,
+                        parse_obj_as(
+                            type_=OrganizationNotAuthorizedErrorMessage,  # type: ignore
                             object_=_response_json["content"],
                         ),
                     ),

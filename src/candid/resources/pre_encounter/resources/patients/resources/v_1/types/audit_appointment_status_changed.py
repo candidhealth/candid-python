@@ -6,12 +6,14 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....appointments.resources.v_1.types.appointment_status import AppointmentStatus
 from .....appointments.resources.v_1.types.not_ready_reason import NotReadyReason
+from .....appointments.resources.v_1.types.ready_reason import ReadyReason
 
 
 class AuditAppointmentStatusChanged(UniversalBaseModel):
     from_status: typing.Optional[AppointmentStatus] = None
     to_status: typing.Optional[AppointmentStatus] = None
     not_ready_reason: typing.Optional[NotReadyReason] = None
+    ready_reason: typing.Optional[ReadyReason] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

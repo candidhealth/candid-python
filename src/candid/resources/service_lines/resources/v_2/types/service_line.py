@@ -205,6 +205,11 @@ class ServiceLine(UniversalBaseModel):
     """
 
     ordering_provider: typing.Optional[EncounterProvider] = None
+    rendering_provider: typing.Optional[EncounterProvider] = pydantic.Field(default=None)
+    """
+    If set, overrides the claim-level rendering provider for this service line on the 837-P. If not set, the claim-level rendering provider is used.
+    """
+
     revenue_code: typing.Optional[str] = pydantic.Field(default=None)
     """
     A 4 digit code that specifies facility department or type of service arrangement for institutional service line items (837i). This code is not required for professional claim billing (837p).

@@ -15,6 +15,7 @@ class EligibilityAuditEventType(enum.StrEnum):
     COVERAGE_UPDATED = "COVERAGE_UPDATED"
     ELIG_CHECK_COMPLETED = "ELIG_CHECK_COMPLETED"
     PATIENT_TAGS_UPDATED = "PATIENT_TAGS_UPDATED"
+    PATIENT_SELF_PAY_UPDATED = "PATIENT_SELF_PAY_UPDATED"
     _UNKNOWN = "__ELIGIBILITYAUDITEVENTTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -35,6 +36,7 @@ class EligibilityAuditEventType(enum.StrEnum):
         coverage_updated: typing.Callable[[], T_Result],
         elig_check_completed: typing.Callable[[], T_Result],
         patient_tags_updated: typing.Callable[[], T_Result],
+        patient_self_pay_updated: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is EligibilityAuditEventType.APPOINTMENT_STATUS_CHANGED:
@@ -51,4 +53,6 @@ class EligibilityAuditEventType(enum.StrEnum):
             return elig_check_completed()
         if self is EligibilityAuditEventType.PATIENT_TAGS_UPDATED:
             return patient_tags_updated()
+        if self is EligibilityAuditEventType.PATIENT_SELF_PAY_UPDATED:
+            return patient_self_pay_updated()
         return _unknown_member(self._value_)

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import datetime as dt
 import typing
-import uuid
 
 import pydantic
 import typing_extensions
@@ -38,7 +37,7 @@ class ExternalConsolidatedRemitTransaction_InsurancePayment(UniversalBaseModel):
     consolidated_remit_id: typing.Optional[ConsolidatedRemitId] = None
     era_payer_name: typing.Optional[str] = None
     target_type: TargetType
-    target_id: uuid.UUID
+    target_id: str
     organization_service_facility_id: typing.Optional[OrganizationServiceFacilityId] = None
     organization_service_facility_external_id: typing.Optional[str] = None
     amount_cents: int
@@ -80,7 +79,7 @@ class ExternalConsolidatedRemitTransaction_InsuranceAdjustment(UniversalBaseMode
     consolidated_remit_id: typing.Optional[ConsolidatedRemitId] = None
     era_payer_name: typing.Optional[str] = None
     target_type: TargetType
-    target_id: uuid.UUID
+    target_id: str
     organization_service_facility_id: typing.Optional[OrganizationServiceFacilityId] = None
     organization_service_facility_external_id: typing.Optional[str] = None
     amount_cents: int

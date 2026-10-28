@@ -34,6 +34,7 @@ if typing.TYPE_CHECKING:
     from .referring_provider_update import ReferringProviderUpdate
     from .referring_provider_update_with_optional_address import ReferringProviderUpdateWithOptionalAddress
     from .rendering_provider import RenderingProvider
+    from .rendering_provider_optional import RenderingProviderOptional
     from .rendering_provider_update import RenderingProviderUpdate
     from .rendering_provider_update_with_optional_address import RenderingProviderUpdateWithOptionalAddress
     from .supervising_provider import SupervisingProvider
@@ -73,6 +74,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReferringProviderUpdate": ".referring_provider_update",
     "ReferringProviderUpdateWithOptionalAddress": ".referring_provider_update_with_optional_address",
     "RenderingProvider": ".rendering_provider",
+    "RenderingProviderOptional": ".rendering_provider_optional",
     "RenderingProviderUpdate": ".rendering_provider_update",
     "RenderingProviderUpdateWithOptionalAddress": ".rendering_provider_update_with_optional_address",
     "SupervisingProvider": ".supervising_provider",
@@ -134,6 +136,7 @@ __all__ = [
     "ReferringProviderUpdate",
     "ReferringProviderUpdateWithOptionalAddress",
     "RenderingProvider",
+    "RenderingProviderOptional",
     "RenderingProviderUpdate",
     "RenderingProviderUpdateWithOptionalAddress",
     "SupervisingProvider",

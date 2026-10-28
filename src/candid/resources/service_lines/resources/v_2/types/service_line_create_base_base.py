@@ -10,6 +10,7 @@ from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_units import ServiceLineUnits
 from .....encounter_providers.resources.v_2.types.ordering_provider import OrderingProvider
+from .....encounter_providers.resources.v_2.types.rendering_provider import RenderingProvider
 from .drug_identification import DrugIdentification
 from .test_result import TestResult
 
@@ -59,6 +60,11 @@ class ServiceLineCreateBaseBase(UniversalBaseModel):
     """
     Required when the service or supply was ordered by a provider who is different than the rendering provider for this service line.
     If not required by this implementation guide, do not send.
+    """
+
+    rendering_provider: typing.Optional[RenderingProvider] = pydantic.Field(default=None)
+    """
+    If set, overrides the claim-level rendering provider for this service line on the 837-P. If not set, the claim-level rendering provider is used.
     """
 
     test_results: typing.Optional[typing.List[TestResult]] = pydantic.Field(default=None)

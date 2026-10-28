@@ -9,6 +9,7 @@ from .....commons.types.decimal import Decimal
 from .....commons.types.facility_type_code import FacilityTypeCode
 from .....commons.types.procedure_modifier import ProcedureModifier
 from .....commons.types.service_line_units import ServiceLineUnits
+from .....encounter_providers.resources.v_2.types.rendering_provider_update import RenderingProviderUpdate
 from .drug_identification import DrugIdentification
 from .service_line_denial_reason import ServiceLineDenialReason
 from .test_result import TestResult
@@ -24,6 +25,11 @@ class ServiceLineUpdateBase(UniversalBaseModel):
 
     drug_identification: typing.Optional[DrugIdentification] = None
     denial_reason: typing.Optional[ServiceLineDenialReason] = None
+    rendering_provider: typing.Optional[RenderingProviderUpdate] = pydantic.Field(default=None)
+    """
+    If set, overrides the claim-level rendering provider for this service line on the 837-P. If not set, the claim-level rendering provider is used.
+    """
+
     place_of_service_code: typing.Optional[FacilityTypeCode] = pydantic.Field(default=None)
     """
     837p Loop2300, SV105. This enum is not used or required in 837i claims. If your organization does not intend to submit claims with a different place of service at the service line level, this field should not be populated. 02 for telemedicine, 11 for in-person. Full list [here](https://www.cms.gov/Medicare/Coding/place-of-service-codes/Place_of_Service_Code_Set).

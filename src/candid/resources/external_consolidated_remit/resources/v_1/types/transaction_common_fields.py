@@ -2,7 +2,6 @@
 
 import datetime as dt
 import typing
-import uuid
 
 import pydantic
 from ......core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
@@ -40,9 +39,13 @@ class TransactionCommonFields(UniversalBaseModel):
     """
 
     target_type: TargetType
-    target_id: uuid.UUID = pydantic.Field()
+    target_id: str = pydantic.Field()
     """
-    The specific organization/provider/external_provider/claim/service_line/appointment id, per target_type.
+    Identifies the target, per target_type - the same value as target_id on the corresponding insurance AR event:
+    - ORGANIZATION: the organization id
+    - PROVIDER / EXTERNAL_PROVIDER: the provider's NPI
+    - CLAIM: the claim id
+    - SERVICE_LINE: the service line id
     """
 
     organization_service_facility_id: typing.Optional[OrganizationServiceFacilityId] = pydantic.Field(default=None)

@@ -7,11 +7,14 @@ import pydantic
 from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.external_provider import ExternalProvider
 from .....common.types.patient_id import PatientId
+from .appointment_device import AppointmentDevice
 from .appointment_reason_detail import AppointmentReasonDetail
+from .appointment_room import AppointmentRoom
 from .appointment_status import AppointmentStatus
 from .appointment_work_queue import AppointmentWorkQueue
 from .not_ready_reason import NotReadyReason
 from .prior_authorization_status import PriorAuthorizationStatus
+from .ready_reason import ReadyReason
 from .ready_source import ReadySource
 from .service import Service
 
@@ -40,6 +43,11 @@ class MutableAppointment(UniversalBaseModel):
     ready_source: typing.Optional[ReadySource] = pydantic.Field(default=None)
     """
     The method that set the appointment status to READY. It is not recommended to change this value manually via API. Must only be set when the status is READY, CHECKED_IN, CHECKED_OUT or NO_SHOW, it is cleared otherwise.
+    """
+
+    ready_reason: typing.Optional[ReadyReason] = pydantic.Field(default=None)
+    """
+    Why the appointment was marked READY. May be set when moving the appointment to READY, or to change the reason while it is READY; omitting it keeps the current value. Must only be set when the status is READY, CHECKED_IN, CHECKED_OUT or NO_SHOW, it is cleared otherwise.
     """
 
     service_duration: int = pydantic.Field()
@@ -100,6 +108,16 @@ class MutableAppointment(UniversalBaseModel):
     location_resource_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Contains the coded identification of the location being scheduled. Components: <Identifier (ST)>^<Text (ST)>
+    """
+
+    rooms: typing.Optional[typing.List[AppointmentRoom]] = pydantic.Field(default=None)
+    """
+    The rooms booked for the appointment.
+    """
+
+    devices: typing.Optional[typing.List[AppointmentDevice]] = pydantic.Field(default=None)
+    """
+    The devices booked for the appointment.
     """
 
     automated_eligibility_check_complete: typing.Optional[bool] = pydantic.Field(default=None)

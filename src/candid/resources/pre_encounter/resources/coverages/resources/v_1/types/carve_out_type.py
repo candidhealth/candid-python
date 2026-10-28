@@ -12,6 +12,13 @@ class CarveOutType(enum.StrEnum):
     MEDICAL = "MEDICAL"
     THERAPY = "THERAPY"
     OTHER = "OTHER"
+    ABA = "ABA"
+    FWC = "FWC"
+    OT = "OT"
+    SLP = "SLP"
+    PT = "PT"
+    EEG = "EEG"
+    CES = "CES"
     _UNKNOWN = "__CARVEOUTTYPE_UNKNOWN__"
     """
     This member is used for forward compatibility. If the value is not recognized by the enum, it will be stored here, and the raw value is accessible through `.value`.
@@ -29,6 +36,13 @@ class CarveOutType(enum.StrEnum):
         medical: typing.Callable[[], T_Result],
         therapy: typing.Callable[[], T_Result],
         other: typing.Callable[[], T_Result],
+        aba: typing.Callable[[], T_Result],
+        fwc: typing.Callable[[], T_Result],
+        ot: typing.Callable[[], T_Result],
+        slp: typing.Callable[[], T_Result],
+        pt: typing.Callable[[], T_Result],
+        eeg: typing.Callable[[], T_Result],
+        ces: typing.Callable[[], T_Result],
         _unknown_member: typing.Callable[[str], T_Result],
     ) -> T_Result:
         if self is CarveOutType.BEHAVIORAL:
@@ -39,4 +53,18 @@ class CarveOutType(enum.StrEnum):
             return therapy()
         if self is CarveOutType.OTHER:
             return other()
+        if self is CarveOutType.ABA:
+            return aba()
+        if self is CarveOutType.FWC:
+            return fwc()
+        if self is CarveOutType.OT:
+            return ot()
+        if self is CarveOutType.SLP:
+            return slp()
+        if self is CarveOutType.PT:
+            return pt()
+        if self is CarveOutType.EEG:
+            return eeg()
+        if self is CarveOutType.CES:
+            return ces()
         return _unknown_member(self._value_)
