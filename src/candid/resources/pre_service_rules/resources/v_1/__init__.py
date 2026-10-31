@@ -14,6 +14,7 @@ if typing.TYPE_CHECKING:
         PreServicePipelineSummary,
         PreServiceRun,
         PreServiceRunId,
+        PreServiceRunStatus,
         PreServiceRunType,
     )
 _dynamic_imports: typing.Dict[str, str] = {
@@ -24,6 +25,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PreServicePipelineSummary": ".types",
     "PreServiceRun": ".types",
     "PreServiceRunId": ".types",
+    "PreServiceRunStatus": ".types",
     "PreServiceRunType": ".types",
 }
 
@@ -57,5 +59,6 @@ __all__ = [
     "PreServicePipelineSummary",
     "PreServiceRun",
     "PreServiceRunId",
+    "PreServiceRunStatus",
     "PreServiceRunType",
 ]

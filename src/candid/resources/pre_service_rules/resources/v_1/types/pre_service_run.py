@@ -9,6 +9,7 @@ from .encounter_edits import EncounterEdits
 from .initial_entity_state import InitialEntityState
 from .pre_service_error import PreServiceError
 from .pre_service_run_id import PreServiceRunId
+from .pre_service_run_status import PreServiceRunStatus
 
 
 class PreServiceRun(UniversalBaseModel):
@@ -41,6 +42,11 @@ class PreServiceRun(UniversalBaseModel):
     error: typing.Optional[PreServiceError] = pydantic.Field(default=None)
     """
     Set if the run encountered an unrecoverable error.
+    """
+
+    status: PreServiceRunStatus = pydantic.Field()
+    """
+    Current state of the run
     """
 
     if IS_PYDANTIC_V2:

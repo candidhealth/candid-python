@@ -13,6 +13,7 @@ if typing.TYPE_CHECKING:
     from .pre_service_pipeline_summary import PreServicePipelineSummary
     from .pre_service_run import PreServiceRun
     from .pre_service_run_id import PreServiceRunId
+    from .pre_service_run_status import PreServiceRunStatus
     from .pre_service_run_type import PreServiceRunType
 _dynamic_imports: typing.Dict[str, str] = {
     "EncounterEdits": ".encounter_edits",
@@ -22,6 +23,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "PreServicePipelineSummary": ".pre_service_pipeline_summary",
     "PreServiceRun": ".pre_service_run",
     "PreServiceRunId": ".pre_service_run_id",
+    "PreServiceRunStatus": ".pre_service_run_status",
     "PreServiceRunType": ".pre_service_run_type",
 }
 
@@ -55,5 +57,6 @@ __all__ = [
     "PreServicePipelineSummary",
     "PreServiceRun",
     "PreServiceRunId",
+    "PreServiceRunStatus",
     "PreServiceRunType",
 ]

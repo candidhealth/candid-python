@@ -144,6 +144,7 @@ class ProcedureModifier(enum.StrEnum):
     Procedure Performed on Infants less than 4 kg
     """
 
+    SIXTY_FIVE = "65"
     SIXTY_SIX = "66"
     """
     Surgical Team
@@ -289,6 +290,7 @@ class ProcedureModifier(enum.StrEnum):
     Audiology service furnished personally by an audiologist without a physician/npp order for non-acute hearing assessment ...
     """
 
+    AC = "AC"
     AD = "AD"
     """
     Medical supervision by a physician: more than four concurrent anesthesia procedures
@@ -374,6 +376,7 @@ class ProcedureModifier(enum.StrEnum):
     Item furnished in conjunction with parenteral enteral nutrition (pen) services
     """
 
+    BG = "BG"
     BL = "BL"
     """
     Special acquisition of blood and blood products
@@ -499,6 +502,8 @@ class ProcedureModifier(enum.StrEnum):
     Oral health assessment by a licensed health professional other than a dentist
     """
 
+    DR = "DR"
+    DX = "DX"
     E_1 = "E1"
     """
     Upper left, eyelid
@@ -1284,6 +1289,7 @@ class ProcedureModifier(enum.StrEnum):
     Unknown if ordering professional consulted a clinical decision support mechanism for this service
     """
 
+    MR = "MR"
     MS = "MS"
     """
     Six month maintenance and servicing fee for parts and labor, not covered under any manufacturer or supplier warranty
@@ -1319,6 +1325,7 @@ class ProcedureModifier(enum.StrEnum):
     New durable medical equipment purchase
     """
 
+    OH = "OH"
     P_1 = "P1"
     """
     A normal healthy patient
@@ -1849,6 +1856,7 @@ class ProcedureModifier(enum.StrEnum):
     Back-up equipment
     """
 
+    TZ = "TZ"
     U_1 = "U1"
     """
     Medicaid level of care 1, as defined by each state
@@ -2093,6 +2101,7 @@ class ProcedureModifier(enum.StrEnum):
         fifty_nine: typing.Callable[[], T_Result],
         sixty_two: typing.Callable[[], T_Result],
         sixty_three: typing.Callable[[], T_Result],
+        sixty_five: typing.Callable[[], T_Result],
         sixty_six: typing.Callable[[], T_Result],
         seventy_three: typing.Callable[[], T_Result],
         seventy_four: typing.Callable[[], T_Result],
@@ -2122,6 +2131,7 @@ class ProcedureModifier(enum.StrEnum):
         a_9: typing.Callable[[], T_Result],
         aa: typing.Callable[[], T_Result],
         ab: typing.Callable[[], T_Result],
+        ac: typing.Callable[[], T_Result],
         ad: typing.Callable[[], T_Result],
         ae: typing.Callable[[], T_Result],
         af: typing.Callable[[], T_Result],
@@ -2139,6 +2149,7 @@ class ProcedureModifier(enum.StrEnum):
         at: typing.Callable[[], T_Result],
         az: typing.Callable[[], T_Result],
         ba: typing.Callable[[], T_Result],
+        bg: typing.Callable[[], T_Result],
         bl: typing.Callable[[], T_Result],
         bo: typing.Callable[[], T_Result],
         bp: typing.Callable[[], T_Result],
@@ -2164,6 +2175,8 @@ class ProcedureModifier(enum.StrEnum):
         co: typing.Callable[[], T_Result],
         cq: typing.Callable[[], T_Result],
         da: typing.Callable[[], T_Result],
+        dr: typing.Callable[[], T_Result],
+        dx: typing.Callable[[], T_Result],
         e_1: typing.Callable[[], T_Result],
         e_2: typing.Callable[[], T_Result],
         e_3: typing.Callable[[], T_Result],
@@ -2321,6 +2334,7 @@ class ProcedureModifier(enum.StrEnum):
         mf: typing.Callable[[], T_Result],
         mg: typing.Callable[[], T_Result],
         mh: typing.Callable[[], T_Result],
+        mr: typing.Callable[[], T_Result],
         ms: typing.Callable[[], T_Result],
         n_1: typing.Callable[[], T_Result],
         n_2: typing.Callable[[], T_Result],
@@ -2328,6 +2342,7 @@ class ProcedureModifier(enum.StrEnum):
         nb: typing.Callable[[], T_Result],
         nr: typing.Callable[[], T_Result],
         nu: typing.Callable[[], T_Result],
+        oh: typing.Callable[[], T_Result],
         p_1: typing.Callable[[], T_Result],
         p_2: typing.Callable[[], T_Result],
         p_3: typing.Callable[[], T_Result],
@@ -2434,6 +2449,7 @@ class ProcedureModifier(enum.StrEnum):
         tu: typing.Callable[[], T_Result],
         tv: typing.Callable[[], T_Result],
         tw: typing.Callable[[], T_Result],
+        tz: typing.Callable[[], T_Result],
         u_1: typing.Callable[[], T_Result],
         u_2: typing.Callable[[], T_Result],
         u_3: typing.Callable[[], T_Result],
@@ -2547,6 +2563,8 @@ class ProcedureModifier(enum.StrEnum):
             return sixty_two()
         if self is ProcedureModifier.SIXTY_THREE:
             return sixty_three()
+        if self is ProcedureModifier.SIXTY_FIVE:
+            return sixty_five()
         if self is ProcedureModifier.SIXTY_SIX:
             return sixty_six()
         if self is ProcedureModifier.SEVENTY_THREE:
@@ -2605,6 +2623,8 @@ class ProcedureModifier(enum.StrEnum):
             return aa()
         if self is ProcedureModifier.AB:
             return ab()
+        if self is ProcedureModifier.AC:
+            return ac()
         if self is ProcedureModifier.AD:
             return ad()
         if self is ProcedureModifier.AE:
@@ -2639,6 +2659,8 @@ class ProcedureModifier(enum.StrEnum):
             return az()
         if self is ProcedureModifier.BA:
             return ba()
+        if self is ProcedureModifier.BG:
+            return bg()
         if self is ProcedureModifier.BL:
             return bl()
         if self is ProcedureModifier.BO:
@@ -2689,6 +2711,10 @@ class ProcedureModifier(enum.StrEnum):
             return cq()
         if self is ProcedureModifier.DA:
             return da()
+        if self is ProcedureModifier.DR:
+            return dr()
+        if self is ProcedureModifier.DX:
+            return dx()
         if self is ProcedureModifier.E_1:
             return e_1()
         if self is ProcedureModifier.E_2:
@@ -3003,6 +3029,8 @@ class ProcedureModifier(enum.StrEnum):
             return mg()
         if self is ProcedureModifier.MH:
             return mh()
+        if self is ProcedureModifier.MR:
+            return mr()
         if self is ProcedureModifier.MS:
             return ms()
         if self is ProcedureModifier.N_1:
@@ -3017,6 +3045,8 @@ class ProcedureModifier(enum.StrEnum):
             return nr()
         if self is ProcedureModifier.NU:
             return nu()
+        if self is ProcedureModifier.OH:
+            return oh()
         if self is ProcedureModifier.P_1:
             return p_1()
         if self is ProcedureModifier.P_2:
@@ -3229,6 +3259,8 @@ class ProcedureModifier(enum.StrEnum):
             return tv()
         if self is ProcedureModifier.TW:
             return tw()
+        if self is ProcedureModifier.TZ:
+            return tz()
         if self is ProcedureModifier.U_1:
             return u_1()
         if self is ProcedureModifier.U_2:
