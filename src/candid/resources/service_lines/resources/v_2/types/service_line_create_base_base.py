@@ -29,6 +29,14 @@ class ServiceLineCreateBaseBase(UniversalBaseModel):
     If the value is true, the box will be populated with "Y". Otherwise, the box will not be populated.
     """
 
+    has_emergency_indicator: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Maps to SV1-09 on the 837-P and Box 24C on the CMS-1500.
+    If the value is true, the box will be populated with "Y". Otherwise, the box will not be populated.
+    If any service line on a claim has this set, Box 16A (Emergency Related) is marked on the NY Medicaid 150003 claim form.
+    This is not used on an 837i.
+    """
+
     quantity: Decimal = pydantic.Field()
     """
     String representation of a Decimal that can be parsed by most libraries.

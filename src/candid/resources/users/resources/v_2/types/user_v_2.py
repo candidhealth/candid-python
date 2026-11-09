@@ -39,6 +39,7 @@ class UserV2(UniversalBaseModel):
             last_name="Doe",
             email="john.doe@example.com",
         ),
+        is_system=False,
     )
     """
 
@@ -46,6 +47,10 @@ class UserV2(UniversalBaseModel):
     idp_metadata: typing.List[IdpUserMetadata]
     primary_organization_id: typing.Optional[OrganizationId] = None
     user_metadata: UserMetadata
+    is_system: bool = pydantic.Field()
+    """
+    Whether this is a Candid system user (automation), not a person or customer integration.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

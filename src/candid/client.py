@@ -69,6 +69,7 @@ if typing.TYPE_CHECKING:
     from .resources.patient_ar.client import AsyncPatientArClient, PatientArClient
     from .resources.patient_payments.client import AsyncPatientPaymentsClient, PatientPaymentsClient
     from .resources.patient_refunds.client import AsyncPatientRefundsClient, PatientRefundsClient
+    from .resources.payer_groups.client import AsyncPayerGroupsClient, PayerGroupsClient
     from .resources.payer_plan_groups.client import AsyncPayerPlanGroupsClient, PayerPlanGroupsClient
     from .resources.payers.client import AsyncPayersClient, PayersClient
     from .resources.pre_encounter.client import AsyncPreEncounterClient, PreEncounterClient
@@ -242,6 +243,7 @@ class CandidApiClient:
         self._patient_ar: typing.Optional[PatientArClient] = None
         self._patient_payments: typing.Optional[PatientPaymentsClient] = None
         self._patient_refunds: typing.Optional[PatientRefundsClient] = None
+        self._payer_groups: typing.Optional[PayerGroupsClient] = None
         self._payer_plan_groups: typing.Optional[PayerPlanGroupsClient] = None
         self._payers: typing.Optional[PayersClient] = None
         self._pre_service_rules: typing.Optional[PreServiceRulesClient] = None
@@ -531,6 +533,14 @@ class CandidApiClient:
         return self._patient_refunds
 
     @property
+    def payer_groups(self):
+        if self._payer_groups is None:
+            from .resources.payer_groups.client import PayerGroupsClient  # noqa: E402
+
+            self._payer_groups = PayerGroupsClient(client_wrapper=self._client_wrapper)
+        return self._payer_groups
+
+    @property
     def payer_plan_groups(self):
         if self._payer_plan_groups is None:
             from .resources.payer_plan_groups.client import PayerPlanGroupsClient  # noqa: E402
@@ -781,6 +791,7 @@ class AsyncCandidApiClient:
         self._patient_ar: typing.Optional[AsyncPatientArClient] = None
         self._patient_payments: typing.Optional[AsyncPatientPaymentsClient] = None
         self._patient_refunds: typing.Optional[AsyncPatientRefundsClient] = None
+        self._payer_groups: typing.Optional[AsyncPayerGroupsClient] = None
         self._payer_plan_groups: typing.Optional[AsyncPayerPlanGroupsClient] = None
         self._payers: typing.Optional[AsyncPayersClient] = None
         self._pre_service_rules: typing.Optional[AsyncPreServiceRulesClient] = None
@@ -1078,6 +1089,14 @@ class AsyncCandidApiClient:
 
             self._patient_refunds = AsyncPatientRefundsClient(client_wrapper=self._client_wrapper)
         return self._patient_refunds
+
+    @property
+    def payer_groups(self):
+        if self._payer_groups is None:
+            from .resources.payer_groups.client import AsyncPayerGroupsClient  # noqa: E402
+
+            self._payer_groups = AsyncPayerGroupsClient(client_wrapper=self._client_wrapper)
+        return self._payer_groups
 
     @property
     def payer_plan_groups(self):

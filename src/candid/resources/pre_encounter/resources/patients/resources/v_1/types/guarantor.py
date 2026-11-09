@@ -8,6 +8,7 @@ from ........core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .....common.types.address import Address
 from .....common.types.contact_point import ContactPoint
 from .....common.types.human_name import HumanName
+from .....common.types.relationship import Relationship
 
 
 class Guarantor(UniversalBaseModel):
@@ -16,6 +17,10 @@ class Guarantor(UniversalBaseModel):
     email: typing.Optional[str] = None
     birth_date: typing.Optional[dt.date] = None
     address: Address
+    relationship: typing.Optional[Relationship] = pydantic.Field(default=None)
+    """
+    The patient's relationship to the guarantor.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

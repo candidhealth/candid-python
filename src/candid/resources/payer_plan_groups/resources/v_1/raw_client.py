@@ -228,7 +228,9 @@ class RawV1Client:
         self, *, request: MutablePayerPlanGroup, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[PayerPlanGroup]:
         """
-        Create a payer plan
+        Create a payer plan.
+
+        Note: If your org does not have access to Payer Plans, you cannot use APIs to create Payer Plans.
 
         Parameters
         ----------
@@ -306,7 +308,9 @@ class RawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[PayerPlanGroup]:
         """
-        Update any of the fields on a payer plan
+        Update any of the fields on a payer plan.
+
+        Note: If your org does not have access to Payer Plans, you cannot use APIs to update Payer Plans.
 
         Parameters
         ----------
@@ -393,7 +397,9 @@ class RawV1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[PayerPlanGroup]:
         """
-        Marks the payer plan as deactivated
+        Marks the payer plan as deactivated.
+
+        Note: If your org does not have access to Payer Plans, you cannot use APIs to deactivate Payer Plans.
 
         Parameters
         ----------
@@ -654,7 +660,9 @@ class AsyncRawV1Client:
         self, *, request: MutablePayerPlanGroup, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[PayerPlanGroup]:
         """
-        Create a payer plan
+        Create a payer plan.
+
+        Note: If your org does not have access to Payer Plans, you cannot use APIs to create Payer Plans.
 
         Parameters
         ----------
@@ -732,7 +740,9 @@ class AsyncRawV1Client:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[PayerPlanGroup]:
         """
-        Update any of the fields on a payer plan
+        Update any of the fields on a payer plan.
+
+        Note: If your org does not have access to Payer Plans, you cannot use APIs to update Payer Plans.
 
         Parameters
         ----------
@@ -819,7 +829,9 @@ class AsyncRawV1Client:
         self, payer_plan_group_id: PayerPlanGroupId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[PayerPlanGroup]:
         """
-        Marks the payer plan as deactivated
+        Marks the payer plan as deactivated.
+
+        Note: If your org does not have access to Payer Plans, you cannot use APIs to deactivate Payer Plans.
 
         Parameters
         ----------

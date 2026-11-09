@@ -10,6 +10,7 @@ from .raw_client import AsyncRawContractsClient, RawContractsClient
 if typing.TYPE_CHECKING:
     from .resources.v_2.client import AsyncV2Client, V2Client
     from .resources.v_3.client import AsyncV3Client, V3Client
+    from .resources.v_4.client import AsyncV4Client, V4Client
 
 
 class ContractsClient:
@@ -18,6 +19,7 @@ class ContractsClient:
         self._client_wrapper = client_wrapper
         self._v_2: typing.Optional[V2Client] = None
         self._v_3: typing.Optional[V3Client] = None
+        self._v_4: typing.Optional[V4Client] = None
 
     @property
     def with_raw_response(self) -> RawContractsClient:
@@ -46,6 +48,14 @@ class ContractsClient:
             self._v_3 = V3Client(client_wrapper=self._client_wrapper)
         return self._v_3
 
+    @property
+    def v_4(self):
+        if self._v_4 is None:
+            from .resources.v_4.client import V4Client  # noqa: E402
+
+            self._v_4 = V4Client(client_wrapper=self._client_wrapper)
+        return self._v_4
+
 
 class AsyncContractsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -53,6 +63,7 @@ class AsyncContractsClient:
         self._client_wrapper = client_wrapper
         self._v_2: typing.Optional[AsyncV2Client] = None
         self._v_3: typing.Optional[AsyncV3Client] = None
+        self._v_4: typing.Optional[AsyncV4Client] = None
 
     @property
     def with_raw_response(self) -> AsyncRawContractsClient:
@@ -80,3 +91,11 @@ class AsyncContractsClient:
 
             self._v_3 = AsyncV3Client(client_wrapper=self._client_wrapper)
         return self._v_3
+
+    @property
+    def v_4(self):
+        if self._v_4 is None:
+            from .resources.v_4.client import AsyncV4Client  # noqa: E402
+
+            self._v_4 = AsyncV4Client(client_wrapper=self._client_wrapper)
+        return self._v_4

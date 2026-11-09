@@ -77,6 +77,11 @@ class MutableAppointment(UniversalBaseModel):
     The estimated amount the patient will be responsible for paying at the time of service. This does not include the copay.
     """
 
+    estimated_patient_responsibility_note: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    A note explaining estimated_patient_responsibility_cents
+    """
+
     patient_deposit_cents: typing.Optional[int] = None
     appointment_details: typing.Optional[str] = None
     checked_in_timestamp: typing.Optional[dt.datetime] = pydantic.Field(default=None)

@@ -9,6 +9,7 @@ from .raw_client import AsyncRawCredentialingClient, RawCredentialingClient
 
 if typing.TYPE_CHECKING:
     from .resources.v_2.client import AsyncV2Client, V2Client
+    from .resources.v_3.client import AsyncV3Client, V3Client
 
 
 class CredentialingClient:
@@ -16,6 +17,7 @@ class CredentialingClient:
         self._raw_client = RawCredentialingClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
         self._v_2: typing.Optional[V2Client] = None
+        self._v_3: typing.Optional[V3Client] = None
 
     @property
     def with_raw_response(self) -> RawCredentialingClient:
@@ -36,12 +38,21 @@ class CredentialingClient:
             self._v_2 = V2Client(client_wrapper=self._client_wrapper)
         return self._v_2
 
+    @property
+    def v_3(self):
+        if self._v_3 is None:
+            from .resources.v_3.client import V3Client  # noqa: E402
+
+            self._v_3 = V3Client(client_wrapper=self._client_wrapper)
+        return self._v_3
+
 
 class AsyncCredentialingClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._raw_client = AsyncRawCredentialingClient(client_wrapper=client_wrapper)
         self._client_wrapper = client_wrapper
         self._v_2: typing.Optional[AsyncV2Client] = None
+        self._v_3: typing.Optional[AsyncV3Client] = None
 
     @property
     def with_raw_response(self) -> AsyncRawCredentialingClient:
@@ -61,3 +72,11 @@ class AsyncCredentialingClient:
 
             self._v_2 = AsyncV2Client(client_wrapper=self._client_wrapper)
         return self._v_2
+
+    @property
+    def v_3(self):
+        if self._v_3 is None:
+            from .resources.v_3.client import AsyncV3Client  # noqa: E402
+
+            self._v_3 = AsyncV3Client(client_wrapper=self._client_wrapper)
+        return self._v_3
