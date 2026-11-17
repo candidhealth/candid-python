@@ -148,6 +148,9 @@ class V1Client:
         self, *, request: InsuranceRefundCreate, request_options: typing.Optional[RequestOptions] = None
     ) -> InsuranceRefund:
         """
+        Deprecated: insurance refunds should come from the payer's ERA, so that every insurance allocation is linked
+        to the ERA service payment it records. This endpoint will be removed in a future release.
+
         Creates a new insurance refund record and returns the newly created `InsuranceRefund` object.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -271,6 +274,8 @@ class V1Client:
         self, insurance_refund_id: InsuranceRefundId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
+        Deprecated: deleting insurance refunds is not supported, and this endpoint will be removed in a future release.
+
         Deletes the insurance refund record matching the provided `insurance_refund_id`.
         If the matching record's organization_id does not match the authenticated user's
         current organization_id, then a response code of `403` will be returned.
@@ -445,6 +450,9 @@ class AsyncV1Client:
         self, *, request: InsuranceRefundCreate, request_options: typing.Optional[RequestOptions] = None
     ) -> InsuranceRefund:
         """
+        Deprecated: insurance refunds should come from the payer's ERA, so that every insurance allocation is linked
+        to the ERA service payment it records. This endpoint will be removed in a future release.
+
         Creates a new insurance refund record and returns the newly created `InsuranceRefund` object.
         The allocations can describe whether the refund is being applied toward a specific service line,
         claim, or billing provider.
@@ -582,6 +590,8 @@ class AsyncV1Client:
         self, insurance_refund_id: InsuranceRefundId, *, request_options: typing.Optional[RequestOptions] = None
     ) -> None:
         """
+        Deprecated: deleting insurance refunds is not supported, and this endpoint will be removed in a future release.
+
         Deletes the insurance refund record matching the provided `insurance_refund_id`.
         If the matching record's organization_id does not match the authenticated user's
         current organization_id, then a response code of `403` will be returned.
