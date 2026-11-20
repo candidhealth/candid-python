@@ -44,6 +44,10 @@ class V1Client:
         Submit a representation of an encounter to the Candid rules engine. Note that this encounter will not be created in Candid.
         Returns a run_id that can be polled via GET /runs/{run_id} to retrieve the results once complete.
 
+        Retries:
+        - 503 Service Unavailable is temporary. Retry with exponential backoff and jitter, wait at least the number of seconds in the Retry-After header, and send the same idempotency_key so the retry is deduplicated. Stop after 5 attempts.
+        - 422 Unprocessable Entity means the request is invalid. Resending it unchanged returns the same error; fix the request first.
+
         Parameters
         ----------
         entity : PreServiceEncounterCreate
@@ -59,7 +63,7 @@ class V1Client:
             IDs of enabled rules to force-disable for this run (e.g., to "override" or skip certain rules).
 
         idempotency_key : str
-            Prevents multiple rule runs from being dispatched in response to duplicate requests.
+            Prevents multiple rule runs from being dispatched in response to duplicate requests. A request whose key matches a completed run returns that run, and one that matches a run still in progress returns a 409 with a Retry-After header. If the earlier run failed, the request runs again and returns a new run ID. Reusing a key with a different request body returns a 422.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -295,6 +299,10 @@ class AsyncV1Client:
         Submit a representation of an encounter to the Candid rules engine. Note that this encounter will not be created in Candid.
         Returns a run_id that can be polled via GET /runs/{run_id} to retrieve the results once complete.
 
+        Retries:
+        - 503 Service Unavailable is temporary. Retry with exponential backoff and jitter, wait at least the number of seconds in the Retry-After header, and send the same idempotency_key so the retry is deduplicated. Stop after 5 attempts.
+        - 422 Unprocessable Entity means the request is invalid. Resending it unchanged returns the same error; fix the request first.
+
         Parameters
         ----------
         entity : PreServiceEncounterCreate
@@ -310,7 +318,7 @@ class AsyncV1Client:
             IDs of enabled rules to force-disable for this run (e.g., to "override" or skip certain rules).
 
         idempotency_key : str
-            Prevents multiple rule runs from being dispatched in response to duplicate requests.
+            Prevents multiple rule runs from being dispatched in response to duplicate requests. A request whose key matches a completed run returns that run, and one that matches a run still in progress returns a 409 with a Retry-After header. If the earlier run failed, the request runs again and returns a new run ID. Reusing a key with a different request body returns a 422.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

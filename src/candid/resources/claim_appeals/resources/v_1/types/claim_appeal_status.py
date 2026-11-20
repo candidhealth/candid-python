@@ -10,6 +10,8 @@ T_Result = typing.TypeVar("T_Result")
 class ClaimAppealStatus(enum.StrEnum):
     APPEALABLE = "appealable"
     PREPARING = "preparing"
+    READY_FOR_REVIEW = "ready_for_review"
+    NEEDS_ATTENTION = "needs_attention"
     SUBMITTED = "submitted"
     REQUIRES_ADDITIONAL_INFO = "requires_additional_info"
     OVERTURNED = "overturned"
@@ -31,6 +33,8 @@ class ClaimAppealStatus(enum.StrEnum):
         self,
         appealable: typing.Callable[[], T_Result],
         preparing: typing.Callable[[], T_Result],
+        ready_for_review: typing.Callable[[], T_Result],
+        needs_attention: typing.Callable[[], T_Result],
         submitted: typing.Callable[[], T_Result],
         requires_additional_info: typing.Callable[[], T_Result],
         overturned: typing.Callable[[], T_Result],
@@ -43,6 +47,10 @@ class ClaimAppealStatus(enum.StrEnum):
             return appealable()
         if self is ClaimAppealStatus.PREPARING:
             return preparing()
+        if self is ClaimAppealStatus.READY_FOR_REVIEW:
+            return ready_for_review()
+        if self is ClaimAppealStatus.NEEDS_ATTENTION:
+            return needs_attention()
         if self is ClaimAppealStatus.SUBMITTED:
             return submitted()
         if self is ClaimAppealStatus.REQUIRES_ADDITIONAL_INFO:
